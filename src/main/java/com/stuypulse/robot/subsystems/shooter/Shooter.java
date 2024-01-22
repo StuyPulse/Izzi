@@ -37,8 +37,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * 
  */
 public abstract class Shooter extends SubsystemBase {
-    protected SmartNumber leftTargetRPM;
-    protected SmartNumber rightTargetRPM;
+    private final SmartNumber leftTargetRPM;
+    private final SmartNumber rightTargetRPM;
 
     protected Controller leftController;
     protected Controller rightController;
@@ -46,10 +46,10 @@ public abstract class Shooter extends SubsystemBase {
     public Shooter() {
         leftTargetRPM = new SmartNumber("Shooter/leftTargetRPM", 0);
         rightTargetRPM = new SmartNumber("Shooter/rightTargetRPM", 0);
-        leftController = new MotorFeedforward(Feedforward.kS.getAsDouble(), Feedforward.kV.getAsDouble(), Feedforward.kA.getAsDouble()).velocity()
-                        .add(new PIDController(PID.kP.getAsDouble(), PID.kI.getAsDouble(), PID.kD.getAsDouble()));
-        rightController = new MotorFeedforward(Feedforward.kS.getAsDouble(), Feedforward.kV.getAsDouble(), Feedforward.kA.getAsDouble()).velocity()
-                        .add(new PIDController(PID.kP.getAsDouble(), PID.kI.getAsDouble(), PID.kD.getAsDouble()));
+        leftController = new MotorFeedforward(Feedforward.kS.get(), Feedforward.kV.get(), Feedforward.kA.get()).velocity()
+                        .add(new PIDController(PID.kP.get(), PID.kI.get(), PID.kD.get()));
+        rightController = new MotorFeedforward(Feedforward.kS.get(), Feedforward.kV.get(), Feedforward.kA.get()).velocity()
+                        .add(new PIDController(PID.kP.get(), PID.kI.get(), PID.kD.get()));
         //controllers here 
     }    
 
@@ -57,11 +57,11 @@ public abstract class Shooter extends SubsystemBase {
     //methods: getLeftTargetRPM, getRightTargetRPM, ... setLeftTargetRPM....
 
     public double getLeftTargetRPM() {
-        return leftTargetRPM.getAsDouble();
+        return leftTargetRPM.get();
     }   
 
     public double getRightTargetRPM() {
-        return rightTargetRPM.getAsDouble();
+        return rightTargetRPM.get();
     } 
     
     public void setLeftTargetRPM(Number leftTargetRPM){

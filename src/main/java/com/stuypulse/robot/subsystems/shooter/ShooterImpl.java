@@ -9,11 +9,11 @@ import com.stuypulse.robot.constants.Ports;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ShooterImpl extends Shooter {
-    private CANSparkMax leftMotor;
-    private CANSparkMax rightMotor;
+    private final CANSparkMax leftMotor;
+    private final CANSparkMax rightMotor;
 
-    private RelativeEncoder leftEncoder;
-    private RelativeEncoder rightEncoder;
+    private final RelativeEncoder leftEncoder;
+    private final RelativeEncoder rightEncoder;
 
 
     public ShooterImpl(){
@@ -31,15 +31,6 @@ public class ShooterImpl extends Shooter {
     public void stop() {
         setLeftTargetRPM(0);
         setRightTargetRPM(0);
-    }
-
-    @Override
-    public double getLeftTargetRPM() {
-        return leftTargetRPM.get();
-    }
-
-    public double getRightTargetRPM() {
-        return rightTargetRPM.get();
     }
 
     @Override
