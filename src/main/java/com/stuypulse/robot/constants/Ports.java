@@ -12,4 +12,9 @@ public interface Ports {
         int OPERATOR = 1;
         int DEBUGGER = 2;
     }
+
+    public interface Amp {
+        int SCORE = 0; // determine this
+        int LIFT = 0; // determine this
+    }
 }
