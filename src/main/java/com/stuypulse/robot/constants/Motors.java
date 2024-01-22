@@ -24,6 +24,11 @@ public interface Motors {
 
     /** Classes to store all of the values a motor needs */
 
+    public interface Conveyor{ 
+        //TODO: 
+        // CANSparkMaxConfig GANDALF_MOTOR = new CANSparkMaxConfig(false, )
+    }
+
     public static class TalonSRXConfig {
         public final boolean INVERTED;
         public final NeutralMode NEUTRAL_MODE;

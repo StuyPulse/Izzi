@@ -12,4 +12,10 @@ public interface Ports {
         int OPERATOR = 1;
         int DEBUGGER = 2;
     }
+
+    public interface Conveyor {
+        int CONVEYOR_MOTOR_PORT = 10;
+        int SHOOTER_FEEDER_MOTOR_PORT = 9;
+
+    }
 }
