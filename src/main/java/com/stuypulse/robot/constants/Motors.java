@@ -24,6 +24,11 @@ public interface Motors {
 
     /** Classes to store all of the values a motor needs */
 
+    public interface Climber {
+        CANSparkMaxConfig LEFT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 40);
+        CANSparkMaxConfig RIGHT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 40);
+    }
+    
     public static class TalonSRXConfig {
         public final boolean INVERTED;
         public final NeutralMode NEUTRAL_MODE;

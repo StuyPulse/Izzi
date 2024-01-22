@@ -12,4 +12,14 @@ public interface Ports {
         int OPERATOR = 1;
         int DEBUGGER = 2;
     }
+
+    public interface Climber {
+        int LEFT_MOTOR = 3;
+        int RIGHT_MOTOR = 4; // placeholders for now
+
+        int TOP_RIGHT_LIMIT = 0;
+        int TOP_LEFT_LIMIT = 0;
+        int BOTTOM_RIGHT_LIMIT = 0;
+        int BOTTOM_LEFT_LIMIT = 0;        
+    }
 }
