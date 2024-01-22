@@ -12,4 +12,9 @@ public interface Ports {
         int OPERATOR = 1;
         int DEBUGGER = 2;
     }
+
+    public interface Intake {
+        int MOTOR = 0; // Find this later
+        int SENSOR = 0;
+    }
 }
