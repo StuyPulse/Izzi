@@ -83,6 +83,10 @@ public class AprilTagCamera {
         return name;
     }
 
+    public int getFPS() {
+        return (int) rawFPS;
+    }
+
     private void updateData() {
         rawLatency = latencySub.get();
         rawFPS = (int) fpsSub.get();
