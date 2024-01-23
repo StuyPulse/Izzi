@@ -10,22 +10,22 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Vision extends SubsystemBase {
+public class AprilTagVision extends SubsystemBase {
 
-    private static Vision instance;
+    private static AprilTagVision instance;
 
     static {
-        instance = new Vision();
+        instance = new AprilTagVision();
     }
 
-    public static Vision getInstance() {
+    public static AprilTagVision getInstance() {
         return instance;
     }
 
     private final AprilTagCamera[] cameras;
     private final ArrayList<VisionData> outputs;
 
-    public Vision() {
+    public AprilTagVision() {
         this.cameras = new AprilTagCamera[Cameras.APRILTAG_CAMERAS.length];
         for (int i = 0; i < Cameras.APRILTAG_CAMERAS.length; i++) {
             cameras[i] = new AprilTagCamera(Cameras.APRILTAG_CAMERAS[i]);
