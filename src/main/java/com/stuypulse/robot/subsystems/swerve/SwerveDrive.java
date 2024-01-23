@@ -1,7 +1,5 @@
 package com.stuypulse.robot.subsystems.swerve;
 
-import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain.SwerveDriveState;
-import com.ctre.phoenix6.sim.ChassisReference;
 import com.kauailabs.navx.frc.AHRS;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.stuylib.math.Vector2D;
