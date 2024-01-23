@@ -30,7 +30,7 @@ public class VisionData {
         return cameraLocation;
     }
 
-    public double getTimeStamp() {
+    public double getTimestamp() {
         return timestamp;
     }
     
