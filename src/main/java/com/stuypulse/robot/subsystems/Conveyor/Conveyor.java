@@ -17,6 +17,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 
 public abstract class Conveyor extends SubsystemBase {
+    public enum Direction {
+        NONE, SHOOTER, AMP
+    }
 
     private static final Conveyor instance;
 
@@ -37,10 +40,14 @@ public abstract class Conveyor extends SubsystemBase {
         return instance;
     };
 
+    public abstract Conveyor.Direction getTarget();
+    public abstract void setTarget(Conveyor.Direction target);
 
-    public abstract void toShooter();
-        
-    
-    public abstract void toAmp();
+    public abstract void gandalfToShooter();
+    public abstract void gandalfToAmp();
+    public abstract void gandalfStop();
+
+    public abstract void feederForward();
+    public abstract void feederStop();
 }
     

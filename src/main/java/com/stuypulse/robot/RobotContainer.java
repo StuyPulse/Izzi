@@ -5,8 +5,11 @@
 
 package com.stuypulse.robot;
 
+import com.stuypulse.robot.commands.ConveyorCommand;
 import com.stuypulse.robot.commands.auton.DoNothingAuton;
 import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.subsystems.Conveyor.Conveyor;
+import com.stuypulse.robot.subsystems.Conveyor.ConveyorLogic;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 
@@ -21,6 +24,7 @@ public class RobotContainer {
     public final Gamepad operator = new AutoGamepad(Ports.Gamepad.OPERATOR);
     
     // Subsystem
+    public final Conveyor conveyor = Conveyor.getInstance();
 
     // Autons
     private static SendableChooser<Command> autonChooser = new SendableChooser<>();
@@ -37,13 +41,20 @@ public class RobotContainer {
     /*** DEFAULTS ***/
     /****************/
 
-    private void configureDefaultCommands() {}
+    private void configureDefaultCommands() {
+        conveyor.setDefaultCommand(new ConveyorCommand(new ConveyorLogic.Default()));
+    }
 
     /***************/
     /*** BUTTONS ***/
     /***************/
 
-    private void configureButtonBindings() {}
+    private void configureButtonBindings() {
+        operator.getDPadUp().onTrue(new ConveyorCommand(new ConveyorLogic.Default(), Conveyor.Direction.SHOOTER));
+        operator.getDPadRight().onTrue(new ConveyorCommand(new ConveyorLogic.Default(), Conveyor.Direction.AMP));
+        operator.getDPadDown().onTrue(new ConveyorCommand(new ConveyorLogic.Default(), Conveyor.Direction.NONE));
+        operator.getRightTriggerButton().onTrue(new ConveyorCommand(new ConveyorLogic.ShooterShoot()));
+    }
 
     /**************/
     /*** AUTONS ***/
