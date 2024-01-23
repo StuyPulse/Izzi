@@ -14,7 +14,12 @@ public interface Ports {
     }
 
     public interface Amp {
-        int SCORE = 0; // determine this
-        int LIFT = 0; // determine this
+        // TODO: determine all of these values, temporarily set to 0
+        int SCORE = 0;
+        int LIFT = 0;
+
+        int ALIGNED_SWITCH_CHANNEL = 0 ;
+        int MIN_LIFT_CHANNEL = 0 ;
+        int MAX_LIFT_CHANNEL = 0 ;
     }
 }

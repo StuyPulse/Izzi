@@ -1,11 +1,9 @@
 package com.stuypulse.robot.subsystems.amp;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.stuypulse.robot.constants.Settings.Amp.Lift;
-import com.stuypulse.robot.constants.Settings.Amp.Score;
-import com.stuypulse.stuylib.control.feedback.PIDController;
+import static com.stuypulse.robot.constants.Ports.Amp.*;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 
 public class AmperImpl extends Amper {
@@ -13,29 +11,21 @@ public class AmperImpl extends Amper {
     private final CANSparkMax liftMotor;
     private final RelativeEncoder liftEncoder;
 
-    private final SparkLimitSwitch alignedSwitch;
-    private final SparkLimitSwitch minSwitch;
-    private final SparkLimitSwitch maxSwitch; 
+    private final DigitalInput alignedSwitch;
+    private final DigitalInput minSwitch;
+    private final DigitalInput maxSwitch; 
 
-    private final PIDController scoreController;
-    private final PIDController liftController;
-    
-    private double currentHeight;
-    private double targetHeight;
+    public AmperImpl() {
+        // this calls the constructor from the abstract class
+        super();
 
-    public AmperImpl(int port) {
-        scoreMotor = new CANSparkMax(port, MotorType.kBrushless);
-        liftMotor = new CANSparkMax(port, MotorType.kBrushless);
+        scoreMotor = new CANSparkMax(SCORE, MotorType.kBrushless);
+        liftMotor = new CANSparkMax(LIFT, MotorType.kBrushless);
         liftEncoder = liftMotor.getEncoder();
 
-        alignedSwitch = scoreMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed);
-        minSwitch = liftMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed);
-        maxSwitch = liftMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed);
-        
-        scoreController = new PIDController(Score.kP, Score.kI, Score.kD);
-        liftController = new PIDController(Lift.kP, Lift.kI, Lift.kD);
-
-        currentHeight = 0;
+        alignedSwitch = new DigitalInput(ALIGNED_SWITCH_CHANNEL);
+        minSwitch = new DigitalInput(MIN_LIFT_CHANNEL);
+        maxSwitch = new DigitalInput(MAX_LIFT_CHANNEL);
     }
 
     @Override
@@ -45,19 +35,15 @@ public class AmperImpl extends Amper {
 
     @Override
     public void acquire() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'acquire'");
     }
 
     @Override
     public void deacquire() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deacquire'");
     }
 
     @Override
-    public void lift(double height) {
-        this.targetHeight = height;
+    public void setTargetHeight(double height) {
+        targetHeight.set(height);
     }
 
     @Override
@@ -67,7 +53,7 @@ public class AmperImpl extends Amper {
 
     @Override
     public void periodic() {
-        liftController.update(targetHeight, currentHeight);
-        liftMotor.setVoltage(liftController.getOutput());
+        // liftController.update returns the voltage output after updating the controller :)
+        liftMotor.setVoltage(liftController.update(targetHeight.get(), liftEncoder.getPosition()));
     }
 }
