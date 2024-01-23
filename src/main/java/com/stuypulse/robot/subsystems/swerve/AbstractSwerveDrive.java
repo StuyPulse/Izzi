@@ -6,8 +6,10 @@ import com.stuypulse.robot.constants.Settings.Swerve.BackRight;
 import com.stuypulse.robot.constants.Settings.Swerve.FrontLeft;
 import com.stuypulse.robot.constants.Settings.Swerve.FrontRight;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -31,7 +33,8 @@ public abstract class AbstractSwerveDrive extends SubsystemBase {
     }
 
     public abstract void initFieldObject(Field2d field);
-    
+
+    public abstract SwerveDriveKinematics getKinematics();
     public abstract SwerveModuleState[] getModuleStates();
     public abstract SwerveModulePosition[] getModulePositions();
     public abstract Translation2d[] getModuleOffsets();
@@ -41,4 +44,6 @@ public abstract class AbstractSwerveDrive extends SubsystemBase {
     public abstract void setModuleStates(SwerveModuleState[] states);
     public abstract void drive(Vector2D velocity, double Rotation2D);
     public abstract void stop(double Rotation2D); 
+
+    public abstract Rotation2d getGyroAngle();
 }   

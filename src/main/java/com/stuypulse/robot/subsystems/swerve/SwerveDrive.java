@@ -77,6 +77,7 @@ public class SwerveDrive extends AbstractSwerveDrive {
         }
     }
     
+    @Override
     public SwerveDriveKinematics getKinematics() {
         return kinematics;
     }
@@ -169,20 +170,17 @@ public class SwerveDrive extends AbstractSwerveDrive {
     } 
 
     /*Gyro */
-    public Rotation2d getGyroPitch() {
-        return Rotation2d.fromDegrees(gyro.getPitch());
-    }
-
+    @Override
     public Rotation2d getGyroAngle() {
         return gyro.getRotation2d();
+    }
+
+    public Rotation2d getGyroPitch() {
+        return Rotation2d.fromDegrees(gyro.getPitch());
     }
     
     public Rotation2d getGyroRoll() {
         return Rotation2d.fromDegrees(gyro.getRoll());
-    }
-    
-    public Rotation2d getGyroYaw() {
-        return Rotation2d.fromDegrees(gyro.getYaw());
     }
 
     public double getForwardAccelerationGs() {
