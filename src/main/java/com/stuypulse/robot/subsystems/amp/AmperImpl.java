@@ -4,21 +4,22 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import static com.stuypulse.robot.constants.Ports.Amp.*;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import static com.stuypulse.robot.constants.Motors.Amper.*;
 
 
 public class AmperImpl extends Amper {
+    
     private final CANSparkMax scoreMotor;
     private final CANSparkMax liftMotor;
     private final RelativeEncoder liftEncoder;
 
     private final DigitalInput alignedSwitch;
     private final DigitalInput minSwitch;
-    private final DigitalInput maxSwitch; 
+    private final DigitalInput maxSwitch;
+    private final DigitalInput ampIRSensor;
 
     public AmperImpl() {
-        // this calls the constructor from the abstract class
-        super();
-
         scoreMotor = new CANSparkMax(SCORE, MotorType.kBrushless);
         liftMotor = new CANSparkMax(LIFT, MotorType.kBrushless);
         liftEncoder = liftMotor.getEncoder();
@@ -26,19 +27,40 @@ public class AmperImpl extends Amper {
         alignedSwitch = new DigitalInput(ALIGNED_SWITCH_CHANNEL);
         minSwitch = new DigitalInput(MIN_LIFT_CHANNEL);
         maxSwitch = new DigitalInput(MAX_LIFT_CHANNEL);
+        ampIRSensor = new DigitalInput(AMP_IR_CHANNEL);
+
+        LIFT_MOTOR.configure(liftMotor);
+        SCORE_MOTOR.configure(scoreMotor);
     }
 
     @Override
     public boolean hasNote() {
-        return false;
+        return !ampIRSensor.get();
     }
 
     @Override
-    public void acquire() {
+    public boolean liftAtBottom() {
+        return minSwitch.get();
     }
 
     @Override
-    public void deacquire() {
+    public boolean liftAtTop() {
+        return maxSwitch.get();
+    }
+
+    @Override
+    public boolean touchingAmp() {
+        return alignedSwitch.get();
+    }
+
+    @Override
+    public void intake() {
+        scoreMotor.set(-1.0);
+    }
+
+    @Override
+    public void score() {
+        scoreMotor.set(1.0);
     }
 
     @Override
@@ -48,12 +70,24 @@ public class AmperImpl extends Amper {
 
     @Override
     public void stopLift() {
-        liftMotor.setVoltage(0.0);
+        liftMotor.stopMotor();
     }
 
     @Override
     public void periodic() {
-        // liftController.update returns the voltage output after updating the controller :)
+        SmartDashboard.putNumber("Amper/Intake Speed", scoreMotor.get());
+        SmartDashboard.putNumber("Amper/Lift Speed", liftMotor.get());
+        SmartDashboard.putNumber("Amper/Intake Current", scoreMotor.getOutputCurrent());
+        SmartDashboard.putNumber("Amper/Lift Current", liftMotor.getOutputCurrent());
+
         liftMotor.setVoltage(liftController.update(targetHeight.get(), liftEncoder.getPosition()));
+        
+        if (liftAtBottom() || liftAtTop()) {
+            stopLift(); 
+        }
+
+        if (touchingAmp()) {
+            score();
+        }
     }
 }

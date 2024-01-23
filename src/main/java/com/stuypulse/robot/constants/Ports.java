@@ -21,5 +21,6 @@ public interface Ports {
         int ALIGNED_SWITCH_CHANNEL = 0 ;
         int MIN_LIFT_CHANNEL = 0 ;
         int MAX_LIFT_CHANNEL = 0 ;
+        int AMP_IR_CHANNEL = 0;
     }
 }

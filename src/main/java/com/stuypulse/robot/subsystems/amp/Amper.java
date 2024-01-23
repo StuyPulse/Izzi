@@ -1,7 +1,9 @@
 package com.stuypulse.robot.subsystems.amp;
 
-import com.stuypulse.robot.constants.Settings.Amp.Lift;
+import com.stuypulse.robot.constants.Settings.Amp.LiftPID;
+import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.feedback.PIDController;
+import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,16 +33,27 @@ public abstract class Amper extends SubsystemBase {
     }
 
     public final SmartNumber targetHeight;
-    public final PIDController liftController;
+    public final Controller liftController;
 
     public Amper() {
-        liftController = new PIDController(Lift.kP, Lift.kI, Lift.kD);
+        liftController = new PIDController(LiftPID.kP, LiftPID.kI, LiftPID.kD);
         targetHeight = new SmartNumber("Amp/Target Height", 0); // TODO: determine the default value
     }
 
+    public void setTargetHeight(double height) {
+        targetHeight.set(height);
+    }
+
     public abstract boolean hasNote();
-    public abstract void acquire();
-    public abstract void deacquire();
-    public abstract void setTargetHeight(double height);
+
+    public abstract void intake();
+    public abstract void score();
+    
+    public abstract boolean liftAtBottom();
+    public abstract boolean liftAtTop();
+
+    public abstract boolean touchingAmp();
+
     public abstract void stopLift();
+
 }
