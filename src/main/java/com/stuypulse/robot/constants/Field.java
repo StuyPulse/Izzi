@@ -1,5 +1,7 @@
 package com.stuypulse.robot.constants;
 
+import java.util.ArrayList;
+
 import com.stuypulse.robot.util.Fiducial;
 
 import edu.wpi.first.math.geometry.Pose3d;
@@ -37,16 +39,23 @@ public interface Field {
         return false;
     }
     
-    public static double[] getLayoutAsDoubleArray() {
-        double[] layout = new double[FIDUCIALS.length * 7];
-        for (int i = 0; i < FIDUCIALS.length; i++) {
-            layout[i * 7 + 0] = FIDUCIALS[i].getFID();
-            layout[i * 7 + 1] = FIDUCIALS[i].getLocation().getX();
-            layout[i * 7 + 2] = FIDUCIALS[i].getLocation().getY();
-            layout[i * 7 + 3] = FIDUCIALS[i].getLocation().getZ();
-            layout[i * 7 + 4] = FIDUCIALS[i].getLocation().getRotation().getX();
-            layout[i * 7 + 5] = FIDUCIALS[i].getLocation().getRotation().getY();
-            layout[i * 7 + 6] = FIDUCIALS[i].getLocation().getRotation().getZ();
+    public static Fiducial[] getFiducialLayout(int... fids) {
+        ArrayList<Fiducial> fiducials = new ArrayList<Fiducial>();
+        for (int fid : fids) for (Fiducial fiducial : FIDUCIALS) if (fiducial.getFID() == fid) fiducials.add(fiducial);
+        Fiducial[] fiducials_array = new Fiducial[fiducials.size()];
+        return fiducials.toArray(fiducials_array);
+    }
+
+    public static double[] getLayoutAsDoubleArray(Fiducial[] fiducials) {
+        double[] layout = new double[fiducials.length * 7];
+        for (int i = 0; i < fiducials.length; i++) {
+            layout[i * 7 + 0] = fiducials[i].getFID();
+            layout[i * 7 + 1] = fiducials[i].getLocation().getX();
+            layout[i * 7 + 2] = fiducials[i].getLocation().getY();
+            layout[i * 7 + 3] = fiducials[i].getLocation().getZ();
+            layout[i * 7 + 4] = fiducials[i].getLocation().getRotation().getX();
+            layout[i * 7 + 5] = fiducials[i].getLocation().getRotation().getY();
+            layout[i * 7 + 6] = fiducials[i].getLocation().getRotation().getZ();
          }
         return layout;
     }
