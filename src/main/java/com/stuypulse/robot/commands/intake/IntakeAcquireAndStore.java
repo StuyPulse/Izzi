@@ -4,11 +4,11 @@ import com.stuypulse.robot.subsystems.intake.Intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class IntakeAcquire extends Command{
+public class IntakeAcquireAndStore extends Command{
       
     private Intake intake;
     
-    public IntakeAcquire() {
+    public IntakeAcquireAndStore() {
         intake = Intake.getInstance();
         addRequirements(intake);
     }
@@ -24,10 +24,12 @@ public class IntakeAcquire extends Command{
     }
 
     @Override
-    public void end(boolean )
+    public void end(boolean interrupted) {
+        intake.stop();
+    }
 
     @Override
     public boolean isFinished() {
-        return 
+        return intake.hasNote();
     }
 }
