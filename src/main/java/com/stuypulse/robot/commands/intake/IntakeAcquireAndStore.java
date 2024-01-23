@@ -19,11 +19,6 @@ public class IntakeAcquireAndStore extends Command{
     }
 
     @Override
-    public void execute() {
-        
-    }
-
-    @Override
     public void end(boolean interrupted) {
         intake.stop();
     }
