@@ -2,6 +2,7 @@ package com.stuypulse.robot.subsystems.swerve;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.stuylib.math.Vector2D;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -144,7 +145,7 @@ public class SwerveDrive extends AbstractSwerveDrive {
         ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
             velocity.x, -velocity.y,
             rotation,
-            getGyroAngle()
+            Odometry.getInstance().getPose().getRotation()
         );
  
         Pose2d pose = new Pose2d(
@@ -187,7 +188,16 @@ public class SwerveDrive extends AbstractSwerveDrive {
     
     @Override
     public void periodic() {
-        /*XXX: WAITING FOR ODOMETRY TO WRITE PERIODIC */ 
+        Odometry odometry = Odometry.getInstance();
+        Pose2d pose = odometry.getPose();
+        Rotation2d angle = pose.getRotation();
+
+        for (int i = 0; i < modules.length; i++) {
+            modules2D[i].setPose(new Pose2d(
+                pose.getTranslation().plus(modules[i].getModuleOffset().rotateBy(angle)),
+                modules[i].getAngle().plus(angle)
+            ));
+        }
 
         SmartDashboard.putNumber("Swerve/Gyro Angle (deg)", getGyroAngle().getDegrees());
         SmartDashboard.putNumber("Swerve/Gyro Pitch", getGyroPitch().getDegrees());
