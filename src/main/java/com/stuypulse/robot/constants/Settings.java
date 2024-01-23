@@ -19,6 +19,7 @@ import edu.wpi.first.math.util.Units;
  * values that we can edit on Shuffleboard.
  */
 public interface Settings {
+
     double DT = 0.02;
     double WIDTH = Units.inchesToMeters(26.504);
     double LENGTH = Units.inchesToMeters(20.508);
@@ -28,6 +29,7 @@ public interface Settings {
         SmartNumber MAX_TURNING = new SmartNumber("Swerve/Max Turn Velocity (rad per s)", 6.28);
 
         SmartNumber MODULE_VELOCITY_DEADBAND = new SmartNumber("Swerve/Module Velocity Deadband (m per s)", 0.02);
+
         public interface Encoder {
             public interface Drive {
                 double WHEEL_DIAMETER = Units.inchesToMeters(3);
@@ -95,7 +97,28 @@ public interface Settings {
                 .plus(Rotation2d.fromDegrees(90));
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * -0.5);
         }
-
     }
 
+    public interface NoteDetection {
+        SmartNumber X_ANGLE_RC = new SmartNumber("Note Detection/X Angle RC", 0.05);
+        SmartNumber DEBOUNCE_TIME = new SmartNumber("Note Detection/Debounce Time", 0.15);
+
+        SmartNumber THRESHOLD_X = new SmartNumber("Note Detection/X Threshold", 0.2);
+        SmartNumber THRESHOLD_Y = new SmartNumber("Note Detection/Y Threshold", Units.inchesToMeters(2));
+        SmartNumber THRESHOLD_ANGLE = new SmartNumber("Note Detection/Angle Threshold", 1);
+
+        SmartNumber DRIVE_SPEED = new SmartNumber("Note Detection/Drive Speed", 1);        
+
+        public interface Translation {
+            SmartNumber P = new SmartNumber("Note Detection/Translation/kP", 4.0);
+            SmartNumber I = new SmartNumber("Note Detection/Translation/kI", 0.0);
+            SmartNumber D = new SmartNumber("Note Detection/Translation/kD", 0.15);
+        }
+        
+        public interface Rotation {
+            SmartNumber P = new SmartNumber("Note Detection/Rotation/kP", 3.5);
+            SmartNumber I = new SmartNumber("Note Detection/Rotation/kI", 0.0);
+            SmartNumber D = new SmartNumber("Note Detection/Rotation/kD", 0.1);
+        }
+    }
 }

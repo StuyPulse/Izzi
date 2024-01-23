@@ -13,6 +13,7 @@ import edu.wpi.first.math.util.Units;
 public interface Field {
 
     public final double FIDUCIAL_SIZE = Units.inchesToMeters(6.125);
+    double NOTE_LENGTH = Units.inchesToMeters(14.0);
 
     Fiducial FIDUCIALS[] = {
         // 2024 Field Fiducial Layout
