@@ -19,15 +19,12 @@ public class IntakeAcquire extends Command{
     }
 
     @Override
-    public void execute() {
-        
+    public void end(boolean interrupted) {
+        intake.stop();
     }
 
     @Override
-    public void end(boolean )
-
-    @Override
     public boolean isFinished() {
-        return 
+        return intake.hasNote();
     }
 }
