@@ -47,6 +47,7 @@ public class AprilTagCamera {
     private double[] rawPose;
     private long[] rawfids;
     private long rawCounter;
+    private long lastCounter;
     
     public AprilTagCamera(String name, Pose3d cameraLocation) {
         this.name = name;
@@ -113,6 +114,8 @@ public class AprilTagCamera {
         double fpgaTime = latencySub.getLastChange() / 1_000_000.0;
         double timestamp = fpgaTime - Units.millisecondsToSeconds(rawLatency);
 
+        if (rawCounter - lastCounter != 1) return Optional.empty();
+        lastCounter = rawCounter;
         return Optional.of(new VisionData(getRobotPose(), getFIDs(), cameraLocation, timestamp));
     }
 
