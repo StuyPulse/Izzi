@@ -19,8 +19,6 @@ public class IntakeImpl extends Intake {
 
     private BStream triggered;
 
-    private boolean acquiring;
-
     public IntakeImpl() {
         motor = new CANSparkMax(MOTOR, MotorType.kBrushless);
         sensor = new DigitalInput(SENSOR);
@@ -32,26 +30,21 @@ public class IntakeImpl extends Intake {
 
     @Override
     public void acquire() {
-
+        motor.set(ACQUIRE.getAsDouble());
     }
 
     @Override 
     public void deacquire() {
-
+        motor.set(DEACQUIRE.getAsDouble());
     }
 
     @Override
     public void stop() {
-
+        motor.stopMotor();
     }
 
     @Override
     public boolean hasNote() {
-
-    }
-
-    @Override
-    public void periodic() {
-        
+        return triggered.get();
     }
 }

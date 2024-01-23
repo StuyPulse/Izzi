@@ -5,7 +5,6 @@
 
 package com.stuypulse.robot.constants;
 
-import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 
 /*-
@@ -16,6 +15,8 @@ import com.stuypulse.stuylib.network.SmartNumber;
  */
 public interface Settings {
     public interface Intake {
-        SmartNumber TRIGGER_TIME = new SmartNumber("Intake Trigger Time (Rising)", 0.05);
+        SmartNumber TRIGGER_TIME = new SmartNumber("Intake/Trigger Time (Rising)", 0.05);
+        SmartNumber ACQUIRE = new SmartNumber("Intake/Acquire", 1);
+        SmartNumber DEACQUIRE = new SmartNumber("Intake/Deacquire", 1);
     }
 }

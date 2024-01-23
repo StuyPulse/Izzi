@@ -25,7 +25,7 @@ public interface Motors {
     /** Classes to store all of the values a motor needs */
 
     public interface Intake {
-        CANSparkMaxConfig MOTOR_CONFIG = new CANSparkMaxConfig(false, IdleMode.kCoast);
+        CANSparkMaxConfig MOTOR_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake);
     }
 
     public static class TalonSRXConfig {
