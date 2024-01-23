@@ -3,6 +3,8 @@ package com.stuypulse.robot.util;
 import java.util.Optional;
 
 import com.stuypulse.robot.constants.Field;
+import com.stuypulse.robot.constants.Cameras.CameraConfig;
+
 import edu.wpi.first.math.util.Units;
 
 import edu.wpi.first.math.geometry.Pose3d;
@@ -61,7 +63,7 @@ public class AprilTagCamera {
         configTable.getDoubleTopic("camera_brightness").publish().set(camera_brightness);
 
         layoutPub = configTable.getDoubleArrayTopic("fiducial_layout").publish();
-        layoutPub.set(Field.getLayoutAsDoubleArray());
+        layoutPub.set(Field.getLayoutAsDoubleArray(Field.FIDUCIALS));
 
         NetworkTable outputTable = table.getSubTable("output");
         latencySub = outputTable.getDoubleTopic("latency").subscribe(0);
@@ -69,6 +71,10 @@ public class AprilTagCamera {
         poseSub = outputTable.getDoubleArrayTopic("pose").subscribe(new double[] {});
         fidSub = outputTable.getIntegerArrayTopic("fid").subscribe(new long[] {});
         counterSub = outputTable.getIntegerTopic("counter").subscribe(0);
+    }
+
+    public AprilTagCamera(CameraConfig config) {
+        this(config.getName(), config.getLocation());
     }
         
     public String getName() {
@@ -95,10 +101,6 @@ public class AprilTagCamera {
                 rawCounter));
     }
 
-    private int getFPS() {
-        return (int) rawFPS;
-    }
-
     private int[] getFIDs() {
         int[] fids = new int[rawfids.length];
         for (int i = 0; i < rawfids.length; i++) fids[i] = (int) rawfids[i];
@@ -112,5 +114,9 @@ public class AprilTagCamera {
         double timestamp = fpgaTime - Units.millisecondsToSeconds(rawLatency);
 
         return Optional.of(new VisionData(getData(), getFIDs(), cameraLocation, timestamp));
+    }
+
+    public void setFiducialLayout(int... fids) {
+        layoutPub.set(Field.getLayoutAsDoubleArray(Field.getFiducialLayout(fids)));
     }
 }
