@@ -52,16 +52,16 @@ public abstract class Shooter extends SubsystemBase {
     private final SmartNumber leftTargetRPM;
     private final SmartNumber rightTargetRPM;
 
-    protected Controller leftController;
-    protected Controller rightController;
+    private final Controller leftController;
+    private final Controller rightController;
     
     public Shooter() {
         leftTargetRPM = new SmartNumber("Shooter/leftTargetRPM", 0);
         rightTargetRPM = new SmartNumber("Shooter/rightTargetRPM", 0);
-        leftController = new MotorFeedforward(Feedforward.kS.get(), Feedforward.kV.get(), Feedforward.kA.get()).velocity()
-                        .add(new PIDController(PID.kP.get(), PID.kI.get(), PID.kD.get()));
-        rightController = new MotorFeedforward(Feedforward.kS.get(), Feedforward.kV.get(), Feedforward.kA.get()).velocity()
-                        .add(new PIDController(PID.kP.get(), PID.kI.get(), PID.kD.get()));
+        leftController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
+                        .add(new PIDController(PID.kP, PID.kI, PID.kD));
+        rightController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
+                        .add(new PIDController(PID.kP, PID.kI, PID.kD));
         //controllers here 
     }    
 
