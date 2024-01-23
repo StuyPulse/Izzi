@@ -16,6 +16,6 @@ import com.stuypulse.stuylib.network.SmartNumber;
  */
 public interface Settings {
     public interface Intake {
-        SmartNumber TRIP_TIME = new SmartNumber("Intake Trip Time (Rising)", 0.05);
+        SmartNumber TRIGGER_TIME = new SmartNumber("Intake Trigger Time (Rising)", 0.05);
     }
 }

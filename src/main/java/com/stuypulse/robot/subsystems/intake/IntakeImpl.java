@@ -1,49 +1,57 @@
 package com.stuypulse.robot.subsystems.intake;
 
-import com.stuypulse.robot.constants.Motors;
-import com.stuypulse.robot.constants.Ports;
-import com.stuypulse.robot.constants.Motors.Intake;
+import static com.stuypulse.robot.constants.Motors.Intake.*;
+import static com.stuypulse.robot.constants.Ports.Intake.*;
+import static com.stuypulse.robot.constants.Settings.Intake.*;
+
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounce;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.SensorUtil;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-
 
 public class IntakeImpl extends Intake {
 
     private CANSparkMax motor;
     private DigitalInput sensor;
 
-    private BStream tripping;
+    private BStream triggered;
 
     private boolean acquiring;
 
     public IntakeImpl() {
-        motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
-        sensor = new DigitalInput(Ports.Intake.SENSOR);
+        motor = new CANSparkMax(MOTOR, MotorType.kBrushless);
+        sensor = new DigitalInput(SENSOR);
 
-        Motors.Intake.MOTOR_CONFIG.configure(motor);
+        MOTOR_CONFIG.configure(motor);
+
+        triggered = BStream.create(sensor).filtered(new BDebounce.Rising(TRIGGER_TIME));
     }
 
-    private boolean isMomentarilyTripped() {
-        return !sensor.get(); // check if IR sensor returns true when not blocked idk if this is right
+    @Override
+    public void acquire() {
+
     }
 
-    private void acquire() {
-        motor.set(1);
+    @Override 
+    public void deacquire() {
+
     }
 
-    private void deacquire() {
-        motor.set(-1);
+    @Override
+    public void stop() {
+
     }
 
-    private void stop() {
-        motor.set(0);
+    @Override
+    public boolean hasNote() {
+
     }
-    
-    
+
+    @Override
+    public void periodic() {
+        
+    }
 }
