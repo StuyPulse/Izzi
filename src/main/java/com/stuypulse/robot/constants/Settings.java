@@ -16,6 +16,9 @@ import com.stuypulse.stuylib.network.SmartNumber;
  */
 public interface Settings {
     public interface Shooter {
+        SmartNumber PODIUM_SHOT_LEFT_RPM = new SmartNumber("Shooter/Podium Shot Right RPM", 0);
+        SmartNumber PODIUM_SHOT_RIGHT_RPM = new SmartNumber("Shooter/Podium Shot Left RPM", 0);
+        
         public interface Feedforward {
             SmartNumber kV = new SmartNumber("Shooter/Feedforward kV",0);
             SmartNumber kA = new SmartNumber("Shooter/Feedforward kA",0);
