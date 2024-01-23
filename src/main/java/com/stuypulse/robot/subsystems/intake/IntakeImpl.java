@@ -27,7 +27,7 @@ public class IntakeImpl extends Intake {
 
         MOTOR_CONFIG.configure(motor);
 
-        triggered = BStream.create(sensor).filtered(new BDebounce.Rising(TRIGGER_TIME));
+        triggered = BStream.create(sensor).filtered(new BDebounce.Falling(TRIGGER_TIME));
     }
 
     @Override
