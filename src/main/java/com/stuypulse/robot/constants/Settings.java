@@ -8,6 +8,8 @@ package com.stuypulse.robot.constants;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
 /*-
@@ -18,6 +20,9 @@ import edu.wpi.first.math.util.Units;
  */
 public interface Settings {
     double DT = 0.02;
+    double WIDTH = Units.inchesToMeters(26.504);
+    double LENGTH = Units.inchesToMeters(20.508);
+
     public interface Swerve {
         SmartNumber MAX_MODULE_SPEED = new SmartNumber("Swerve/Max Module Speed (meter per s)", 5.0);
         SmartNumber MAX_TURNING = new SmartNumber("Swerve/Max Turn Velocity (rad per s)", 6.28);
@@ -52,7 +57,7 @@ public interface Settings {
                 SmartNumber kV = new SmartNumber("Swerve/Turn/kV", 0.00);
             }
 
-            public interface Drive {
+        public interface Drive {
                 SmartNumber kP = new SmartNumber("Swerve/Drive/kP", 0.10);
                 SmartNumber kI = new SmartNumber("Swerve/Drive/kI", 0.00);
                 SmartNumber kD = new SmartNumber("Swerve/Drive/kD", 0.00);
@@ -62,6 +67,35 @@ public interface Settings {
                 SmartNumber kA = new SmartNumber("Swerve/Drive/kA", 0.00);
             }
         }
+
+        public interface FrontRight {
+            String ID = "Front Right";
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(0)     
+                .plus(Rotation2d.fromDegrees(0));
+            Translation2d MODULE_OFFSET = new Translation2d(WIDTH * +0.5, LENGTH * -0.5);
+        }
+
+        public interface FrontLeft {
+            String ID = "Front Left";
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(0)
+                .plus(Rotation2d.fromDegrees(270));
+            Translation2d MODULE_OFFSET = new Translation2d(WIDTH * +0.5, LENGTH * +0.5);
+        }
+
+        public interface BackLeft {
+            String ID = "Back Left";
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(0)
+                .plus(Rotation2d.fromDegrees(180));
+            Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * +0.5);
+        }
+
+        public interface BackRight {
+            String ID = "Back Right";
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(0) 
+                .plus(Rotation2d.fromDegrees(90));
+            Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * -0.5);
+        }
+
     }
 
 }

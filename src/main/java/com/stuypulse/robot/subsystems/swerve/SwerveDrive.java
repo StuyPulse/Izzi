@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -56,15 +57,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 *
 */
 public class SwerveDrive extends AbstractSwerveDrive {
- 
+
     private AbstractSwerveModule[] modules;
     private SwerveDriveKinematics kinematics;
     private AHRS gyro;
     private FieldObject2d[] modules2D;
     
-    public SwerveDrive(AbstractSwerveModule[] modules){
+    public SwerveDrive(AbstractSwerveModule... modules){
         this.modules = modules;
-        this.kinematics = new SwerveDriveKinematics(getModulePositions());
+        this.kinematics = new SwerveDriveKinematics(getModuleOffsets());
         this.gyro = new AHRS(SPI.Port.kMXP);
         this.modules2D = new FieldObject2d[modules.length];
     }   
@@ -90,15 +91,25 @@ public class SwerveDrive extends AbstractSwerveDrive {
     }
     
     @Override
-    public Translation2d[] getModulePositions() {
-        Translation2d[] offsets = new Translation2d[modules.length];
+    public SwerveModulePosition[] getModulePositions() {
+        SwerveModulePosition[] offsets = new SwerveModulePosition[modules.length];
         for (int i = 0; i < modules.length; i++){
             offsets[i] = modules[i].getModulePosition();
         }
         return offsets;
     }
-    
-    public ChassisSpeeds getChassisSpeed() {
+
+    @Override
+    public Translation2d[] getModuleOffsets() {
+        Translation2d[] offsets = new Translation2d[modules.length];
+        for (int i = 0; i < modules.length; i++) {
+            offsets[i] = modules[i].getModuleOffset();
+        }
+        return offsets;
+    }
+        
+    @Override
+    public ChassisSpeeds getChassisSpeeds() {
         return getKinematics().toChassisSpeeds(getModuleStates());
     }
     

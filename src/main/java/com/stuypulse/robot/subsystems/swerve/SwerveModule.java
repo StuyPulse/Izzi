@@ -16,6 +16,7 @@ import com.stuypulse.stuylib.math.Angle;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -120,10 +121,15 @@ public class SwerveModule extends AbstractSwerveModule {
     }
 
     @Override
-    public Translation2d getModulePosition() {
+    public Translation2d getModuleOffset() {
         return offset;
     }
 
+    @Override 
+    public SwerveModulePosition getModulePosition() {
+        return new SwerveModulePosition(driveEncoder.getPosition(), getAngle());
+    }    
+    
     @Override
     public void setState(SwerveModuleState state) {
         this.state = state;
@@ -147,5 +153,5 @@ public class SwerveModule extends AbstractSwerveModule {
         SmartDashboard.putNumber("Swerve/" + id + "/Velocity Error", driveController.getError());
         SmartDashboard.putNumber("Swerve/" + id + "/Velocity Voltage", driveController.getOutput());
         SmartDashboard.putNumber("Swerve/" + id + "/Velocity Current", driveMotor.getOutputCurrent());
-    }    
+    }
 }
