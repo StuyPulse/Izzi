@@ -2,6 +2,8 @@ package com.stuypulse.robot.subsystems.odometry;
 
 import java.util.ArrayList;
 
+import com.stuypulse.robot.subsystems.swerve.AbstractSwerveDrive;
+import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.Vision;
 import com.stuypulse.robot.util.VisionData;
 import com.stuypulse.stuylib.network.SmartBoolean;
@@ -36,14 +38,18 @@ public class Odometry extends SubsystemBase {
     private final FieldObject2d estimatorPose2D;
 
     public Odometry() {
-        odometry = new SwerveDriveOdometry(null, null, null, null);
-        estimator = new SwerveDrivePoseEstimator(null, null, null, null);
+        AbstractSwerveDrive swerve = AbstractSwerveDrive.getInstance();
+        odometry = new SwerveDriveOdometry(swerve.getKinematics(), swerve.getGyroAngle(), swerve.getModulePositions(), new Pose2d());
+        estimator = new SwerveDrivePoseEstimator(swerve.getKinematics(), swerve.getGyroAngle(), swerve.getModulePositions(), new Pose2d());
 
         VISION_ACTIVE = new SmartBoolean("Odometry/VISION ACTIVE", true);
         
         field = new Field2d();
+        swerve.initFieldObject(field);
         odometryPose2D = field.getObject("Odometry Pose");
         estimatorPose2D = field.getObject("Estimator Pose");
+
+        SmartDashboard.putData("Field", field);
    }
 
     public Field2d getField() {
@@ -51,8 +57,9 @@ public class Odometry extends SubsystemBase {
     }
 
     public void updateOdometry() {
-        odometry.update(null, null);
-        estimator.update(null, null);
+        AbstractSwerveDrive swerve = AbstractSwerveDrive.getInstance();
+        odometry.update(swerve.getGyroAngle(), swerve.getModulePositions());
+        estimator.update(swerve.getGyroAngle(), swerve.getModulePositions());
     }
     
     public void updateWithVisionData(VisionData data) {
@@ -64,8 +71,9 @@ public class Odometry extends SubsystemBase {
     }
 
     public void reset(Pose2d pose) {
-        odometry.resetPosition(null, null, pose);
-        estimator.resetPosition(null, null, pose);
+        AbstractSwerveDrive swerve = AbstractSwerveDrive.getInstance();
+        odometry.resetPosition(swerve.getGyroAngle(), swerve.getModulePositions(), pose);
+        estimator.resetPosition(swerve.getGyroAngle(), swerve.getModulePositions(), pose);
     }
 
     @Override
