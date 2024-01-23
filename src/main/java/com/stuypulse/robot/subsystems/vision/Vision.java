@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
 
-    private static final Vision instance;
+    private static Vision instance;
 
     static {
         instance = new Vision();
@@ -30,6 +30,8 @@ public class Vision extends SubsystemBase {
         for (int i = 0; i < Cameras.APRILTAG_CAMERAS.length; i++) {
             cameras[i] = new AprilTagCamera(Cameras.APRILTAG_CAMERAS[i]);
         }
+        
+        outputs = new ArrayList<VisionData>();
     }
 
     public ArrayList<VisionData> getOutputs() {
