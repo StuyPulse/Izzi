@@ -15,7 +15,9 @@ public interface Ports {
 
     public interface Conveyor {
         int CONVEYOR_MOTOR_PORT = 10;
-        int SHOOTER_FEEDER_MOTOR_PORT = 9;
+        int SHOOTER_FEEDER_MOTOR_PORT = 11;
+
+        int IR_SENSOR_PORT = 12;
 
     }
 }
