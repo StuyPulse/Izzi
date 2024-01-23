@@ -9,6 +9,7 @@ import edu.wpi.first.math.util.Units;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.networktables.DoubleArrayPublisher;
 import edu.wpi.first.networktables.DoubleArraySubscriber;
@@ -89,16 +90,15 @@ public class AprilTagCamera {
         rawCounter = counterSub.get();
     }
 
-    private Pose3d getData() {
+    private Pose3d getDataAsPose3d() {
         return new Pose3d(
-            new Translation3d(
-                rawPose[0], 
-                rawLatency, 
-                camera_auto_exposure), 
-            new Rotation3d(
-                camera_brightness, 
-                camera_auto_exposure, 
-                rawCounter));
+            new Translation3d(rawPose[0], rawPose[1], rawPose[2]), 
+            new Rotation3d(rawPose[3], rawPose[4], rawPose[5]));
+    }
+
+    private Pose3d getRobotPose() {
+        return getDataAsPose3d().transformBy(
+            new Transform3d(cameraLocation.getTranslation(), cameraLocation.getRotation()).inverse());
     }
 
     private int[] getFIDs() {
@@ -113,7 +113,7 @@ public class AprilTagCamera {
         double fpgaTime = latencySub.getLastChange() / 1_000_000.0;
         double timestamp = fpgaTime - Units.millisecondsToSeconds(rawLatency);
 
-        return Optional.of(new VisionData(getData(), getFIDs(), cameraLocation, timestamp));
+        return Optional.of(new VisionData(getRobotPose(), getFIDs(), cameraLocation, timestamp));
     }
 
     public void setFiducialLayout(int... fids) {
