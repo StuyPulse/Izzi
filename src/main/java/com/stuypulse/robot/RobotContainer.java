@@ -23,7 +23,7 @@ public class RobotContainer {
     public final Gamepad operator = new AutoGamepad(Ports.Gamepad.OPERATOR);
     
     // Subsystem
-    public final Shooter shooter = new ShooterImpl();
+    public final Shooter shooter = Shooter.getInstance();
 
     // Autons
     private static SendableChooser<Command> autonChooser = new SendableChooser<>();

@@ -7,6 +7,7 @@ import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
 import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 /* 3 motors (2 side motors, 1 placer motor)
@@ -37,6 +38,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * 
  */
 public abstract class Shooter extends SubsystemBase {
+
+    private static final Shooter instance;
+    
+    static {
+        instance = new ShooterImpl();
+    }
+    
+    public static Shooter getInstance() {
+        return instance;
+    }
+
     private final SmartNumber leftTargetRPM;
     private final SmartNumber rightTargetRPM;
 

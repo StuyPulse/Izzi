@@ -53,6 +53,7 @@ public class ShooterImpl extends Shooter {
         rightMotor.setVoltage(voltage);
     }
     
+    @Override
     public void periodicallyCalled() {
         SmartDashboard.putNumber("Shooter/Left Target RPM",getLeftTargetRPM());
         SmartDashboard.putNumber("Shooter/Right Target RPM", getRightTargetRPM());
