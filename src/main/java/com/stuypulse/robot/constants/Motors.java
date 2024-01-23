@@ -25,8 +25,9 @@ public interface Motors {
     /** Classes to store all of the values a motor needs */
 
     public interface Conveyor{ 
-        //TODO: 
-        // CANSparkMaxConfig GANDALF_MOTOR = new CANSparkMaxConfig(false, )
+        
+        CANSparkMaxConfig GANDALF_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 40);
+        CANSparkMaxConfig SHOOTER_FEEDER_MOTOR = new CANSparkMaxConfig(false, IdleMode.kCoast, 40);
     }
 
     public static class TalonSRXConfig {

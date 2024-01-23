@@ -4,7 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import static com.stuypulse.robot.constants.Ports.Conveyor.*;
 import static com.stuypulse.robot.constants.Settings.Conveyor.*;
-
+import static com.stuypulse.robot.constants.Motors.Conveyor.*;
 public class ConveyorImpl extends Conveyor {
     
     private final CANSparkMax gandalfMotor;
@@ -13,7 +13,9 @@ public class ConveyorImpl extends Conveyor {
     protected ConveyorImpl(){
         gandalfMotor = new CANSparkMax(CONVEYOR_MOTOR_PORT, MotorType.kBrushless);
         shooterFeederMotor = new CANSparkMax(SHOOTER_FEEDER_MOTOR_PORT, MotorType.kBrushless);
-        
+
+        GANDALF_MOTOR.configure(gandalfMotor);
+        SHOOTER_FEEDER_MOTOR.configure(shooterFeederMotor);
     }
 
     @Override
