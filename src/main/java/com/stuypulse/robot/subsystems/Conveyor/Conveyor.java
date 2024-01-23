@@ -1,14 +1,12 @@
 package com.stuypulse.robot.subsystems.Conveyor;
 
-import com.stuypulse.robot.constants.Settings;
-
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /*
  * field:
  * - Motor (cansparkmax, kraken?)
- * - NO sensors
+ * - shooter IR sensor
  * - set mode
  * 
  * Methods
@@ -21,15 +19,10 @@ public abstract class Conveyor extends SubsystemBase {
     private static final Conveyor instance;
 
     static{
-        if(RobotBase.isSimulation()){
-            // create a conveyor sim
-            instance = null;
-        } 
-        else if(Settings.ROBOT == Settings.Robot.BIG_WANG){
+        if(RobotBase.isReal()){
             instance = new ConveyorImpl();
-        }
-        else {
-            instance = null;//should be conveyor sim
+        } else{
+            instance = null;
         }
     }
 

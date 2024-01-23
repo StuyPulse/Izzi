@@ -17,11 +17,8 @@ import com.stuypulse.stuylib.network.SmartNumber;
  */
 public interface Settings {
 
-     public enum Robot {
-        BIG_WANG
-    }
+    
 
-    Robot ROBOT = Robot.BIG_WANG;
 
     public interface Conveyor {
 
