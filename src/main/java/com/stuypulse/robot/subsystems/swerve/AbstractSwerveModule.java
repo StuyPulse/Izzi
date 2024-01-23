@@ -14,6 +14,10 @@ public abstract class AbstractSwerveModule extends SubsystemBase {
     public abstract Translation2d getModulePosition();
     public abstract void setState(SwerveModuleState state);
     public abstract void periodic();
+	public Object getRotation2d() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'getRotation2d'");
+	}
 
     
 

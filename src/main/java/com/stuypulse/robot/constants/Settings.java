@@ -17,7 +17,12 @@ import edu.wpi.first.math.util.Units;
  * values that we can edit on Shuffleboard.
  */
 public interface Settings {
+    double DT = 0.02;
     public interface Swerve {
+        SmartNumber MAX_MODULE_SPEED = new SmartNumber("Swerve/Max Module Speed (meter per s)", 5.0);
+        SmartNumber MAX_TURNING = new SmartNumber("Swerve/Max Turn Velocity (rad per s)", 6.28);
+
+        SmartNumber MODULE_VELOCITY_DEADBAND = new SmartNumber("Swerve/Module Velocity Deadband (m per s)", 0.02);
         public interface Encoder {
             public interface Drive {
                 double WHEEL_DIAMETER = Units.inchesToMeters(3);
