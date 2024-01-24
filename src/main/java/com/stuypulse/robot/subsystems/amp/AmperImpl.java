@@ -1,11 +1,13 @@
 package com.stuypulse.robot.subsystems.amp;
+import static com.stuypulse.robot.constants.Motors.Amper.*;
+import static com.stuypulse.robot.constants.Ports.Amp.*;
+
+import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import static com.stuypulse.robot.constants.Ports.Amp.*;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import static com.stuypulse.robot.constants.Motors.Amper.*;
 
 
 public class AmperImpl extends Amper {

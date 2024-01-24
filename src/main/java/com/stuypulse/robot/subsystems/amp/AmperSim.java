@@ -1,14 +1,14 @@
 package com.stuypulse.robot.subsystems.amp;
 
+import static com.stuypulse.robot.constants.Settings.Amp.Lift.*;
+
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import static com.stuypulse.robot.constants.Settings.Amp.Lift.*;
-
 public class AmperSim extends Amper {
 
-    private ElevatorSim sim;
+    private final ElevatorSim sim;
 
     private double liftHeight;
     private double liftVelocity;
@@ -17,7 +17,16 @@ public class AmperSim extends Amper {
         liftHeight = 0.0;
         liftVelocity = 0.0;
 
-        sim = new ElevatorSim(DCMotor.getNEO(1), GEARING, CARRIAGE_MASS, DRUM_RADIUS, MIN_HEIGHT, MAX_HEIGHT, true, liftHeight);
+        sim = new ElevatorSim(
+            DCMotor.getNEO(1),
+            GEARING,
+            CARRIAGE_MASS,
+            DRUM_RADIUS,
+            MIN_HEIGHT,
+            MAX_HEIGHT,
+            true,
+            liftHeight
+        );
     }
 
     @Override

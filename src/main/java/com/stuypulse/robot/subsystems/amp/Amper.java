@@ -3,7 +3,6 @@ package com.stuypulse.robot.subsystems.amp;
 import com.stuypulse.robot.constants.Settings.Amp.LiftPID;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.feedback.PIDController;
-import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
