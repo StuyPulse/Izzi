@@ -15,11 +15,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 public class DoNothingCommand extends InstantCommand {
 
     public DoNothingCommand() {
-        // Do butt loads of nothing
+        // Do loads of nothing
     }
 
     @Override
     public void initialize() {
-        // Do butt loads of nothing
+        // Do loads of nothing
     }
 }

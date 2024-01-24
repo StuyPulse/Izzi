@@ -49,20 +49,18 @@ public abstract class Amper extends SubsystemBase {
 
     public abstract void score();
     public abstract void intake();
+    public abstract void stopRoller();
     
     public abstract boolean liftAtBottom();
-    public abstract boolean liftAtTop();
     public abstract double getLiftHeight();
+    public abstract void stopLift();
+    public abstract void setLiftVoltageImpl(double voltage);
 
     public abstract boolean touchingAmp();
 
-    public abstract void stopLift();
-    public abstract void stopRoller();
-    public abstract void setLiftVoltageImpl();
-
     @Override
     public void periodic() {
-        setLiftVoltageImpl();
+        setLiftVoltageImpl(liftController.update(targetHeight.get(), getLiftHeight()));
     }
 
 }

@@ -20,7 +20,7 @@ public interface Settings {
     public interface Amper {
         
         public interface Score {
-            double ROLLER_SPEED = 1.0; // change later
+            SmartNumber ROLLER_SPEED = new SmartNumber("Amper/Score/Roller Speed", 1.0); // change later
         }
         
         public interface Lift {
@@ -38,9 +38,9 @@ public interface Settings {
             SmartNumber VEL_LIMIT = new SmartNumber("Velocity Limit", 3);
             SmartNumber ACC_LIMIT = new SmartNumber("Acceleration Limit", 2);
                 
-            SmartNumber kP = new SmartNumber("Amp/Lift/kP", 1);
-            SmartNumber kI = new SmartNumber("Amp/Lift/kI", 0);
-            SmartNumber kD = new SmartNumber("Amp/Lift/kD", 0);
+            SmartNumber kP = new SmartNumber("Amper/Lift/kP", 1);
+            SmartNumber kI = new SmartNumber("Amper/Lift/kI", 0);
+            SmartNumber kD = new SmartNumber("Amper/Lift/kD", 0);
         }
     }
 }
