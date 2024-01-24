@@ -149,7 +149,7 @@ public class AprilTagCamera {
         double fpgaTime = latencySub.getLastChange() / 1_000_000.0;
         double timestamp = fpgaTime - Units.millisecondsToSeconds(rawLatency);
 
-        if (rawCounter - lastCounter != 1) return Optional.empty();
+        if (rawCounter - lastCounter <= 1) return Optional.empty();
         lastCounter = rawCounter;
         return Optional.of(new VisionData(getRobotPose(), getFIDs(), timestamp));
     }
