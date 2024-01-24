@@ -4,7 +4,6 @@ import static com.stuypulse.robot.constants.Cameras.Limelight.*;
 
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings.NoteDetection;
-import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 import com.stuypulse.stuylib.streams.numbers.IStream;
@@ -18,7 +17,10 @@ import edu.wpi.first.networktables.IntegerEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
-
+/**
+ * This class handles interactions between the robot code 
+ * and the Limelight system through the NetworkTables.
+ */
 public class Limelight {
     
     private final DoubleEntry txEntry;
@@ -52,10 +54,17 @@ public class Limelight {
             .filtered(new BDebounceRC.Both(NoteDetection.DEBOUNCE_TIME));
     }
 
+    /**
+     * Returnns whether or not there is data from the Limelight.
+     * @return whether or not there is data from the Limelight
+     */
     public boolean hasNoteData() {
         return noteData.get();
     }
 
+    /**
+     * Updates the data from the Limelight.
+     */
     public void updateData() {
         if (tvEntry.get() == 1) {
             txData = txEntry.get();
@@ -63,14 +72,26 @@ public class Limelight {
         }
     }
 
+    /**
+     * Returns the position of the note relative to the robot.
+     * @return the position of the note relative to the robot
+     */
     public Pose3d getRobotRelativePose() {
         return robotRelativePose;
     }
 
+    /**
+     * Returns the x angle of the note relative to the robot.
+     * @return the x angle of the note relative to the robot
+     */
     public double getXAngle() {
         return xAngle.get() - Units.radiansToDegrees(POSITIONS[llID].getRotation().getZ());
     }
 
+    /**
+     * Returns the y angle of the note relative to the robot.
+     * @return the y angle of the note relative to the robot
+     */
     public double getYAngle() {
         return tyData - Units.radiansToDegrees(POSITIONS[llID].getRotation().getY());
     }

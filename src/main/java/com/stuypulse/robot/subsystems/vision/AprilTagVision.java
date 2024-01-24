@@ -64,7 +64,7 @@ public class AprilTagVision extends SubsystemBase {
         SmartDashboard.putNumber(prefix + "/Pose Y", data.getPose().getY());
         SmartDashboard.putNumber(prefix + "/Pose Z", data.getPose().getZ());
 
-        SmartDashboard.putNumber(prefix + "/Distance to Tag", data.getDistance());
+        SmartDashboard.putNumber(prefix + "/Distance to Tag", data.getDistanceToFiducial(data.getPrimaryID()));
 
         SmartDashboard.putNumber(prefix + "/Pose Rotation", Units.radiansToDegrees(data.getPose().getRotation().getAngle()));
         SmartDashboard.putNumber(prefix + "/Timestamp", data.getTimestamp());
