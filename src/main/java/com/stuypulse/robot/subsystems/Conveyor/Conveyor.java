@@ -29,10 +29,11 @@ public abstract class Conveyor extends SubsystemBase {
 
     public abstract void toShooter();
         
-    
     public abstract void toAmp();
 
-    public abstract boolean isLoaded();
+    public abstract boolean isNoteAtShooter();
+
     public abstract void stop();
+
 }
     

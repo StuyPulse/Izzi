@@ -14,10 +14,10 @@ public interface Ports {
     }
 
     public interface Conveyor {
-        int GANDALF_MOTOR_PORT = 10;
-        int SHOOTER_FEEDER_MOTOR_PORT = 11;
+        int GANDALF_MOTOR_PORT = 50;
+        int SHOOTER_FEEDER_MOTOR_PORT = 51;
 
-        int IR_SENSOR_PORT = 12;
+        int IR_SENSOR_PORT = 0;
 
     }
 }

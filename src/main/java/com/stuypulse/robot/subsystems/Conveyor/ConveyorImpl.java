@@ -9,6 +9,7 @@ import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
@@ -37,7 +38,7 @@ public class ConveyorImpl extends Conveyor {
     }
 
     @Override
-    public boolean isLoaded() {
+    public boolean isNoteAtShooter() {
         return isAtShooter.get();
     }
 
@@ -60,7 +61,14 @@ public class ConveyorImpl extends Conveyor {
 
     @Override
     public void periodic() {
-        
+
+        //logging
+        SmartDashboard.putNumber("Conveyor/Gandalf Motor Current", gandalfMotor.getOutputCurrent());
+        SmartDashboard.putNumber("Conveyor/Shooter Feeder Motor Current", shooterFeederMotor.getOutputCurrent());
+
+        SmartDashboard.putNumber("Conveyor/Gandalf Motor Speed", gandalfMotor.get());
+        SmartDashboard.putNumber("Conveyor/Shooter Feeder Motor Spped", shooterFeederMotor.get());
+
     }
 
 
