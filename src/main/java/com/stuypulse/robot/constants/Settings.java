@@ -15,8 +15,12 @@ import com.stuypulse.stuylib.network.SmartNumber;
  */
 public interface Settings {
     public interface Intake {
-        SmartNumber TRIGGER_TIME = new SmartNumber("Intake/Trigger Time (Rising)", 0.05);
-        SmartNumber ACQUIRE = new SmartNumber("Intake/Acquire", 1);
-        SmartNumber DEACQUIRE = new SmartNumber("Intake/Deacquire", 1);
+        public interface Detection {
+            SmartNumber TRIGGER_TIME = new SmartNumber("Intake/Trigger Debounce Time", 0.05);
+            SmartNumber STALL_TIME = new SmartNumber("Intake/Stall Debounce Time", .05);
+            SmartNumber STALL_CURRENT = new SmartNumber("Intake/Stall Current", 40);
+        }
+        SmartNumber ACQUIRE_SPEED = new SmartNumber("Intake/Acquire", 1);
+        SmartNumber DEACQUIRE_SPEED = new SmartNumber("Intake/Deacquire", 1);
     }
 }
