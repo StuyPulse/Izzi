@@ -26,8 +26,8 @@ public interface Motors {
 
     public interface Conveyor{ 
         
-        CANSparkMaxConfig GANDALF_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 40);
-        CANSparkMaxConfig SHOOTER_FEEDER_MOTOR = new CANSparkMaxConfig(false, IdleMode.kCoast, 40);
+        CANSparkMaxConfig GANDALF_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake);
+        CANSparkMaxConfig SHOOTER_FEEDER_MOTOR = new CANSparkMaxConfig(false, IdleMode.kCoast);
     }
 
     public static class TalonSRXConfig {
