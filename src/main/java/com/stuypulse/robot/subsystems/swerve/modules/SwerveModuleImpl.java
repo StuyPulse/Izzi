@@ -88,9 +88,9 @@ public class SwerveModuleImpl extends SwerveModule {
     }    
 
     @Override
-	protected void setVoltageImpl() {
-		driveMotor.setVoltage(this.driveController.getOutput());
-        turnMotor.setVoltage(this.angleController.getOutput());
+	protected void setVoltageImpl(double driveVoltage, double turnVoltage) {
+		driveMotor.setVoltage(driveVoltage);
+        turnMotor.setVoltage(turnVoltage);
 	}
 
     @Override

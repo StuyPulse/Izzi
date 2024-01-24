@@ -41,9 +41,9 @@ public class SimModule extends SwerveModule {
     }
 
     @Override
-    public void setVoltageImpl() {
-        driveSim.setInput(this.driveController.getOutput());
-        turnSim.setInput(this.angleController.getOutput());
+    public void setVoltageImpl(double driveVoltage, double turnVoltage) {
+        driveSim.setInput(driveVoltage);
+        turnSim.setInput(turnVoltage);
 
         RoboRioSim.setVInVoltage(BatterySim.calculateDefaultBatteryLoadedVoltage(
             turnSim.getCurrentDrawAmps() + driveSim.getCurrentDrawAmps()

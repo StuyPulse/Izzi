@@ -61,7 +61,7 @@ public abstract class SwerveModule extends SubsystemBase {
         targetState = state;
     }
 
-    protected abstract void setVoltageImpl();
+    protected abstract void setVoltageImpl(double driveVoltage, double turnVoltage);
 
     @Override
     public void periodic() {
@@ -75,7 +75,7 @@ public abstract class SwerveModule extends SubsystemBase {
             Angle.fromRotation2d(getAngle())
         );
 
-        setVoltageImpl();
+        setVoltageImpl(driveController.getOutput(), angleController.getOutput());
 
         SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Drive Voltage", driveController.getOutput());
         SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Turn Voltage", angleController.getOutput());
