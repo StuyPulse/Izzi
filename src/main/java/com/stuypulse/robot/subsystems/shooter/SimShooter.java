@@ -41,8 +41,6 @@ public class SimShooter extends Shooter {
         leftWheel.update(Settings.DT);
         rightWheel.update(Settings.DT);
 
-        SmartDashboard.putNumber("Shooter/Left Target RPM",getLeftTargetRPM());
-        SmartDashboard.putNumber("Shooter/Right Target RPM", getRightTargetRPM());
         
         SmartDashboard.putNumber("Shooter/Right RPM", getRightShooterRPM());
         SmartDashboard.putNumber("Shooter/Left RPM", getLeftShooterRPM());

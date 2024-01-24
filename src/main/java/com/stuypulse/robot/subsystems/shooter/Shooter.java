@@ -34,8 +34,8 @@ public abstract class Shooter extends SubsystemBase {
     private final Controller rightController;
     
     public Shooter() {
-        leftTargetRPM = new SmartNumber("Shooter/leftTargetRPM", 0);
-        rightTargetRPM = new SmartNumber("Shooter/rightTargetRPM", 0);
+        leftTargetRPM = new SmartNumber("Shooter/Left Target RPM", 0);
+        rightTargetRPM = new SmartNumber("Shooter/Right Target RPM", 0);
         leftController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
                         .add(new PIDController(PID.kP, PID.kI, PID.kD));
         rightController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
@@ -67,9 +67,7 @@ public abstract class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Shooter/Left Target RPM",getLeftTargetRPM());
-        SmartDashboard.putNumber("Shooter/Right Target RPM", getRightTargetRPM());
-        
+                
         leftController.update(getLeftTargetRPM(), getLeftShooterRPM());
         rightController.update(getRightTargetRPM(), getRightShooterRPM());
         setLeftMotorVoltageImpl(leftController.getOutput());
