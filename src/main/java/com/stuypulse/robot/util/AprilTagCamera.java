@@ -151,7 +151,7 @@ public class AprilTagCamera {
 
         if (rawCounter - lastCounter != 1) return Optional.empty();
         lastCounter = rawCounter;
-        return Optional.of(new VisionData(getRobotPose(), getFIDs(), cameraLocation, timestamp));
+        return Optional.of(new VisionData(getRobotPose(), getFIDs(), timestamp));
     }
 
     /**
