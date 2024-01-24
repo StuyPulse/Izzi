@@ -11,13 +11,11 @@ public class VisionData {
     
     private final Pose3d outputPose;
     private final int[] fids;
-    private final Pose3d cameraLocation;
     private final double timestamp;
 
-    public VisionData(Pose3d outputPose, int[] fids, Pose3d cameraLocation, double timestamp) {
+    public VisionData(Pose3d outputPose, int[] fids, double timestamp) {
         this.outputPose = outputPose;
         this.fids = fids;
-        this.cameraLocation = cameraLocation;
         this.timestamp = timestamp;
     }
     
@@ -35,14 +33,6 @@ public class VisionData {
      */
     public int[] getFids() {
         return fids;
-    }
-
-    /**
-     * Returns the offset of the camera from the center of the robot.
-     * @return the offset of the camera from the center of the robot
-     */
-    public Pose3d getCameraLocation() {
-        return cameraLocation;
     }
 
     /**

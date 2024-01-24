@@ -27,7 +27,7 @@ public class Limelight {
     private final DoubleEntry tyEntry;
     private final IntegerEntry tvEntry;
 
-    private int llID;
+    private int limelightID;
     private Pose3d robotRelativePose;
 
     private double txData;
@@ -40,7 +40,7 @@ public class Limelight {
 
         this.robotRelativePose = robotRelativePose;
 
-        for(int i = 0; i < LIMELIGHTS.length; i++) if(LIMELIGHTS[i].equals(tableName)) llID = i;
+        for(int i = 0; i < LIMELIGHTS.length; i++) if(LIMELIGHTS[i].equals(tableName)) limelightID = i;
 
         NetworkTable limelight = NetworkTableInstance.getDefault().getTable(tableName);
 
@@ -85,7 +85,7 @@ public class Limelight {
      * @return the x angle of the note relative to the robot
      */
     public double getXAngle() {
-        return xAngle.get() - Units.radiansToDegrees(POSITIONS[llID].getRotation().getZ());
+        return xAngle.get() - Units.radiansToDegrees(POSITIONS[limelightID].getRotation().getZ());
     }
 
     /**
@@ -93,12 +93,12 @@ public class Limelight {
      * @return the y angle of the note relative to the robot
      */
     public double getYAngle() {
-        return tyData - Units.radiansToDegrees(POSITIONS[llID].getRotation().getY());
+        return tyData - Units.radiansToDegrees(POSITIONS[limelightID].getRotation().getY());
     }
 
     // limelight targets far end of note, so have to subtract half of note length
     public double getDistanceToNote() {
         Rotation2d yRotation =  Rotation2d.fromDegrees(getYAngle());
-        return POSITIONS[llID].getZ() / -yRotation.getTan() + POSITIONS[llID].getX() - Field.NOTE_LENGTH / 2.0;
+        return POSITIONS[limelightID].getZ() / -yRotation.getTan() + POSITIONS[limelightID].getX() - Field.NOTE_LENGTH / 2.0;
     }
 }

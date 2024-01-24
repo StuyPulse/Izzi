@@ -27,7 +27,6 @@ public class NoteVision extends SubsystemBase {
     }
 
     private final Limelight[] limelights;
-    private final FieldObject2d[] limelightPoses;
     private Translation2d notePose;
     private FieldObject2d note;
 
@@ -36,13 +35,9 @@ public class NoteVision extends SubsystemBase {
         String[] hostNames = LIMELIGHTS;
 
         limelights = new Limelight[hostNames.length];
-        limelightPoses = new FieldObject2d[limelights.length];
-
-        Field2d field = Odometry.getInstance().getField();
 
         for (int i = 0; i < hostNames.length; i++) {
             limelights[i] = new Limelight(hostNames[i], POSITIONS[i]);
-            limelightPoses[i] = field.getObject(hostNames[i] + " pose");
 
             for (int port : PORTS)
                 PortForwarder.add(port + i * 10, hostNames[i] + ".local", port);
@@ -106,14 +101,23 @@ public class NoteVision extends SubsystemBase {
 
         note.setPose(new Pose2d(notePose, new Rotation2d()));
 
-        if (hasNoteData()) {
-            updateNotePose();
+        if (hasNoteData()) updateNotePose();
+        updateTelemetry();
+    }
 
+    private void updateTelemetry() {
+        if (hasNoteData()) {
             SmartDashboard.putNumber("Note Detection/X Angle", limelights[0].getXAngle());
             SmartDashboard.putNumber("Note Detection/Y Angle", limelights[0].getYAngle());
             SmartDashboard.putNumber("Note Detection/Distance", limelights[0].getDistanceToNote());
             SmartDashboard.putNumber("Note Detection/Estimated X", notePose.getX());
             SmartDashboard.putNumber("Note Detection/Estimated Y", notePose.getY());
+        } else {
+            SmartDashboard.putNumber("Note Detection/X Angle", 0);
+            SmartDashboard.putNumber("Note Detection/Y Angle", 0);
+            SmartDashboard.putNumber("Note Detection/Distance", 0);
+            SmartDashboard.putNumber("Note Detection/Estimated X", 0);
+            SmartDashboard.putNumber("Note Detection/Estimated Y", 0);
         }
     }
 }

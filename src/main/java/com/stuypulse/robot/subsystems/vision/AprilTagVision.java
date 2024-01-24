@@ -43,14 +43,6 @@ public class AprilTagVision extends SubsystemBase {
     }
 
     /**
-     * Returns the cameras of the vision system.
-     * @return the cameras of the vision system
-     */
-    public AprilTagCamera[] getCameras() {
-        return cameras;
-    }
-
-    /**
      * Sets the fiducial layout of the vision system.
      * @param fids the fiducial IDs
      */
