@@ -58,5 +58,10 @@ public class ConveyorImpl extends Conveyor {
         shooterFeederMotor.set(0);
     }
 
+    @Override
+    public void periodic() {
+        
+    }
+
 
 }

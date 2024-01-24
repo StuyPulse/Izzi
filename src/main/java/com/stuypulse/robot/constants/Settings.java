@@ -17,9 +17,6 @@ import com.stuypulse.stuylib.network.SmartNumber;
  */
 public interface Settings {
 
-    
-
-
     public interface Conveyor {
 
         SmartNumber GANDALF_SHOOTER_SPEED = new SmartNumber("Conveyor/Gandalf Shooter Speed", 1);
