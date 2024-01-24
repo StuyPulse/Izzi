@@ -59,9 +59,10 @@ public class IntakeImpl extends Intake {
         return triggered.get();
     }
 
+    // Not using stall detection, but keeping it as an option
     @Override
     public boolean hasNote() {
-        return isStalling() || isTriggered();
+        return isTriggered();
     }
 
     @Override
