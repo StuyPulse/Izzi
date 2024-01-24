@@ -24,6 +24,11 @@ public interface Motors {
 
     /** Classes to store all of the values a motor needs */
 
+    public interface Shooter {
+        CANSparkMaxConfig LEFT_SHOOTER = new CANSparkMaxConfig(false,IdleMode.kCoast);
+        CANSparkMaxConfig RIGHT_SHOOTER = new CANSparkMaxConfig(false,IdleMode.kCoast);      
+    }
+  
     public interface Conveyor{ 
         
         CANSparkMaxConfig GANDALF_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake);

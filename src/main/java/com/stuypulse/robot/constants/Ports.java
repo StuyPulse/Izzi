@@ -12,12 +12,16 @@ public interface Ports {
         int OPERATOR = 1;
         int DEBUGGER = 2;
     }
+  
+    public interface Shooter {
+        int LEFT_MOTOR = 20; 
+        int RIGHT_MOTOR = 21;
+    }
 
     public interface Conveyor {
         int GANDALF_MOTOR_PORT = 50;
         int SHOOTER_FEEDER_MOTOR_PORT = 51;
 
         int IR_SENSOR_PORT = 0;
-
     }
 }
