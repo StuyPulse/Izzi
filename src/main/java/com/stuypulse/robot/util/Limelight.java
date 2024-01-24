@@ -40,7 +40,11 @@ public class Limelight {
 
         this.robotRelativePose = robotRelativePose;
 
-        for(int i = 0; i < LIMELIGHTS.length; i++) if(LIMELIGHTS[i].equals(tableName)) limelightID = i;
+        for(int i = 0; i < LIMELIGHTS.length; i++) {
+            if(LIMELIGHTS[i].equals(tableName)) {
+                limelightID = i;
+            }
+        }
 
         NetworkTable limelight = NetworkTableInstance.getDefault().getTable(tableName);
 
@@ -98,7 +102,7 @@ public class Limelight {
 
     // limelight targets far end of note, so have to subtract half of note length
     public double getDistanceToNote() {
-        Rotation2d yRotation =  Rotation2d.fromDegrees(getYAngle());
+        Rotation2d yRotation = Rotation2d.fromDegrees(getYAngle());
         return POSITIONS[limelightID].getZ() / -yRotation.getTan() + POSITIONS[limelightID].getX() - Field.NOTE_LENGTH / 2.0;
     }
 }

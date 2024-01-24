@@ -5,6 +5,7 @@
 
 package com.stuypulse.robot.constants;
 
+import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 
@@ -19,12 +20,11 @@ import edu.wpi.first.math.util.Units;
  * values that we can edit on Shuffleboard.
  */
 public interface Settings {
-
     double DT = 0.02;
-    double WIDTH = Units.inchesToMeters(26.504);
-    double LENGTH = Units.inchesToMeters(20.508);
-
     public interface Swerve {
+        double WIDTH = Units.inchesToMeters(26.504);
+        double LENGTH = Units.inchesToMeters(20.508);
+
         SmartNumber MAX_MODULE_SPEED = new SmartNumber("Swerve/Max Module Speed (meter per s)", 5.0);
         SmartNumber MAX_TURNING = new SmartNumber("Swerve/Max Turn Velocity (rad per s)", 6.28);
 
@@ -46,27 +46,26 @@ public interface Settings {
             }
         }
 
-        public interface Controller {
-            public interface Turn {
-                SmartNumber kP = new SmartNumber("Swerve/Turn/kP", 1.0);
-                SmartNumber kI = new SmartNumber("Swerve/Turn/kI", 0.0);
-                SmartNumber kD = new SmartNumber("Swerve/Turn/kD", 0.0);
+        public interface Turn {
+            SmartNumber kP = new SmartNumber("Swerve/Turn/kP", 1.0);
+            SmartNumber kI = new SmartNumber("Swerve/Turn/kI", 0.0);
+            SmartNumber kD = new SmartNumber("Swerve/Turn/kD", 0.0);
 
-                SmartNumber kS = new SmartNumber("Swerve/Turn/kS", 0.01);
-                SmartNumber kV = new SmartNumber("Swerve/Turn/kV", 0.25);
-                SmartNumber kA = new SmartNumber("Swerve/Turn/kA", 0.01);
-            }
+            SmartNumber kS = new SmartNumber("Swerve/Turn/kS", 0.01);
+            SmartNumber kV = new SmartNumber("Swerve/Turn/kV", 0.25);
+            SmartNumber kA = new SmartNumber("Swerve/Turn/kA", 0.01);
+        }
 
         public interface Drive {
-                SmartNumber kP = new SmartNumber("Swerve/Drive/kP", 1.0);
-                SmartNumber kI = new SmartNumber("Swerve/Drive/kI", 0.00);
-                SmartNumber kD = new SmartNumber("Swerve/Drive/kD", 0.00);
+            SmartNumber kP = new SmartNumber("Swerve/Drive/kP", 1.0);
+            SmartNumber kI = new SmartNumber("Swerve/Drive/kI", 0.00);
+            SmartNumber kD = new SmartNumber("Swerve/Drive/kD", 0.00);
 
-                SmartNumber kS = new SmartNumber("Swerve/Drive/kS", 0.01);
-                SmartNumber kV = new SmartNumber("Swerve/Drive/kV", 0.25);
-                SmartNumber kA = new SmartNumber("Swerve/Drive/kA", 0.01);
-            }
+            SmartNumber kS = new SmartNumber("Swerve/Drive/kS", 0.01);
+            SmartNumber kV = new SmartNumber("Swerve/Drive/kV", 0.25);
+            SmartNumber kA = new SmartNumber("Swerve/Drive/kA", 0.01);
         }
+
 
         public interface FrontRight {
             String ID = "Front Right";
@@ -138,15 +137,10 @@ public interface Settings {
             SmartNumber POWER = new SmartNumber("Driver Settings/Turn/Power", 2);
 
             SmartNumber MAX_TELEOP_TURNING = new SmartNumber("Driver Settings/Turn/Max Turning", 6.0);
-
-            public interface GyroFeedback {
-                SmartBoolean GYRO_FEEDBACK_ENABLED = new SmartBoolean("Driver Settings/Gyro Feedback/Enabled", true);
-
-                SmartNumber P = new SmartNumber("Driver Settings/Gyro Feedback/kP", 0.5);
-                SmartNumber I = new SmartNumber("Driver Settings/Gyro Feedback/kI", 0.0);
-                SmartNumber D = new SmartNumber("Driver Settings/Gyro Feedback/kD", 0.1);
-            }
         }
+    }
 
+    public static Vector2D vpow(Vector2D vec, double power) {
+        return vec.mul(Math.pow(vec.magnitude(), power - 1));
     }
 }

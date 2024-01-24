@@ -39,20 +39,25 @@ public interface Field {
     };
 
     public static boolean isValidFiducial(int fid) {
-        for(Fiducial fiducial : FIDUCIALS) {
-            if (fiducial.getFID() == fid) 
+        for(Fiducial fiducial : FIDUCIALS) { 
+            if (fiducial.getFID() == fid) { 
                 return true;
+            }
         }
         return false;
     }
     
     public static Fiducial[] getFiducialLayout(int... fids) {
         ArrayList<Fiducial> fiducials = new ArrayList<Fiducial>();
-        for (int fid : fids) {
-            for (Fiducial fiducial : FIDUCIALS) 
-                if (fiducial.getFID() == fid) fiducials.add(fiducial);
-        }
 
+        for (int fid : fids) {
+            for (Fiducial fiducial : FIDUCIALS) {
+                if (fiducial.getFID() == fid) { 
+                    fiducials.add(fiducial);
+                }
+            }
+        }
+                
         Fiducial[] fiducials_array = new Fiducial[fiducials.size()];
         return fiducials.toArray(fiducials_array);
     }
@@ -67,14 +72,15 @@ public interface Field {
             layout[i * 7 + 4] = fiducials[i].getLocation().getRotation().getX();
             layout[i * 7 + 5] = fiducials[i].getLocation().getRotation().getY();
             layout[i * 7 + 6] = fiducials[i].getLocation().getRotation().getZ();
-         }
+        }
         return layout;
     }
 
     public static Fiducial getFiducial(int fid) {
         for (Fiducial fiducial : FIDUCIALS) {
-            if (fiducial.getFID() == fid) 
+            if (fiducial.getFID() == fid) {
                 return fiducial;
+            }
         }
         return null;
     }

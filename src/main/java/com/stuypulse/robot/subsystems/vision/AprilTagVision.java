@@ -27,7 +27,6 @@ public class AprilTagVision extends SubsystemBase {
 
     protected AprilTagVision() {
         this.cameras = new AprilTagCamera[Cameras.APRILTAG_CAMERAS.length];
-        
         for (int i = 0; i < Cameras.APRILTAG_CAMERAS.length; i++) {
             cameras[i] = new AprilTagCamera(Cameras.APRILTAG_CAMERAS[i]);
         }

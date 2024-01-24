@@ -2,7 +2,8 @@ package com.stuypulse.robot.subsystems.odometry;
 
 import java.util.ArrayList;
 
-import com.stuypulse.robot.subsystems.swerve.AbstractSwerveDrive;
+import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
+
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.robot.util.VisionData;
 import com.stuypulse.stuylib.network.SmartBoolean;
@@ -39,7 +40,7 @@ public class Odometry extends SubsystemBase {
     private final FieldObject2d estimatorPose2D;
 
     public Odometry() {
-        AbstractSwerveDrive swerve = AbstractSwerveDrive.getInstance();
+        SwerveDrive swerve = SwerveDrive.getInstance();
         odometry = new SwerveDriveOdometry(swerve.getKinematics(), swerve.getGyroAngle(), swerve.getModulePositions(), new Pose2d());
         estimator = new SwerveDrivePoseEstimator(swerve.getKinematics(), swerve.getGyroAngle(), swerve.getModulePositions(), new Pose2d());
 
@@ -65,7 +66,7 @@ public class Odometry extends SubsystemBase {
      * Update the odometry with swerve drive data.
      */
     public void updateOdometry() {
-        AbstractSwerveDrive swerve = AbstractSwerveDrive.getInstance();
+        SwerveDrive swerve = SwerveDrive.getInstance();
         odometry.update(swerve.getGyroAngle(), swerve.getModulePositions());
         estimator.update(swerve.getGyroAngle(), swerve.getModulePositions());
     }
@@ -91,7 +92,7 @@ public class Odometry extends SubsystemBase {
      * @param pose the pose to reset to
      */
     public void reset(Pose2d pose) {
-        AbstractSwerveDrive swerve = AbstractSwerveDrive.getInstance();
+        SwerveDrive swerve = SwerveDrive.getInstance();
         odometry.resetPosition(swerve.getGyroAngle(), swerve.getModulePositions(), pose);
         estimator.resetPosition(swerve.getGyroAngle(), swerve.getModulePositions(), pose);
     }
