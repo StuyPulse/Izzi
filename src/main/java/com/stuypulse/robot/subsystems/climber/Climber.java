@@ -1,96 +1,57 @@
+/*
+ * climbs chain in endgame
+ * - 2 motors (12:1 gear ratio)
+ * - 2 encoders
+ * - 4 limit switches (bottom and top, two on each side)
+ * - hard stop at bottom of the lift
+ * 
+ * functions:
+ * - get current height of climber
+ * - go to specific heights
+ * - work with the gravity of the robot (has kG)
+ */
+
 package com.stuypulse.robot.subsystems.climber;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
-import com.stuypulse.robot.constants.Motors;
+import com.stuypulse.stuylib.network.SmartNumber;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.controller.BangBangController;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import static com.stuypulse.robot.constants.Settings.Climber.Encoder.*;
-import static com.stuypulse.robot.constants.Settings.Climber.*;
-import static com.stuypulse.robot.constants.Ports.Climber.*;
+public abstract class Climber extends SubsystemBase {
+    public static final Climber instance;
+    
+    public final SmartNumber targetHeight;
+    public final BangBangController controller;
 
-public class Climber extends AbstractClimber {
-    private final CANSparkMax rightMotor;
-    private final CANSparkMax leftMotor;
-
-    private final RelativeEncoder rightEncoder;
-    private final RelativeEncoder leftEncoder;
-
-    private final DigitalInput topRightLimit;
-    private final DigitalInput topLeftLimit;
-    private final DigitalInput bottomRightLimit;
-    private final DigitalInput bottomLeftLimit;
-
-    protected Climber() {
-        rightMotor = new CANSparkMax(RIGHT_MOTOR, MotorType.kBrushless);
-        leftMotor = new CANSparkMax(LEFT_MOTOR, MotorType.kBrushless);
-
-        rightEncoder = rightMotor.getEncoder();
-        leftEncoder = leftMotor.getEncoder();
-
-        rightEncoder.setPositionConversionFactor(ENCODER_MULTIPLIER);
-        leftEncoder.setPositionConversionFactor(ENCODER_MULTIPLIER);
-
-        topRightLimit = new DigitalInput(TOP_RIGHT_LIMIT);
-        topLeftLimit = new DigitalInput(TOP_LEFT_LIMIT);
-        bottomRightLimit = new DigitalInput(BOTTOM_RIGHT_LIMIT);
-        bottomLeftLimit = new DigitalInput(BOTTOM_LEFT_LIMIT);
-
-        Motors.Climber.LEFT_MOTOR.configure(leftMotor);
-        Motors.Climber.RIGHT_MOTOR.configure(rightMotor);
+    static {
+        instance = new ClimberImpl();
     }
 
-	@Override
-	public double getHeight() {
-        return (leftEncoder.getPosition() + rightEncoder.getPosition()) / 2 * ENCODER_MULTIPLIER;
+    public static Climber getInstance() {
+        return instance;
     }
 
-    @Override
-    public double getVelocity() {
-        return (leftEncoder.getVelocity() + rightEncoder.getVelocity()) / 2 * ENCODER_MULTIPLIER;
+    public Climber() {
+        targetHeight = new SmartNumber("Climber/Target Height", getTargetHeight());
+        controller = new BangBangController();
     }
 
-    @Override
-    public void setVoltage(double voltage) {
-        if (atTop() && voltage > 0) {
-            DriverStation.reportWarning("Top Limit Reached", false);
-            voltage = 0.0;
-
-            leftEncoder.setPosition(MAX_HEIGHT);
-            rightEncoder.setPosition(MAX_HEIGHT);
-        } else if (atBottom() && voltage > 0) {
-            DriverStation.reportWarning("Bottom Limit Reached", false);
-            voltage = 0.0;
-
-            leftEncoder.setPosition(MIN_HEIGHT);
-            rightEncoder.setPosition(MIN_HEIGHT);
-        }
-
-        rightMotor.setVoltage(voltage);
-        leftMotor.setVoltage(voltage);
+    public void setTargetHeight(double height) {
+        targetHeight.set(height);
     }
 
-    @Override
-    public boolean atTop() {
-        return !topRightLimit.get() && !topLeftLimit.get();
+    public double getTargetHeight() {
+        return targetHeight.get();
     }
+    
+    public abstract double getHeight();
 
-    @Override
-    public boolean atBottom() {
-        return !bottomRightLimit.get() && !bottomLeftLimit.get();
-    }
+    public abstract double getVelocity();
+    public abstract void setVoltage(double voltage);
 
-	@Override
-	public void periodic() {
-        setVoltage(controller.calculate(getTargetHeight(), getHeight()));
+    public abstract boolean atTop();
+    public abstract boolean atBottom();
 
-        SmartDashboard.putNumber("Climber/Target Height", getTargetHeight());
-        SmartDashboard.putNumber("Climber/Height", getHeight());
-
-        SmartDashboard.putNumber("Climber/Velocity", getVelocity());
-	}
+    public abstract void periodic();
 }
