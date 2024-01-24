@@ -12,7 +12,6 @@ import static com.stuypulse.robot.constants.Settings.Climber.Encoder.*;
 import static com.stuypulse.robot.constants.Ports.Climber.*;
 
 public class Climber extends AbstractClimber {
-    
     private final CANSparkMax rightMotor;
     private final CANSparkMax leftMotor;
 
@@ -54,18 +53,26 @@ public class Climber extends AbstractClimber {
     }
 
     @Override
+    public void setVoltage(double voltage) {
+        rightMotor.setVoltage(voltage);
+        leftMotor.setVoltage(voltage);
+    }
+
+    @Override
     public boolean atTop() {
-        return (!topRightLimit.get()) && (!topLeftLimit.get());
+        return !topRightLimit.get() && !topLeftLimit.get();
     }
 
     @Override
     public boolean atBottom() {
-        return (!bottomRightLimit.get()) && (!bottomLeftLimit.get());
+        return !bottomRightLimit.get() && !bottomLeftLimit.get();
     }
 
 	@Override
 	public void periodic() {
         SmartDashboard.putNumber("Climber/Target Height", getTargetHeight());
         SmartDashboard.putNumber("Climber/Height", getHeight());
+
+        SmartDashboard.putNumber("Climber/Velocity", getVelocity());
 	}
 }

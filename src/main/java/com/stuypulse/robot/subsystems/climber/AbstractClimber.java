@@ -41,6 +41,7 @@ public abstract class AbstractClimber extends SubsystemBase {
     public abstract double getHeight();
 
     public abstract double getVelocity();
+    public abstract void setVoltage(double voltage);
 
     public abstract boolean atTop();
     public abstract boolean atBottom();
