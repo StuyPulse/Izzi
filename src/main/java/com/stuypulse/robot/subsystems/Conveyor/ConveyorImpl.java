@@ -52,6 +52,11 @@ public class ConveyorImpl extends Conveyor {
 
     }
 
+    public void stop() {
+        gandalfMotor.set(0);
+        shooterFeederMotor.set(0);
+    }
+
     @Override
     public void periodic() {
         
