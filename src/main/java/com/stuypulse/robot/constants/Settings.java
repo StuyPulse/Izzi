@@ -36,37 +36,35 @@ public interface Settings {
                 double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
                 double GEAR_RATIO = 1.0 / 4.71; //TODO: Find Gear Ratio
 
-                //TODO: CHECK THESE
                 double POSITION_CONVERSION = WHEEL_CIRCUMFERENCE * GEAR_RATIO;
                 double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
             }
 
             public interface Turn {
-                //TODO: CHECK THESE
                 double POSITION_CONVERSION = 1;
                 double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
             }
         }
 
         public interface Controller {
-            //TODO: CHECK THESE
             public interface Turn {
                 SmartNumber kP = new SmartNumber("Swerve/Turn/kP", 1.0);
                 SmartNumber kI = new SmartNumber("Swerve/Turn/kI", 0.0);
                 SmartNumber kD = new SmartNumber("Swerve/Turn/kD", 0.0);
 
-                SmartNumber kS = new SmartNumber("Swerve/Turn/kS", 0.25);
-                SmartNumber kV = new SmartNumber("Swerve/Turn/kV", 0.00);
+                SmartNumber kS = new SmartNumber("Swerve/Turn/kS", 0.01);
+                SmartNumber kV = new SmartNumber("Swerve/Turn/kV", 0.25);
+                SmartNumber kA = new SmartNumber("Swerve/Turn/kA", 0.01);
             }
 
         public interface Drive {
-                SmartNumber kP = new SmartNumber("Swerve/Drive/kP", 0.10);
+                SmartNumber kP = new SmartNumber("Swerve/Drive/kP", 1.0);
                 SmartNumber kI = new SmartNumber("Swerve/Drive/kI", 0.00);
                 SmartNumber kD = new SmartNumber("Swerve/Drive/kD", 0.00);
 
-                SmartNumber kS = new SmartNumber("Swerve/Drive/kS", 0.25);
-                SmartNumber kV = new SmartNumber("Swerve/Drive/kV", 0.00);
-                SmartNumber kA = new SmartNumber("Swerve/Drive/kA", 0.00);
+                SmartNumber kS = new SmartNumber("Swerve/Drive/kS", 0.01);
+                SmartNumber kV = new SmartNumber("Swerve/Drive/kV", 0.25);
+                SmartNumber kA = new SmartNumber("Swerve/Drive/kA", 0.01);
             }
         }
 
@@ -120,5 +118,35 @@ public interface Settings {
             SmartNumber I = new SmartNumber("Note Detection/Rotation/kI", 0.0);
             SmartNumber D = new SmartNumber("Note Detection/Rotation/kD", 0.1);
         }
+    }
+
+    public interface Driver {
+        public interface Drive {
+            SmartNumber DEADBAND = new SmartNumber("Driver Settings/Drive/Deadband", 0.03);
+
+            SmartNumber RC = new SmartNumber("Driver Settings/Drive/RC", 0.01);
+            SmartNumber POWER = new SmartNumber("Driver Settings/Drive/Power", 2);
+
+            SmartNumber MAX_TELEOP_SPEED = new SmartNumber("Driver Settings/Drive/Max Speed", Swerve.MAX_MODULE_SPEED.get());
+            SmartNumber MAX_TELEOP_ACCEL = new SmartNumber("Driver Settings/Drive/Max Accleration", 15);
+        }
+
+        public interface Turn {
+            SmartNumber DEADBAND = new SmartNumber("Driver Settings/Turn/Deadband", 0.05);
+
+            SmartNumber RC = new SmartNumber("Driver Settings/Turn/RC", 0.1);
+            SmartNumber POWER = new SmartNumber("Driver Settings/Turn/Power", 2);
+
+            SmartNumber MAX_TELEOP_TURNING = new SmartNumber("Driver Settings/Turn/Max Turning", 6.0);
+
+            public interface GyroFeedback {
+                SmartBoolean GYRO_FEEDBACK_ENABLED = new SmartBoolean("Driver Settings/Gyro Feedback/Enabled", true);
+
+                SmartNumber P = new SmartNumber("Driver Settings/Gyro Feedback/kP", 0.5);
+                SmartNumber I = new SmartNumber("Driver Settings/Gyro Feedback/kI", 0.0);
+                SmartNumber D = new SmartNumber("Driver Settings/Gyro Feedback/kD", 0.1);
+            }
+        }
+
     }
 }
