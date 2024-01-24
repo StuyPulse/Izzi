@@ -1,9 +1,10 @@
 package com.stuypulse.robot.subsystems.swerve;
 
-import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain.SwerveDriveState;
-import com.ctre.phoenix6.sim.ChassisReference;
 import com.kauailabs.navx.frc.AHRS;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Swerve;
+import com.stuypulse.robot.subsystems.odometry.Odometry;
+import com.stuypulse.robot.subsystems.swerve.modules.AbstractSwerveModule;
 import com.stuypulse.stuylib.math.Vector2D;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -63,6 +64,11 @@ public class SwerveDrive extends AbstractSwerveDrive {
     private AHRS gyro;
     private FieldObject2d[] modules2D;
     
+
+    /**
+     * Creates a new Swerve Drive using the provided modules
+     * @param modules the modules to use
+     */
     public SwerveDrive(AbstractSwerveModule... modules){
         this.modules = modules;
         this.kinematics = new SwerveDriveKinematics(getModuleOffsets());
@@ -76,7 +82,9 @@ public class SwerveDrive extends AbstractSwerveDrive {
             modules2D[i] = field.getObject(modules[i].getId() + "-2d");
         }
     }
-    
+
+
+    /*Getters */
     @Override
     public SwerveDriveKinematics getKinematics() {
         return kinematics;
@@ -117,7 +125,7 @@ public class SwerveDrive extends AbstractSwerveDrive {
     /*Setters */
 
     private static SwerveModuleState filterModuleState(SwerveModuleState state) {
-        if (Math.abs(state.speedMetersPerSecond) > Settings.Swerve.MODULE_VELOCITY_DEADBAND.get())
+        if (Math.abs(state.speedMetersPerSecond) > Swerve.MODULE_VELOCITY_DEADBAND.get())
             return state;
 
         return new SwerveModuleState(0, state.angle);
@@ -129,7 +137,7 @@ public class SwerveDrive extends AbstractSwerveDrive {
             throw new IllegalArgumentException("Provided incorrect number of states for swerve drive modules");
         }
         
-        SwerveDriveKinematics.desaturateWheelSpeeds(states, Settings.Swerve.MAX_MODULE_SPEED.get());
+        SwerveDriveKinematics.desaturateWheelSpeeds(states, Swerve.MAX_MODULE_SPEED.get());
 
         for (int i = 0; i < modules.length; i++){
             modules[i].setState(filterModuleState(states[i]));
@@ -141,12 +149,13 @@ public class SwerveDrive extends AbstractSwerveDrive {
         setModuleStates(kinematics.toSwerveModuleStates(robotSpeeds));
     }
 
+    /*Drive Functions*/
     @Override
     public void drive(Vector2D velocity, double rotation) {
         ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
             velocity.x, -velocity.y,
             rotation,
-            getGyroAngle()
+            Odometry.getInstance().getPose().getRotation()
         );
  
         Pose2d pose = new Pose2d(
@@ -189,15 +198,31 @@ public class SwerveDrive extends AbstractSwerveDrive {
     
     @Override
     public void periodic() {
-        /*XXX: WAITING FOR ODOMETRY TO WRITE PERIODIC */ 
+        Odometry odometry = Odometry.getInstance();
+        Pose2d pose = odometry.getPose();
+        Rotation2d angle = pose.getRotation();
 
-        SmartDashboard.putNumber("Swerve/Gyro Angle (deg)", getGyroAngle().getDegrees());
-        SmartDashboard.putNumber("Swerve/Gyro Pitch", getGyroPitch().getDegrees());
-        SmartDashboard.putNumber("Swerve/Gyro Roll", getGyroRoll().getDegrees());
+        for (int i = 0; i < modules.length; i++) {
+            modules2D[i].setPose(new Pose2d(
+                pose.getTranslation().plus(modules[i].getModuleOffset().rotateBy(angle)),
+                modules[i].getAngle().plus(angle)
+            ));
+        }
 
-        SmartDashboard.putNumber("Swerve/Forward Acceleration (Gs)", getForwardAccelerationGs());
+        SmartDashboard.putNumber("Swerve/Gyro/Angle (deg)", getGyroAngle().getDegrees());
+        SmartDashboard.putNumber("Swerve/Gyro/Pitch (deg)", getGyroPitch().getDegrees());
+        SmartDashboard.putNumber("Swerve/Gyro/Roll (deg)", getGyroRoll().getDegrees());
+
+        SmartDashboard.putNumber("Swerve/Forward Acceleration  (Gs)", getForwardAccelerationGs());
         SmartDashboard.putNumber("Swerve/X Acceleration (Gs)", gyro.getWorldLinearAccelX());
         SmartDashboard.putNumber("Swerve/Y Acceleration (Gs)", gyro.getWorldLinearAccelY());
         SmartDashboard.putNumber("Swerve/Z Acceleration (Gs)", gyro.getWorldLinearAccelZ());
+    }
+
+    @Override 
+    public void simulationPeriodic() {
+        //show gyro angle in simulation
+        ChassisSpeeds speeds = kinematics.toChassisSpeeds(getModuleStates());
+        gyro.setAngleAdjustment(speeds.omegaRadiansPerSecond * Settings.DT);
     }
 }
