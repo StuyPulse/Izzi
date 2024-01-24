@@ -35,6 +35,16 @@ public interface Settings {
         }
     }
 
+    public interface Intake {
+        public interface Detection {
+            SmartNumber TRIGGER_TIME = new SmartNumber("Intake/Trigger Debounce Time", 0.05);
+            SmartNumber STALL_TIME = new SmartNumber("Intake/Stall Debounce Time", .05);
+            SmartNumber STALL_CURRENT = new SmartNumber("Intake/Stall Current", 40);
+        }
+        SmartNumber ACQUIRE_SPEED = new SmartNumber("Intake/Acquire", 1);
+        SmartNumber DEACQUIRE_SPEED = new SmartNumber("Intake/Deacquire", -1);
+    }
+  
     public interface Conveyor {
         SmartNumber GANDALF_SHOOTER_SPEED = new SmartNumber("Conveyor/Gandalf Shooter Speed", 1);
         SmartNumber GANDALF_AMP_SPEED = new SmartNumber("Conveyor/Gandalf Amp Speed", -1);
@@ -42,5 +52,4 @@ public interface Settings {
         
         SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.2);
     }
-
 }

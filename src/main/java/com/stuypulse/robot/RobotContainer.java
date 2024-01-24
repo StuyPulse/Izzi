@@ -7,6 +7,7 @@ package com.stuypulse.robot;
 
 import com.stuypulse.robot.commands.auton.DoNothingAuton;
 import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.shooter.Shooter;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.stuylib.input.Gamepad;
@@ -23,6 +24,7 @@ public class RobotContainer {
     public final Gamepad operator = new AutoGamepad(Ports.Gamepad.OPERATOR);
     
     // Subsystem
+    public final Intake intake = Intake.getInstance();
     public final Shooter shooter = Shooter.getInstance();
     public final Conveyor conveyor = Conveyor.getInstance();
   

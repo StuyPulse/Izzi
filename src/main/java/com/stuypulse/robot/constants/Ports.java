@@ -12,6 +12,11 @@ public interface Ports {
         int OPERATOR = 1;
         int DEBUGGER = 2;
     }
+
+    public interface Intake {
+        int MOTOR = 40;
+        int SENSOR = 1;
+    }
   
     public interface Shooter {
         int LEFT_MOTOR = 20; 
