@@ -19,6 +19,10 @@ import edu.wpi.first.networktables.IntegerSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
+/**
+ * This class handles interactions between the robot code 
+ * and the Theia AprilTag system through the NetworkTables.
+ */
 public class AprilTagCamera {
     
     private final String name;
@@ -78,15 +82,26 @@ public class AprilTagCamera {
     public AprilTagCamera(CameraConfig config) {
         this(config.getName(), config.getLocation());
     }
-        
+    
+    /**
+     * Returns the name of the camera.
+     * @return the name of the camera
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Returns the FPS of the data that is coming from the camera.
+     * @return the FPS of the data that is coming from the camera
+     */
     public int getFPS() {
         return (int) rawFPS;
     }
 
+    /**
+     * Pull the data from the NetworkTables and store it in the class.
+     */
     private void updateData() {
         rawLatency = latencySub.get();
         rawFPS = (int) fpsSub.get();
@@ -95,6 +110,10 @@ public class AprilTagCamera {
         rawCounter = counterSub.get();
     }
 
+    /**
+     * Helper class that returns the rawPose as a Pose3d.
+     * @return the rawPose as a Pose3d
+     */
     private Pose3d getDataAsPose3d() {
         return new Pose3d(
             new Translation3d(rawPose[0], rawPose[1], rawPose[2]), 
@@ -102,6 +121,10 @@ public class AprilTagCamera {
         );
     }
 
+    /**
+     * Returns the pose of the robot relative to the field.
+     * @return the pose of the robot relative to the field
+     */
     private Pose3d getRobotPose() {
         return getDataAsPose3d()
             .transformBy(new Transform3d(cameraLocation.getTranslation(), cameraLocation.getRotation())
@@ -109,6 +132,10 @@ public class AprilTagCamera {
         );
     }
 
+    /**
+     * Returns the IDs of the fiducials detected.
+     * @return the IDs of the fiducials detected
+     */
     private int[] getFIDs() {
         int[] fids = new int[rawfids.length];
         for (int i = 0; i < rawfids.length; i++) {
@@ -117,6 +144,10 @@ public class AprilTagCamera {
         return fids;
     }
 
+    /**
+     * Returns an Optional holding the vision data from the camera.
+     * @return the vision data from the camera in an Optional
+     */
     public Optional<VisionData> getVisionData() {
         updateData();
 
@@ -128,9 +159,13 @@ public class AprilTagCamera {
         }
         
         lastCounter = rawCounter;
-        return Optional.of(new VisionData(getRobotPose(), getFIDs(), cameraLocation, timestamp));
+        return Optional.of(new VisionData(getRobotPose(), getFIDs(), timestamp));
     }
 
+    /**
+     * Sets the fiducial layout of the camera.
+     * @param fids the fiducial IDs
+     */
     public void setFiducialLayout(int... fids) {
         layoutPub.set(Field.getLayoutAsDoubleArray(Field.getFiducialLayout(fids)));
     }

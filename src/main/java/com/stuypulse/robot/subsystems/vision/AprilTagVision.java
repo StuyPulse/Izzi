@@ -25,9 +25,8 @@ public class AprilTagVision extends SubsystemBase {
     private final AprilTagCamera[] cameras;
     private final ArrayList<VisionData> outputs;
 
-    public AprilTagVision() {
+    protected AprilTagVision() {
         this.cameras = new AprilTagCamera[Cameras.APRILTAG_CAMERAS.length];
-
         for (int i = 0; i < Cameras.APRILTAG_CAMERAS.length; i++) {
             cameras[i] = new AprilTagCamera(Cameras.APRILTAG_CAMERAS[i]);
         }
@@ -35,14 +34,18 @@ public class AprilTagVision extends SubsystemBase {
         outputs = new ArrayList<VisionData>();
     }
 
+    /**
+     * Returns the outputs of the vision system.
+     * @return the outputs of the vision system
+     */
     public ArrayList<VisionData> getOutputs() {
         return outputs;
     }
 
-    public AprilTagCamera[] getCameras() {
-        return cameras;
-    }
-
+    /**
+     * Sets the fiducial layout of the vision system.
+     * @param fids the fiducial IDs
+     */
     public void setFiducialLayout(int... fids) {
         for (AprilTagCamera camera : cameras) {
             camera.setFiducialLayout(fids);
@@ -66,7 +69,7 @@ public class AprilTagVision extends SubsystemBase {
         SmartDashboard.putNumber(prefix + "/Pose Y", data.getPose().getY());
         SmartDashboard.putNumber(prefix + "/Pose Z", data.getPose().getZ());
 
-        SmartDashboard.putNumber(prefix + "/Distance to Tag", data.getDistance());
+        SmartDashboard.putNumber(prefix + "/Distance to Tag", data.getDistanceToFiducial(data.getPrimaryID()));
 
         SmartDashboard.putNumber(prefix + "/Pose Rotation", Units.radiansToDegrees(data.getPose().getRotation().getAngle()));
         SmartDashboard.putNumber(prefix + "/Timestamp", data.getTimestamp());

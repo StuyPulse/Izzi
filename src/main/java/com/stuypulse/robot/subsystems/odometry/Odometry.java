@@ -16,6 +16,9 @@ import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+/**
+ * This class handles the odometry of the robot.
+ */
 public class Odometry extends SubsystemBase {
     
     private static final Odometry instance;
@@ -49,26 +52,45 @@ public class Odometry extends SubsystemBase {
         estimatorPose2D = field.getObject("Estimator Pose");
 
         SmartDashboard.putData("Field", field);
-   }
+    }
 
+    /**
+     * Returns the field2d object.
+     * @return the field2d object
+     */
     public Field2d getField() {
         return field;
     }
 
+    /**
+     * Update the odometry with swerve drive data.
+     */
     public void updateOdometry() {
         SwerveDrive swerve = SwerveDrive.getInstance();
         odometry.update(swerve.getGyroAngle(), swerve.getModulePositions());
         estimator.update(swerve.getGyroAngle(), swerve.getModulePositions());
     }
     
+    /**
+     * Update the odometry with vision data.
+     * @param data the vision data
+     */
     public void updateWithVisionData(VisionData data) {
         estimator.addVisionMeasurement(data.getPose().toPose2d(), data.getTimestamp());
     }
 
+    /**
+     * Returns the pose of the robot.
+     * @return the pose of the robot
+     */
     public Pose2d getPose() {
         return estimator.getEstimatedPosition();
     }
 
+    /**
+     * Reset the pose of the odometry to the given pose.
+     * @param pose the pose to reset to
+     */
     public void reset(Pose2d pose) {
         SwerveDrive swerve = SwerveDrive.getInstance();
         odometry.resetPosition(swerve.getGyroAngle(), swerve.getModulePositions(), pose);

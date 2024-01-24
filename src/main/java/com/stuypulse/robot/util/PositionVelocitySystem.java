@@ -34,7 +34,6 @@ public class PositionVelocitySystem {
         if (kV.get() <= 0.0) {
             throw new IllegalArgumentException("kV must greater than zero");
         }
-
         if (kA.get() <= 0.0) {
             throw new IllegalArgumentException("kA must be greater than zero");
         }

@@ -10,6 +10,9 @@ import edu.wpi.first.math.geometry.Translation3d;
 
 import edu.wpi.first.math.util.Units;
 
+/**
+ * This interface stores information about the field elements.
+ */
 public interface Field {
 
     public final double FIDUCIAL_SIZE = Units.inchesToMeters(6.125);
