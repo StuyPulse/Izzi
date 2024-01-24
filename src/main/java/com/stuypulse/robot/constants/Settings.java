@@ -15,10 +15,9 @@ import com.stuypulse.stuylib.network.SmartNumber;
  * values that we can edit on Shuffleboard.
  */
 public interface Settings {
+    double DT = 0.02;
 
     public interface Shooter {
-        double DT = 0.02; 
-        double GEARING = 9; //change number later 
         double MOMENT_OF_INERTIA = 1;
         
         SmartNumber PODIUM_SHOT_LEFT_RPM = new SmartNumber("Shooter/Podium Shot Right RPM", 0);

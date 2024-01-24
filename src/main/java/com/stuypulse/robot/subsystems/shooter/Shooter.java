@@ -10,39 +10,17 @@ import com.stuypulse.stuylib.control.feedback.PIDController;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-/* 3 motors (2 side motors, 1 placer motor)
- * 3 encoders 
- * IR sensor 
- * 
- * variables: 
- * leftMotor
- * rightMotor
- * 
- * 
- * leftEncoder
- * rightEncoder
- * 
- * 
- * leftTargetRPM
- * rightTargetRPM
- * 
- * 
- * leftController
- * rightController * 
- * functions: 
- * if IR sensor detects note: stop placer motor, then run again 
- * 
- * commands: 
- * run
- * stop 
- * 
- */
+
 public abstract class Shooter extends SubsystemBase {
 
     private static final Shooter instance;
     
     static {
-        instance = new ShooterImpl();
+        if (RobotBase.isReal()) {
+            instance = new ShooterImpl();
+        } else {
+            instance = new SimShooter();
+        }
     }
     
     public static Shooter getInstance() {
@@ -61,12 +39,8 @@ public abstract class Shooter extends SubsystemBase {
         leftController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
                         .add(new PIDController(PID.kP, PID.kI, PID.kD));
         rightController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
-                        .add(new PIDController(PID.kP, PID.kI, PID.kD));
-        //controllers here 
+                        .add(new PIDController(PID.kP, PID.kI, PID.kD));  
     }    
-
-    //abstract methods: stop, getLeftRPM,... 
-    //methods: getLeftTargetRPM, getRightTargetRPM, ... setLeftTargetRPM....
 
     public double getLeftTargetRPM() {
         return leftTargetRPM.get();
@@ -76,11 +50,11 @@ public abstract class Shooter extends SubsystemBase {
         return rightTargetRPM.get();
     } 
     
-    public void setLeftTargetRPM(Number leftTargetRPM){
+    public void setLeftTargetRPM(Number leftTargetRPM) {
         this.leftTargetRPM.set(leftTargetRPM);
     }
     
-    public void setRightTargetRPM(Number rightTargetRPM){
+    public void setRightTargetRPM(Number rightTargetRPM) {
         this.rightTargetRPM.set(rightTargetRPM);
     }
 
@@ -93,6 +67,9 @@ public abstract class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("Shooter/Left Target RPM",getLeftTargetRPM());
+        SmartDashboard.putNumber("Shooter/Right Target RPM", getRightTargetRPM());
+        
         leftController.update(getLeftTargetRPM(), getLeftShooterRPM());
         rightController.update(getRightTargetRPM(), getRightShooterRPM());
         setLeftMotorVoltageImpl(leftController.getOutput());

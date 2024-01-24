@@ -5,7 +5,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ShooterImpl extends Shooter {
@@ -16,7 +15,7 @@ public class ShooterImpl extends Shooter {
     private final RelativeEncoder rightEncoder;
 
 
-    public ShooterImpl(){
+    public ShooterImpl() {
         leftMotor = new CANSparkMax(Ports.Shooter.LEFT_MOTOR, MotorType.kBrushless);
         rightMotor = new CANSparkMax(Ports.Shooter.RIGHT_MOTOR, MotorType.kBrushless);
 
@@ -29,8 +28,8 @@ public class ShooterImpl extends Shooter {
 
     @Override
     public void stop() {
-        setLeftTargetRPM(0);
-        setRightTargetRPM(0);
+        leftMotor.setVoltage(0);
+        rightMotor.setVoltage(0);
     }
 
     @Override
@@ -44,20 +43,17 @@ public class ShooterImpl extends Shooter {
     }
     
     @Override
-    public void setLeftMotorVoltageImpl(double voltage){
+    public void setLeftMotorVoltageImpl(double voltage) {
         leftMotor.setVoltage(voltage);
     }
     
     @Override
-    public void setRightMotorVoltageImpl(double voltage){
+    public void setRightMotorVoltageImpl(double voltage) {
         rightMotor.setVoltage(voltage);
     }
     
     @Override
-    public void periodicallyCalled() {
-        SmartDashboard.putNumber("Shooter/Left Target RPM",getLeftTargetRPM());
-        SmartDashboard.putNumber("Shooter/Right Target RPM", getRightTargetRPM());
-        
+    public void periodicallyCalled() {        
         SmartDashboard.putNumber("Shooter/Right RPM", getRightShooterRPM());
         SmartDashboard.putNumber("Shooter/Left RPM", getLeftShooterRPM());
 

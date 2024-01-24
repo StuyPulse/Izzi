@@ -13,7 +13,7 @@ public interface Ports {
         int DEBUGGER = 2;
     }
     public interface Shooter {
-        int LEFT_MOTOR = 1; //CHANGE TO ACTUAL LATER
-        int RIGHT_MOTOR = 2;
+        int LEFT_MOTOR = 20; 
+        int RIGHT_MOTOR = 21;
     }
 }
