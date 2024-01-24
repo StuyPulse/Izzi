@@ -5,9 +5,6 @@
 
 package com.stuypulse.robot.constants;
 
-import com.stuypulse.stuylib.network.SmartBoolean;
-import com.stuypulse.stuylib.network.SmartNumber;
-
 /*-
  * File containing tunable settings for every subsystem on the robot.
  *
@@ -20,7 +17,10 @@ public interface Settings {
         double MAX_HEIGHT = 0.0;
 
         public interface Encoder {
-            double ENCODER_MULTIPLIER = 0.0;
+            double GEAR_RATIO = 0.0;
+
+            double POSITION_CONVERSION = 0.0;
+            double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
         }
     }
 }

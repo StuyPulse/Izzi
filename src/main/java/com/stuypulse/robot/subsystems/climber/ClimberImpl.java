@@ -3,16 +3,14 @@ package com.stuypulse.robot.subsystems.climber;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
+
 import com.stuypulse.robot.constants.Motors;
+import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.constants.Settings;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-// import static com.stuypulse.robot.constants.Settings.Climber.Encoder.*;
-// import static com.stuypulse.robot.constants.Settings.Climber.*;
-// import static com.stuypulse.robot.constants.Ports.Climber.*;
-
 
 public class ClimberImpl extends Climber {
     private final CANSparkMax rightMotor;
@@ -27,19 +25,22 @@ public class ClimberImpl extends Climber {
     private final DigitalInput bottomLeftLimit;
 
     protected ClimberImpl() {
-        rightMotor = new CANSparkMax(RIGHT_MOTOR, MotorType.kBrushless);
-        leftMotor = new CANSparkMax(LEFT_MOTOR, MotorType.kBrushless);
+        rightMotor = new CANSparkMax(Ports.Climber.RIGHT_MOTOR, MotorType.kBrushless);
+        leftMotor = new CANSparkMax(Ports.Climber.LEFT_MOTOR, MotorType.kBrushless);
 
         rightEncoder = rightMotor.getEncoder();
         leftEncoder = leftMotor.getEncoder();
 
-        rightEncoder.setPositionConversionFactor(ENCODER_MULTIPLIER);
-        leftEncoder.setPositionConversionFactor(ENCODER_MULTIPLIER);
+        rightEncoder.setPositionConversionFactor(Settings.Climber.Encoder.POSITION_CONVERSION);
+        leftEncoder.setPositionConversionFactor(Settings.Climber.Encoder.POSITION_CONVERSION);
 
-        topRightLimit = new DigitalInput(TOP_RIGHT_LIMIT);
-        topLeftLimit = new DigitalInput(TOP_LEFT_LIMIT);
-        bottomRightLimit = new DigitalInput(BOTTOM_RIGHT_LIMIT);
-        bottomLeftLimit = new DigitalInput(BOTTOM_LEFT_LIMIT);
+        rightEncoder.setVelocityConversionFactor(Settings.Climber.Encoder.VELOCITY_CONVERSION);
+        leftEncoder.setVelocityConversionFactor(Settings.Climber.Encoder.VELOCITY_CONVERSION);
+
+        topRightLimit = new DigitalInput(Ports.Climber.TOP_RIGHT_LIMIT);
+        topLeftLimit = new DigitalInput(Ports.Climber.TOP_LEFT_LIMIT);
+        bottomRightLimit = new DigitalInput(Ports.Climber.BOTTOM_RIGHT_LIMIT);
+        bottomLeftLimit = new DigitalInput(Ports.Climber.BOTTOM_LEFT_LIMIT);
 
         Motors.Climber.LEFT_MOTOR.configure(leftMotor);
         Motors.Climber.RIGHT_MOTOR.configure(rightMotor);
@@ -87,8 +88,8 @@ public class ClimberImpl extends Climber {
         SmartDashboard.putNumber("Climber/Velocity", getVelocity());
 
         if (atBottom()) {
-            leftEncoder.setPosition(MIN_HEIGHT);
-            rightEncoder.setPosition(MIN_HEIGHT);
+            leftEncoder.setPosition(Settings.Climber.MIN_HEIGHT);
+            rightEncoder.setPosition(Settings.Climber.MIN_HEIGHT);
         }
 	}
 }
