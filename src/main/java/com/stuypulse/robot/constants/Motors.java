@@ -10,7 +10,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkMax;
-import static com.revrobotics.CANSparkMax.IdleMode;
 
 /*-
  * File containing all of the configurations that different motors require.
@@ -24,8 +23,8 @@ import static com.revrobotics.CANSparkMax.IdleMode;
 public interface Motors {
     
     public interface Amper {
-        CANSparkMaxConfig LIFT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kCoast, 40, 0.1);
-        CANSparkMaxConfig SCORE_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 40, 0.1);
+        CANSparkMaxConfig LIFT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kCoast, 80, 0.1);
+        CANSparkMaxConfig SCORE_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
     }
 
     /** Classes to store all of the values a motor needs */

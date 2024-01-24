@@ -1,7 +1,8 @@
-package com.stuypulse.robot.subsystems.amp;
+package com.stuypulse.robot.subsystems.amper;
 
-import static com.stuypulse.robot.constants.Settings.Amp.Lift.*;
+import static com.stuypulse.robot.constants.Settings.Amper.Lift.*;
 
+import com.stuypulse.robot.constants.Settings;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -61,8 +62,21 @@ public class AmperSim extends Amper {
     }
 
     @Override
+    public double getLiftHeight() {
+        return sim.getPositionMeters();
+    }
+
+    @Override 
+    public void setLiftVoltageImpl() {
+        
+    }
+
+	@Override
+	public void stopRoller() {}
+
+    @Override
     public void simulationPeriodic() {
-        sim.update(DT);
+        sim.update(Settings.DT);
 
         liftHeight = sim.getPositionMeters();
         liftVelocity = sim.getVelocityMetersPerSecond();
@@ -70,6 +84,8 @@ public class AmperSim extends Amper {
         SmartDashboard.putNumber("AmperSim/Height", liftHeight);
         SmartDashboard.putNumber("AmperSim/Velocity", liftVelocity);
     }
+
+
     
 }
 

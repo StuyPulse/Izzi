@@ -1,8 +1,10 @@
-package com.stuypulse.robot.subsystems.amp;
+package com.stuypulse.robot.subsystems.amper;
 
-import com.stuypulse.robot.constants.Settings.Amp.LiftPID;
+import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.feedback.PIDController;
+import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.network.SmartNumber;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -35,24 +37,32 @@ public abstract class Amper extends SubsystemBase {
     public final Controller liftController;
 
     public Amper() {
-        liftController = new PIDController(LiftPID.kP, LiftPID.kI, LiftPID.kD);
+        liftController = new PIDController(Lift.kP, Lift.kI, Lift.kD);
         targetHeight = new SmartNumber("Amp/Target Height", 0); // TODO: determine the default value
     }
 
     public void setTargetHeight(double height) {
-        targetHeight.set(height);
+        targetHeight.set(SLMath.clamp(height, Settings.Amper.Lift.MIN_HEIGHT, Settings.Amper.Lift.MAX_HEIGHT));
     }
-
+    
     public abstract boolean hasNote();
 
-    public abstract void intake();
     public abstract void score();
+    public abstract void intake();
     
     public abstract boolean liftAtBottom();
     public abstract boolean liftAtTop();
+    public abstract double getLiftHeight();
 
     public abstract boolean touchingAmp();
 
     public abstract void stopLift();
+    public abstract void stopRoller();
+    public abstract void setLiftVoltageImpl();
+
+    @Override
+    public void periodic() {
+        setLiftVoltageImpl();
+    }
 
 }
