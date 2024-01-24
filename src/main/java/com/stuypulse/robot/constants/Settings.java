@@ -21,6 +21,6 @@ public interface Settings {
             SmartNumber STALL_CURRENT = new SmartNumber("Intake/Stall Current", 40);
         }
         SmartNumber ACQUIRE_SPEED = new SmartNumber("Intake/Acquire", 1);
-        SmartNumber DEACQUIRE_SPEED = new SmartNumber("Intake/Deacquire", 1);
+        SmartNumber DEACQUIRE_SPEED = new SmartNumber("Intake/Deacquire", -1);
     }
 }

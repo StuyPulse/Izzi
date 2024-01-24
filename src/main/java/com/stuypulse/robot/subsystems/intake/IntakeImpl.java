@@ -37,7 +37,7 @@ public class IntakeImpl extends Intake {
 
     @Override 
     public void deacquire() {
-        motor.set(-Settings.Intake.DEACQUIRE_SPEED.getAsDouble());
+        motor.set(Settings.Intake.DEACQUIRE_SPEED.getAsDouble());
     }
 
     @Override
