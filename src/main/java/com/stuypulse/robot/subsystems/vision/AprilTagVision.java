@@ -25,7 +25,7 @@ public class AprilTagVision extends SubsystemBase {
     private final AprilTagCamera[] cameras;
     private final ArrayList<VisionData> outputs;
 
-    public AprilTagVision() {
+    protected AprilTagVision() {
         this.cameras = new AprilTagCamera[Cameras.APRILTAG_CAMERAS.length];
         for (int i = 0; i < Cameras.APRILTAG_CAMERAS.length; i++) {
             cameras[i] = new AprilTagCamera(Cameras.APRILTAG_CAMERAS[i]);
@@ -34,14 +34,26 @@ public class AprilTagVision extends SubsystemBase {
         outputs = new ArrayList<VisionData>();
     }
 
+    /**
+     * Returns the outputs of the vision system.
+     * @return the outputs of the vision system
+     */
     public ArrayList<VisionData> getOutputs() {
         return outputs;
     }
 
+    /**
+     * Returns the cameras of the vision system.
+     * @return the cameras of the vision system
+     */
     public AprilTagCamera[] getCameras() {
         return cameras;
     }
 
+    /**
+     * Sets the fiducial layout of the vision system.
+     * @param fids the fiducial IDs
+     */
     public void setFiducialLayout(int... fids) {
         for (AprilTagCamera camera : cameras)
             camera.setFiducialLayout(fids);

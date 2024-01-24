@@ -53,6 +53,10 @@ public class NoteVision extends SubsystemBase {
         notePose = new Translation2d();
     }
 
+    /**
+     * Returns whether the Limelight has data.
+     * @return whether the Limelight has data
+     */
     public boolean hasNoteData() {
         for (Limelight limelight : limelights) {
             if (limelight.hasNoteData())
@@ -62,10 +66,17 @@ public class NoteVision extends SubsystemBase {
         return false;
     }
 
+    /**
+     * Returns the estimated pose of the note.
+     * @return the estimated pose of the note
+     */
     public Translation2d getEstimatedNotePose() {
         return notePose;
     }
 
+    /**
+     * Calculates the estimated pose of the note.
+     */
     public void updateNotePose() {
         Translation2d sum = new Translation2d();
 
