@@ -52,11 +52,6 @@ public class SwerveDriveDrive extends Command {
 
     @Override
     public void execute() {
-        if(driver.getRawStartButton() || driver.getRawSelectButton()) {
-            swerve.stop(); 
-        }
-        else {
-            swerve.drive(speed.get(), turn.get());
-        }
+        swerve.drive(speed.get(), turn.get());
     }
 }
