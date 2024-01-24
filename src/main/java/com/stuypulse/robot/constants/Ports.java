@@ -17,9 +17,9 @@ public interface Ports {
         int LEFT_MOTOR = 60;
         int RIGHT_MOTOR = 61; // placeholders for now
 
-        int TOP_RIGHT_LIMIT = 0;
-        int TOP_LEFT_LIMIT = 0;
-        int BOTTOM_RIGHT_LIMIT = 0;
-        int BOTTOM_LEFT_LIMIT = 0;        
+        int TOP_RIGHT_LIMIT = 8;
+        int TOP_LEFT_LIMIT = 7;
+        int BOTTOM_RIGHT_LIMIT = 6;
+        int BOTTOM_LEFT_LIMIT = 5;        
     }
 }
