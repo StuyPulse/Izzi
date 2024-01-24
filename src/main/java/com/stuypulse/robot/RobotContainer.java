@@ -9,7 +9,7 @@ import com.stuypulse.robot.commands.auton.DoNothingAuton;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.AbstractSwerveDrive;
-import com.stuypulse.robot.subsystems.vision.Vision;
+import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 
@@ -21,7 +21,7 @@ public class RobotContainer {
 
     AbstractSwerveDrive swerve = AbstractSwerveDrive.getInstance();
     Odometry odometry = Odometry.getInstance();
-    Vision vision = Vision.getInstance();
+    AprilTagVision vision = AprilTagVision.getInstance();
 
     // Gamepads
     public final Gamepad driver = new AutoGamepad(Ports.Gamepad.DRIVER);

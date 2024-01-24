@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.stuypulse.robot.subsystems.swerve.AbstractSwerveDrive;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
-import com.stuypulse.robot.subsystems.vision.Vision;
+import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.robot.util.VisionData;
 import com.stuypulse.stuylib.network.SmartBoolean;
 
@@ -78,7 +78,7 @@ public class Odometry extends SubsystemBase {
 
     @Override
     public void periodic() {
-        ArrayList<VisionData> outputs = Vision.getInstance().getOutputs();
+        ArrayList<VisionData> outputs = AprilTagVision.getInstance().getOutputs();
         
         if (VISION_ACTIVE.get()) {
             for (VisionData data : outputs) {
