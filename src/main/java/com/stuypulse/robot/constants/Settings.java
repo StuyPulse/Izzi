@@ -5,7 +5,6 @@
 
 package com.stuypulse.robot.constants;
 
-import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 
 /*-
@@ -34,7 +33,14 @@ public interface Settings {
             SmartNumber kI = new SmartNumber("Shooter/PID kI", 0);
             SmartNumber kD = new SmartNumber("Shooter/PID kD", 0);
         }
-    
-        
     }
+
+    public interface Conveyor {
+        SmartNumber GANDALF_SHOOTER_SPEED = new SmartNumber("Conveyor/Gandalf Shooter Speed", 1);
+        SmartNumber GANDALF_AMP_SPEED = new SmartNumber("Conveyor/Gandalf Amp Speed", -1);
+        SmartNumber SHOOTER_FEEDER_SPEED = new SmartNumber("Conveyor/Shooter Feeder Speed", 1);
+        
+        SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.2);
+    }
+
 }

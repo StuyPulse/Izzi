@@ -28,6 +28,13 @@ public interface Motors {
         CANSparkMaxConfig LEFT_SHOOTER = new CANSparkMaxConfig(false,IdleMode.kCoast);
         CANSparkMaxConfig RIGHT_SHOOTER = new CANSparkMaxConfig(false,IdleMode.kCoast);      
     }
+  
+    public interface Conveyor{ 
+        
+        CANSparkMaxConfig GANDALF_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake);
+        CANSparkMaxConfig SHOOTER_FEEDER_MOTOR = new CANSparkMaxConfig(false, IdleMode.kCoast);
+    }
+
     public static class TalonSRXConfig {
         public final boolean INVERTED;
         public final NeutralMode NEUTRAL_MODE;
