@@ -137,14 +137,6 @@ public interface Settings {
             SmartNumber POWER = new SmartNumber("Driver Settings/Turn/Power", 2);
 
             SmartNumber MAX_TELEOP_TURNING = new SmartNumber("Driver Settings/Turn/Max Turning", 6.0);
-
-            public interface GyroFeedback {
-                SmartBoolean GYRO_FEEDBACK_ENABLED = new SmartBoolean("Driver Settings/Gyro Feedback/Enabled", true);
-
-                SmartNumber P = new SmartNumber("Driver Settings/Gyro Feedback/kP", 0.5);
-                SmartNumber I = new SmartNumber("Driver Settings/Gyro Feedback/kI", 0.0);
-                SmartNumber D = new SmartNumber("Driver Settings/Gyro Feedback/kD", 0.1);
-            }
         }
     }
 
