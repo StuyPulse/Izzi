@@ -4,7 +4,6 @@ import static com.stuypulse.robot.constants.Cameras.Limelight.*;
 
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings.NoteDetection;
-import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 import com.stuypulse.stuylib.streams.numbers.IStream;

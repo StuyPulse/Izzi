@@ -15,23 +15,23 @@ public interface Ports {
 
     public interface Swerve {
         public interface FrontRight {
-            int DRIVE = 0;
-            int TURN = 0;
+            int DRIVE = 10;
+            int TURN = 11;
         }
 
         public interface FrontLeft {
-            int DRIVE = 0;
-            int TURN = 0;
+            int DRIVE = 12;
+            int TURN = 13;
         }
 
         public interface BackLeft{
-            int DRIVE = 0;
-            int TURN = 0;
+            int DRIVE = 14;
+            int TURN = 15;
         }
 
         public interface BackRight {
-            int DRIVE = 0;
-            int TURN = 0;
+            int DRIVE = 16;
+            int TURN = 17;
         }
     }
 }
