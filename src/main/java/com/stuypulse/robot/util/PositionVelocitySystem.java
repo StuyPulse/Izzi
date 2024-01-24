@@ -34,6 +34,7 @@ public class PositionVelocitySystem {
         if (kV.get() <= 0.0) {
             throw new IllegalArgumentException("kV must greater than zero");
         }
+
         if (kA.get() <= 0.0) {
             throw new IllegalArgumentException("kA must be greater than zero");
         }
@@ -63,7 +64,7 @@ public class PositionVelocitySystem {
      * Gets the simulation of the system.
      * @return A LinearSystemSim representing the simulation of the system.
      */
-    public LinearSystemSim<N2, N1, N2> getSim() {
+    public LinearSystemSim <N2, N1, N2> getSim() {
         return this.sim;
     }
 }

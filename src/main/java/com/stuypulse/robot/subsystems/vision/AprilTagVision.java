@@ -27,6 +27,7 @@ public class AprilTagVision extends SubsystemBase {
 
     public AprilTagVision() {
         this.cameras = new AprilTagCamera[Cameras.APRILTAG_CAMERAS.length];
+
         for (int i = 0; i < Cameras.APRILTAG_CAMERAS.length; i++) {
             cameras[i] = new AprilTagCamera(Cameras.APRILTAG_CAMERAS[i]);
         }
@@ -43,8 +44,9 @@ public class AprilTagVision extends SubsystemBase {
     }
 
     public void setFiducialLayout(int... fids) {
-        for (AprilTagCamera camera : cameras)
+        for (AprilTagCamera camera : cameras) {
             camera.setFiducialLayout(fids);
+        }
     }
 
     @Override

@@ -44,8 +44,9 @@ public class NoteVision extends SubsystemBase {
             limelights[i] = new Limelight(hostNames[i], POSITIONS[i]);
             limelightPoses[i] = field.getObject(hostNames[i] + " pose");
 
-            for (int port : PORTS)
+            for (int port : PORTS) {
                 PortForwarder.add(port + i * 10, hostNames[i] + ".local", port);
+            }
         }
 
         note = Odometry.getInstance().getField().getObject("Note");
@@ -55,10 +56,10 @@ public class NoteVision extends SubsystemBase {
 
     public boolean hasNoteData() {
         for (Limelight limelight : limelights) {
-            if (limelight.hasNoteData())
+            if (limelight.hasNoteData()) {
                 return true;
+            }
         }
-
         return false;
     }
 

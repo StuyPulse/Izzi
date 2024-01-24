@@ -17,7 +17,6 @@ import edu.wpi.first.networktables.IntegerEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
-
 public class Limelight {
     
     private final DoubleEntry txEntry;
@@ -37,7 +36,11 @@ public class Limelight {
 
         this.robotRelativePose = robotRelativePose;
 
-        for(int i = 0; i < LIMELIGHTS.length; i++) if(LIMELIGHTS[i].equals(tableName)) llID = i;
+        for(int i = 0; i < LIMELIGHTS.length; i++) {
+            if(LIMELIGHTS[i].equals(tableName)) {
+                llID = i;
+            }
+        }
 
         NetworkTable limelight = NetworkTableInstance.getDefault().getTable(tableName);
 
@@ -76,7 +79,7 @@ public class Limelight {
 
     // limelight targets far end of note, so have to subtract half of note length
     public double getDistanceToNote() {
-        Rotation2d yRotation =  Rotation2d.fromDegrees(getYAngle());
+        Rotation2d yRotation = Rotation2d.fromDegrees(getYAngle());
         return POSITIONS[llID].getZ() / -yRotation.getTan() + POSITIONS[llID].getX() - Field.NOTE_LENGTH / 2.0;
     }
 }

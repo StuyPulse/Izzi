@@ -3,7 +3,7 @@ package com.stuypulse.robot.subsystems.odometry;
 import java.util.ArrayList;
 
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
-import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
+
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.robot.util.VisionData;
 import com.stuypulse.stuylib.network.SmartBoolean;
@@ -11,7 +11,6 @@ import com.stuypulse.stuylib.network.SmartBoolean;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -63,7 +62,7 @@ public class Odometry extends SubsystemBase {
     }
     
     public void updateWithVisionData(VisionData data) {
-            estimator.addVisionMeasurement(data.getPose().toPose2d(), data.getTimestamp());
+        estimator.addVisionMeasurement(data.getPose().toPose2d(), data.getTimestamp());
     }
 
     public Pose2d getPose() {

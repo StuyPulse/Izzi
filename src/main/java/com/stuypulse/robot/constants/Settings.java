@@ -5,6 +5,7 @@
 
 package com.stuypulse.robot.constants;
 
+import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 
@@ -145,6 +146,9 @@ public interface Settings {
                 SmartNumber D = new SmartNumber("Driver Settings/Gyro Feedback/kD", 0.1);
             }
         }
+    }
 
+    public static Vector2D vpow(Vector2D vec, double power) {
+        return vec.mul(Math.pow(vec.magnitude(), power - 1));
     }
 }

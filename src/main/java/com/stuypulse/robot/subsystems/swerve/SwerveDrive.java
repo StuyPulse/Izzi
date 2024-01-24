@@ -196,7 +196,7 @@ public class SwerveDrive extends SubsystemBase {
         ));
     }
 
-    public void stop(double Rotation2D) {
+    public void stop() {
         setChassisSpeed(new ChassisSpeeds());
     } 
 

@@ -39,7 +39,6 @@ public class VisionData {
     }
     
     public int getPrimaryID() {
-        if (fids.length == 0) return -1;
-        return fids[0];
+        return fids.length == 0 ? -1 : fids[0];
     }
 }

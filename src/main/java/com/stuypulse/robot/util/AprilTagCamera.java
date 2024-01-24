@@ -98,17 +98,22 @@ public class AprilTagCamera {
     private Pose3d getDataAsPose3d() {
         return new Pose3d(
             new Translation3d(rawPose[0], rawPose[1], rawPose[2]), 
-            new Rotation3d(rawPose[3], rawPose[4], rawPose[5]));
+            new Rotation3d(rawPose[3], rawPose[4], rawPose[5])
+        );
     }
 
     private Pose3d getRobotPose() {
-        return getDataAsPose3d().transformBy(
-            new Transform3d(cameraLocation.getTranslation(), cameraLocation.getRotation()).inverse());
+        return getDataAsPose3d()
+            .transformBy(new Transform3d(cameraLocation.getTranslation(), cameraLocation.getRotation())
+            .inverse()
+        );
     }
 
     private int[] getFIDs() {
         int[] fids = new int[rawfids.length];
-        for (int i = 0; i < rawfids.length; i++) fids[i] = (int) rawfids[i];
+        for (int i = 0; i < rawfids.length; i++) {
+            fids[i] = (int) rawfids[i];
+        }
         return fids;
     }
 
@@ -118,7 +123,10 @@ public class AprilTagCamera {
         double fpgaTime = latencySub.getLastChange() / 1_000_000.0;
         double timestamp = fpgaTime - Units.millisecondsToSeconds(rawLatency);
 
-        if (rawCounter - lastCounter != 1) return Optional.empty();
+        if (rawCounter - lastCounter != 1) {
+            return Optional.empty();
+        }
+        
         lastCounter = rawCounter;
         return Optional.of(new VisionData(getRobotPose(), getFIDs(), cameraLocation, timestamp));
     }
