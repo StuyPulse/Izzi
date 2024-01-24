@@ -80,8 +80,8 @@ public class ClimberImpl extends Climber {
         return !bottomRightLimit.get() || !bottomLeftLimit.get();
     }
 
-	@Override
-	public void periodicallyCalled() {
+    @Override
+    public void periodicallyCalled() {
         SmartDashboard.putNumber("Climber/Target Height", getTargetHeight());
         SmartDashboard.putNumber("Climber/Height", getHeight());
         
@@ -91,5 +91,5 @@ public class ClimberImpl extends Climber {
             leftEncoder.setPosition(Settings.Climber.MIN_HEIGHT);
             rightEncoder.setPosition(Settings.Climber.MIN_HEIGHT);
         }
-	}
+    }
 }
