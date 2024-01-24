@@ -27,7 +27,7 @@ public abstract class Amper extends SubsystemBase {
         instance = new AmperImpl();
     }
 
-    public Amper getInstance() {
+    public static Amper getInstance() {
         return instance;
     }
 
