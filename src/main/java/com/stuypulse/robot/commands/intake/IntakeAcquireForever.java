@@ -4,11 +4,11 @@ import com.stuypulse.robot.subsystems.intake.Intake;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class IntakeAcquireButDontStore extends InstantCommand {
+public class IntakeAcquireForever extends InstantCommand {
     
     private Intake intake;
 
-    public IntakeAcquireButDontStore() {
+    public IntakeAcquireForever() {
         intake = Intake.getInstance();
         addRequirements(intake);
     }

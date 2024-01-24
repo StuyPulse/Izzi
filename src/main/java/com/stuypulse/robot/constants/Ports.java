@@ -14,7 +14,7 @@ public interface Ports {
     }
 
     public interface Intake {
-        int MOTOR = 0; // Find this later
-        int SENSOR = 0;
+        int MOTOR = 40;
+        int SENSOR = 1;
     }
 }
