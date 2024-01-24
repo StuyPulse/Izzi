@@ -22,9 +22,9 @@ public interface Settings {
 
     public interface Conveyor {
 
-        SmartNumber GANDALF_SHOOTER_SPEED = new SmartNumber("Conveyor/Gandalf Shooter Speed", 0.9);
-        SmartNumber GANDALF_AMP_SPEED = new SmartNumber("Conveyor/Gandalf Amp Speed", 0);
-        SmartNumber SHOOTER_FEEDER_SPEED = new SmartNumber("Conveyor/Shooter Feeder Speed", -0.9);
+        SmartNumber GANDALF_SHOOTER_SPEED = new SmartNumber("Conveyor/Gandalf Shooter Speed", 1);
+        SmartNumber GANDALF_AMP_SPEED = new SmartNumber("Conveyor/Gandalf Amp Speed", -1);
+        SmartNumber SHOOTER_FEEDER_SPEED = new SmartNumber("Conveyor/Shooter Feeder Speed", 1);
         
         SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.2);
     }

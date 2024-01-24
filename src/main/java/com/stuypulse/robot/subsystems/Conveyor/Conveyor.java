@@ -1,4 +1,4 @@
-package com.stuypulse.robot.subsystems.Conveyor;
+package com.stuypulse.robot.subsystems.conveyor;
 
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -19,11 +19,7 @@ public abstract class Conveyor extends SubsystemBase {
     private static final Conveyor instance;
 
     static{
-        if(RobotBase.isReal()){
-            instance = new ConveyorImpl();
-        } else{
-            instance = null;
-        }
+        instance = new ConveyorImpl();
     }
 
     public static Conveyor getInstance(){
@@ -35,5 +31,8 @@ public abstract class Conveyor extends SubsystemBase {
         
     
     public abstract void toAmp();
+
+    public abstract boolean isLoaded();
+    public abstract void stop();
 }
     

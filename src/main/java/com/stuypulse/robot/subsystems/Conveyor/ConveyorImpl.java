@@ -1,61 +1,62 @@
-package com.stuypulse.robot.subsystems.Conveyor;
+package com.stuypulse.robot.subsystems.conveyor;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.stuypulse.robot.constants.Motors;
+import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 
-import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.DigitalInput;
 
-import static com.stuypulse.robot.constants.Ports.Conveyor.*;
-import static com.stuypulse.robot.constants.Settings.Conveyor.*;
-import static com.stuypulse.robot.constants.Motors.Conveyor.*;
 
 
 public class ConveyorImpl extends Conveyor {
     
     private final CANSparkMax gandalfMotor;
     private final CANSparkMax shooterFeederMotor;
-    private final DigitalInput IRSensor;
+    private final DigitalInput irSensor;
 
     private BStream isAtShooter;
 
-    protected ConveyorImpl(){
-        gandalfMotor = new CANSparkMax(CONVEYOR_MOTOR_PORT, MotorType.kBrushless);
-        shooterFeederMotor = new CANSparkMax(SHOOTER_FEEDER_MOTOR_PORT, MotorType.kBrushless);
+    protected ConveyorImpl() {
+        gandalfMotor = new CANSparkMax(Ports.Conveyor.GANDALF_MOTOR_PORT, MotorType.kBrushless);
+        shooterFeederMotor = new CANSparkMax(Ports.Conveyor.SHOOTER_FEEDER_MOTOR_PORT, MotorType.kBrushless);
 
-        IRSensor = new DigitalInput(IR_SENSOR_PORT);
+        irSensor = new DigitalInput(Ports.Conveyor.IR_SENSOR_PORT);
 
-        GANDALF_MOTOR.configure(gandalfMotor);
-        SHOOTER_FEEDER_MOTOR.configure(shooterFeederMotor);
+        Motors.Conveyor.GANDALF_MOTOR.configure(gandalfMotor);
+        Motors.Conveyor.SHOOTER_FEEDER_MOTOR.configure(shooterFeederMotor);
 
         isAtShooter = 
-            BStream.create(this::isLoaded)
-                .filtered(new BDebounceRC.Rising(DEBOUNCE_TIME));
+            BStream.create(() -> !irSensor.get())
+                .filtered(new BDebounceRC.Both(Settings.Conveyor.DEBOUNCE_TIME));
+
+        
     }
 
-
+    @Override
     public boolean isLoaded() {
-        return !IRSensor.get();
+        return isAtShooter.get();
     }
 
     @Override
     public void toShooter() {
-        gandalfMotor.set(GANDALF_SHOOTER_SPEED.get());
-        shooterFeederMotor.set(SHOOTER_FEEDER_SPEED.get());
+        gandalfMotor.set(Settings.Conveyor.GANDALF_SHOOTER_SPEED.get());
+        shooterFeederMotor.set(Settings.Conveyor.SHOOTER_FEEDER_SPEED.get());
     }
 
     @Override
     public void toAmp() {
-        gandalfMotor.set(GANDALF_AMP_SPEED.get());
+        gandalfMotor.set(Settings.Conveyor.GANDALF_AMP_SPEED.get());
 
     }
 
-    @Override
-    public void periodic() {
-        
-
+    public void stop() {
+        gandalfMotor.set(0);
+        shooterFeederMotor.set(0);
     }
+
 
 }
