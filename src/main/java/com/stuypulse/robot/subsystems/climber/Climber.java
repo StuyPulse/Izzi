@@ -6,9 +6,11 @@ import com.revrobotics.RelativeEncoder;
 import com.stuypulse.robot.constants.Motors;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static com.stuypulse.robot.constants.Settings.Climber.Encoder.*;
+import static com.stuypulse.robot.constants.Settings.Climber.*;
 import static com.stuypulse.robot.constants.Ports.Climber.*;
 
 public class Climber extends AbstractClimber {
@@ -54,6 +56,20 @@ public class Climber extends AbstractClimber {
 
     @Override
     public void setVoltage(double voltage) {
+        if (atTop() && voltage > 0) {
+            DriverStation.reportWarning("Top Limit Reached", false);
+            voltage = 0.0;
+
+            leftEncoder.setPosition(MAX_HEIGHT);
+            rightEncoder.setPosition(MAX_HEIGHT);
+        } else if (atBottom() && voltage > 0) {
+            DriverStation.reportWarning("Bottom Limit Reached", false);
+            voltage = 0.0;
+
+            leftEncoder.setPosition(MIN_HEIGHT);
+            rightEncoder.setPosition(MIN_HEIGHT);
+        }
+
         rightMotor.setVoltage(voltage);
         leftMotor.setVoltage(voltage);
     }
@@ -70,6 +86,8 @@ public class Climber extends AbstractClimber {
 
 	@Override
 	public void periodic() {
+        setVoltage(controller.calculate(getTargetHeight(), getHeight()));
+
         SmartDashboard.putNumber("Climber/Target Height", getTargetHeight());
         SmartDashboard.putNumber("Climber/Height", getHeight());
 

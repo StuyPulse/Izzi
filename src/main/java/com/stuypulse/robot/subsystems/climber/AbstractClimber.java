@@ -15,12 +15,14 @@ package com.stuypulse.robot.subsystems.climber;
 
 import com.stuypulse.stuylib.network.SmartNumber;
 
+import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class AbstractClimber extends SubsystemBase {
     public static final AbstractClimber instance;
     
-    private SmartNumber targetHeight;
+    public final SmartNumber targetHeight;
+    public final BangBangController controller;
 
     static {
         instance = new Climber();
@@ -28,6 +30,11 @@ public abstract class AbstractClimber extends SubsystemBase {
 
     public static AbstractClimber getInstance() {
         return instance;
+    }
+
+    public AbstractClimber() {
+        targetHeight = new SmartNumber("Climber/Target Height", getTargetHeight());
+        controller = new BangBangController();
     }
 
     public void setTargetHeight(double height) {
