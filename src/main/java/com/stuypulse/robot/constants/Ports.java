@@ -15,7 +15,7 @@ public interface Ports {
 
     public interface Climber {
         int LEFT_MOTOR = 60;
-        int RIGHT_MOTOR = 61; // placeholders for now
+        int RIGHT_MOTOR = 61;
 
         int TOP_RIGHT_LIMIT = 8;
         int TOP_LEFT_LIMIT = 7;
