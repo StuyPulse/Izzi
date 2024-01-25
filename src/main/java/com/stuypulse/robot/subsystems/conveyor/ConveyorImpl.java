@@ -6,7 +6,7 @@ import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.stuylib.streams.booleans.BStream;
-import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
+import com.stuypulse.stuylib.streams.booleans.filters.BDebounce;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,7 +32,7 @@ public class ConveyorImpl extends Conveyor {
 
         isAtShooter = 
             BStream.create(() -> !irSensor.get())
-                .filtered(new BDebounceRC.Both(Settings.Conveyor.DEBOUNCE_TIME));
+                .filtered(new BDebounce.Both(Settings.Conveyor.DEBOUNCE_TIME));
 
         
     }
