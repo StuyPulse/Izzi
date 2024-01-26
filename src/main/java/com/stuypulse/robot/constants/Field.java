@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 import com.stuypulse.robot.util.Fiducial;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 
 /**
  * This interface stores information about the field elements.
@@ -83,5 +85,15 @@ public interface Field {
             }
         }
         return null;
+    }
+
+    Pose2d SPEAKER_POSES[] = {
+        getFiducial(7).getLocation().toPose2d(), // BLUE CENTER
+        getFiducial(4).getLocation().toPose2d(), // RED CENTER
+    };
+
+    public static Pose2d getAllianceSpeakerPose() {
+        boolean isBlue = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue;
+        return SPEAKER_POSES[isBlue ? 0 : 1];
     }
 }
