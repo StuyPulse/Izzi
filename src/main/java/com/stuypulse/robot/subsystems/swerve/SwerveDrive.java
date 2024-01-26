@@ -12,7 +12,6 @@ import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.modules.SimModule;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModule;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleImpl;
-import com.stuypulse.robot.subsystems.swerve.modules.AbstractSwerveModule;
 import com.stuypulse.stuylib.math.Vector2D;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -82,10 +81,10 @@ public class SwerveDrive extends SubsystemBase {
         }     
         else {
             instance = new SwerveDrive(  
-                new SwerveModuleImpl(FrontRight.ID, FrontRight.MODULE_OFFSET, Ports.Swerve.FrontRight.TURN, FrontRight.ABSOLUTE_OFFSET, Ports.Swerve.FrontRight.DRIVE),
-                new SwerveModuleImpl(FrontLeft.ID, FrontLeft.MODULE_OFFSET, Ports.Swerve.FrontLeft.TURN, FrontLeft.ABSOLUTE_OFFSET, Ports.Swerve.FrontLeft.DRIVE),
-                new SwerveModuleImpl(BackLeft.ID, BackLeft.MODULE_OFFSET, Ports.Swerve.BackLeft.TURN, BackLeft.ABSOLUTE_OFFSET, Ports.Swerve.BackLeft.DRIVE),
-                new SwerveModuleImpl(BackRight.ID, BackRight.MODULE_OFFSET, Ports.Swerve.BackRight.TURN, BackRight.ABSOLUTE_OFFSET, Ports.Swerve.BackRight.DRIVE)
+                new SwerveModuleImpl(FrontRight.ID, FrontRight.MODULE_OFFSET, Ports.Swerve.FrontRight.TURN, FrontRight.ABSOLUTE_OFFSET, Ports.Swerve.FrontRight.DRIVE, Ports.Swerve.FrontRight.ENCODER),
+                new SwerveModuleImpl(FrontLeft.ID, FrontLeft.MODULE_OFFSET, Ports.Swerve.FrontLeft.TURN, FrontLeft.ABSOLUTE_OFFSET, Ports.Swerve.FrontLeft.DRIVE, Ports.Swerve.FrontLeft.ENCODER),
+                new SwerveModuleImpl(BackLeft.ID, BackLeft.MODULE_OFFSET, Ports.Swerve.BackLeft.TURN, BackLeft.ABSOLUTE_OFFSET, Ports.Swerve.BackLeft.DRIVE, Ports.Swerve.FrontLeft.ENCODER),
+                new SwerveModuleImpl(BackRight.ID, BackRight.MODULE_OFFSET, Ports.Swerve.BackRight.TURN, BackRight.ABSOLUTE_OFFSET, Ports.Swerve.BackRight.DRIVE, Ports.Swerve.FrontLeft.ENCODER)
             );
         }
     }
@@ -117,7 +116,7 @@ public class SwerveDrive extends SubsystemBase {
         }
     }
 
-    /*Getters */
+    /** Getters **/
     public SwerveDriveKinematics getKinematics() {
         return kinematics;
     }
@@ -150,7 +149,7 @@ public class SwerveDrive extends SubsystemBase {
         return getKinematics().toChassisSpeeds(getModuleStates());
     }
     
-    /*Setters */
+    /** Setters **/
     private static SwerveModuleState filterModuleState(SwerveModuleState state) {
         if (Math.abs(state.speedMetersPerSecond) > Swerve.MODULE_VELOCITY_DEADBAND.get())
             return state;
@@ -174,7 +173,7 @@ public class SwerveDrive extends SubsystemBase {
         setModuleStates(kinematics.toSwerveModuleStates(robotSpeeds));
     }
 
-    /*Drive Functions*/
+    /** Drive Functions **/
     public void drive(Vector2D velocity, double rotation) {
         ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
             velocity.x, -velocity.y,
@@ -201,7 +200,7 @@ public class SwerveDrive extends SubsystemBase {
         setChassisSpeed(new ChassisSpeeds());
     } 
 
-    /*Gyro */
+    /** Gyro **/
     public Rotation2d getGyroAngle() {
         return gyro.getRotation2d();
     }
@@ -218,6 +217,7 @@ public class SwerveDrive extends SubsystemBase {
         return gyro.getWorldLinearAccelY();
     }
     
+    @Override
     public void periodic() {
         Odometry odometry = Odometry.getInstance();
         Pose2d pose = odometry.getPose();

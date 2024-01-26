@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class SwerveModule extends SubsystemBase {
+
     private final String id;
     
     private final Translation2d offset;

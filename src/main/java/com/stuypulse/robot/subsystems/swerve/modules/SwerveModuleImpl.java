@@ -38,6 +38,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 *
 */
 public class SwerveModuleImpl extends SwerveModule {
+
     private final Rotation2d angleOffset;
     
     private final CANSparkMax turnMotor;
@@ -54,7 +55,7 @@ public class SwerveModuleImpl extends SwerveModule {
      * @param angleOffset offset of the angle 
      * @param turnId id of the turn motor
      */
-    public SwerveModuleImpl(String id, Translation2d offset, int driveID, Rotation2d angleOffset, int turnID){
+    public SwerveModuleImpl(String id, Translation2d offset, int driveID, Rotation2d angleOffset, int turnID, int encoderID) {
         super(id, offset);
         
         this.angleOffset = angleOffset;        
@@ -66,7 +67,7 @@ public class SwerveModuleImpl extends SwerveModule {
         driveEncoder.setVelocityConversionFactor(Encoder.Drive.VELOCITY_CONVERSION);
         driveEncoder.setPosition(0);
         
-        turnEncoder = new CANcoder(turnID);
+        turnEncoder = new CANcoder(encoderID);
 
         Motors.Swerve.DRIVE_CONFIG.configure(driveMotor);
         Motors.Swerve.TURN_CONFIG.configure(turnMotor);
