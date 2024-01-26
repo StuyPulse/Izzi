@@ -32,9 +32,7 @@ public class ConveyorImpl extends Conveyor {
 
         isAtShooter = 
             BStream.create(() -> !irSensor.get())
-                .filtered(new BDebounce.Both(Settings.Conveyor.DEBOUNCE_TIME));
-
-        
+                .filtered(new BDebounce.Rising(Settings.Conveyor.DEBOUNCE_TIME));
     }
 
     @Override

@@ -5,6 +5,7 @@
 
 package com.stuypulse.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -36,7 +37,19 @@ public class Robot extends TimedRobot {
     public void disabledInit() {}
 
     @Override
-    public void disabledPeriodic() {}
+    public void disabledPeriodic() {
+        if (robot.intake.hasNote()) {
+            DriverStation.reportWarning("Intake IR sensor reporting note while disabled!", false);
+        }
+
+        if (robot.amper.hasNote()) {
+            DriverStation.reportWarning("Amper IR sensor reporting note while disabled!", false);
+        }
+
+        if (robot.conveyor.isNoteAtShooter()) {
+            DriverStation.reportWarning("Shooter IR sensor reporting note while disabled!", false);
+        }
+    }
 
     /***********************/
     /*** AUTONOMOUS MODE ***/
