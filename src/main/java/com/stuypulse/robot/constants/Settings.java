@@ -20,7 +20,43 @@ import edu.wpi.first.math.util.Units;
  * values that we can edit on Shuffleboard.
  */
 public interface Settings {
+
     double DT = 0.02;
+    
+    public interface Amper {
+        
+        public interface Score {
+            SmartNumber ROLLER_SPEED = new SmartNumber("Amper/Score/Roller Speed", 1.0); // change later
+        }
+        
+        public interface Lift {
+           
+            double CARRIAGE_MASS = 10; // kg
+
+            double MIN_HEIGHT = 0;
+            double MAX_HEIGHT = 1.8475325; // meters 
+
+            double MAX_HEIGHT_ERROR = 0.03;
+
+            SmartNumber VEL_LIMIT = new SmartNumber("Velocity Limit", 3);
+            SmartNumber ACC_LIMIT = new SmartNumber("Acceleration Limit", 2);
+
+            public interface Encoder {
+                double GEARING = 9; // ~9:1
+                double DRUM_RADIUS = 0.025; // meters 
+                double DRUM_CIRCUMFERENCE = DRUM_RADIUS * Math.PI * 2;
+
+                double POSITION_CONVERSION = GEARING * DRUM_CIRCUMFERENCE;
+                double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
+            }
+
+            public interface PID {
+                SmartNumber kP = new SmartNumber("Amper/Lift/kP", 1);
+                SmartNumber kI = new SmartNumber("Amper/Lift/kI", 0);
+                SmartNumber kD = new SmartNumber("Amper/Lift/kD", 0);
+            }
+        }
+    }
 
     public interface Swerve {
         // between wheel centers

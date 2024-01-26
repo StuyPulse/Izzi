@@ -13,6 +13,15 @@ public interface Ports {
         int DEBUGGER = 2;
     }
 
+    public interface Amper {
+        int SCORE = 31;
+        int LIFT = 30;
+
+        int ALIGNED_SWITCH_CHANNEL = 3 ;
+        int MIN_LIFT_CHANNEL = 4 ;
+        int AMP_IR_CHANNEL = 2;
+    }
+  
     public interface Swerve {
         public interface FrontRight {
             int DRIVE = 10;
