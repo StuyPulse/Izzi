@@ -66,6 +66,7 @@ public class ClimberImpl extends Climber {
         return !bottomRightLimit.get() || !bottomLeftLimit.get();
     }
 
+    @Override
     public void setVoltage(double voltage) {
         if (atTop() && voltage > 0) {
             DriverStation.reportWarning("Climber Top Limit Reached", false);
@@ -83,12 +84,12 @@ public class ClimberImpl extends Climber {
     public void periodic() {
         super.periodic();
 
-        if (Math.abs(getHeight() - getTargetHeight()) < Settings.Climber.Encoder.THRESHOLD) {
+        if (Math.abs(getHeight() - getTargetHeight()) < Settings.Climber.AT_HEIGHT_THRESHOLD) {
             setVoltage(0.0);
         } else if (getHeight() > getTargetHeight()) {
-            setVoltage(-Settings.Climber.Encoder.VOLTAGE);
+            setVoltage(-Settings.Climber.BANGBANG_VOLTAGE);
         } else {
-            setVoltage(Settings.Climber.Encoder.VOLTAGE);
+            setVoltage(+Settings.Climber.BANGBANG_VOLTAGE);
         }
         
         SmartDashboard.putNumber("Climber/Target Height", getTargetHeight());
