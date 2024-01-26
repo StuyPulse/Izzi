@@ -22,8 +22,9 @@ import edu.wpi.first.math.util.Units;
 public interface Settings {
     double DT = 0.02;
     public interface Swerve {
-        double WIDTH = Units.inchesToMeters(26.504);
-        double LENGTH = Units.inchesToMeters(20.508);
+        // between wheel centers
+        double WIDTH = Units.inchesToMeters(20.75);
+        double LENGTH = Units.inchesToMeters(20.75);
 
         SmartNumber MAX_MODULE_SPEED = new SmartNumber("Swerve/Max Module Speed (meter per s)", 5.0);
         SmartNumber MAX_TURNING = new SmartNumber("Swerve/Max Turn Velocity (rad per s)", 6.28);
@@ -34,7 +35,7 @@ public interface Settings {
             public interface Drive {
                 double WHEEL_DIAMETER = Units.inchesToMeters(3);
                 double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
-                double GEAR_RATIO = 1.0 / 4.71; //TODO: Find Gear Ratio
+                double GEAR_RATIO = 1.0 / 4.71;
 
                 double POSITION_CONVERSION = WHEEL_CIRCUMFERENCE * GEAR_RATIO;
                 double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
