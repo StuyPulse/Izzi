@@ -18,7 +18,7 @@ public abstract class Climber extends SubsystemBase {
     }
 
     public Climber() {
-        targetHeight = new SmartNumber("Climber/Target Height", getTargetHeight());
+        targetHeight = new SmartNumber("Climber/Target Height", 0.0);
     }
 
     public void setTargetHeight(double height) {
