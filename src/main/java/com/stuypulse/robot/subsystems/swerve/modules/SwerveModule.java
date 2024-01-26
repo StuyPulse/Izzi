@@ -1,5 +1,6 @@
 package com.stuypulse.robot.subsystems.swerve.modules;
 
+import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Swerve;
 import com.stuypulse.robot.constants.Settings.Swerve.Drive;
 import com.stuypulse.robot.constants.Settings.Swerve.Turn;
@@ -76,7 +77,11 @@ public abstract class SwerveModule extends SubsystemBase {
             Angle.fromRotation2d(getAngle())
         );
 
-        setVoltageImpl(driveController.getOutput(), angleController.getOutput());
+        if (Math.abs(driveController.getOutput()) < Settings.Swerve.MODULE_VELOCITY_DEADBAND.get()) {
+            setVoltageImpl(0, 0);
+        } else {
+            setVoltageImpl(driveController.getOutput(), angleController.getOutput());
+        }
 
         SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Drive Voltage", driveController.getOutput());
         SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Turn Voltage", angleController.getOutput());
