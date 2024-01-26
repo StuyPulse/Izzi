@@ -25,10 +25,7 @@ public interface Settings {
         
         public interface Lift {
            
-            double GEARING = 9; // ~9:1
             double CARRIAGE_MASS = 10; // kg
-            double DRUM_RADIUS = 0.025; // meters 
-            double ENCODER_CONVERSION = 0; // determine;
 
             double MIN_HEIGHT = 0;
             double MAX_HEIGHT = 1.8475325; // meters 
@@ -37,10 +34,21 @@ public interface Settings {
 
             SmartNumber VEL_LIMIT = new SmartNumber("Velocity Limit", 3);
             SmartNumber ACC_LIMIT = new SmartNumber("Acceleration Limit", 2);
-                
-            SmartNumber kP = new SmartNumber("Amper/Lift/kP", 1);
-            SmartNumber kI = new SmartNumber("Amper/Lift/kI", 0);
-            SmartNumber kD = new SmartNumber("Amper/Lift/kD", 0);
+
+            public interface Encoder {
+                double GEARING = 9; // ~9:1
+                double DRUM_RADIUS = 0.025; // meters 
+                double DRUM_CIRCUMFERENCE = DRUM_RADIUS * Math.PI * 2;
+
+                double POSITION_CONVERSION = GEARING * DRUM_CIRCUMFERENCE;
+                double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
+            }
+
+            public interface PID {
+                SmartNumber kP = new SmartNumber("Amper/Lift/kP", 1);
+                SmartNumber kI = new SmartNumber("Amper/Lift/kI", 0);
+                SmartNumber kD = new SmartNumber("Amper/Lift/kD", 0);
+            }
         }
     }
 }

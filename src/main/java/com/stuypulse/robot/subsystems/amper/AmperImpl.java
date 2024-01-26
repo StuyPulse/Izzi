@@ -25,13 +25,15 @@ public class AmperImpl extends Amper {
         liftMotor = new CANSparkMax(Ports.Amper.LIFT, MotorType.kBrushless);
         liftEncoder = liftMotor.getEncoder();
 
+        liftEncoder.setPositionConversionFactor(Settings.Amper.Lift.Encoder.POSITION_CONVERSION);
+        liftEncoder.setVelocityConversionFactor(Settings.Amper.Lift.Encoder.VELOCITY_CONVERSION);
+
         alignedSwitch = new DigitalInput(Ports.Amper.ALIGNED_SWITCH_CHANNEL);
         minSwitch = new DigitalInput(Ports.Amper.MIN_LIFT_CHANNEL);
         ampIRSensor = new DigitalInput(Ports.Amper.AMP_IR_CHANNEL);
 
         Motors.Amper.LIFT_MOTOR.configure(liftMotor);
         Motors.Amper.SCORE_MOTOR.configure(scoreMotor);
-        liftEncoder.setPositionConversionFactor(Settings.Amper.Lift.ENCODER_CONVERSION);
     }
 
     @Override

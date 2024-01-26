@@ -37,7 +37,7 @@ public abstract class Amper extends SubsystemBase {
     public final Controller liftController;
 
     public Amper() {
-        liftController = new PIDController(Lift.kP, Lift.kI, Lift.kD);
+        liftController = new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD);
         targetHeight = new SmartNumber("Amp/Target Height", 0); // TODO: determine the default value
     }
 
