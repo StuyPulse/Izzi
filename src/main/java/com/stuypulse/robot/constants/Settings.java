@@ -5,6 +5,7 @@
 
 package com.stuypulse.robot.constants;
 
+import com.pathplanner.lib.util.PIDConstants;
 import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
@@ -61,10 +62,18 @@ public interface Settings {
         double WIDTH = Units.inchesToMeters(20.75);
         double LENGTH = Units.inchesToMeters(20.75);
 
+        double XY = 0.1;
+        double THETA = 0.1;
+            
         SmartNumber MAX_MODULE_SPEED = new SmartNumber("Swerve/Max Module Speed (meter per s)", 5.0);
         SmartNumber MAX_TURNING = new SmartNumber("Swerve/Max Turn Velocity (rad per s)", 6.28);
 
         SmartNumber MODULE_VELOCITY_DEADBAND = new SmartNumber("Swerve/Module Velocity Deadband (m per s)", 0.02);
+
+        public interface Motion {   
+            PIDConstants XY = new PIDConstants(0.7, 0, 0.02);
+            PIDConstants THETA = new PIDConstants(10, 0, 0.1);
+        }
 
         public interface Encoder {
             public interface Drive {
@@ -215,5 +224,34 @@ public interface Settings {
 
     public static Vector2D vpow(Vector2D vec, double power) {
         return vec.mul(Math.pow(vec.magnitude(), power - 1));
+    }
+
+    public interface Alignment {
+
+        SmartNumber DEBOUNCE_TIME = new SmartNumber("Alignment/Debounce Time", 0.15);
+        SmartNumber X_TOLERANCE = new SmartNumber("Alignment/X Tolerance", 0.1);
+        SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
+        SmartNumber ANGLE_TOLERANCE = new SmartNumber("Alignment/Angle Tolerance", 5);
+
+        SmartNumber TARGET_DISTANCE_IN = new SmartNumber("Alignment/Target Distance (in)", 110);
+        SmartNumber TAKEOVER_DISTANCE_IN = new SmartNumber("Alignment/Takeover Distance (in)", 50);
+
+        public interface Translation {
+            SmartNumber P = new SmartNumber("Alignment/Translation/kP", 2.5);
+            SmartNumber I = new SmartNumber("Alignment/Translation/kI", 0);
+            SmartNumber D = new SmartNumber("Alignment/Translation/kD", 0.0);
+        }
+
+        public interface Rotation {
+            SmartNumber P = new SmartNumber("Alignment/Rotation/kP", 1);
+            SmartNumber I = new SmartNumber("Alignment/Rotation/kI", 0);
+            SmartNumber D = new SmartNumber("Alignment/Rotation/kD", 0);
+        }
+
+        public interface Gyro {
+            SmartNumber P = new SmartNumber("Alignment/Gyro/kP", 12);
+            SmartNumber I = new SmartNumber("Alignment/Gyro/kI", 0);
+            SmartNumber D = new SmartNumber("Alignment/Gyro/kD", 0.1);
+        }
     }
 }

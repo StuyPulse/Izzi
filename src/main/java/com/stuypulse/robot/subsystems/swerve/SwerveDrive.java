@@ -1,6 +1,10 @@
 package com.stuypulse.robot.subsystems.swerve;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PathPlannerLogging;
+import com.pathplanner.lib.util.ReplanningConfig;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Swerve;
@@ -22,6 +26,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -108,7 +113,34 @@ public class SwerveDrive extends SubsystemBase {
         this.kinematics = new SwerveDriveKinematics(getModuleOffsets());
         this.gyro = new AHRS(SPI.Port.kMXP);
         this.modules2D = new FieldObject2d[modules.length];
-    }   
+    }  
+    
+    public void configureAutoBuilder() {
+        Odometry odometry = Odometry.getInstance();
+
+        AutoBuilder.configureHolonomic(
+            odometry::getPose,
+            odometry::reset,
+            this::getChassisSpeeds, 
+            this::setChassisSpeeds, 
+            new HolonomicPathFollowerConfig(
+                Swerve.Motion.XY, 
+                Swerve.Motion.THETA, 
+                Swerve.MAX_MODULE_SPEED.get(), 
+                Swerve.WIDTH, 
+                new ReplanningConfig(true, true)), 
+            () -> {
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                    return alliance.get() == DriverStation.Alliance.Red;
+                }
+                return false;
+            }, 
+            instance
+        );
+
+        PathPlannerLogging.setLogActivePathCallback((poses) -> odometry.getField().getObject("path").setPoses(poses));
+    }
 
     public void initFieldObject(Field2d field) {
         for (int i = 0; i < modules.length; i++){
