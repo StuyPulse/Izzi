@@ -5,8 +5,10 @@
 
 package com.stuypulse.robot;
 
+import com.stuypulse.robot.commands.ClimberDrive;
 import com.stuypulse.robot.commands.auton.DoNothingAuton;
 import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 
@@ -15,6 +17,7 @@ import com.stuypulse.robot.subsystems.climber.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
 
@@ -46,7 +49,11 @@ public class RobotContainer {
     /*** BUTTONS ***/
     /***************/
 
-    private void configureButtonBindings() {}
+    private void configureButtonBindings() {
+        // manual climber control
+        new Trigger(() -> operator.getLeftStick().magnitude() > Settings.Operator.DEADBAND.get())
+            .whileTrue(new ClimberDrive(operator));
+    }
 
     /**************/
     /*** AUTONS ***/

@@ -1,5 +1,7 @@
 package com.stuypulse.robot.subsystems.climber;
 
+import java.util.Optional;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
@@ -83,12 +85,18 @@ public class ClimberImpl extends Climber {
     public void periodic() {
         super.periodic();
 
-        if (Math.abs(getHeight() - getTargetHeight()) < Settings.Climber.Encoder.THRESHOLD) {
-            setVoltage(0.0);
-        } else if (getHeight() > getTargetHeight()) {
-            setVoltage(-Settings.Climber.Encoder.VOLTAGE);
+        if (driveVoltage.isPresent()) {
+            setVoltage(driveVoltage.get());
         } else {
-            setVoltage(Settings.Climber.Encoder.VOLTAGE);
+            
+            if (Math.abs(getHeight() - getTargetHeight()) < Settings.Climber.Encoder.THRESHOLD) {
+                setVoltage(0.0);
+            } else if (getHeight() > getTargetHeight()) {
+                setVoltage(-Settings.Climber.Encoder.VOLTAGE);
+            } else {
+                setVoltage(Settings.Climber.Encoder.VOLTAGE);
+            }
+
         }
         
         SmartDashboard.putNumber("Climber/Target Height", getTargetHeight());

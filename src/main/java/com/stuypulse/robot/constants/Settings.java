@@ -5,6 +5,8 @@
 
 package com.stuypulse.robot.constants;
 
+import com.stuypulse.stuylib.network.SmartNumber;
+
 /*-
  * File containing tunable settings for every subsystem on the robot.
  *
@@ -12,15 +14,28 @@ package com.stuypulse.robot.constants;
  * values that we can edit on Shuffleboard.
  */
 public interface Settings {
+    double DT = 0.02;
+
     public interface Climber {
         double MIN_HEIGHT = 0.0;
-        double MAX_HEIGHT = 0.0;
+        double MAX_HEIGHT = 1.0;
+
+        double MASS = 10.0;
+        double DRUM_RADIUS = 0.1;
+
+        SmartNumber VELOCITY_LIMIT = new SmartNumber("Climber/Velocity Limit", 2.0); 
 
         public interface Encoder {
-            double GEAR_RATIO = 0.0;
+            double VOLTAGE = 1.0;
+            double THRESHOLD = 0.1;
+            double GEAR_RATIO = 9.0;
 
             double POSITION_CONVERSION = 0.0;
             double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
         }
+    }
+
+    public interface Operator {
+        SmartNumber DEADBAND = new SmartNumber("Operator/Deadband", 0.0);
     }
 }
