@@ -66,6 +66,10 @@ public class ClimberImpl extends Climber {
             voltage = 0.0;
         }
 
+        if (getTargetHeight() < getHeight()) {
+            voltage *= -1;
+        }
+
         rightMotor.setVoltage(voltage);
         leftMotor.setVoltage(voltage);
     }
@@ -81,7 +85,11 @@ public class ClimberImpl extends Climber {
     }
 
     @Override
-    public void periodicallyCalled() {
+    public void periodic() {
+        super.periodic();
+
+        setVoltage(Settings.Climber.Encoder.VOLTAGE);
+        
         SmartDashboard.putNumber("Climber/Target Height", getTargetHeight());
         SmartDashboard.putNumber("Climber/Height", getHeight());
         
