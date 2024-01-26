@@ -89,10 +89,10 @@ public class SwerveModuleImpl extends SwerveModule {
     }    
 
     @Override
-	protected void setVoltageImpl(double driveVoltage, double turnVoltage) {
-		driveMotor.setVoltage(driveVoltage);
+    protected void setVoltageImpl(double driveVoltage, double turnVoltage) {
+        driveMotor.setVoltage(driveVoltage);
         turnMotor.setVoltage(turnVoltage);
-	}
+    }
 
     @Override
     public void periodic() {

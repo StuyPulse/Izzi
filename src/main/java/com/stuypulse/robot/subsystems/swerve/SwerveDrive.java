@@ -93,10 +93,10 @@ public class SwerveDrive extends SubsystemBase {
         return instance;
     }
 
-    private SwerveModule[] modules;
-    private SwerveDriveKinematics kinematics;
-    private AHRS gyro;
-    private FieldObject2d[] modules2D;
+    private final SwerveModule[] modules;
+    private final SwerveDriveKinematics kinematics;
+    private final AHRS gyro;
+    private final FieldObject2d[] modules2D;
     
 
     /**
