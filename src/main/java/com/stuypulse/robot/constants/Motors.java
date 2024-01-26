@@ -25,8 +25,8 @@ public interface Motors {
     /** Classes to store all of the values a motor needs */
   
     public interface Amper {
-        CANSparkMaxConfig LIFT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kCoast, 80, 0.1);
-        CANSparkMaxConfig SCORE_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
+        CANSparkMaxConfig LIFT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kCoast);
+        CANSparkMaxConfig SCORE_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake);
     }
   
     public interface Swerve {
@@ -35,7 +35,7 @@ public interface Motors {
     }
 
     public interface Intake {
-        CANSparkMaxConfig MOTOR_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
+        CANSparkMaxConfig MOTOR_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake);
     }
   
     public interface Shooter {
@@ -66,7 +66,7 @@ public interface Motors {
         }
 
         public TalonSRXConfig(boolean inverted, NeutralMode neutralMode, int peakCurrentLimitAmps) {
-            this(inverted, neutralMode, peakCurrentLimitAmps, 0.0);
+            this(inverted, neutralMode, peakCurrentLimitAmps, 0.05);
         }
 
         public TalonSRXConfig(boolean inverted, NeutralMode neutralMode) {
@@ -99,7 +99,7 @@ public interface Motors {
         }
 
         public VictorSPXConfig(boolean inverted, NeutralMode neutralMode) {
-            this(inverted, neutralMode, 0.0);
+            this(inverted, neutralMode, 0.05);
         }
 
         public void configure(WPI_VictorSPX motor) {
@@ -127,7 +127,7 @@ public interface Motors {
         }
 
         public CANSparkMaxConfig(boolean inverted, IdleMode idleMode, int currentLimitAmps) {
-            this(inverted, idleMode, currentLimitAmps, 0.0);
+            this(inverted, idleMode, currentLimitAmps, 0.05);
         }
 
         public CANSparkMaxConfig(boolean inverted, IdleMode idleMode) {
