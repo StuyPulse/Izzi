@@ -11,22 +11,16 @@ public class AmperSim extends Amper {
 
     private final ElevatorSim sim;
 
-    private double liftHeight;
-    private double liftVelocity;
-
     public AmperSim() {
-        liftHeight = 0.0;
-        liftVelocity = 0.0;
-
         sim = new ElevatorSim(
             DCMotor.getNEO(1),
-            GEARING,
+            Encoder.GEARING,
             CARRIAGE_MASS,
-            DRUM_RADIUS,
+            Encoder.DRUM_RADIUS,
             MIN_HEIGHT,
             MAX_HEIGHT,
             true,
-            liftHeight
+            0
         );
     }
 
@@ -47,11 +41,6 @@ public class AmperSim extends Amper {
     }
 
     @Override
-    public boolean liftAtTop() {
-        return sim.hasHitUpperLimit();
-    }
-
-    @Override
     public boolean touchingAmp() {
         return false;
     }
@@ -67,8 +56,8 @@ public class AmperSim extends Amper {
     }
 
     @Override 
-    public void setLiftVoltageImpl() {
-        
+    public void setLiftVoltageImpl(double voltage) {
+        sim.setInputVoltage(voltage);
     }
 
 	@Override
@@ -78,14 +67,8 @@ public class AmperSim extends Amper {
     public void simulationPeriodic() {
         sim.update(Settings.DT);
 
-        liftHeight = sim.getPositionMeters();
-        liftVelocity = sim.getVelocityMetersPerSecond();
-
-        SmartDashboard.putNumber("AmperSim/Height", liftHeight);
-        SmartDashboard.putNumber("AmperSim/Velocity", liftVelocity);
+        SmartDashboard.putNumber("Amper/Lift Height", getLiftHeight());
     }
-
-
     
 }
 
