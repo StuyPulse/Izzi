@@ -8,6 +8,7 @@ package com.stuypulse.robot.constants;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 import com.revrobotics.CANSparkMax;
 import static com.revrobotics.CANSparkMax.IdleMode;
 
@@ -21,8 +22,11 @@ import static com.revrobotics.CANSparkMax.IdleMode;
  *  - The Open Loop Ramp Rate
  */
 public interface Motors {
-
     /** Classes to store all of the values a motor needs */
+    public interface Swerve {
+        public CANSparkMaxConfig DRIVE_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake);
+        public CANSparkMaxConfig TURN_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake);
+    }
 
     public interface Intake {
         CANSparkMaxConfig MOTOR_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
