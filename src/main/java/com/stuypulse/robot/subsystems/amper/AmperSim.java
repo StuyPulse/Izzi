@@ -83,5 +83,3 @@ public class AmperSim extends Amper {
     }
     
 }
-
-        

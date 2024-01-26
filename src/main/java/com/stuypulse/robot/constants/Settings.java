@@ -41,8 +41,18 @@ public interface Settings {
     }  
   
     public interface Amper {
+        SmartNumber REST_HEIGHT = new SmartNumber("Amper/Rest Height", 0.5); // TODO: determine
+        // SmartNumber THRESHOLD = new SmartNumber("Amper/General Threshold", 0.5); // TODO: determine
+
         public interface Score {
-            SmartNumber ROLLER_SPEED = new SmartNumber("Amper/Score/Roller Speed", 1.0); // change later
+            SmartNumber ROLLER_SPEED = new SmartNumber("Amper/Score/Roller Speed", 1.0);
+            
+
+            SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Score/Amp Score Height", 1.0); // TODO: determine
+            SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Score/Trap Score Height", 1.0); // TODO: determine
+
+            SmartNumber AMP_SCORE_THRESHOLD = new SmartNumber("Amper/Score/Trap Score Threshold", 0.1); // TODO: determine
+            SmartNumber TRAP_SCORE_THRESHOLD = new SmartNumber("Amper/Score/Trap Score Height", 0.1); // TODO: determine
         }
         
         public interface Lift {
