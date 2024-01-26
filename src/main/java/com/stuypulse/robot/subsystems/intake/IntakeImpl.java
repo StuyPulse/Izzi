@@ -22,7 +22,7 @@ public class IntakeImpl extends Intake {
 
     public IntakeImpl() {
         motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
-        sensor = new DigitalInput(Ports.Intake.SENSOR);
+        sensor = new DigitalInput(Ports.Intake.IR_SENSOR);
 
         Motors.Intake.MOTOR_CONFIG.configure(motor);
 

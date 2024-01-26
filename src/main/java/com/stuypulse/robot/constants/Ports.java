@@ -17,9 +17,9 @@ public interface Ports {
         int SCORE = 31;
         int LIFT = 30;
 
-        int ALIGNED_SWITCH_CHANNEL = 3 ;
-        int MIN_LIFT_CHANNEL = 4 ;
-        int AMP_IR_CHANNEL = 2;
+        int ALIGNED_BUMP_SWITCH = 3;
+        int LIFT_BOTTOM_LIMIT = 4;
+        int AMP_IR = 2;
     }
   
     public interface Swerve {
@@ -50,7 +50,7 @@ public interface Ports {
 
     public interface Intake {
         int MOTOR = 40;
-        int SENSOR = 1;
+        int IR_SENSOR = 1;
     }
   
     public interface Shooter {
@@ -59,9 +59,9 @@ public interface Ports {
     }
 
     public interface Conveyor {
-        int GANDALF_MOTOR_PORT = 50;
-        int SHOOTER_FEEDER_MOTOR_PORT = 51;
+        int GANDALF = 50;
+        int FEEDER = 51;
 
-        int IR_SENSOR_PORT = 0;
+        int IR_SENSOR = 0;
     }
 }

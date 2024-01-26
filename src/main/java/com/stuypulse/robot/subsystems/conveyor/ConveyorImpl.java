@@ -22,10 +22,10 @@ public class ConveyorImpl extends Conveyor {
     private BStream isAtShooter;
 
     protected ConveyorImpl() {
-        gandalfMotor = new CANSparkMax(Ports.Conveyor.GANDALF_MOTOR_PORT, MotorType.kBrushless);
-        shooterFeederMotor = new CANSparkMax(Ports.Conveyor.SHOOTER_FEEDER_MOTOR_PORT, MotorType.kBrushless);
+        gandalfMotor = new CANSparkMax(Ports.Conveyor.GANDALF, MotorType.kBrushless);
+        shooterFeederMotor = new CANSparkMax(Ports.Conveyor.FEEDER, MotorType.kBrushless);
 
-        irSensor = new DigitalInput(Ports.Conveyor.IR_SENSOR_PORT);
+        irSensor = new DigitalInput(Ports.Conveyor.IR_SENSOR);
 
         Motors.Conveyor.GANDALF_MOTOR.configure(gandalfMotor);
         Motors.Conveyor.SHOOTER_FEEDER_MOTOR.configure(shooterFeederMotor);

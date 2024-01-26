@@ -24,13 +24,11 @@ public interface Settings {
     double DT = 0.02;
     
     public interface Amper {
-        
         public interface Score {
             SmartNumber ROLLER_SPEED = new SmartNumber("Amper/Score/Roller Speed", 1.0); // change later
         }
         
         public interface Lift {
-           
             double CARRIAGE_MASS = 10; // kg
 
             double MIN_HEIGHT = 0;
@@ -38,8 +36,8 @@ public interface Settings {
 
             double MAX_HEIGHT_ERROR = 0.03;
 
-            SmartNumber VEL_LIMIT = new SmartNumber("Velocity Limit", 3);
-            SmartNumber ACC_LIMIT = new SmartNumber("Acceleration Limit", 2);
+            SmartNumber VEL_LIMIT = new SmartNumber("Amper/Lift/Velocity Limit", 3);
+            SmartNumber ACC_LIMIT = new SmartNumber("Amper/Lift/Acceleration Limit", 2);
 
             public interface Encoder {
                 double GEARING = 9; // ~9:1
@@ -185,15 +183,15 @@ public interface Settings {
         SmartNumber PODIUM_SHOT_RIGHT_RPM = new SmartNumber("Shooter/Podium Shot Left RPM", 0);
         
         public interface Feedforward {
-            SmartNumber kV = new SmartNumber("Shooter/Feedforward kV",0);
-            SmartNumber kA = new SmartNumber("Shooter/Feedforward kA",0);
-            SmartNumber kS = new SmartNumber("Shooter/Feedforward kS",0); //CHANGE LATER            
+            SmartNumber kV = new SmartNumber("Shooter/Feedforward/kV",0);
+            SmartNumber kA = new SmartNumber("Shooter/Feedforward/kA",0);
+            SmartNumber kS = new SmartNumber("Shooter/Feedforward/kS",0); //CHANGE LATER            
         }
 
         public interface PID {
-            SmartNumber kP = new SmartNumber("Shooter/PID kP", 0);
-            SmartNumber kI = new SmartNumber("Shooter/PID kI", 0);
-            SmartNumber kD = new SmartNumber("Shooter/PID kD", 0);
+            SmartNumber kP = new SmartNumber("Shooter/PID/kP", 0);
+            SmartNumber kI = new SmartNumber("Shooter/PID/kI", 0);
+            SmartNumber kD = new SmartNumber("Shooter/PID/kD", 0);
         }
     }
 

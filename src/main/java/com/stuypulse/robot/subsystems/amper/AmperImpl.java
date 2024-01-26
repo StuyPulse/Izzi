@@ -28,9 +28,9 @@ public class AmperImpl extends Amper {
         liftEncoder.setPositionConversionFactor(Settings.Amper.Lift.Encoder.POSITION_CONVERSION);
         liftEncoder.setVelocityConversionFactor(Settings.Amper.Lift.Encoder.VELOCITY_CONVERSION);
 
-        alignedSwitch = new DigitalInput(Ports.Amper.ALIGNED_SWITCH_CHANNEL);
-        minSwitch = new DigitalInput(Ports.Amper.MIN_LIFT_CHANNEL);
-        ampIRSensor = new DigitalInput(Ports.Amper.AMP_IR_CHANNEL);
+        alignedSwitch = new DigitalInput(Ports.Amper.ALIGNED_BUMP_SWITCH);
+        minSwitch = new DigitalInput(Ports.Amper.LIFT_BOTTOM_LIMIT);
+        ampIRSensor = new DigitalInput(Ports.Amper.AMP_IR);
 
         Motors.Amper.LIFT_MOTOR.configure(liftMotor);
         Motors.Amper.SCORE_MOTOR.configure(scoreMotor);
