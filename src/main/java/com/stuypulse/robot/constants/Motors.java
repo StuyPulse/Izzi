@@ -8,8 +8,8 @@ package com.stuypulse.robot.constants;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkMax;
-import static com.revrobotics.CANSparkMax.IdleMode;
 
 /*-
  * File containing all of the configurations that different motors require.
@@ -21,8 +21,32 @@ import static com.revrobotics.CANSparkMax.IdleMode;
  *  - The Open Loop Ramp Rate
  */
 public interface Motors {
-
+    
     /** Classes to store all of the values a motor needs */
+  
+    public interface Amper {
+        CANSparkMaxConfig LIFT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kCoast);
+        CANSparkMaxConfig SCORE_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake);
+    }
+  
+    public interface Swerve {
+        public CANSparkMaxConfig DRIVE_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake);
+        public CANSparkMaxConfig TURN_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake);
+    }
+
+    public interface Intake {
+        CANSparkMaxConfig MOTOR_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake);
+    }
+  
+    public interface Shooter {
+        CANSparkMaxConfig LEFT_SHOOTER = new CANSparkMaxConfig(false,IdleMode.kCoast);
+        CANSparkMaxConfig RIGHT_SHOOTER = new CANSparkMaxConfig(false,IdleMode.kCoast);      
+    }
+  
+    public interface Conveyor {
+        CANSparkMaxConfig GANDALF_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake);
+        CANSparkMaxConfig SHOOTER_FEEDER_MOTOR = new CANSparkMaxConfig(false, IdleMode.kCoast);
+    }
 
     public interface Climber {
         CANSparkMaxConfig LEFT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 80);
@@ -47,7 +71,7 @@ public interface Motors {
         }
 
         public TalonSRXConfig(boolean inverted, NeutralMode neutralMode, int peakCurrentLimitAmps) {
-            this(inverted, neutralMode, peakCurrentLimitAmps, 0.0);
+            this(inverted, neutralMode, peakCurrentLimitAmps, 0.05);
         }
 
         public TalonSRXConfig(boolean inverted, NeutralMode neutralMode) {
@@ -80,7 +104,7 @@ public interface Motors {
         }
 
         public VictorSPXConfig(boolean inverted, NeutralMode neutralMode) {
-            this(inverted, neutralMode, 0.0);
+            this(inverted, neutralMode, 0.05);
         }
 
         public void configure(WPI_VictorSPX motor) {
@@ -108,7 +132,7 @@ public interface Motors {
         }
 
         public CANSparkMaxConfig(boolean inverted, IdleMode idleMode, int currentLimitAmps) {
-            this(inverted, idleMode, currentLimitAmps, 0.0);
+            this(inverted, idleMode, currentLimitAmps, 0.05);
         }
 
         public CANSparkMaxConfig(boolean inverted, IdleMode idleMode) {
@@ -124,4 +148,5 @@ public interface Motors {
          }
           
      }
+
 }
