@@ -196,19 +196,21 @@ public interface Settings {
     public interface Shooter {
         double MOMENT_OF_INERTIA = 1;
         
-        SmartNumber PODIUM_SHOT_LEFT_RPM = new SmartNumber("Shooter/Podium Shot Right RPM", 0);
-        SmartNumber PODIUM_SHOT_RIGHT_RPM = new SmartNumber("Shooter/Podium Shot Left RPM", 0);
+        SmartNumber PODIUM_SHOT_LEFT_RPM = new SmartNumber("Shooter/Podium Shot Left RPM", 0);
+        SmartNumber PODIUM_SHOT_RIGHT_RPM = new SmartNumber("Shooter/Podium Shot Right RPM", 0);
+        SmartNumber AMP_LEFT_RPM = new SmartNumber("Shooter/To Amp Left RPM", 0);
+        SmartNumber AMP_RIGHT_RPM = new SmartNumber("Shooter/To Amp Right RPM", 0);
         
         public interface Feedforward {
-            SmartNumber kV = new SmartNumber("Shooter/Feedforward/kV",0);
-            SmartNumber kA = new SmartNumber("Shooter/Feedforward/kA",0);
-            SmartNumber kS = new SmartNumber("Shooter/Feedforward/kS",0); //CHANGE LATER            
+            SmartNumber kV = new SmartNumber("Shooter/Feedforward/kV",0.1);
+            SmartNumber kA = new SmartNumber("Shooter/Feedforward/kA",0.1);
+            SmartNumber kS = new SmartNumber("Shooter/Feedforward/kS",0.1); //CHANGE LATER            
         }
 
         public interface PID {
-            SmartNumber kP = new SmartNumber("Shooter/PID/kP", 0);
-            SmartNumber kI = new SmartNumber("Shooter/PID/kI", 0);
-            SmartNumber kD = new SmartNumber("Shooter/PID/kD", 0);
+            SmartNumber kP = new SmartNumber("Shooter/PID/kP", 0.1);
+            SmartNumber kI = new SmartNumber("Shooter/PID/kI", 0.1);
+            SmartNumber kD = new SmartNumber("Shooter/PID/kD", 0.1);
         }
     }
 
