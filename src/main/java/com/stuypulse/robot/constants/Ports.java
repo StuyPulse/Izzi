@@ -38,4 +38,21 @@ public interface Ports {
             int ENCODER = 4;
         }
     }
+
+    public interface Intake {
+        int MOTOR = 40;
+        int SENSOR = 1;
+    }
+  
+    public interface Shooter {
+        int LEFT_MOTOR = 20; 
+        int RIGHT_MOTOR = 21;
+    }
+
+    public interface Conveyor {
+        int GANDALF_MOTOR_PORT = 50;
+        int SHOOTER_FEEDER_MOTOR_PORT = 51;
+
+        int IR_SENSOR_PORT = 0;
+    }
 }
