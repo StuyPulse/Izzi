@@ -5,7 +5,7 @@ import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounce;
-
+import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -26,8 +26,11 @@ public class IntakeImpl extends Intake {
 
         Motors.Intake.MOTOR_CONFIG.configure(motor);
 
-        triggered = BStream.create(sensor).not().filtered(new BDebounce.Both(Settings.Intake.Detection.TRIGGER_TIME));
-        stalling = BStream.create(this::isMomentarilyStalling).filtered(new BDebounce.Both(Settings.Intake.Detection.STALL_TIME));
+        triggered = BStream.create(sensor).not()
+            .filtered(new BDebounce.Rising(Settings.Intake.Detection.TRIGGER_TIME));
+
+        stalling = BStream.create(this::isMomentarilyStalling)
+            .filtered(new BDebounceRC.Rising(Settings.Intake.Detection.STALL_TIME));
     }
 
     @Override
