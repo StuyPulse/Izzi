@@ -13,6 +13,16 @@ public interface Ports {
         int DEBUGGER = 2;
     }
 
+    public interface Climber {
+        int LEFT_MOTOR = 60;
+        int RIGHT_MOTOR = 61;
+
+        int TOP_RIGHT_LIMIT = 8;
+        int TOP_LEFT_LIMIT = 7;
+        int BOTTOM_RIGHT_LIMIT = 6;
+        int BOTTOM_LEFT_LIMIT = 5;        
+    }
+  
     public interface Amper {
         int SCORE = 31;
         int LIFT = 30;
