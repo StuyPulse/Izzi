@@ -57,24 +57,6 @@ public class ClimberImpl extends Climber {
     }
 
     @Override
-    public void setVoltage(double voltage) {
-        if (atTop() && voltage > 0) {
-            DriverStation.reportWarning("Climber Top Limit Reached", false);
-            voltage = 0.0;
-        } else if (atBottom() && voltage < 0) {
-            DriverStation.reportWarning("Climber Bottom Limit Reached", false);
-            voltage = 0.0;
-        }
-
-        if (getTargetHeight() < getHeight()) {
-            voltage *= -1;
-        }
-
-        rightMotor.setVoltage(voltage);
-        leftMotor.setVoltage(voltage);
-    }
-
-    @Override
     public boolean atTop() {
         return !topRightLimit.get() || !topLeftLimit.get();
     }
@@ -84,11 +66,30 @@ public class ClimberImpl extends Climber {
         return !bottomRightLimit.get() || !bottomLeftLimit.get();
     }
 
+    public void setVoltage(double voltage) {
+        if (atTop() && voltage > 0) {
+            DriverStation.reportWarning("Climber Top Limit Reached", false);
+            voltage = 0.0;
+        } else if (atBottom() && voltage < 0) {
+            DriverStation.reportWarning("Climber Bottom Limit Reached", false);
+            voltage = 0.0;
+        }
+
+        rightMotor.setVoltage(voltage);
+        leftMotor.setVoltage(voltage);
+    }
+
     @Override
     public void periodic() {
         super.periodic();
 
-        setVoltage(Settings.Climber.Encoder.VOLTAGE);
+        if (Math.abs(getHeight() - getTargetHeight()) < Settings.Climber.Encoder.THRESHOLD) {
+            setVoltage(0.0);
+        } else if (getHeight() > getTargetHeight()) {
+            setVoltage(-Settings.Climber.Encoder.VOLTAGE);
+        } else {
+            setVoltage(Settings.Climber.Encoder.VOLTAGE);
+        }
         
         SmartDashboard.putNumber("Climber/Target Height", getTargetHeight());
         SmartDashboard.putNumber("Climber/Height", getHeight());
