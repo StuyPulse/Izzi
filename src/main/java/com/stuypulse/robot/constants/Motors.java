@@ -24,8 +24,8 @@ import static com.revrobotics.CANSparkMax.IdleMode;
 public interface Motors {
     /** Classes to store all of the values a motor needs */
     public interface Swerve {
-        public CANSparkMaxConfig DRIVE_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake, 60);
-        public CANSparkMaxConfig TURN_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake, 60);
+        public CANSparkMaxConfig DRIVE_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake);
+        public CANSparkMaxConfig TURN_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake);
     }
     
     public static class TalonSRXConfig {
