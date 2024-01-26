@@ -21,7 +21,7 @@ import edu.wpi.first.math.util.Units;
  */
 public interface Settings {
 
-    double DT = 0.02;
+    double DT = 1.0 / 50.0;
     
     public interface Amper {
         public interface Score {

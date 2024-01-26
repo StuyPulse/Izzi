@@ -100,6 +100,8 @@ public class Odometry extends SubsystemBase {
     @Override
     public void periodic() {
         ArrayList<VisionData> outputs = AprilTagVision.getInstance().getOutputs();
+
+        updateOdometry();
         
         if (VISION_ACTIVE.get()) {
             for (VisionData data : outputs) {

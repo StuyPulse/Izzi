@@ -38,8 +38,8 @@ public abstract class SwerveModule extends SubsystemBase {
         return new SwerveModuleState(getVelocity(), getAngle());
     }
 
-    public void setState(SwerveModuleState state) {
-        targetState = state;
+    public void setTargetState(SwerveModuleState state) {
+        targetState = SwerveModuleState.optimize(state, getAngle());
     }
 
     @Override
@@ -47,7 +47,7 @@ public abstract class SwerveModule extends SubsystemBase {
         SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Target Angle", targetState.angle.getDegrees());
         SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Angle", getAngle().getDegrees());
         SmartDashboard.putNumber("Swerve/Modules/" + this.getId()+ "/Target Speed", targetState.speedMetersPerSecond);
-        SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Speed", getVelocity());
+        SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Velocity", getVelocity());
     }
 }
     

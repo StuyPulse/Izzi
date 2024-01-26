@@ -150,13 +150,6 @@ public class SwerveDrive extends SubsystemBase {
     }
     
     /** Setters **/
-    private static SwerveModuleState filterModuleState(SwerveModuleState state) {
-        if (Math.abs(state.speedMetersPerSecond) > Swerve.MODULE_VELOCITY_DEADBAND.get())
-            return state;
-
-        return new SwerveModuleState(0, state.angle);
-    }
-
     public void setModuleStates(SwerveModuleState[] states) {
         if (states.length != modules.length) {
             throw new IllegalArgumentException("Provided incorrect number of states for swerve drive modules");
@@ -165,31 +158,28 @@ public class SwerveDrive extends SubsystemBase {
         SwerveDriveKinematics.desaturateWheelSpeeds(states, Swerve.MAX_MODULE_SPEED.get());
 
         for (int i = 0; i < modules.length; i++){
-            modules[i].setState(filterModuleState(states[i]));
+            modules[i].setTargetState(states[i]);
         }
     }
     
-    public void setChassisSpeed(ChassisSpeeds robotSpeeds) {
+    public void setChassisSpeeds(ChassisSpeeds robotSpeeds) {
         setModuleStates(kinematics.toSwerveModuleStates(robotSpeeds));
     }
 
     /** Drive Functions **/
     public void drive(Vector2D velocity, double rotation) {
         ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-            velocity.x, -velocity.y,
-            rotation,
-            Odometry.getInstance().getPose().getRotation()
-        );
- 
-        Pose2d pose = new Pose2d(
+                velocity.y, -velocity.x,
+                -rotation,
+                Odometry.getInstance().getPose().getRotation());
+
+        Pose2d robotVel = new Pose2d(
             Settings.DT * speeds.vxMetersPerSecond,
             Settings.DT * speeds.vyMetersPerSecond,
-            Rotation2d.fromDegrees(Settings.DT * speeds.omegaRadiansPerSecond)
-        );
+            Rotation2d.fromRadians(Settings.DT * speeds.omegaRadiansPerSecond));
+        Twist2d twistVel = new Pose2d().log(robotVel);
 
-        Twist2d twistVel = new Pose2d().log(pose);   
-
-        setChassisSpeed( new ChassisSpeeds(
+        setChassisSpeeds(new ChassisSpeeds(
             twistVel.dx / Settings.DT,
             twistVel.dy / Settings.DT,
             twistVel.dtheta / Settings.DT
@@ -197,7 +187,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void stop() {
-        setChassisSpeed(new ChassisSpeeds());
+        setChassisSpeeds(new ChassisSpeeds());
     } 
 
     /** Gyro **/
@@ -243,6 +233,6 @@ public class SwerveDrive extends SubsystemBase {
     public void simulationPeriodic() {
         //show gyro angle in simulation
         ChassisSpeeds speeds = kinematics.toChassisSpeeds(getModuleStates());
-        gyro.setAngleAdjustment(speeds.omegaRadiansPerSecond * Settings.DT);
+        gyro.setAngleAdjustment(gyro.getAngle() - Math.toDegrees(speeds.omegaRadiansPerSecond * Settings.DT));
     }
 }
