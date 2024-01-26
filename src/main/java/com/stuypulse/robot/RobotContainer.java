@@ -8,6 +8,13 @@ package com.stuypulse.robot;
 import com.stuypulse.robot.commands.auton.DoNothingAuton;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.subsystems.amper.Amper;
+import com.stuypulse.robot.subsystems.odometry.Odometry;
+import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
+import com.stuypulse.robot.subsystems.vision.AprilTagVision;
+import com.stuypulse.robot.subsystems.vision.NoteVision;
+import com.stuypulse.robot.subsystems.intake.Intake;
+import com.stuypulse.robot.subsystems.shooter.Shooter;
+import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 
@@ -23,7 +30,14 @@ public class RobotContainer {
     
     // Subsystem
     public final Amper amper = Amper.getInstance();
-
+    public final SwerveDrive swerve = SwerveDrive.getInstance();
+    public final Odometry odometry = Odometry.getInstance();
+    public final AprilTagVision vision = AprilTagVision.getInstance();
+    public final NoteVision noteVision = NoteVision.getInstance();
+    public final Intake intake = Intake.getInstance();
+    public final Shooter shooter = Shooter.getInstance();
+    public final Conveyor conveyor = Conveyor.getInstance();
+  
     // Autons
     private static SendableChooser<Command> autonChooser = new SendableChooser<>();
 

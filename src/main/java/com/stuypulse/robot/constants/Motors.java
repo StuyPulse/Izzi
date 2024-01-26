@@ -22,12 +22,31 @@ import com.revrobotics.CANSparkMax;
  */
 public interface Motors {
     
+    /** Classes to store all of the values a motor needs */
+  
     public interface Amper {
         CANSparkMaxConfig LIFT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kCoast, 80, 0.1);
         CANSparkMaxConfig SCORE_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
     }
+  
+    public interface Swerve {
+        public CANSparkMaxConfig DRIVE_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake);
+        public CANSparkMaxConfig TURN_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake);
+    }
 
-    /** Classes to store all of the values a motor needs */
+    public interface Intake {
+        CANSparkMaxConfig MOTOR_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
+    }
+  
+    public interface Shooter {
+        CANSparkMaxConfig LEFT_SHOOTER = new CANSparkMaxConfig(false,IdleMode.kCoast);
+        CANSparkMaxConfig RIGHT_SHOOTER = new CANSparkMaxConfig(false,IdleMode.kCoast);      
+    }
+  
+    public interface Conveyor {
+        CANSparkMaxConfig GANDALF_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake);
+        CANSparkMaxConfig SHOOTER_FEEDER_MOTOR = new CANSparkMaxConfig(false, IdleMode.kCoast);
+    }
 
     public static class TalonSRXConfig {
         public final boolean INVERTED;
