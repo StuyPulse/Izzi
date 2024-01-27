@@ -1,10 +1,13 @@
 package com.stuypulse.robot.commands.swerve;
 
+import com.stuypulse.robot.constants.Field;
+import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Alignment.Rotation;
 import com.stuypulse.robot.constants.Settings.Alignment.Translation;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
+import com.stuypulse.robot.util.Fiducial;
 import com.stuypulse.robot.util.HolonomicController;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.control.feedback.PIDController;
@@ -12,7 +15,10 @@ import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Vector2D;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -36,9 +42,8 @@ public class SwerveDriveToShoot extends Command {
     private final HolonomicController controller;
     private final FieldObject2d targetPose2d;
 
-    public SwerveDriveToShoot(Pose2d targetPose) {
+    public SwerveDriveToShoot() {
         swerve = SwerveDrive.getInstance();
-        this.targetPose = targetPose;
 
         this.targetPose2d = Odometry.getInstance().getField().getObject("Target Pose");
 
@@ -51,54 +56,41 @@ public class SwerveDriveToShoot extends Command {
         addRequirements(swerve);
     }
 
-    private double linearInterpolate(double lowerY, double upperY, double lowerBound, double upperBound, double input) {
-        if (input == lowerBound) {
-            return lowerY;
-        } else if (input == upperBound) {
-            return upperY;
-        } else if (input < lowerBound || input > upperBound) {
-            throw new IllegalArgumentException("Input must be between lowerBound and upperBound");
-        }
-        else {
-            return (upperY - lowerY) * (input - lowerBound) / (upperBound - lowerBound) + lowerY;
-        }
-    }
+    private Pose2d getSpeakerTargetPose() {
+        Vector2D speakerCenterVec = new Vector2D(Field.getAllianceSpeakerPose().getTranslation());
+        Vector2D robotVec = new Vector2D(Odometry.getInstance().getPose().getTranslation());
 
-    //TODO: Make this work lmao
-    private Pose2d getSpeakerTargetPose(Rotation2d angleToSpeaker) {
-        //Everything under is from aiming at center of speaker
-        Vector2D robotPose = new Vector2D(Odometry.getInstance().getPose().getTranslation());
-        Vector2D targetPose = new Vector2D(this.targetPose.getTranslation());
-        Vector2D targetVector = robotPose.add(robotPose.sub(targetPose).normalize().mul(Alignment.TARGET_DISTANCE_IN.get()));
-        //Rotation2d angleToSpeaker = new Rotation2d(Math.atan2(targetPose.y - robotPose.y, targetPose.x - robotPose.x));
+        double speakerOpeningX = Units.inchesToMeters(13.6);
+        // the distances between the robot and the target
+        double Dx = speakerCenterVec.x - robotVec.x;
+        double Dy = speakerCenterVec.y - robotVec.y;
 
-        double speakerOpeningLength = Units.inchesToMeters(41.625);
-        Rotation2d speakerTargetAngle = Rotation2d.fromDegrees(linearInterpolate(-speakerOpeningLength / 2, speakerOpeningLength / 2, -70, 70, angleToSpeaker.getDegrees()));
+        // the offset of the speakers opening width from center using similar triangles 
+        double dy = (Dy / Dx) * speakerOpeningX; 
 
-        return new Pose2d(targetVector.x, targetVector.y, speakerTargetAngle);
+        // gets the new speaker target vector to aim at
+        Vector2D speakerTargetVec= new Vector2D(Field.getAllianceSpeakerPose().getX(), Field.getAllianceSpeakerPose().getY() + dy);
+
+        // gets the target vector away from the speaker to the target distance to shoot from
+        Vector2D targetVec = speakerTargetVec.add(robotVec.sub(speakerTargetVec).normalize().mul(Units.inchesToMeters(Alignment.TARGET_DISTANCE_IN.get())));
+        Rotation2d targetAngle = targetVec.getTranslation2d().minus(robotVec.getTranslation2d()).getAngle().plus(Rotation2d.fromDegrees(180));
+        return new Pose2d(targetVec.x, targetVec.y, targetAngle);
     }
 
     @Override
     public void initialize() {
-        Vector2D robotPose = new Vector2D(Odometry.getInstance().getPose().getTranslation());
-        Vector2D targetPose = new Vector2D(this.targetPose.getTranslation());
-        Rotation2d angleToSpeaker = new Rotation2d(Math.atan2(targetPose.y - robotPose.y, targetPose.x - robotPose.x));
-        Vector2D targetVector = robotPose.add(robotPose.sub(targetPose).normalize().mul(Alignment.TARGET_DISTANCE_IN.get()));
-        //this.targetPose = getSpeakerTargetPose(angleToSpeaker);
-        
-        this.targetPose = new Pose2d(targetVector.x, targetVector.y, angleToSpeaker);
+        targetPose = getSpeakerTargetPose();
     }
 
     @Override 
     public void execute() {
         Pose2d currentPose = Odometry.getInstance().getPose();
-        targetPose2d.setPose(targetPose);
-
+       
         controller.update(targetPose, currentPose);
         swerve.setChassisSpeeds(controller.getOutput());
+        targetPose2d.setPose(targetPose);
     }
 
-    
     @Override
     public boolean isFinished() {
         return controller.isDone(Alignment.X_TOLERANCE.get(), Alignment.Y_TOLERANCE.get(), Alignment.ANGLE_TOLERANCE.get());
@@ -107,7 +99,6 @@ public class SwerveDriveToShoot extends Command {
     @Override
     public void end(boolean interrupted) {
         swerve.stop();
-        targetPose2d.setPose(Double.NaN, Double.NaN, new Rotation2d(Double.NaN));
     }
 
 }
