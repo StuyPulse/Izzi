@@ -20,7 +20,7 @@ public class AmperSim extends Amper {
 
     public AmperSim() {
         liftController = new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD);
-        
+
         sim = new ElevatorSim(
             DCMotor.getNEO(1),
             Encoder.GEARING,
@@ -76,6 +76,8 @@ public class AmperSim extends Amper {
         } else {
             sim.setInputVoltage(liftController.getOutput());
         }
+
+        lift2d.setLength(getLiftHeight());
 
         sim.update(Settings.DT);
 

@@ -43,6 +43,7 @@ public class AmperImpl extends Amper {
         Motors.Amper.SCORE_MOTOR.configure(scoreMotor);
     }
 
+
     @Override
     public boolean hasNote() {
         return !ampIRSensor.get();
@@ -85,8 +86,6 @@ public class AmperImpl extends Amper {
 
     @Override
     public void periodic() {
-        super.periodic();
-
         liftController.update(targetHeight.get(), getLiftHeight());
 
         if (liftAtBottom() && liftController.getOutput() < 0) {
@@ -94,6 +93,8 @@ public class AmperImpl extends Amper {
         } else {
             liftMotor.setVoltage(liftController.getOutput());
         }
+
+        lift2d.setLength(getLiftHeight());
 
         SmartDashboard.putNumber("Amper/Intake Speed", scoreMotor.get());
         SmartDashboard.putNumber("Amper/Lift Speed", liftMotor.get());

@@ -6,6 +6,8 @@
 package com.stuypulse.robot.constants;
 
 import edu.wpi.first.math.util.Units;
+
+import com.stuypulse.robot.constants.Settings.NoteDetection.Rotation;
 import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
@@ -56,6 +58,7 @@ public interface Settings {
         }
         
         public interface Lift {
+            Rotation2d ANGLE_TO_GROUND = Rotation2d.fromDegrees(60); // TODO: determine
             double CARRIAGE_MASS = 10; // kg
 
             double MIN_HEIGHT = 0;
