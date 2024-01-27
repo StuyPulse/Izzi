@@ -1,26 +1,23 @@
 package com.stuypulse.robot.subsystems.amper;
 
-import static com.stuypulse.robot.constants.Settings.Amper.Lift.*;
+import static com.stuypulse.robot.constants.Settings.Amper.Lift.CARRIAGE_MASS;
+import static com.stuypulse.robot.constants.Settings.Amper.Lift.MAX_HEIGHT;
+import static com.stuypulse.robot.constants.Settings.Amper.Lift.MIN_HEIGHT;
 
 import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.constants.Settings.Amper.Lift.Encoder;
-import com.stuypulse.stuylib.control.Controller;
-import com.stuypulse.stuylib.control.feedback.PIDController;
 
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.simulation.BatterySim;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
+import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AmperSim extends Amper {
 
     private final ElevatorSim sim;
 
-    public final Controller liftController;
-
     public AmperSim() {
-        liftController = new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD);
-
         sim = new ElevatorSim(
             DCMotor.getNEO(1),
             Encoder.GEARING,
@@ -28,7 +25,7 @@ public class AmperSim extends Amper {
             Encoder.DRUM_RADIUS,
             MIN_HEIGHT,
             MAX_HEIGHT,
-            true,
+            false,
             0
         );
     }
@@ -77,10 +74,10 @@ public class AmperSim extends Amper {
             sim.setInputVoltage(liftController.getOutput());
         }
 
-        lift2d.setLength(getLiftHeight());
-
         sim.update(Settings.DT);
+        RoboRioSim.setVInVoltage(BatterySim.calculateDefaultBatteryLoadedVoltage(sim.getCurrentDrawAmps()));
 
+        lift2d.setLength(getLiftHeight());
         SmartDashboard.putNumber("Amper/Lift Height", getLiftHeight());
     }
     

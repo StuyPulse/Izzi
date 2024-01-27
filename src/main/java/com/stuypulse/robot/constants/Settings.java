@@ -44,7 +44,6 @@ public interface Settings {
   
     public interface Amper {
         SmartNumber REST_HEIGHT = new SmartNumber("Amper/Rest Height", 0.5); // TODO: determine
-        // SmartNumber THRESHOLD = new SmartNumber("Amper/General Threshold", 0.5); // TODO: determine
 
         public interface Score {
             SmartNumber ROLLER_SPEED = new SmartNumber("Amper/Score/Roller Speed", 1.0);
@@ -52,9 +51,6 @@ public interface Settings {
 
             SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Score/Amp Score Height", 1.0); // TODO: determine
             SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Score/Trap Score Height", 1.0); // TODO: determine
-
-            SmartNumber AMP_SCORE_THRESHOLD = new SmartNumber("Amper/Score/Trap Score Threshold", 0.1); // TODO: determine
-            SmartNumber TRAP_SCORE_THRESHOLD = new SmartNumber("Amper/Score/Trap Score Height", 0.1); // TODO: determine
         }
         
         public interface Lift {
@@ -68,6 +64,7 @@ public interface Settings {
 
             SmartNumber VEL_LIMIT = new SmartNumber("Amper/Lift/Velocity Limit", 3);
             SmartNumber ACC_LIMIT = new SmartNumber("Amper/Lift/Acceleration Limit", 2);
+            SmartNumber RC = new SmartNumber("Amper/Lift/RC", 1.0);
 
             public interface Encoder {
                 double GEARING = 9; // ~9:1
@@ -79,9 +76,9 @@ public interface Settings {
             }
 
             public interface PID {
-                SmartNumber kP = new SmartNumber("Amper/Lift/kP", 1);
-                SmartNumber kI = new SmartNumber("Amper/Lift/kI", 0);
-                SmartNumber kD = new SmartNumber("Amper/Lift/kD", 0);
+                SmartNumber kP = new SmartNumber("Amper/Lift/kP", 3.0);
+                SmartNumber kI = new SmartNumber("Amper/Lift/kI", 0.0);
+                SmartNumber kD = new SmartNumber("Amper/Lift/kD", 0.0);
             }
         }
     }

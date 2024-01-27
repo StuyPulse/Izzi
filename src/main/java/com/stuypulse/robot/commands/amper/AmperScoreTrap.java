@@ -4,12 +4,12 @@ import com.stuypulse.robot.constants.Settings.Amper.Score;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class ScoreTrap extends SequentialCommandGroup {
+public class AmperScoreTrap extends SequentialCommandGroup {
     
-    public ScoreTrap() {
+    public AmperScoreTrap() {
         addCommands(
-            new LiftToHeight(Score.TRAP_SCORE_HEIGHT.get(), Score.TRAP_SCORE_THRESHOLD.get()),
-            new RunRoller(true)
+            new AmperToHeight(Score.TRAP_SCORE_HEIGHT.get()),
+            new AmperOuttake()
         ); 
     }
     

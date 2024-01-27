@@ -4,26 +4,24 @@ import com.stuypulse.robot.subsystems.amper.Amper;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class RunRoller extends Command {
+public class AmperOuttake extends Command {
 
     public Amper amper;
     public boolean forward;
 
-    public RunRoller(boolean forward) {
+    public AmperOuttake() {
         amper = Amper.getInstance();
-        this.forward = forward;
-
         addRequirements(amper);
     } 
 
     @Override
     public void initialize() {
-        if (forward) {
-            amper.score();
-        }
-        else {
-            amper.intake();
-        }
+        amper.score();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return !amper.hasNote();
     }
 
     @Override
