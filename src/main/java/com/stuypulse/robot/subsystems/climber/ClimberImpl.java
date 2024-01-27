@@ -1,7 +1,5 @@
 package com.stuypulse.robot.subsystems.climber;
 
-import java.util.Optional;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
@@ -99,9 +97,7 @@ public class ClimberImpl extends Climber {
 
         }
         
-        SmartDashboard.putNumber("Climber/Target Height", getTargetHeight());
         SmartDashboard.putNumber("Climber/Height", getHeight());
-        
         SmartDashboard.putNumber("Climber/Velocity", getVelocity());
 
         if (atBottom()) {

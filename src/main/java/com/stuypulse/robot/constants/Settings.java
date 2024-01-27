@@ -21,21 +21,21 @@ public interface Settings {
         double MAX_HEIGHT = 1.0;
 
         double MASS = 10.0;
-        double DRUM_RADIUS = 0.1;
+        double DRUM_RADIUS = 0.025;
 
-        SmartNumber VELOCITY_LIMIT = new SmartNumber("Climber/Velocity Limit", 2.0); 
+        SmartNumber VELOCITY_LIMIT = new SmartNumber("Climber/Velocity Limit", 3.0); 
 
         public interface Encoder {
             double VOLTAGE = 1.0;
-            double THRESHOLD = 0.1;
+            double THRESHOLD = 0.03;
             double GEAR_RATIO = 9.0;
 
-            double POSITION_CONVERSION = 0.0;
+            double POSITION_CONVERSION = 1.0;
             double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
         }
     }
 
     public interface Operator {
-        SmartNumber DEADBAND = new SmartNumber("Operator/Deadband", 0.0);
+        SmartNumber DEADBAND = new SmartNumber("Operator/Deadband", 0.02);
     }
 }

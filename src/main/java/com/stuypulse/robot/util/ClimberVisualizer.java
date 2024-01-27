@@ -20,21 +20,22 @@ public class ClimberVisualizer {
     private final Mechanism2d climber;
 
     // ligaments
+    private MechanismLigament2d outerLeftLigament;
+    private MechanismLigament2d outerRightLigament;
+
+    private MechanismLigament2d topLigament;
+
     private MechanismLigament2d leftLigament;
     private MechanismLigament2d rightLigament;
-    
-    private MechanismLigament2d firstTopLigament;
-    private MechanismLigament2d firstBottomLigament;
-    private MechanismLigament2d firstLeftLigament;
-    private MechanismLigament2d firstRightLigament;
 
     // roots
+    private MechanismRoot2d topRoot;
+
     private MechanismRoot2d leftRoot;
     private MechanismRoot2d rightRoot;
 
-    private MechanismRoot2d firstRightBottomRoot;
-    private MechanismRoot2d firstLeftBottomRoot;
-    private MechanismRoot2d firstTopRoot;
+    private MechanismRoot2d rightBottomRoot;
+    private MechanismRoot2d leftBottomRoot;
 
     private double leftRootX;
     private double rightRootX;
@@ -58,33 +59,31 @@ public class ClimberVisualizer {
         // outer shell
         leftRoot = climber.getRoot("left root", leftRootX,0);
         rightRoot = climber.getRoot("right root", rightRootX,0);
+        topRoot = climber.getRoot("top root", leftRootX, OUTER_STAGE_HEIGHT);
 
-        // first stage 
-        firstLeftBottomRoot = climber.getRoot("first left bottom root", leftRootX, 0);
-        firstRightBottomRoot = climber.getRoot("first right bottom root", rightRootX, 0);
-        firstTopRoot = climber.getRoot("first top root", leftRootX, OUTER_STAGE_HEIGHT);
+        // inner shell 
+        leftBottomRoot = climber.getRoot("left bottom root", leftRootX, 0);
+        rightBottomRoot = climber.getRoot("right bottom root", rightRootX, 0);
         
         // ligaments
 
         //outer shell
-        rightLigament = getLigament("right ligament", OUTER_STAGE_HEIGHT, 90, red);
-        leftLigament = getLigament("left ligament", OUTER_STAGE_HEIGHT, 90, red);
+        topLigament = getLigament("top ligament", WINDOW_WIDTH - 2 * WINDOW_X_PADDING, 0, blue);
+        outerRightLigament = getLigament("outer right ligament", OUTER_STAGE_HEIGHT, 90, blue);
+        outerLeftLigament = getLigament("outer left ligament", OUTER_STAGE_HEIGHT, 90, blue);
 
-        // first stage
-        firstTopLigament = getLigament("elevator top ligament first", WINDOW_WIDTH - 2 * WINDOW_X_PADDING, 0, blue);
-        firstBottomLigament = getLigament("elevator bottom ligament first", WINDOW_WIDTH - 2 * WINDOW_X_PADDING, 0, blue);
-        firstLeftLigament = getLigament("elevator left ligament first", OUTER_STAGE_HEIGHT, 90, blue);
-        firstRightLigament = getLigament("elevator right ligament first", OUTER_STAGE_HEIGHT, 90, blue);
+        // inner shell
+        leftLigament = new MechanismLigament2d("climber left ligament ", OUTER_STAGE_HEIGHT - 5, 90, 12, red);
+        rightLigament = new MechanismLigament2d("climber right ligament ", OUTER_STAGE_HEIGHT - 5, 90, 12, red);
 
         //outer shell
-        leftRoot.append(leftLigament);
-        rightRoot.append(rightLigament);
-        
-        //first shell 
-        firstLeftBottomRoot.append(firstBottomLigament);
-        firstLeftBottomRoot.append(firstLeftLigament);
-        firstTopRoot.append(firstTopLigament);
-        firstRightBottomRoot.append(firstRightLigament);
+        leftRoot.append(outerLeftLigament);
+        rightRoot.append(outerRightLigament);
+        topRoot.append(topLigament);
+
+        // inner shell 
+        leftBottomRoot.append(leftLigament);
+        rightBottomRoot.append(rightLigament);
 
         SmartDashboard.putData("Climber", climber);
     }
@@ -92,11 +91,9 @@ public class ClimberVisualizer {
     public void setHeight(double newHeight) {
         double percentDone = newHeight / Settings.Climber.MAX_HEIGHT;
 
-        double firstStageBottomY = OUTER_STAGE_HEIGHT * percentDone;
+        double stageBottomY = OUTER_STAGE_HEIGHT * percentDone;
 
-        // first stage
-        firstLeftBottomRoot.setPosition(leftRootX, firstStageBottomY);
-        firstRightBottomRoot.setPosition(rightRootX, firstStageBottomY);
-        firstTopRoot.setPosition(leftRootX, OUTER_STAGE_HEIGHT + firstStageBottomY);
+        leftBottomRoot.setPosition(leftRootX, stageBottomY);
+        rightBottomRoot.setPosition(rightRootX, stageBottomY);
     }
 }

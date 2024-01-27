@@ -2,6 +2,7 @@ package com.stuypulse.robot.subsystems.climber;
 
 import java.util.Optional;
 
+import com.stuypulse.robot.util.ClimberVisualizer;
 import com.stuypulse.stuylib.network.SmartNumber;
 
 import edu.wpi.first.wpilibj.RobotBase;
@@ -9,10 +10,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class Climber extends SubsystemBase {
     private static final Climber instance;
-    
-    private final SmartNumber targetHeight;
-
-    protected Optional<Double> driveVoltage;
 
     static {
         if (RobotBase.isReal()) {
@@ -26,8 +23,14 @@ public abstract class Climber extends SubsystemBase {
         return instance;
     }
 
+    private final SmartNumber targetHeight;
+    protected Optional<Double> driveVoltage;
+
+    ClimberVisualizer climberVisualizer = new ClimberVisualizer();
+
     public Climber() {
         targetHeight = new SmartNumber("Climber/Target Height", 0.0);
+        driveVoltage = Optional.empty();
     }
 
     public void setTargetHeight(double height) {

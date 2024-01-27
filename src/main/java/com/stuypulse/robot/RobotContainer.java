@@ -6,6 +6,8 @@
 package com.stuypulse.robot;
 
 import com.stuypulse.robot.commands.ClimberDrive;
+import com.stuypulse.robot.commands.ClimberToBottom;
+import com.stuypulse.robot.commands.ClimberToTop;
 import com.stuypulse.robot.commands.auton.DoNothingAuton;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
@@ -61,6 +63,8 @@ public class RobotContainer {
 
     public void configureAutons() {
         autonChooser.setDefaultOption("Do Nothing", new DoNothingAuton());
+        autonChooser.addOption("Climber To Top", new ClimberToTop());
+        autonChooser.addOption("Climber To Bottom", new ClimberToBottom());
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }

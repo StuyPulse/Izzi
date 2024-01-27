@@ -51,7 +51,27 @@ public class SimClimber extends Climber {
 
     @Override
     public void simulationPeriodic() {
+        super.periodic();
+
         sim.update(Settings.DT);
+
+        if (driveVoltage.isPresent()) {
+            setVoltage(driveVoltage.get());
+        } else {
+            
+            if (Math.abs(getHeight() - getTargetHeight()) < Settings.Climber.Encoder.THRESHOLD) {
+                setVoltage(0.0);
+            } else if (getHeight() > getTargetHeight()) {
+                setVoltage(-Settings.Climber.Encoder.VOLTAGE);
+            } else {
+                setVoltage(Settings.Climber.Encoder.VOLTAGE);
+            }
+
+        }
+
+        if (getHeight() >= Settings.Climber.MIN_HEIGHT) {
+            climberVisualizer.setHeight(getHeight());
+        }
 
         SmartDashboard.putNumber("Climber/Height", getHeight());
         SmartDashboard.putNumber("Climber/Velocity", getVelocity());
