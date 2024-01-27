@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public abstract class Intake extends SubsystemBase {
 
     private static final Intake instance;
+    private IntakeVisualizer v;
 
     static {
         instance = new IntakeImpl();
@@ -12,6 +13,10 @@ public abstract class Intake extends SubsystemBase {
 
     public static Intake getInstance() {
         return instance;
+    }
+
+    public Intake() {
+        v = new IntakeVisualizer();
     }
 
     public abstract void acquire();
