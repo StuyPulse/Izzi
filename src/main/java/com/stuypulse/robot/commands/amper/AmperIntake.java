@@ -6,8 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class AmperIntake extends Command {
 
-    public Amper amper;
-    public boolean forward;
+    private final Amper amper;
 
     public AmperIntake() {
         amper = Amper.getInstance();

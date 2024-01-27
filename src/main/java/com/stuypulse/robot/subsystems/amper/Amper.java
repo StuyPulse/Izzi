@@ -70,7 +70,7 @@ public abstract class Amper extends SubsystemBase {
         ));
         lift2d = mechanism2d.getRoot("Lift Origin", 1.5, 1).append(new MechanismLigament2d(
             "Lift",
-            Settings.Amper.Lift.MIN_HEIGHT,
+            Settings.Amper.Lift.REST_HEIGHT,
             Settings.Amper.Lift.ANGLE_TO_GROUND.getDegrees(),
             10,
             new Color8Bit(Color.kAqua)

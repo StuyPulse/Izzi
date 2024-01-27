@@ -43,8 +43,6 @@ public interface Settings {
     }  
   
     public interface Amper {
-        SmartNumber REST_HEIGHT = new SmartNumber("Amper/Rest Height", 0.5); // TODO: determine
-
         public interface Score {
             SmartNumber ROLLER_SPEED = new SmartNumber("Amper/Score/Roller Speed", 1.0);
             
@@ -59,6 +57,7 @@ public interface Settings {
 
             double MIN_HEIGHT = 0;
             double MAX_HEIGHT = 1.8475325; // meters 
+            double REST_HEIGHT = 0.5;
 
             double MAX_HEIGHT_ERROR = 0.03;
 

@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class AmperToHeight extends InstantCommand {
     private final Amper amper;
-    private double height;
+    private final double height;
 
     public AmperToHeight(double height) {
         amper = Amper.getInstance();
