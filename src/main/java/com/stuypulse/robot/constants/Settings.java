@@ -7,6 +7,8 @@ package com.stuypulse.robot.constants;
 
 import com.stuypulse.stuylib.network.SmartNumber;
 
+import edu.wpi.first.math.util.Units;
+
 /*-
  * File containing tunable settings for every subsystem on the robot.
  *
@@ -18,17 +20,17 @@ public interface Settings {
 
     public interface Climber {
         double MIN_HEIGHT = 0.0;
-        double MAX_HEIGHT = 1.0;
+        double MAX_HEIGHT = 0.444;
 
-        double MASS = 10.0;
-        double DRUM_RADIUS = 0.025;
+        double MASS = Units.lbsToKilograms(2.173979);
+        double DRUM_RADIUS = Units.inchesToMeters(1.025);
 
         SmartNumber VELOCITY_LIMIT = new SmartNumber("Climber/Velocity Limit", 3.0); 
 
         public interface Encoder {
             double VOLTAGE = 1.0;
             double THRESHOLD = 0.03;
-            double GEAR_RATIO = 9.0;
+            double GEAR_RATIO = 12.0;
 
             double POSITION_CONVERSION = 1.0;
             double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
