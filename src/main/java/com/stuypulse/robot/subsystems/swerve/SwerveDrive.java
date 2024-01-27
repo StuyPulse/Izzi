@@ -260,11 +260,13 @@ public class SwerveDrive extends SubsystemBase {
         SmartDashboard.putNumber("Swerve/X Acceleration (Gs)", gyro.getWorldLinearAccelX());
         SmartDashboard.putNumber("Swerve/Y Acceleration (Gs)", gyro.getWorldLinearAccelY());
         SmartDashboard.putNumber("Swerve/Z Acceleration (Gs)", gyro.getWorldLinearAccelZ());
+
+        SmartDashboard.putNumber("Swerve/Omega", getChassisSpeeds().omegaRadiansPerSecond);
     }
 
     public void simulationPeriodic() {
         //show gyro angle in simulation
-        ChassisSpeeds speeds = kinematics.toChassisSpeeds(getModuleStates());
-        gyro.setAngleAdjustment(gyro.getAngle() - Math.toDegrees(speeds.omegaRadiansPerSecond * Settings.DT));
+        ChassisSpeeds speeds = getChassisSpeeds();
+        gyro.setAngleAdjustment(gyro.getAngleAdjustment()- Math.toDegrees(speeds.omegaRadiansPerSecond * Settings.DT));
     }
 }

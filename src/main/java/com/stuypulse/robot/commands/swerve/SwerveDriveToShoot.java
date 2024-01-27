@@ -43,26 +43,39 @@ public class SwerveDriveToShoot extends Command {
         this.targetPose2d = Odometry.getInstance().getField().getObject("Target Pose");
 
         controller = new HolonomicController(
-        new PIDController(Translation.P, Translation.I, Translation.D),
-        new PIDController(Translation.P, Translation.I, Translation.D),
-        new AnglePIDController(Rotation.P, Rotation.I, Rotation.D)
+            new PIDController(Translation.P, Translation.I, Translation.D),
+            new PIDController(Translation.P, Translation.I, Translation.D),
+            new AnglePIDController(Rotation.P, Rotation.I, Rotation.D)
         );
     
         addRequirements(swerve);
     }
 
+    private double linearInterpolate(double lowerY, double upperY, double lowerBound, double upperBound, double input) {
+        if (input == lowerBound) {
+            return lowerY;
+        } else if (input == upperBound) {
+            return upperY;
+        } else if (input < lowerBound || input > upperBound) {
+            throw new IllegalArgumentException("Input must be between lowerBound and upperBound");
+        }
+        else {
+            return (upperY - lowerY) * (input - lowerBound) / (upperBound - lowerBound) + lowerY;
+        }
+    }
+
     //TODO: Make this work lmao
     private Pose2d getSpeakerTargetPose(Rotation2d angleToSpeaker) {
+        //Everything under is from aiming at center of speaker
         Vector2D robotPose = new Vector2D(Odometry.getInstance().getPose().getTranslation());
         Vector2D targetPose = new Vector2D(this.targetPose.getTranslation());
+        Vector2D targetVector = robotPose.add(robotPose.sub(targetPose).normalize().mul(Alignment.TARGET_DISTANCE_IN.get()));
+        //Rotation2d angleToSpeaker = new Rotation2d(Math.atan2(targetPose.y - robotPose.y, targetPose.x - robotPose.x));
 
         double speakerOpeningLength = Units.inchesToMeters(41.625);
-        
-        Vector2D targetVector = robotPose.add(robotPose.sub(targetPose).normalize().mul(Alignment.TARGET_DISTANCE_IN.get()));
-        
-        // ADD INTERPOLATION 
-        targetVector = targetVector.add(new Vector2D(speakerOpeningLength, 0).rotate(Angle.fromRadians(angleToSpeaker.getRadians())));
-        return new Pose2d(targetVector.x, targetVector.y, angleToSpeaker);
+        Rotation2d speakerTargetAngle = Rotation2d.fromDegrees(linearInterpolate(-speakerOpeningLength / 2, speakerOpeningLength / 2, -70, 70, angleToSpeaker.getDegrees()));
+
+        return new Pose2d(targetVector.x, targetVector.y, speakerTargetAngle);
     }
 
     @Override
@@ -70,7 +83,10 @@ public class SwerveDriveToShoot extends Command {
         Vector2D robotPose = new Vector2D(Odometry.getInstance().getPose().getTranslation());
         Vector2D targetPose = new Vector2D(this.targetPose.getTranslation());
         Rotation2d angleToSpeaker = new Rotation2d(Math.atan2(targetPose.y - robotPose.y, targetPose.x - robotPose.x));
-        this.targetPose = getSpeakerTargetPose(angleToSpeaker);
+        Vector2D targetVector = robotPose.add(robotPose.sub(targetPose).normalize().mul(Alignment.TARGET_DISTANCE_IN.get()));
+        //this.targetPose = getSpeakerTargetPose(angleToSpeaker);
+        
+        this.targetPose = new Pose2d(targetVector.x, targetVector.y, angleToSpeaker);
     }
 
     @Override 
