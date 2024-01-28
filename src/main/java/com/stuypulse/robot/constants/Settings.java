@@ -21,24 +21,29 @@ import edu.wpi.first.math.util.Units;
  * values that we can edit on Shuffleboard.
  */
 public interface Settings {
-
     double DT = 1.0 / 50.0;
 
     public interface Climber {
         double MIN_HEIGHT = 0.0;
-        double MAX_HEIGHT = 0.0;
+        double MAX_HEIGHT = 0.444;
 
-        double AT_HEIGHT_THRESHOLD = Units.inchesToMeters(1);
+        double MASS = Units.lbsToKilograms(2.173979);
+        double DRUM_RADIUS = Units.inchesToMeters(1.025);
 
-        double BANGBANG_VOLTAGE = 8;
+        SmartNumber MAX_DRIVE_VOLTAGE = new SmartNumber("Climber/Velocity Limit", 8.0); 
+
+        public interface BangBang {
+            double CONTROLLER_VOLTAGE = 8.0;
+            double THRESHOLD = 0.03;
+        }
 
         public interface Encoder {
-            double GEAR_RATIO = 0.0;
+            double GEAR_RATIO = 12.0;
 
-            double POSITION_CONVERSION = 0.0;
+            double POSITION_CONVERSION = 1.0;
             double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
         }
-    }  
+    }
   
     public interface Amper {
         public interface Score {
@@ -213,6 +218,10 @@ public interface Settings {
 
             SmartNumber MAX_TELEOP_TURNING = new SmartNumber("Driver Settings/Turn/Max Turning", 6.0);
         }
+    }
+
+    public interface Operator {
+        SmartNumber DEADBAND = new SmartNumber("Operator Settings/Manual Climb Deadband", 0.02);
     }
 
     public interface Shooter {

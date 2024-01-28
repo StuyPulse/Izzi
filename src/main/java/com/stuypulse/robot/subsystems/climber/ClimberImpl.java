@@ -1,6 +1,9 @@
 package com.stuypulse.robot.subsystems.climber;
 
 import com.revrobotics.CANSparkMax;
+
+import java.util.Optional;
+
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
@@ -13,6 +16,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ClimberImpl extends Climber {
+    
     private final CANSparkMax rightMotor;
     private final CANSparkMax leftMotor;
 
@@ -23,6 +27,8 @@ public class ClimberImpl extends Climber {
     private final DigitalInput topLeftLimit;
     private final DigitalInput bottomRightLimit;
     private final DigitalInput bottomLeftLimit;
+
+    private Optional<Double> voltageOverride;
 
     protected ClimberImpl() {
         rightMotor = new CANSparkMax(Ports.Climber.RIGHT_MOTOR, MotorType.kBrushless);
@@ -41,9 +47,23 @@ public class ClimberImpl extends Climber {
         topLeftLimit = new DigitalInput(Ports.Climber.TOP_LEFT_LIMIT);
         bottomRightLimit = new DigitalInput(Ports.Climber.BOTTOM_RIGHT_LIMIT);
         bottomLeftLimit = new DigitalInput(Ports.Climber.BOTTOM_LEFT_LIMIT);
+        
+        voltageOverride = Optional.empty();
 
         Motors.Climber.LEFT_MOTOR.configure(leftMotor);
         Motors.Climber.RIGHT_MOTOR.configure(rightMotor);
+    }
+
+    @Override
+    public void setTargetHeight(double height) {
+        super.setTargetHeight(height);
+
+        voltageOverride = Optional.empty();
+    }
+
+    @Override
+    public void setVoltageOverride(double voltage) {
+        voltageOverride = Optional.of(voltage);
     }
 
 	@Override
@@ -66,7 +86,6 @@ public class ClimberImpl extends Climber {
         return !bottomRightLimit.get() || !bottomLeftLimit.get();
     }
 
-    @Override
     public void setVoltage(double voltage) {
         if (atTop() && voltage > 0) {
             DriverStation.reportWarning("Climber Top Limit Reached", false);
@@ -84,17 +103,21 @@ public class ClimberImpl extends Climber {
     public void periodic() {
         super.periodic();
 
-        if (Math.abs(getHeight() - getTargetHeight()) < Settings.Climber.AT_HEIGHT_THRESHOLD) {
-            setVoltage(0.0);
-        } else if (getHeight() > getTargetHeight()) {
-            setVoltage(-Settings.Climber.BANGBANG_VOLTAGE);
+        if (voltageOverride.isPresent()) {
+            setVoltage(voltageOverride.get());
         } else {
-            setVoltage(+Settings.Climber.BANGBANG_VOLTAGE);
+            
+            if (Math.abs(getHeight() - getTargetHeight()) < Settings.Climber.BangBang.THRESHOLD) {
+                setVoltage(0.0);
+            } else if (getHeight() > getTargetHeight()) {
+                setVoltage(-Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
+            } else {
+                setVoltage(Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
+            }
+
         }
         
-        SmartDashboard.putNumber("Climber/Target Height", getTargetHeight());
         SmartDashboard.putNumber("Climber/Height", getHeight());
-        
         SmartDashboard.putNumber("Climber/Velocity", getVelocity());
 
         if (atBottom()) {
