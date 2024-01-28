@@ -74,4 +74,8 @@ public interface Ports {
 
         int IR_SENSOR = 0;
     }
+
+    public interface LEDController {
+        int PORT = 0; //PWM
+    }
 }
