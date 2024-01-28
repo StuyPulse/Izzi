@@ -13,6 +13,8 @@ public class AmperWaitToHeight extends Command {
     public AmperWaitToHeight(double height) {
         amper = Amper.getInstance();
         this.height = height;
+
+        addRequirements(amper);
     }
 
     @Override
