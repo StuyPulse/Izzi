@@ -22,4 +22,56 @@ public interface Ports {
         int BOTTOM_RIGHT_LIMIT = 6;
         int BOTTOM_LEFT_LIMIT = 5;        
     }
+  
+    public interface Amper {
+        int SCORE = 31;
+        int LIFT = 30;
+
+        int ALIGNED_BUMP_SWITCH = 3;
+        int LIFT_BOTTOM_LIMIT = 4;
+        int AMP_IR = 2;
+    }
+  
+    public interface Swerve {
+        public interface FrontRight {
+            int DRIVE = 10;
+            int TURN = 11;
+            int ENCODER = 1;
+        }
+
+        public interface FrontLeft {
+            int DRIVE = 12;
+            int TURN = 13;
+            int ENCODER = 2;
+        }
+
+        public interface BackLeft{
+            int DRIVE = 14;
+            int TURN = 15;
+            int ENCODER = 3;
+        }
+
+        public interface BackRight {
+            int DRIVE = 16;
+            int TURN = 17;
+            int ENCODER = 4;
+        }
+    }
+
+    public interface Intake {
+        int MOTOR = 40;
+        int IR_SENSOR = 1;
+    }
+  
+    public interface Shooter {
+        int LEFT_MOTOR = 20; 
+        int RIGHT_MOTOR = 21;
+    }
+
+    public interface Conveyor {
+        int GANDALF = 50;
+        int FEEDER = 51;
+
+        int IR_SENSOR = 0;
+    }
 }
