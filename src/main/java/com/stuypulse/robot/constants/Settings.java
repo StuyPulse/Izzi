@@ -202,15 +202,15 @@ public interface Settings {
         SmartNumber AMP_RIGHT_RPM = new SmartNumber("Shooter/To Amp Right RPM", 0);
         
         public interface Feedforward {
-            SmartNumber kV = new SmartNumber("Shooter/Feedforward/kV",0.1);
-            SmartNumber kA = new SmartNumber("Shooter/Feedforward/kA",0.1);
-            SmartNumber kS = new SmartNumber("Shooter/Feedforward/kS",0.1); //CHANGE LATER            
+            SmartNumber kV = new SmartNumber("Shooter/Feedforward/kV",0.0);
+            SmartNumber kA = new SmartNumber("Shooter/Feedforward/kA",0.0);
+            SmartNumber kS = new SmartNumber("Shooter/Feedforward/kS",0.0); //CHANGE LATER            
         }
 
         public interface PID {
-            SmartNumber kP = new SmartNumber("Shooter/PID/kP", 0.1);
-            SmartNumber kI = new SmartNumber("Shooter/PID/kI", 0.1);
-            SmartNumber kD = new SmartNumber("Shooter/PID/kD", 0.1);
+            SmartNumber kP = new SmartNumber("Shooter/PID/kP", 0.0);
+            SmartNumber kI = new SmartNumber("Shooter/PID/kI", 0.0);
+            SmartNumber kD = new SmartNumber("Shooter/PID/kD", 0.0);
         }
     }
 
