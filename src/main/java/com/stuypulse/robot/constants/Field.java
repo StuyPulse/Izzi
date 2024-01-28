@@ -17,8 +17,11 @@ import edu.wpi.first.wpilibj.DriverStation;
  */
 public interface Field {
 
-    public final double FIDUCIAL_SIZE = Units.inchesToMeters(6.125);
     double NOTE_LENGTH = Units.inchesToMeters(14.0);
+
+    /*** APRILTAGS ***/
+
+    double FIDUCIAL_SIZE = Units.inchesToMeters(6.125);
 
     Fiducial FIDUCIALS[] = {
         // 2024 Field Fiducial Layout
@@ -86,6 +89,8 @@ public interface Field {
         }
         return null;
     }
+
+    /*** SPEAKER ***/
 
     Pose2d SPEAKER_POSES[] = {
         getFiducial(7).getLocation().toPose2d(), // BLUE CENTER
