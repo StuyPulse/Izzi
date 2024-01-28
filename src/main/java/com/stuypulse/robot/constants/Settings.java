@@ -32,9 +32,12 @@ public interface Settings {
 
         SmartNumber VELOCITY_LIMIT = new SmartNumber("Climber/Velocity Limit", 3.0); 
 
-        public interface Encoder {
-            double VOLTAGE = 1.0;
+        public interface BangBang {
+            double CONTROLLER_VOLTAGE = 8.0;
             double THRESHOLD = 0.03;
+        }
+
+        public interface Encoder {
             double GEAR_RATIO = 12.0;
 
             double POSITION_CONVERSION = 1.0;

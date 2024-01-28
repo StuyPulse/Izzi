@@ -23,6 +23,6 @@ public class ClimberToHeight extends Command {
 
     @Override
     public boolean isFinished() {
-        return Math.abs(climber.getTargetHeight() - climber.getHeight()) < Settings.Climber.Encoder.THRESHOLD;
+        return Math.abs(climber.getTargetHeight() - climber.getHeight()) < Settings.Climber.BangBang.THRESHOLD;
     }
 }

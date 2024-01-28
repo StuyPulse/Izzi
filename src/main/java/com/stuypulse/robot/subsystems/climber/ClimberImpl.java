@@ -1,6 +1,9 @@
 package com.stuypulse.robot.subsystems.climber;
 
 import com.revrobotics.CANSparkMax;
+
+import java.util.Optional;
+
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
@@ -13,6 +16,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ClimberImpl extends Climber {
+    
     private final CANSparkMax rightMotor;
     private final CANSparkMax leftMotor;
 
@@ -23,6 +27,8 @@ public class ClimberImpl extends Climber {
     private final DigitalInput topLeftLimit;
     private final DigitalInput bottomRightLimit;
     private final DigitalInput bottomLeftLimit;
+
+    private Optional<Double> voltageOverride;
 
     protected ClimberImpl() {
         rightMotor = new CANSparkMax(Ports.Climber.RIGHT_MOTOR, MotorType.kBrushless);
@@ -41,9 +47,23 @@ public class ClimberImpl extends Climber {
         topLeftLimit = new DigitalInput(Ports.Climber.TOP_LEFT_LIMIT);
         bottomRightLimit = new DigitalInput(Ports.Climber.BOTTOM_RIGHT_LIMIT);
         bottomLeftLimit = new DigitalInput(Ports.Climber.BOTTOM_LEFT_LIMIT);
+        
+        voltageOverride = Optional.empty();
 
         Motors.Climber.LEFT_MOTOR.configure(leftMotor);
         Motors.Climber.RIGHT_MOTOR.configure(rightMotor);
+    }
+
+    @Override
+    public void setTargetHeight(double height) {
+        super.setTargetHeight(height);
+
+        voltageOverride = Optional.empty();
+    }
+
+    @Override
+    public void setVoltageOverride(double voltage) {
+        voltageOverride = Optional.of(voltage);
     }
 
 	@Override
@@ -83,16 +103,16 @@ public class ClimberImpl extends Climber {
     public void periodic() {
         super.periodic();
 
-        if (driveVoltage.isPresent()) {
-            setVoltage(driveVoltage.get());
+        if (voltageOverride.isPresent()) {
+            setVoltage(voltageOverride.get());
         } else {
             
-            if (Math.abs(getHeight() - getTargetHeight()) < Settings.Climber.Encoder.THRESHOLD) {
+            if (Math.abs(getHeight() - getTargetHeight()) < Settings.Climber.BangBang.THRESHOLD) {
                 setVoltage(0.0);
             } else if (getHeight() > getTargetHeight()) {
-                setVoltage(-Settings.Climber.Encoder.VOLTAGE);
+                setVoltage(-Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
             } else {
-                setVoltage(Settings.Climber.Encoder.VOLTAGE);
+                setVoltage(Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
             }
 
         }

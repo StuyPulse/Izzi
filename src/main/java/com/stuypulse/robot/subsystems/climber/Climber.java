@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class Climber extends SubsystemBase {
+
     private static final Climber instance;
 
     static {
@@ -24,22 +25,18 @@ public abstract class Climber extends SubsystemBase {
     }
 
     private final SmartNumber targetHeight;
-    protected Optional<Double> driveVoltage;
 
-    ClimberVisualizer climberVisualizer = new ClimberVisualizer();
+    private final ClimberVisualizer climberVisualizer = new ClimberVisualizer();
 
     public Climber() {
         targetHeight = new SmartNumber("Climber/Target Height", 0.0);
-        driveVoltage = Optional.empty();
     }
 
     public void setTargetHeight(double height) {
         targetHeight.set(height);
-
-        driveVoltage = Optional.empty();
     }
 
-    public double getTargetHeight() {
+    public final double getTargetHeight() {
         return targetHeight.get();
     }
     
@@ -49,7 +46,10 @@ public abstract class Climber extends SubsystemBase {
     public abstract boolean atTop();
     public abstract boolean atBottom();
 
-    public void setVoltageOverride(double voltage) {
-        driveVoltage = Optional.of(voltage);
+    public abstract void setVoltageOverride(double voltage);
+
+    @Override
+    public void periodic() {
+        climberVisualizer.setHeight(getHeight());
     }
 }

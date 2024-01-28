@@ -5,10 +5,15 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.util.Optional;
+
 import com.stuypulse.robot.constants.Settings;
 
 public class SimClimber extends Climber {
+    
     private final ElevatorSim sim;
+
+    private Optional<Double> voltageOverride;
 
     public SimClimber() {
         sim = new ElevatorSim(
@@ -20,7 +25,21 @@ public class SimClimber extends Climber {
             Settings.Climber.MAX_HEIGHT, 
             true, 
             Settings.Climber.MIN_HEIGHT
-        );        
+        );
+        
+        voltageOverride = Optional.empty();
+    }
+
+    @Override
+    public void setTargetHeight(double height) {
+        super.setTargetHeight(height);
+
+        voltageOverride = Optional.empty();
+    }
+
+    @Override
+    public void setVoltageOverride(double voltage) {
+        voltageOverride = Optional.of(voltage);
     }
 
     @Override
@@ -35,14 +54,12 @@ public class SimClimber extends Climber {
 
     @Override
     public boolean atTop() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'atTop'");
+        return sim.hasHitUpperLimit();
     }
 
     @Override
     public boolean atBottom() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'atBottom'");
+        return sim.hasHitLowerLimit();
     }
 
     public void setVoltage(double voltage) {
@@ -50,30 +67,27 @@ public class SimClimber extends Climber {
     }
 
     @Override
-    public void simulationPeriodic() {
+    public void periodic() {
         super.periodic();
 
-        sim.update(Settings.DT);
-
-        if (driveVoltage.isPresent()) {
-            setVoltage(driveVoltage.get());
+        if (voltageOverride.isPresent()) {
+            setVoltage(voltageOverride.get());
         } else {
-            
-            if (Math.abs(getHeight() - getTargetHeight()) < Settings.Climber.Encoder.THRESHOLD) {
+            if (Math.abs(getHeight() - getTargetHeight()) < Settings.Climber.BangBang.THRESHOLD) {
                 setVoltage(0.0);
             } else if (getHeight() > getTargetHeight()) {
-                setVoltage(-Settings.Climber.Encoder.VOLTAGE);
+                setVoltage(-Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
             } else {
-                setVoltage(Settings.Climber.Encoder.VOLTAGE);
+                setVoltage(Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
             }
-
-        }
-
-        if (getHeight() >= Settings.Climber.MIN_HEIGHT) {
-            climberVisualizer.setHeight(getHeight());
         }
 
         SmartDashboard.putNumber("Climber/Height", getHeight());
         SmartDashboard.putNumber("Climber/Velocity", getVelocity());
+    }
+
+    @Override
+    public void simulationPeriodic() {
+        sim.update(Settings.DT);
     }
 }
