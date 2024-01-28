@@ -5,12 +5,10 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.feedback.PIDController;
+import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
 import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.network.SmartNumber;
-import com.stuypulse.stuylib.streams.angles.filters.ARateLimit;
-import com.stuypulse.stuylib.streams.numbers.filters.LowPassFilter;
 import com.stuypulse.stuylib.streams.numbers.filters.MotionProfile;
-import com.stuypulse.stuylib.streams.vectors.filters.VRateLimit;
 
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
@@ -49,14 +47,16 @@ public abstract class Amper extends SubsystemBase {
     }
 
     protected final Controller liftController;
-    protected final SmartNumber targetHeight;
-    protected final Mechanism2d mechanism2d;
-    protected final MechanismLigament2d lift2d;
+
+    private final SmartNumber targetHeight;
+    
+    private final Mechanism2d mechanism2d;
+    private final MechanismLigament2d lift2d;
 
     public Amper() {
-        liftController = new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD).setOutputFilter(
-            new MotionProfile(Lift.VEL_LIMIT, Lift.ACC_LIMIT)
-        );
+        liftController = new MotorFeedforward(Lift.Feedforward.kS, Lift.Feedforward.kV, Lift.Feedforward.kA).position()
+            .setSetpointFilter(new MotionProfile(Lift.VEL_LIMIT, Lift.ACC_LIMIT))
+            .add(new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD));
 
         targetHeight = new SmartNumber("Amper/Target Height", 0); // TODO: determine the default value
 
@@ -66,24 +66,20 @@ public abstract class Amper extends SubsystemBase {
             1,
             0,
             10,
-            new Color8Bit(Color.kOrange)
-        ));
+            new Color8Bit(Color.kOrange)));
+
         lift2d = mechanism2d.getRoot("Lift Origin", 1.5, 1).append(new MechanismLigament2d(
             "Lift",
-            Settings.Amper.Lift.REST_HEIGHT,
+            Settings.Amper.Lift.VISUALIZATION_MIN_LENGTH,
             Settings.Amper.Lift.ANGLE_TO_GROUND.getDegrees(),
             10,
-            new Color8Bit(Color.kAqua)
-        ));
+            new Color8Bit(Color.kAqua)));
         
         SmartDashboard.putData("Lift Mechanism", mechanism2d);
     }
 
-    public void setTargetHeight(double height) {
+    public final void setTargetHeight(double height) {
         targetHeight.set(SLMath.clamp(height, Settings.Amper.Lift.MIN_HEIGHT, Settings.Amper.Lift.MAX_HEIGHT));
-    }
-
-    public void initMechanism2d() {
     }
     
     public abstract boolean hasNote();
@@ -100,5 +96,8 @@ public abstract class Amper extends SubsystemBase {
 
     @Override
     public void periodic() {
+        liftController.update(targetHeight.get(), getLiftHeight());
+
+        lift2d.setLength(Settings.Amper.Lift.VISUALIZATION_MIN_LENGTH + getLiftHeight());
     }
 }

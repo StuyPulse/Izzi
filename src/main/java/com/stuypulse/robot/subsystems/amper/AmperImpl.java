@@ -59,12 +59,12 @@ public class AmperImpl extends Amper {
 
     @Override
     public void score() {
-        scoreMotor.set(Settings.Amper.Score.ROLLER_SPEED.get());
+        scoreMotor.set(Settings.Amper.Score.SCORE_SPEED.get());
     }
 
     @Override
     public void intake() {
-        scoreMotor.set(-Settings.Amper.Score.ROLLER_SPEED.get());
+        scoreMotor.set(-Settings.Amper.Score.INTAKE_SPEED.get());
     }
 
     @Override
@@ -79,15 +79,13 @@ public class AmperImpl extends Amper {
 
     @Override
     public void periodic() {
-        liftController.update(targetHeight.get(), getLiftHeight());
-
+        super.periodic();
+        
         if (liftAtBottom() && liftController.getOutput() < 0) {
             stopLift();
         } else {
             liftMotor.setVoltage(liftController.getOutput());
         }
-
-        lift2d.setLength(getLiftHeight());
 
         SmartDashboard.putNumber("Amper/Intake Speed", scoreMotor.get());
         SmartDashboard.putNumber("Amper/Lift Speed", liftMotor.get());

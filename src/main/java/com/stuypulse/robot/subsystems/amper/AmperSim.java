@@ -65,8 +65,8 @@ public class AmperSim extends Amper {
 	public void stopRoller() {}
 
     @Override
-    public void simulationPeriodic() {
-        liftController.update(targetHeight.get(), getLiftHeight());
+    public void periodic() {
+        super.periodic();
 
         if (liftAtBottom() && liftController.getOutput() < 0) {
             stopLift();
@@ -74,11 +74,14 @@ public class AmperSim extends Amper {
             sim.setInputVoltage(liftController.getOutput());
         }
 
-        sim.update(Settings.DT);
+        SmartDashboard.putNumber("Amper/Lift Height", getLiftHeight());
+    }
+
+    @Override
+    public void simulationPeriodic() {
         RoboRioSim.setVInVoltage(BatterySim.calculateDefaultBatteryLoadedVoltage(sim.getCurrentDrawAmps()));
 
-        lift2d.setLength(getLiftHeight());
-        SmartDashboard.putNumber("Amper/Lift Height", getLiftHeight());
+        sim.update(Settings.DT);
     }
     
 }

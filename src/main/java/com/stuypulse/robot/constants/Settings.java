@@ -7,7 +7,6 @@ package com.stuypulse.robot.constants;
 
 import edu.wpi.first.math.util.Units;
 
-import com.stuypulse.robot.constants.Settings.NoteDetection.Rotation;
 import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
@@ -44,26 +43,26 @@ public interface Settings {
   
     public interface Amper {
         public interface Score {
-            SmartNumber ROLLER_SPEED = new SmartNumber("Amper/Score/Roller Speed", 1.0);
-            
+            SmartNumber SCORE_SPEED = new SmartNumber("Amper/Score/Score Speed", 1.0);
+            SmartNumber INTAKE_SPEED = new SmartNumber("Amper/Score/Intake Speed", 1.0);
 
             SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Score/Amp Score Height", 1.0); // TODO: determine
             SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Score/Trap Score Height", 1.0); // TODO: determine
         }
         
         public interface Lift {
-            Rotation2d ANGLE_TO_GROUND = Rotation2d.fromDegrees(60); // TODO: determine
             double CARRIAGE_MASS = 10; // kg
 
             double MIN_HEIGHT = 0;
-            double MAX_HEIGHT = 1.8475325; // meters 
-            double REST_HEIGHT = 0.5;
+            double MAX_HEIGHT = 1.8475325; // meters
+
+            double VISUALIZATION_MIN_LENGTH = 0.5;
+            Rotation2d ANGLE_TO_GROUND = Rotation2d.fromDegrees(68.02);
 
             double MAX_HEIGHT_ERROR = 0.03;
 
             SmartNumber VEL_LIMIT = new SmartNumber("Amper/Lift/Velocity Limit", 3);
             SmartNumber ACC_LIMIT = new SmartNumber("Amper/Lift/Acceleration Limit", 2);
-            SmartNumber RC = new SmartNumber("Amper/Lift/RC", 1.0);
 
             public interface Encoder {
                 double GEARING = 9; // ~9:1
@@ -72,6 +71,12 @@ public interface Settings {
 
                 double POSITION_CONVERSION = GEARING * DRUM_CIRCUMFERENCE;
                 double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
+            }
+
+            public interface Feedforward {
+                SmartNumber kS = new SmartNumber("Amper/Lift/kS", 0.0);
+                SmartNumber kV = new SmartNumber("Amper/Lift/kV", 0.0);
+                SmartNumber kA = new SmartNumber("Amper/Lift/kA", 0.0);
             }
 
             public interface PID {
