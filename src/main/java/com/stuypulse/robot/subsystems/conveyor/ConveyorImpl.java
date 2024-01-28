@@ -11,15 +11,13 @@ import com.stuypulse.stuylib.streams.booleans.filters.BDebounce;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
-
 public class ConveyorImpl extends Conveyor {
     
     private final CANSparkMax gandalfMotor;
     private final CANSparkMax shooterFeederMotor;
     private final DigitalInput irSensor;
 
-    private BStream isAtShooter;
+    private final BStream isAtShooter;
 
     protected ConveyorImpl() {
         gandalfMotor = new CANSparkMax(Ports.Conveyor.GANDALF, MotorType.kBrushless);
@@ -43,13 +41,13 @@ public class ConveyorImpl extends Conveyor {
     @Override
     public void toShooter() {
         gandalfMotor.set(Settings.Conveyor.GANDALF_SHOOTER_SPEED.get());
-        shooterFeederMotor.set(Settings.Conveyor.SHOOTER_FEEDER_SPEED.get());
+        shooterFeederMotor.set(Settings.Conveyor.FEEDER_SHOOTER_SPEED.get());
     }
 
     @Override
     public void toAmp() {
-        gandalfMotor.set(Settings.Conveyor.GANDALF_AMP_SPEED.get());
-
+        gandalfMotor.set(-Settings.Conveyor.GANDALF_AMP_SPEED.get());
+        shooterFeederMotor.set(Settings.Conveyor.FEEDER_AMP_SPEED.get());
     }
 
     public void stop() {
@@ -59,15 +57,11 @@ public class ConveyorImpl extends Conveyor {
 
     @Override
     public void periodic() {
-
-        //logging
         SmartDashboard.putNumber("Conveyor/Gandalf Motor Current", gandalfMotor.getOutputCurrent());
         SmartDashboard.putNumber("Conveyor/Shooter Feeder Motor Current", shooterFeederMotor.getOutputCurrent());
 
         SmartDashboard.putNumber("Conveyor/Gandalf Motor Speed", gandalfMotor.get());
         SmartDashboard.putNumber("Conveyor/Shooter Feeder Motor Spped", shooterFeederMotor.get());
-
     }
-
 
 }
