@@ -1,42 +1,24 @@
 package com.stuypulse.robot.commands.swerve;
 
 import com.stuypulse.robot.constants.Field;
-import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Alignment.Rotation;
 import com.stuypulse.robot.constants.Settings.Alignment.Translation;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
-import com.stuypulse.robot.util.Fiducial;
 import com.stuypulse.robot.util.HolonomicController;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.control.feedback.PIDController;
-import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Vector2D;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class SwerveDriveToShoot extends Command {
-    /*
-     * swerve
-     * holonomi controller
-     * targetpose pose2d
-     * targetPose2d as a field object 2d
-     * 
-     * contrusctor (init them, add requirements)
-     * initialize (do the math to get the target pose)
-     * execute (set the target pose to the controller and then setChassisSpeeds to it)
-     * isFinished (check if the controller is done within the tolerances)
-     * end (stop the swerve)    
-     * 
-     */
+    
     private final SwerveDrive swerve;
     private Pose2d targetPose;
     private final HolonomicController controller;
@@ -62,13 +44,12 @@ public class SwerveDriveToShoot extends Command {
         Vector2D speakerCenterVec = new Vector2D(Field.getAllianceSpeakerPose().getTranslation());
         Vector2D robotVec = new Vector2D(Odometry.getInstance().getPose().getTranslation());
 
-        double speakerOpeningX = Units.inchesToMeters(13.6);
         // the distances between the robot and the target
         double Dx = speakerCenterVec.x - robotVec.x;
         double Dy = speakerCenterVec.y - robotVec.y;
 
         // the offset of the speakers opening width from center using similar triangles 
-        double dy = (Dy / Dx) * speakerOpeningX; 
+        double dy = (Dy / Dx) * Field.SPEAKER_OPENING_X; 
 
         // gets the new speaker target vector to aim at
         Vector2D speakerTargetVec= new Vector2D(Field.getAllianceSpeakerPose().getX(), Field.getAllianceSpeakerPose().getY() + dy);

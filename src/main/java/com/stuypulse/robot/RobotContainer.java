@@ -24,6 +24,8 @@ import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 import com.stuypulse.stuylib.input.gamepads.Xbox;
 
+import com.stuypulse.robot.subsystems.climber.*;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -31,10 +33,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
 
     // Gamepads
-    public final Gamepad driver = new Xbox(Ports.Gamepad.DRIVER);
+    public final Gamepad driver = new AutoGamepad(Ports.Gamepad.DRIVER);
     public final Gamepad operator = new AutoGamepad(Ports.Gamepad.OPERATOR);
     
     // Subsystem
+    public final Climber climber = Climber.getInstance();
     public final Amper amper = Amper.getInstance();
     public final SwerveDrive swerve = SwerveDrive.getInstance();
     public final Odometry odometry = Odometry.getInstance();

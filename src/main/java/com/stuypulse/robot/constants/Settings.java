@@ -23,7 +23,23 @@ import edu.wpi.first.math.util.Units;
 public interface Settings {
 
     double DT = 1.0 / 50.0;
-    
+
+    public interface Climber {
+        double MIN_HEIGHT = 0.0;
+        double MAX_HEIGHT = 0.0;
+
+        double AT_HEIGHT_THRESHOLD = Units.inchesToMeters(1);
+
+        double BANGBANG_VOLTAGE = 8;
+
+        public interface Encoder {
+            double GEAR_RATIO = 0.0;
+
+            double POSITION_CONVERSION = 0.0;
+            double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
+        }
+    }  
+  
     public interface Amper {
         public interface Score {
             SmartNumber ROLLER_SPEED = new SmartNumber("Amper/Score/Roller Speed", 1.0); // change later

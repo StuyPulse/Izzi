@@ -178,7 +178,7 @@ public class SwerveDrive extends SubsystemBase {
     }
         
     public ChassisSpeeds getChassisSpeeds() {
-        return getKinematics().toChassisSpeeds(getModuleStates());
+        return kinematics.toChassisSpeeds(getModuleStates());
     }
     
     /** Setters **/
@@ -266,7 +266,6 @@ public class SwerveDrive extends SubsystemBase {
 
     public void simulationPeriodic() {
         //show gyro angle in simulation
-        ChassisSpeeds speeds = getChassisSpeeds();
-        gyro.setAngleAdjustment(gyro.getAngleAdjustment()- Math.toDegrees(speeds.omegaRadiansPerSecond * Settings.DT));
+        gyro.setAngleAdjustment(gyro.getAngle() - Math.toDegrees(getChassisSpeeds().omegaRadiansPerSecond * Settings.DT));
     }
 }

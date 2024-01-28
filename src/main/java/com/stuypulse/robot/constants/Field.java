@@ -96,4 +96,6 @@ public interface Field {
         boolean isBlue = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue;
         return SPEAKER_POSES[isBlue ? 0 : 1];
     }
+
+    double SPEAKER_OPENING_X = Units.inchesToMeters(13.6);
 }
