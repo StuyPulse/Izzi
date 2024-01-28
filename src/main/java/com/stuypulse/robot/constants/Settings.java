@@ -30,7 +30,7 @@ public interface Settings {
         double MASS = Units.lbsToKilograms(2.173979);
         double DRUM_RADIUS = Units.inchesToMeters(1.025);
 
-        SmartNumber VELOCITY_LIMIT = new SmartNumber("Climber/Velocity Limit", 3.0); 
+        SmartNumber MAX_DRIVE_VOLTAGE = new SmartNumber("Climber/Velocity Limit", 8.0); 
 
         public interface BangBang {
             double CONTROLLER_VOLTAGE = 8.0;

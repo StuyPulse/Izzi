@@ -10,23 +10,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class ClimberDrive extends Command {
+    
     private final Climber climber; 
-    private final IStream velocity;
+    private final IStream voltage;
 
     public ClimberDrive(Gamepad gamepad) {
         climber = Climber.getInstance();
 
-        velocity = IStream.create(gamepad::getLeftY)
-            .filtered(x -> x * Settings.Climber.VELOCITY_LIMIT.get());
+        voltage = IStream.create(gamepad::getLeftY)
+            .filtered(x -> x * Settings.Climber.MAX_DRIVE_VOLTAGE.get());
 
         addRequirements(climber);
     }
 
     @Override
     public void execute() {
-        climber.setVoltageOverride(velocity.get());
+        climber.setVoltageOverride(voltage.get());
         
-        SmartDashboard.putNumber("Climber/Gamepad Velocity", velocity.get());
+        SmartDashboard.putNumber("Climber/Gamepad Velocity", voltage.get());
     }
 
     @Override
