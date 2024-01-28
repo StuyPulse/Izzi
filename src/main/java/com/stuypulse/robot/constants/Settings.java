@@ -77,6 +77,7 @@ public interface Settings {
                 SmartNumber kS = new SmartNumber("Amper/Lift/kS", 0.0);
                 SmartNumber kV = new SmartNumber("Amper/Lift/kV", 0.0);
                 SmartNumber kA = new SmartNumber("Amper/Lift/kA", 0.0);
+                SmartNumber kG = new SmartNumber("Amper/Lift/kG", 0.0);
             }
 
             public interface PID {

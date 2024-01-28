@@ -5,6 +5,7 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.feedback.PIDController;
+import com.stuypulse.stuylib.control.feedforward.ElevatorFeedforward;
 import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
 import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.network.SmartNumber;
@@ -34,7 +35,7 @@ public abstract class Amper extends SubsystemBase {
     private static Amper instance;
 
     static {
-        if(Robot.isReal()) {
+        if (Robot.isReal()) {
             instance = new AmperImpl();
         }
         else {
@@ -55,8 +56,9 @@ public abstract class Amper extends SubsystemBase {
 
     public Amper() {
         liftController = new MotorFeedforward(Lift.Feedforward.kS, Lift.Feedforward.kV, Lift.Feedforward.kA).position()
+            .add(new ElevatorFeedforward(Lift.Feedforward.kG))
             .setSetpointFilter(new MotionProfile(Lift.VEL_LIMIT, Lift.ACC_LIMIT))
-            .add(new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD));
+                .add(new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD));
 
         targetHeight = new SmartNumber("Amper/Target Height", 0); // TODO: determine the default value
 

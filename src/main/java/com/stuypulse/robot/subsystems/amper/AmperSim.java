@@ -25,7 +25,7 @@ public class AmperSim extends Amper {
             Encoder.DRUM_RADIUS,
             MIN_HEIGHT,
             MAX_HEIGHT,
-            false,
+            true,
             0
         );
     }
