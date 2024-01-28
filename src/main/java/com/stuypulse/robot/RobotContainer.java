@@ -7,10 +7,6 @@ package com.stuypulse.robot;
 
 import com.stuypulse.robot.commands.auton.DoNothingAuton;
 import com.stuypulse.robot.commands.swerve.SwerveDriveDrive;
-import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
-import com.stuypulse.robot.commands.swerve.SwerveDriveToShoot;
-import com.stuypulse.robot.commands.swerve.SwerveDriveXMode;
-import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
@@ -22,7 +18,6 @@ import com.stuypulse.robot.subsystems.shooter.Shooter;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
-import com.stuypulse.stuylib.input.gamepads.Xbox;
 
 import com.stuypulse.robot.subsystems.climber.*;
 
@@ -70,11 +65,7 @@ public class RobotContainer {
     /*** BUTTONS ***/
     /***************/
 
-    private void configureButtonBindings() {
-        driver.getLeftBumper().onTrue(new SwerveDriveXMode());
-        driver.getBottomButton().whileTrue(new SwerveDriveToPose(Field.getFiducial(8).getLocation().toPose2d()));
-        driver.getRightBumper().whileTrue(new SwerveDriveToShoot());
-    }
+    private void configureButtonBindings() {}
 
     /**************/
     /*** AUTONS ***/
