@@ -12,6 +12,7 @@ import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.streams.angles.filters.ARateLimit;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -43,6 +44,10 @@ public class SimModule extends SwerveModule {
 
         angleController = new AnglePIDController(Turn.kP, Turn.kI, Turn.kD)
             .setSetpointFilter(new ARateLimit(Swerve.MAX_TURNING));
+    }
+
+    public double getPosition() {
+        return driveSim.getOutput(0);
     }
     
     @Override
@@ -76,8 +81,8 @@ public class SimModule extends SwerveModule {
             driveSim.setInput(0);
             turnSim.setInput(0);
         } else {
-            driveSim.setInput(driveController.getOutput());
-            turnSim.setInput(angleController.getOutput());
+            driveSim.setInput(MathUtil.clamp(driveController.getOutput(), -12, 12));
+            turnSim.setInput(MathUtil.clamp(angleController.getOutput(), -12, 12));
         }
 
         RoboRioSim.setVInVoltage(BatterySim.calculateDefaultBatteryLoadedVoltage(
@@ -89,6 +94,7 @@ public class SimModule extends SwerveModule {
 
         SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Drive Voltage", driveController.getOutput());
         SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Turn Voltage", angleController.getOutput());
+        SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Position", getPosition());
         SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Angle Error", angleController.getError().toDegrees());
     }
 }
