@@ -20,22 +20,23 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class SwerveDriveToShoot extends Command {
     
     private final SwerveDrive swerve;
-    private Pose2d targetPose;
+
     private final HolonomicController controller;
+    private Pose2d targetPose;
+
     private final FieldObject2d targetPose2d;
     private final FieldObject2d speakerPose2d;
 
     public SwerveDriveToShoot() {
         swerve = SwerveDrive.getInstance();
 
-        this.targetPose2d = Odometry.getInstance().getField().getObject("Target Pose");
-        this.speakerPose2d = Odometry.getInstance().getField().getObject("Speaker Pose");
+        targetPose2d = Odometry.getInstance().getField().getObject("Target Pose");
+        speakerPose2d = Odometry.getInstance().getField().getObject("Speaker Pose");
 
         controller = new HolonomicController(
             new PIDController(Translation.P, Translation.I, Translation.D),
             new PIDController(Translation.P, Translation.I, Translation.D),
-            new AnglePIDController(Rotation.P, Rotation.I, Rotation.D)
-        );
+            new AnglePIDController(Rotation.P, Rotation.I, Rotation.D));
     
         addRequirements(swerve);
     }
@@ -52,7 +53,7 @@ public class SwerveDriveToShoot extends Command {
         double dy = (Dy / Dx) * Field.SPEAKER_OPENING_X; 
 
         // gets the new speaker target vector to aim at
-        Vector2D speakerTargetVec= new Vector2D(Field.getAllianceSpeakerPose().getX(), Field.getAllianceSpeakerPose().getY() + dy);
+        Vector2D speakerTargetVec = new Vector2D(Field.getAllianceSpeakerPose().getX(), Field.getAllianceSpeakerPose().getY() + dy);
 
         speakerPose2d.setPose(speakerTargetVec.x, speakerTargetVec.y, Rotation2d.fromDegrees(0));
 

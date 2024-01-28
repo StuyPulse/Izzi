@@ -17,11 +17,11 @@ import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class SwerveDriveToPose extends Command {
+
     private final SwerveDrive swerve;
-    private Pose2d targetPose;
 
     private final HolonomicController controller;
-
+    private final Pose2d targetPose;
     private final BStream isAligned;
 
     private final FieldObject2d targetPose2d;
@@ -35,8 +35,7 @@ public class SwerveDriveToPose extends Command {
         controller = new HolonomicController(
             new PIDController(Translation.P, Translation.I, Translation.D),
             new PIDController(Translation.P, Translation.I, Translation.D),
-            new AnglePIDController(Rotation.P, Rotation.I, Rotation.D)
-        );
+            new AnglePIDController(Rotation.P, Rotation.I, Rotation.D));
 
         isAligned = BStream.create(this::isAligned)
             .filtered(new BDebounceRC.Both(Alignment.DEBOUNCE_TIME.get()));
@@ -47,9 +46,6 @@ public class SwerveDriveToPose extends Command {
     private boolean isAligned() {
         return controller.isDone(Alignment.X_TOLERANCE.get(), Alignment.Y_TOLERANCE.get(), Alignment.ANGLE_TOLERANCE.get());
     }
-
-    @Override
-    public void initialize() {}
 
     @Override
     public void execute() {
