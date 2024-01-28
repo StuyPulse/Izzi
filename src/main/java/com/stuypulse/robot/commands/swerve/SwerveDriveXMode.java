@@ -7,6 +7,15 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class SwerveDriveXMode extends Command {
+
+    // { front right, front left, back right, back left }
+    private static final SwerveModuleState[] states = new SwerveModuleState[] {
+        new SwerveModuleState(0, Rotation2d.fromDegrees(225)),
+        new SwerveModuleState(0, Rotation2d.fromDegrees(315)),
+        new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
+        new SwerveModuleState(0, Rotation2d.fromDegrees(135))
+    };
+
     private final SwerveDrive swerve;
 
     public SwerveDriveXMode() {
@@ -16,13 +25,6 @@ public class SwerveDriveXMode extends Command {
 
     @Override
     public void execute() {
-        SwerveModuleState[] states = new SwerveModuleState[] {
-            //{front right, front left, back right, back left}
-            new SwerveModuleState(0,Rotation2d.fromDegrees(225)),
-            new SwerveModuleState(0,Rotation2d.fromDegrees(315)),
-            new SwerveModuleState(0,Rotation2d.fromDegrees(45)),
-            new SwerveModuleState(0,Rotation2d.fromDegrees(135))
-        };
         swerve.setModuleStates(states);
     }
 }
