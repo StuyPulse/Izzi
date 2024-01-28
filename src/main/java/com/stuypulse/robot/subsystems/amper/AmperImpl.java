@@ -5,9 +5,6 @@ import com.revrobotics.RelativeEncoder;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.constants.Settings.Amper.Lift;
-import com.stuypulse.stuylib.control.Controller;
-import com.stuypulse.stuylib.control.feedback.PIDController;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,11 +20,7 @@ public class AmperImpl extends Amper {
     private final DigitalInput minSwitch;
     private final DigitalInput ampIRSensor;
 
-    public final Controller liftController;
-
     public AmperImpl() {
-        liftController = new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD);
-
         scoreMotor = new CANSparkMax(Ports.Amper.SCORE, MotorType.kBrushless);
         liftMotor = new CANSparkMax(Ports.Amper.LIFT, MotorType.kBrushless);
         liftEncoder = liftMotor.getEncoder();
@@ -42,6 +35,7 @@ public class AmperImpl extends Amper {
         Motors.Amper.LIFT_MOTOR.configure(liftMotor);
         Motors.Amper.SCORE_MOTOR.configure(scoreMotor);
     }
+
 
     @Override
     public boolean hasNote() {
@@ -65,12 +59,12 @@ public class AmperImpl extends Amper {
 
     @Override
     public void score() {
-        scoreMotor.set(Settings.Amper.Score.ROLLER_SPEED.get());
+        scoreMotor.set(Settings.Amper.Score.SCORE_SPEED.get());
     }
 
     @Override
     public void intake() {
-        scoreMotor.set(-Settings.Amper.Score.ROLLER_SPEED.get());
+        scoreMotor.set(-Settings.Amper.Score.INTAKE_SPEED.get());
     }
 
     @Override
@@ -86,9 +80,7 @@ public class AmperImpl extends Amper {
     @Override
     public void periodic() {
         super.periodic();
-
-        liftController.update(targetHeight.get(), getLiftHeight());
-
+        
         if (liftAtBottom() && liftController.getOutput() < 0) {
             stopLift();
         } else {
