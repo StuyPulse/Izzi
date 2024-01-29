@@ -62,7 +62,7 @@ public class SimClimber extends Climber {
         return sim.hasHitLowerLimit();
     }
 
-    public void setVoltage(double voltage) {
+    private void setVoltage(double voltage) {
         sim.setInputVoltage(voltage);
     }
 
@@ -78,7 +78,7 @@ public class SimClimber extends Climber {
             } else if (getHeight() > getTargetHeight()) {
                 setVoltage(-Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
             } else {
-                setVoltage(Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
+                setVoltage(+Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
             }
         }
 

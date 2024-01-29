@@ -1,7 +1,5 @@
 package com.stuypulse.robot.subsystems.climber;
 
-import java.util.Optional;
-
 import com.stuypulse.robot.util.ClimberVisualizer;
 import com.stuypulse.stuylib.network.SmartNumber;
 
@@ -26,10 +24,11 @@ public abstract class Climber extends SubsystemBase {
 
     private final SmartNumber targetHeight;
 
-    private final ClimberVisualizer climberVisualizer = new ClimberVisualizer();
+    private final ClimberVisualizer climberVisualizer;
 
     public Climber() {
         targetHeight = new SmartNumber("Climber/Target Height", 0.0);
+        climberVisualizer = new ClimberVisualizer();
     }
 
     public void setTargetHeight(double height) {
