@@ -3,7 +3,7 @@ package com.stuypulse.robot.subsystems.vision;
 import static com.stuypulse.robot.constants.Cameras.Limelight.*;
 
 import com.stuypulse.robot.subsystems.odometry.Odometry;
-import com.stuypulse.robot.util.Limelight;
+import com.stuypulse.robot.util.vision.Limelight;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;

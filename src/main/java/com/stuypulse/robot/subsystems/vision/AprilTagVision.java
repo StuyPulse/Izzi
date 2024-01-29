@@ -3,8 +3,8 @@ package com.stuypulse.robot.subsystems.vision;
 import java.util.ArrayList;
 
 import com.stuypulse.robot.constants.Cameras;
-import com.stuypulse.robot.util.AprilTagCamera;
-import com.stuypulse.robot.util.VisionData;
+import com.stuypulse.robot.util.vision.AprilTagCamera;
+import com.stuypulse.robot.util.vision.VisionData;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

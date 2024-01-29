@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
-import com.stuypulse.robot.util.VisionData;
+import com.stuypulse.robot.util.vision.VisionData;
 import com.stuypulse.stuylib.network.SmartBoolean;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
