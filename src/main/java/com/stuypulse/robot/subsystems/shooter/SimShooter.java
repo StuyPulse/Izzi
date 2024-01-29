@@ -46,18 +46,27 @@ public class SimShooter extends Shooter {
     }
 
     @Override
-    public void simulationPeriodic() {
+    public void periodic() {
+        super.periodic();
+
         leftController.update(getLeftTargetRPM(), getLeftShooterRPM());
         rightController.update(getRightTargetRPM(), getRightShooterRPM());
         
         leftWheel.setInputVoltage(leftController.getOutput());
         rightWheel.setInputVoltage(rightController.getOutput());
 
-        leftWheel.update(Settings.DT);
-        rightWheel.update(Settings.DT);
-        
         SmartDashboard.putNumber("Shooter/Right RPM", getRightShooterRPM());
         SmartDashboard.putNumber("Shooter/Left RPM", getLeftShooterRPM());
+
+        SmartDashboard.putNumber("Shooter/Left Voltage", leftController.getOutput());
+        SmartDashboard.putNumber("Shooter/Right Voltage", rightController.getOutput());
+
+    }
+
+    @Override
+    public void simulationPeriodic() {
+        leftWheel.update(Settings.DT);
+        rightWheel.update(Settings.DT);
     }
     
 }

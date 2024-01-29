@@ -27,7 +27,7 @@ public class ClimberDrive extends Command {
     public void execute() {
         climber.setVoltageOverride(voltage.get());
         
-        SmartDashboard.putNumber("Climber/Gamepad Velocity", voltage.get());
+        SmartDashboard.putNumber("Climber/Gamepad Voltage", voltage.get());
     }
 
     @Override

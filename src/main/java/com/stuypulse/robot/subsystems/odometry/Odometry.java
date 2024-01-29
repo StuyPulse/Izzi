@@ -3,9 +3,8 @@ package com.stuypulse.robot.subsystems.odometry;
 import java.util.ArrayList;
 
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
-
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
-import com.stuypulse.robot.util.VisionData;
+import com.stuypulse.robot.util.vision.VisionData;
 import com.stuypulse.stuylib.network.SmartBoolean;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -65,7 +64,7 @@ public class Odometry extends SubsystemBase {
     /**
      * Update the odometry with swerve drive data.
      */
-    public void updateOdometry() {
+    private void updateOdometry() {
         SwerveDrive swerve = SwerveDrive.getInstance();
         odometry.update(swerve.getGyroAngle(), swerve.getModulePositions());
         estimator.update(swerve.getGyroAngle(), swerve.getModulePositions());
@@ -75,7 +74,7 @@ public class Odometry extends SubsystemBase {
      * Update the odometry with vision data.
      * @param data the vision data
      */
-    public void updateWithVisionData(VisionData data) {
+    private void updateWithVisionData(VisionData data) {
         estimator.addVisionMeasurement(data.getPose().toPose2d(), data.getTimestamp());
     }
 

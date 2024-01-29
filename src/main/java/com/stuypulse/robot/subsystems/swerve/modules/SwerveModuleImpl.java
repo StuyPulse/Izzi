@@ -72,7 +72,8 @@ public class SwerveModuleImpl extends SwerveModule {
     public SwerveModuleImpl(String id, Translation2d offset, int driveID, Rotation2d angleOffset, int turnID, int encoderID) {
         super(id, offset);
         
-        this.angleOffset = angleOffset;        
+        this.angleOffset = angleOffset;
+        
         driveMotor = new CANSparkMax(driveID, MotorType.kBrushless);
         turnMotor = new CANSparkMax(turnID, MotorType.kBrushless);
 
@@ -113,12 +114,12 @@ public class SwerveModuleImpl extends SwerveModule {
         super.periodic();
 
         driveController.update(
-            targetState.speedMetersPerSecond,
+            getTargetState().speedMetersPerSecond,
             getVelocity()
         );
 
         angleController.update(
-            Angle.fromRotation2d(targetState.angle),
+            Angle.fromRotation2d(getTargetState().angle),
             Angle.fromRotation2d(getAngle())
         );
 
@@ -130,9 +131,9 @@ public class SwerveModuleImpl extends SwerveModule {
             turnMotor.setVoltage(angleController.getOutput());
         }
         
-        SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Drive Voltage", driveController.getOutput());
-        SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Turn Voltage", angleController.getOutput());
-        SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Angle Error", angleController.getError().toDegrees());
-        SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Raw Encoder Angle", Units.rotationsToDegrees(turnEncoder.getAbsolutePosition().getValueAsDouble()));
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Voltage", driveController.getOutput());
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Turn Voltage", angleController.getOutput());
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Angle Error", angleController.getError().toDegrees());
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Raw Encoder Angle", Units.rotationsToDegrees(turnEncoder.getAbsolutePosition().getValueAsDouble()));
     }
 }

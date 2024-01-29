@@ -19,6 +19,11 @@ public class AmperIntake extends Command {
     }
 
     @Override
+    public boolean isFinished() {
+        return amper.hasNote();
+    }
+
+    @Override
     public void end(boolean interrupted) {
         amper.stopRoller();
     }

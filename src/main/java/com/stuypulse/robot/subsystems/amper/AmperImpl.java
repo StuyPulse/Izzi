@@ -5,6 +5,12 @@ import com.revrobotics.RelativeEncoder;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Amper.Lift;
+import com.stuypulse.stuylib.control.Controller;
+import com.stuypulse.stuylib.control.feedback.PIDController;
+import com.stuypulse.stuylib.control.feedforward.ElevatorFeedforward;
+import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
+import com.stuypulse.stuylib.streams.numbers.filters.MotionProfile;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,6 +26,8 @@ public class AmperImpl extends Amper {
     private final DigitalInput minSwitch;
     private final DigitalInput ampIRSensor;
 
+    private final Controller controller;
+
     public AmperImpl() {
         scoreMotor = new CANSparkMax(Ports.Amper.SCORE, MotorType.kBrushless);
         liftMotor = new CANSparkMax(Ports.Amper.LIFT, MotorType.kBrushless);
@@ -34,6 +42,12 @@ public class AmperImpl extends Amper {
 
         Motors.Amper.LIFT_MOTOR.configure(liftMotor);
         Motors.Amper.SCORE_MOTOR.configure(scoreMotor);
+
+        controller = new MotorFeedforward(Lift.Feedforward.kS, Lift.Feedforward.kV, Lift.Feedforward.kA).position()
+            .add(new ElevatorFeedforward(Lift.Feedforward.kG))
+            .setSetpointFilter(new MotionProfile(Lift.VEL_LIMIT, Lift.ACC_LIMIT))
+                .add(new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD));
+
     }
 
 
@@ -80,11 +94,13 @@ public class AmperImpl extends Amper {
     @Override
     public void periodic() {
         super.periodic();
+
+        controller.update(getTargetHeight(), getLiftHeight());
         
-        if (liftAtBottom() && liftController.getOutput() < 0) {
+        if (liftAtBottom() && controller.getOutput() < 0) {
             stopLift();
         } else {
-            liftMotor.setVoltage(liftController.getOutput());
+            liftMotor.setVoltage(controller.getOutput());
         }
 
         SmartDashboard.putNumber("Amper/Intake Speed", scoreMotor.get());

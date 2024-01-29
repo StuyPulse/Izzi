@@ -6,6 +6,7 @@ import com.stuypulse.robot.subsystems.climber.Climber;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class ClimberToHeight extends Command {
+    
     private final Climber climber;
     private final double height;
 

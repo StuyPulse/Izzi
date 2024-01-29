@@ -2,7 +2,7 @@ package com.stuypulse.robot.constants;
 
 import java.util.ArrayList;
 
-import com.stuypulse.robot.util.Fiducial;
+import com.stuypulse.robot.util.vision.Fiducial;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;

@@ -10,10 +10,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public abstract class SwerveModule extends SubsystemBase {
 
     private final String id;
-    
     private final Translation2d offset;
 
-    public SwerveModuleState targetState;
+    private SwerveModuleState targetState;
 
     public SwerveModule(String id, Translation2d offset) {
         this.id = id;
@@ -22,11 +21,11 @@ public abstract class SwerveModule extends SubsystemBase {
         targetState = new SwerveModuleState();
     }
 
-    public String getId() {
+    public final String getId() {
         return this.id;
     }
 
-    public Translation2d getModuleOffset() {
+    public final Translation2d getModuleOffset() {
         return this.offset;
     }
 
@@ -34,20 +33,24 @@ public abstract class SwerveModule extends SubsystemBase {
     public abstract Rotation2d getAngle();
     public abstract SwerveModulePosition getModulePosition();
 
-    public SwerveModuleState getState() {
+    public final SwerveModuleState getState() {
         return new SwerveModuleState(getVelocity(), getAngle());
     }
 
-    public void setTargetState(SwerveModuleState state) {
+    public final void setTargetState(SwerveModuleState state) {
         targetState = SwerveModuleState.optimize(state, getAngle());
+    }
+
+    public final SwerveModuleState getTargetState() {
+        return targetState;
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Target Angle", targetState.angle.getDegrees());
-        SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Angle", getAngle().getDegrees());
-        SmartDashboard.putNumber("Swerve/Modules/" + this.getId()+ "/Target Speed", targetState.speedMetersPerSecond);
-        SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Velocity", getVelocity());
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Target Angle", targetState.angle.getDegrees());
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Angle", getAngle().getDegrees());
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Target Speed", targetState.speedMetersPerSecond);
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Velocity", getVelocity());
     }
 }
     
