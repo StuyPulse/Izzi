@@ -34,9 +34,6 @@ public class ClimberImpl extends Climber {
         rightMotor = new CANSparkMax(Ports.Climber.RIGHT_MOTOR, MotorType.kBrushless);
         leftMotor = new CANSparkMax(Ports.Climber.LEFT_MOTOR, MotorType.kBrushless);
 
-        Motors.Climber.LEFT_MOTOR.configure(leftMotor);
-        Motors.Climber.RIGHT_MOTOR.configure(rightMotor);
-
         rightEncoder = rightMotor.getEncoder();
         leftEncoder = leftMotor.getEncoder();
 
@@ -52,6 +49,9 @@ public class ClimberImpl extends Climber {
         bottomLeftLimit = new DigitalInput(Ports.Climber.BOTTOM_LEFT_LIMIT);
         
         voltageOverride = Optional.empty();
+
+        Motors.Climber.LEFT_MOTOR.configure(leftMotor);
+        Motors.Climber.RIGHT_MOTOR.configure(rightMotor);
     }
 
     @Override

@@ -28,9 +28,6 @@ public class ShooterImpl extends Shooter {
         leftMotor = new CANSparkMax(Ports.Shooter.LEFT_MOTOR, MotorType.kBrushless);
         rightMotor = new CANSparkMax(Ports.Shooter.RIGHT_MOTOR, MotorType.kBrushless);
 
-        Motors.Shooter.LEFT_SHOOTER.configure(leftMotor);
-        Motors.Shooter.RIGHT_SHOOTER.configure(rightMotor);
-
         leftEncoder = leftMotor.getEncoder();
         rightEncoder = rightMotor.getEncoder();
 
@@ -38,6 +35,9 @@ public class ShooterImpl extends Shooter {
             .add(new PIDController(PID.kP, PID.kI, PID.kD));
         rightController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
             .add(new PIDController(PID.kP, PID.kI, PID.kD));
+
+        Motors.Shooter.LEFT_SHOOTER.configure(leftMotor);
+        Motors.Shooter.RIGHT_SHOOTER.configure(rightMotor);
     }
 
     @Override

@@ -77,9 +77,6 @@ public class SwerveModuleImpl extends SwerveModule {
         driveMotor = new CANSparkMax(driveID, MotorType.kBrushless);
         turnMotor = new CANSparkMax(turnID, MotorType.kBrushless);
 
-        Motors.Swerve.DRIVE_CONFIG.configure(driveMotor);
-        Motors.Swerve.TURN_CONFIG.configure(turnMotor);
-
         driveEncoder = driveMotor.getEncoder();
         driveEncoder.setPositionConversionFactor(Encoder.Drive.POSITION_CONVERSION);
         driveEncoder.setVelocityConversionFactor(Encoder.Drive.VELOCITY_CONVERSION);
@@ -92,6 +89,9 @@ public class SwerveModuleImpl extends SwerveModule {
 
         angleController = new AnglePIDController(Turn.kP, Turn.kI, Turn.kD)
             .setSetpointFilter(new ARateLimit(Swerve.MAX_TURNING));
+
+        Motors.Swerve.DRIVE_CONFIG.configure(driveMotor);
+        Motors.Swerve.TURN_CONFIG.configure(turnMotor);
     }
 
     @Override
