@@ -2,14 +2,8 @@ package com.stuypulse.robot.subsystems.amper;
 
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.constants.Settings.Amper.Lift;
-import com.stuypulse.stuylib.control.Controller;
-import com.stuypulse.stuylib.control.feedback.PIDController;
-import com.stuypulse.stuylib.control.feedforward.ElevatorFeedforward;
-import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
 import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.network.SmartNumber;
-import com.stuypulse.stuylib.streams.numbers.filters.MotionProfile;
 
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
@@ -47,19 +41,12 @@ public abstract class Amper extends SubsystemBase {
         return instance;
     }
 
-    protected final Controller liftController;
-
     private final SmartNumber targetHeight;
     
     private final Mechanism2d mechanism2d;
     private final MechanismLigament2d lift2d;
 
     public Amper() {
-        liftController = new MotorFeedforward(Lift.Feedforward.kS, Lift.Feedforward.kV, Lift.Feedforward.kA).position()
-            .add(new ElevatorFeedforward(Lift.Feedforward.kG))
-            .setSetpointFilter(new MotionProfile(Lift.VEL_LIMIT, Lift.ACC_LIMIT))
-                .add(new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD));
-
         targetHeight = new SmartNumber("Amper/Target Height", 0); // TODO: determine the default value
 
         mechanism2d = new Mechanism2d(3, 3);
@@ -83,6 +70,10 @@ public abstract class Amper extends SubsystemBase {
     public final void setTargetHeight(double height) {
         targetHeight.set(SLMath.clamp(height, Settings.Amper.Lift.MIN_HEIGHT, Settings.Amper.Lift.MAX_HEIGHT));
     }
+
+    public final double getTargetHeight() {
+        return targetHeight.get();
+    }
     
     public abstract boolean hasNote();
 
@@ -98,8 +89,6 @@ public abstract class Amper extends SubsystemBase {
 
     @Override
     public void periodic() {
-        liftController.update(targetHeight.get(), getLiftHeight());
-
         lift2d.setLength(Settings.Amper.Lift.VISUALIZATION_MIN_LENGTH + getLiftHeight());
     }
 }
