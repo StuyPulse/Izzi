@@ -4,11 +4,11 @@ import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 
 import com.stuypulse.robot.subsystems.intake.Intake;
 
-import com.stuypulse.robot.subsystems.amper.Amper;
-
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class ConveyorToAmp extends Command{
+import com.stuypulse.robot.subsystems.amper.Amper;
+
+public class ConveyorToAmp extends Command {
 
     private final Conveyor conveyor;
     private final Intake intake;
@@ -26,6 +26,7 @@ public class ConveyorToAmp extends Command{
     public void execute() {
         conveyor.toAmp();
         intake.acquire();
+        amper.score();
     }
 
     @Override

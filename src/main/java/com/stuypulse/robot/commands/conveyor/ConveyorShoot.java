@@ -2,9 +2,9 @@ package com.stuypulse.robot.commands.conveyor;
 
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class ConveyorShoot extends Command{
+public class ConveyorShoot extends InstantCommand {
 
     private final Conveyor conveyor;
 
