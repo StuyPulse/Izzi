@@ -108,11 +108,11 @@ public class SwerveDrive extends SubsystemBase {
      * Creates a new Swerve Drive using the provided modules
      * @param modules the modules to use
      */
-    public SwerveDrive(SwerveModule... modules){
+    public SwerveDrive(SwerveModule... modules) {
         this.modules = modules;
-        this.kinematics = new SwerveDriveKinematics(getModuleOffsets());
-        this.gyro = new AHRS(SPI.Port.kMXP);
-        this.modules2D = new FieldObject2d[modules.length];
+        kinematics = new SwerveDriveKinematics(getModuleOffsets());
+        gyro = new AHRS(SPI.Port.kMXP);
+        modules2D = new FieldObject2d[modules.length];
     }  
     
     public void configureAutoBuilder() {
@@ -266,8 +266,9 @@ public class SwerveDrive extends SubsystemBase {
         SmartDashboard.putNumber("Swerve/Chassis Rotation", getChassisSpeeds().omegaRadiansPerSecond);
     }
 
+    @Override
     public void simulationPeriodic() {
-        //show gyro angle in simulation
+        // show gyro angle in simulation
         gyro.setAngleAdjustment(gyro.getAngle() - Math.toDegrees(getChassisSpeeds().omegaRadiansPerSecond * Settings.DT));
     }
 }
