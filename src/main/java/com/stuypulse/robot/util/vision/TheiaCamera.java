@@ -23,7 +23,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  * This class handles interactions between the robot code 
  * and the Theia AprilTag system through the NetworkTables.
  */
-public class AprilTagCamera {
+public class TheiaCamera {
     
     private final String name;
     private final Pose3d cameraLocation;
@@ -53,7 +53,7 @@ public class AprilTagCamera {
     private long rawCounter;
     private long lastCounter;
     
-    public AprilTagCamera(String name, Pose3d cameraLocation) {
+    public TheiaCamera(String name, Pose3d cameraLocation) {
         this.name = name;
         this.cameraLocation = cameraLocation;
 
@@ -79,7 +79,7 @@ public class AprilTagCamera {
         counterSub = outputTable.getIntegerTopic("counter").subscribe(0);
     }
 
-    public AprilTagCamera(CameraConfig config) {
+    public TheiaCamera(CameraConfig config) {
         this(config.getName(), config.getLocation());
     }
     

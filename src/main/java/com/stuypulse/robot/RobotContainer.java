@@ -5,9 +5,14 @@
 
 package com.stuypulse.robot;
 
-import com.stuypulse.robot.commands.auton.DoNothingAuton;
-import com.stuypulse.robot.commands.climber.ClimberDrive;
-import com.stuypulse.robot.commands.swerve.SwerveDriveDrive;
+import com.stuypulse.robot.commands.*;
+import com.stuypulse.robot.commands.amper.*;
+import com.stuypulse.robot.commands.auton.*;
+import com.stuypulse.robot.commands.climber.*;
+import com.stuypulse.robot.commands.swerve.*;
+import com.stuypulse.robot.commands.intake.*;
+import com.stuypulse.robot.commands.shooter.*;
+import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.amper.Amper;
@@ -35,15 +40,16 @@ public class RobotContainer {
     public final Gamepad operator = new AutoGamepad(Ports.Gamepad.OPERATOR);
     
     // Subsystem
-    public final Climber climber = Climber.getInstance();
-    public final Amper amper = Amper.getInstance();
-    public final SwerveDrive swerve = SwerveDrive.getInstance();
-    public final Odometry odometry = Odometry.getInstance();
     public final AprilTagVision vision = AprilTagVision.getInstance();
     public final NoteVision noteVision = NoteVision.getInstance();
+    public final Odometry odometry = Odometry.getInstance();
+
+    public final Amper amper = Amper.getInstance();
+    public final Conveyor conveyor = Conveyor.getInstance();
+    public final Climber climber = Climber.getInstance();
     public final Intake intake = Intake.getInstance();
     public final Shooter shooter = Shooter.getInstance();
-    public final Conveyor conveyor = Conveyor.getInstance();
+    public final SwerveDrive swerve = SwerveDrive.getInstance();
   
     // Autons
     private static SendableChooser<Command> autonChooser = new SendableChooser<>();
