@@ -32,7 +32,7 @@ Bottom (shooter) limit switch
 
 public abstract class Amper extends SubsystemBase {
 
-    private static Amper instance;
+    private static final Amper instance;
 
     static {
         if (Robot.isReal()) {

@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class AprilTagVision extends SubsystemBase {
     
-    private static AprilTagVision instance;
+    private static final AprilTagVision instance;
 
     static {
         instance = new TheiaTagVision();

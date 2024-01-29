@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class NoteVision extends SubsystemBase {
 
-    private static NoteVision instance;
+    private static final NoteVision instance;
 
     static {
         instance = new LLNoteVision();
