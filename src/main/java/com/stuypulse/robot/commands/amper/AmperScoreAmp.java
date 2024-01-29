@@ -10,7 +10,7 @@ public class AmperScoreAmp extends SequentialCommandGroup {
         addCommands(
             new AmperToHeight(Score.AMP_SCORE_HEIGHT.get()),
             new AmperWaitToHeight(Score.AMP_SCORE_HEIGHT.get()),
-            new AmperOuttake()
+            new AmperScore()
         );
     }
 

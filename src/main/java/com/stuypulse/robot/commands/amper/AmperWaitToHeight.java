@@ -18,6 +18,11 @@ public class AmperWaitToHeight extends Command {
     }
 
     @Override
+    public void initialize() {
+        amper.setTargetHeight(height);
+    }
+
+    @Override
     public boolean isFinished() {
         return Math.abs(amper.getLiftHeight() - height) < Lift.MAX_HEIGHT_ERROR;
     }

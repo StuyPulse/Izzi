@@ -49,6 +49,9 @@ public interface Settings {
         public interface Score {
             SmartNumber SCORE_SPEED = new SmartNumber("Amper/Score/Score Speed", 1.0);
             SmartNumber INTAKE_SPEED = new SmartNumber("Amper/Score/Intake Speed", 1.0);
+
+            SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Amp Score Height", 1.0); // TODO: determine
+            SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Trap Score Height", 1.0); // TODO: determine
         }
         
         public interface Lift {
@@ -64,9 +67,6 @@ public interface Settings {
 
             SmartNumber VEL_LIMIT = new SmartNumber("Amper/Lift/Velocity Limit", 3);
             SmartNumber ACC_LIMIT = new SmartNumber("Amper/Lift/Acceleration Limit", 2);
-
-            SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Amp Score Height", 1.0); // TODO: determine
-            SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Trap Score Height", 1.0); // TODO: determine
 
             public interface Encoder {
                 double GEARING = 9; // ~9:1
