@@ -1,10 +1,16 @@
 package com.stuypulse.robot.commands.swerve;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.stuypulse.robot.constants.Motors.Swerve;
+import com.stuypulse.robot.subsystems.conveyor.Conveyor;
+import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
+import com.stuypulse.robot.subsystems.vision.LLNoteVision;
+import com.stuypulse.robot.subsystems.vision.NoteVision;
 import com.stuypulse.stuylib.input.Gamepad;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 /*
  * when a button is pressed this command is activated
@@ -27,21 +33,36 @@ import edu.wpi.first.wpilibj2.command.Command;
  * 
  */
 public class SwerveDriveAutomatic extends Command {
+    // Subsystems
     private SwerveDrive swerve;
+    private Conveyor conveyor;
+    private NoteVision llNoteVision;
+
     private final Gamepad driver;
     
     public SwerveDriveAutomatic(Gamepad driver) {
         this.driver = driver;
         swerve = SwerveDrive.getInstance();
+        conveyor = Conveyor.getInstance();
+        llNoteVision = LLNoteVision.getInstance();
+
         addRequirements(swerve);
-
     }
-
 
     @Override
     public void execute() {
         //logic here 
-
+        Pose2d currentPose = Odometry.getInstance().getPose();
+        if(conveyor.isNoteAtShooter()){
+            // we want to go to shooter align position
+        }
+        else if(llNoteVision.hasNoteData()){
+            // addCommands(
+            //     new SwerveDriveToPose(llNoteVision.getEstimatedNotePose())
+            // );
+            
+            // we go to nearest note
+        }
     }
 
     @Override
