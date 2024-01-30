@@ -1,6 +1,5 @@
 package com.stuypulse.robot.subsystems.conveyor;
 
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /*
@@ -26,14 +25,10 @@ public abstract class Conveyor extends SubsystemBase {
         return instance;
     };
 
-
     public abstract void toShooter();
-        
     public abstract void toAmp();
-
-    public abstract boolean isNoteAtShooter();
-
     public abstract void stop();
 
+    public abstract boolean isNoteAtShooter();
 }
     

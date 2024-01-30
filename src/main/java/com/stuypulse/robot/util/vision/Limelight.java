@@ -1,4 +1,4 @@
-package com.stuypulse.robot.util;
+package com.stuypulse.robot.util.vision;
 
 import static com.stuypulse.robot.constants.Cameras.Limelight.*;
 

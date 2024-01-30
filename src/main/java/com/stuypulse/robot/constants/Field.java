@@ -2,21 +2,29 @@ package com.stuypulse.robot.constants;
 
 import java.util.ArrayList;
 
-import com.stuypulse.robot.util.Fiducial;
+import com.stuypulse.robot.util.vision.Fiducial;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 
 /**
  * This interface stores information about the field elements.
  */
 public interface Field {
 
-    public final double FIDUCIAL_SIZE = Units.inchesToMeters(6.125);
+    double WIDTH = Units.inchesToMeters(323.25);
+    double LENGTH = Units.inchesToMeters(651.25);
+
     double NOTE_LENGTH = Units.inchesToMeters(14.0);
+
+    /*** APRILTAGS ***/
+
+    double FIDUCIAL_SIZE = Units.inchesToMeters(6.125);
 
     Fiducial FIDUCIALS[] = {
         // 2024 Field Fiducial Layout
@@ -84,4 +92,18 @@ public interface Field {
         }
         return null;
     }
+
+    /*** SPEAKER ***/
+
+    Pose2d SPEAKER_POSES[] = {
+        getFiducial(7).getLocation().toPose2d(), // BLUE CENTER
+        getFiducial(4).getLocation().toPose2d(), // RED CENTER
+    };
+
+    public static Pose2d getAllianceSpeakerPose() {
+        boolean isBlue = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue;
+        return SPEAKER_POSES[isBlue ? 0 : 1];
+    }
+
+    double SPEAKER_OPENING_X = Units.inchesToMeters(13.6);
 }

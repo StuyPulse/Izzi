@@ -16,8 +16,10 @@ final String STUYLIB_VERSION = 'v2024.1.4'
 
 def ROBOT_MAIN_CLASS = "com.stuypulse.robot.Main"
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project DeployUtils.

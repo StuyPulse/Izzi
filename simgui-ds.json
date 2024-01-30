@@ -88,5 +88,6 @@
       "buttonCount": 0,
       "povCount": 0
     }
-  ]
+  ],
+  "useEnableDisableHotkeys": true
 }
