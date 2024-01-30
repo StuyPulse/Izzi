@@ -5,6 +5,7 @@
 
 package com.stuypulse.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.commands.amper.*;
 import com.stuypulse.robot.commands.auton.*;
@@ -39,7 +40,7 @@ public class RobotContainer {
     public final Gamepad driver = new AutoGamepad(Ports.Gamepad.DRIVER);
     public final Gamepad operator = new AutoGamepad(Ports.Gamepad.OPERATOR);
     
-    // Subsystem
+    // Subsystems
     public final AprilTagVision vision = AprilTagVision.getInstance();
     public final NoteVision noteVision = NoteVision.getInstance();
     public final Odometry odometry = Odometry.getInstance();
@@ -52,12 +53,14 @@ public class RobotContainer {
     public final SwerveDrive swerve = SwerveDrive.getInstance();
   
     // Autons
-    private static SendableChooser<Command> autonChooser = new SendableChooser<>();
+    private static SendableChooser<Command> autonChooser;
 
-    // Robot container
-
+    // RobotContainer
     public RobotContainer() {
+        swerve.configureAutoBuilder();
+
         configureDefaultCommands();
+        configureNamedCommands();
         configureButtonBindings();
         configureAutons();
     }
@@ -69,6 +72,12 @@ public class RobotContainer {
     private void configureDefaultCommands() {
         swerve.setDefaultCommand(new SwerveDriveDrive(driver));
     }
+
+    /**********************/
+    /*** NAMED COMMANDS ***/
+    /**********************/
+
+    private void configureNamedCommands() {}
 
     /***************/
     /*** BUTTONS ***/
@@ -85,7 +94,7 @@ public class RobotContainer {
     /**************/
 
     public void configureAutons() {
-        autonChooser.setDefaultOption("Do Nothing", new DoNothingAuton());
+        autonChooser = AutoBuilder.buildAutoChooser();
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }
