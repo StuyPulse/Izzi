@@ -17,6 +17,9 @@ import edu.wpi.first.wpilibj.DriverStation;
  */
 public interface Field {
 
+    double WIDTH = Units.inchesToMeters(323.25);
+    double LENGTH = Units.inchesToMeters(651.25);
+
     double NOTE_LENGTH = Units.inchesToMeters(14.0);
 
     /*** APRILTAGS ***/
