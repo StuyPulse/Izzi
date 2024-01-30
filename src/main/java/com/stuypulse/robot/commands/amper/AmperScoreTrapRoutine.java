@@ -9,7 +9,6 @@ public class AmperScoreTrapRoutine extends SequentialCommandGroup {
     public AmperScoreTrapRoutine() {
         addCommands(
             new AmperToHeight(Score.TRAP_SCORE_HEIGHT.get()),
-            new AmperToHeight(Score.TRAP_SCORE_HEIGHT.get()),
             new AmperScore()
         ); 
     }

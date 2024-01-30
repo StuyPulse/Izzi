@@ -9,7 +9,6 @@ public class AmperScoreAmpRoutine extends SequentialCommandGroup {
     public AmperScoreAmpRoutine() {
         addCommands(
             new AmperToHeight(Score.AMP_SCORE_HEIGHT.get()),
-            new AmperToHeight(Score.AMP_SCORE_HEIGHT.get()),
             new AmperScore()
         );
     }
