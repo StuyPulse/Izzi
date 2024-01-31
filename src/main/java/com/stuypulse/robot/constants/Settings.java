@@ -171,6 +171,14 @@ public interface Settings {
                 .plus(Rotation2d.fromDegrees(90));
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * -0.5);
         }
+
+        public interface Assist {
+            SmartNumber kP = new SmartNumber("Swerve/Assist/PID/kP", 1.0);
+            SmartNumber kI = new SmartNumber("Swerve/Assist/PID/kI", 0.1);
+            SmartNumber kD = new SmartNumber("Swerve/Assist/PID/kD", 0.1);
+
+            SmartNumber deadband = new SmartNumber("Swerve/Assist/Gamepad deadband", 0.1);
+        }
     }
 
     public interface NoteDetection {

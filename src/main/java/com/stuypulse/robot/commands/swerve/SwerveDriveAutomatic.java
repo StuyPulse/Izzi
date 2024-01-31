@@ -2,16 +2,31 @@ package com.stuypulse.robot.commands.swerve;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Motors.Swerve;
+import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Swerve.*;
+import com.stuypulse.robot.constants.Settings.Driver.Drive;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.LLNoteVision;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
+import com.stuypulse.stuylib.control.angle.AngleController;
+import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.input.Gamepad;
+import com.stuypulse.stuylib.streams.numbers.IStream;
+import com.stuypulse.stuylib.streams.vectors.VStream;
+import com.stuypulse.stuylib.streams.vectors.filters.VDeadZone;
+import com.stuypulse.stuylib.streams.vectors.filters.VLowPassFilter;
+import com.stuypulse.stuylib.streams.vectors.filters.VRateLimit;
+import com.stuypulse.stuylib.math.Angle;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 /*
  * when a button is pressed this command is activated
  * point at either speaker or note (can add in pointing at amp later)
@@ -35,16 +50,27 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class SwerveDriveAutomatic extends Command {
     // Subsystems
     private SwerveDrive swerve;
+    private VStream drive;
+    private AngleController controller;
     private Conveyor conveyor;
     private NoteVision llNoteVision;
-
     private final Gamepad driver;
     
     public SwerveDriveAutomatic(Gamepad driver) {
         this.driver = driver;
         swerve = SwerveDrive.getInstance();
-        conveyor = Conveyor.getInstance();
-        llNoteVision = LLNoteVision.getInstance();
+        drive = VStream.create(driver::getLeftStick)
+            .filtered(
+                new VDeadZone(Drive.DEADBAND),
+                x -> x.clamp(1),
+                x -> Settings.vpow(x, Drive.POWER.get()),
+                x -> x.mul(Drive.MAX_TELEOP_SPEED.get()),
+                new VRateLimit(Drive.MAX_TELEOP_ACCEL.get()),
+                new VLowPassFilter(Drive.RC.get())
+        );
+        controller = new AnglePIDController(Assist.kP,Assist.kI,Assist.kD);
+        // conveyor = Conveyor.getInstance();
+        // llNoteVision = LLNoteVision.getInstance();
 
         addRequirements(swerve);
     }
@@ -52,22 +78,32 @@ public class SwerveDriveAutomatic extends Command {
     @Override
     public void execute() {
         //logic here 
-        Pose2d currentPose = Odometry.getInstance().getPose();
+        Translation2d currentPose = Odometry.getInstance().getPose().getTranslation();
+        Rotation2d currentAngle = currentPose.getAngle();
+              
+        //if note in speaker 
         if(conveyor.isNoteAtShooter()){
-            // we want to go to shooter align position
+            Translation2d speakerPose = Field.getAllianceSpeakerPose().getTranslation();
+            Translation2d difference = speakerPose.minus(currentPose);
+            Rotation2d targetAngle = difference.getAngle();  
+                  
+            controller.update(Angle.fromDegrees(targetAngle.getDegrees()), Angle.fromDegrees(currentAngle.getDegrees()));
+            swerve.drive(drive.get(), controller.getOutput());
         }
         else if(llNoteVision.hasNoteData()){
-            // addCommands(
-            //     new SwerveDriveToPose(llNoteVision.getEstimatedNotePose())
-            // );
+            Translation2d notePose = llNoteVision.getEstimatedNotePose();
+            Translation2d difference = notePose.minus(currentPose);
+            Rotation2d targetAngle = difference.getAngle();
             
-            // we go to nearest note
+            
+            controller.update(Angle.fromDegrees(targetAngle.getDegrees()), Angle.fromDegrees(currentAngle.getDegrees()));
+            swerve.drive(drive.get(), controller.getOutput());
         }
     }
 
     @Override
     public boolean isFinished() {
-        return false; //change later 
+        return Math.abs(driver.getLeftX()) > Assist.deadband.getAsDouble() || driver.getRawStartButton();
     }
 
 }
