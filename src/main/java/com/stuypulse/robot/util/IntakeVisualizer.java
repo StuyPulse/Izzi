@@ -1,10 +1,13 @@
 package com.stuypulse.robot.util;
 
+import static com.stuypulse.robot.constants.Settings.Intake.*;
+
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color8Bit;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
 
 public class IntakeVisualizer {
     private final double WINDOW_WIDTH = 20;
@@ -35,6 +38,10 @@ public class IntakeVisualizer {
     private MechanismLigament2d shooterIRSensor;
     private MechanismLigament2d ampIRSensor;
 
+    // far Right Ligaments
+    private MechanismLigament2d rightLigamentTop;
+    private MechanismLigament2d rightLigamentBottom;
+
      // roots
     private MechanismRoot2d root_upper1;
     private MechanismRoot2d root_upper2;
@@ -43,9 +50,11 @@ public class IntakeVisualizer {
     private MechanismRoot2d root_lower2;
     private MechanismRoot2d root_lower3;
     private MechanismRoot2d root_middle;
-    private MechanismRoot2d root_ir1;
-    private MechanismRoot2d root_ir2;
-    private MechanismRoot2d root_ir3;
+    private MechanismRoot2d rootIntakeIR;
+    private MechanismRoot2d rootShooterIR;
+    private MechanismRoot2d rootAmpIR;
+    private MechanismRoot2d rightRootTop;
+    private MechanismRoot2d rightRootBottom;
 
 
 
@@ -63,36 +72,44 @@ public class IntakeVisualizer {
     public IntakeVisualizer() {
         intake = new Mechanism2d(WINDOW_WIDTH, WINDOW_HEIGHT);
     
-        // uppper
-        root_upper1 = intake.getRoot("one upper", 0, 0);
-        root_upper2 = intake.getRoot("two upper", 0, 4);
-        root_upper3 = intake.getRoot("three upper", 2, 6.2);
+        // uppper roots
+        root_upper1 = intake.getRoot("One Upper", 0, 0);
+        root_upper2 = intake.getRoot("Two Upper", 0, 4);
+        root_upper3 = intake.getRoot("Three Upper", 2, 6.2);
     
-        // lower
-        root_lower1 = intake.getRoot("one lower", 2, 0);
-        root_lower2 = intake.getRoot("two lower", 2, 3);
-        root_lower3 = intake.getRoot("three lower", 3.3, 4.5);
+        // lower roots
+        root_lower1 = intake.getRoot("One Lower", 2, 0);
+        root_lower2 = intake.getRoot("Two Lower", 2, 3);
+        root_lower3 = intake.getRoot("Three Lower", 3.3, 4.5);
     
-        // middle
-        root_middle = intake.getRoot("one", 1, 1);
+        // middle roots
+        root_middle = intake.getRoot("One", 1, 1);
 
-        root_ir1 = intake.getRoot("sensor one", 5, 5);
-        root_ir2 = intake.getRoot("sensor two", 5, 5); 
-        root_ir3 = intake.getRoot("sensor three", 3, 3);
+        rootIntakeIR = intake.getRoot("Intake Sensor", 1.5, 4.6);
+        rootShooterIR = intake.getRoot("Shooter Sensor", 7, 7.2); 
+        rootAmpIR = intake.getRoot("Amp Sensor", 7, 4.6);
+
+        // right (separation) roots
+        rightRootTop = intake.getRoot("Right Root Top", 7, 5.7); // Set values when i know them
+        rightRootBottom = intake.getRoot("Right Root Bottom", 7, 5.7); // Set values when I know them
     
 
         // ligaments
-        upper1 = getLigament("Upper ligament one", 4, 90, blue);
-        upper2 = getLigament("Upper ligament two", 3, 45, red);
-        upper3 = getLigament("lower ligament three", 5, 20, white);
-        lower1 = getLigament("Lower ligament one", 3, 90, blue);
-        lower2 = getLigament("lower ligament two", 2, 45, red);
-        lower3 = getLigament("lower ligament three", 3, -10, white);
-        middle1 = getLigament("middle ligament one", 3, 0, green);
-        middle2 = getLigament("middle ligament two", 2, 0, green);
-        intakeIRSensor = getLigament("Intake IR Sensor", 1, 0, red);
-        shooterIRSensor = getLigament("Shooter IR Sensor", 1, 0, red);
-        ampIRSensor = getLigament("Amp IR Sensor", 1, 0, red);
+        upper1 = getLigament("Upper Ligament 1", 4, 90, blue);
+        upper2 = getLigament("Upper Ligament 2", 3, 45, red);
+        upper3 = getLigament("Upper Ligament 3", 7, 20, white); // old length 5
+        lower1 = getLigament("Lower Ligament 1", 3, 90, blue);
+        lower2 = getLigament("Lower Ligament 2", 2, 45, red);
+        lower3 = getLigament("Lower Ligament 3", 5, -10, white); // old length 3
+        middle1 = getLigament("Middle Ligament 1", 3, 0, green);
+        middle2 = getLigament("Middle Ligament 2", 2, 0, green);
+
+        intakeIRSensor = getLigament("Intake Sensor", 1, 0, red);
+        shooterIRSensor = getLigament("Shooter Sensor", 1, 0, red);
+        ampIRSensor = getLigament("Amp Sensor", 1, 0, red);
+
+        rightLigamentTop = getLigament("Right Top Ligament", 3, 15, blue); // angle 30 before
+        rightLigamentBottom = getLigament("Right Bottom Ligament", 3, -15, blue); // angle -30 before
 
         root_upper1.append(upper1); 
         root_lower1.append(lower1);
@@ -102,16 +119,17 @@ public class IntakeVisualizer {
         root_lower3.append(lower3);
         root_middle.append(middle1);
         root_middle.append(middle2);
-
-        root_ir1.append(intakeIRSensor);
-        root_ir2.append(shooterIRSensor);
-        root_ir3.append(ampIRSensor);
+        rootIntakeIR.append(intakeIRSensor);
+        rootShooterIR.append(shooterIRSensor);
+        rootAmpIR.append(ampIRSensor);
+        rightRootTop.append(rightLigamentTop);
+        rightRootBottom.append(rightLigamentBottom);
 
 
         SmartDashboard.putData("Intake", intake);
     }
 
-    public void update(boolean intakeIR, boolean shooterIR, boolean amperIR) {
+    public void update(boolean intakeIR, boolean shooterIR, boolean ampIR) {
         if (intakeIR) {
             intakeIRSensor.setColor(green);
         } else {
@@ -124,11 +142,11 @@ public class IntakeVisualizer {
             shooterIRSensor.setColor(red);
         }
 
-        if (amperIR) {
+        if (ampIR) {
             ampIRSensor.setColor(green);
         } else {
             ampIRSensor.setColor(red);
         }
     }
 
-    }
+}
