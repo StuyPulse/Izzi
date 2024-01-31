@@ -7,6 +7,14 @@
       "/SmartDashboard/Intake": "Mechanism2d"
     },
     "windows": {
+      "/SmartDashboard/Field": {
+        "bottom": 1476,
+        "height": 8.210550308227539,
+        "left": 150,
+        "right": 2961,
+        "top": 79,
+        "width": 16.541748046875
+      },
       "/SmartDashboard/Intake": {
         "window": {
           "visible": true
@@ -15,6 +23,9 @@
     }
   },
   "NetworkTables": {
+    "Persistent Values": {
+      "open": false
+    },
     "transitory": {
       "SmartDashboard": {
         "TESTING": {
