@@ -295,5 +295,8 @@ public interface Settings {
         int LED_LENGTH = 55;
         SmartNumber MANUAL_UPDATE_TIME = new SmartNumber("LED/LED Manual Update Time", .75);
         SmartNumber BLINK_TIME = new SmartNumber("LED/LED Blink Time", .5);
+
+        SmartNumber TRANSLATION_SPREAD = new SmartNumber("LED/LED Translation Spread (m)", 1);
+        SmartNumber ROTATION_SPREAD = new SmartNumber("LED/LED Rotation Spread (deg)", 45);
     }
 }
