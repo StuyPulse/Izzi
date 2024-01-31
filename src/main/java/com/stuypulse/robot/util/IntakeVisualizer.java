@@ -62,8 +62,12 @@ public class IntakeVisualizer {
     private MechanismRoot2d rootAmpIR;
     private MechanismRoot2d rightRootTop;
     private MechanismRoot2d rightRootBottom;
-    // private MechanismRoot2d rollingMidLeft;
-    // private MechanismRoot2d rollingMidRight;
+    private MechanismRoot2d rollingRootMidLeft;
+    private MechanismRoot2d rollingRootMidRight;
+    private MechanismRoot2d rollingShooterTop;
+    private MechanismRoot2d rollingShooterMid;
+    private MechanismRoot2d rollingShooterBot;
+
 
 
 // colors
@@ -84,6 +88,7 @@ public class IntakeVisualizer {
         root_upper1 = intake.getRoot("One Upper", 0, 0);
         root_upper2 = intake.getRoot("Two Upper", 0, 4);
         root_upper3 = intake.getRoot("Three Upper", 2, 6.2);
+        
     
         // lower roots
         root_lower1 = intake.getRoot("One Lower", 2, 0);
@@ -96,6 +101,10 @@ public class IntakeVisualizer {
         rootIntakeIR = intake.getRoot("Intake Sensor", 1.5, 4.6);
         rootShooterIR = intake.getRoot("Shooter Sensor", 7, 7.2); 
         rootAmpIR = intake.getRoot("Amp Sensor", 7, 4.6);
+
+        rollingRootMidLeft = intake.getRoot("Rolling Root Middle Left");
+        rollingRootMidRight = intake.getRoot("Rolling Root Middle Right");
+
 
         // right (separation) roots
         rightRootTop = intake.getRoot("Right Root Top", 7, 5.7); // Set values when i know them
@@ -110,7 +119,8 @@ public class IntakeVisualizer {
         lower2 = getLigament("Lower Ligament 2", 2, 45, red);
         lower3 = getLigament("Lower Ligament 3", 5, -10, white); // old length 3
 
-
+        rollingMidLeft = getLigament();
+        rollingMidRight = getLigament();
 
         rollingLeft = getLigament("Left Roller", 1, 0, red);
         rollingRight = getLigament("Right Roller", 1, 0,red);
@@ -158,7 +168,6 @@ public class IntakeVisualizer {
         } else {
             ampIRSensor.setColor(red);
         }
-
         rollingLeft.setAngle(angle);
         rollingRight.setAngle(angle);
 
