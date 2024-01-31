@@ -2,6 +2,8 @@ package com.stuypulse.robot.util;
 
 import static com.stuypulse.robot.constants.Settings.Intake.*;
 
+import com.stuypulse.stuylib.network.SmartNumber;
+
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
@@ -10,6 +12,9 @@ import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
 
 public class IntakeVisualizer {
+
+    private double angle = 0;
+
     private final double WINDOW_WIDTH = 20;
     private final double WINDOW_HEIGHT = 20;
     private final double WINDOW_X_PADDING = 1;
@@ -41,6 +46,10 @@ public class IntakeVisualizer {
     // far Right Ligaments
     private MechanismLigament2d rightLigamentTop;
     private MechanismLigament2d rightLigamentBottom;
+
+    // rolling ligaments
+    private MechanismLigament2d rollingLeft;
+    private MechanismLigament2d rollingRight;
 
      // roots
     private MechanismRoot2d root_upper1;
@@ -101,8 +110,11 @@ public class IntakeVisualizer {
         lower1 = getLigament("Lower Ligament 1", 3, 90, blue);
         lower2 = getLigament("Lower Ligament 2", 2, 45, red);
         lower3 = getLigament("Lower Ligament 3", 5, -10, white); // old length 3
-        middle1 = getLigament("Middle Ligament 1", 3, 0, green);
-        middle2 = getLigament("Middle Ligament 2", 2, 0, green);
+
+
+
+        rollingLeft = getLigament("Left Roller", 1, 0, red);
+        rollingRight = getLigament("Right Roller", 1, 0,red);
 
         intakeIRSensor = getLigament("Intake Sensor", 1, 0, red);
         shooterIRSensor = getLigament("Shooter Sensor", 1, 0, red);
@@ -124,7 +136,9 @@ public class IntakeVisualizer {
         rootAmpIR.append(ampIRSensor);
         rightRootTop.append(rightLigamentTop);
         rightRootBottom.append(rightLigamentBottom);
-
+        root_upper1.append(rollingLeft);
+        root_lower1.append(rollingRight);
+       
 
         SmartDashboard.putData("Intake", intake);
     }
@@ -132,7 +146,7 @@ public class IntakeVisualizer {
     public void update(boolean intakeIR, boolean shooterIR, boolean ampIR) {
         if (intakeIR) {
             intakeIRSensor.setColor(green);
-        } else {
+        }  else {
             intakeIRSensor.setColor(red);
         }
 
@@ -147,6 +161,12 @@ public class IntakeVisualizer {
         } else {
             ampIRSensor.setColor(red);
         }
+    }
+
+    public void periodic() {
+        rollingLeft.setAngle(angle);
+        rollingRight.setAngle(angle);
+        angle += 1;
     }
 
 }
