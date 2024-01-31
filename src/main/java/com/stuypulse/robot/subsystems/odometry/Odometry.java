@@ -9,6 +9,8 @@ import com.stuypulse.stuylib.network.SmartBoolean;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
@@ -84,6 +86,22 @@ public class Odometry extends SubsystemBase {
      */
     public Pose2d getPose() {
         return estimator.getEstimatedPosition();
+    }
+
+    /**
+     * Returns the translation of the robot.
+     * @return the translation of the robot
+     */
+    public Translation2d getTranslation() {
+        return getPose().getTranslation();
+    }
+
+    /**
+     * Returns the rotation of the robot.
+     * @return the rotation of the robot
+     */
+    public Rotation2d getRotation() {
+        return getPose().getRotation();
     }
 
     /**

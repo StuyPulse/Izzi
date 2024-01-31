@@ -37,7 +37,7 @@ public class LLNoteVision extends NoteVision {
     }
 
     /**
-     * Returns whether the Limelight has data.
+     * Get whether the Limelight has data.
      * @return whether the Limelight has data
      */
     @Override
@@ -51,7 +51,7 @@ public class LLNoteVision extends NoteVision {
     }
 
     /**
-     * Returns the estimated pose of the note.
+     * Get the estimated pose of the note.
      * @return the estimated pose of the note
      */
     @Override
@@ -59,8 +59,19 @@ public class LLNoteVision extends NoteVision {
         return notePose;
     }
 
+    @Override
+    public Translation2d getRobotRelativeNotePose() {
+        return getEstimatedNotePose().minus(Odometry.getInstance().getTranslation());
+    }
+
+    @Override
+    public Rotation2d getRotationToNote() {
+        return getRobotRelativeNotePose().getAngle();
+    }
+
     /**
-     * Calculates the estimated pose of the note.
+     * @Calculates the estimated pose of the note by averaging data from all available limelights.
+     * Sets the pose to `notePose` that can be accessed with `getEstimatedNotePose()`.
      */
     private void updateNotePose() {
         Translation2d sum = new Translation2d();
