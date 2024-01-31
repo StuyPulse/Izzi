@@ -123,7 +123,7 @@ public class SwerveModuleImpl extends SwerveModule {
             Angle.fromRotation2d(getAngle())
         );
 
-        if (Math.abs(driveController.getOutput()) < Settings.Swerve.MODULE_VELOCITY_DEADBAND.get()) {
+        if (Math.abs(driveController.getSetpoint()) < Settings.Swerve.MODULE_VELOCITY_DEADBAND.get()) {
             driveMotor.setVoltage(0);
             turnMotor.setVoltage(0);
         } else {

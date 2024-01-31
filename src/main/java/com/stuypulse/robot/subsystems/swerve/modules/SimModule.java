@@ -79,7 +79,7 @@ public class SimModule extends SwerveModule {
             Angle.fromRotation2d(getAngle())
         );
 
-        if (Math.abs(driveController.getOutput()) < Settings.Swerve.MODULE_VELOCITY_DEADBAND.get()) {
+        if (Math.abs(driveController.getSetpoint()) < Settings.Swerve.MODULE_VELOCITY_DEADBAND.get()) {
             driveSim.setInput(0);
             turnSim.setInput(0);
         } else {
