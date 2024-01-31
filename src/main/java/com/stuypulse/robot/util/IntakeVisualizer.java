@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
 
 public class IntakeVisualizer {
 
-    private double angle = 0;
+    private double angle = 0.0;
 
     private final double WINDOW_WIDTH = 20;
     private final double WINDOW_HEIGHT = 20;
@@ -33,10 +33,6 @@ public class IntakeVisualizer {
 
     private MechanismLigament2d upper3;
     private MechanismLigament2d lower3;
-   
-   // 1 is upper, 2 is lower
-    private MechanismLigament2d middle1;
-    private MechanismLigament2d middle2;
 
     //irSensor
     private MechanismLigament2d intakeIRSensor;
@@ -50,6 +46,8 @@ public class IntakeVisualizer {
     // rolling ligaments
     private MechanismLigament2d rollingLeft;
     private MechanismLigament2d rollingRight;
+    private MechanismLigament2d rollingMidLeft;
+    private MechanismLigament2d rollingMidRight;
 
      // roots
     private MechanismRoot2d root_upper1;
@@ -64,7 +62,8 @@ public class IntakeVisualizer {
     private MechanismRoot2d rootAmpIR;
     private MechanismRoot2d rightRootTop;
     private MechanismRoot2d rightRootBottom;
-
+    // private MechanismRoot2d rollingMidLeft;
+    // private MechanismRoot2d rollingMidRight;
 
 
 // colors
@@ -129,8 +128,6 @@ public class IntakeVisualizer {
         root_lower2.append(lower2);
         root_upper3.append(upper3);
         root_lower3.append(lower3);
-        root_middle.append(middle1);
-        root_middle.append(middle2);
         rootIntakeIR.append(intakeIRSensor);
         rootShooterIR.append(shooterIRSensor);
         rootAmpIR.append(ampIRSensor);
@@ -143,30 +140,31 @@ public class IntakeVisualizer {
         SmartDashboard.putData("Intake", intake);
     }
 
-    public void update(boolean intakeIR, boolean shooterIR, boolean ampIR) {
-        if (intakeIR) {
+    public void update(boolean intake_IR, boolean shooter_IR, boolean amp_IR, boolean intake_Running) {
+        if (intake_IR) {
             intakeIRSensor.setColor(green);
         }  else {
             intakeIRSensor.setColor(red);
         }
 
-        if (shooterIR) {
+        if (shooter_IR) {
             shooterIRSensor.setColor(green);
         } else {
             shooterIRSensor.setColor(red);
         }
 
-        if (ampIR) {
+        if (amp_IR) {
             ampIRSensor.setColor(green);
         } else {
             ampIRSensor.setColor(red);
         }
-    }
 
-    public void periodic() {
         rollingLeft.setAngle(angle);
         rollingRight.setAngle(angle);
-        angle += 1;
+
+        if (intake_Running) {
+        angle += 50;
+        }
     }
 
 }

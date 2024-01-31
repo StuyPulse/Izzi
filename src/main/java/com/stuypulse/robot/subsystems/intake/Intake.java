@@ -31,10 +31,11 @@ public abstract class Intake extends SubsystemBase {
     SmartBoolean intakeIR = new SmartBoolean("TESTING/Intake IR", false);
     SmartBoolean shooterIR = new SmartBoolean("TESTING/Shooter IR", false);
     SmartBoolean amperIR = new SmartBoolean("TESTING/Amper IR", false);
+    
 
     @Override
     public void periodic() {
-        intakeVisualizer.update(intakeIR.get(), shooterIR.get(), amperIR.get());
+        intakeVisualizer.update(intakeIR.get(), shooterIR.get(), amperIR.get(), true);
     }
     
 }
