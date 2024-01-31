@@ -93,9 +93,9 @@ public class IntakeVisualizer {
         lower3 = getLigament("lower ligament three", 3, -10, white);
         middle1 = getLigament("middle ligament one", 3, 0, green);
         middle2 = getLigament("middle ligament two", 2, 0, green);
-        intakeIRSensor = getLigament("intake ir sensor 1", 1, 0, red);
-        shooterIRSensor = getLigament("intake ir sensor 2", 1, 0, red);
-        ampIRSensor = getLigament("intake ir sensor 3", 1, 0, red);
+        intakeIRSensor = getLigament("Intake IR Sensor", 1, 0, red);
+        shooterIRSensor = getLigament("Shooter IR Sensor", 1, 0, red);
+        ampIRSensor = getLigament("Amp IR Sensor", 1, 0, red);
 
         root_upper1.append(upper1); 
         root_lower1.append(lower1);
