@@ -34,9 +34,9 @@ public class IntakeVisualizer {
     private MechanismLigament2d middle2;
 
     //irSensor
-    private MechanismLigament2d intakeirSensor1;
-    private MechanismLigament2d intakeirSensor2;
-    private MechanismLigament2d intakeirSensor3;
+    private MechanismLigament2d intakeIRSensor;
+    private MechanismLigament2d shooterIRSensor;
+    private MechanismLigament2d ampIRSensor;
 
      // roots
     private MechanismRoot2d root_upper1;
@@ -93,9 +93,9 @@ public class IntakeVisualizer {
         lower3 = getLigament("lower ligament three", 3, -10, white);
         middle1 = getLigament("middle ligament one", 3, 0, green);
         middle2 = getLigament("middle ligament two", 2, 0, green);
-        intakeirSensor1 = getLigament("intake ir sensor", 1, 0, red);
-        intakeirSensor2 = getLigament("intake ir sensor", 1, 0, red);
-        intakeirSensor3 = getLigament("intake ir sensor", 1, 0, red);
+        intakeIRSensor = getLigament("Intake IR Sensor", 1, 0, red);
+        shooterIRSensor = getLigament("Shooter IR Sensor", 1, 0, red);
+        ampIRSensor = getLigament("Amp IR Sensor", 1, 0, red);
 
         root_upper1.append(upper1); 
         root_lower1.append(lower1);
@@ -106,27 +106,31 @@ public class IntakeVisualizer {
         root_middle.append(middle1);
         root_middle.append(middle2);
 
+        root_ir1.append(intakeIRSensor);
+        root_ir2.append(shooterIRSensor);
+        root_ir3.append(ampIRSensor);
+
 
         SmartDashboard.putData("Intake", intake);
     }
 
     public void update(boolean intakeIR, boolean shooterIR, boolean amperIR) {
         if (intakeIR) {
-            intakeirSensor1.setColor(green);
+            intakeIRSensor.setColor(green);
         } else {
-            intakeirSensor1.setColor(red);
+            intakeIRSensor.setColor(red);
         }
 
-        if (intakeIR) {
-            intakeirSensor2.setColor(green);
+        if (shooterIR) {
+            shooterIRSensor.setColor(green);
         } else {
-            intakeirSensor2.setColor(red);
+            shooterIRSensor.setColor(red);
         }
 
-        if (intakeIR) {
-            intakeirSensor3.setColor(green);
+        if (amperIR) {
+            ampIRSensor.setColor(green);
         } else {
-            intakeirSensor3.setColor(red);
+            ampIRSensor.setColor(red);
         }
     }
 
