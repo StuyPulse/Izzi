@@ -1,5 +1,6 @@
 package com.stuypulse.robot.subsystems.intake;
 
+import com.stuypulse.robot.util.IntakeVisualizer;
 import com.stuypulse.stuylib.network.SmartBoolean;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -7,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public abstract class Intake extends SubsystemBase {
 
     private static final Intake instance;
-    private IntakeVisualizer v;
+    private IntakeVisualizer intakeVisualizer;
 
     static {
         instance = new IntakeImpl();
@@ -18,7 +19,7 @@ public abstract class Intake extends SubsystemBase {
     }
 
     public Intake() {
-        v = new IntakeVisualizer();
+        intakeVisualizer = new IntakeVisualizer();
     }
 
     public abstract void acquire();
@@ -33,7 +34,7 @@ public abstract class Intake extends SubsystemBase {
 
     @Override
     public void periodic() {
-        v.update(intakeIR.get(), shooterIR.get(), amperIR.get());
+        intakeVisualizer.update(intakeIR.get(), shooterIR.get(), amperIR.get());
     }
     
 }

@@ -1,13 +1,10 @@
-package com.stuypulse.robot.subsystems.intake;
-
-import static com.stuypulse.robot.constants.Settings.Intake.*;
+package com.stuypulse.robot.util;
 
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color8Bit;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
 
 public class IntakeVisualizer {
     private final double WINDOW_WIDTH = 20;
