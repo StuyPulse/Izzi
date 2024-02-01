@@ -45,8 +45,8 @@ public class AmperImpl extends Amper {
 
         controller = new MotorFeedforward(Lift.Feedforward.kS, Lift.Feedforward.kV, Lift.Feedforward.kA).position()
             .add(new ElevatorFeedforward(Lift.Feedforward.kG))
-            .setSetpointFilter(new MotionProfile(Lift.VEL_LIMIT, Lift.ACC_LIMIT))
-                .add(new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD));
+            .add(new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD))
+            .setSetpointFilter(new MotionProfile(Lift.VEL_LIMIT, Lift.ACC_LIMIT));
 
     }
 
