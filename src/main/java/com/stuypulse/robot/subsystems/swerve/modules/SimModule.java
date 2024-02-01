@@ -36,7 +36,7 @@ public class SimModule extends SwerveModule {
     public SimModule(String id, Translation2d offset) {
         super(id, offset);
         
-        driveSim = new PositionVelocitySystem(Drive.kV, Drive.kA).getSim();
+        driveSim = PositionVelocitySystem.getPositionVelocitySim(Drive.kV.get(), Drive.kA.get());
         turnSim = new LinearSystemSim<N2,N1,N1>(LinearSystemId.identifyPositionSystem(Turn.kV.get(), Turn.kA.get()));
 
         driveController = new PIDController(Drive.kP, Drive.kI, Drive.kD)
