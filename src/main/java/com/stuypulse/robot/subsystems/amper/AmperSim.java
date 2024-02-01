@@ -61,6 +61,11 @@ public class AmperSim extends Amper {
     }
 
     @Override
+    public boolean liftAtTop() {
+        return sim.hasHitUpperLimit();
+    }
+
+    @Override
     public boolean touchingAmp() {
         return false;
     }
