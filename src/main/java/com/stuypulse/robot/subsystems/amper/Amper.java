@@ -82,6 +82,7 @@ public abstract class Amper extends SubsystemBase {
     public abstract void stopRoller();
     
     public abstract boolean liftAtBottom();
+    public abstract boolean liftAtTop();
     public abstract double getLiftHeight();
     public abstract void stopLift();
 

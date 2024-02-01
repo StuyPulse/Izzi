@@ -84,7 +84,7 @@ public class AmperSim extends Amper {
 
         controller.update(getTargetHeight(), getLiftHeight());
 
-        if (liftAtBottom() && controller.getOutput() < 0) {
+        if (liftAtBottom() && controller.getOutput() < 0 || liftAtTop() && controller.getOutput() > 0) {
             stopLift();
         } else {
             sim.setInputVoltage(controller.getOutput());

@@ -29,6 +29,7 @@ public interface Ports {
 
         int ALIGNED_BUMP_SWITCH = 3;
         int LIFT_BOTTOM_LIMIT = 4;
+        int LIFT_TOP_LIMIT = 5; // TODO: determine this from eng
         int AMP_IR = 2;
     }
   
