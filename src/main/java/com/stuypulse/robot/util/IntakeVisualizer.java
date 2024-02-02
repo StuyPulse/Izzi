@@ -51,6 +51,7 @@ public class IntakeVisualizer {
     private MechanismLigament2d rollingShooterTop;
     private MechanismLigament2d rollingShooterMid;
     private MechanismLigament2d rollingShooterBot;
+    private MechanismLigament2d rollingGandalf;
     
 
      // roots
@@ -71,10 +72,11 @@ public class IntakeVisualizer {
     private MechanismRoot2d rollingRootShooterTop;
     private MechanismRoot2d rollingRootShooterMid;
     private MechanismRoot2d rollingRootShooterBot;
+    private MechanismRoot2d rollingRootGandalf;
 
 
 
-// colors
+    // colors
     private Color8Bit white = new Color8Bit(255,255,255);
     private Color8Bit blue = new Color8Bit(0, 0, 255);
     private Color8Bit red = new Color8Bit(255, 0, 0);
@@ -110,40 +112,43 @@ public class IntakeVisualizer {
         rollingRootMidRight = intake.getRoot("Rolling Root Middle Right", 3.3, 4.5); //find accurate values later
 
         //shooter roots
-        rollingRootShooterTop = intake.getRoot("Rooling Shooter Top", 9.7, 6.4); 
+        rollingRootShooterTop = intake.getRoot("Rolling Shooter Top", 9.7, 6.4); 
         rollingRootShooterMid = intake.getRoot("Rooling Shooter Mid", 9.7, 5);
         rollingRootShooterBot = intake.getRoot("Rooling Shooter End", 8.2, 3.6);
+        rollingRootGandalf = intake.getRoot("Rolling Gandalf", 7, 5.65);
 
 
         // right (separation) roots
-        rightRootTop = intake.getRoot("Right Root Top", 7, 5.7); // Set values when i know them
-        rightRootBottom = intake.getRoot("Right Root Bottom", 7, 5.7); // Set values when I know them
+        rightRootTop = intake.getRoot("Right Root Top", 7, 5.7);
+        rightRootBottom = intake.getRoot("Right Root Bottom", 7, 5.7);
     
 
         // ligaments
         upper1 = getLigament("Upper Ligament 1", 4, 90, blue);
         upper2 = getLigament("Upper Ligament 2", 3, 45, red);
-        upper3 = getLigament("Upper Ligament 3", 7, 20, white); // old length 5
+        upper3 = getLigament("Upper Ligament 3", 7, 20, white);
         lower1 = getLigament("Lower Ligament 1", 3, 90, blue);
         lower2 = getLigament("Lower Ligament 2", 2, 45, red);
-        lower3 = getLigament("Lower Ligament 3", 5, -10, white); // old length 3
+        lower3 = getLigament("Lower Ligament 3", 5, -10, white);
 
-        rollingMidLeft = getLigament("Rolling Ligament Middle Left", 1, 0, green);
-        rollingMidRight = getLigament("Rolling Ligament Middle Right", 1, 0, green);
+        rollingMidLeft = getLigament("Rolling Ligament Middle Left", .5, 0, green);
+        rollingMidRight = getLigament("Rolling Ligament Middle Right", .5, 0, green);
 
-        rollingLeft = getLigament("Left Roller", 1, 0, green);
-        rollingRight = getLigament("Right Roller", 1, 0,green);
+        rollingLeft = getLigament("Left Roller", .5, 0, green);
+        rollingRight = getLigament("Right Roller", .5, 0,green);
 
-        rollingShooterTop = getLigament("Top Shooter Roller", 1, 0, green);
-        rollingShooterMid = getLigament("Middle Shooter Roller", 1, 0, green);
-        rollingShooterBot = getLigament("Bottom Shooter Roller", 1, 0, green);
+        rollingShooterTop = getLigament("Top Shooter Roller", .5, 0, green);
+        rollingShooterMid = getLigament("Middle Shooter Roller", .5, 0, green);
+        rollingShooterBot = getLigament("Bottom Shooter Roller", .5, 0, green);
+
+        rollingGandalf = getLigament("rolling Gandalf", .5, 0, green);
 
         intakeIRSensor = getLigament("Intake Sensor", 1, 0, red);
         shooterIRSensor = getLigament("Shooter Sensor", 1, 0, red);
         ampIRSensor = getLigament("Amp Sensor", 1, 0, red);
 
-        rightLigamentTop = getLigament("Right Top Ligament", 3, 15, blue); // angle 30 before
-        rightLigamentBottom = getLigament("Right Bottom Ligament", 3, -15, blue); // angle -30 before
+        rightLigamentTop = getLigament("Right Top Ligament", 3, 15, blue);
+        rightLigamentBottom = getLigament("Right Bottom Ligament", 3, -15, blue);
 
         root_upper1.append(upper1); 
         root_lower1.append(lower1);
@@ -163,20 +168,19 @@ public class IntakeVisualizer {
         rollingRootShooterTop.append(rollingShooterTop);
         rollingRootShooterMid.append(rollingShooterMid);
         rollingRootShooterBot.append(rollingShooterBot);
-
-        
+        rollingRootGandalf.append(rollingGandalf);
 
         SmartDashboard.putData("Intake", intake);
     }
 
-    public void update(boolean intake_IR, boolean shooter_IR, boolean amp_IR, boolean intake_Running) {
+    public void update(boolean intake_IR, boolean conveyor_IR, boolean amp_IR, double intakeSpeed) {
         if (intake_IR) {
             intakeIRSensor.setColor(green);
         }  else {
             intakeIRSensor.setColor(red);
         }
 
-        if (shooter_IR) {
+        if (conveyor_IR) {
             shooterIRSensor.setColor(green);
         } else {
             shooterIRSensor.setColor(red);
@@ -187,21 +191,46 @@ public class IntakeVisualizer {
         } else {
             ampIRSensor.setColor(red);
         }
+
+        if (conveyor_IR || intake_IR || amp_IR) {
+            intakeSpeed = 0;
+        }
+
+        if (intakeSpeed >= 0) {
+        // intake rollers
         rollingLeft.setAngle(angle);
-        rollingRight.setAngle(angle);
+        rollingRight.setAngle(-angle);
+        
+        // mid rollers
         rollingMidLeft.setAngle(angle);
-        rollingMidRight.setAngle(angle);
-        rollingShooterTop.setAngle(angle);
+        rollingMidRight.setAngle(-angle);
+
+        // conveyor/shooter rollers
+        rollingShooterTop.setAngle(-angle);
         rollingShooterMid.setAngle(angle);
+        rollingShooterBot.setAngle(-angle);
+        rollingGandalf.setAngle(angle);
+
+        // speed
+        angle += 58 * intakeSpeed;
+        }
+
+        if (intakeSpeed < 0) {
+        // intake rollers
+        rollingLeft.setAngle(-angle);
+        rollingRight.setAngle(angle);
+        
+        // mid rollers
+        rollingMidLeft.setAngle(-angle);
+        rollingMidRight.setAngle(angle);
+
+        // conveyor/shooter rollers
+        rollingShooterTop.setAngle(angle);
+        rollingShooterMid.setAngle(-angle);
         rollingShooterBot.setAngle(angle);
+         rollingGandalf.setAngle(-angle);
 
-
-        
-        
-
-        if (intake_Running) {
-        angle += 50;
         }
     }
-
+        
 }

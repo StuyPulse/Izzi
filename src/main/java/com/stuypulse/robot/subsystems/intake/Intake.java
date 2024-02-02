@@ -1,8 +1,12 @@
 package com.stuypulse.robot.subsystems.intake;
 
+import com.stuypulse.robot.subsystems.conveyor.Conveyor;
+import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.util.IntakeVisualizer;
-import com.stuypulse.stuylib.network.SmartBoolean;
+// import com.stuypulse.stuylib.network.SmartBoolean;
 
+import edu.wpi.first.wpilibj.RobotBase;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class Intake extends SubsystemBase {
@@ -11,7 +15,11 @@ public abstract class Intake extends SubsystemBase {
     private IntakeVisualizer intakeVisualizer;
 
     static {
-        instance = new IntakeImpl();
+        if (RobotBase.isReal()) {
+            instance = new IntakeImpl();
+        } else {
+            instance = new SimIntake();
+        }
     }
 
     public static Intake getInstance() {
@@ -26,16 +34,13 @@ public abstract class Intake extends SubsystemBase {
     public abstract void deacquire();
     public abstract void stop();
 
+    public abstract boolean isIRTriggered();
     public abstract boolean hasNote();
 
-    SmartBoolean intakeIR = new SmartBoolean("TESTING/Intake IR", false);
-    SmartBoolean shooterIR = new SmartBoolean("TESTING/Shooter IR", false);
-    SmartBoolean amperIR = new SmartBoolean("TESTING/Amper IR", false);
+    public abstract double getSpeed();
     
-
     @Override
     public void periodic() {
-        intakeVisualizer.update(intakeIR.get(), shooterIR.get(), amperIR.get(), true);
+        intakeVisualizer.update(isIRTriggered(), Conveyor.getInstance().isNoteAtShooter(), Amper.getInstance().hasNote(), getSpeed());
     }
-    
 }

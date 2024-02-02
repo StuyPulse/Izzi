@@ -15,18 +15,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class IntakeImpl extends Intake {
 
     private final CANSparkMax motor;
-    private final DigitalInput sensor;
+    private final DigitalInput irSensor;
 
     private final BStream triggered;
     private final BStream stalling;
 
     public IntakeImpl() {
         motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
-        sensor = new DigitalInput(Ports.Intake.IR_SENSOR);
+        irSensor = new DigitalInput(Ports.Intake.IR_SENSOR);
 
         Motors.Intake.MOTOR_CONFIG.configure(motor);
 
-        triggered = BStream.create(sensor).not()
+        triggered = BStream.create(irSensor).not()
             .filtered(new BDebounce.Rising(Settings.Intake.Detection.TRIGGER_TIME));
 
         stalling = BStream.create(this::isMomentarilyStalling)
@@ -48,7 +48,17 @@ public class IntakeImpl extends Intake {
         motor.stopMotor();
     }
 
+    @Override
+    public double getSpeed() {
+        return motor.get();
+    }
+
     // Detection
+
+    @Override
+    public boolean isIRTriggered() {
+        return irSensor.get();
+    }
 
     private boolean isMomentarilyStalling() {
         return motor.getOutputCurrent() > Settings.Intake.Detection.STALL_CURRENT.getAsDouble();
@@ -72,7 +82,7 @@ public class IntakeImpl extends Intake {
     public void periodic() {
         super.periodic();
         
-        SmartDashboard.putNumber("Intake/Speed", motor.get());
+        SmartDashboard.putNumber("Intake/Speed", getSpeed());
         SmartDashboard.putNumber("Intake/Current", motor.getOutputCurrent());
 
         SmartDashboard.putBoolean("Intake/Is Stalling", isStalling());

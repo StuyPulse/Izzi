@@ -11,8 +11,6 @@ import com.stuypulse.stuylib.streams.booleans.filters.BDebounce;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
-
 public class ConveyorImpl extends Conveyor {
     
     private final CANSparkMax gandalfMotor;
@@ -33,6 +31,16 @@ public class ConveyorImpl extends Conveyor {
         isAtShooter = 
             BStream.create(() -> !irSensor.get())
                 .filtered(new BDebounce.Rising(Settings.Conveyor.DEBOUNCE_TIME));
+    }
+
+    @Override
+    public double getShooterFeederSpeed() {
+        return shooterFeederMotor.get();
+    }
+
+    @Override
+    public double getGandalfMotorSpeed() {
+        return gandalfMotor.get();
     }
 
     @Override
