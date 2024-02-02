@@ -17,10 +17,10 @@ public interface Ports {
         int LEFT_MOTOR = 60;
         int RIGHT_MOTOR = 61;
 
-        int TOP_RIGHT_LIMIT = 8;
-        int TOP_LEFT_LIMIT = 7;
-        int BOTTOM_RIGHT_LIMIT = 6;
-        int BOTTOM_LEFT_LIMIT = 5;        
+        int TOP_RIGHT_LIMIT = 9;
+        int TOP_LEFT_LIMIT = 8;
+        int BOTTOM_RIGHT_LIMIT = 7;
+        int BOTTOM_LEFT_LIMIT = 6;        
     }
   
     public interface Amper {
@@ -29,6 +29,7 @@ public interface Ports {
 
         int ALIGNED_BUMP_SWITCH = 3;
         int LIFT_BOTTOM_LIMIT = 4;
+        int LIFT_TOP_LIMIT = 5;
         int AMP_IR = 2;
     }
   
