@@ -64,11 +64,6 @@ public class LLNoteVision extends NoteVision {
         return getEstimatedNotePose().minus(Odometry.getInstance().getTranslation());
     }
 
-    @Override
-    public Rotation2d getRotationToNote() {
-        return getRobotRelativeNotePose().getAngle();
-    }
-
     /**
      * @Calculates the estimated pose of the note by averaging data from all available limelights.
      * Sets the pose to `notePose` that can be accessed with `getEstimatedNotePose()`.

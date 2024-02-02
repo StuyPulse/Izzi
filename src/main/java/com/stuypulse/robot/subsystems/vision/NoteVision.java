@@ -20,6 +20,9 @@ public abstract class NoteVision extends SubsystemBase {
 
     public abstract Translation2d getEstimatedNotePose();
     public abstract Translation2d getRobotRelativeNotePose();
-    public abstract Rotation2d getRotationToNote();
+
+    public final Rotation2d getRotationToNote() {
+        return getRobotRelativeNotePose().getAngle();
+    }
 
 }
