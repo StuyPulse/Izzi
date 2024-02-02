@@ -23,7 +23,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class SwerveDriveDriveToNote extends Command {
+public class SwerveDriveTranslateToNote extends Command {
 
     private final SwerveDrive swerve;
     private final Odometry odometry;
@@ -32,7 +32,7 @@ public class SwerveDriveDriveToNote extends Command {
     private final HolonomicController controller;
     private final BStream aligned;
 
-    public SwerveDriveDriveToNote(){
+    public SwerveDriveTranslateToNote(){
         this.swerve = SwerveDrive.getInstance();
         this.odometry = Odometry.getInstance();
         this.vision = NoteVision.getInstance();
@@ -63,13 +63,9 @@ public class SwerveDriveDriveToNote extends Command {
 
         Pose2d targetPose = new Pose2d(targetTranslation, targetRotation);
 
+        // translate to note only if note in view
         if (vision.hasNoteData()) {
-            // drive to note
-            swerve.setChassisSpeeds(controller.update(targetPose, odometry.getPose()));
-        }
-        else {
-            // only rotate toward saved note pose
-            swerve.setChassisSpeeds(controller.update(targetPose, new Pose2d(targetTranslation, odometry.getRotation())));
+            swerve.setChassisSpeeds(controller.update(targetPose, new Pose2d(odometry.getTranslation(), targetRotation)));
         }
 
         SmartDashboard.putBoolean("Note Detection/Is Aligned", aligned.get());
