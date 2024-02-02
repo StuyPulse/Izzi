@@ -61,7 +61,13 @@ public class LLNoteVision extends NoteVision {
 
     @Override
     public Translation2d getRobotRelativeNotePose() {
-        return getEstimatedNotePose().minus(Odometry.getInstance().getTranslation());
+        Translation2d sum = new Translation2d();
+
+        for (Limelight limelight : limelights) {
+            sum = sum.plus(new Translation2d(limelight.getDistanceToNote(), Rotation2d.fromDegrees(limelight.getXAngle())));
+        }
+
+        return sum.div(limelights.length);
     }
 
     /**
