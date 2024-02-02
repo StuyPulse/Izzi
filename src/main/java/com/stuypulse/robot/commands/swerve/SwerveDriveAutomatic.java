@@ -3,10 +3,14 @@ package com.stuypulse.robot.commands.swerve;
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Swerve.*;
+import com.stuypulse.robot.constants.Settings.Alignment.Rotation;
 import com.stuypulse.robot.constants.Settings.Driver.Drive;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
+import com.stuypulse.robot.subsystems.shooter.Shooter;
+import com.stuypulse.robot.subsystems.intake.Intake;
+import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
 import com.stuypulse.stuylib.control.angle.AngleController;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
@@ -48,6 +52,9 @@ public class SwerveDriveAutomatic extends Command {
     private final Conveyor conveyor;
     private final NoteVision llNoteVision;
     private final Gamepad driver;
+    private final Intake intake;
+    private final Shooter shooter;
+    private final Amper amper; 
     
     public SwerveDriveAutomatic(Gamepad driver) {
         this.driver = driver;
@@ -64,8 +71,16 @@ public class SwerveDriveAutomatic extends Command {
         controller = new AnglePIDController(Assist.kP,Assist.kI,Assist.kD);
         conveyor = Conveyor.getInstance();
         llNoteVision = NoteVision.getInstance();
+        intake = Intake.getInstance();
+        shooter = Shooter.getInstance();
+        amper = Amper.getInstance();
+
 
         addRequirements(swerve);
+        addRequirements(conveyor);
+        addRequirements(intake);
+        addRequirements(shooter);
+        addRequirements(amper);
     }
 
     @Override
@@ -73,25 +88,33 @@ public class SwerveDriveAutomatic extends Command {
         //logic here 
         Translation2d currentPose = Odometry.getInstance().getPose().getTranslation();
         Rotation2d currentAngle = currentPose.getAngle();
-              
-        //if note in speaker 
-        if(conveyor.isNoteAtShooter()) {
-            Translation2d speakerPose = Field.getAllianceSpeakerPose().getTranslation();
-            Translation2d difference = speakerPose.minus(currentPose);
-            Rotation2d targetAngle = difference.getAngle();  
-                  
-            controller.update(Angle.fromDegrees(targetAngle.getDegrees()), Angle.fromDegrees(currentAngle.getDegrees()));
-            swerve.drive(drive.get(), controller.getOutput());
-        }
-        else if (llNoteVision.hasNoteData()) {
-            Translation2d notePose = llNoteVision.getEstimatedNotePose();
-            Translation2d difference = notePose.minus(currentPose);
-            Rotation2d targetAngle = difference.getAngle();
+        Rotation2d targetAngle;
+        Translation2d difference;
+        Translation2d targetPose = getTargetPose();
             
-            
-            controller.update(Angle.fromDegrees(targetAngle.getDegrees()), Angle.fromDegrees(currentAngle.getDegrees()));
-            swerve.drive(drive.get(), controller.getOutput());
+        difference = targetPose.minus(currentPose);
+        targetAngle = difference.getAngle();
+
+        controller.update(Angle.fromDegrees(targetAngle.getDegrees()), Angle.fromDegrees(currentAngle.getDegrees()));
+        swerve.drive(drive.get(), controller.getOutput());
+    }
+
+    public Translation2d getTargetPose() {
+        Translation2d targetPose;
+
+        Translation2d currentPose = Odometry.getInstance().getPose().getTranslation();
+        Translation2d speakerPose = Field.getAllianceSpeakerPose().getTranslation();
+        double distanceToSpeaker = speakerPose.getDistance(currentPose);
+
+        //if already have note  
+        if ((intake.hasNote() || conveyor.isNoteAtShooter()) && 
+            (distanceToSpeaker<Assist.minDistToSPeaker.getAsDouble())) {
+            targetPose = speakerPose;
+        }  else { // if (llNoteVision.hasNoteData()) {
+            targetPose = llNoteVision.getEstimatedNotePose();
         }
+        return targetPose;
+
     }
 
     @Override
