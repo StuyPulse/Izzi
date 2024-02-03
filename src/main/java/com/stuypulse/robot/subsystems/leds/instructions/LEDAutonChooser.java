@@ -2,9 +2,9 @@ package com.stuypulse.robot.subsystems.leds.instructions;
 
 import java.util.EnumMap;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.stuypulse.robot.util.SLColor;
 
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class LEDAutonChooser extends LEDSection {
@@ -34,9 +34,6 @@ public class LEDAutonChooser extends LEDSection {
 
         public char[] parseEnumName() {
             return name().toCharArray();
-            /*
-             * example: OGH.parseEnumName() returns ["O", "G", "H"]
-             */
         }
 
     }
@@ -50,23 +47,24 @@ public class LEDAutonChooser extends LEDSection {
         }
     }
 
-    public LEDAutonChooser() {
-        super(enumMap.get(AUTONS.OGF));
-        //get the list of autons
-        System.out.println(this.sections[0].toString() + this.sections[7].toString() + this.sections[9].toString());
+    public LEDAutonChooser(PathPlannerAuto auton) {
+        super(enumMap.get(AUTONS.valueOf(auton.getName())));
     }
     
     private static SLColor[] autonToLEDSection(AUTONS auton) {
         SLColor[] colorArray = new SLColor[10];
-        SLColor[] rainbow = new SLColor[]{SLColor.RED, SLColor.RED_ORANGE, SLColor.ORANGE, SLColor.YELLOW, SLColor.LIME, SLColor.GREEN, SLColor.BLUE, SLColor.PURPLE};
+        
+        SLColor[] rainbow = new SLColor[] {SLColor.RED, SLColor.RED_ORANGE, SLColor.ORANGE, SLColor.YELLOW, SLColor.LIME, SLColor.GREEN, SLColor.BLUE, SLColor.PURPLE};
+
         int iter = 0;
+
         for (char ledIndex : auton.parseEnumName()){
             int ascii = (int) ledIndex;
             String pieceId = String.valueOf(ledIndex);
-            if (pieceId == "O") { // ascii num for O is 79
+            if (pieceId.equals("O")) {
                 colorArray[0] = SLColor.GREEN;
             }
-            else if (pieceId != "M" && pieceId != "T" ) {  //ascii num for T is 84
+            else if (!pieceId.equals("M") && !pieceId.equals("T") ) {  
                 colorArray[ascii - 64] = rainbow[iter]; 
                 iter += 1;
             }
@@ -75,21 +73,8 @@ public class LEDAutonChooser extends LEDSection {
         for (int i = 1; i < colorArray.length - 1; i++ ){
             if (colorArray[i] == null) colorArray[i] = new SLColor();
         }
+
         colorArray[9] = (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue ? SLColor.BLUE : SLColor.RED);
         return colorArray; 
-        
-    }
-    @Override
-    public void setLED(AddressableLEDBuffer ledsBuffer) {
-        int sectionLength = ledsBuffer.getLength() / sections.length;
-        
-        int offset = 0;
-
-        for (int i = 0; i < sections.length; i++) {
-            for (int j = 0; j < sectionLength + i % 2; j++) {
-                ledsBuffer.setRGB(i * sectionLength + offset + j, sections[i].getRed(), sections[i].getGreen(), sections[i].getBlue());
-            }
-            if (i % 2 == 1) offset += 1;
-        }
     }
 }

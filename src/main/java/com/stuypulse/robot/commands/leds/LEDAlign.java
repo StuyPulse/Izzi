@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class LEDAlign extends Command implements LEDInstruction {
     @Override
     public boolean runsWhenDisabled() {
-        return true;
+        return Settings.LED.LED_AUTON_ALIGN_TOGGLE.get();
     }
 
     private int index;

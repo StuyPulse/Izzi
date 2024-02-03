@@ -7,6 +7,10 @@ package com.stuypulse.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.stuypulse.robot.commands.leds.LEDAlign;
+import com.stuypulse.robot.commands.leds.LEDAutonChooser;
+import com.stuypulse.robot.commands.leds.LEDSet;
+import com.stuypulse.robot.constants.LEDColor;
+import com.stuypulse.robot.util.SLColor;
 import com.stuypulse.robot.RobotContainer;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -55,6 +59,7 @@ public class Robot extends TimedRobot {
         if (robot.conveyor.isNoteAtShooter()) {
             DriverStation.reportWarning("Shooter IR sensor reporting note while disabled!", false);
         }
+        scheduler.schedule(new LEDAutonChooser());
         scheduler.schedule(new LEDAlign(new PathPlannerAuto(RobotContainer.getAutonomousCommandNameStatic())));
     }
 

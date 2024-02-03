@@ -6,7 +6,6 @@ import com.stuypulse.robot.subsystems.leds.instructions.LEDInstruction;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class LEDSet extends InstantCommand {
-
     private LEDController controller;
     private LEDInstruction instruction;
 

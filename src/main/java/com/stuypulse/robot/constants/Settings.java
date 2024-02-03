@@ -298,5 +298,8 @@ public interface Settings {
 
         SmartNumber TRANSLATION_SPREAD = new SmartNumber("LED/LED Translation Spread (m)", 1);
         SmartNumber ROTATION_SPREAD = new SmartNumber("LED/LED Rotation Spread (deg)", 35);
+
+        SmartBoolean LED_AUTON_CHOOSE_TOGGLE = new SmartBoolean("LED/Auton Chooser Toggle", false);
+        SmartBoolean LED_AUTON_ALIGN_TOGGLE = new SmartBoolean("LED/Auton Align Toggle", true);
     }
 }
