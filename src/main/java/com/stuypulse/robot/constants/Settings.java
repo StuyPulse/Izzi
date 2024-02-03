@@ -96,6 +96,7 @@ public interface Settings {
         // between wheel centers
         double WIDTH = Units.inchesToMeters(20.75);
         double LENGTH = Units.inchesToMeters(20.75);
+        double CENTER_TO_INTAKE_FRONT = Units.inchesToMeters(18); // TODO: redetermine for izzi (from reteP)
 
         SmartNumber MAX_MODULE_SPEED = new SmartNumber("Swerve/Max Module Speed (meter per s)", 5.0);
         SmartNumber MAX_TURNING = new SmartNumber("Swerve/Max Turn Velocity (rad per s)", 6.28);
