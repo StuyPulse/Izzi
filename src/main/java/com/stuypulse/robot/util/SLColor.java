@@ -19,9 +19,8 @@ public class SLColor extends edu.wpi.first.wpilibj.util.Color {
     private final int blue;
 
     /**
-     * Constructs an default black LEDColor object
-     *
-    */
+     * Constructs an LEDColor object defaulted to black
+     */
     public SLColor() {
         this(0, 0, 0);
     }
