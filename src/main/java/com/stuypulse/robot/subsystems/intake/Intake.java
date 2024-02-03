@@ -37,10 +37,12 @@ public abstract class Intake extends SubsystemBase {
     public abstract boolean isIRTriggered();
     public abstract boolean hasNote();
 
-    public abstract double getSpeed();
+    public abstract double getIntakeRollerSpeed();
+    // public abstract double getIntakeToConveyorSpeed();
+    // public abstract double getAmpRollerSpeed();
     
     @Override
     public void periodic() {
-        intakeVisualizer.update(isIRTriggered(), Conveyor.getInstance().isNoteAtShooter(), Amper.getInstance().hasNote(), getSpeed());
+        intakeVisualizer.update(isIRTriggered(), Conveyor.getInstance().isNoteAtShooter(), Amper.getInstance().hasNote(), getIntakeRollerSpeed(), Conveyor.getInstance().getGandalfMotorSpeed(), Conveyor.getInstance().getShooterFeederSpeed());
     }
 }

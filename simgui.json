@@ -30,7 +30,16 @@
       "open": false
     },
     "transitory": {
+      "LiveWindow": {
+        "open": true
+      },
       "SmartDashboard": {
+        "Conveyor": {
+          "open": true
+        },
+        "Intake": {
+          "open": true
+        },
         "TESTING": {
           "open": true
         },

@@ -15,6 +15,7 @@ public class ConveyorImpl extends Conveyor {
     
     private final CANSparkMax gandalfMotor;
     private final CANSparkMax shooterFeederMotor;
+
     private final DigitalInput irSensor;
 
     private BStream isAtShooter;
@@ -34,13 +35,12 @@ public class ConveyorImpl extends Conveyor {
     }
 
     @Override
-    public double getShooterFeederSpeed() {
-        return shooterFeederMotor.get();
-    }
-
-    @Override
     public double getGandalfMotorSpeed() {
         return gandalfMotor.get();
+    }
+
+    public double getShooterFeederSpeed() {
+        return shooterFeederMotor.get();
     }
 
     @Override

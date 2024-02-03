@@ -9,10 +9,6 @@ public class SimIntake extends Intake {
     SmartNumber motor = new SmartNumber("Intake/SpeedSim", 0);
     SmartBoolean ir = new SmartBoolean("Intake/IR", false);
 
-    public SimIntake() {
-        
-    }
-
     @Override
     public void acquire() {
         motor.set(Settings.Intake.ACQUIRE_SPEED.getAsDouble());
@@ -28,8 +24,15 @@ public class SimIntake extends Intake {
         motor.set(0);
     }
 
-    @Override
-    public double getSpeed() {
+    public double getIntakeRollerSpeed() {
+        return motor.get();
+    }
+
+    public double getAmpRollerSpeed() {
+        return motor.get();
+    }
+
+    public double getIntakeToConveyorSpeed() {
         return motor.get();
     }
 
