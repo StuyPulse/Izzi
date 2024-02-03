@@ -16,6 +16,7 @@ import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
 import com.stuypulse.robot.subsystems.intake.Intake;
+import com.stuypulse.robot.subsystems.leds.LEDController;
 import com.stuypulse.robot.subsystems.shooter.Shooter;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.stuylib.input.Gamepad;
@@ -37,6 +38,7 @@ public class RobotContainer {
     // Subsystem
     public final Climber climber = Climber.getInstance();
     public final Amper amper = Amper.getInstance();
+    public final LEDController leds = LEDController.getInstance();
     public final SwerveDrive swerve = SwerveDrive.getInstance();
     public final Odometry odometry = Odometry.getInstance();
     public final AprilTagVision vision = AprilTagVision.getInstance();
@@ -86,5 +88,9 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         return autonChooser.getSelected();
+    }
+
+    public static String getAutonomousCommandNameStatic() {
+        return autonChooser.getSelected().getName();
     }
 }

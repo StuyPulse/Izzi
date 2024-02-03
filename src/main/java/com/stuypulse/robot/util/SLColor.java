@@ -19,6 +19,14 @@ public class SLColor extends edu.wpi.first.wpilibj.util.Color {
     private final int blue;
 
     /**
+     * Constructs an default black LEDColor object
+     *
+    */
+    public SLColor() {
+        this(0, 0, 0);
+    }
+
+    /**
      * Constructs an LEDColor object from RGB values
      *
      * @param r the r value [0-255]

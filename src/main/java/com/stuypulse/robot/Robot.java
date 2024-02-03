@@ -5,6 +5,10 @@
 
 package com.stuypulse.robot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.stuypulse.robot.commands.leds.LEDAlign;
+import com.stuypulse.robot.RobotContainer;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -13,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
 
     private RobotContainer robot;
+    private CommandScheduler scheduler;
     private Command auto;
 
     /*************************/
@@ -22,11 +27,12 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         robot = new RobotContainer();
+        scheduler = CommandScheduler.getInstance();
     }
 
     @Override
     public void robotPeriodic() {
-        CommandScheduler.getInstance().run();
+        scheduler.run();
     }
 
     /*********************/
@@ -49,6 +55,7 @@ public class Robot extends TimedRobot {
         if (robot.conveyor.isNoteAtShooter()) {
             DriverStation.reportWarning("Shooter IR sensor reporting note while disabled!", false);
         }
+        scheduler.schedule(new LEDAlign(new PathPlannerAuto(RobotContainer.getAutonomousCommandNameStatic())));
     }
 
     /***********************/
