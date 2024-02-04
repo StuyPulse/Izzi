@@ -159,7 +159,12 @@ public class TheiaCamera {
         }
         
         lastCounter = rawCounter;
-        return Optional.of(new VisionData(getRobotPose(), getFIDs(), timestamp));
+        
+        VisionData data = new VisionData(getRobotPose(), getFIDs(), timestamp);
+        if (!data.isValidData()) {
+            return Optional.empty();
+        }
+        return Optional.of(data);
     }
 
     /**
