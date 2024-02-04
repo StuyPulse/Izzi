@@ -12,13 +12,13 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class AmperSim extends Amper {
+public class SimAmper extends Amper {
 
     private final ElevatorSim sim;
 
     public final Controller liftController;
 
-    public AmperSim() {
+    public SimAmper() {
         liftController = new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD);
         
         sim = new ElevatorSim(

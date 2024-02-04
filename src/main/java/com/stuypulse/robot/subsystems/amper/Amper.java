@@ -1,9 +1,11 @@
 package com.stuypulse.robot.subsystems.amper;
 
+import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.network.SmartNumber;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /*
@@ -23,7 +25,11 @@ public abstract class Amper extends SubsystemBase {
     private static Amper instance;
 
     static {
-        instance = new AmperImpl();
+        if (Robot.isReal()) {
+            instance = new AmperImpl();
+        } else {
+            instance = new SimAmper();
+        }
     }
 
     public static Amper getInstance() {

@@ -37,6 +37,9 @@
         "Conveyor": {
           "open": true
         },
+        "Gandalf": {
+          "open": true
+        },
         "Intake": {
           "open": true
         },

@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounce;
 
@@ -39,6 +40,7 @@ public class ConveyorImpl extends Conveyor {
         return gandalfMotor.get();
     }
 
+    @Override
     public double getShooterFeederSpeed() {
         return shooterFeederMotor.get();
     }
@@ -62,7 +64,7 @@ public class ConveyorImpl extends Conveyor {
 
     public void stop() {
         gandalfMotor.set(0);
-        shooterFeederMotor.set(0);
+        // shooterFeederMotor.set(0);
     }
 
     @Override

@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
 
 public class IntakeVisualizer {
 
-    private double angle = 0.0;
+    private double intakeAngle = 0.0;
+    private double gandalfAngle = 0.0;
+    private double shooterFeederAngle = 0.0;
 
     private final double WINDOW_WIDTH = 20;
     private final double WINDOW_HEIGHT = 20;
@@ -197,85 +199,20 @@ public class IntakeVisualizer {
             intakeSpeed = 0;
         }
 
-        if (intakeSpeed > 0) {
-            // intake rollers
-            rollingLeft.setAngle(angle);
-            rollingRight.setAngle(-angle);
-            rollingMidLeft.setAngle(angle);
-            rollingMidRight.setAngle(-angle);
-            // intake roller speed
-            angle += 58 * intakeSpeed;
-        if (intakeSpeed < 0) {
-            rollingLeft.setAngle(-angle);
-            rollingRight.setAngle(angle);
-            rollingMidLeft.setAngle(-angle);
-            rollingMidRight.setAngle(angle);
-            angle -= 58 * intakeSpeed;
-        }
-        if (conveyorGandalfSpeed > 0) {
-            rollingGandalf.setAngle(angle);
-            rollingConveyorBot.setAngle(angle);
-            angle =+ 58 * conveyorGandalfSpeed;
-            
-        }
+        intakeAngle += 29 * intakeSpeed;
+        rollingLeft.setAngle(intakeAngle);
+        rollingRight.setAngle(-intakeAngle);
+        rollingMidLeft.setAngle(intakeAngle);
+        rollingMidRight.setAngle(-intakeAngle);
 
-        if (conveyorGandalfSpeed < 0) {
-            rollingGandalf.setAngle(-angle);
-            rollingConveyorBot.setAngle(-angle);
-            angle =- 58 * conveyorGandalfSpeed;
-        }
+        gandalfAngle += 29 * conveyorGandalfSpeed;
+        rollingGandalf.setAngle(-gandalfAngle);
+        rollingConveyorBot.setAngle(gandalfAngle);
         
-        if (shooterFeederSpeed > 0) {
-            rollingShooterTop.setAngle(angle);
-            rollingShooterMid.setAngle(-angle);
-            angle += 58 * shooterFeederSpeed;
-        }
+        shooterFeederAngle += 29 * shooterFeederSpeed;
+        rollingShooterTop.setAngle(-shooterFeederAngle);
+        rollingShooterMid.setAngle(shooterFeederAngle);
         
-        if (shooterFeederSpeed < 0) {
-            rollingShooterTop.setAngle(-angle);
-            rollingShooterMid.setAngle(angle);
-            angle -= 58 * shooterFeederSpeed;
-        }
-       
-        // if ()
-        // if (intakeSpeed > 0) {
-        // // intake rollers
-        // rollingLeft.setAngle(angle);
-        // rollingRight.setAngle(-angle);
-        // // mid rollers
-        // rollingMidLeft.setAngle(angle);
-        // rollingMidRight.setAngle(-angle);
-        // // speed of intake
-        // angle += 58 * intakeSpeed;
-        // }
-
-        // if (gandalfSpeed > 0){
-        // // conveyor/shooter rollers
-        // rollingShooterTop.setAngle(-angle);
-        // rollingShooterMid.setAngle(angle);
-        // rollingConveyorBot.setAngle(-angle);
-        // rollingGandalf.setAngle(angle);
-        
-
-        // // speed of gandalf
-        // angle += 58 * gandalfSpeed;
-        // }
-
-        // if (intakeSpeed < 0) {
-        // // intake rollers
-        // rollingLeft.setAngle(-angle);
-        // rollingRight.setAngle(angle);
-        // // mid rollers
-        // rollingMidLeft.setAngle(-angle);
-        // rollingMidRight.setAngle(angle);
-        // // conveyor/shooter rollers
-        // rollingShooterTop.setAngle(angle);
-        // rollingShooterMid.setAngle(-angle);
-        // rollingConveyorBot.setAngle(angle);
-        // rollingGandalf.setAngle(-angle);
-        // angle -= 58 * intakeSpeed;
-
-        }
     }
 }
         

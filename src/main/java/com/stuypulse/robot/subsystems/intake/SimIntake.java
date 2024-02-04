@@ -6,7 +6,9 @@ import com.stuypulse.stuylib.network.SmartNumber;
 
 public class SimIntake extends Intake {
 
-    SmartNumber motor = new SmartNumber("Intake/SpeedSim", 0);
+    SmartNumber motor = new SmartNumber("Intake/Speed", 0);
+    SmartNumber feederSpeed = new SmartNumber("Shooter/Speed", 0);
+
     SmartBoolean ir = new SmartBoolean("Intake/IR", false);
 
     @Override

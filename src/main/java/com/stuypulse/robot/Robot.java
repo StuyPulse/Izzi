@@ -16,7 +16,7 @@ public class Robot extends TimedRobot {
     private Command auto;
 
     /*************************/
-    /*** ROBOT SCHEDULEING ***/
+    /*** ROBOT SCHEDULING ***/
     /*************************/
 
     @Override

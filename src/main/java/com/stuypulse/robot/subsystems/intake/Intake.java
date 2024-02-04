@@ -1,12 +1,11 @@
 package com.stuypulse.robot.subsystems.intake;
 
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
+import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.util.IntakeVisualizer;
-// import com.stuypulse.stuylib.network.SmartBoolean;
 
 import edu.wpi.first.wpilibj.RobotBase;
-// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class Intake extends SubsystemBase {
@@ -15,7 +14,7 @@ public abstract class Intake extends SubsystemBase {
     private IntakeVisualizer intakeVisualizer;
 
     static {
-        if (RobotBase.isReal()) {
+        if (Robot.isReal()) {
             instance = new IntakeImpl();
         } else {
             instance = new SimIntake();
@@ -38,8 +37,6 @@ public abstract class Intake extends SubsystemBase {
     public abstract boolean hasNote();
 
     public abstract double getIntakeRollerSpeed();
-    // public abstract double getIntakeToConveyorSpeed();
-    // public abstract double getAmpRollerSpeed();
     
     @Override
     public void periodic() {

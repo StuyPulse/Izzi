@@ -14,8 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeImpl extends Intake {
 
-    private static final BStream motor = null;
-
     private final CANSparkMax intakeMotor;
 
     private final DigitalInput irSensor;
@@ -60,16 +58,6 @@ public class IntakeImpl extends Intake {
         return intakeMotor.get();
     }
 
-    // @Override
-    // public double getIntakeToConveyorSpeed() {
-    //     return intakeMotor.get();
-    // }
-
-    // @Override
-    // public double getAmpRollerSpeed() {
-    //     return intakeMotor.get();
-    // }
-
     // Detection
 
     @Override
@@ -100,8 +88,6 @@ public class IntakeImpl extends Intake {
         super.periodic();
         
         SmartDashboard.putNumber("Intake Roller Speed", getIntakeRollerSpeed());
-        // SmartDashboard.putNumber("To Conveyor Speed", getIntakeToConveyorSpeed());
-        // SmartDashboard.putNumber("Amp Roller Speed", getAmpRollerSpeed());
         SmartDashboard.putNumber("Intake/Current", intakeMotor.getOutputCurrent());
         SmartDashboard.putBoolean("Intake/Is Stalling", isStalling());
         SmartDashboard.putBoolean("Intake/IR is triggered", isTriggered());
