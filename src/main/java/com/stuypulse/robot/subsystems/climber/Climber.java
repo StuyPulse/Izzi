@@ -38,6 +38,10 @@ public abstract class Climber extends SubsystemBase {
     public final double getTargetHeight() {
         return targetHeight.get();
     }
+
+    public final boolean isAtTargetHeight(double epsilonMeters) {
+        return Math.abs(getTargetHeight() - getHeight()) < epsilonMeters;
+    }
     
     public abstract double getHeight();
     public abstract double getVelocity();

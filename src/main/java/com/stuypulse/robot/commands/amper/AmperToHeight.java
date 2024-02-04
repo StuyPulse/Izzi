@@ -10,7 +10,7 @@ public class AmperToHeight extends InstantCommand {
 
     public static Command untilDone(double height) {
         return new AmperToHeight(height)
-            .until(() -> Math.abs(Amper.getInstance().getLiftHeight() - height) < Lift.MAX_HEIGHT_ERROR);
+            .until(() -> Amper.getInstance().isAtTargetHeight(Lift.MAX_HEIGHT_ERROR));
     }
 
     private final Amper amper;

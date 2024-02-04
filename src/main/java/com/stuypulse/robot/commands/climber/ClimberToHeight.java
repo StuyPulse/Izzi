@@ -9,10 +9,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 public class ClimberToHeight extends InstantCommand {
 
     public static Command untilDone(double height) {
-        Climber climber = Climber.getInstance();
-
         return new ClimberToHeight(height)
-            .until(() -> Math.abs(climber.getTargetHeight() - climber.getHeight()) < Settings.Climber.BangBang.THRESHOLD);
+            .until(() -> Climber.getInstance().isAtTargetHeight(Settings.Climber.BangBang.THRESHOLD));
     }
     
     private final Climber climber;

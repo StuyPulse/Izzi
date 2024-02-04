@@ -74,6 +74,10 @@ public abstract class Amper extends SubsystemBase {
     public final double getTargetHeight() {
         return targetHeight.get();
     }
+
+    public final boolean isAtTargetHeight(double epsilonMeters) {
+        return Math.abs(getTargetHeight() - getLiftHeight()) < epsilonMeters;
+    }
     
     public abstract boolean hasNote();
 
