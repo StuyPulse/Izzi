@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.simulation.LinearSystemSim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class SimModule extends SwerveModule {
+public class SwerveModuleSim extends SwerveModule {
 
     private final LinearSystemSim<N2, N1, N2> driveSim;
     private final LinearSystemSim<N2, N1, N1> turnSim;
@@ -31,7 +31,7 @@ public class SimModule extends SwerveModule {
     private final Controller driveController;
     private final AngleController angleController;
 
-    public SimModule(String id, Translation2d offset) {
+    public SwerveModuleSim(String id, Translation2d offset) {
         super(id, offset);
         
         driveSim = PositionVelocitySystem.getPositionVelocitySim(Drive.kV.get(), Drive.kA.get());

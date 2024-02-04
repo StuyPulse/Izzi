@@ -11,7 +11,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class SimShooter extends Shooter {
+public class ShooterSim extends Shooter {
 
     private final FlywheelSim leftWheel;
     private final FlywheelSim rightWheel;
@@ -19,7 +19,7 @@ public class SimShooter extends Shooter {
     private final Controller leftController;
     private final Controller rightController;
     
-    public SimShooter() {
+    public ShooterSim() {
         leftWheel = new FlywheelSim(DCMotor.getNEO(1), 1, Settings.Shooter.MOMENT_OF_INERTIA);
         rightWheel = new FlywheelSim(DCMotor.getNEO(1), 1, Settings.Shooter.MOMENT_OF_INERTIA);
    

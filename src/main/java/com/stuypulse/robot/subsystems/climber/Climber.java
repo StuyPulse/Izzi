@@ -14,7 +14,7 @@ public abstract class Climber extends SubsystemBase {
         if (RobotBase.isReal()) {
             instance = new ClimberImpl();
         } else {
-            instance = new SimClimber();
+            instance = new ClimberSim();
         }
     }
 

@@ -9,13 +9,13 @@ import java.util.Optional;
 
 import com.stuypulse.robot.constants.Settings;
 
-public class SimClimber extends Climber {
+public class ClimberSim extends Climber {
     
     private final ElevatorSim sim;
 
     private Optional<Double> voltageOverride;
 
-    public SimClimber() {
+    public ClimberSim() {
         sim = new ElevatorSim(
             DCMotor.getNEO(2), 
             Settings.Climber.Encoder.GEAR_RATIO, 

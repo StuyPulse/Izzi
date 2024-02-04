@@ -13,7 +13,7 @@ public abstract class Shooter extends SubsystemBase {
         if (RobotBase.isReal()) {
             instance = new ShooterImpl();
         } else {
-            instance = new SimShooter();
+            instance = new ShooterSim();
         }
     }
     
