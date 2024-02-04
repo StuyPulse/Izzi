@@ -2,7 +2,6 @@ package com.stuypulse.robot.constants;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.stuypulse.robot.RobotContainer;
-import com.stuypulse.robot.commands.leds.LEDAlign;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAutonChooser;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDInstruction;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDPulseColor;
@@ -11,9 +10,7 @@ import com.stuypulse.robot.subsystems.leds.instructions.LEDSection;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDSingleColor;
 import com.stuypulse.robot.subsystems.leds.instructions.RichieMode;
 import com.stuypulse.robot.util.SLColor;
-
-import edu.wpi.first.wpilibj2.command.Command; 
-
+ 
 public interface LEDColor {
     /******************************************/
     /*** LED CONSTANTS TO BE USED IN COMMANDS ***/
@@ -48,8 +45,7 @@ public interface LEDColor {
     public static final LEDInstruction RAINBOW = new LEDRainbow();
     public static final LEDInstruction PULSE_RED = new LEDPulseColor(SLColor.RED);
     public static final LEDInstruction PULSE_RED_BLUE = new LEDPulseColor(SLColor.RED, SLColor.BLUE);
+    public static final LEDInstruction PULSE_PURPLE = new LEDPulseColor(SLColor.PURPLE);
     public static final LEDInstruction RICHIE = new RichieMode(SLColor.RED);
     public static final LEDInstruction BANGLADESH = new LEDSection(new SLColor[] {SLColor.RED, SLColor.BLACK, SLColor.DARK_GREEN});
-
-    public static final LEDInstruction AUTON_CHOOSER = new LEDAutonChooser(new PathPlannerAuto(RobotContainer.getAutonomousCommandNameStatic()));
 }

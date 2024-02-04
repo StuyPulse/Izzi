@@ -3,9 +3,9 @@ package com.stuypulse.robot.commands.leds;
 import com.stuypulse.robot.subsystems.leds.*;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDInstruction;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.Command;
 
-public class LEDSet extends InstantCommand {
+public class LEDSet extends Command {
     private LEDController controller;
     private LEDInstruction instruction;
 

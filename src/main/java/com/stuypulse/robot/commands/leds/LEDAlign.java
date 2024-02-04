@@ -1,6 +1,7 @@
 package com.stuypulse.robot.commands.leds;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.constants.LEDColor;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Alignment;
@@ -32,8 +33,8 @@ public class LEDAlign extends Command implements LEDInstruction {
     private final BStream isYAligned;
     private final BStream isThetaAligned;
 
-    public LEDAlign(PathPlannerAuto auton) {
-        startPose = PathPlannerAuto.getStaringPoseFromAutoFile(auton.getName()); /*Field.getSpeakerPose()*/;
+    public LEDAlign() {
+        startPose = (RobotContainer.getAutonomousCommandNameStatic().equals("DoNothingAuton") ? new Pose2d() : PathPlannerAuto.getStaringPoseFromAutoFile(RobotContainer.getAutonomousCommandNameStatic())); 
         odometry = Odometry.getInstance();
         ledController = LEDController.getInstance();
 
