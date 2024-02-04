@@ -99,9 +99,8 @@ public interface Settings {
         double CENTER_TO_INTAKE_FRONT = Units.inchesToMeters(18); // TODO: redetermine for izzi (from reteP)
 
         SmartNumber MAX_MODULE_SPEED = new SmartNumber("Swerve/Max Module Speed (meter per s)", 5.0);
-        SmartNumber MAX_TURNING = new SmartNumber("Swerve/Max Turn Velocity (rad per s)", 6.28);
 
-        SmartNumber MODULE_VELOCITY_DEADBAND = new SmartNumber("Swerve/Module Velocity Deadband (m per s)", 0.02);
+        SmartNumber MODULE_VELOCITY_DEADBAND = new SmartNumber("Swerve/Module Velocity Deadband (m per s)", 0.05);
 
         public interface Motion {   
             PIDConstants XY = new PIDConstants(0.7, 0, 0.02);

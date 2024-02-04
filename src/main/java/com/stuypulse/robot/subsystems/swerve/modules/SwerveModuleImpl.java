@@ -6,7 +6,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.constants.Settings.Swerve;
 import com.stuypulse.robot.constants.Settings.Swerve.Drive;
 import com.stuypulse.robot.constants.Settings.Swerve.Encoder;
 import com.stuypulse.robot.constants.Settings.Swerve.Turn;
@@ -16,7 +15,6 @@ import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
 import com.stuypulse.stuylib.math.Angle;
-import com.stuypulse.stuylib.streams.angles.filters.ARateLimit;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -87,8 +85,7 @@ public class SwerveModuleImpl extends SwerveModule {
         driveController = new PIDController(Drive.kP, Drive.kI, Drive.kD)
             .add(new MotorFeedforward(Drive.kS, Drive.kV, Drive.kA).velocity());
 
-        angleController = new AnglePIDController(Turn.kP, Turn.kI, Turn.kD)
-            .setSetpointFilter(new ARateLimit(Swerve.MAX_TURNING));
+        angleController = new AnglePIDController(Turn.kP, Turn.kI, Turn.kD);
 
         Motors.Swerve.DRIVE_CONFIG.configure(driveMotor);
         Motors.Swerve.TURN_CONFIG.configure(turnMotor);
