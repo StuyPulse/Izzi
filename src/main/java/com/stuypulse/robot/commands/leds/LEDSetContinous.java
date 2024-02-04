@@ -20,6 +20,6 @@ public class LEDSetContinous extends Command {
     
     @Override
     public void execute() {
-        LEDController.getInstance().forceSetLED(ledInstruction);
+        ledController.forceSetLED(ledInstruction);
     }
 }
