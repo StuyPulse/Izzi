@@ -73,7 +73,7 @@ public class SimClimber extends Climber {
         if (voltageOverride.isPresent()) {
             setVoltage(voltageOverride.get());
         } else {
-            if (Math.abs(getHeight() - getTargetHeight()) < Settings.Climber.BangBang.THRESHOLD) {
+            if (isAtTargetHeight(Settings.Climber.BangBang.THRESHOLD)) {
                 setVoltage(0.0);
             } else if (getHeight() > getTargetHeight()) {
                 setVoltage(-Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
