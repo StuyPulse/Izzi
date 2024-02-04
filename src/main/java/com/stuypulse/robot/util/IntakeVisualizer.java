@@ -199,20 +199,19 @@ public class IntakeVisualizer {
             intakeSpeed = 0;
         }
 
-        intakeAngle += 29 * intakeSpeed;
+        intakeAngle += 39 * intakeSpeed;
         rollingLeft.setAngle(intakeAngle);
         rollingRight.setAngle(-intakeAngle);
         rollingMidLeft.setAngle(intakeAngle);
         rollingMidRight.setAngle(-intakeAngle);
 
-        gandalfAngle += 29 * conveyorGandalfSpeed;
+        gandalfAngle += 39 * conveyorGandalfSpeed;
         rollingGandalf.setAngle(-gandalfAngle);
         rollingConveyorBot.setAngle(gandalfAngle);
         
-        shooterFeederAngle += 29 * shooterFeederSpeed;
+        shooterFeederAngle += 39 * shooterFeederSpeed;
         rollingShooterTop.setAngle(-shooterFeederAngle);
         rollingShooterMid.setAngle(shooterFeederAngle);
-        
     }
 }
         
