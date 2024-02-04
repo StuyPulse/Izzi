@@ -3,7 +3,7 @@
 /* This work is licensed under the terms of the MIT license.  */
 /**************************************************************/
 
-package com.stuypulse.robot.commands.swerve;
+package com.stuypulse.robot.commands.notealignment;
 
 import static com.stuypulse.robot.constants.Settings.NoteDetection.*;
 

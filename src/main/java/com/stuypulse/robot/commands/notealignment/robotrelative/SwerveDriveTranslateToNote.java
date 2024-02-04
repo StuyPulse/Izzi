@@ -3,7 +3,7 @@
 /* This work is licensed under the terms of the MIT license.  */
 /**************************************************************/
 
-package com.stuypulse.robot.commands.swerve.robotrelative;
+package com.stuypulse.robot.commands.notealignment.robotrelative;
 
 import static com.stuypulse.robot.constants.Settings.NoteDetection.*;
 
@@ -23,7 +23,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class SwerveDriveDriveToNote extends Command {
+public class SwerveDriveTranslateToNote extends Command {
 
     private final SwerveDrive swerve;
     private final NoteVision vision; 
@@ -32,7 +32,7 @@ public class SwerveDriveDriveToNote extends Command {
     private final HolonomicController controller;
     private final BStream aligned;
 
-    public SwerveDriveDriveToNote(){
+    public SwerveDriveTranslateToNote(){
         this.swerve = SwerveDrive.getInstance();
         this.vision = NoteVision.getInstance();
         odometry = Odometry.getInstance(); 
@@ -57,15 +57,14 @@ public class SwerveDriveDriveToNote extends Command {
     @Override
     public void execute() {
         Translation2d robotToNote = vision.getRobotRelativeNotePose();
+        Rotation2d kZero = new Rotation2d();
         Pose2d targetPose = new Pose2d(
             new Translation2d(Swerve.CENTER_TO_INTAKE_FRONT, 0).rotateBy(odometry.getRotation()),
-            new Rotation2d());
+            kZero);
 
+        // translate to note only if note in view
         if(vision.hasNoteData()) {
-            swerve.setChassisSpeeds(controller.update(targetPose, new Pose2d(robotToNote, robotToNote.getAngle())));
-        }
-        else {
-            swerve.setChassisSpeeds(controller.update(targetPose, new Pose2d(targetPose.getTranslation(), odometry.getRotation())));
+            swerve.setChassisSpeeds(controller.update(targetPose, new Pose2d(robotToNote, kZero)));
         }
 
         SmartDashboard.putBoolean("Note Detection/Is Aligned", aligned.get());
