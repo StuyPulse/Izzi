@@ -166,3 +166,5 @@ bin/
 *.log
 
 networktables.json
+glass.json
+src/main/deploy/glass.json
