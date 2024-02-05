@@ -7,7 +7,6 @@ import com.stuypulse.robot.constants.Settings.Driver.Drive;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
-import com.stuypulse.robot.subsystems.shooter.Shooter;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
@@ -34,7 +33,6 @@ public class SwerveDriveAutomatic extends Command {
     private final NoteVision llNoteVision;
     private final Gamepad driver;
     private final Intake intake;
-    private final Shooter shooter;
     private final Amper amper; 
     
     public SwerveDriveAutomatic(Gamepad driver) {
@@ -53,32 +51,26 @@ public class SwerveDriveAutomatic extends Command {
         conveyor = Conveyor.getInstance();
         llNoteVision = NoteVision.getInstance();
         intake = Intake.getInstance();
-        shooter = Shooter.getInstance();
         amper = Amper.getInstance();
 
-
         addRequirements(swerve);
-        addRequirements(conveyor);
-        addRequirements(intake);
-        addRequirements(shooter);
-        addRequirements(amper);
     }
 
     @Override
     public void execute() {
-        //logic here 
         Translation2d currentPose = Odometry.getInstance().getPose().getTranslation();
         Rotation2d currentAngle = currentPose.getAngle();
         Rotation2d targetAngle;
         Translation2d targetPose = getTargetPose();
 
-        if (amper.hasNote()) { //if note in amp face wall 
+        // if note in amp face wall 
+        if (amper.hasNote()) {
             if (DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) { 
-                targetAngle = new Rotation2d(Math.PI); //180 degrees
-            } else { //on red 
+                targetAngle = Rotation2d.fromDegrees(180.0);
+            } else {
                 targetAngle = new Rotation2d(0);
             }
-        } else { //note not in amp 
+        } else {
             Translation2d difference = targetPose.minus(currentPose);
             targetAngle = difference.getAngle();
         }
