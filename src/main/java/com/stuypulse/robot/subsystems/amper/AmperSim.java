@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class SimAmper extends Amper {
+public class AmperSim extends Amper {
 
     private final ElevatorSim sim;
 

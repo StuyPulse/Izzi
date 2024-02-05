@@ -4,7 +4,7 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 
-public class SimIntake extends Intake {
+public class IntakeSim extends Intake {
 
     SmartNumber motor = new SmartNumber("Intake/Speed", 0);
     SmartNumber feederSpeed = new SmartNumber("Shooter/Speed", 0);

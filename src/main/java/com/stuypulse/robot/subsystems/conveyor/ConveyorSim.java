@@ -26,7 +26,7 @@ public class ConveyorSim extends Conveyor {
     @Override
     public void toShooter() {
         gandalfMotor.set(Settings.Conveyor.GANDALF_SHOOTER_SPEED.get());
-        shooterFeederMotor.set(Settings.Conveyor.SHOOTER_FEEDER_SPEED.get());
+        shooterFeederMotor.set(Settings.Conveyor.FEEDER_SHOOTER_SPEED.get());
     }
 
     @Override

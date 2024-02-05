@@ -5,7 +5,6 @@ import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.util.IntakeVisualizer;
 
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class Intake extends SubsystemBase {
@@ -17,7 +16,7 @@ public abstract class Intake extends SubsystemBase {
         if (Robot.isReal()) {
             instance = new IntakeImpl();
         } else {
-            instance = new SimIntake();
+            instance = new IntakeSim();
         }
     }
 
