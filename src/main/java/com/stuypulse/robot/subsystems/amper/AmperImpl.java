@@ -8,6 +8,9 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.feedback.PIDController;
+import com.stuypulse.stuylib.control.feedforward.ElevatorFeedforward;
+import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
+import com.stuypulse.stuylib.streams.numbers.filters.MotionProfile;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,13 +24,12 @@ public class AmperImpl extends Amper {
 
     private final DigitalInput alignedSwitch;
     private final DigitalInput minSwitch;
+    private final DigitalInput maxSwitch;
     private final DigitalInput ampIRSensor;
 
-    public final Controller liftController;
+    private final Controller controller;
 
     public AmperImpl() {
-        liftController = new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD);
-
         scoreMotor = new CANSparkMax(Ports.Amper.SCORE, MotorType.kBrushless);
         liftMotor = new CANSparkMax(Ports.Amper.LIFT, MotorType.kBrushless);
         liftEncoder = liftMotor.getEncoder();
@@ -37,11 +39,19 @@ public class AmperImpl extends Amper {
 
         alignedSwitch = new DigitalInput(Ports.Amper.ALIGNED_BUMP_SWITCH);
         minSwitch = new DigitalInput(Ports.Amper.LIFT_BOTTOM_LIMIT);
+        maxSwitch = new DigitalInput(Ports.Amper.LIFT_TOP_LIMIT);
         ampIRSensor = new DigitalInput(Ports.Amper.AMP_IR);
 
         Motors.Amper.LIFT_MOTOR.configure(liftMotor);
         Motors.Amper.SCORE_MOTOR.configure(scoreMotor);
+
+        controller = new MotorFeedforward(Lift.Feedforward.kS, Lift.Feedforward.kV, Lift.Feedforward.kA).position()
+            .add(new ElevatorFeedforward(Lift.Feedforward.kG))
+            .add(new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD))
+            .setSetpointFilter(new MotionProfile(Lift.VEL_LIMIT, Lift.ACC_LIMIT));
+
     }
+
 
     @Override
     public boolean hasNote() {
@@ -51,6 +61,11 @@ public class AmperImpl extends Amper {
     @Override
     public boolean liftAtBottom() {
         return !minSwitch.get();
+    }
+
+    @Override
+    public boolean liftAtTop() {
+        return !maxSwitch.get();
     }
 
     @Override
@@ -65,12 +80,12 @@ public class AmperImpl extends Amper {
 
     @Override
     public void score() {
-        scoreMotor.set(Settings.Amper.Score.ROLLER_SPEED.get());
+        scoreMotor.set(Settings.Amper.Score.SCORE_SPEED.get());
     }
 
     @Override
     public void intake() {
-        scoreMotor.set(-Settings.Amper.Score.ROLLER_SPEED.get());
+        scoreMotor.set(-Settings.Amper.Score.INTAKE_SPEED.get());
     }
 
     @Override
@@ -87,12 +102,12 @@ public class AmperImpl extends Amper {
     public void periodic() {
         super.periodic();
 
-        liftController.update(targetHeight.get(), getLiftHeight());
-
-        if (liftAtBottom() && liftController.getOutput() < 0) {
+        controller.update(getTargetHeight(), getLiftHeight());
+        
+        if (liftAtBottom() && controller.getOutput() < 0 || liftAtTop() && controller.getOutput() > 0) {
             stopLift();
         } else {
-            liftMotor.setVoltage(liftController.getOutput());
+            liftMotor.setVoltage(controller.getOutput());
         }
 
         SmartDashboard.putNumber("Amper/Intake Speed", scoreMotor.get());

@@ -164,3 +164,5 @@ bin/
 # Logs
 *.wpilog
 *.log
+
+networktables.json

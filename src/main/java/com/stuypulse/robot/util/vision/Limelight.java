@@ -1,4 +1,4 @@
-package com.stuypulse.robot.util;
+package com.stuypulse.robot.util.vision;
 
 import static com.stuypulse.robot.constants.Cameras.Limelight.*;
 
@@ -100,7 +100,11 @@ public class Limelight {
         return tyData - Units.radiansToDegrees(POSITIONS[limelightID].getRotation().getY());
     }
 
-    // limelight targets far end of note, so have to subtract half of note length
+    /**
+     * Calculates the distance from the robot's center to the note's center.
+     * Limelight targets far end of note, so half of note length is substracted.
+     * @return distance from robot center to note center.
+     */
     public double getDistanceToNote() {
         Rotation2d yRotation = Rotation2d.fromDegrees(getYAngle());
         return POSITIONS[limelightID].getZ() / -yRotation.getTan() + POSITIONS[limelightID].getX() - Field.NOTE_LENGTH / 2.0;

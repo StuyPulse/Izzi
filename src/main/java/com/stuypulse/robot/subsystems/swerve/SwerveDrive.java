@@ -1,6 +1,10 @@
 package com.stuypulse.robot.subsystems.swerve;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PathPlannerLogging;
+import com.pathplanner.lib.util.ReplanningConfig;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Swerve;
@@ -9,7 +13,7 @@ import com.stuypulse.robot.constants.Settings.Swerve.BackRight;
 import com.stuypulse.robot.constants.Settings.Swerve.FrontLeft;
 import com.stuypulse.robot.constants.Settings.Swerve.FrontRight;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
-import com.stuypulse.robot.subsystems.swerve.modules.SimModule;
+import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleSim;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModule;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleImpl;
 import com.stuypulse.stuylib.math.Vector2D;
@@ -22,6 +26,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -73,10 +78,10 @@ public class SwerveDrive extends SubsystemBase {
     static {
         if (RobotBase.isSimulation()) {
             instance = new SwerveDrive(
-                new SimModule(FrontRight.ID, FrontRight.MODULE_OFFSET),
-                new SimModule(FrontLeft.ID, FrontLeft.MODULE_OFFSET),
-                new SimModule(BackLeft.ID, BackLeft.MODULE_OFFSET),
-                new SimModule(BackRight.ID, BackRight.MODULE_OFFSET)
+                new SwerveModuleSim(FrontRight.ID, FrontRight.MODULE_OFFSET),
+                new SwerveModuleSim(FrontLeft.ID, FrontLeft.MODULE_OFFSET),
+                new SwerveModuleSim(BackLeft.ID, BackLeft.MODULE_OFFSET),
+                new SwerveModuleSim(BackRight.ID, BackRight.MODULE_OFFSET)
             );
         }     
         else {
@@ -103,12 +108,39 @@ public class SwerveDrive extends SubsystemBase {
      * Creates a new Swerve Drive using the provided modules
      * @param modules the modules to use
      */
-    public SwerveDrive(SwerveModule... modules){
+    public SwerveDrive(SwerveModule... modules) {
         this.modules = modules;
-        this.kinematics = new SwerveDriveKinematics(getModuleOffsets());
-        this.gyro = new AHRS(SPI.Port.kMXP);
-        this.modules2D = new FieldObject2d[modules.length];
-    }   
+        kinematics = new SwerveDriveKinematics(getModuleOffsets());
+        gyro = new AHRS(SPI.Port.kMXP);
+        modules2D = new FieldObject2d[modules.length];
+    }  
+    
+    public void configureAutoBuilder() {
+        Odometry odometry = Odometry.getInstance();
+
+        AutoBuilder.configureHolonomic(
+            odometry::getPose,
+            odometry::reset,
+            this::getChassisSpeeds, 
+            this::setChassisSpeeds, 
+            new HolonomicPathFollowerConfig(
+                Swerve.Motion.XY, 
+                Swerve.Motion.THETA, 
+                Swerve.MAX_MODULE_SPEED.get(), 
+                Swerve.WIDTH, 
+                new ReplanningConfig(true, true)), 
+            () -> {
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                    return alliance.get() == DriverStation.Alliance.Red;
+                }
+                return false;
+            }, 
+            instance
+        );
+
+        PathPlannerLogging.setLogActivePathCallback((poses) -> odometry.getField().getObject("path").setPoses(poses));
+    }
 
     public void initFieldObject(Field2d field) {
         for (int i = 0; i < modules.length; i++){
@@ -228,10 +260,15 @@ public class SwerveDrive extends SubsystemBase {
         SmartDashboard.putNumber("Swerve/X Acceleration (Gs)", gyro.getWorldLinearAccelX());
         SmartDashboard.putNumber("Swerve/Y Acceleration (Gs)", gyro.getWorldLinearAccelY());
         SmartDashboard.putNumber("Swerve/Z Acceleration (Gs)", gyro.getWorldLinearAccelZ());
+
+        SmartDashboard.putNumber("Swerve/Chassis X Speed", getChassisSpeeds().vxMetersPerSecond);
+        SmartDashboard.putNumber("Swerve/Chassis Y Speed", getChassisSpeeds().vyMetersPerSecond);
+        SmartDashboard.putNumber("Swerve/Chassis Rotation", getChassisSpeeds().omegaRadiansPerSecond);
     }
 
+    @Override
     public void simulationPeriodic() {
-        //show gyro angle in simulation
+        // show gyro angle in simulation
         gyro.setAngleAdjustment(gyro.getAngle() - Math.toDegrees(getChassisSpeeds().omegaRadiansPerSecond * Settings.DT));
     }
 }

@@ -11,7 +11,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class SimShooter extends Shooter {
+public class ShooterSim extends Shooter {
 
     private final FlywheelSim leftWheel;
     private final FlywheelSim rightWheel;
@@ -19,7 +19,7 @@ public class SimShooter extends Shooter {
     private final Controller leftController;
     private final Controller rightController;
     
-    public SimShooter() {
+    public ShooterSim() {
         leftWheel = new FlywheelSim(DCMotor.getNEO(1), 1, Settings.Shooter.MOMENT_OF_INERTIA);
         rightWheel = new FlywheelSim(DCMotor.getNEO(1), 1, Settings.Shooter.MOMENT_OF_INERTIA);
    
@@ -46,18 +46,27 @@ public class SimShooter extends Shooter {
     }
 
     @Override
-    public void simulationPeriodic() {
+    public void periodic() {
+        super.periodic();
+
         leftController.update(getLeftTargetRPM(), getLeftShooterRPM());
         rightController.update(getRightTargetRPM(), getRightShooterRPM());
         
         leftWheel.setInputVoltage(leftController.getOutput());
         rightWheel.setInputVoltage(rightController.getOutput());
 
-        leftWheel.update(Settings.DT);
-        rightWheel.update(Settings.DT);
-        
         SmartDashboard.putNumber("Shooter/Right RPM", getRightShooterRPM());
         SmartDashboard.putNumber("Shooter/Left RPM", getLeftShooterRPM());
+
+        SmartDashboard.putNumber("Shooter/Left Voltage", leftController.getOutput());
+        SmartDashboard.putNumber("Shooter/Right Voltage", rightController.getOutput());
+
+    }
+
+    @Override
+    public void simulationPeriodic() {
+        leftWheel.update(Settings.DT);
+        rightWheel.update(Settings.DT);
     }
     
 }

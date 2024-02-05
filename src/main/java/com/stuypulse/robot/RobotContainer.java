@@ -5,9 +5,17 @@
 
 package com.stuypulse.robot;
 
-import com.stuypulse.robot.commands.auton.DoNothingAuton;
-import com.stuypulse.robot.commands.swerve.SwerveDriveDrive;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.stuypulse.robot.commands.*;
+import com.stuypulse.robot.commands.amper.*;
+import com.stuypulse.robot.commands.auton.*;
+import com.stuypulse.robot.commands.climber.*;
+import com.stuypulse.robot.commands.swerve.*;
+import com.stuypulse.robot.commands.intake.*;
+import com.stuypulse.robot.commands.shooter.*;
+import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
@@ -24,6 +32,7 @@ import com.stuypulse.robot.subsystems.climber.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
 
@@ -31,24 +40,27 @@ public class RobotContainer {
     public final Gamepad driver = new AutoGamepad(Ports.Gamepad.DRIVER);
     public final Gamepad operator = new AutoGamepad(Ports.Gamepad.OPERATOR);
     
-    // Subsystem
-    public final Climber climber = Climber.getInstance();
-    public final Amper amper = Amper.getInstance();
-    public final SwerveDrive swerve = SwerveDrive.getInstance();
-    public final Odometry odometry = Odometry.getInstance();
+    // Subsystems
     public final AprilTagVision vision = AprilTagVision.getInstance();
     public final NoteVision noteVision = NoteVision.getInstance();
+    public final Odometry odometry = Odometry.getInstance();
+
+    public final Amper amper = Amper.getInstance();
+    public final Conveyor conveyor = Conveyor.getInstance();
+    public final Climber climber = Climber.getInstance();
     public final Intake intake = Intake.getInstance();
     public final Shooter shooter = Shooter.getInstance();
-    public final Conveyor conveyor = Conveyor.getInstance();
+    public final SwerveDrive swerve = SwerveDrive.getInstance();
   
     // Autons
-    private static SendableChooser<Command> autonChooser = new SendableChooser<>();
+    private static SendableChooser<Command> autonChooser;
 
-    // Robot container
-
+    // RobotContainer
     public RobotContainer() {
+        swerve.configureAutoBuilder();
+
         configureDefaultCommands();
+        configureNamedCommands();
         configureButtonBindings();
         configureAutons();
     }
@@ -61,18 +73,28 @@ public class RobotContainer {
         swerve.setDefaultCommand(new SwerveDriveDrive(driver));
     }
 
+    /**********************/
+    /*** NAMED COMMANDS ***/
+    /**********************/
+
+    private void configureNamedCommands() {}
+
     /***************/
     /*** BUTTONS ***/
     /***************/
 
-    private void configureButtonBindings() {}
+    private void configureButtonBindings() {
+        // manual climber control
+        new Trigger(() -> operator.getLeftStick().magnitude() > Settings.Operator.DEADBAND.get())
+            .whileTrue(new ClimberDrive(operator));
+    }
 
     /**************/
     /*** AUTONS ***/
     /**************/
 
     public void configureAutons() {
-        autonChooser.setDefaultOption("Do Nothing", new DoNothingAuton());
+        autonChooser = AutoBuilder.buildAutoChooser();
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }

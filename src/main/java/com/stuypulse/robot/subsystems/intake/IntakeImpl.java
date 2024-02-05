@@ -40,12 +40,12 @@ public class IntakeImpl extends Intake {
 
     @Override
     public void acquire() {
-        intakeMotor.set(Settings.Intake.ACQUIRE_SPEED.getAsDouble());
+        intakeMotor.set(+Settings.Intake.ACQUIRE_SPEED.getAsDouble());
     }
 
     @Override 
     public void deacquire() {
-        intakeMotor.set(Settings.Intake.DEACQUIRE_SPEED.getAsDouble());
+        intakeMotor.set(-Settings.Intake.DEACQUIRE_SPEED.getAsDouble());
     }
 
     @Override

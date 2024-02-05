@@ -6,7 +6,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.constants.Settings.Swerve;
 import com.stuypulse.robot.constants.Settings.Swerve.Drive;
 import com.stuypulse.robot.constants.Settings.Swerve.Encoder;
 import com.stuypulse.robot.constants.Settings.Swerve.Turn;
@@ -16,7 +15,6 @@ import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
 import com.stuypulse.stuylib.math.Angle;
-import com.stuypulse.stuylib.streams.angles.filters.ARateLimit;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -72,7 +70,8 @@ public class SwerveModuleImpl extends SwerveModule {
     public SwerveModuleImpl(String id, Translation2d offset, int driveID, Rotation2d angleOffset, int turnID, int encoderID) {
         super(id, offset);
         
-        this.angleOffset = angleOffset;        
+        this.angleOffset = angleOffset;
+        
         driveMotor = new CANSparkMax(driveID, MotorType.kBrushless);
         turnMotor = new CANSparkMax(turnID, MotorType.kBrushless);
 
@@ -86,8 +85,7 @@ public class SwerveModuleImpl extends SwerveModule {
         driveController = new PIDController(Drive.kP, Drive.kI, Drive.kD)
             .add(new MotorFeedforward(Drive.kS, Drive.kV, Drive.kA).velocity());
 
-        angleController = new AnglePIDController(Turn.kP, Turn.kI, Turn.kD)
-            .setSetpointFilter(new ARateLimit(Swerve.MAX_TURNING));
+        angleController = new AnglePIDController(Turn.kP, Turn.kI, Turn.kD);
 
         Motors.Swerve.DRIVE_CONFIG.configure(driveMotor);
         Motors.Swerve.TURN_CONFIG.configure(turnMotor);
@@ -113,16 +111,16 @@ public class SwerveModuleImpl extends SwerveModule {
         super.periodic();
 
         driveController.update(
-            targetState.speedMetersPerSecond,
+            getTargetState().speedMetersPerSecond,
             getVelocity()
         );
 
         angleController.update(
-            Angle.fromRotation2d(targetState.angle),
+            Angle.fromRotation2d(getTargetState().angle),
             Angle.fromRotation2d(getAngle())
         );
 
-        if (Math.abs(driveController.getOutput()) < Settings.Swerve.MODULE_VELOCITY_DEADBAND.get()) {
+        if (Math.abs(driveController.getSetpoint()) < Settings.Swerve.MODULE_VELOCITY_DEADBAND.get()) {
             driveMotor.setVoltage(0);
             turnMotor.setVoltage(0);
         } else {
@@ -130,9 +128,9 @@ public class SwerveModuleImpl extends SwerveModule {
             turnMotor.setVoltage(angleController.getOutput());
         }
         
-        SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Drive Voltage", driveController.getOutput());
-        SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Turn Voltage", angleController.getOutput());
-        SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Angle Error", angleController.getError().toDegrees());
-        SmartDashboard.putNumber("Swerve/Modules/" + this.getId() + "/Raw Encoder Angle", Units.rotationsToDegrees(turnEncoder.getAbsolutePosition().getValueAsDouble()));
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Voltage", driveController.getOutput());
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Turn Voltage", angleController.getOutput());
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Angle Error", angleController.getError().toDegrees());
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Raw Encoder Angle", Units.rotationsToDegrees(turnEncoder.getAbsolutePosition().getValueAsDouble()));
     }
 }
