@@ -1,15 +1,10 @@
 package com.stuypulse.robot.util;
 
-import static com.stuypulse.robot.constants.Settings.Intake.*;
-
-import com.stuypulse.stuylib.network.SmartNumber;
-
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color8Bit;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
 
 public class IntakeVisualizer {
 
@@ -19,7 +14,6 @@ public class IntakeVisualizer {
 
     private final double WINDOW_WIDTH = 20;
     private final double WINDOW_HEIGHT = 20;
-    private final double WINDOW_X_PADDING = 1;
     private final int LINE_WIDTH = 10;
 
 
@@ -63,7 +57,6 @@ public class IntakeVisualizer {
     private MechanismRoot2d root_lower1;
     private MechanismRoot2d root_lower2;
     private MechanismRoot2d root_lower3;
-    private MechanismRoot2d root_middle;
     private MechanismRoot2d rootIntakeIR;
     private MechanismRoot2d rootShooterIR;
     private MechanismRoot2d rootAmpIR;
@@ -103,9 +96,6 @@ public class IntakeVisualizer {
         root_lower2 = intake.getRoot("Two Lower", 2, 3);
         root_lower3 = intake.getRoot("Three Lower", 3.3, 4.5);
     
-        // middle roots
-        root_middle = intake.getRoot("One", 1, 1);
-
         rootIntakeIR = intake.getRoot("Intake Sensor", 1.5, 4.6);
         rootShooterIR = intake.getRoot("Shooter Sensor", 7, 7.2); 
         rootAmpIR = intake.getRoot("Amp Sensor", 7, 4.6);
@@ -172,7 +162,7 @@ public class IntakeVisualizer {
         rollingRootConveyorBot.append(rollingConveyorBot);
         rollingRootGandalf.append(rollingGandalf);
 
-        SmartDashboard.putData("Intake", intake);
+        SmartDashboard.putData("Intake Visualizer", intake);
     }
 
     public void update(boolean intake_IR, boolean conveyor_IR, boolean amp_IR, double intakeSpeed, double conveyorGandalfSpeed, double shooterFeederSpeed) {
@@ -194,17 +184,12 @@ public class IntakeVisualizer {
             ampIRSensor.setColor(red);
         }
 
-
-        if (conveyor_IR || intake_IR || amp_IR) {
-            intakeSpeed = 0;
-        }
-
         intakeAngle += 39 * intakeSpeed;
         rollingLeft.setAngle(intakeAngle);
         rollingRight.setAngle(-intakeAngle);
         rollingMidLeft.setAngle(intakeAngle);
         rollingMidRight.setAngle(-intakeAngle);
-
+// rizz
         gandalfAngle += 39 * conveyorGandalfSpeed;
         rollingGandalf.setAngle(-gandalfAngle);
         rollingConveyorBot.setAngle(gandalfAngle);
