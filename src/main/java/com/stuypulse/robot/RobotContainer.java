@@ -1,3 +1,5 @@
+
+
 /************************ PROJECT PHIL ************************/
 /* Copyright (c) 2024 StuyPulse Robotics. All rights reserved.*/
 /* This work is licensed under the terms of the MIT license.  */
@@ -12,6 +14,7 @@ import com.stuypulse.robot.commands.auton.*;
 import com.stuypulse.robot.commands.climber.*;
 import com.stuypulse.robot.commands.swerve.*;
 import com.stuypulse.robot.commands.intake.*;
+import com.stuypulse.robot.commands.notealignment.SwerveDriveNoteAlignedDrive;
 import com.stuypulse.robot.commands.shooter.*;
 import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.constants.Ports;
@@ -71,6 +74,7 @@ public class RobotContainer {
 
     private void configureDefaultCommands() {
         swerve.setDefaultCommand(new SwerveDriveDrive(driver));
+        intake.setDefaultCommand(new IntakeStop());
     }
 
     /**********************/
@@ -84,9 +88,39 @@ public class RobotContainer {
     /***************/
 
     private void configureButtonBindings() {
+        configureOperatorBindings();
+        configureDriverBindings();    
+    }
+
+    private void configureDriverBindings() {
+        driver.getRightTriggerButton()
+            .whileTrue(new DoNothingCommand())
+            .whileTrue(new IntakeAcquire());
+        driver.getRightButton()
+            .whileTrue(new DoNothingCommand());/*climber routine*/
+        driver.getBottomButton()
+            .onTrue(new AmperScore()); /*score both*/
+        driver.getTopButton()
+            .whileTrue(new DoNothingCommand()); /*align and score*/
+        // driver.getRightButton
+        //     .
+            
+    }
+
+    private void configureOperatorBindings() {
         // manual climber control
-        new Trigger(() -> operator.getLeftStick().magnitude() > Settings.Operator.DEADBAND.get())
+        new Trigger(() -> operator.getRightStick().magnitude() > Settings.Operator.DEADBAND.get())
             .whileTrue(new ClimberDrive(operator));
+        // manual lift control    
+        new Trigger(() -> operator.getLeftStick().magnitude() > Settings.Operator.DEADBAND.get())
+            .whileTrue(new DoNothingCommand());
+        operator.getSelectButton().whileTrue(new ShooterToAmp());
+        
+        operator.getLeftTriggerButton().whileTrue(new IntakeDeacquire());
+        operator.getRightTriggerButton().whileTrue(new IntakeAcquire());
+        
+
+
     }
 
     /**************/
