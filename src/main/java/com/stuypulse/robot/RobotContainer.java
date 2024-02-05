@@ -7,7 +7,7 @@ package com.stuypulse.robot;
 
 import com.stuypulse.robot.commands.auton.DoNothingAuton;
 import com.stuypulse.robot.commands.climber.ClimberDrive;
-import com.stuypulse.robot.commands.leds.LEDSetContinous;
+import com.stuypulse.robot.commands.leds.LEDSet;
 import com.stuypulse.robot.commands.swerve.SwerveDriveDrive;
 import com.stuypulse.robot.constants.LEDColor;
 import com.stuypulse.robot.constants.Ports;
@@ -78,7 +78,7 @@ public class RobotContainer {
             .whileTrue(new ClimberDrive(operator));
 
         //HUMAN PLAYER ATTENTION BUTTON
-        driver.getBottomButton().whileTrue(new LEDSetContinous(LEDColor.PULSE_PURPLE));
+        driver.getBottomButton().whileTrue(new LEDSet(LEDColor.PULSE_PURPLE));
     }
 
     /**************/
