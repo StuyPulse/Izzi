@@ -68,6 +68,8 @@ public interface Settings {
             SmartNumber VEL_LIMIT = new SmartNumber("Amper/Lift/Velocity Limit", 3);
             SmartNumber ACC_LIMIT = new SmartNumber("Amper/Lift/Acceleration Limit", 2);
 
+            SmartNumber MAX_DRIVE_VOLTAGE = new SmartNumber("Amper/Lift/Max Drive Voltage", 6.0); 
+
             public interface Encoder {
                 double GEARING = 9; // ~9:1
                 double DRUM_RADIUS = 0.025; // meters 

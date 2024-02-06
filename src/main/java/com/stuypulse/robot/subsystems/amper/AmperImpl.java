@@ -1,4 +1,6 @@
 package com.stuypulse.robot.subsystems.amper;
+import java.util.Optional;
+
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -29,6 +31,8 @@ public class AmperImpl extends Amper {
 
     private final Controller controller;
 
+    private Optional<Double> voltageOverride;
+
     public AmperImpl() {
         scoreMotor = new CANSparkMax(Ports.Amper.SCORE, MotorType.kBrushless);
         liftMotor = new CANSparkMax(Ports.Amper.LIFT, MotorType.kBrushless);
@@ -50,8 +54,15 @@ public class AmperImpl extends Amper {
             .add(new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD))
             .setSetpointFilter(new MotionProfile(Lift.VEL_LIMIT, Lift.ACC_LIMIT));
 
+        voltageOverride = Optional.empty();
     }
 
+    @Override
+    public void setTargetHeight(double height) {
+        super.setTargetHeight(height);
+
+        voltageOverride = Optional.empty();
+    }
 
     @Override
     public boolean hasNote() {
@@ -99,15 +110,22 @@ public class AmperImpl extends Amper {
     }
 
     @Override
+    public void setVoltageOverride(double voltage) {
+        voltageOverride = Optional.of(voltage);
+    }
+
+    @Override
     public void periodic() {
         super.periodic();
 
         controller.update(getTargetHeight(), getLiftHeight());
+
+        double voltage = voltageOverride.orElse(controller.getOutput());
         
-        if (liftAtBottom() && controller.getOutput() < 0 || liftAtTop() && controller.getOutput() > 0) {
+        if (liftAtBottom() && voltage < 0 || liftAtTop() && voltage > 0) {
             stopLift();
         } else {
-            liftMotor.setVoltage(controller.getOutput());
+            liftMotor.setVoltage(voltage);
         }
 
         SmartDashboard.putNumber("Amper/Intake Speed", scoreMotor.get());

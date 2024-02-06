@@ -67,7 +67,7 @@ public abstract class Amper extends SubsystemBase {
         SmartDashboard.putData("Lift Mechanism", mechanism2d);
     }
 
-    public final void setTargetHeight(double height) {
+    public void setTargetHeight(double height) {
         targetHeight.set(SLMath.clamp(height, Settings.Amper.Lift.MIN_HEIGHT, Settings.Amper.Lift.MAX_HEIGHT));
     }
 
@@ -91,6 +91,8 @@ public abstract class Amper extends SubsystemBase {
     public abstract void stopLift();
 
     public abstract boolean touchingAmp();
+
+    public abstract void setVoltageOverride(double voltage);
 
     @Override
     public void periodic() {

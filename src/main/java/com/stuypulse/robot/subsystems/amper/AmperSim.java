@@ -4,6 +4,8 @@ import static com.stuypulse.robot.constants.Settings.Amper.Lift.CARRIAGE_MASS;
 import static com.stuypulse.robot.constants.Settings.Amper.Lift.MAX_HEIGHT;
 import static com.stuypulse.robot.constants.Settings.Amper.Lift.MIN_HEIGHT;
 
+import java.util.Optional;
+
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.constants.Settings.Amper.Lift.Encoder;
@@ -25,6 +27,8 @@ public class AmperSim extends Amper {
 
     private final Controller controller;
 
+    private Optional<Double> voltageOverride;
+
     public AmperSim() {
         sim = new ElevatorSim(
             DCMotor.getNEO(1),
@@ -42,6 +46,14 @@ public class AmperSim extends Amper {
             .setSetpointFilter(new MotionProfile(Lift.VEL_LIMIT, Lift.ACC_LIMIT))
                 .add(new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD));
 
+        voltageOverride = Optional.empty();
+    }
+
+    @Override
+    public void setTargetHeight(double height) {
+        super.setTargetHeight(height);
+
+        voltageOverride = Optional.empty();
     }
 
     @Override
@@ -84,15 +96,22 @@ public class AmperSim extends Amper {
 	public void stopRoller() {}
 
     @Override
+    public void setVoltageOverride(double voltage) {
+        voltageOverride = Optional.of(voltage);
+    }
+
+    @Override
     public void periodic() {
         super.periodic();
 
         controller.update(getTargetHeight(), getLiftHeight());
 
-        if (liftAtBottom() && controller.getOutput() < 0 || liftAtTop() && controller.getOutput() > 0) {
+        double voltage = voltageOverride.orElse(controller.getOutput());
+        
+        if (liftAtBottom() && voltage < 0 || liftAtTop() && voltage > 0) {
             stopLift();
         } else {
-            sim.setInputVoltage(controller.getOutput());
+            sim.setInputVoltage(voltage);
         }
 
         SmartDashboard.putNumber("Amper/Lift Current", sim.getCurrentDrawAmps());
