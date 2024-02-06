@@ -64,17 +64,7 @@ public class AmperImpl extends Amper {
         Motors.Amper.SCORE_MOTOR.configure(scoreMotor);
     }
 
-    @Override
-    public void setTargetHeight(double height) {
-        super.setTargetHeight(height);
-
-        voltageOverride = Optional.empty();
-    }
-
-    @Override
-    public boolean hasNote() {
-        return !ampIRSensor.get();
-    }
+    /*** LIFT CONTROL ***/
 
     @Override
     public boolean liftAtBottom() {
@@ -92,9 +82,25 @@ public class AmperImpl extends Amper {
     }
 
     @Override
-    public boolean touchingAmp() {
-        return !alignedSwitch.get();
+    public void stopLift() {
+        liftMotor.stopMotor();
     }
+
+    @Override
+    public void setTargetHeight(double height) {
+        super.setTargetHeight(height);
+
+        voltageOverride = Optional.empty();
+    }
+
+    /*** IR SENSOR ***/
+
+    @Override
+    public boolean hasNote() {
+        return !ampIRSensor.get();
+    }
+
+    /*** SCORE ROLLERS ***/
 
     @Override
     public void score() {
@@ -107,14 +113,16 @@ public class AmperImpl extends Amper {
     }
 
     @Override
-    public void stopLift() {
-        liftMotor.stopMotor();
-    }
-
-    @Override
     public void stopRoller() {
         scoreMotor.stopMotor();
     }
+
+    @Override
+    public boolean touchingAmp() {
+        return !alignedSwitch.get();
+    }
+
+    /*** LIFT CONFIG ***/
 
     @Override
     public void setVoltageOverride(double voltage) {

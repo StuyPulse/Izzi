@@ -56,23 +56,14 @@ public class AmperSim extends Amper {
         voltageOverride = Optional.empty();
     }
 
+    /*** LIFT CONTROL ***/
+
     @Override
     public void setTargetHeight(double height) {
         super.setTargetHeight(height);
 
         voltageOverride = Optional.empty();
     }
-
-    @Override
-    public boolean hasNote() {
-        return false;
-    }
-
-    @Override
-    public void intake() {}
-
-    @Override
-    public void score() {}
 
     @Override
     public boolean liftAtBottom() {
@@ -85,8 +76,8 @@ public class AmperSim extends Amper {
     }
 
     @Override
-    public boolean touchingAmp() {
-        return false;
+    public double getLiftHeight() {
+        return sim.getPositionMeters();
     }
 
     @Override
@@ -94,13 +85,28 @@ public class AmperSim extends Amper {
         sim.setInputVoltage(0.0);
     }
 
+    /*** IR SENSOR ***/
+
     @Override
-    public double getLiftHeight() {
-        return sim.getPositionMeters();
+    public boolean hasNote() {
+        return false;
     }
+
+    @Override
+    public void intake() {}
+
+    @Override
+    public void score() {}
 
 	@Override
 	public void stopRoller() {}
+
+    @Override
+    public boolean touchingAmp() {
+        return false;
+    }
+
+    /*** LIFT CONFIG ***/
 
     @Override
     public void setVoltageOverride(double voltage) {
@@ -137,5 +143,4 @@ public class AmperSim extends Amper {
 
         sim.update(Settings.DT);
     }
-    
 }

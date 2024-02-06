@@ -68,6 +68,8 @@ public abstract class Amper extends SubsystemBase {
         SmartDashboard.putData("Lift Mechanism", mechanism2d);
     }
 
+    /*** LIFT CONTROL ***/
+
     public void setTargetHeight(double height) {
         targetHeight.set(SLMath.clamp(height, Settings.Amper.Lift.MIN_HEIGHT, Settings.Amper.Lift.MAX_HEIGHT));
     }
@@ -80,18 +82,24 @@ public abstract class Amper extends SubsystemBase {
         return Math.abs(getTargetHeight() - getLiftHeight()) < epsilonMeters;
     }
     
-    public abstract boolean hasNote();
-
-    public abstract void score();
-    public abstract void intake();
-    public abstract void stopRoller();
-    
     public abstract boolean liftAtBottom();
     public abstract boolean liftAtTop();
     public abstract double getLiftHeight();
     public abstract void stopLift();
 
+    /*** IR SENSOR ***/
+    
+    public abstract boolean hasNote();
+
+    /*** SCORE ROLLERS ***/
+
+    public abstract void score();
+    public abstract void intake();
+    public abstract void stopRoller();
+
     public abstract boolean touchingAmp();
+
+    /*** LIFT CONFIG ***/
 
     public abstract void setVoltageOverride(double voltage);
 
