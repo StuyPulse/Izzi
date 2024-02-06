@@ -65,8 +65,8 @@ public interface Settings {
 
             double MAX_HEIGHT_ERROR = 0.03;
 
-            SmartNumber VEL_LIMIT = new SmartNumber("Amper/Lift/Velocity Limit", 3);
-            SmartNumber ACC_LIMIT = new SmartNumber("Amper/Lift/Acceleration Limit", 2);
+            double VEL_LIMIT = 3.0;
+            double ACCEL_LIMIT = 2.0;
 
             SmartNumber MAX_DRIVE_VOLTAGE = new SmartNumber("Amper/Lift/Max Drive Voltage", 6.0); 
 

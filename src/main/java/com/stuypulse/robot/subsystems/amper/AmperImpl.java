@@ -12,6 +12,7 @@ import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.control.feedforward.ElevatorFeedforward;
 import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
+import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.numbers.filters.MotionProfile;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -33,6 +34,9 @@ public class AmperImpl extends Amper {
 
     private Optional<Double> voltageOverride;
 
+    private final SmartNumber maxVelocity;
+    private final SmartNumber maxAcceleration;
+
     public AmperImpl() {
         scoreMotor = new CANSparkMax(Ports.Amper.SCORE, MotorType.kBrushless);
         liftMotor = new CANSparkMax(Ports.Amper.LIFT, MotorType.kBrushless);
@@ -46,10 +50,13 @@ public class AmperImpl extends Amper {
         maxSwitch = new DigitalInput(Ports.Amper.LIFT_TOP_LIMIT);
         ampIRSensor = new DigitalInput(Ports.Amper.AMP_IR);
 
+        maxVelocity = new SmartNumber("Amper/Lift/Max Velocity", Lift.VEL_LIMIT);
+        maxAcceleration = new SmartNumber("Amper/Lift/Max Acceleration", Lift.ACCEL_LIMIT);
+
         controller = new MotorFeedforward(Lift.Feedforward.kS, Lift.Feedforward.kV, Lift.Feedforward.kA).position()
             .add(new ElevatorFeedforward(Lift.Feedforward.kG))
             .add(new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD))
-            .setSetpointFilter(new MotionProfile(Lift.VEL_LIMIT, Lift.ACC_LIMIT));
+            .setSetpointFilter(new MotionProfile(maxVelocity, maxAcceleration));
 
         voltageOverride = Optional.empty();
 
@@ -112,6 +119,12 @@ public class AmperImpl extends Amper {
     @Override
     public void setVoltageOverride(double voltage) {
         voltageOverride = Optional.of(voltage);
+    }
+
+    @Override
+    public void setConstraints(double maxVelocity, double maxAcceleration) {
+        this.maxVelocity.set(maxVelocity);
+        this.maxAcceleration.set(maxAcceleration);
     }
 
     @Override

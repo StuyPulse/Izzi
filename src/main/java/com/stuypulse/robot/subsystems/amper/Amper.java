@@ -2,6 +2,7 @@ package com.stuypulse.robot.subsystems.amper;
 
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.network.SmartNumber;
 
@@ -93,6 +94,12 @@ public abstract class Amper extends SubsystemBase {
     public abstract boolean touchingAmp();
 
     public abstract void setVoltageOverride(double voltage);
+
+    public abstract void setConstraints(double maxVelocity, double maxAcceleration);
+
+    public final void resetConstraints() {
+        setConstraints(Lift.VEL_LIMIT, Lift.ACCEL_LIMIT);
+    }
 
     @Override
     public void periodic() {
