@@ -46,15 +46,15 @@ public class AmperImpl extends Amper {
         maxSwitch = new DigitalInput(Ports.Amper.LIFT_TOP_LIMIT);
         ampIRSensor = new DigitalInput(Ports.Amper.AMP_IR);
 
-        Motors.Amper.LIFT_MOTOR.configure(liftMotor);
-        Motors.Amper.SCORE_MOTOR.configure(scoreMotor);
-
         controller = new MotorFeedforward(Lift.Feedforward.kS, Lift.Feedforward.kV, Lift.Feedforward.kA).position()
             .add(new ElevatorFeedforward(Lift.Feedforward.kG))
             .add(new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD))
             .setSetpointFilter(new MotionProfile(Lift.VEL_LIMIT, Lift.ACC_LIMIT));
 
         voltageOverride = Optional.empty();
+
+        Motors.Amper.LIFT_MOTOR.configure(liftMotor);
+        Motors.Amper.SCORE_MOTOR.configure(scoreMotor);
     }
 
     @Override
