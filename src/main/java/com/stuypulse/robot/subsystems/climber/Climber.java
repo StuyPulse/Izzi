@@ -46,6 +46,8 @@ public abstract class Climber extends SubsystemBase {
     public abstract double getHeight();
     public abstract double getVelocity();
 
+    /*** LIMITS ***/
+
     public abstract boolean atTop();
     public abstract boolean atBottom();
 

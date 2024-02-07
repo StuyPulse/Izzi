@@ -22,14 +22,14 @@ public class ConveyorImpl extends Conveyor {
     protected ConveyorImpl() {
         gandalfMotor = new CANSparkMax(Ports.Conveyor.GANDALF, MotorType.kBrushless);
         shooterFeederMotor = new CANSparkMax(Ports.Conveyor.FEEDER, MotorType.kBrushless);
-
-        Motors.Conveyor.GANDALF_MOTOR.configure(gandalfMotor);
-        Motors.Conveyor.SHOOTER_FEEDER_MOTOR.configure(shooterFeederMotor);
         
         irSensor = new DigitalInput(Ports.Conveyor.IR_SENSOR);
         
         isAtShooter = BStream.create(irSensor).not()
             .filtered(new BDebounce.Rising(Settings.Conveyor.DEBOUNCE_TIME));
+
+        Motors.Conveyor.GANDALF_MOTOR.configure(gandalfMotor);
+        Motors.Conveyor.SHOOTER_FEEDER_MOTOR.configure(shooterFeederMotor);
     }
 
     @Override

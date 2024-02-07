@@ -61,11 +61,6 @@ public class ClimberImpl extends Climber {
         voltageOverride = Optional.empty();
     }
 
-    @Override
-    public void setVoltageOverride(double voltage) {
-        voltageOverride = Optional.of(voltage);
-    }
-
 	@Override
 	public double getHeight() {
         return (leftEncoder.getPosition() + rightEncoder.getPosition()) / 2;
@@ -76,6 +71,8 @@ public class ClimberImpl extends Climber {
         return (leftEncoder.getVelocity() + rightEncoder.getVelocity()) / 2;
     }
 
+    /*** LIMITS ***/
+
     @Override
     public boolean atTop() {
         return !topRightLimit.get() || !topLeftLimit.get();
@@ -84,6 +81,11 @@ public class ClimberImpl extends Climber {
     @Override
     public boolean atBottom() {
         return !bottomRightLimit.get() || !bottomLeftLimit.get();
+    }
+
+    @Override
+    public void setVoltageOverride(double voltage) {
+        voltageOverride = Optional.of(voltage);
     }
 
     private void setVoltage(double voltage) {
