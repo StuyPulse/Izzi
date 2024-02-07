@@ -93,38 +93,53 @@ public class RobotContainer {
     }
 
     private void configureDriverBindings() {
+        /*TODO: add conveyorrecall somewhere*/
         driver.getRightTriggerButton()
             .whileTrue(new IntakeAcquire())
             .whileTrue(new SwerveDriveNoteAlignedDrive(driver));
+
+        driver.getStartButton()
+            .onTrue(new ConveyorScoreNote()); 
+    
+        driver.getTopButton()
+            .whileTrue(new AmperScoreAmpRoutine()); /*TODO: add the alignment to ts command score*/
         driver.getRightButton()
             .whileTrue(new ClimberSetupRoutine());
 
-        //TODO: what is score w IR logic and score both difference, what is align n score
-        driver.getBottomButton()
-            .onTrue(new ConveyorScoreNote()); /*Score w IR logic */
-        driver.getTopButton()
-            .whileTrue(new AmperScoreAmpRoutine()); /*align and score*/
-        driver.getStartButton()
-            .onTrue(new DoNothingCommand()); /*Score both */
+
     }
 
     private void configureOperatorBindings() {
-        // manual climber control
         new Trigger(() -> operator.getRightStick().magnitude() > Settings.Operator.DEADBAND.get())
             .whileTrue(new ClimberDrive(operator));
-        //TODO: manual lift control    
+
         new Trigger(() -> operator.getLeftStick().magnitude() > Settings.Operator.DEADBAND.get())
-            .whileTrue(new DoNothingCommand());
-        operator.getSelectButton().whileTrue(new ShooterToAmp());
+            .whileTrue(new AmperLiftDrive(operator));
         
-        operator.getLeftTriggerButton().whileTrue(new IntakeDeacquire());
-        operator.getRightTriggerButton().whileTrue(new IntakeAcquire());
+        operator.getLeftTriggerButton()
+            .whileTrue(new ConveyorOuttake())
+            .whileTrue(new IntakeDeacquire());
+        operator.getRightTriggerButton()
+            .whileTrue(new IntakeAcquire());
 
-        operator.getStartButton().onTrue(new AmperScore());
+        operator.getLeftBumper()
+            .onTrue(ConveyorToAmp.withCheckLift());
+        operator.getRightBumper()
+            .onTrue(new ConveyorToShooter());
 
-        operator.getBottomButton().onTrue(new ClimberScoreRoutine());
-        operator.getTopButton().onTrue(new ConveyorToShooter());
-        operator.getRightButton().onTrue(ConveyorToAmp.withCheckLift());
+        operator.getBottomButton()
+            .onTrue(new ClimberScoreRoutine());
+        operator.getTopButton()
+            .onTrue(new AmperScore());
+    
+        operator.getDPadUp()
+            .onTrue(new AmperToHeight(Settings.Amper.Score.TRAP_SCORE_HEIGHT.get()));
+        operator.getDPadRight()
+            .onTrue(new AmperToHeight(Settings.Amper.Score.AMP_SCORE_HEIGHT.get()));
+        operator.getDPadLeft()
+            .onTrue(new AmperToHeight(Settings.Amper.Score.AMP_SCORE_HEIGHT.get()));
+        operator.getDPadDown()  
+            .onTrue(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT));
     }
 
     /**************/

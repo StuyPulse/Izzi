@@ -262,6 +262,7 @@ public interface Settings {
         SmartNumber FEEDER_AMP_SPEED = new SmartNumber("Conveyor/Shooter Feeder Speed", 1);
         
         SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.2);
+        SmartNumber RECALL_DEBOUNCE = new SmartNumber("Conveyor/Recall Debounce", 1.0);
     }
 
     public interface Alignment {
