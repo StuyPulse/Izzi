@@ -13,7 +13,7 @@ import com.stuypulse.robot.constants.Settings.Swerve.BackRight;
 import com.stuypulse.robot.constants.Settings.Swerve.FrontLeft;
 import com.stuypulse.robot.constants.Settings.Swerve.FrontRight;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
-import com.stuypulse.robot.subsystems.swerve.modules.SimModule;
+import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleSim;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModule;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleImpl;
 import com.stuypulse.stuylib.math.Vector2D;
@@ -78,10 +78,10 @@ public class SwerveDrive extends SubsystemBase {
     static {
         if (RobotBase.isSimulation()) {
             instance = new SwerveDrive(
-                new SimModule(FrontRight.ID, FrontRight.MODULE_OFFSET),
-                new SimModule(FrontLeft.ID, FrontLeft.MODULE_OFFSET),
-                new SimModule(BackLeft.ID, BackLeft.MODULE_OFFSET),
-                new SimModule(BackRight.ID, BackRight.MODULE_OFFSET)
+                new SwerveModuleSim(FrontRight.ID, FrontRight.MODULE_OFFSET),
+                new SwerveModuleSim(FrontLeft.ID, FrontLeft.MODULE_OFFSET),
+                new SwerveModuleSim(BackLeft.ID, BackLeft.MODULE_OFFSET),
+                new SwerveModuleSim(BackRight.ID, BackRight.MODULE_OFFSET)
             );
         }     
         else {
@@ -108,11 +108,11 @@ public class SwerveDrive extends SubsystemBase {
      * Creates a new Swerve Drive using the provided modules
      * @param modules the modules to use
      */
-    public SwerveDrive(SwerveModule... modules){
+    public SwerveDrive(SwerveModule... modules) {
         this.modules = modules;
-        this.kinematics = new SwerveDriveKinematics(getModuleOffsets());
-        this.gyro = new AHRS(SPI.Port.kMXP);
-        this.modules2D = new FieldObject2d[modules.length];
+        kinematics = new SwerveDriveKinematics(getModuleOffsets());
+        gyro = new AHRS(SPI.Port.kMXP);
+        modules2D = new FieldObject2d[modules.length];
     }  
     
     public void configureAutoBuilder() {
@@ -266,8 +266,9 @@ public class SwerveDrive extends SubsystemBase {
         SmartDashboard.putNumber("Swerve/Chassis Rotation", getChassisSpeeds().omegaRadiansPerSecond);
     }
 
+    @Override
     public void simulationPeriodic() {
-        //show gyro angle in simulation
+        // show gyro angle in simulation
         gyro.setAngleAdjustment(gyro.getAngle() - Math.toDegrees(getChassisSpeeds().omegaRadiansPerSecond * Settings.DT));
     }
 }

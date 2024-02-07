@@ -4,17 +4,18 @@ import com.stuypulse.robot.subsystems.amper.Amper;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class AmperScoreForever extends InstantCommand {
+public class AmperStop extends InstantCommand {
 
     private final Amper amper;
 
-    public AmperScoreForever() {
+    public AmperStop() {
         amper = Amper.getInstance();
         addRequirements(amper);
     } 
 
     @Override
     public void initialize() {
-        amper.score();
+        amper.stopRoller();
     }
+
 }

@@ -61,11 +61,6 @@ public class ClimberImpl extends Climber {
         voltageOverride = Optional.empty();
     }
 
-    @Override
-    public void setVoltageOverride(double voltage) {
-        voltageOverride = Optional.of(voltage);
-    }
-
 	@Override
 	public double getHeight() {
         return (leftEncoder.getPosition() + rightEncoder.getPosition()) / 2;
@@ -75,6 +70,8 @@ public class ClimberImpl extends Climber {
     public double getVelocity() {
         return (leftEncoder.getVelocity() + rightEncoder.getVelocity()) / 2;
     }
+
+    /*** LIMITS ***/
 
     @Override
     public boolean atTop() {
@@ -86,7 +83,12 @@ public class ClimberImpl extends Climber {
         return !bottomRightLimit.get() || !bottomLeftLimit.get();
     }
 
-    public void setVoltage(double voltage) {
+    @Override
+    public void setVoltageOverride(double voltage) {
+        voltageOverride = Optional.of(voltage);
+    }
+
+    private void setVoltage(double voltage) {
         if (atTop() && voltage > 0) {
             DriverStation.reportWarning("Climber Top Limit Reached", false);
             voltage = 0.0;
@@ -106,17 +108,17 @@ public class ClimberImpl extends Climber {
         if (voltageOverride.isPresent()) {
             setVoltage(voltageOverride.get());
         } else {
-            
-            if (Math.abs(getHeight() - getTargetHeight()) < Settings.Climber.BangBang.THRESHOLD) {
+            if (isAtTargetHeight(Settings.Climber.BangBang.THRESHOLD)) {
                 setVoltage(0.0);
             } else if (getHeight() > getTargetHeight()) {
                 setVoltage(-Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
             } else {
-                setVoltage(Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
+                setVoltage(+Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
             }
-
         }
         
+        SmartDashboard.putNumber("Climber/Left Voltage", leftMotor.getAppliedOutput() * leftMotor.getBusVoltage());
+        SmartDashboard.putNumber("Climber/Right Voltage", rightMotor.getAppliedOutput() * rightMotor.getBusVoltage());
         SmartDashboard.putNumber("Climber/Height", getHeight());
         SmartDashboard.putNumber("Climber/Velocity", getVelocity());
 

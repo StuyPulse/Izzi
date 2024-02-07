@@ -4,8 +4,15 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.climber.Climber;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class ClimberToHeight extends Command {
+public class ClimberToHeight extends InstantCommand {
+
+    public static Command untilDone(double height) {
+        return new ClimberToHeight(height)
+            .until(() -> Climber.getInstance().isAtTargetHeight(Settings.Climber.BangBang.THRESHOLD));
+    }
+    
     private final Climber climber;
     private final double height;
 
@@ -21,8 +28,4 @@ public class ClimberToHeight extends Command {
         climber.setTargetHeight(height);
     }
 
-    @Override
-    public boolean isFinished() {
-        return Math.abs(climber.getTargetHeight() - climber.getHeight()) < Settings.Climber.BangBang.THRESHOLD;
-    }
 }

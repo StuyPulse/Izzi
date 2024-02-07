@@ -2,7 +2,7 @@ package com.stuypulse.robot.constants;
 
 import java.util.ArrayList;
 
-import com.stuypulse.robot.util.Fiducial;
+import com.stuypulse.robot.util.vision.Fiducial;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -16,6 +16,9 @@ import edu.wpi.first.wpilibj.DriverStation;
  * This interface stores information about the field elements.
  */
 public interface Field {
+
+    double WIDTH = Units.inchesToMeters(323.25);
+    double LENGTH = Units.inchesToMeters(651.25);
 
     double NOTE_LENGTH = Units.inchesToMeters(14.0);
 

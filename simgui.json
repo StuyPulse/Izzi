@@ -1,11 +1,8 @@
 {
   "HALProvider": {
-    "Addressable LEDs": {
-      "0": {
-        "columns": 55
-      },
+    "Other Devices": {
       "window": {
-        "visible": true
+        "visible": false
       }
     }
   },
@@ -16,9 +13,6 @@
       "/SmartDashboard/Climber": "Mechanism2d",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Lift Mechanism": "Mechanism2d"
-    }
-  },
-  "NetworkTables Info": {
     "visible": true
   }
 }

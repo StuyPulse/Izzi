@@ -8,8 +8,11 @@ package com.stuypulse.robot;
 import com.stuypulse.robot.commands.leds.LEDAlign;
 import com.stuypulse.robot.commands.leds.LEDAutonBar;
 
+import edu.wpi.first.wpilibj.DataLogManager;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -19,14 +22,19 @@ public class Robot extends TimedRobot {
     private CommandScheduler scheduler;
     private Command auto;
 
-    /*************************/
-    /*** ROBOT SCHEDULEING ***/
-    /*************************/
+    /************************/
+    /*** ROBOT SCHEDULING ***/
+    /************************/
 
     @Override
     public void robotInit() {
+        DataLogManager.start();
+
         robot = new RobotContainer();
+
         scheduler = CommandScheduler.getInstance();
+
+        SmartDashboard.putString("Robot State", "DISABLED");
     }
 
     @Override
@@ -39,7 +47,9 @@ public class Robot extends TimedRobot {
     /*********************/
 
     @Override
-    public void disabledInit() {}
+    public void disabledInit() {
+        SmartDashboard.putString("Robot State", "DISABLED");
+    }
 
     @Override
     public void disabledPeriodic() {
@@ -69,6 +79,8 @@ public class Robot extends TimedRobot {
         if (auto != null) {
             auto.schedule();
         }
+
+        SmartDashboard.putString("Robot State", "AUTON");
     }
 
     @Override
@@ -86,6 +98,8 @@ public class Robot extends TimedRobot {
         if (auto != null) {
             auto.cancel();
         }
+
+        SmartDashboard.putString("Robot State", "TELEOP");
     }
 
     @Override
@@ -101,6 +115,8 @@ public class Robot extends TimedRobot {
     @Override
     public void testInit() {
         CommandScheduler.getInstance().cancelAll();
+
+        SmartDashboard.putString("Robot State", "TEST");
     }
 
     @Override

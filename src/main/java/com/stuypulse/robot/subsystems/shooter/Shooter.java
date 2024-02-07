@@ -13,7 +13,7 @@ public abstract class Shooter extends SubsystemBase {
         if (RobotBase.isReal()) {
             instance = new ShooterImpl();
         } else {
-            instance = new SimShooter();
+            instance = new ShooterSim();
         }
     }
     
@@ -29,19 +29,19 @@ public abstract class Shooter extends SubsystemBase {
         rightTargetRPM = new SmartNumber("Shooter/Right Target RPM", 0);
     }    
 
-    public double getLeftTargetRPM() {
+    public final double getLeftTargetRPM() {
         return leftTargetRPM.get();
     }   
 
-    public double getRightTargetRPM() {
+    public final double getRightTargetRPM() {
         return rightTargetRPM.get();
     } 
     
-    public void setLeftTargetRPM(Number leftTargetRPM) {
+    public final void setLeftTargetRPM(Number leftTargetRPM) {
         this.leftTargetRPM.set(leftTargetRPM);
     }
     
-    public void setRightTargetRPM(Number rightTargetRPM) {
+    public final void setRightTargetRPM(Number rightTargetRPM) {
         this.rightTargetRPM.set(rightTargetRPM);
     }
 

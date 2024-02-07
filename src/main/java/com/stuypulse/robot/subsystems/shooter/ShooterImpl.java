@@ -14,6 +14,7 @@ import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ShooterImpl extends Shooter {
+
     private final CANSparkMax leftMotor;
     private final CANSparkMax rightMotor;
 
@@ -33,7 +34,7 @@ public class ShooterImpl extends Shooter {
         leftController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
             .add(new PIDController(PID.kP, PID.kI, PID.kD));
         rightController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
-            .add(new PIDController(PID.kP, PID.kI, PID.kD));  
+            .add(new PIDController(PID.kP, PID.kI, PID.kD));
 
         Motors.Shooter.LEFT_SHOOTER.configure(leftMotor);
         Motors.Shooter.RIGHT_SHOOTER.configure(rightMotor);
@@ -68,8 +69,7 @@ public class ShooterImpl extends Shooter {
         SmartDashboard.putNumber("Shooter/Right RPM", getRightShooterRPM());
         SmartDashboard.putNumber("Shooter/Left RPM", getLeftShooterRPM());
 
-        SmartDashboard.putNumber("Shooter/Left Voltage", leftMotor.getBusVoltage()*leftMotor.getAppliedOutput());
-        SmartDashboard.putNumber("Shooter/Right Voltage", rightMotor.getBusVoltage()*rightMotor.getAppliedOutput());
+        SmartDashboard.putNumber("Shooter/Left Voltage", leftMotor.getBusVoltage() * leftMotor.getAppliedOutput());
+        SmartDashboard.putNumber("Shooter/Right Voltage", rightMotor.getBusVoltage() * rightMotor.getAppliedOutput());
     }
-}                                
-
+}

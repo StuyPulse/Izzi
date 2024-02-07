@@ -6,7 +6,7 @@ import com.stuypulse.robot.subsystems.intake.Intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class ConveyorToShooter extends Command{
+public class ConveyorToShooter extends Command {
     
     private final Conveyor conveyor;
     private final Intake intake;

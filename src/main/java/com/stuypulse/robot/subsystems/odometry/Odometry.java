@@ -3,13 +3,14 @@ package com.stuypulse.robot.subsystems.odometry;
 import java.util.ArrayList;
 
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
-
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
-import com.stuypulse.robot.util.VisionData;
+import com.stuypulse.robot.util.vision.VisionData;
 import com.stuypulse.stuylib.network.SmartBoolean;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
@@ -65,7 +66,7 @@ public class Odometry extends SubsystemBase {
     /**
      * Update the odometry with swerve drive data.
      */
-    public void updateOdometry() {
+    private void updateOdometry() {
         SwerveDrive swerve = SwerveDrive.getInstance();
         odometry.update(swerve.getGyroAngle(), swerve.getModulePositions());
         estimator.update(swerve.getGyroAngle(), swerve.getModulePositions());
@@ -75,7 +76,7 @@ public class Odometry extends SubsystemBase {
      * Update the odometry with vision data.
      * @param data the vision data
      */
-    public void updateWithVisionData(VisionData data) {
+    private void updateWithVisionData(VisionData data) {
         estimator.addVisionMeasurement(data.getPose().toPose2d(), data.getTimestamp());
     }
 
@@ -85,6 +86,22 @@ public class Odometry extends SubsystemBase {
      */
     public Pose2d getPose() {
         return estimator.getEstimatedPosition();
+    }
+
+    /**
+     * Returns the translation of the robot.
+     * @return the translation of the robot
+     */
+    public Translation2d getTranslation() {
+        return getPose().getTranslation();
+    }
+
+    /**
+     * Returns the rotation of the robot.
+     * @return the rotation of the robot
+     */
+    public Rotation2d getRotation() {
+        return getPose().getRotation();
     }
 
     /**

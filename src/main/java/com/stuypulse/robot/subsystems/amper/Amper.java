@@ -3,13 +3,8 @@ package com.stuypulse.robot.subsystems.amper;
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
-import com.stuypulse.stuylib.control.Controller;
-import com.stuypulse.stuylib.control.feedback.PIDController;
-import com.stuypulse.stuylib.control.feedforward.ElevatorFeedforward;
-import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
 import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.network.SmartNumber;
-import com.stuypulse.stuylib.streams.numbers.filters.MotionProfile;
 
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
@@ -32,7 +27,7 @@ Bottom (shooter) limit switch
 
 public abstract class Amper extends SubsystemBase {
 
-    private static Amper instance;
+    private static final Amper instance;
 
     static {
         if (Robot.isReal()) {
@@ -47,19 +42,12 @@ public abstract class Amper extends SubsystemBase {
         return instance;
     }
 
-    protected final Controller liftController;
-
     private final SmartNumber targetHeight;
     
     private final Mechanism2d mechanism2d;
     private final MechanismLigament2d lift2d;
 
     public Amper() {
-        liftController = new MotorFeedforward(Lift.Feedforward.kS, Lift.Feedforward.kV, Lift.Feedforward.kA).position()
-            .add(new ElevatorFeedforward(Lift.Feedforward.kG))
-            .setSetpointFilter(new MotionProfile(Lift.VEL_LIMIT, Lift.ACC_LIMIT))
-                .add(new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD));
-
         targetHeight = new SmartNumber("Amper/Target Height", 0); // TODO: determine the default value
 
         mechanism2d = new Mechanism2d(3, 3);
@@ -80,26 +68,49 @@ public abstract class Amper extends SubsystemBase {
         SmartDashboard.putData("Lift Mechanism", mechanism2d);
     }
 
-    public final void setTargetHeight(double height) {
+    /*** LIFT CONTROL ***/
+
+    public void setTargetHeight(double height) {
         targetHeight.set(SLMath.clamp(height, Settings.Amper.Lift.MIN_HEIGHT, Settings.Amper.Lift.MAX_HEIGHT));
     }
+
+    public final double getTargetHeight() {
+        return targetHeight.get();
+    }
+
+    public final boolean isAtTargetHeight(double epsilonMeters) {
+        return Math.abs(getTargetHeight() - getLiftHeight()) < epsilonMeters;
+    }
+    
+    public abstract boolean liftAtBottom();
+    public abstract boolean liftAtTop();
+    public abstract double getLiftHeight();
+    public abstract void stopLift();
+
+    /*** IR SENSOR ***/
     
     public abstract boolean hasNote();
+
+    /*** SCORE ROLLERS ***/
 
     public abstract void score();
     public abstract void intake();
     public abstract void stopRoller();
-    
-    public abstract boolean liftAtBottom();
-    public abstract double getLiftHeight();
-    public abstract void stopLift();
 
     public abstract boolean touchingAmp();
 
+    /*** LIFT CONFIG ***/
+
+    public abstract void setVoltageOverride(double voltage);
+
+    public abstract void setConstraints(double maxVelocity, double maxAcceleration);
+
+    public final void resetConstraints() {
+        setConstraints(Lift.VEL_LIMIT, Lift.ACCEL_LIMIT);
+    }
+
     @Override
     public void periodic() {
-        liftController.update(targetHeight.get(), getLiftHeight());
-
         lift2d.setLength(Settings.Amper.Lift.VISUALIZATION_MIN_LENGTH + getLiftHeight());
     }
 }

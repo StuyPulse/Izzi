@@ -1,4 +1,4 @@
-package com.stuypulse.robot.util;
+package com.stuypulse.robot.util.vision;
 
 import com.stuypulse.robot.constants.Field;
 
@@ -58,5 +58,31 @@ public class VisionData {
      */
     public int getPrimaryID() {
         return fids.length == 0 ? -1 : fids[0];
+    }
+
+    /**
+     * Returns if the data is valid.
+     * @return if valid data
+     */
+    public boolean isValidData() {
+        for (long id : fids) {
+            boolean found = false;
+            for (Fiducial f : Field.FIDUCIALS) {
+                if (f.getFID() == id) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                return false;
+            }
+        }
+
+        if (Double.isNaN(outputPose.getX()) || outputPose.getX() < 0  || outputPose.getX() > Field.LENGTH) return false;
+        if (Double.isNaN(outputPose.getY()) || outputPose.getY() < 0  || outputPose.getY() > Field.WIDTH) return false;
+        if (Double.isNaN(outputPose.getZ()) || outputPose.getZ() < -1 || outputPose.getZ() > 1) return false;
+
+        return true;
     }
 }

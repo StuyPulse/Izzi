@@ -27,7 +27,8 @@ public interface Cameras {
     
     public CameraConfig[] APRILTAG_CAMERAS = new CameraConfig[] {
         new CameraConfig("samera0", new Pose3d(new Translation3d(), new Rotation3d())),
-        new CameraConfig("samera1", new Pose3d(new Translation3d(), new Rotation3d()))
+        new CameraConfig("samera1", new Pose3d(new Translation3d(), new Rotation3d())),
+        new CameraConfig("samera2", new Pose3d(new Translation3d(), new Rotation3d())),
     };
     
     public static class CameraConfig {

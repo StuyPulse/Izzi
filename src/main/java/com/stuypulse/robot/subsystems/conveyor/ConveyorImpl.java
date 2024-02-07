@@ -22,15 +22,14 @@ public class ConveyorImpl extends Conveyor {
     protected ConveyorImpl() {
         gandalfMotor = new CANSparkMax(Ports.Conveyor.GANDALF, MotorType.kBrushless);
         shooterFeederMotor = new CANSparkMax(Ports.Conveyor.FEEDER, MotorType.kBrushless);
-
+        
         irSensor = new DigitalInput(Ports.Conveyor.IR_SENSOR);
+        
+        isAtShooter = BStream.create(irSensor).not()
+            .filtered(new BDebounce.Rising(Settings.Conveyor.DEBOUNCE_TIME));
 
         Motors.Conveyor.GANDALF_MOTOR.configure(gandalfMotor);
         Motors.Conveyor.SHOOTER_FEEDER_MOTOR.configure(shooterFeederMotor);
-
-        isAtShooter = 
-            BStream.create(() -> !irSensor.get())
-                .filtered(new BDebounce.Rising(Settings.Conveyor.DEBOUNCE_TIME));
     }
 
     @Override
@@ -40,14 +39,14 @@ public class ConveyorImpl extends Conveyor {
 
     @Override
     public void toShooter() {
-        gandalfMotor.set(Settings.Conveyor.GANDALF_SHOOTER_SPEED.get());
-        shooterFeederMotor.set(Settings.Conveyor.FEEDER_SHOOTER_SPEED.get());
+        gandalfMotor.set(+Settings.Conveyor.GANDALF_SHOOTER_SPEED.get());
+        shooterFeederMotor.set(+Settings.Conveyor.FEEDER_SHOOTER_SPEED.get());
     }
 
     @Override
     public void toAmp() {
         gandalfMotor.set(-Settings.Conveyor.GANDALF_AMP_SPEED.get());
-        shooterFeederMotor.set(Settings.Conveyor.FEEDER_AMP_SPEED.get());
+        shooterFeederMotor.set(+Settings.Conveyor.FEEDER_AMP_SPEED.get());
     }
 
     public void stop() {

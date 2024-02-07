@@ -9,13 +9,13 @@ import java.util.Optional;
 
 import com.stuypulse.robot.constants.Settings;
 
-public class SimClimber extends Climber {
+public class ClimberSim extends Climber {
     
     private final ElevatorSim sim;
 
     private Optional<Double> voltageOverride;
 
-    public SimClimber() {
+    public ClimberSim() {
         sim = new ElevatorSim(
             DCMotor.getNEO(2), 
             Settings.Climber.Encoder.GEAR_RATIO, 
@@ -38,11 +38,6 @@ public class SimClimber extends Climber {
     }
 
     @Override
-    public void setVoltageOverride(double voltage) {
-        voltageOverride = Optional.of(voltage);
-    }
-
-    @Override
     public double getHeight() {
         return sim.getPositionMeters();
     }
@@ -51,6 +46,8 @@ public class SimClimber extends Climber {
     public double getVelocity() {
         return sim.getVelocityMetersPerSecond();
     }
+
+    /*** LIMITS ***/
 
     @Override
     public boolean atTop() {
@@ -62,7 +59,12 @@ public class SimClimber extends Climber {
         return sim.hasHitLowerLimit();
     }
 
-    public void setVoltage(double voltage) {
+    @Override
+    public void setVoltageOverride(double voltage) {
+        voltageOverride = Optional.of(voltage);
+    }
+
+    private void setVoltage(double voltage) {
         sim.setInputVoltage(voltage);
     }
 
@@ -73,12 +75,12 @@ public class SimClimber extends Climber {
         if (voltageOverride.isPresent()) {
             setVoltage(voltageOverride.get());
         } else {
-            if (Math.abs(getHeight() - getTargetHeight()) < Settings.Climber.BangBang.THRESHOLD) {
+            if (isAtTargetHeight(Settings.Climber.BangBang.THRESHOLD)) {
                 setVoltage(0.0);
             } else if (getHeight() > getTargetHeight()) {
                 setVoltage(-Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
             } else {
-                setVoltage(Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
+                setVoltage(+Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
             }
         }
 
