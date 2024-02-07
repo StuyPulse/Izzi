@@ -173,12 +173,13 @@ public interface Settings {
         }
 
         public interface Assist {
-            SmartNumber kP = new SmartNumber("Swerve/Assist/PID/kP", 1.0);
-            SmartNumber kI = new SmartNumber("Swerve/Assist/PID/kI", 0.1);
-            SmartNumber kD = new SmartNumber("Swerve/Assist/PID/kD", 0.1);
+            SmartNumber kP = new SmartNumber("Swerve/Assist/PID/kP", 3);
+            SmartNumber kI = new SmartNumber("Swerve/Assist/PID/kI", 0);
+            SmartNumber kD = new SmartNumber("Swerve/Assist/PID/kD", 0);
 
             SmartNumber deadband = new SmartNumber("Swerve/Assist/Gamepad deadband", 0.1);
-            SmartNumber minDistToSPeaker = new SmartNumber("Swerve/Assist/Minimum Distance to Speaker", 10); //change
+            SmartNumber minDistToSPeaker = new SmartNumber("Swerve/Assist/Minimum Distance to Speaker", 4); //change
+            double intensity = 0.5;
         }
     }
 

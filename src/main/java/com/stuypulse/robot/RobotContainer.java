@@ -16,6 +16,7 @@ import com.stuypulse.robot.commands.shooter.*;
 import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Swerve.Assist;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
@@ -32,6 +33,7 @@ import com.stuypulse.robot.subsystems.climber.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
@@ -87,6 +89,12 @@ public class RobotContainer {
         // manual climber control
         new Trigger(() -> operator.getLeftStick().magnitude() > Settings.Operator.DEADBAND.get())
             .whileTrue(new ClimberDrive(operator));
+        
+        driver.getStartButton()
+            .onTrue(new SwerveDriveAutomatic(driver))
+            .onTrue(new BuzzController(driver,Assist.intensity)
+                .andThen(new WaitCommand(0.2))
+                .andThen(new BuzzController(driver, 0)));
     }
 
     /**************/
