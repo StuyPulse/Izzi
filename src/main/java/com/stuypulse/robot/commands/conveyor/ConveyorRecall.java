@@ -25,6 +25,7 @@ public class ConveyorRecall extends Command{
         intake = Intake.getInstance();
         noteAtConveyor = BStream.create(() -> intake.hasNote())
             .filtered(new BDebounce.Rising(Settings.Conveyor.RECALL_DEBOUNCE)); 
+        addRequirements(amper,intake);
     }
     
     @Override
