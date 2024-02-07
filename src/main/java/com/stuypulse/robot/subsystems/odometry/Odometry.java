@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
+import com.stuypulse.robot.util.vision.Fiducial;
 import com.stuypulse.robot.util.vision.VisionData;
 import com.stuypulse.stuylib.network.SmartBoolean;
 
@@ -64,6 +65,28 @@ public class Odometry extends SubsystemBase {
     }
 
     /**
+     * Returns the pose of the robot.
+     * @return the pose of the robot
+     */
+    public Pose2d getPose() {
+        return estimator.getEstimatedPosition();
+    }
+
+    public double getDistanceToFiducial(Fiducial fiducial) {
+        return getPose().getTranslation().getDistance(fiducial.getLocation().getTranslation().toTranslation2d());
+    }
+
+    /**
+     * Reset the pose of the odometry to the given pose.
+     * @param pose the pose to reset to
+     */
+    public void reset(Pose2d pose) {
+        SwerveDrive swerve = SwerveDrive.getInstance();
+        odometry.resetPosition(swerve.getGyroAngle(), swerve.getModulePositions(), pose);
+        estimator.resetPosition(swerve.getGyroAngle(), swerve.getModulePositions(), pose);
+    }
+
+    /**
      * Update the odometry with swerve drive data.
      */
     private void updateOdometry() {
@@ -78,40 +101,6 @@ public class Odometry extends SubsystemBase {
      */
     private void updateWithVisionData(VisionData data) {
         estimator.addVisionMeasurement(data.getPose().toPose2d(), data.getTimestamp());
-    }
-
-    /**
-     * Returns the pose of the robot.
-     * @return the pose of the robot
-     */
-    public Pose2d getPose() {
-        return estimator.getEstimatedPosition();
-    }
-
-    /**
-     * Returns the translation of the robot.
-     * @return the translation of the robot
-     */
-    public Translation2d getTranslation() {
-        return getPose().getTranslation();
-    }
-
-    /**
-     * Returns the rotation of the robot.
-     * @return the rotation of the robot
-     */
-    public Rotation2d getRotation() {
-        return getPose().getRotation();
-    }
-
-    /**
-     * Reset the pose of the odometry to the given pose.
-     * @param pose the pose to reset to
-     */
-    public void reset(Pose2d pose) {
-        SwerveDrive swerve = SwerveDrive.getInstance();
-        odometry.resetPosition(swerve.getGyroAngle(), swerve.getModulePositions(), pose);
-        estimator.resetPosition(swerve.getGyroAngle(), swerve.getModulePositions(), pose);
     }
 
     @Override

@@ -7,6 +7,8 @@ package com.stuypulse.robot.commands.notealignment;
 
 import static com.stuypulse.robot.constants.Settings.NoteDetection.*;
 
+import com.stuypulse.robot.constants.Settings.NoteDetection.Rotation;
+import com.stuypulse.robot.constants.Settings.NoteDetection.Translation;
 import com.stuypulse.robot.constants.Settings.Swerve;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
@@ -56,8 +58,8 @@ public class SwerveDriveTranslateToNote extends Command {
 
     @Override
     public void execute() {
-        Translation2d targetTranslation = odometry.getTranslation().plus(
-            new Translation2d(Swerve.CENTER_TO_INTAKE_FRONT, 0).rotateBy(odometry.getRotation()));
+        Translation2d targetTranslation = odometry.getPose().getTranslation().plus(
+            new Translation2d(Swerve.CENTER_TO_INTAKE_FRONT, 0).rotateBy(odometry.getPose().getRotation()));
 
         Rotation2d targetRotation = vision.getEstimatedNotePose().minus(targetTranslation).getAngle();
 
@@ -65,7 +67,7 @@ public class SwerveDriveTranslateToNote extends Command {
 
         // translate to note only if note in view
         if (vision.hasNoteData()) {
-            swerve.setChassisSpeeds(controller.update(targetPose, new Pose2d(odometry.getTranslation(), targetRotation)));
+            swerve.setChassisSpeeds(controller.update(targetPose, new Pose2d(odometry.getPose().getTranslation(), targetRotation)));
         }
 
         SmartDashboard.putBoolean("Note Detection/Is Aligned", aligned.get());

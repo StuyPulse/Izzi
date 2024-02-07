@@ -7,6 +7,8 @@ package com.stuypulse.robot.commands.notealignment.robotrelative;
 
 import static com.stuypulse.robot.constants.Settings.NoteDetection.*;
 
+import com.stuypulse.robot.constants.Settings.NoteDetection.Rotation;
+import com.stuypulse.robot.constants.Settings.NoteDetection.Translation;
 import com.stuypulse.robot.constants.Settings.Swerve;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
@@ -59,7 +61,7 @@ public class SwerveDriveTranslateToNote extends Command {
         Translation2d robotToNote = vision.getRobotRelativeNotePose();
         Rotation2d kZero = new Rotation2d();
         Pose2d targetPose = new Pose2d(
-            new Translation2d(Swerve.CENTER_TO_INTAKE_FRONT, 0).rotateBy(odometry.getRotation()),
+            new Translation2d(Swerve.CENTER_TO_INTAKE_FRONT, 0).rotateBy(odometry.getPose().getRotation()),
             kZero);
 
         // translate to note only if note in view

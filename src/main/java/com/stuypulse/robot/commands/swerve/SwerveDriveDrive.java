@@ -22,11 +22,7 @@ public class SwerveDriveDrive extends Command {
     private VStream speed; 
     private IStream turn;
 
-    private final Gamepad driver;
-
     public SwerveDriveDrive(Gamepad driver) {
-        this.driver = driver;
-
         swerve = SwerveDrive.getInstance();
 
         speed = VStream.create(driver::getLeftStick)

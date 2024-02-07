@@ -53,14 +53,14 @@ public class SwerveDriveNoteAlignedDrive extends Command {
 
    @Override
     public void execute() {
-        Translation2d targetTranslation = odometry.getTranslation().plus(
-            new Translation2d(Swerve.CENTER_TO_INTAKE_FRONT, 0).rotateBy(odometry.getRotation()));
+        Translation2d targetTranslation = odometry.getPose().getTranslation().plus(
+            new Translation2d(Swerve.CENTER_TO_INTAKE_FRONT, 0).rotateBy(odometry.getPose().getRotation()));
 
         Rotation2d targetRotation = noteVision.getEstimatedNotePose().minus(targetTranslation).getAngle();
 
         double angularVel = -alignController.update(
             Angle.fromRotation2d(targetRotation),
-            Angle.fromRotation2d(odometry.getRotation())
+            Angle.fromRotation2d(odometry.getPose().getRotation())
         );
         
         // robot relative
