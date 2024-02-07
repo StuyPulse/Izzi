@@ -13,18 +13,22 @@ public class ConveyorRecall extends Command{
     private boolean noteAtShooter;
     private boolean noteAtAmp;
     private final BStream noteAtConveyor;
+
     public ConveyorRecall() {
         conveyor = Conveyor.getInstance();
         amper = Amper.getInstance();
         intake = Intake.getInstance();
         noteAtConveyor = BStream.create(() -> intake.hasNote())
             .filtered(new BDebounce.Rising(Settings.Conveyor.RECALL_DEBOUNCE));
+        addRequirements(conveyor, amper, intake);
     }
+
     @Override
     public void initialize() {
         noteAtShooter = conveyor.isNoteAtShooter();
         noteAtAmp = amper.hasNote();
     }
+
     @Override
     public void execute() {
         intake.deacquire();
@@ -36,12 +40,14 @@ public class ConveyorRecall extends Command{
             amper.intake();
         }
     }
+
     @Override
     public void end(boolean interrupted) {
         intake.stop();
         conveyor.stop();
         amper.stopRoller();
     }
+
     @Override
     public boolean isFinished() {
         return noteAtConveyor.get() || (!noteAtShooter && !noteAtAmp);
