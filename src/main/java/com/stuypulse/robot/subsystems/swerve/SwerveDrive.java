@@ -198,6 +198,17 @@ public class SwerveDrive extends SubsystemBase {
         setModuleStates(kinematics.toSwerveModuleStates(robotSpeeds));
     }
 
+    public void setXMode() {
+        // { front right, front left, back right, back left }
+        final SwerveModuleState[] states = {
+            new SwerveModuleState(0, Rotation2d.fromDegrees(225)),
+            new SwerveModuleState(0, Rotation2d.fromDegrees(315)),
+            new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
+            new SwerveModuleState(0, Rotation2d.fromDegrees(135))
+        };
+        setModuleStates(states);
+    }
+
     /** Drive Functions **/
     public void drive(Vector2D velocity, double rotation) {
         ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
