@@ -1,13 +1,10 @@
 package com.stuypulse.robot.commands.conveyor;
 
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
-import com.stuypulse.robot.subsystems.shooter.Shooter;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounce;
-import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.amper.Amper;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import com.stuypulse.robot.subsystems.intake.Intake;
 
@@ -15,16 +12,16 @@ public class ConveyorRecall extends Command{
 
     private final Amper amper;
     private final Conveyor conveyor;
-    private final Shooter shooter;
     private final Intake intake;
+
     private boolean noteAtShooter;
     private boolean noteAtAmp;
 
     private final BStream noteAtConveyor;
+
     public ConveyorRecall() {
         conveyor = Conveyor.getInstance();
         amper = Amper.getInstance();
-        shooter = Shooter.getInstance();
         intake = Intake.getInstance();
         noteAtConveyor = BStream.create(() -> intake.hasNote())
             .filtered(new BDebounce.Rising(Settings.Conveyor.RECALL_DEBOUNCE)); 
@@ -54,8 +51,6 @@ public class ConveyorRecall extends Command{
         conveyor.stop();
         amper.stopRoller();
     }
-
-    //BEN STINKS
     
     @Override
     public boolean isFinished() {
