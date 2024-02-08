@@ -25,7 +25,7 @@ public class AmperImpl extends Amper {
     private final CANSparkMax liftMotor;
     private final RelativeEncoder liftEncoder;
 
-    private final DigitalInput alignedSwitch;
+    // private final DigitalInput alignedSwitch;
     private final DigitalInput minSwitch;
     private final DigitalInput maxSwitch;
     private final DigitalInput ampIRSensor;
@@ -45,7 +45,7 @@ public class AmperImpl extends Amper {
         liftEncoder.setPositionConversionFactor(Settings.Amper.Lift.Encoder.POSITION_CONVERSION);
         liftEncoder.setVelocityConversionFactor(Settings.Amper.Lift.Encoder.VELOCITY_CONVERSION);
 
-        alignedSwitch = new DigitalInput(Ports.Amper.ALIGNED_BUMP_SWITCH);
+        // alignedSwitch = new DigitalInput(Ports.Amper.ALIGNED_BUMP_SWITCH);
         minSwitch = new DigitalInput(Ports.Amper.LIFT_BOTTOM_LIMIT);
         maxSwitch = new DigitalInput(Ports.Amper.LIFT_TOP_LIMIT);
         ampIRSensor = new DigitalInput(Ports.Amper.AMP_IR);
@@ -117,10 +117,10 @@ public class AmperImpl extends Amper {
         scoreMotor.stopMotor();
     }
 
-    @Override
-    public boolean touchingAmp() {
-        return !alignedSwitch.get();
-    }
+    // @Override
+    // public boolean touchingAmp() {
+    //     return !alignedSwitch.get();
+    // }
 
     /*** LIFT CONFIG ***/
 

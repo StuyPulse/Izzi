@@ -101,10 +101,10 @@ public class AmperSim extends Amper {
 	@Override
 	public void stopRoller() {}
 
-    @Override
-    public boolean touchingAmp() {
-        return false;
-    }
+    // @Override
+    // public boolean touchingAmp() {
+    //     return false;
+    // }
 
     /*** LIFT CONFIG ***/
 
