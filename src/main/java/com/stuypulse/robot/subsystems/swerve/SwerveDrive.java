@@ -199,14 +199,14 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void setXMode() {
-        // { front right, front left, back right, back left }
-        final SwerveModuleState[] states = {
+        setModuleStates(
+            new SwerveModuleState[] {
             new SwerveModuleState(0, Rotation2d.fromDegrees(225)),
             new SwerveModuleState(0, Rotation2d.fromDegrees(315)),
             new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
             new SwerveModuleState(0, Rotation2d.fromDegrees(135))
-        };
-        setModuleStates(states);
+            }
+        );
     }
 
     /** Drive Functions **/

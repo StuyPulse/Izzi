@@ -102,7 +102,7 @@ public class RobotContainer {
             .onTrue(new ConveyorScoreNote()); 
     
         driver.getTopButton()
-            .whileTrue(new AmperScoreAmpRoutine()); /*TODO: add the alignment to ts command score*/
+            .whileTrue(new AmperScoreAmpRoutine()); /*TODO: add the trap and amp alignment to ts command score*/
         driver.getRightButton()
             .whileTrue(new ClimberSetupRoutine());
 
