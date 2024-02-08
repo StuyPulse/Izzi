@@ -1,13 +1,12 @@
-package com.stuypulse.robot.commands.leds;
+package com.stuypulse.robot.subsystems.leds.instructions;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.stuypulse.robot.RobotContainer;
-import com.stuypulse.robot.constants.LEDColor;
+import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.LED;
 import com.stuypulse.robot.subsystems.leds.LEDController;
-import com.stuypulse.robot.subsystems.leds.instructions.LEDInstruction;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.util.SLColor;
 import com.stuypulse.stuylib.streams.booleans.BStream;
@@ -16,14 +15,8 @@ import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj2.command.Command;
 
-public class LEDAlign extends Command implements LEDInstruction {
-    @Override
-    public boolean runsWhenDisabled() {
-        return Settings.LED.LED_AUTON_ALIGN_TOGGLE.get();
-    }
-
+public class LEDAlign implements LEDInstruction {
     private int index;
     private final LEDController ledController;
     private final Odometry odometry;
@@ -44,8 +37,6 @@ public class LEDAlign extends Command implements LEDInstruction {
             .filtered(new BDebounceRC.Both(Alignment.DEBOUNCE_TIME.get()));
         isThetaAligned = BStream.create(this::isThetaAligned)     
             .filtered(new BDebounceRC.Both(Alignment.DEBOUNCE_TIME.get()));
-
-        addRequirements(ledController);
     }
    
     public boolean isXAligned() {
@@ -58,12 +49,6 @@ public class LEDAlign extends Command implements LEDInstruction {
     
     public boolean isThetaAligned() {
         return Math.abs(odometry.getPose().getRotation().getDegrees() - startPose.getRotation().getDegrees()) < Settings.Alignment.ANGLE_TOLERANCE.get();
-    }
-
-  
-    @Override
-    public void execute() {
-       ledController.forceSetLED(this);
     }
  
     @Override
@@ -88,7 +73,7 @@ public class LEDAlign extends Command implements LEDInstruction {
             ledsBuffer.setRGB(index, 255, 255, 255);
         }
         if (ledsBuffer.getLED(middleLEDindex).equals(Color.kWhite) && isXAligned() && isYAligned() && isThetaAligned()) {
-            ledController.forceSetLED(LEDColor.RAINBOW);
+            ledController.runLEDInstruction(LEDInstructions.RAINBOW);
         }
     }
 

@@ -5,8 +5,11 @@
 
 package com.stuypulse.robot;
 
-import com.stuypulse.robot.commands.leds.LEDAlign;
-import com.stuypulse.robot.commands.leds.LEDAutonBar;
+import com.stuypulse.robot.commands.leds.LEDDisabledSet;
+import com.stuypulse.robot.commands.leds.LEDSet;
+import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.subsystems.leds.instructions.LEDAlign;
+import com.stuypulse.robot.subsystems.leds.instructions.LEDAutonChooser;
 
 import edu.wpi.first.wpilibj.DataLogManager;
 
@@ -30,9 +33,9 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         DataLogManager.start();
 
-        robot = new RobotContainer();
-
         scheduler = CommandScheduler.getInstance();
+
+        robot = new RobotContainer();
 
         SmartDashboard.putString("Robot State", "DISABLED");
     }
@@ -64,8 +67,13 @@ public class Robot extends TimedRobot {
         if (robot.conveyor.isNoteAtShooter()) {
             DriverStation.reportWarning("Shooter IR sensor reporting note while disabled!", false);
         }
-        scheduler.schedule(new LEDAutonBar());
-        scheduler.schedule(new LEDAlign());
+
+        if (Settings.LED.LED_AUTON_TOGGLE.get()) {
+            scheduler.schedule(new LEDDisabledSet(new LEDAlign()));
+        }
+        else {
+            scheduler.schedule(new LEDDisabledSet(new LEDAutonChooser()));
+        }
     }
 
     /***********************/

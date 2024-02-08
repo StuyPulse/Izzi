@@ -17,7 +17,7 @@ import com.stuypulse.robot.commands.shooter.*;
 import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.constants.LEDColor;
+import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
@@ -92,7 +92,7 @@ public class RobotContainer {
             .whileTrue(new ClimberDrive(operator));
 
         //HUMAN PLAYER ATTENTION BUTTON
-        driver.getBottomButton().whileTrue(new LEDSet(LEDColor.PULSE_PURPLE));
+        driver.getBottomButton().whileTrue(new LEDSet(LEDInstructions.PULSE_PURPLE));
     }
 
     /**************/
@@ -101,6 +101,9 @@ public class RobotContainer {
 
     public void configureAutons() {
         autonChooser = AutoBuilder.buildAutoChooser();
+
+        //need auton for testing leds
+        autonChooser.setDefaultOption("DoNothingAuton", new DoNothingAuton());
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }

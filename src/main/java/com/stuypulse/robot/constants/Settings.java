@@ -288,14 +288,12 @@ public interface Settings {
 
     public interface LED {
         int LED_LENGTH = 55;
-        SmartNumber MANUAL_UPDATE_TIME = new SmartNumber("LED/LED Manual Update Time", .75);
         SmartNumber BLINK_TIME = new SmartNumber("LED/LED Blink Time", .5);
 
         SmartNumber TRANSLATION_SPREAD = new SmartNumber("LED/LED Translation Spread (m)", 1);
         SmartNumber ROTATION_SPREAD = new SmartNumber("LED/LED Rotation Spread (deg)", 35);
 
-        SmartBoolean LED_AUTON_CHOOSE_TOGGLE = new SmartBoolean("LED/Auton Chooser Toggle", false);
-        SmartBoolean LED_AUTON_ALIGN_TOGGLE = new SmartBoolean("LED/Auton Align Toggle", true);
+        SmartBoolean LED_AUTON_TOGGLE = new SmartBoolean("LED/Auton Align or Display Toggle", true);
     }
 
     public static Vector2D vpow(Vector2D vec, double power) {

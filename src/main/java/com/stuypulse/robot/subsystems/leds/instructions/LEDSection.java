@@ -13,16 +13,18 @@ public class LEDSection implements LEDInstruction {
     }
         
     @Override
-    public void setLED(AddressableLEDBuffer ledsBuffer) {
+    public void setLED(AddressableLEDBuffer ledsBuffer) { 
         int sectionLength = ledsBuffer.getLength() / sections.length;
-        
-        int offset = 0;
+        int extraLEDs = ledsBuffer.getLength() % sections.length;
+
+        int ledOffset = 0;
 
         for (int i = 0; i < sections.length; i++) {
-            for (int j = 0; j < sectionLength + i % 2; j++) {
-                ledsBuffer.setRGB(i * sectionLength + offset + j, sections[i].getRed(), sections[i].getGreen(), sections[i].getBlue());
+            boolean appendLED = i + 1 <= extraLEDs;
+            for (int j = 0; j < sectionLength + (appendLED ? 1 : 0); j++) {
+                ledsBuffer.setRGB(i * sectionLength + ledOffset + j, sections[i].getRed(), sections[i].getGreen(), sections[i].getBlue());
             }
-            if (i % 2 == 1) offset += 1;
+            if (appendLED) ledOffset++;
         }  
     }
 }

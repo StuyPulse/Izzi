@@ -4,8 +4,7 @@ import com.stuypulse.robot.subsystems.leds.LEDController;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDInstruction;
 
 import edu.wpi.first.wpilibj2.command.Command;
-public class LEDSet extends Command {
-    
+public class LEDSet extends Command {    
     private final LEDInstruction ledInstruction;
     private final LEDController ledController;
 
@@ -17,6 +16,6 @@ public class LEDSet extends Command {
     
     @Override
     public void execute() {
-        ledController.forceSetLED(ledInstruction);
+        ledController.runLEDInstruction(ledInstruction);
     }
 }
