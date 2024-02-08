@@ -1,5 +1,7 @@
 package com.stuypulse.robot.commands.swerve;
 
+import java.util.function.Supplier;
+
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Alignment.Rotation;
 import com.stuypulse.robot.constants.Settings.Alignment.Translation;
@@ -19,18 +21,27 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class SwerveDriveToPose extends Command {
 
     private final SwerveDrive swerve;
+    private final Odometry odometry;
 
     private final HolonomicController controller;
-    private final Pose2d targetPose;
+    private final Supplier<Pose2d> poseSupplier;
     private final BStream isAligned;
 
     private final FieldObject2d targetPose2d;
 
-    public SwerveDriveToPose(Pose2d targetPose) {
-        swerve = SwerveDrive.getInstance();
-        this.targetPose = targetPose;
+    private Pose2d targetPose;
 
-        targetPose2d = Odometry.getInstance().getField().getObject("Target Pose");
+    public SwerveDriveToPose(Pose2d targetPose) {
+        this(() -> targetPose);
+    }
+
+    public SwerveDriveToPose(Supplier<Pose2d> poseSupplier) {
+        swerve = SwerveDrive.getInstance();
+        odometry = Odometry.getInstance();
+
+        this.poseSupplier = poseSupplier;
+
+        targetPose2d = odometry.getField().getObject("Target Pose");
 
         controller = new HolonomicController(
             new PIDController(Translation.P, Translation.I, Translation.D),
@@ -42,6 +53,11 @@ public class SwerveDriveToPose extends Command {
 
         addRequirements(swerve);
     }
+
+    @Override
+    public void initialize() {
+        targetPose = poseSupplier.get();
+    }
     
     private boolean isAligned() {
         return controller.isDone(Alignment.X_TOLERANCE.get(), Alignment.Y_TOLERANCE.get(), Alignment.ANGLE_TOLERANCE.get());
@@ -49,10 +65,8 @@ public class SwerveDriveToPose extends Command {
 
     @Override
     public void execute() {
-        Pose2d currentPose = Odometry.getInstance().getPose();
         targetPose2d.setPose(targetPose);
-
-        controller.update(targetPose, currentPose);
+        controller.update(targetPose, odometry.getPose());
         swerve.setChassisSpeeds(controller.getOutput());
     }
 
