@@ -1,6 +1,5 @@
 package com.stuypulse.robot.commands.swerve;
 
-import com.stuypulse.robot.commands.BuzzController;
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Swerve.*;
@@ -25,8 +24,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class SwerveDriveAutomatic extends Command {
     
@@ -45,11 +42,13 @@ public class SwerveDriveAutomatic extends Command {
 
     public SwerveDriveAutomatic(Gamepad driver) {
         this.driver = driver;
+
         odometry = Odometry.getInstance();
         swerve = SwerveDrive.getInstance();
         intake = Intake.getInstance();
         conveyor = Conveyor.getInstance();
         amper = Amper.getInstance();
+        llNoteVision = NoteVision.getInstance();
 
         drive = VStream.create(driver::getLeftStick)
             .filtered(
@@ -60,15 +59,12 @@ public class SwerveDriveAutomatic extends Command {
                 new VRateLimit(Drive.MAX_TELEOP_ACCEL.get()),
                 new VLowPassFilter(Drive.RC.get())
         );
-        controller = new AnglePIDController(Assist.kP,Assist.kI,Assist.kD);
-        llNoteVision = NoteVision.getInstance();
+        controller = new AnglePIDController(Assist.kP, Assist.kI, Assist.kD)
+            .setOutputFilter(x -> -x);
 
         startButtonWasFalse = false;
 
         addRequirements(swerve);
-        addRequirements(intake);
-        addRequirements(conveyor);
-        addRequirements(amper);
     }
 
     @Override
@@ -103,15 +99,15 @@ public class SwerveDriveAutomatic extends Command {
 
         //if in speaker switch sides of robot 
         if ((intake.hasNote() || conveyor.isNoteAtShooter()) && 
-            (distanceToSpeaker < Assist.minDistToSPeaker.getAsDouble())) {
+            (distanceToSpeaker < Assist.ALIGN_MIN_SPEAKER_DIST.getAsDouble())) {
                 targetAngle = targetAngle.plus(Rotation2d.fromDegrees(180));
         }
 
-        SmartDashboard.putNumber("Swerve/Assist/Current angle", currentAngle.getDegrees());
-        SmartDashboard.putNumber("Swerve/Assist/Target angle", targetAngle.getDegrees());
+        swerve.drive(drive.get(), controller.update(
+            Angle.fromRotation2d(targetAngle),
+            Angle.fromRotation2d(currentAngle)));
 
-        controller.update(Angle.fromRotation2d(targetAngle), Angle.fromRotation2d(currentAngle));
-        swerve.drive(drive.get(), -controller.getOutput());
+        SmartDashboard.putNumber("Swerve/Assist/Target angle", targetAngle.getDegrees());
     }
 
     public Translation2d getTargetPose() {
@@ -123,7 +119,7 @@ public class SwerveDriveAutomatic extends Command {
 
         //if already have note  
         if ((intake.hasNote() || conveyor.isNoteAtShooter()) && 
-            (distanceToSpeaker<Assist.minDistToSPeaker.getAsDouble())) {
+            (distanceToSpeaker<Assist.ALIGN_MIN_SPEAKER_DIST.getAsDouble())) {
             targetPose = speakerPose;
         } else { // if (llNoteVision.hasNoteData()) {
             targetPose = llNoteVision.getEstimatedNotePose();
@@ -134,18 +130,6 @@ public class SwerveDriveAutomatic extends Command {
 
     @Override
     public boolean isFinished() {
-        return Math.abs(driver.getRightX()) > Assist.deadband.getAsDouble() || (startButtonWasFalse && driver.getRawStartButton());
-    }
-
-    @Override
-    public void end(boolean i) {
-        CommandScheduler.getInstance().schedule(
-            new BuzzController(driver,Assist.intensity)
-                .andThen(new WaitCommand(0.2))
-                .andThen(new BuzzController(driver, 0))
-                .andThen(new WaitCommand(0.2))
-                .andThen(new BuzzController(driver, Assist.intensity))
-                .andThen(new WaitCommand(0.2))
-                .andThen(new BuzzController(driver, 0)));
+        return Math.abs(driver.getRightX()) > Assist.DEADBAND.getAsDouble() || (startButtonWasFalse && driver.getRawStartButton());
     }
 }

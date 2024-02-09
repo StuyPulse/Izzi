@@ -177,9 +177,9 @@ public interface Settings {
             SmartNumber kI = new SmartNumber("Swerve/Assist/PID/kI", 0);
             SmartNumber kD = new SmartNumber("Swerve/Assist/PID/kD", 0);
 
-            SmartNumber deadband = new SmartNumber("Swerve/Assist/Gamepad deadband", 0.1);
-            SmartNumber minDistToSPeaker = new SmartNumber("Swerve/Assist/Minimum Distance to Speaker", 4); //change
-            double intensity = 0.5;
+            SmartNumber DEADBAND = new SmartNumber("Swerve/Assist/Gamepad deadband", 0.1);
+            SmartNumber ALIGN_MIN_SPEAKER_DIST = new SmartNumber("Swerve/Assist/Minimum Distance to Speaker", 4); //change
+            double BUZZ_INTENSITY = 0.5;
         }
     }
 

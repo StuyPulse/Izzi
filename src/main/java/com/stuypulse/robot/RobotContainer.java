@@ -91,10 +91,11 @@ public class RobotContainer {
             .whileTrue(new ClimberDrive(operator));
         
         driver.getStartButton()
-            .onTrue(new SwerveDriveAutomatic(driver))
-            .onTrue(new BuzzController(driver,Assist.intensity)
+            .onTrue(new BuzzController(driver, Assist.BUZZ_INTENSITY))
+            .onTrue(new SwerveDriveAutomatic(driver)
+                .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY))
                 .andThen(new WaitCommand(0.2))
-                .andThen(new BuzzController(driver, 0)));
+                .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)));
     }
 
     /**************/
