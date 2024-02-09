@@ -3,6 +3,8 @@ package com.stuypulse.robot.subsystems.intake;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.stuylib.network.SmartBoolean;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class IntakeSim extends Intake {
 
     private double motor;
@@ -37,5 +39,12 @@ public class IntakeSim extends Intake {
     @Override
     public boolean hasNote() {
         return IR.get();
+    }
+
+    @Override
+    public void periodic() {
+        super.periodic();
+        
+        SmartDashboard.putNumber("Intake/Speed", motor);
     }
 }
