@@ -1,7 +1,5 @@
 package com.stuypulse.robot.subsystems.leds.instructions;
 
-import java.util.EnumMap;
-
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.util.SLColor;
 
@@ -9,7 +7,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 public class LEDAutonChooser extends LEDSection {
     public enum AutonLEDColors {
-        X("X"),
+        X("DoNothingAuton"),
         OM("1 Note + Mobility.auto"),
         OC("2 Note C.auto"),
         OF("2 Note Center F.auto"),
@@ -65,15 +63,7 @@ public class LEDAutonChooser extends LEDSection {
         }
     }
 
-    private static EnumMap<AutonLEDColors, SLColor[]> enumMap = new EnumMap<>(AutonLEDColors.class);
-
-    static {
-        for (AutonLEDColors auton : AutonLEDColors.values()){
-            enumMap.put(auton, auton.ledColors);
-        }
-    }
-
     public LEDAutonChooser() {
-        super(enumMap.get((AutonLEDColors.valueOf(RobotContainer.getAutonomousCommandNameStatic().equals("DoNothingAuton") ? "X" : RobotContainer.getAutonomousCommandNameStatic()))));
+        super(AutonLEDColors.valueOf(RobotContainer.getAutonomousCommandNameStatic()).ledColors);
     }
 }

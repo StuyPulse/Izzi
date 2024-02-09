@@ -5,7 +5,6 @@
 
 package com.stuypulse.robot;
 
-import com.stuypulse.robot.commands.leds.LEDDisabledSet;
 import com.stuypulse.robot.commands.leds.LEDSet;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAlign;
@@ -69,10 +68,10 @@ public class Robot extends TimedRobot {
         }
 
         if (Settings.LED.LED_AUTON_TOGGLE.get()) {
-            scheduler.schedule(new LEDDisabledSet(new LEDAlign()));
+            scheduler.schedule(new LEDSet(new LEDAlign()));
         }
         else {
-            scheduler.schedule(new LEDDisabledSet(new LEDAutonChooser()));
+            scheduler.schedule(new LEDSet(new LEDAutonChooser()));
         }
     }
 

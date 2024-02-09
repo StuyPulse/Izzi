@@ -293,7 +293,7 @@ public interface Settings {
         SmartNumber TRANSLATION_SPREAD = new SmartNumber("LED/LED Translation Spread (m)", 1);
         SmartNumber ROTATION_SPREAD = new SmartNumber("LED/LED Rotation Spread (deg)", 35);
 
-        SmartBoolean LED_AUTON_TOGGLE = new SmartBoolean("LED/Auton Align or Display Toggle", true);
+        SmartBoolean LED_AUTON_TOGGLE = new SmartBoolean("LED/Auton Align Display?", true);
     }
 
     public static Vector2D vpow(Vector2D vec, double power) {
