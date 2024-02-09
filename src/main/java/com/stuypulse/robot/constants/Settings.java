@@ -53,7 +53,7 @@ public interface Settings {
             SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Amp Score Height", 1.0); // TODO: determine
             SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Trap Score Height", 1.0); // TODO: determine
 
-            double SCORE_MOTOR_CONVERSION = 1.5 * Math.PI;
+            double SCORE_MOTOR_CONVERSION = Units.inchesToMeters(1.5) * Math.PI;
         }
         
         public interface Lift {
