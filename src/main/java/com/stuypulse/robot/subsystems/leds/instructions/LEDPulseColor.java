@@ -7,10 +7,11 @@ import com.stuypulse.stuylib.util.StopWatch;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 
 public class LEDPulseColor implements LEDInstruction {
-    private SLColor color;
-    private SLColor altcolor;
-    private StopWatch stopwatch;
-    private double pulseTime;
+    
+    private final SLColor color;
+    private final SLColor altcolor;
+    private final StopWatch stopwatch;
+    private final double pulseTime;
 
     public LEDPulseColor(SLColor color1, SLColor color2) {
         this(color1, color2, Settings.LED.BLINK_TIME.get());
