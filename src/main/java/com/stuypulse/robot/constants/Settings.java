@@ -173,6 +173,16 @@ public interface Settings {
                 .plus(Rotation2d.fromDegrees(90));
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * -0.5);
         }
+
+        public interface Assist {
+            SmartNumber kP = new SmartNumber("Swerve/Assist/PID/kP", 3);
+            SmartNumber kI = new SmartNumber("Swerve/Assist/PID/kI", 0);
+            SmartNumber kD = new SmartNumber("Swerve/Assist/PID/kD", 0);
+
+            SmartNumber DEADBAND = new SmartNumber("Swerve/Assist/Gamepad deadband", 0.1);
+            SmartNumber ALIGN_MIN_SPEAKER_DIST = new SmartNumber("Swerve/Assist/Minimum Distance to Speaker", 4); //change
+            double BUZZ_INTENSITY = 0.5;
+        }
     }
 
     public interface NoteDetection {
@@ -271,9 +281,9 @@ public interface Settings {
         SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
         SmartNumber ANGLE_TOLERANCE = new SmartNumber("Alignment/Angle Tolerance", 5);
 
-        SmartNumber TARGET_DISTANCE_IN = new SmartNumber("Alignment/Speaker/Target Distance (in)", 110);
-        SmartNumber TAKEOVER_DISTANCE_IN = new SmartNumber("Alignment/Speaker/Takeover Distance (in)", 50);
-
+        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Alignment/Podium Shot Distance", Units.inchesToMeters(110));
+        SmartNumber PODIUM_SHOT_MAX_ANGLE = new SmartNumber("Alignment/Podium Shot Max Angle", 80);
+        
         SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(12.0));
         SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(6.0));
 

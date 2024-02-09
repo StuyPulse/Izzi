@@ -17,6 +17,7 @@ import com.stuypulse.robot.commands.shooter.*;
 import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Swerve.Assist;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
@@ -33,6 +34,7 @@ import com.stuypulse.robot.subsystems.climber.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
@@ -104,7 +106,12 @@ public class RobotContainer {
         driver.getRightButton()
             .whileTrue(new ClimberSetupRoutine());
 
-
+        driver.getStartButton()
+            .onTrue(new BuzzController(driver, Assist.BUZZ_INTENSITY))
+            .onTrue(new SwerveDriveAutomatic(driver)
+                .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY))
+                .andThen(new WaitCommand(0.2))
+                .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)));
     }
 
     private void configureOperatorBindings() {

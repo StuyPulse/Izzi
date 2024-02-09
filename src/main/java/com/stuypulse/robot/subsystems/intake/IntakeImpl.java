@@ -69,7 +69,14 @@ public class IntakeImpl extends Intake {
     }
 
     @Override
+    public double getIntakeRollerSpeed() {
+        return motor.get();
+    }
+
+    @Override
     public void periodic() {
+        super.periodic();
+        
         SmartDashboard.putNumber("Intake/Speed", motor.get());
         SmartDashboard.putNumber("Intake/Current", motor.getOutputCurrent());
 
