@@ -15,6 +15,7 @@ public class ConveyorImpl extends Conveyor {
     
     private final CANSparkMax gandalfMotor;
     private final CANSparkMax shooterFeederMotor;
+
     private final DigitalInput irSensor;
 
     private final BStream isAtShooter;
@@ -30,6 +31,16 @@ public class ConveyorImpl extends Conveyor {
 
         Motors.Conveyor.GANDALF_MOTOR.configure(gandalfMotor);
         Motors.Conveyor.SHOOTER_FEEDER_MOTOR.configure(shooterFeederMotor);
+    }
+
+    @Override
+    public double getGandalfSpeed() {
+        return gandalfMotor.get();
+    }
+
+    @Override
+    public double getFeederSpeed() {
+        return shooterFeederMotor.get();
     }
 
     @Override
@@ -56,6 +67,8 @@ public class ConveyorImpl extends Conveyor {
 
     @Override
     public void periodic() {
+        super.periodic();
+        
         SmartDashboard.putNumber("Conveyor/Gandalf Motor Current", gandalfMotor.getOutputCurrent());
         SmartDashboard.putNumber("Conveyor/Shooter Feeder Motor Current", shooterFeederMotor.getOutputCurrent());
 
