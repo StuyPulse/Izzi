@@ -1,5 +1,7 @@
 package com.stuypulse.robot.subsystems.leds.instructions;
 
+import java.util.Arrays;
+
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.util.SLColor;
 
@@ -7,7 +9,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 public class LEDAutonChooser extends LEDSection {
     public enum AutonLEDColors {
-        X("X"),
+        X("DoNothingAuton"),
         OM("1 Note + Mobility.auto"),
         OC("2 Note C.auto"),
         OF("2 Note Center F.auto"),
@@ -35,6 +37,7 @@ public class LEDAutonChooser extends LEDSection {
 
         private static SLColor[] autonToLEDSection(char[] pieces) {
             SLColor[] colorArray = new SLColor[10];
+            Arrays.fill(colorArray, new SLColor());
 
             SLColor[] rainbow = new SLColor[] {SLColor.RED, SLColor.RED_ORANGE, SLColor.ORANGE, SLColor.YELLOW, SLColor.LIME, SLColor.GREEN, SLColor.BLUE, SLColor.PURPLE};
 
@@ -52,18 +55,18 @@ public class LEDAutonChooser extends LEDSection {
                 }
             }
 
-            for (int i = 0; i < colorArray.length - 1; i++) {
-                if (colorArray[i] == null) {
-                    colorArray[i] = new SLColor();
-                }
-            }
-
             colorArray[9] = (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) ? SLColor.BLUE : SLColor.RED;
             return colorArray; 
+        }
+
+        public static AutonLEDColors fromName(String name){
+            return Arrays.stream(values())
+                .filter((autonLedColor) -> autonLedColor.autonName.matches(name))
+                .findFirst().get();
         }
     }
 
     public LEDAutonChooser() {
-        super(AutonLEDColors.valueOf(RobotContainer.getAutonomousCommandNameStatic().equals("DoNothingAuton") ? "X" : RobotContainer.getAutonomousCommandNameStatic()).ledColors);
+        super(AutonLEDColors.fromName(RobotContainer.getAutonomousCommandNameStatic()).ledColors);
     }
 }
