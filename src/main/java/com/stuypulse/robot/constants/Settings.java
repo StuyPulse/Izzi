@@ -271,19 +271,22 @@ public interface Settings {
         SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
         SmartNumber ANGLE_TOLERANCE = new SmartNumber("Alignment/Angle Tolerance", 5);
 
-        SmartNumber TARGET_DISTANCE_IN = new SmartNumber("Alignment/Target Distance (in)", 110);
-        SmartNumber TAKEOVER_DISTANCE_IN = new SmartNumber("Alignment/Takeover Distance (in)", 50);
+        SmartNumber TARGET_DISTANCE_IN = new SmartNumber("Alignment/Speaker/Target Distance (in)", 110);
+        SmartNumber TAKEOVER_DISTANCE_IN = new SmartNumber("Alignment/Speaker/Takeover Distance (in)", 50);
+
+        SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(12.0));
+        SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(6.0));
 
         public interface Translation {
-            SmartNumber P = new SmartNumber("Alignment/Translation/kP", 2.5);
-            SmartNumber I = new SmartNumber("Alignment/Translation/kI", 0);
+            SmartNumber P = new SmartNumber("Alignment/Translation/kP", 4.0);
+            SmartNumber I = new SmartNumber("Alignment/Translation/kI", 0.0);
             SmartNumber D = new SmartNumber("Alignment/Translation/kD", 0.0);
         }
 
         public interface Rotation {
-            SmartNumber P = new SmartNumber("Alignment/Rotation/kP", 1);
-            SmartNumber I = new SmartNumber("Alignment/Rotation/kI", 0);
-            SmartNumber D = new SmartNumber("Alignment/Rotation/kD", 0);
+            SmartNumber P = new SmartNumber("Alignment/Rotation/kP", 3.0);
+            SmartNumber I = new SmartNumber("Alignment/Rotation/kI", 0.0);
+            SmartNumber D = new SmartNumber("Alignment/Rotation/kD", 0.0);
         }
     }
 

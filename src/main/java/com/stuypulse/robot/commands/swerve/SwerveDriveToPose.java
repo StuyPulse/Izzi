@@ -26,6 +26,10 @@ public class SwerveDriveToPose extends Command {
 
     private final FieldObject2d targetPose2d;
 
+    private double xTolerance;
+    private double yTolerance;
+    private double thetaTolerance;
+
     public SwerveDriveToPose(Pose2d targetPose) {
         swerve = SwerveDrive.getInstance();
         this.targetPose = targetPose;
@@ -39,12 +43,23 @@ public class SwerveDriveToPose extends Command {
 
         isAligned = BStream.create(this::isAligned)
             .filtered(new BDebounceRC.Both(Alignment.DEBOUNCE_TIME.get()));
+        
+        xTolerance = Alignment.X_TOLERANCE.get();
+        yTolerance = Alignment.Y_TOLERANCE.get();
+        thetaTolerance = Alignment.ANGLE_TOLERANCE.get();
 
         addRequirements(swerve);
     }
+
+    public SwerveDriveToPose withTolerance(Number x, Number y, Number theta) {
+        xTolerance = x.doubleValue();
+        yTolerance = y.doubleValue();
+        thetaTolerance = theta.doubleValue();
+        return this;
+    }
     
     private boolean isAligned() {
-        return controller.isDone(Alignment.X_TOLERANCE.get(), Alignment.Y_TOLERANCE.get(), Alignment.ANGLE_TOLERANCE.get());
+        return controller.isDone(xTolerance, yTolerance, thetaTolerance);
     }
 
     @Override

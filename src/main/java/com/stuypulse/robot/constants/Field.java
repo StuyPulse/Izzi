@@ -106,4 +106,16 @@ public interface Field {
     }
 
     double SPEAKER_OPENING_X = Units.inchesToMeters(13.6);
+
+    /*** AMP ***/
+
+    Pose2d AMP_POSES[] = {
+        getFiducial(6).getLocation().toPose2d(), // BLUE CENTER
+        getFiducial(5).getLocation().toPose2d(), // RED CENTER
+    };
+
+    public static Pose2d getAllianceAmpPose() {
+        boolean isBlue = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue;
+        return AMP_POSES[isBlue ? 0 : 1];
+    }
 }
