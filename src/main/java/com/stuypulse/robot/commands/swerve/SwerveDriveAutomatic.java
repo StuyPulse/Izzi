@@ -110,7 +110,7 @@ public class SwerveDriveAutomatic extends Command {
         SmartDashboard.putNumber("Swerve/Assist/Target angle", targetAngle.getDegrees());
     }
 
-    public Translation2d getTargetPose() {
+    private Translation2d getTargetPose() {
         Translation2d targetPose;
 
         Translation2d currentPose = odometry.getPose().getTranslation();
