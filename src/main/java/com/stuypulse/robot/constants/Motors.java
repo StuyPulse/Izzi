@@ -42,7 +42,7 @@ public interface Motors {
   
     public interface Conveyor {
         CANSparkMaxConfig GANDALF_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake);
-        CANSparkMaxConfig SHOOTER_FEEDER_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake);
+        CANSparkMaxConfig FEEDER_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake);
     }
 
     public interface Climber {

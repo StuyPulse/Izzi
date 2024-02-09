@@ -14,59 +14,44 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeImpl extends Intake {
 
-    private final CANSparkMax intakeMotor;
-
-    private final DigitalInput irSensor;
+    private final CANSparkMax motor;
+    private final DigitalInput sensor;
 
     private final BStream triggered;
     private final BStream stalling;
 
     public IntakeImpl() {
-        intakeMotor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
-        // conveyorMotor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
-        // shooterMotor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
+        motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
+        sensor = new DigitalInput(Ports.Intake.IR_SENSOR);
 
-        irSensor = new DigitalInput(Ports.Intake.IR_SENSOR);
-
-        Motors.Intake.MOTOR_CONFIG.configure(intakeMotor);
-        // Motors.Intake.MOTOR_CONFIG.configure(conveyorMotor);
-
-        triggered = BStream.create(irSensor).not()
+        triggered = BStream.create(sensor).not()
             .filtered(new BDebounce.Rising(Settings.Intake.Detection.TRIGGER_TIME));
 
         stalling = BStream.create(this::isMomentarilyStalling)
             .filtered(new BDebounceRC.Rising(Settings.Intake.Detection.STALL_TIME));
+
+        Motors.Intake.MOTOR_CONFIG.configure(motor);
     }
 
     @Override
     public void acquire() {
-        intakeMotor.set(+Settings.Intake.ACQUIRE_SPEED.getAsDouble());
+        motor.set(+Settings.Intake.ACQUIRE_SPEED.getAsDouble());
     }
 
     @Override 
     public void deacquire() {
-        intakeMotor.set(-Settings.Intake.DEACQUIRE_SPEED.getAsDouble());
+        motor.set(-Settings.Intake.DEACQUIRE_SPEED.getAsDouble());
     }
 
     @Override
     public void stop() {
-        intakeMotor.stopMotor();
-    }
-
-    @Override
-    public double getIntakeRollerSpeed() {
-        return intakeMotor.get();
+        motor.stopMotor();
     }
 
     // Detection
 
-    @Override
-    public boolean isIRTriggered() {
-        return irSensor.get();
-    }
-
     private boolean isMomentarilyStalling() {
-        return intakeMotor.getOutputCurrent() > Settings.Intake.Detection.STALL_CURRENT.getAsDouble();
+        return motor.getOutputCurrent() > Settings.Intake.Detection.STALL_CURRENT.getAsDouble();
     }
 
     private boolean isStalling() {
@@ -84,14 +69,16 @@ public class IntakeImpl extends Intake {
     }
 
     @Override
+    public double getIntakeRollerSpeed() {
+        return motor.get();
+    }
+
+    @Override
     public void periodic() {
-        super.periodic();
-        
-        SmartDashboard.putNumber("Intake Roller Speed", getIntakeRollerSpeed());
-        SmartDashboard.putNumber("Intake/Current", intakeMotor.getOutputCurrent());
+        SmartDashboard.putNumber("Intake/Speed", motor.get());
+        SmartDashboard.putNumber("Intake/Current", motor.getOutputCurrent());
+
         SmartDashboard.putBoolean("Intake/Is Stalling", isStalling());
         SmartDashboard.putBoolean("Intake/IR is triggered", isTriggered());
     }
-
-	
 }

@@ -31,8 +31,8 @@ public abstract class Conveyor extends SubsystemBase {
         return instance;
     };
 
-    public abstract double getGandalfMotorSpeed();
-    public abstract double getShooterFeederSpeed();
+    public abstract double getGandalfSpeed();
+    public abstract double getFeederSpeed();
 
     public abstract void toShooter();
     public abstract void toAmp();

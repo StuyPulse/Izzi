@@ -2,49 +2,40 @@ package com.stuypulse.robot.subsystems.intake;
 
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.stuylib.network.SmartBoolean;
-import com.stuypulse.stuylib.network.SmartNumber;
 
 public class IntakeSim extends Intake {
 
-    SmartNumber motor = new SmartNumber("Intake/Speed", 0);
-    SmartNumber feederSpeed = new SmartNumber("Shooter/Speed", 0);
+    private double motor;
 
-    SmartBoolean ir = new SmartBoolean("Intake/IR", false);
+    private SmartBoolean IR;
+
+    public IntakeSim() {
+        motor = 0;
+        IR = new SmartBoolean("Intake/Sim IR Value", false);
+    }
 
     @Override
     public void acquire() {
-        motor.set(Settings.Intake.ACQUIRE_SPEED.getAsDouble());
+        motor = +Settings.Intake.ACQUIRE_SPEED.get();
     }
 
     @Override 
     public void deacquire() {
-        motor.set(Settings.Intake.DEACQUIRE_SPEED.getAsDouble());
+        motor = -Settings.Intake.DEACQUIRE_SPEED.get();
     }
 
     @Override
     public void stop() {
-        motor.set(0);
+        motor = 0;
     }
 
+    @Override
     public double getIntakeRollerSpeed() {
-        return motor.get();
-    }
-
-    public double getAmpRollerSpeed() {
-        return motor.get();
-    }
-
-    public double getIntakeToConveyorSpeed() {
-        return motor.get();
+        return motor;
     }
 
     @Override
     public boolean hasNote() {
-        return false;
-    }
-
-    @Override
-    public boolean isIRTriggered() {
-        return ir.get();
+        return IR.get();
     }
 }

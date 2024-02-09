@@ -1,6 +1,5 @@
 package com.stuypulse.robot.subsystems.shooter;
 
-import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.stuypulse.stuylib.network.SmartNumber;
 
 import edu.wpi.first.wpilibj.RobotBase;
@@ -49,5 +48,4 @@ public abstract class Shooter extends SubsystemBase {
     public abstract void stop();
     public abstract double getLeftShooterRPM();
     public abstract double getRightShooterRPM();
-    // public abstract double getShooterFeederSpeed();
 }
