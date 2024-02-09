@@ -21,6 +21,7 @@ public class AmperImpl extends Amper {
     private final CANSparkMax scoreMotor;
     private final CANSparkMax liftMotor;
     private final RelativeEncoder liftEncoder;
+    private final RelativeEncoder scoreEncoder;
 
     private final DigitalInput alignedSwitch;
     private final DigitalInput minSwitch;
@@ -31,12 +32,13 @@ public class AmperImpl extends Amper {
 
     public AmperImpl() {
         scoreMotor = new CANSparkMax(Ports.Amper.SCORE, MotorType.kBrushless);
+        scoreEncoder = scoreMotor.getEncoder();
         liftMotor = new CANSparkMax(Ports.Amper.LIFT, MotorType.kBrushless);
         liftEncoder = liftMotor.getEncoder();
 
         liftEncoder.setPositionConversionFactor(Settings.Amper.Lift.Encoder.POSITION_CONVERSION);
         liftEncoder.setVelocityConversionFactor(Settings.Amper.Lift.Encoder.VELOCITY_CONVERSION);
-
+        
         alignedSwitch = new DigitalInput(Ports.Amper.ALIGNED_BUMP_SWITCH);
         minSwitch = new DigitalInput(Ports.Amper.LIFT_BOTTOM_LIMIT);
         maxSwitch = new DigitalInput(Ports.Amper.LIFT_TOP_LIMIT);
@@ -45,6 +47,7 @@ public class AmperImpl extends Amper {
         Motors.Amper.LIFT_MOTOR.configure(liftMotor);
         Motors.Amper.SCORE_MOTOR.configure(scoreMotor);
 
+        scoreEncoder.setPositionConversionFactor(Settings.Amper.Score.SCORE_MOTOR_CONVERSION);
         controller = new MotorFeedforward(Lift.Feedforward.kS, Lift.Feedforward.kV, Lift.Feedforward.kA).position()
             .add(new ElevatorFeedforward(Lift.Feedforward.kG))
             .add(new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD))
@@ -96,6 +99,11 @@ public class AmperImpl extends Amper {
     @Override
     public void stopRoller() {
         scoreMotor.stopMotor();
+    }
+
+    @Override
+    public double getNoteDistance() {
+        return scoreEncoder.getPosition();
     }
 
     @Override
