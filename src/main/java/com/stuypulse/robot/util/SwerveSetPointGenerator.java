@@ -1,5 +1,6 @@
 package com.stuypulse.robot.util;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -39,6 +40,11 @@ public class SwerveSetPointGenerator {
      */
     private boolean toleranceEquals(double a, double b) {
         return Math.abs(a - b) < 1e-6; 
+    }
+
+    //flipheading checks if it is faster to go to the opposite of the goal direction (reverse direction) using unwrapAngle
+    private boolean flipHeading(Rotation2d prevToGoal) {
+        return Math.abs(prevToGoal.getRadians()) > Math.PI / 2.0;
     }
 
     /**
@@ -138,6 +144,7 @@ public class SwerveSetPointGenerator {
     }
 
     public ChassisSpeeds generateSetpoint(SwerveConstraints constraints, ChassisSpeeds prevSetpoint, ChassisSpeeds desiredState) {
+        
         return new ChassisSpeeds();
     }
     
