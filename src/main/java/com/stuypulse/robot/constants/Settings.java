@@ -173,6 +173,16 @@ public interface Settings {
                 .plus(Rotation2d.fromDegrees(90));
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * -0.5);
         }
+
+        public interface Assist {
+            SmartNumber kP = new SmartNumber("Swerve/Assist/PID/kP", 3);
+            SmartNumber kI = new SmartNumber("Swerve/Assist/PID/kI", 0);
+            SmartNumber kD = new SmartNumber("Swerve/Assist/PID/kD", 0);
+
+            SmartNumber DEADBAND = new SmartNumber("Swerve/Assist/Gamepad deadband", 0.1);
+            SmartNumber ALIGN_MIN_SPEAKER_DIST = new SmartNumber("Swerve/Assist/Minimum Distance to Speaker", 4); //change
+            double BUZZ_INTENSITY = 0.5;
+        }
     }
 
     public interface NoteDetection {
