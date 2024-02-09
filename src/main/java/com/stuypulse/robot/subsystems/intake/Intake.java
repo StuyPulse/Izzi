@@ -39,6 +39,7 @@ public abstract class Intake extends SubsystemBase {
     
     @Override
     public void periodic() {
-        intakeVisualizer.update(hasNote(), Conveyor.getInstance().isNoteAtShooter(), Amper.getInstance().hasNote(), getIntakeRollerSpeed(), Conveyor.getInstance().getGandalfSpeed(), Conveyor.getInstance().getFeederSpeed());
+        Conveyor conveyor = Conveyor.getInstance();
+        intakeVisualizer.update(hasNote(), conveyor.isNoteAtShooter(), Amper.getInstance().hasNote(), getIntakeRollerSpeed(), conveyor.getGandalfSpeed(), conveyor.getFeederSpeed());
     }
 }

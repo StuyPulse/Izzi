@@ -67,6 +67,8 @@ public class ConveyorImpl extends Conveyor {
 
     @Override
     public void periodic() {
+        super.periodic();
+        
         SmartDashboard.putNumber("Conveyor/Gandalf Motor Current", gandalfMotor.getOutputCurrent());
         SmartDashboard.putNumber("Conveyor/Shooter Feeder Motor Current", shooterFeederMotor.getOutputCurrent());
 
