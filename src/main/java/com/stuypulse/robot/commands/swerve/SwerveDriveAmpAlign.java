@@ -12,13 +12,13 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class SwerveDriveAmpAlign extends SequentialCommandGroup {
 
-    private static final double AMP_WALL_SETUP_X_DISTANCE = Units.inchesToMeters(2.0);
-    private static final double AMP_WALL_SETUP_Y_DISTANCE = Units.inchesToMeters(4.0);
-    private static final double AMP_WALL_SETUP_DEGREE = 5;
+    private static final double AMP_WALL_SETUP_X_TOLERANCE = Units.inchesToMeters(2.0);
+    private static final double AMP_WALL_SETUP_Y_TOLERANCE = Units.inchesToMeters(4.0);
+    private static final double AMP_WALL_SETUP_ANGLE_TOLERANCE = 5;
 
-    private static final double AMP_WALL_SCORE_X_DISTANCE = Units.inchesToMeters(0.75);
-    private static final double AMP_WALL_SCORE_Y_DISTANCE = Units.inchesToMeters(1.0);
-    private static final double AMP_WALL_SCORE_DEGREE = 2;
+    private static final double AMP_WALL_SCORE_X_TOLERANCE = Units.inchesToMeters(0.75);
+    private static final double AMP_WALL_SCORE_Y_TOLERANCE = Units.inchesToMeters(1.0);
+    private static final double AMP_WALL_SCORE_ANGLE_TOLERANCE = 2;
 
     private static Pose2d getTargetPose(double distanceToWall) {
         Translation2d amp = Field.getAllianceAmpPose().getTranslation();
@@ -31,10 +31,10 @@ public class SwerveDriveAmpAlign extends SequentialCommandGroup {
     public SwerveDriveAmpAlign() {
         addCommands(
             new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get()))
-                .withTolerance(AMP_WALL_SETUP_X_DISTANCE, AMP_WALL_SETUP_Y_DISTANCE, AMP_WALL_SETUP_DEGREE),
+                .withTolerance(AMP_WALL_SETUP_X_TOLERANCE, AMP_WALL_SETUP_Y_TOLERANCE, AMP_WALL_SETUP_ANGLE_TOLERANCE),
             
             new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SCORE_DISTANCE.get()))
-                .withTolerance(AMP_WALL_SCORE_X_DISTANCE, AMP_WALL_SCORE_Y_DISTANCE, AMP_WALL_SCORE_DEGREE)
+                .withTolerance(AMP_WALL_SCORE_X_TOLERANCE, AMP_WALL_SCORE_Y_TOLERANCE, AMP_WALL_SCORE_ANGLE_TOLERANCE)
         );
     }
     

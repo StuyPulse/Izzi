@@ -99,24 +99,26 @@ public class RobotContainer {
 
         // score speaker
         driver.getRightBumper()
-            .whileTrue(new ConveyorToShooter())
-            .whileTrue(new SwerveDriveToShoot()
-                .andThen(new ConveyorToShooter()))
+            .whileTrue(new ConveyorToShooter()
+                .alongWith(new SwerveDriveToShoot())
+                .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop());
         // score amp
         driver.getLeftBumper()
-            .whileTrue(new ConveyorToAmp())
-            .whileTrue(new SwerveDriveAmpAlign()
+            .whileTrue(new ConveyorToAmp()
+                .alongWith(new SwerveDriveAmpAlign())
                 .andThen(new AmperScore()))
             .onFalse(new AmperStop());
 
         // score speaker no align
         driver.getStartButton()
-            .whileTrue(new ConveyorToShooter().andThen(new ConveyorShoot()))
+            .whileTrue(new ConveyorToShooter()
+                .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop());
         // score amp no align
         driver.getSelectButton()
-            .whileTrue(new ConveyorToAmp().andThen(new AmperScore()))
+            .whileTrue(new ConveyorToAmp()
+                .andThen(new AmperScore()))
             .onFalse(new AmperStop());
     
         driver.getDPadUp()
@@ -147,8 +149,7 @@ public class RobotContainer {
         operator.getLeftTriggerButton()
             .whileTrue(new ConveyorOuttake());
         operator.getRightTriggerButton()
-            .whileTrue(new IntakeAcquire())
-            .onFalse(new IntakeStop());
+            .whileTrue(new IntakeAcquire());
 
         operator.getLeftBumper()
             .onTrue(ConveyorToAmp.withCheckLift());
@@ -167,7 +168,7 @@ public class RobotContainer {
             .whileTrue(new AmperLiftFineAdjust(operator));
 
         operator.getDPadRight()
-            .whileTrue(new ClimberToTop());
+            .onTrue(new ClimberToTop());
         operator.getDPadLeft()
             .onTrue(new ClimberToBottom());
 

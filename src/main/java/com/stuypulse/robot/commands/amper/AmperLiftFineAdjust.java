@@ -1,9 +1,9 @@
 package com.stuypulse.robot.commands.amper;
 
+import com.stuypulse.robot.constants.Settings.Operator;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.stuylib.input.Gamepad;
 
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class AmperLiftFineAdjust extends Command {
@@ -19,12 +19,11 @@ public class AmperLiftFineAdjust extends Command {
 
     @Override
     public void execute() {
-        double Height = Units.inchesToMeters(1);
         if (gamepad.getRawDPadUp()) {
-            amper.setTargetHeight(amper.getTargetHeight() + Height);
+            amper.setTargetHeight(amper.getTargetHeight() + Operator.LIFT_ADJUST_SPEED.get());
         } 
         else if (gamepad.getRawDPadDown()) {
-            amper.setTargetHeight(amper.getLiftHeight() - Height);
+            amper.setTargetHeight(amper.getLiftHeight() - Operator.LIFT_ADJUST_SPEED.get());
         } 
     }
 }
