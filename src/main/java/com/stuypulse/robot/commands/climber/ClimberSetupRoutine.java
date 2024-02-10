@@ -29,7 +29,7 @@ public class ClimberSetupRoutine extends SequentialCommandGroup {
         addCommands(
             // raise everything and get in position
             new ParallelCommandGroup(
-                new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT).andThen(new ConveyorToAmp()),
+                new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT),
                 new ClimberToTop(),
                 new SwerveDriveToPose(() -> getTargetPose())
                     .withTolerance(Units.inchesToMeters(3.0), Units.inchesToMeters(3.0), 3.0)
