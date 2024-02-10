@@ -5,7 +5,13 @@
 
 package com.stuypulse.robot;
 
+import com.stuypulse.robot.commands.leds.LEDSet;
+import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.subsystems.leds.instructions.LEDAlign;
+import com.stuypulse.robot.subsystems.leds.instructions.LEDAutonChooser;
+
 import edu.wpi.first.wpilibj.DataLogManager;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
 
     private RobotContainer robot;
+    private CommandScheduler scheduler;
     private Command auto;
 
     /************************/
@@ -25,6 +32,8 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         DataLogManager.start();
 
+        scheduler = CommandScheduler.getInstance();
+
         robot = new RobotContainer();
 
         SmartDashboard.putString("Robot State", "DISABLED");
@@ -32,7 +41,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-        CommandScheduler.getInstance().run();
+        scheduler.run();
     }
 
     public static boolean isBlue() {
@@ -60,6 +69,13 @@ public class Robot extends TimedRobot {
 
         if (robot.conveyor.isNoteAtShooter()) {
             DriverStation.reportWarning("Shooter IR sensor reporting note while disabled!", false);
+        }
+
+        if (Settings.LED.LED_AUTON_TOGGLE.get()) {
+            scheduler.schedule(new LEDSet(new LEDAlign()));
+        }
+        else {
+            scheduler.schedule(new LEDSet(new LEDAutonChooser()));
         }
     }
 
