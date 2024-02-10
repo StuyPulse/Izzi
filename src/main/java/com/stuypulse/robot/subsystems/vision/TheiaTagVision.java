@@ -33,13 +33,13 @@ public class TheiaTagVision extends AprilTagVision {
     }
 
     /**
-     * Sets the fiducial layout of the vision system.
-     * @param fids the fiducial IDs
+     * Sets the tag layout of the vision system.
+     * @param ids the tag IDs
      */
     @Override
-    public void setTagWhitelist(int... fids) {
+    public void setTagWhitelist(int... ids) {
         for (TheiaCamera camera : cameras) {
-            camera.setFiducialLayout(fids);
+            camera.setTagLayout(ids);
         }
     }
 
@@ -62,7 +62,7 @@ public class TheiaTagVision extends AprilTagVision {
         SmartDashboard.putNumber(prefix + "/Pose Y", data.getPose().getY());
         SmartDashboard.putNumber(prefix + "/Pose Z", data.getPose().getZ());
 
-        SmartDashboard.putNumber(prefix + "/Distance to Tag", data.getDistanceToFiducial(data.getPrimaryID()));
+        SmartDashboard.putNumber(prefix + "/Distance to Tag", data.getDistanceToTag(data.getPrimaryID()));
 
         SmartDashboard.putNumber(prefix + "/Pose Rotation", Units.radiansToDegrees(data.getPose().getRotation().getAngle()));
         SmartDashboard.putNumber(prefix + "/Timestamp", data.getTimestamp());
