@@ -24,10 +24,10 @@ public class SwerveDriveAmpAlign extends SequentialCommandGroup {
 
     public SwerveDriveAmpAlign() {
         addCommands(
-            new SwerveDriveToPose(getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get()))
+            new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get()))
                 .withTolerance(Units.inchesToMeters(2.0), Units.inchesToMeters(4.0), 5),
             
-            new SwerveDriveToPose(getTargetPose(Alignment.AMP_WALL_SCORE_DISTANCE.get()))
+            new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SCORE_DISTANCE.get()))
                 .withTolerance(Units.inchesToMeters(0.75), Units.inchesToMeters(1.0), 2)
         );
     }
