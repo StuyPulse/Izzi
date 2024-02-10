@@ -52,7 +52,7 @@ public interface Field {
         public Pose3d getLocation() { return tag.getLocation(); }
 
         private NamedTags() {
-            tag = APRILTAGS[ordinal() + 1];
+            tag = APRILTAGS[ordinal()];
         }
     }
 
