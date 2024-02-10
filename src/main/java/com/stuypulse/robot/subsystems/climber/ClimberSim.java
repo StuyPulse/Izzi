@@ -38,11 +38,6 @@ public class ClimberSim extends Climber {
     }
 
     @Override
-    public void setVoltageOverride(double voltage) {
-        voltageOverride = Optional.of(voltage);
-    }
-
-    @Override
     public double getHeight() {
         return sim.getPositionMeters();
     }
@@ -52,6 +47,8 @@ public class ClimberSim extends Climber {
         return sim.getVelocityMetersPerSecond();
     }
 
+    /*** LIMITS ***/
+
     @Override
     public boolean atTop() {
         return sim.hasHitUpperLimit();
@@ -60,6 +57,11 @@ public class ClimberSim extends Climber {
     @Override
     public boolean atBottom() {
         return sim.hasHitLowerLimit();
+    }
+
+    @Override
+    public void setVoltageOverride(double voltage) {
+        voltageOverride = Optional.of(voltage);
     }
 
     private void setVoltage(double voltage) {

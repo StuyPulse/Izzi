@@ -12,6 +12,8 @@
       "/SmartDashboard/Autonomous": "String Chooser",
       "/SmartDashboard/Climber": "Mechanism2d",
       "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Intake": "Mechanism2d",
+      "/SmartDashboard/Intake Visualizer": "Mechanism2d",
       "/SmartDashboard/Lift Mechanism": "Mechanism2d"
     },
     "windows": {
@@ -41,6 +43,16 @@
           "visible": true
         }
       },
+      "/SmartDashboard/Intake": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Intake Visualizer": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Lift Mechanism": {
         "window": {
           "visible": true
@@ -49,6 +61,18 @@
     }
   },
   "NetworkTables": {
+    "SmartDashboard": {
+      "Conveyor": {
+        "open": true
+      },
+      "Intake": {
+        "open": true
+      },
+      "Operator Settings": {
+        "open": true
+      },
+      "open": true
+    },
     "combined": true
   },
   "NetworkTables Info": {

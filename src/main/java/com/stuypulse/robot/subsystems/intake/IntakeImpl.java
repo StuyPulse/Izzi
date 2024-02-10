@@ -24,13 +24,13 @@ public class IntakeImpl extends Intake {
         motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
         sensor = new DigitalInput(Ports.Intake.IR_SENSOR);
 
-        Motors.Intake.MOTOR_CONFIG.configure(motor);
-
         triggered = BStream.create(sensor).not()
             .filtered(new BDebounce.Rising(Settings.Intake.Detection.TRIGGER_TIME));
 
         stalling = BStream.create(this::isMomentarilyStalling)
             .filtered(new BDebounceRC.Rising(Settings.Intake.Detection.STALL_TIME));
+
+        Motors.Intake.MOTOR_CONFIG.configure(motor);
     }
 
     @Override
@@ -69,7 +69,14 @@ public class IntakeImpl extends Intake {
     }
 
     @Override
+    public double getIntakeRollerSpeed() {
+        return motor.get();
+    }
+
+    @Override
     public void periodic() {
+        super.periodic();
+        
         SmartDashboard.putNumber("Intake/Speed", motor.get());
         SmartDashboard.putNumber("Intake/Current", motor.getOutputCurrent());
 

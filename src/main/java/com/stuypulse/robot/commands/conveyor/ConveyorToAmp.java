@@ -6,9 +6,15 @@ import com.stuypulse.robot.subsystems.intake.Intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
+import com.stuypulse.robot.commands.amper.AmperToHeight;
+import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.amper.Amper;
 
 public class ConveyorToAmp extends Command {
+    public static Command withCheckLift() {
+        return AmperToHeight.untilDone(Settings.Amper.Lift.MIN_HEIGHT)
+            .andThen(new ConveyorToAmp());
+    }
 
     private final Conveyor conveyor;
     private final Intake intake;
@@ -30,15 +36,15 @@ public class ConveyorToAmp extends Command {
     }
 
     @Override
+    public boolean isFinished() {
+        return amper.hasNote();
+    }
+
+    @Override
     public void end(boolean interrupted) {
         conveyor.stop();
         intake.stop();
         amper.stopRoller();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return amper.hasNote();
     }
 }
 

@@ -1,5 +1,3 @@
-
-
 /************************ PROJECT PHIL ************************/
 /* Copyright (c) 2024 StuyPulse Robotics. All rights reserved.*/
 /* This work is licensed under the terms of the MIT license.  */
@@ -19,6 +17,7 @@ import com.stuypulse.robot.commands.shooter.*;
 import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Swerve.Assist;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
@@ -35,6 +34,7 @@ import com.stuypulse.robot.subsystems.climber.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
@@ -74,7 +74,6 @@ public class RobotContainer {
 
     private void configureDefaultCommands() {
         swerve.setDefaultCommand(new SwerveDriveDrive(driver));
-        intake.setDefaultCommand(new IntakeStop());
     }
 
     /**********************/
@@ -93,34 +92,58 @@ public class RobotContainer {
     }
 
     private void configureDriverBindings() {
+        /*TODO: add conveyorrecall somewhere*/
         driver.getRightTriggerButton()
-            .whileTrue(new DoNothingCommand())
-            .whileTrue(new IntakeAcquire());
-        driver.getRightButton()
-            .whileTrue(new DoNothingCommand());/*climber routine*/
-        driver.getBottomButton()
-            .onTrue(new AmperScore()); /*score both*/
+            .whileTrue(new IntakeAcquire())
+            .whileTrue(new SwerveDriveNoteAlignedDrive(driver));
+
+        driver.getStartButton()
+            .onTrue(new ConveyorScoreNote()); 
+    
         driver.getTopButton()
-            .whileTrue(new DoNothingCommand()); /*align and score*/
-        // driver.getRightButton
-        //     .
-            
+            .whileTrue(new AmperScoreAmpRoutine()); /*TODO: add the trap and amp alignment to ts command score*/
+        driver.getRightButton()
+            .whileTrue(new ClimberSetupRoutine());
+
+        driver.getStartButton()
+            .onTrue(new BuzzController(driver, Assist.BUZZ_INTENSITY))
+            .onTrue(new SwerveDriveAutomatic(driver)
+                .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY))
+                .andThen(new WaitCommand(0.2))
+                .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)));
     }
 
     private void configureOperatorBindings() {
-        // manual climber control
         new Trigger(() -> operator.getRightStick().magnitude() > Settings.Operator.DEADBAND.get())
             .whileTrue(new ClimberDrive(operator));
-        // manual lift control    
+
         new Trigger(() -> operator.getLeftStick().magnitude() > Settings.Operator.DEADBAND.get())
-            .whileTrue(new DoNothingCommand());
-        operator.getSelectButton().whileTrue(new ShooterToAmp());
+            .whileTrue(new AmperLiftDrive(operator));
         
-        operator.getLeftTriggerButton().whileTrue(new IntakeDeacquire());
-        operator.getRightTriggerButton().whileTrue(new IntakeAcquire());
-        
+        operator.getLeftTriggerButton()
+            .whileTrue(new ConveyorOuttake())
+            .whileTrue(new IntakeDeacquire());
+        operator.getRightTriggerButton()
+            .whileTrue(new IntakeAcquire());
 
+        operator.getLeftBumper()
+            .onTrue(ConveyorToAmp.withCheckLift());
+        operator.getRightBumper()
+            .onTrue(new ConveyorToShooter());
 
+        operator.getBottomButton()
+            .onTrue(new ClimberScoreRoutine());
+        operator.getTopButton()
+            .onTrue(new AmperScore());
+    
+        operator.getDPadUp()
+            .onTrue(new AmperToHeight(Settings.Amper.Score.TRAP_SCORE_HEIGHT.get()));
+        operator.getDPadRight()
+            .onTrue(new AmperToHeight(Settings.Amper.Score.AMP_SCORE_HEIGHT.get()));
+        operator.getDPadLeft()
+            .onTrue(new AmperToHeight(Settings.Amper.Score.AMP_SCORE_HEIGHT.get()));
+        operator.getDPadDown()  
+            .onTrue(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT));
     }
 
     /**************/

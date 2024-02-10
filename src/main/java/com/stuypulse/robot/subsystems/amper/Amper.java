@@ -2,6 +2,7 @@ package com.stuypulse.robot.subsystems.amper;
 
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.network.SmartNumber;
 
@@ -67,7 +68,9 @@ public abstract class Amper extends SubsystemBase {
         SmartDashboard.putData("Lift Mechanism", mechanism2d);
     }
 
-    public final void setTargetHeight(double height) {
+    /*** LIFT CONTROL ***/
+
+    public void setTargetHeight(double height) {
         targetHeight.set(SLMath.clamp(height, Settings.Amper.Lift.MIN_HEIGHT, Settings.Amper.Lift.MAX_HEIGHT));
     }
 
@@ -79,19 +82,33 @@ public abstract class Amper extends SubsystemBase {
         return Math.abs(getTargetHeight() - getLiftHeight()) < epsilonMeters;
     }
     
-    public abstract boolean hasNote();
-
-    public abstract void score();
-    public abstract void intake();
-    public abstract void stopRoller();
-    
     public abstract boolean liftAtBottom();
     public abstract boolean liftAtTop();
     public abstract double getLiftHeight();
     public abstract void stopLift();
 
+    /*** IR SENSOR ***/
+    
+    public abstract boolean hasNote();
+
+    /*** SCORE ROLLERS ***/
+
+    public abstract void score();
+    public abstract void intake();
+    public abstract void stopRoller();
+
     public abstract double getNoteDistance();
-    public abstract boolean touchingAmp();
+    // public abstract boolean touchingAmp();
+
+    /*** LIFT CONFIG ***/
+
+    public abstract void setVoltageOverride(double voltage);
+
+    public abstract void setConstraints(double maxVelocity, double maxAcceleration);
+
+    public final void resetConstraints() {
+        setConstraints(Lift.VEL_LIMIT, Lift.ACCEL_LIMIT);
+    }
 
     @Override
     public void periodic() {

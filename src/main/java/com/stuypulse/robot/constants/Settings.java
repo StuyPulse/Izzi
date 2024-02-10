@@ -67,8 +67,10 @@ public interface Settings {
 
             double MAX_HEIGHT_ERROR = 0.03;
 
-            SmartNumber VEL_LIMIT = new SmartNumber("Amper/Lift/Velocity Limit", 3);
-            SmartNumber ACC_LIMIT = new SmartNumber("Amper/Lift/Acceleration Limit", 2);
+            double VEL_LIMIT = 3.0;
+            double ACCEL_LIMIT = 2.0;
+
+            SmartNumber MAX_DRIVE_VOLTAGE = new SmartNumber("Amper/Lift/Max Drive Voltage", 6.0); 
 
             public interface Encoder {
                 double GEARING = 9; // ~9:1
@@ -173,6 +175,16 @@ public interface Settings {
                 .plus(Rotation2d.fromDegrees(90));
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * -0.5);
         }
+
+        public interface Assist {
+            SmartNumber kP = new SmartNumber("Swerve/Assist/PID/kP", 3);
+            SmartNumber kI = new SmartNumber("Swerve/Assist/PID/kI", 0);
+            SmartNumber kD = new SmartNumber("Swerve/Assist/PID/kD", 0);
+
+            SmartNumber DEADBAND = new SmartNumber("Swerve/Assist/Gamepad deadband", 0.1);
+            SmartNumber ALIGN_MIN_SPEAKER_DIST = new SmartNumber("Swerve/Assist/Minimum Distance to Speaker", 4); //change
+            double BUZZ_INTENSITY = 0.5;
+        }
     }
 
     public interface NoteDetection {
@@ -262,7 +274,7 @@ public interface Settings {
         SmartNumber FEEDER_AMP_SPEED = new SmartNumber("Conveyor/Shooter Feeder Speed", 1);
         
         SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.2);
-        SmartNumber RECALL_DEBOUNCE = new SmartNumber("Conveyor/Recall Delay Time", 1);
+        SmartNumber RECALL_DEBOUNCE = new SmartNumber("Conveyor/Recall Delay", 1.0);
     }
 
     public interface Alignment {
@@ -271,19 +283,27 @@ public interface Settings {
         SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
         SmartNumber ANGLE_TOLERANCE = new SmartNumber("Alignment/Angle Tolerance", 5);
 
-        SmartNumber TARGET_DISTANCE_IN = new SmartNumber("Alignment/Target Distance (in)", 110);
-        SmartNumber TAKEOVER_DISTANCE_IN = new SmartNumber("Alignment/Takeover Distance (in)", 50);
+        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Alignment/Podium Shot Distance", Units.inchesToMeters(110));
+        SmartNumber PODIUM_SHOT_MAX_ANGLE = new SmartNumber("Alignment/Podium Shot Max Angle", 80);
+        
+        SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(12.0));
+        SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(6.0));
+
+        SmartNumber TRAP_SETUP_DISTANCE = new SmartNumber("Alignment/Trap/Setup Pose Distance", Units.inchesToMeters(22.0));
+        SmartNumber TRAP_CLIMB_DISTANCE = new SmartNumber("Alignment/Trap/Climb Distance", Units.inchesToMeters(18.0));
+
+        SmartNumber INTO_CHAIN_SPEED = new SmartNumber("Alignment/Trap/Into Chain Speed", 0.25);
 
         public interface Translation {
-            SmartNumber P = new SmartNumber("Alignment/Translation/kP", 2.5);
-            SmartNumber I = new SmartNumber("Alignment/Translation/kI", 0);
+            SmartNumber P = new SmartNumber("Alignment/Translation/kP", 4.0);
+            SmartNumber I = new SmartNumber("Alignment/Translation/kI", 0.0);
             SmartNumber D = new SmartNumber("Alignment/Translation/kD", 0.0);
         }
 
         public interface Rotation {
-            SmartNumber P = new SmartNumber("Alignment/Rotation/kP", 1);
-            SmartNumber I = new SmartNumber("Alignment/Rotation/kI", 0);
-            SmartNumber D = new SmartNumber("Alignment/Rotation/kD", 0);
+            SmartNumber P = new SmartNumber("Alignment/Rotation/kP", 3.0);
+            SmartNumber I = new SmartNumber("Alignment/Rotation/kI", 0.0);
+            SmartNumber D = new SmartNumber("Alignment/Rotation/kD", 0.0);
         }
     }
 

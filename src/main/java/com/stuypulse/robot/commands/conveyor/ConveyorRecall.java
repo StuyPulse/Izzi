@@ -14,10 +14,10 @@ public class ConveyorRecall extends Command {
     private final Conveyor conveyor;
     private final Intake intake;
 
+    private final BStream noteAtConveyor;
+
     private boolean noteAtShooter;
     private boolean noteAtAmp;
-
-    private final BStream noteAtConveyor;
 
     public ConveyorRecall() {
         conveyor = Conveyor.getInstance();
@@ -61,5 +61,4 @@ public class ConveyorRecall extends Command {
     public boolean isFinished() {
         return noteAtConveyor.get() || (!noteAtShooter && !noteAtAmp);
     }
-    
 }

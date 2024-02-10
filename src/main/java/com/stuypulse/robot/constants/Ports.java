@@ -27,7 +27,7 @@ public interface Ports {
         int SCORE = 31;
         int LIFT = 30;
 
-        int ALIGNED_BUMP_SWITCH = 3;
+        // int ALIGNED_BUMP_SWITCH = 3;
         int LIFT_BOTTOM_LIMIT = 4;
         int LIFT_TOP_LIMIT = 5;
         int AMP_IR = 2;

@@ -1,5 +1,7 @@
 package com.stuypulse.robot.commands.swerve;
 
+import java.util.function.Supplier;
+
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Alignment.Rotation;
 import com.stuypulse.robot.constants.Settings.Alignment.Translation;
@@ -19,18 +21,31 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class SwerveDriveToPose extends Command {
 
     private final SwerveDrive swerve;
+    private final Odometry odometry;
 
     private final HolonomicController controller;
-    private final Pose2d targetPose;
+    private final Supplier<Pose2d> poseSupplier;
     private final BStream isAligned;
 
     private final FieldObject2d targetPose2d;
+    
+    private double xTolerance;
+    private double yTolerance;
+    private double thetaTolerance;
+    
+    private Pose2d targetPose;
 
     public SwerveDriveToPose(Pose2d targetPose) {
-        swerve = SwerveDrive.getInstance();
-        this.targetPose = targetPose;
+        this(() -> targetPose);
+    }
 
-        targetPose2d = Odometry.getInstance().getField().getObject("Target Pose");
+    public SwerveDriveToPose(Supplier<Pose2d> poseSupplier) {
+        swerve = SwerveDrive.getInstance();
+        odometry = Odometry.getInstance();
+
+        this.poseSupplier = poseSupplier;
+
+        targetPose2d = odometry.getField().getObject("Target Pose");
 
         controller = new HolonomicController(
             new PIDController(Translation.P, Translation.I, Translation.D),
@@ -39,20 +54,34 @@ public class SwerveDriveToPose extends Command {
 
         isAligned = BStream.create(this::isAligned)
             .filtered(new BDebounceRC.Both(Alignment.DEBOUNCE_TIME.get()));
+        
+        xTolerance = Alignment.X_TOLERANCE.get();
+        yTolerance = Alignment.Y_TOLERANCE.get();
+        thetaTolerance = Alignment.ANGLE_TOLERANCE.get();
 
         addRequirements(swerve);
     }
+
+    public SwerveDriveToPose withTolerance(Number x, Number y, Number theta) {
+        xTolerance = x.doubleValue();
+        yTolerance = y.doubleValue();
+        thetaTolerance = theta.doubleValue();
+        return this;
+    }
+    
+    @Override
+    public void initialize() {
+        targetPose = poseSupplier.get();
+    }
     
     private boolean isAligned() {
-        return controller.isDone(Alignment.X_TOLERANCE.get(), Alignment.Y_TOLERANCE.get(), Alignment.ANGLE_TOLERANCE.get());
+        return controller.isDone(xTolerance, yTolerance, thetaTolerance);
     }
 
     @Override
     public void execute() {
-        Pose2d currentPose = Odometry.getInstance().getPose();
         targetPose2d.setPose(targetPose);
-
-        controller.update(targetPose, currentPose);
+        controller.update(targetPose, odometry.getPose());
         swerve.setChassisSpeeds(controller.getOutput());
     }
 
