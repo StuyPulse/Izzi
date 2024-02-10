@@ -41,7 +41,7 @@ public class TheiaCamera {
     private final DoubleSubscriber latencySub;
     private final IntegerSubscriber fpsSub;
     private final DoubleArraySubscriber poseSub;
-    private final IntegerArraySubscriber fidSub;
+    private final IntegerArraySubscriber idSub;
     private final IntegerSubscriber counterSub;
                      
     private final DoubleArrayPublisher layoutPub;
@@ -49,7 +49,7 @@ public class TheiaCamera {
     private double rawLatency;
     private long rawFPS;
     private double[] rawPose;
-    private long[] rawfids;
+    private long[] rawids;
     private long rawCounter;
     private long lastCounter;
     
@@ -69,13 +69,13 @@ public class TheiaCamera {
         configTable.getDoubleTopic("camera_brightness").publish().set(camera_brightness);
 
         layoutPub = configTable.getDoubleArrayTopic("fiducial_layout").publish();
-        layoutPub.set(Field.getLayoutAsDoubleArray(Field.FIDUCIALS));
+        layoutPub.set(Field.getLayoutAsDoubleArray(Field.APRILTAGS));
 
         NetworkTable outputTable = table.getSubTable("output");
         latencySub = outputTable.getDoubleTopic("latency").subscribe(0);
         fpsSub = outputTable.getIntegerTopic("fps").subscribe(0);
         poseSub = outputTable.getDoubleArrayTopic("pose").subscribe(new double[] {});
-        fidSub = outputTable.getIntegerArrayTopic("fid").subscribe(new long[] {});
+        idSub = outputTable.getIntegerArrayTopic("fid").subscribe(new long[] {});
         counterSub = outputTable.getIntegerTopic("counter").subscribe(0);
     }
 
@@ -106,7 +106,7 @@ public class TheiaCamera {
         rawLatency = latencySub.get();
         rawFPS = (int) fpsSub.get();
         rawPose = poseSub.get();
-        rawfids = fidSub.get();
+        rawids = idSub.get();
         rawCounter = counterSub.get();
     }
 
@@ -133,15 +133,15 @@ public class TheiaCamera {
     }
 
     /**
-     * Returns the IDs of the fiducials detected.
-     * @return the IDs of the fiducials detected
+     * Returns the IDs of the tags detected.
+     * @return the IDs of the tags detected
      */
-    private int[] getFIDs() {
-        int[] fids = new int[rawfids.length];
-        for (int i = 0; i < rawfids.length; i++) {
-            fids[i] = (int) rawfids[i];
+    private int[] getIDs() {
+        int[] ids = new int[rawids.length];
+        for (int i = 0; i < rawids.length; i++) {
+            ids[i] = (int) rawids[i];
         }
-        return fids;
+        return ids;
     }
 
     /**
@@ -160,7 +160,7 @@ public class TheiaCamera {
         
         lastCounter = rawCounter;
         
-        VisionData data = new VisionData(getRobotPose(), getFIDs(), timestamp);
+        VisionData data = new VisionData(getRobotPose(), getIDs(), timestamp);
         if (!data.isValidData()) {
             return Optional.empty();
         }
@@ -168,10 +168,10 @@ public class TheiaCamera {
     }
 
     /**
-     * Sets the fiducial layout of the camera.
-     * @param fids the fiducial IDs
+     * Sets the tag layout of the camera.
+     * @param ids the tag IDs
      */
-    public void setFiducialLayout(int... fids) {
-        layoutPub.set(Field.getLayoutAsDoubleArray(Field.getFiducialLayout(fids)));
+    public void setTagLayout(int... ids) {
+        layoutPub.set(Field.getLayoutAsDoubleArray(Field.getApriltagLayout(ids)));
     }
 }
