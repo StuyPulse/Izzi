@@ -53,7 +53,7 @@ public class SwerveDriveToPose extends Command {
             new AnglePIDController(Rotation.kP, Rotation.kI, Rotation.kD));
 
         isAligned = BStream.create(this::isAligned)
-            .filtered(new BDebounceRC.Both(Alignment.DEBOUNCE_TIME.get()));
+            .filtered(new BDebounceRC.Both(Alignment.DEBOUNCE_TIME));
         
         xTolerance = Alignment.X_TOLERANCE.get();
         yTolerance = Alignment.Y_TOLERANCE.get();

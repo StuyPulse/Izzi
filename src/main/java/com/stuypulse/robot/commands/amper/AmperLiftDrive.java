@@ -17,7 +17,7 @@ public class AmperLiftDrive extends Command {
         amper = Amper.getInstance();
 
         voltage = IStream.create(gamepad::getRightY)
-            .filtered(x -> x * Settings.Amper.Lift.MAX_DRIVE_VOLTAGE.get());
+            .filtered(x -> x * Settings.Operator.LIFT_DRIVE_VOLTAGE.get());
 
         addRequirements(amper);
     }
