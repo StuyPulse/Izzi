@@ -3,6 +3,7 @@ package com.stuypulse.robot.util.vision;
 import static com.stuypulse.robot.constants.Cameras.Limelight.*;
 
 import com.stuypulse.robot.constants.Field;
+import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.NoteDetection;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
@@ -55,7 +56,7 @@ public class Limelight {
         xAngle = IStream.create(() -> txData)
             .filtered(new LowPassFilter(NoteDetection.X_ANGLE_RC));
         noteData = BStream.create(() -> tvEntry.get() == 1)
-            .filtered(new BDebounceRC.Both(NoteDetection.DEBOUNCE_TIME));
+            .filtered(new BDebounceRC.Both(Alignment.DEBOUNCE_TIME));
     }
 
     /**

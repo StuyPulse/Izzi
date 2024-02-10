@@ -3,7 +3,7 @@ import com.stuypulse.robot.commands.amper.AmperScore;
 import com.stuypulse.robot.commands.amper.AmperSetLiftConstraints;
 import com.stuypulse.robot.commands.amper.AmperToHeight;
 import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.constants.Settings.Amper.Score;
+import com.stuypulse.robot.constants.Settings.Amper.Lift;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -24,7 +24,7 @@ public class ClimberScoreRoutine extends SequentialCommandGroup {
                         new WaitCommand(DELAY_LIFT_SECONDS),
                         // slow down lift
                         new AmperSetLiftConstraints(AMPER_MAX_VELOCITY, AMPER_MAX_ACCELERATION),
-                        AmperToHeight.untilDone(Score.TRAP_SCORE_HEIGHT.get()),
+                        AmperToHeight.untilDone(Lift.TRAP_SCORE_HEIGHT.get()),
                         new AmperSetLiftConstraints()
                     )),
             AmperScore.forSeconds(AMPER_SCORE_SECONDS)

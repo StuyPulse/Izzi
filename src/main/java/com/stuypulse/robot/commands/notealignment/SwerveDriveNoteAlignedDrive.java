@@ -2,8 +2,8 @@ package com.stuypulse.robot.commands.notealignment;
 
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Driver.Drive;
-import com.stuypulse.robot.constants.Settings.NoteDetection.Rotation;
 import com.stuypulse.robot.constants.Settings.Swerve;
+import com.stuypulse.robot.constants.Settings.Alignment.Rotation;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
@@ -46,7 +46,7 @@ public class SwerveDriveNoteAlignedDrive extends Command {
                 new VLowPassFilter(Drive.RC)
             );  
 
-        alignController = new AnglePIDController(Rotation.P, Rotation.I, Rotation.D);
+        alignController = new AnglePIDController(Rotation.kP, Rotation.kI, Rotation.kD);
         
         addRequirements(swerve);
     }

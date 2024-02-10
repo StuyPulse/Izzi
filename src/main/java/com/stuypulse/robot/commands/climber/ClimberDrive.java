@@ -18,7 +18,7 @@ public class ClimberDrive extends Command {
         climber = Climber.getInstance();
 
         voltage = IStream.create(gamepad::getLeftY)
-            .filtered(x -> x * Settings.Climber.MAX_DRIVE_VOLTAGE.get());
+            .filtered(x -> x * Settings.Operator.CLIMB_DRIVE_VOLTAGE.get());
 
         addRequirements(climber);
     }
