@@ -10,12 +10,12 @@ import edu.wpi.first.math.geometry.Pose3d;
 public class VisionData {
     
     private final Pose3d outputPose;
-    private final int[] fids;
+    private final int[] ids;
     private final double timestamp;
 
-    public VisionData(Pose3d outputPose, int[] fids, double timestamp) {
+    public VisionData(Pose3d outputPose, int[] ids, double timestamp) {
         this.outputPose = outputPose;
-        this.fids = fids;
+        this.ids = ids;
         this.timestamp = timestamp;
     }
     
@@ -28,11 +28,11 @@ public class VisionData {
     }
 
     /**
-     * Returns the IDs of the fiducials detected.
-     * @return the IDs of the fiducials detected
+     * Returns the IDs of the tags detected.
+     * @return the IDs of the tags detected
      */
-    public int[] getFids() {
-        return fids;
+    public int[] getIDs() {
+        return ids;
     }
 
     /**
@@ -44,20 +44,20 @@ public class VisionData {
     }
     
     /**
-     * Returns the distance to any fiducial on the field.
-     * @param fid the fiducial ID
-     * @return the distance to the fiducial
+     * Returns the distance to any tag on the field.
+     * @param id the tag ID
+     * @return the distance to the tag
      */
-    public double getDistanceToFiducial(int fid) {
-        return outputPose.getTranslation().getDistance(Field.getFiducial(fid).getLocation().getTranslation());
+    public double getDistanceToTag(int id) {
+        return outputPose.getTranslation().getDistance(Field.getTag(id).getLocation().getTranslation());
     }
     
     /**
-     * Returns the primary fiducial ID (first fid).
-     * @return the primary fiducial ID
+     * Returns the primary tag ID (first id).
+     * @return the primary tag ID
      */
     public int getPrimaryID() {
-        return fids.length == 0 ? -1 : fids[0];
+        return ids.length == 0 ? -1 : ids[0];
     }
 
     /**
@@ -65,10 +65,10 @@ public class VisionData {
      * @return if valid data
      */
     public boolean isValidData() {
-        for (long id : fids) {
+        for (long id : ids) {
             boolean found = false;
-            for (Fiducial f : Field.FIDUCIALS) {
-                if (f.getFID() == id) {
+            for (AprilTag tag : Field.APRILTAGS) {
+                if (tag.getID() == id) {
                     found = true;
                     break;
                 }

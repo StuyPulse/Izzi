@@ -38,7 +38,7 @@ public class SwerveDriveAutomatic extends Command {
     private final NoteVision llNoteVision;
     private final Gamepad driver;
 
-    private boolean startButtonWasFalse;
+    private boolean endButtonWasFalse;
 
     public SwerveDriveAutomatic(Gamepad driver) {
         this.driver = driver;
@@ -62,19 +62,19 @@ public class SwerveDriveAutomatic extends Command {
         controller = new AnglePIDController(Assist.kP, Assist.kI, Assist.kD)
             .setOutputFilter(x -> -x);
 
-        startButtonWasFalse = false;
+        endButtonWasFalse = false;
 
         addRequirements(swerve);
     }
 
     @Override
     public void initialize() {
-        startButtonWasFalse = false;
+        endButtonWasFalse = false;
     }
 
     @Override
     public void execute() {
-        if (!startButtonWasFalse && !driver.getRawStartButton()) startButtonWasFalse = true;
+        if (!endButtonWasFalse && !driver.getRawTopButton()) endButtonWasFalse = true;
 
         Translation2d currentPose = odometry.getPose().getTranslation();
         Translation2d targetPose = getTargetPose();
@@ -130,6 +130,6 @@ public class SwerveDriveAutomatic extends Command {
 
     @Override
     public boolean isFinished() {
-        return Math.abs(driver.getRightX()) > Assist.DEADBAND.getAsDouble() || (startButtonWasFalse && driver.getRawStartButton());
+        return Math.abs(driver.getRightX()) > Assist.DEADBAND.getAsDouble() || (endButtonWasFalse && driver.getRawTopButton());
     }
 }

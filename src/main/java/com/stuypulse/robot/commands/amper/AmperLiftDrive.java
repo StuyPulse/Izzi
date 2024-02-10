@@ -2,7 +2,6 @@ package com.stuypulse.robot.commands.amper;
 
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.amper.Amper;
-
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.streams.numbers.IStream;
 
@@ -17,7 +16,7 @@ public class AmperLiftDrive extends Command {
     public AmperLiftDrive(Gamepad gamepad) {
         amper = Amper.getInstance();
 
-        voltage = IStream.create(gamepad::getLeftY)
+        voltage = IStream.create(gamepad::getRightY)
             .filtered(x -> x * Settings.Amper.Lift.MAX_DRIVE_VOLTAGE.get());
 
         addRequirements(amper);
@@ -33,10 +32,5 @@ public class AmperLiftDrive extends Command {
     @Override
     public void end(boolean interrupted) {
         amper.setTargetHeight(amper.getLiftHeight());
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
     }
 }

@@ -20,6 +20,6 @@ public abstract class AprilTagVision extends SubsystemBase {
 
     public abstract ArrayList<VisionData> getOutputs();
 
-    public abstract void setTagWhitelist(int... fids);
+    public abstract void setTagWhitelist(int... ids);
 
 }

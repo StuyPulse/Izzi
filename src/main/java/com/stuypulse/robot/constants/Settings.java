@@ -46,12 +46,15 @@ public interface Settings {
     }
   
     public interface Amper {
+        double AMP_ROLLER_DIAMETER = Units.inchesToMeters(1.25); 
         public interface Score {
             SmartNumber SCORE_SPEED = new SmartNumber("Amper/Score/Score Speed", 1.0);
             SmartNumber INTAKE_SPEED = new SmartNumber("Amper/Score/Intake Speed", 1.0);
 
             SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Amp Score Height", 1.0); // TODO: determine
             SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Trap Score Height", 1.0); // TODO: determine
+
+            double SCORE_MOTOR_CONVERSION = AMP_ROLLER_DIAMETER * Math.PI;
         }
         
         public interface Lift {
@@ -210,6 +213,7 @@ public interface Settings {
 
     public interface Driver {
         public interface Drive {
+            double BUZZ_DURATION = 0.2;
             SmartNumber DEADBAND = new SmartNumber("Driver Settings/Drive/Deadband", 0.03);
 
             SmartNumber RC = new SmartNumber("Driver Settings/Drive/RC", 0.01);
@@ -230,7 +234,8 @@ public interface Settings {
     }
 
     public interface Operator {
-        SmartNumber DEADBAND = new SmartNumber("Operator Settings/Manual Climb Deadband", 0.02);
+        SmartNumber DEADBAND = new SmartNumber("Operator Settings/Manual Climb + Lift Deadband", 0.1);
+        SmartNumber LIFT_ADJUST_SPEED = new SmartNumber("Operator Settings/Lift Fine Adjust Speed", Units.inchesToMeters(1.0));
     }
 
     public interface Shooter {
@@ -240,6 +245,8 @@ public interface Settings {
         SmartNumber PODIUM_SHOT_RIGHT_RPM = new SmartNumber("Shooter/Podium Shot Right RPM", 0);
         SmartNumber AMP_LEFT_RPM = new SmartNumber("Shooter/To Amp Left RPM", 0);
         SmartNumber AMP_RIGHT_RPM = new SmartNumber("Shooter/To Amp Right RPM", 0);
+        SmartNumber BACKWARDS_LEFT_RPM = new SmartNumber("Shooter/Backwards Left RPM", 0);
+        SmartNumber BACKWARDS_RIGHT_RPM = new SmartNumber("Shooter/Backwards Right RPM", 0);
         
         public interface Feedforward {
             SmartNumber kV = new SmartNumber("Shooter/FF/kV",0.0);
@@ -272,6 +279,7 @@ public interface Settings {
         SmartNumber FEEDER_AMP_SPEED = new SmartNumber("Conveyor/Shooter Feeder Speed", 1);
         
         SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.2);
+        SmartNumber RECALL_DEBOUNCE = new SmartNumber("Conveyor/Recall Delay", 1.0);
     }
 
     public interface Alignment {
@@ -282,17 +290,25 @@ public interface Settings {
 
         SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Alignment/Podium Shot Distance", Units.inchesToMeters(110));
         SmartNumber PODIUM_SHOT_MAX_ANGLE = new SmartNumber("Alignment/Podium Shot Max Angle", 80);
+        
+        SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(12.0));
+        SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(6.0));
+
+        SmartNumber TRAP_SETUP_DISTANCE = new SmartNumber("Alignment/Trap/Setup Pose Distance", Units.inchesToMeters(22.0));
+        SmartNumber TRAP_CLIMB_DISTANCE = new SmartNumber("Alignment/Trap/Climb Distance", Units.inchesToMeters(18.0));
+
+        SmartNumber INTO_CHAIN_SPEED = new SmartNumber("Alignment/Trap/Into Chain Speed", 0.25);
 
         public interface Translation {
-            SmartNumber P = new SmartNumber("Alignment/Translation/kP", 2.5);
-            SmartNumber I = new SmartNumber("Alignment/Translation/kI", 0);
+            SmartNumber P = new SmartNumber("Alignment/Translation/kP", 4.0);
+            SmartNumber I = new SmartNumber("Alignment/Translation/kI", 0.0);
             SmartNumber D = new SmartNumber("Alignment/Translation/kD", 0.0);
         }
 
         public interface Rotation {
-            SmartNumber P = new SmartNumber("Alignment/Rotation/kP", 1);
-            SmartNumber I = new SmartNumber("Alignment/Rotation/kI", 0);
-            SmartNumber D = new SmartNumber("Alignment/Rotation/kD", 0);
+            SmartNumber P = new SmartNumber("Alignment/Rotation/kP", 3.0);
+            SmartNumber I = new SmartNumber("Alignment/Rotation/kI", 0.0);
+            SmartNumber D = new SmartNumber("Alignment/Rotation/kD", 0.0);
         }
     }
 
