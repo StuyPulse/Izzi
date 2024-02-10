@@ -25,12 +25,10 @@ public interface Settings {
 
     public interface Climber {
         double MIN_HEIGHT = 0.0;
-        double MAX_HEIGHT = 0.444;
+        double MAX_HEIGHT = Units.inchesToMeters(17.48);
 
         double MASS = Units.lbsToKilograms(2.173979);
         double DRUM_RADIUS = Units.inchesToMeters(1.025);
-
-        SmartNumber MAX_DRIVE_VOLTAGE = new SmartNumber("Climber/Max Drive Voltage", 8.0); 
 
         public interface BangBang {
             double CONTROLLER_VOLTAGE = 8.0;
@@ -47,12 +45,10 @@ public interface Settings {
   
     public interface Amper {
         double AMP_ROLLER_DIAMETER = Units.inchesToMeters(1.25); 
+        
         public interface Score {
             SmartNumber SCORE_SPEED = new SmartNumber("Amper/Score/Score Speed", 1.0);
             SmartNumber INTAKE_SPEED = new SmartNumber("Amper/Score/Intake Speed", 1.0);
-
-            SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Amp Score Height", 1.0); // TODO: determine
-            SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Trap Score Height", 1.0); // TODO: determine
 
             double SCORE_MOTOR_CONVERSION = AMP_ROLLER_DIAMETER * Math.PI;
         }
@@ -71,7 +67,8 @@ public interface Settings {
             double VEL_LIMIT = 3.0;
             double ACCEL_LIMIT = 2.0;
 
-            SmartNumber MAX_DRIVE_VOLTAGE = new SmartNumber("Amper/Lift/Max Drive Voltage", 6.0); 
+            SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Amp Score Height", 1.0); // TODO: determine
+            SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Trap Score Height", 1.0); // TODO: determine
 
             public interface Encoder {
                 double GEARING = 9; // ~9:1
@@ -101,11 +98,16 @@ public interface Settings {
         // between wheel centers
         double WIDTH = Units.inchesToMeters(20.75);
         double LENGTH = Units.inchesToMeters(20.75);
-        double CENTER_TO_INTAKE_FRONT = Units.inchesToMeters(18); // TODO: redetermine for izzi (from reteP)
+        double CENTER_TO_INTAKE_FRONT = Units.inchesToMeters(17.9);
 
         SmartNumber MAX_MODULE_SPEED = new SmartNumber("Swerve/Max Module Speed (meter per s)", 5.0);
 
         SmartNumber MODULE_VELOCITY_DEADBAND = new SmartNumber("Swerve/Module Velocity Deadband (m per s)", 0.05);
+
+        public interface Assist {
+            SmartNumber ALIGN_MIN_SPEAKER_DIST = new SmartNumber("Swerve/Assist/Minimum Distance to Speaker", 4); //change
+            double BUZZ_INTENSITY = 0.5;
+        }
 
         public interface Motion {   
             PIDConstants XY = new PIDConstants(0.7, 0, 0.02);
@@ -176,39 +178,16 @@ public interface Settings {
                 .plus(Rotation2d.fromDegrees(90));
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * -0.5);
         }
-
-        public interface Assist {
-            SmartNumber kP = new SmartNumber("Swerve/Assist/PID/kP", 3);
-            SmartNumber kI = new SmartNumber("Swerve/Assist/PID/kI", 0);
-            SmartNumber kD = new SmartNumber("Swerve/Assist/PID/kD", 0);
-
-            SmartNumber DEADBAND = new SmartNumber("Swerve/Assist/Gamepad deadband", 0.1);
-            SmartNumber ALIGN_MIN_SPEAKER_DIST = new SmartNumber("Swerve/Assist/Minimum Distance to Speaker", 4); //change
-            double BUZZ_INTENSITY = 0.5;
-        }
     }
 
     public interface NoteDetection {
-        SmartNumber X_ANGLE_RC = new SmartNumber("Note Detection/X Angle RC", 0.05);
-        SmartNumber DEBOUNCE_TIME = new SmartNumber("Note Detection/Debounce Time", 0.15);
+        double X_ANGLE_RC = 0.05;
 
         SmartNumber THRESHOLD_X = new SmartNumber("Note Detection/X Threshold", 0.2);
         SmartNumber THRESHOLD_Y = new SmartNumber("Note Detection/Y Threshold", Units.inchesToMeters(2));
         SmartNumber THRESHOLD_ANGLE = new SmartNumber("Note Detection/Angle Threshold", 1);
 
-        SmartNumber DRIVE_SPEED = new SmartNumber("Note Detection/Drive Speed", 1);        
-
-        public interface Translation {
-            SmartNumber P = new SmartNumber("Note Detection/Translation/kP", 4.0);
-            SmartNumber I = new SmartNumber("Note Detection/Translation/kI", 0.0);
-            SmartNumber D = new SmartNumber("Note Detection/Translation/kD", 0.15);
-        }
-        
-        public interface Rotation {
-            SmartNumber P = new SmartNumber("Note Detection/Rotation/kP", 3.5);
-            SmartNumber I = new SmartNumber("Note Detection/Rotation/kI", 0.0);
-            SmartNumber D = new SmartNumber("Note Detection/Rotation/kD", 0.1);
-        }
+        SmartNumber DRIVE_SPEED = new SmartNumber("Note Detection/Drive Speed", 1);
     }
 
     public interface Driver {
@@ -235,6 +214,8 @@ public interface Settings {
 
     public interface Operator {
         SmartNumber DEADBAND = new SmartNumber("Operator Settings/Manual Climb + Lift Deadband", 0.1);
+        SmartNumber CLIMB_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Climber Max Drive Voltage", 8.0); 
+        SmartNumber LIFT_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Lift Max Drive Voltage", 6.0); 
         SmartNumber LIFT_ADJUST_SPEED = new SmartNumber("Operator Settings/Lift Fine Adjust Speed", Units.inchesToMeters(1.0));
     }
 
@@ -283,7 +264,7 @@ public interface Settings {
     }
 
     public interface Alignment {
-        SmartNumber DEBOUNCE_TIME = new SmartNumber("Alignment/Debounce Time", 0.15);
+        double DEBOUNCE_TIME = 0.05;
         SmartNumber X_TOLERANCE = new SmartNumber("Alignment/X Tolerance", 0.1);
         SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
         SmartNumber ANGLE_TOLERANCE = new SmartNumber("Alignment/Angle Tolerance", 5);
@@ -300,20 +281,20 @@ public interface Settings {
         SmartNumber INTO_CHAIN_SPEED = new SmartNumber("Alignment/Trap/Into Chain Speed", 0.25);
 
         public interface Translation {
-            SmartNumber P = new SmartNumber("Alignment/Translation/kP", 4.0);
-            SmartNumber I = new SmartNumber("Alignment/Translation/kI", 0.0);
-            SmartNumber D = new SmartNumber("Alignment/Translation/kD", 0.0);
+            SmartNumber kP = new SmartNumber("Alignment/Translation/kP", 4.0);
+            SmartNumber kI = new SmartNumber("Alignment/Translation/kI", 0.0);
+            SmartNumber kD = new SmartNumber("Alignment/Translation/kD", 0.0);
         }
 
         public interface Rotation {
-            SmartNumber P = new SmartNumber("Alignment/Rotation/kP", 3.0);
-            SmartNumber I = new SmartNumber("Alignment/Rotation/kI", 0.0);
-            SmartNumber D = new SmartNumber("Alignment/Rotation/kD", 0.0);
+            SmartNumber kP = new SmartNumber("Alignment/Rotation/kP", 3.0);
+            SmartNumber kI = new SmartNumber("Alignment/Rotation/kI", 0.0);
+            SmartNumber kD = new SmartNumber("Alignment/Rotation/kD", 0.0);
         }
     }
 
     public interface LED {
-        int LED_LENGTH = 55;
+        int LED_LENGTH = 55; // TODO: Update to Izzi
         SmartNumber BLINK_TIME = new SmartNumber("LED/LED Blink Time", .5);
 
         SmartNumber TRANSLATION_SPREAD = new SmartNumber("LED/LED Translation Spread (m)", 1);

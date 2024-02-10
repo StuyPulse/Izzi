@@ -31,11 +31,11 @@ public class LEDAlign implements LEDInstruction {
         ledController = LEDController.getInstance();
 
         isXAligned = BStream.create(this::isXAligned)     
-            .filtered(new BDebounceRC.Both(Alignment.DEBOUNCE_TIME.get()));
+            .filtered(new BDebounceRC.Both(Alignment.DEBOUNCE_TIME));
         isYAligned = BStream.create(this::isYAligned)     
-            .filtered(new BDebounceRC.Both(Alignment.DEBOUNCE_TIME.get()));
+            .filtered(new BDebounceRC.Both(Alignment.DEBOUNCE_TIME));
         isThetaAligned = BStream.create(this::isThetaAligned)     
-            .filtered(new BDebounceRC.Both(Alignment.DEBOUNCE_TIME.get()));
+            .filtered(new BDebounceRC.Both(Alignment.DEBOUNCE_TIME));
     }
    
     public boolean isXAligned() {

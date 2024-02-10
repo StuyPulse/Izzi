@@ -3,6 +3,8 @@ package com.stuypulse.robot.commands.swerve;
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Swerve.*;
+import com.stuypulse.robot.constants.Settings.Driver;
+import com.stuypulse.robot.constants.Settings.Alignment.Rotation;
 import com.stuypulse.robot.constants.Settings.Driver.Drive;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
@@ -59,7 +61,7 @@ public class SwerveDriveAutomatic extends Command {
                 new VRateLimit(Drive.MAX_TELEOP_ACCEL.get()),
                 new VLowPassFilter(Drive.RC.get())
         );
-        controller = new AnglePIDController(Assist.kP, Assist.kI, Assist.kD)
+        controller = new AnglePIDController(Rotation.kP, Rotation.kI, Rotation.kD)
             .setOutputFilter(x -> -x);
 
         endButtonWasFalse = false;
@@ -130,6 +132,6 @@ public class SwerveDriveAutomatic extends Command {
 
     @Override
     public boolean isFinished() {
-        return Math.abs(driver.getRightX()) > Assist.DEADBAND.getAsDouble() || (endButtonWasFalse && driver.getRawTopButton());
+        return Math.abs(driver.getRightX()) > Driver.Turn.DEADBAND.getAsDouble() || (endButtonWasFalse && driver.getRawTopButton());
     }
 }

@@ -37,9 +37,9 @@ public class SwerveDriveToAutoStart extends Command {
         this.robot = robot;
 
         controller = new HolonomicController(
-            new PIDController(Translation.P,Translation.I,Translation.D),
-            new PIDController(Translation.P, Translation.I, Translation.D),
-            new AnglePIDController(Rotation.P, Rotation.I, Rotation.D));
+            new PIDController(Translation.kP,Translation.kI,Translation.kD),
+            new PIDController(Translation.kP, Translation.kI, Translation.kD),
+            new AnglePIDController(Rotation.kP, Rotation.kI, Rotation.kD));
 
         SmartDashboard.putData("Alignment/Controller", controller);
 
