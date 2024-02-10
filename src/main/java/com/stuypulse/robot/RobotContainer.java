@@ -17,6 +17,7 @@ import com.stuypulse.robot.commands.shooter.*;
 import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Driver;
 import com.stuypulse.robot.constants.Settings.Swerve.Assist;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
@@ -98,24 +99,24 @@ public class RobotContainer {
 
         // score speaker
         driver.getRightBumper()
-            .onTrue(new ConveyorToShooter())
-            .onTrue(new SwerveDriveToShoot()
+            .whileTrue(new ConveyorToShooter())
+            .whileTrue(new SwerveDriveToShoot()
                 .andThen(new ConveyorToShooter()))
             .onFalse(new ConveyorStop());
         // score amp
         driver.getLeftBumper()
-            .onTrue(new ConveyorToAmp())
-            .onTrue(new SwerveDriveAmpAlign()
+            .whileTrue(new ConveyorToAmp())
+            .whileTrue(new SwerveDriveAmpAlign()
                 .andThen(new AmperScore()))
             .onFalse(new AmperStop());
 
         // score speaker no align
         driver.getStartButton()
-            .onTrue(new ConveyorToShooter().andThen(new ConveyorShoot()))
+            .whileTrue(new ConveyorToShooter().andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop());
         // score amp no align
         driver.getSelectButton()
-            .onTrue(new ConveyorToAmp().andThen(new AmperScore()))
+            .whileTrue(new ConveyorToAmp().andThen(new AmperScore()))
             .onFalse(new AmperStop());
     
         driver.getDPadUp()
@@ -132,7 +133,7 @@ public class RobotContainer {
             .onTrue(new BuzzController(driver, Assist.BUZZ_INTENSITY))
             .onTrue(new SwerveDriveAutomatic(driver)
                 .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY))
-                .andThen(new WaitCommand(0.2))
+                .andThen(new WaitCommand(Driver.Drive.BUZZ_DURATION.get()))
                 .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)));
     }
 
@@ -146,7 +147,7 @@ public class RobotContainer {
         operator.getLeftTriggerButton()
             .whileTrue(new ConveyorOuttake());
         operator.getRightTriggerButton()
-            .onTrue(new IntakeAcquire())
+            .whileTrue(new IntakeAcquire())
             .onFalse(new IntakeStop());
 
         operator.getLeftBumper()
@@ -159,9 +160,7 @@ public class RobotContainer {
             .onFalse(new AmperStop())
             .onTrue(new ConveyorToShooter())
             .onFalse(new ConveyorStop());
-        operator.getBottomButton()
-            .onTrue(new ClimberScoreRoutine());
-        
+
         operator.getDPadUp()
             .whileTrue(new AmperLiftFineAdjust(operator));
         operator.getDPadDown()
@@ -170,7 +169,7 @@ public class RobotContainer {
         operator.getDPadRight()
             .whileTrue(new ClimberToTop());
         operator.getDPadLeft()
-            .whileTrue(new ClimberToBottom());
+            .onTrue(new ClimberToBottom());
 
         operator.getLeftButton()
             .onTrue(new AmperToHeight(Settings.Amper.Score.TRAP_SCORE_HEIGHT.get()));
@@ -178,6 +177,7 @@ public class RobotContainer {
             .onTrue(new AmperToHeight(Settings.Amper.Score.AMP_SCORE_HEIGHT.get()));
         operator.getBottomButton()
             .onTrue(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT));
+
     }
 
     /**************/
