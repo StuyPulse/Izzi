@@ -92,7 +92,7 @@ public abstract class Amper extends SubsystemBase {
 
     public abstract double getNoteDistance();
     public abstract boolean touchingAmp();
-    
+
     @Override
     public void periodic() {
         lift2d.setLength(Settings.Amper.Lift.VISUALIZATION_MIN_LENGTH + getLiftHeight());

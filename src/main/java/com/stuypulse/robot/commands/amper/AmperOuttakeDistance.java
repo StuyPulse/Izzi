@@ -10,32 +10,30 @@ public class AmperOuttakeDistance extends Command {
 
     private double startingDistance;
 
-    public AmperOuttakeDistance(double distance){
+    public AmperOuttakeDistance(double distance) {
         amper = Amper.getInstance();
-        addRequirements(amper);
         this.distance = distance;
+        addRequirements(amper);
     }
-
     
     @Override
-    public void initialize(){
+    public void initialize() {
         startingDistance = amper.getNoteDistance();
     }
 
     @Override
-    public void execute(){
+    public void execute() {
         amper.score();
     }
 
     @Override
-    public void end(boolean interrupted){
+    public void end(boolean interrupted) {
         amper.stopRoller();
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return amper.getNoteDistance() >= distance + startingDistance;
     }
-    //BEN STINKS GRRRR
 
 }

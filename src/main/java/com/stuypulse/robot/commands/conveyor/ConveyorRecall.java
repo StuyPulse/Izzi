@@ -8,7 +8,7 @@ import com.stuypulse.robot.subsystems.amper.Amper;
 import edu.wpi.first.wpilibj2.command.Command;
 import com.stuypulse.robot.subsystems.intake.Intake;
 
-public class ConveyorRecall extends Command{
+public class ConveyorRecall extends Command {
 
     private final Amper amper;
     private final Conveyor conveyor;
@@ -23,8 +23,10 @@ public class ConveyorRecall extends Command{
         conveyor = Conveyor.getInstance();
         amper = Amper.getInstance();
         intake = Intake.getInstance();
+
         noteAtConveyor = BStream.create(() -> intake.hasNote())
             .filtered(new BDebounce.Rising(Settings.Conveyor.RECALL_DEBOUNCE)); 
+        
         addRequirements(amper,intake);
     }
     
@@ -37,9 +39,11 @@ public class ConveyorRecall extends Command{
     @Override
     public void execute() {
         intake.deacquire();
+
         if (noteAtShooter) {
             conveyor.toAmp();
         }
+        
         if (noteAtAmp) {
             conveyor.toShooter();
             amper.intake();

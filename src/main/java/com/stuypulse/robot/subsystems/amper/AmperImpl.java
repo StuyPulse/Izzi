@@ -36,23 +36,23 @@ public class AmperImpl extends Amper {
         liftMotor = new CANSparkMax(Ports.Amper.LIFT, MotorType.kBrushless);
         liftEncoder = liftMotor.getEncoder();
 
+        scoreEncoder.setPositionConversionFactor(Settings.Amper.Score.SCORE_MOTOR_CONVERSION);
+
         liftEncoder.setPositionConversionFactor(Settings.Amper.Lift.Encoder.POSITION_CONVERSION);
         liftEncoder.setVelocityConversionFactor(Settings.Amper.Lift.Encoder.VELOCITY_CONVERSION);
-        
+    
         alignedSwitch = new DigitalInput(Ports.Amper.ALIGNED_BUMP_SWITCH);
         minSwitch = new DigitalInput(Ports.Amper.LIFT_BOTTOM_LIMIT);
         maxSwitch = new DigitalInput(Ports.Amper.LIFT_TOP_LIMIT);
         ampIRSensor = new DigitalInput(Ports.Amper.AMP_IR);
 
-        Motors.Amper.LIFT_MOTOR.configure(liftMotor);
-        Motors.Amper.SCORE_MOTOR.configure(scoreMotor);
-
-        scoreEncoder.setPositionConversionFactor(Settings.Amper.Score.SCORE_MOTOR_CONVERSION);
         controller = new MotorFeedforward(Lift.Feedforward.kS, Lift.Feedforward.kV, Lift.Feedforward.kA).position()
             .add(new ElevatorFeedforward(Lift.Feedforward.kG))
             .add(new PIDController(Lift.PID.kP, Lift.PID.kI, Lift.PID.kD))
             .setSetpointFilter(new MotionProfile(Lift.VEL_LIMIT, Lift.ACC_LIMIT));
 
+        Motors.Amper.LIFT_MOTOR.configure(liftMotor);
+        Motors.Amper.SCORE_MOTOR.configure(scoreMotor);
     }
 
 
