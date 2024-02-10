@@ -61,9 +61,19 @@ public class ClimberImpl extends Climber {
         voltageOverride = Optional.empty();
     }
 
-	@Override
-	public double getHeight() {
-        return (leftEncoder.getPosition() + rightEncoder.getPosition()) / 2;
+    @Override
+    public double getHeight() {
+        return getLeftHeight() + getRightHeight() / 2;
+    }
+
+    @Override
+    public double getLeftHeight() {
+        return leftEncoder.getPosition();
+    }
+
+    @Override
+    public double getRightHeight() {
+        return rightEncoder.getPosition();
     }
 
     @Override
@@ -101,6 +111,30 @@ public class ClimberImpl extends Climber {
         leftMotor.setVoltage(voltage);
     }
 
+    private void setLeftVoltage(double voltage) {
+        if (atTop() && voltage > 0) {
+            DriverStation.reportWarning("Climber Top Left Limit Reached", false);
+            voltage = 0.0;
+        } else if (atBottom() && voltage < 0) {
+            DriverStation.reportWarning("Climber Bottom Left Limit Reached", false);
+            voltage = 0.0;
+        }
+
+        leftMotor.setVoltage(voltage);
+    }
+
+    private void setRightVoltage(double voltage) {
+        if (atTop() && voltage > 0) {
+            DriverStation.reportWarning("Climber Top Right Limit Reached", false);
+            voltage = 0.0;
+        } else if (atBottom() && voltage < 0) {
+            DriverStation.reportWarning("Climber Bottom Right Limit Reached", false);
+            voltage = 0.0;
+        }
+
+        rightMotor.setVoltage(voltage);
+    }
+
     @Override
     public void periodic() {
         super.periodic();
@@ -108,18 +142,27 @@ public class ClimberImpl extends Climber {
         if (voltageOverride.isPresent()) {
             setVoltage(voltageOverride.get());
         } else {
-            if (isAtTargetHeight(Settings.Climber.BangBang.THRESHOLD)) {
-                setVoltage(0.0);
-            } else if (getHeight() > getTargetHeight()) {
-                setVoltage(-Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
+            if (isAtLeftTargetHeight(Settings.Climber.BangBang.THRESHOLD)) {
+                setLeftVoltage(0.0);
+            } else if (getLeftHeight() > getTargetHeight()) {
+                setLeftVoltage(-Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
             } else {
-                setVoltage(+Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
+                setLeftVoltage(+Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
+            }
+
+            if (isAtRightTargetHeight(Settings.Climber.BangBang.THRESHOLD)) {
+                setRightVoltage(0.0);
+            } else if (getRightHeight() > getTargetHeight()) {
+                setRightVoltage(-Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
+            } else {
+                setRightVoltage(+Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
             }
         }
         
         SmartDashboard.putNumber("Climber/Left Voltage", leftMotor.getAppliedOutput() * leftMotor.getBusVoltage());
         SmartDashboard.putNumber("Climber/Right Voltage", rightMotor.getAppliedOutput() * rightMotor.getBusVoltage());
-        SmartDashboard.putNumber("Climber/Height", getHeight());
+        SmartDashboard.putNumber("Climber/Left Height", getLeftHeight());
+        SmartDashboard.putNumber("Climber/Right Height", getRightHeight());
         SmartDashboard.putNumber("Climber/Velocity", getVelocity());
 
         if (atBottom()) {
