@@ -97,7 +97,8 @@ public abstract class Amper extends SubsystemBase {
     public abstract void intake();
     public abstract void stopRoller();
 
-    public abstract boolean touchingAmp();
+    public abstract double getNoteDistance();
+    // public abstract boolean touchingAmp();
 
     /*** LIFT CONFIG ***/
 

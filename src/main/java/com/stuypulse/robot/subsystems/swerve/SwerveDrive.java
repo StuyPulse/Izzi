@@ -193,9 +193,26 @@ public class SwerveDrive extends SubsystemBase {
             modules[i].setTargetState(states[i]);
         }
     }
+
+    public void setFieldRelativeSpeeds(ChassisSpeeds chassisSpeeds) {
+        setChassisSpeeds(ChassisSpeeds.fromFieldRelativeSpeeds(
+            chassisSpeeds,
+            Odometry.getInstance().getPose().getRotation()));
+    }
     
     public void setChassisSpeeds(ChassisSpeeds robotSpeeds) {
         setModuleStates(kinematics.toSwerveModuleStates(robotSpeeds));
+    }
+
+    public void setXMode() {
+        setModuleStates(
+            new SwerveModuleState[] {
+                new SwerveModuleState(0, Rotation2d.fromDegrees(225)),
+                new SwerveModuleState(0, Rotation2d.fromDegrees(315)),
+                new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
+                new SwerveModuleState(0, Rotation2d.fromDegrees(135))
+            }
+        );
     }
 
     /** Drive Functions **/
