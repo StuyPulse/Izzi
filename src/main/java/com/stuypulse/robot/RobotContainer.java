@@ -92,7 +92,7 @@ public class RobotContainer {
             .whileTrue(new ClimberDrive(operator));
 
         //HUMAN PLAYER ATTENTION BUTTON
-        driver.getBottomButton().whileTrue(new LEDSet(LEDInstructions.PULSE_PURPLE));
+        operator.getSelectButton().whileTrue(new LEDSet(LEDInstructions.PULSE_PURPLE));
     }
 
     /**************/
