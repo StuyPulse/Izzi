@@ -40,7 +40,7 @@ public class Odometry extends SubsystemBase {
     private final FieldObject2d odometryPose2D;
     private final FieldObject2d estimatorPose2D;
 
-    public Odometry() {
+    protected Odometry() {
         SwerveDrive swerve = SwerveDrive.getInstance();
         odometry = new SwerveDriveOdometry(swerve.getKinematics(), swerve.getGyroAngle(), swerve.getModulePositions(), new Pose2d());
         estimator = new SwerveDrivePoseEstimator(swerve.getKinematics(), swerve.getGyroAngle(), swerve.getModulePositions(), new Pose2d());

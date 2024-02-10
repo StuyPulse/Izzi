@@ -33,7 +33,7 @@ public class AmperSim extends Amper {
     private final SmartNumber maxVelocity;
     private final SmartNumber maxAcceleration;
     
-    public AmperSim() {
+    protected AmperSim() {
         sim = new ElevatorSim(
             DCMotor.getNEO(1),
             Encoder.GEARING,

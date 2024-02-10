@@ -24,7 +24,7 @@ public class ShooterImpl extends Shooter {
     private final Controller leftController;
     private final Controller rightController;
 
-    public ShooterImpl() {
+    protected ShooterImpl() {
         leftMotor = new CANSparkMax(Ports.Shooter.LEFT_MOTOR, MotorType.kBrushless);
         rightMotor = new CANSparkMax(Ports.Shooter.RIGHT_MOTOR, MotorType.kBrushless);
 

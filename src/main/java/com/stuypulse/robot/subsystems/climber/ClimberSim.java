@@ -15,7 +15,7 @@ public class ClimberSim extends Climber {
 
     private Optional<Double> voltageOverride;
 
-    public ClimberSim() {
+    protected ClimberSim() {
         sim = new ElevatorSim(
             DCMotor.getNEO(2), 
             Settings.Climber.Encoder.GEAR_RATIO, 

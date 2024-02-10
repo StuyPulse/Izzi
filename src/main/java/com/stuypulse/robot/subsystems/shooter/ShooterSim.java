@@ -19,7 +19,7 @@ public class ShooterSim extends Shooter {
     private final Controller leftController;
     private final Controller rightController;
     
-    public ShooterSim() {
+    protected ShooterSim() {
         leftWheel = new FlywheelSim(DCMotor.getNEO(1), 1, Settings.Shooter.MOMENT_OF_INERTIA);
         rightWheel = new FlywheelSim(DCMotor.getNEO(1), 1, Settings.Shooter.MOMENT_OF_INERTIA);
    
