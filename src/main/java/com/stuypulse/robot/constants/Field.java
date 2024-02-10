@@ -3,6 +3,7 @@ package com.stuypulse.robot.constants;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.util.vision.Fiducial;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -102,8 +103,7 @@ public interface Field {
     };
 
     public static Pose2d getAllianceSpeakerPose() {
-        boolean isBlue = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue;
-        return SPEAKER_POSES[isBlue ? 0 : 1];
+        return SPEAKER_POSES[Robot.isBlue() ? 0 : 1];
     }
 
     double SPEAKER_OPENING_X = Units.inchesToMeters(13.6);
@@ -116,8 +116,7 @@ public interface Field {
     };
 
     public static Pose2d getAllianceAmpPose() {
-        boolean isBlue = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue;
-        return AMP_POSES[isBlue ? 0 : 1];
+        return AMP_POSES[Robot.isBlue() ? 0 : 1];
     }
 
     /*** TRAP ***/
@@ -138,8 +137,7 @@ public interface Field {
     };
 
     public static Pose2d[] getAllianceTrapPoses() {
-        boolean isBlue = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue;
-        return TRAP_POSES[isBlue ? 0 : 1];
+        return TRAP_POSES[Robot.isBlue() ? 0 : 1];
     }
 
     public static Pose2d getClosestAllianceTrapPose(Pose2d robotPose) {

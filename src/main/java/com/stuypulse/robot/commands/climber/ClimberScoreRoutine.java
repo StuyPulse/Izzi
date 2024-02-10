@@ -9,19 +9,25 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class ClimberScoreRoutine extends SequentialCommandGroup {
+
+    private final double DELAY_LIFT_SECONDS = 0.5;
+    private final double AMPER_MAX_VELOCITY = 1.0;
+    private final double AMPER_MAX_ACCELERATION = 1.0;
+    private final double AMPER_SCORE_SECONDS = 2;
+
     public ClimberScoreRoutine() {
         addCommands(
             // lower climber and raise lift (after delay) simultaneously
             ClimberToHeight.untilDone(Settings.Climber.MIN_HEIGHT)
                 .alongWith(
                     new SequentialCommandGroup(
-                        new WaitCommand(0.5),
+                        new WaitCommand(DELAY_LIFT_SECONDS),
                         // slow down lift
-                        new AmperSetLiftConstraints(1.0, 2.0),
+                        new AmperSetLiftConstraints(AMPER_MAX_VELOCITY, AMPER_MAX_ACCELERATION),
                         AmperToHeight.untilDone(Score.TRAP_SCORE_HEIGHT.get()),
                         new AmperSetLiftConstraints()
                     )),
-            AmperScore.forSeconds(2)
+            AmperScore.forSeconds(AMPER_SCORE_SECONDS)
         );
     }
 }

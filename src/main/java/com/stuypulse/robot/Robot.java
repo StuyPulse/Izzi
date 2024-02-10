@@ -35,6 +35,10 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
     }
 
+    public static boolean isBlue() {
+        return DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue;
+    }
+
     /*********************/
     /*** DISABLED MODE ***/
     /*********************/

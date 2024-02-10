@@ -46,6 +46,7 @@ public interface Settings {
     }
   
     public interface Amper {
+        double AMP_ROLLER_DIAMETER = Units.inchesToMeters(1.25); 
         public interface Score {
             SmartNumber SCORE_SPEED = new SmartNumber("Amper/Score/Score Speed", 1.0);
             SmartNumber INTAKE_SPEED = new SmartNumber("Amper/Score/Intake Speed", 1.0);
@@ -53,7 +54,7 @@ public interface Settings {
             SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Amp Score Height", 1.0); // TODO: determine
             SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Trap Score Height", 1.0); // TODO: determine
 
-            double SCORE_MOTOR_CONVERSION = Units.inchesToMeters(1.5) * Math.PI;
+            double SCORE_MOTOR_CONVERSION = AMP_ROLLER_DIAMETER * Math.PI;
         }
         
         public interface Lift {
@@ -212,6 +213,7 @@ public interface Settings {
 
     public interface Driver {
         public interface Drive {
+            SmartNumber BUZZ_DURATION = new SmartNumber("Driver Settings/Drive/ Buzz Duration", 0.5);
             SmartNumber DEADBAND = new SmartNumber("Driver Settings/Drive/Deadband", 0.03);
 
             SmartNumber RC = new SmartNumber("Driver Settings/Drive/RC", 0.01);
