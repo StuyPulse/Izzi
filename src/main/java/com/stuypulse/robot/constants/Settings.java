@@ -242,6 +242,8 @@ public interface Settings {
         SmartNumber PODIUM_SHOT_RIGHT_RPM = new SmartNumber("Shooter/Podium Shot Right RPM", 0);
         SmartNumber AMP_LEFT_RPM = new SmartNumber("Shooter/To Amp Left RPM", 0);
         SmartNumber AMP_RIGHT_RPM = new SmartNumber("Shooter/To Amp Right RPM", 0);
+        SmartNumber BACKWARDS_LEFT_RPM = new SmartNumber("Shooter/Backwards Left RPM", 0);
+        SmartNumber BACKWARDS_RIGHT_RPM = new SmartNumber("Shooter/Backwards Right RPM", 0);
         
         public interface Feedforward {
             SmartNumber kV = new SmartNumber("Shooter/FF/kV",0.0);

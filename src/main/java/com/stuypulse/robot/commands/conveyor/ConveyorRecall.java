@@ -7,12 +7,14 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import edu.wpi.first.wpilibj2.command.Command;
 import com.stuypulse.robot.subsystems.intake.Intake;
+import com.stuypulse.robot.subsystems.shooter.Shooter;
 
 public class ConveyorRecall extends Command {
 
     private final Amper amper;
-    private final Conveyor conveyor;
     private final Intake intake;
+    private final Shooter shooter;
+    private final Conveyor conveyor;
 
     private final BStream noteAtConveyor;
 
@@ -20,14 +22,15 @@ public class ConveyorRecall extends Command {
     private boolean noteAtAmp;
 
     public ConveyorRecall() {
-        conveyor = Conveyor.getInstance();
         amper = Amper.getInstance();
         intake = Intake.getInstance();
+        shooter = Shooter.getInstance();
+        conveyor = Conveyor.getInstance();
 
         noteAtConveyor = BStream.create(() -> intake.hasNote())
             .filtered(new BDebounce.Rising(Settings.Conveyor.RECALL_DEBOUNCE)); 
         
-        addRequirements(amper,intake);
+        addRequirements(amper, intake, shooter, conveyor);
     }
     
     @Override
@@ -45,6 +48,9 @@ public class ConveyorRecall extends Command {
         }
         
         if (noteAtAmp) {
+            shooter.setLeftTargetRPM(-Settings.Shooter.BACKWARDS_LEFT_RPM.get());
+            shooter.setRightTargetRPM(-Settings.Shooter.BACKWARDS_RIGHT_RPM.get());
+
             conveyor.toShooter();
             amper.intake();
         }
@@ -55,6 +61,9 @@ public class ConveyorRecall extends Command {
         intake.stop();
         conveyor.stop();
         amper.stopRoller();
+
+        shooter.setLeftTargetRPM(Settings.Shooter.PODIUM_SHOT_LEFT_RPM);
+        shooter.setRightTargetRPM(Settings.Shooter.PODIUM_SHOT_RIGHT_RPM);
     }
     
     @Override
