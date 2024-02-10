@@ -70,6 +70,9 @@ public class RobotContainer {
         configureNamedCommands();
         configureButtonBindings();
         configureAutons();
+
+        SmartDashboard.putData("Gamepads/Driver", driver);
+        SmartDashboard.putData("Gamepads/Operator", operator);
     }
 
     /****************/
