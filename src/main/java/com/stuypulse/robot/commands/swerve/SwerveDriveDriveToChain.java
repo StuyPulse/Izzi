@@ -4,11 +4,11 @@ import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
-import com.stuypulse.stuylib.math.Vector2D;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class SwerveDriveDriveToChain extends Command {
@@ -32,14 +32,14 @@ public class SwerveDriveDriveToChain extends Command {
 
     @Override
     public void execute() {
-        Rotation2d translationAngle = trapPose.minus(odometry.getPose()).getTranslation().getAngle();
+        Rotation2d translationAngle = trapPose.getTranslation().minus(odometry.getPose().getTranslation()).getAngle();
         Translation2d translation = new Translation2d(Alignment.INTO_CHAIN_SPEED.get(), translationAngle);
 
-        swerve.drive(new Vector2D(translation), 0);
+        swerve.setFieldRelativeSpeeds(new ChassisSpeeds(translation.getX(), translation.getY(), 0));
     }
 
     private double getDistanceToTrap() {
-        return odometry.getPose().minus(trapPose).getTranslation().getNorm();
+        return odometry.getPose().getTranslation().minus(trapPose.getTranslation()).getNorm();
     }
 
     @Override
