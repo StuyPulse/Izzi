@@ -108,7 +108,7 @@ public class SwerveDrive extends SubsystemBase {
      * Creates a new Swerve Drive using the provided modules
      * @param modules the modules to use
      */
-    public SwerveDrive(SwerveModule... modules) {
+    protected SwerveDrive(SwerveModule... modules) {
         this.modules = modules;
         kinematics = new SwerveDriveKinematics(getModuleOffsets());
         gyro = new AHRS(SPI.Port.kMXP);

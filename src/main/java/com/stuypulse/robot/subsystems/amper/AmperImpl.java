@@ -37,7 +37,7 @@ public class AmperImpl extends Amper {
     private final SmartNumber maxVelocity;
     private final SmartNumber maxAcceleration;
 
-    public AmperImpl() {
+    protected AmperImpl() {
         scoreMotor = new CANSparkMax(Ports.Amper.SCORE, MotorType.kBrushless);
         liftMotor = new CANSparkMax(Ports.Amper.LIFT, MotorType.kBrushless);
         liftEncoder = liftMotor.getEncoder();

@@ -20,7 +20,7 @@ public class IntakeImpl extends Intake {
     private final BStream triggered;
     private final BStream stalling;
 
-    public IntakeImpl() {
+    protected IntakeImpl() {
         motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
         sensor = new DigitalInput(Ports.Intake.IR_SENSOR);
 
