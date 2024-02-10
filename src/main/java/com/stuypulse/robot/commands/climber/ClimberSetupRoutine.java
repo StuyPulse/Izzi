@@ -35,9 +35,7 @@ public class ClimberSetupRoutine extends SequentialCommandGroup {
                     .withTolerance(Units.inchesToMeters(3.0), Units.inchesToMeters(3.0), 3.0)
             ),
             // drive into chain
-            new SwerveDriveDriveToChain(),
-            // lower climber
-            new ClimberToBottom()
+            new SwerveDriveDriveToChain()
         );
     }
 }

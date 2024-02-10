@@ -92,20 +92,43 @@ public class RobotContainer {
     }
 
     private void configureDriverBindings() {
-        /*TODO: add conveyorrecall somewhere*/
         driver.getRightTriggerButton()
             .whileTrue(new IntakeAcquire())
             .whileTrue(new SwerveDriveNoteAlignedDrive(driver));
 
+        // score speaker
+        driver.getRightBumper()
+            .onTrue(new ConveyorToShooter())
+            .onTrue(new SwerveDriveToShoot()
+                .andThen(new ConveyorToShooter()))
+            .onFalse(new ConveyorStop());
+        // score amp
+        driver.getLeftBumper()
+            .onTrue(new ConveyorToAmp())
+            .onTrue(new SwerveDriveAmpAlign()
+                .andThen(new AmperScore()))
+            .onFalse(new AmperStop());
+
+        // score speaker no align
         driver.getStartButton()
-            .onTrue(new ConveyorScoreNote()); 
+            .onTrue(new ConveyorToShooter().andThen(new ConveyorShoot()))
+            .onFalse(new ConveyorStop());
+        // score amp no align
+        driver.getSelectButton()
+            .onTrue(new ConveyorToAmp().andThen(new AmperScore()))
+            .onFalse(new AmperStop());
     
-        driver.getTopButton()
-            .whileTrue(new AmperScoreAmpRoutine()); /*TODO: add the trap and amp alignment to ts command score*/
+        driver.getDPadUp()
+            .onTrue(new ClimberToTop());
+        driver.getDPadDown()
+            .onTrue(new ClimberToBottom());
+        
         driver.getRightButton()
             .whileTrue(new ClimberSetupRoutine());
-
-        driver.getStartButton()
+        driver.getBottomButton()
+            .whileTrue(new ClimberScoreRoutine());
+        
+        driver.getTopButton()
             .onTrue(new BuzzController(driver, Assist.BUZZ_INTENSITY))
             .onTrue(new SwerveDriveAutomatic(driver)
                 .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY))
@@ -114,35 +137,41 @@ public class RobotContainer {
     }
 
     private void configureOperatorBindings() {
-        new Trigger(() -> operator.getRightStick().magnitude() > Settings.Operator.DEADBAND.get())
+        new Trigger(() -> operator.getLeftStick().magnitude() > Settings.Operator.DEADBAND.get())
             .whileTrue(new ClimberDrive(operator));
 
-        new Trigger(() -> operator.getLeftStick().magnitude() > Settings.Operator.DEADBAND.get())
+        new Trigger(() -> operator.getRightStick().magnitude() > Settings.Operator.DEADBAND.get())
             .whileTrue(new AmperLiftDrive(operator));
         
         operator.getLeftTriggerButton()
-            .whileTrue(new ConveyorOuttake())
-            .whileTrue(new IntakeDeacquire());
+            .whileTrue(new ConveyorOuttake());
         operator.getRightTriggerButton()
-            .whileTrue(new IntakeAcquire());
+            .onTrue(new IntakeAcquire())
+            .onFalse(new IntakeStop());
 
         operator.getLeftBumper()
             .onTrue(ConveyorToAmp.withCheckLift());
         operator.getRightBumper()
             .onTrue(new ConveyorToShooter());
 
+        operator.getTopButton()
+            .onTrue(new AmperScore())
+            .onFalse(new AmperStop())
+            .onTrue(new ConveyorToShooter())
+            .onFalse(new ConveyorStop());
         operator.getBottomButton()
             .onTrue(new ClimberScoreRoutine());
-        operator.getTopButton()
-            .onTrue(new AmperScore());
     
-        operator.getDPadUp()
+        driver.getDPadRight()
+            .whileTrue(new ClimberToTop());
+        driver.getDPadLeft()
+            .whileTrue(new ClimberToBottom());
+
+        operator.getLeftButton()
             .onTrue(new AmperToHeight(Settings.Amper.Score.TRAP_SCORE_HEIGHT.get()));
-        operator.getDPadRight()
+        operator.getRightButton()
             .onTrue(new AmperToHeight(Settings.Amper.Score.AMP_SCORE_HEIGHT.get()));
-        operator.getDPadLeft()
-            .onTrue(new AmperToHeight(Settings.Amper.Score.AMP_SCORE_HEIGHT.get()));
-        operator.getDPadDown()  
+        operator.getBottomButton()
             .onTrue(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT));
     }
 

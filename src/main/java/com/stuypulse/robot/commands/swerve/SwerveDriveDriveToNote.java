@@ -32,7 +32,7 @@ public class SwerveDriveDriveToNote extends Command {
     private final HolonomicController controller;
     private final BStream aligned;
 
-    public SwerveDriveDriveToNote(){
+    public SwerveDriveDriveToNote() {
         this.swerve = SwerveDrive.getInstance();
         this.odometry = Odometry.getInstance();
         this.vision = NoteVision.getInstance();

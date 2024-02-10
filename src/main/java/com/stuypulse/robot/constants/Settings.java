@@ -232,7 +232,7 @@ public interface Settings {
     }
 
     public interface Operator {
-        SmartNumber DEADBAND = new SmartNumber("Operator Settings/Manual Climb Deadband", 0.02);
+        SmartNumber DEADBAND = new SmartNumber("Operator Settings/Manual Climb + Lift Deadband", 0.1);
     }
 
     public interface Shooter {
