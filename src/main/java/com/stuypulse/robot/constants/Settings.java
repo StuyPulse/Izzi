@@ -205,7 +205,7 @@ public interface Settings {
         public interface Turn {
             SmartNumber DEADBAND = new SmartNumber("Driver Settings/Turn/Deadband", 0.05);
 
-            SmartNumber RC = new SmartNumber("Driver Settings/Turn/RC", 0.1);
+            SmartNumber RC = new SmartNumber("Driver Settings/Turn/RC", 0.05);
             SmartNumber POWER = new SmartNumber("Driver Settings/Turn/Power", 2);
 
             SmartNumber MAX_TELEOP_TURNING = new SmartNumber("Driver Settings/Turn/Max Turning", 6.0);

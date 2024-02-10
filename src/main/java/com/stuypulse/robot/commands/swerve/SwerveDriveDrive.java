@@ -7,7 +7,7 @@ import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.streams.numbers.IStream;
-import com.stuypulse.stuylib.streams.numbers.filters.RateLimit;
+import com.stuypulse.stuylib.streams.numbers.filters.LowPassFilter;
 import com.stuypulse.stuylib.streams.vectors.VStream;
 import com.stuypulse.stuylib.streams.vectors.filters.VDeadZone;
 import com.stuypulse.stuylib.streams.vectors.filters.VLowPassFilter;
@@ -44,7 +44,7 @@ public class SwerveDriveDrive extends Command {
                 x -> SLMath.deadband(x, Turn.DEADBAND.get()),
                 x -> SLMath.spow(x, Turn.POWER.get()),
                 x -> x * Turn.MAX_TELEOP_TURNING.get(),
-                new RateLimit(Turn.RC.get())
+                new LowPassFilter(Turn.RC.get())
         ); 
         
         addRequirements(swerve);
