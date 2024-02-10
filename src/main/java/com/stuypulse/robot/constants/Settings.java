@@ -6,6 +6,7 @@
 package com.stuypulse.robot.constants;
 
 import com.pathplanner.lib.util.PIDConstants;
+import com.stuypulse.robot.util.SwerveConstraints;
 import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
@@ -101,8 +102,9 @@ public interface Settings {
         double CENTER_TO_INTAKE_FRONT = Units.inchesToMeters(18); // TODO: redetermine for izzi (from reteP)
 
         SmartNumber MAX_MODULE_SPEED = new SmartNumber("Swerve/Max Module Speed (meter per s)", 5.0);
-
         SmartNumber MODULE_VELOCITY_DEADBAND = new SmartNumber("Swerve/Module Velocity Deadband (m per s)", 0.05);
+
+        SwerveConstraints CONSTRAINTS = new SwerveConstraints(5.0, 2.0, 4.0); // TODO: determine
 
         public interface Motion {   
             PIDConstants XY = new PIDConstants(0.7, 0, 0.02);

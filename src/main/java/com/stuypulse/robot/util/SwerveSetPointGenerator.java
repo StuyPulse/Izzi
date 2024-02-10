@@ -1,14 +1,18 @@
 package com.stuypulse.robot.util;
 
-import edu.wpi.first.math.geometry.Rotation2d;
+import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Swerve;
+import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 
-public class SwerveSetPointGenerator {
+public class SwerveSetpointGenerator {
     private final SwerveDriveKinematics kinematics;
     
-    public SwerveSetPointGenerator(final SwerveDriveKinematics kinematics) {
+    public SwerveSetpointGenerator(final SwerveDriveKinematics kinematics) {
         this.kinematics = kinematics;
     }
 
@@ -40,11 +44,6 @@ public class SwerveSetPointGenerator {
      */
     private boolean toleranceEquals(double a, double b) {
         return Math.abs(a - b) < 1e-6; 
-    }
-
-    //flipheading checks if it is faster to go to the opposite of the goal direction (reverse direction) using unwrapAngle
-    private boolean flipHeading(Rotation2d prevToGoal) {
-        return Math.abs(prevToGoal.getRadians()) > Math.PI / 2.0;
     }
 
     /**
@@ -133,7 +132,7 @@ public class SwerveSetPointGenerator {
         // this equation gives us the velocity vector of our setpoint.
         double nextAngle = state.leftEndOutput + Math.signum(deltaAngle) * maxAngleStep;
         Function2d currentToNextAngle = (Translation2d velocity) -> 
-            unwrapAngle(velocity.getAngle().getDegrees(), state.leftEndOutput) - nextAngle;
+            unwrapAngle(velocity.getAngle().getRadians(), state.leftEndOutput) - nextAngle;
         
         // We are essentially evaulating currentToNextVelocity at the current inputs. However,
         // currentToNextVelocity(state.leftEndInput) is the same as the current left end output
@@ -143,10 +142,64 @@ public class SwerveSetPointGenerator {
         return findRoot(currentToNextAngle, state);
     }
 
-    public ChassisSpeeds generateSetpoint(SwerveConstraints constraints, ChassisSpeeds prevSetpoint, ChassisSpeeds desiredState) {
-        
-        return new ChassisSpeeds();
-    }
-    
+    public ChassisSpeeds generateSetpoint(ChassisSpeeds prevSetpoint, ChassisSpeeds desiredState) {
+        SwerveConstraints constraints = Swerve.CONSTRAINTS;
+        SwerveModuleState[] prevModuleStates = SwerveDrive.getInstance().getState();
+        SwerveModuleState[] desiredModuleStates = kinematics.toSwerveModuleStates(desiredState);
 
+        // Enforce drive velocity limits
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredModuleStates, constraints.maxDriveVel);
+        desiredState = kinematics.toChassisSpeeds(desiredModuleStates);
+
+        // Get minimum turn interpolant across all modules i.e. enforce turn velocity limits   
+        int maxTurnIterations = 8;
+        double minTurnInterpolant = 1.0;
+        for (int i = 0; i < prevModuleStates.length; i++) {
+            Translation2d prevVel = new Translation2d(prevModuleStates[i].speedMetersPerSecond, prevModuleStates[i].angle);
+            Translation2d desiredVel = new Translation2d(desiredModuleStates[i].speedMetersPerSecond, desiredModuleStates[i].angle);
+            
+            double turnInterpolant = getMaxTurnInterpolant(
+                constraints.maxTurnVel * Settings.DT,
+                new RegulaFalsiState(
+                    maxTurnIterations,
+                    prevVel,
+                    desiredVel,
+                    prevVel.getAngle().getRadians(),
+                    desiredVel.getAngle().getRadians()
+                )
+            );
+            minTurnInterpolant = Math.min(minTurnInterpolant, turnInterpolant);
+        }
+
+        // Get minimum drive interpolant across all modules i.e. enforce drive acceleration limits
+        int maxDriveIterations = 11;
+        double minDriveInterpolant = 1.0;
+        for (int i = 0; i < prevModuleStates.length; i++) {
+            Translation2d prevVel = new Translation2d(prevModuleStates[i].speedMetersPerSecond, prevModuleStates[i].angle);
+            Translation2d desiredVel = new Translation2d(desiredModuleStates[i].speedMetersPerSecond, desiredModuleStates[i].angle);
+
+            double driveInterpolant = getMaxDriveInterpolant(
+                constraints.maxDriveVel * Settings.DT,
+                new RegulaFalsiState(
+                    maxDriveIterations,
+                    prevVel,
+                    desiredVel,
+                    prevVel.getNorm(),
+                    desiredVel.getNorm()
+                )
+            );
+            minDriveInterpolant = Math.min(minDriveInterpolant, driveInterpolant);
+        } 
+
+        double dx = desiredState.vxMetersPerSecond - prevSetpoint.vxMetersPerSecond;
+        double dy = desiredState.vyMetersPerSecond - prevSetpoint.vyMetersPerSecond;
+        double dtheta = desiredState.omegaRadiansPerSecond - prevSetpoint.omegaRadiansPerSecond;
+        ChassisSpeeds setpoint = new ChassisSpeeds(
+            prevSetpoint.vxMetersPerSecond + minDriveInterpolant * dx,
+            prevSetpoint.vyMetersPerSecond + minDriveInterpolant * dy,
+            prevSetpoint.omegaRadiansPerSecond + minTurnInterpolant * dtheta
+        );
+
+        return setpoint;
+    }
 }

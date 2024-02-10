@@ -14,6 +14,7 @@ import com.stuypulse.robot.constants.Settings.Swerve.FrontLeft;
 import com.stuypulse.robot.constants.Settings.Swerve.FrontRight;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleSim;
+import com.stuypulse.robot.util.SwerveSetpointGenerator;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModule;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleImpl;
 import com.stuypulse.stuylib.math.Vector2D;
@@ -34,7 +35,7 @@ import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-/*   
+/*
 *  Fields: 
 *    - swerveModules:  AbstractSwerveModule...
 *    - kinematics:  SwerveDriveKinematics
@@ -68,9 +69,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 *    - getGyroRoll(): Rotation2D
 *    - getKinematics(): SwerveDriveKinematics
 *    + periodic(): void
-*    
-*
 */
+
 public class SwerveDrive extends SubsystemBase {
 
     private static final SwerveDrive instance;
@@ -102,7 +102,11 @@ public class SwerveDrive extends SubsystemBase {
     private final SwerveDriveKinematics kinematics;
     private final AHRS gyro;
     private final FieldObject2d[] modules2D;
-    
+
+    // Setpoint generation
+    private SwerveSetpointGenerator setpointGenerator;
+    private ChassisSpeeds prevSetpoint;
+    private ChassisSpeeds desiredRobotSpeeds;
 
     /**
      * Creates a new Swerve Drive using the provided modules
@@ -113,6 +117,9 @@ public class SwerveDrive extends SubsystemBase {
         kinematics = new SwerveDriveKinematics(getModuleOffsets());
         gyro = new AHRS(SPI.Port.kMXP);
         modules2D = new FieldObject2d[modules.length];
+        setpointGenerator = new SwerveSetpointGenerator(kinematics);
+        prevSetpoint = getChassisSpeeds();
+        desiredRobotSpeeds = getChassisSpeeds();
     }  
     
     public void configureAutoBuilder() {
@@ -155,7 +162,7 @@ public class SwerveDrive extends SubsystemBase {
     
     public SwerveModuleState[] getModuleStates() {
         SwerveModuleState[] states = new SwerveModuleState[modules.length];
-        for (int i = 0; i< modules.length; i++){
+        for (int i = 0; i < modules.length; i++){
             states[i] = modules[i].getState();
         }
         return states;
@@ -195,7 +202,8 @@ public class SwerveDrive extends SubsystemBase {
     }
     
     public void setChassisSpeeds(ChassisSpeeds robotSpeeds) {
-        setModuleStates(kinematics.toSwerveModuleStates(robotSpeeds));
+        desiredRobotSpeeds = robotSpeeds;
+        // setModuleStates(kinematics.toSwerveModuleStates(robotSpeeds));
     }
 
     /** Drive Functions **/
@@ -252,6 +260,10 @@ public class SwerveDrive extends SubsystemBase {
             ));
         }
 
+        ChassisSpeeds nextSetpoint = setpointGenerator.generateSetpoint(prevSetpoint, desiredRobotSpeeds);
+        prevSetpoint = nextSetpoint;
+        setModuleStates(kinematics.toSwerveModuleStates(nextSetpoint)); 
+
         SmartDashboard.putNumber("Swerve/Gyro/Angle (deg)", getGyroAngle().getDegrees());
         SmartDashboard.putNumber("Swerve/Gyro/Pitch (deg)", getGyroPitch().getDegrees());
         SmartDashboard.putNumber("Swerve/Gyro/Roll (deg)", getGyroRoll().getDegrees());
@@ -271,4 +283,9 @@ public class SwerveDrive extends SubsystemBase {
         // show gyro angle in simulation
         gyro.setAngleAdjustment(gyro.getAngle() - Math.toDegrees(getChassisSpeeds().omegaRadiansPerSecond * Settings.DT));
     }
+
+	public SwerveModuleState[] getState() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'getState'");
+	}
 }
