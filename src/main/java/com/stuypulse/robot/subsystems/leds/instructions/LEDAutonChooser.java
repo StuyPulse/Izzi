@@ -1,6 +1,7 @@
 package com.stuypulse.robot.subsystems.leds.instructions;
 
 import java.util.Arrays;
+import java.util.function.Supplier;
 
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.util.SLColor;
@@ -62,7 +63,7 @@ public class LEDAutonChooser extends LEDSection {
         public static AutonLEDColors fromName(String name){
             return Arrays.stream(values())
                 .filter((autonLedColor) -> autonLedColor.autonName.matches(name))
-                .findFirst().get();
+                .findFirst().orElseThrow(() -> new IllegalArgumentException("No auton with name: " + name + " found"));
         }
     }
 

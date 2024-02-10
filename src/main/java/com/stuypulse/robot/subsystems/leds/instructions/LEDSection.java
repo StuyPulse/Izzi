@@ -7,15 +7,15 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 
 public class LEDSection implements LEDInstruction {
     public SLColor[] sections;
-    public int[] indexes;
+    public int[] seperatingIndexes;
 
 
-    public LEDSection(SLColor[] sections, int[] indexes) {
-        if (sections.length != indexes.length) {
-            throw new IllegalArgumentException("Mismatching section and length indexes");
+    public LEDSection(SLColor[] sections, int[] seperatingIndexes) {
+        if (sections.length - 1 != seperatingIndexes.length) {
+            throw new IllegalArgumentException("Mismatching section and seperating indexes");
         }
         this.sections = sections;
-        this.indexes = indexes;
+        this.seperatingIndexes = seperatingIndexes;
     }
 
     public LEDSection(SLColor[] sections){
@@ -25,13 +25,13 @@ public class LEDSection implements LEDInstruction {
         int sectionLength = totalLEDLength / sections.length;
         int extraLEDS = totalLEDLength % sections.length;
 
-        this.indexes = new int[sections.length];
+        this.seperatingIndexes = new int[sections.length];
 
         //extra LEDs get distributed to the first few sections
         for (int i = 0; i < sections.length; i++){
             int offset = Math.min(extraLEDS, i);
             int extraLEDForCurrentSection = (i < extraLEDS ? 1 : 0);
-            this.indexes[i] = (i + 1) * sectionLength + offset + extraLEDForCurrentSection;
+            this.seperatingIndexes[i] = (i + 1) * sectionLength + offset + extraLEDForCurrentSection;
         }
     }
 
@@ -40,7 +40,7 @@ public class LEDSection implements LEDInstruction {
         int sectionIndex = 0;
         
         for (int ledIndex = 0; ledIndex < ledBuffer.getLength(); ledIndex++){
-            if (indexes[sectionIndex] <= ledIndex){
+            if (seperatingIndexes[ledIndex] <= sectionIndex){
                 sectionIndex++;
             }
 
