@@ -1,5 +1,6 @@
 package com.stuypulse.robot.commands.climber;
 import com.stuypulse.robot.commands.amper.AmperToHeight;
+import com.stuypulse.robot.commands.conveyor.ConveyorToAmp;
 import com.stuypulse.robot.commands.swerve.SwerveDriveDriveToChain;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
 import com.stuypulse.robot.constants.Field;
@@ -28,7 +29,7 @@ public class ClimberSetupRoutine extends SequentialCommandGroup {
         addCommands(
             // raise everything and get in position
             new ParallelCommandGroup(
-                new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT),
+                new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT).andThen(new ConveyorToAmp()),
                 new ClimberToTop(),
                 new SwerveDriveToPose(() -> getTargetPose())
                     .withTolerance(Units.inchesToMeters(3.0), Units.inchesToMeters(3.0), 3.0)
