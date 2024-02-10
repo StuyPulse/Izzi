@@ -22,8 +22,8 @@ public class ClimberSetupRoutine extends SequentialCommandGroup {
         Pose2d closestTrap = Field.getClosestAllianceTrapPose(Odometry.getInstance().getPose());
         Translation2d offsetTranslation = new Translation2d(Alignment.TRAP_SETUP_DISTANCE.get(), closestTrap.getRotation());
 
-        return closestTrap.plus(new Transform2d(offsetTranslation, new Rotation2d()));
-    }
+        return new Pose2d(closestTrap.getTranslation().plus(offsetTranslation), closestTrap.getRotation());
+}
 
     public ClimberSetupRoutine() {
         addCommands(
