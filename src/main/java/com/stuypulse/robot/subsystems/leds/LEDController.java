@@ -32,7 +32,7 @@ public class LEDController extends SubsystemBase {
     private AddressableLED leds;
     private AddressableLEDBuffer ledsBuffer;
 
-    public LEDController() {
+    protected LEDController() {
         leds = new AddressableLED(Ports.LEDController.PORT);
         ledsBuffer = new AddressableLEDBuffer(Settings.LED.LED_LENGTH); 
 
