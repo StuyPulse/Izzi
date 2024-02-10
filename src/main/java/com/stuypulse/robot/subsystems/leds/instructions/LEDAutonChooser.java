@@ -1,7 +1,6 @@
 package com.stuypulse.robot.subsystems.leds.instructions;
 
 import java.util.Arrays;
-import java.util.function.Supplier;
 
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.util.SLColor;
