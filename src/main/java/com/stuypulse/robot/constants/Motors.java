@@ -46,8 +46,8 @@ public interface Motors {
     }
 
     public interface Climber {
-        CANSparkMaxConfig LEFT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake);
-        CANSparkMaxConfig RIGHT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake);
+        CANSparkMaxConfig LEFT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
+        CANSparkMaxConfig RIGHT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
     }
 
     public static class CANSparkMaxConfig {
