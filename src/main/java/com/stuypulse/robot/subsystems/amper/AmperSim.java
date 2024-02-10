@@ -120,6 +120,11 @@ public class AmperSim extends Amper {
     }
 
     @Override
+    public double getNoteDistance() {
+        return 0.0;
+    }
+    
+    @Override
     public void periodic() {
         super.periodic();
 
