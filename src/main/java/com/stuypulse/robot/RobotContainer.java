@@ -161,10 +161,15 @@ public class RobotContainer {
             .onFalse(new ConveyorStop());
         operator.getBottomButton()
             .onTrue(new ClimberScoreRoutine());
-    
-        driver.getDPadRight()
+        
+        operator.getDPadUp()
+            .whileTrue(new AmperLiftFineAdjust(operator));
+        operator.getDPadDown()
+            .whileTrue(new AmperLiftFineAdjust(operator));
+
+        operator.getDPadRight()
             .whileTrue(new ClimberToTop());
-        driver.getDPadLeft()
+        operator.getDPadLeft()
             .whileTrue(new ClimberToBottom());
 
         operator.getLeftButton()
