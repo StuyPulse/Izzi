@@ -135,7 +135,7 @@ public class RobotContainer {
             .onTrue(new BuzzController(driver, Assist.BUZZ_INTENSITY))
             .onTrue(new SwerveDriveAutomatic(driver)
                 .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY))
-                .andThen(new WaitCommand(Driver.Drive.BUZZ_DURATION.get()))
+                .andThen(new WaitCommand(Driver.Drive.BUZZ_DURATION))
                 .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)));
     }
 

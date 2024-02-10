@@ -213,7 +213,7 @@ public interface Settings {
 
     public interface Driver {
         public interface Drive {
-            SmartNumber BUZZ_DURATION = new SmartNumber("Driver Settings/Drive/ Buzz Duration", 0.5);
+            double BUZZ_DURATION = 0.2;
             SmartNumber DEADBAND = new SmartNumber("Driver Settings/Drive/Deadband", 0.03);
 
             SmartNumber RC = new SmartNumber("Driver Settings/Drive/RC", 0.01);
