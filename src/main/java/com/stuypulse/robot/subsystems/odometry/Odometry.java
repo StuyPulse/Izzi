@@ -10,8 +10,6 @@ import com.stuypulse.stuylib.network.SmartBoolean;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
@@ -56,18 +54,10 @@ public class Odometry extends SubsystemBase {
         SmartDashboard.putData("Field", field);
     }
 
-    /**
-     * Returns the field2d object.
-     * @return the field2d object
-     */
     public Field2d getField() {
         return field;
     }
 
-    /**
-     * Returns the pose of the robot.
-     * @return the pose of the robot
-     */
     public Pose2d getPose() {
         return estimator.getEstimatedPosition();
     }
@@ -86,21 +76,16 @@ public class Odometry extends SubsystemBase {
         estimator.resetPosition(swerve.getGyroAngle(), swerve.getModulePositions(), pose);
     }
 
-    /**
-     * Update the odometry with swerve drive data.
-     */
     private void updateOdometry() {
         SwerveDrive swerve = SwerveDrive.getInstance();
         odometry.update(swerve.getGyroAngle(), swerve.getModulePositions());
         estimator.update(swerve.getGyroAngle(), swerve.getModulePositions());
     }
     
-    /**
-     * Update the odometry with vision data.
-     * @param data the vision data
-     */
-    private void updateWithVisionData(VisionData data) {
-        estimator.addVisionMeasurement(data.getPose().toPose2d(), data.getTimestamp());
+    private void updateEstimatorWithVisionData(ArrayList<VisionData> outputs) {
+        for (VisionData data : outputs) {
+            estimator.addVisionMeasurement(data.getPose().toPose2d(), data.getTimestamp());
+        }
     }
 
     @Override
@@ -110,9 +95,7 @@ public class Odometry extends SubsystemBase {
         updateOdometry();
         
         if (VISION_ACTIVE.get()) {
-            for (VisionData data : outputs) {
-                updateWithVisionData(data);
-            }
+            updateEstimatorWithVisionData(outputs);
         }
 
         updateTelemetry();
