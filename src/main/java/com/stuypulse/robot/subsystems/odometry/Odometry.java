@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
-import com.stuypulse.robot.util.vision.Fiducial;
+import com.stuypulse.robot.util.vision.AprilTag;
 import com.stuypulse.robot.util.vision.VisionData;
 import com.stuypulse.stuylib.network.SmartBoolean;
 
@@ -72,8 +72,8 @@ public class Odometry extends SubsystemBase {
         return estimator.getEstimatedPosition();
     }
 
-    public double getDistanceToFiducial(Fiducial fiducial) {
-        return getPose().getTranslation().getDistance(fiducial.getLocation().getTranslation().toTranslation2d());
+    public double getDistanceToTag(AprilTag tag) {
+        return getPose().getTranslation().getDistance(tag.getLocation().getTranslation().toTranslation2d());
     }
 
     /**

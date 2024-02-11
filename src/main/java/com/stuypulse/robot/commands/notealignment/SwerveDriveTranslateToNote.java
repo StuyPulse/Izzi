@@ -8,8 +8,6 @@ package com.stuypulse.robot.commands.notealignment;
 import static com.stuypulse.robot.constants.Settings.Alignment.*;
 import static com.stuypulse.robot.constants.Settings.NoteDetection.*;
 
-import com.stuypulse.robot.constants.Settings.NoteDetection.Rotation;
-import com.stuypulse.robot.constants.Settings.NoteDetection.Translation;
 import com.stuypulse.robot.constants.Settings.Swerve;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
