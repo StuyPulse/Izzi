@@ -99,16 +99,8 @@ public class ClimberImpl extends Climber {
     }
 
     private void setVoltage(double voltage) {
-        if (atTop() && voltage > 0) {
-            DriverStation.reportWarning("Climber Top Limit Reached", false);
-            voltage = 0.0;
-        } else if (atBottom() && voltage < 0) {
-            DriverStation.reportWarning("Climber Bottom Limit Reached", false);
-            voltage = 0.0;
-        }
-
-        rightMotor.setVoltage(voltage);
-        leftMotor.setVoltage(voltage);
+        setLeftVoltage(voltage);
+        setRightVoltage(voltage);
     }
 
     private void setLeftVoltage(double voltage) {
