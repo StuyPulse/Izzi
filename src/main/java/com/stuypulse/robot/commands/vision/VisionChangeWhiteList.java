@@ -4,11 +4,11 @@ import com.stuypulse.robot.subsystems.vision.TheiaTagVision;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class VisionChangeLayout extends InstantCommand {
+public class VisionChangeWhiteList extends InstantCommand {
 
     private final int[] ids;
     
-    public VisionChangeLayout(int...ids) {
+    public VisionChangeWhiteList(int...ids) {
         this.ids = ids;
     }
 
