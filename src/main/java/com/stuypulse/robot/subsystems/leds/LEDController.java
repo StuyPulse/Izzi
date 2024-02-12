@@ -39,7 +39,7 @@ public class LEDController extends SubsystemBase {
         leds.setData(ledsBuffer);
         leds.start();
 
-        runLEDInstruction(LEDInstructions.OFF);
+        runLEDInstruction(LEDInstructions.DEFAULT);
 
         SmartDashboard.putData(instance);
     }

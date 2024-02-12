@@ -1,6 +1,5 @@
 package com.stuypulse.robot.commands.leds;
 
-import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.subsystems.leds.LEDController;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDInstruction;
 
