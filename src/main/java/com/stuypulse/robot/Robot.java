@@ -24,6 +24,15 @@ public class Robot extends TimedRobot {
     private CommandScheduler scheduler;
     private Command auto;
 
+    public enum MatchState {
+        AUTO,
+        TELEOP,
+        TEST,
+        DISABLE
+    }
+
+    private static MatchState state;
+
     /************************/
     /*** ROBOT SCHEDULING ***/
     /************************/
@@ -35,6 +44,7 @@ public class Robot extends TimedRobot {
         scheduler = CommandScheduler.getInstance();
 
         robot = new RobotContainer();
+        state = MatchState.DISABLE;
 
         SmartDashboard.putString("Robot State", "DISABLED");
     }
@@ -54,6 +64,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
+        state = MatchState.DISABLE;
         SmartDashboard.putString("Robot State", "DISABLED");
     }
 
@@ -71,11 +82,13 @@ public class Robot extends TimedRobot {
             DriverStation.reportWarning("Shooter IR sensor reporting note while disabled!", false);
         }
 
-        if (Settings.LED.LED_AUTON_TOGGLE.get()) {
-            scheduler.schedule(new LEDSet(new LEDAlign()));
-        }
-        else {
-            scheduler.schedule(new LEDSet(new LEDAutonChooser()));
+        if (getMatchState() == MatchState.DISABLE) {
+            if (Settings.LED.LED_AUTON_TOGGLE.get()) {
+                scheduler.schedule(new LEDSet(new LEDAlign()));
+            }
+            else {
+                scheduler.schedule(new LEDSet(new LEDAutonChooser()));
+            }
         }
     }
 
@@ -85,11 +98,14 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        state = MatchState.AUTO;
         auto = robot.getAutonomousCommand();
 
         if (auto != null) {
             auto.schedule();
         }
+
+
 
         SmartDashboard.putString("Robot State", "AUTON");
     }
@@ -106,6 +122,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        state = MatchState.TELEOP;
         if (auto != null) {
             auto.cancel();
         }
@@ -125,6 +142,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testInit() {
+        state = MatchState.TEST;
         CommandScheduler.getInstance().cancelAll();
 
         SmartDashboard.putString("Robot State", "TEST");
@@ -135,4 +153,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testExit() {}
+
+    
+    public static MatchState getMatchState() {
+        return state;
+    }
 }

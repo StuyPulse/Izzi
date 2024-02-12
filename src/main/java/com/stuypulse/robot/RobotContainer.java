@@ -21,6 +21,7 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.constants.Settings.Driver;
 import com.stuypulse.robot.constants.Settings.Swerve.Assist;
+import com.stuypulse.robot.subsystems.Manager;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
@@ -58,6 +59,7 @@ public class RobotContainer {
     public final Intake intake = Intake.getInstance();
     public final Shooter shooter = Shooter.getInstance();
     public final SwerveDrive swerve = SwerveDrive.getInstance();
+    public final Manager manager = Manager.getInstance();
   
     // Autons
     private static SendableChooser<Command> autonChooser;
@@ -187,8 +189,7 @@ public class RobotContainer {
         
         // human player attention button
         operator.getSelectButton()
-            .whileTrue(new LEDSet(LEDInstructions.PULSE_PURPLE))
-            .onFalse(new LEDSet(LEDInstructions.RAINBOW));
+            .whileTrue(new LEDSet(LEDInstructions.PULSE_PURPLE));
     }
 
     /**************/

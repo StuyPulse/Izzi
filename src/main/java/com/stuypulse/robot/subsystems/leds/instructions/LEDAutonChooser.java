@@ -2,9 +2,11 @@ package com.stuypulse.robot.subsystems.leds.instructions;
 
 import java.util.Arrays;
 
+import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.util.SLColor;
 
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class LEDAutonChooser extends LEDSection {
@@ -68,5 +70,12 @@ public class LEDAutonChooser extends LEDSection {
 
     public LEDAutonChooser() {
         super(AutonLEDColors.fromName(RobotContainer.getAutonomousCommandNameStatic()).ledColors);
+    }
+
+    @Override
+    public void setLED(AddressableLEDBuffer ledBuffer) {
+        if (Robot.getMatchState() == Robot.MatchState.DISABLE) {
+            super.setLED(ledBuffer);
+        }
     }
 }
