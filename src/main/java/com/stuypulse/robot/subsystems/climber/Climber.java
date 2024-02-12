@@ -40,10 +40,22 @@ public abstract class Climber extends SubsystemBase {
     }
 
     public final boolean isAtTargetHeight(double epsilonMeters) {
-        return Math.abs(getTargetHeight() - getHeight()) < epsilonMeters;
+        return isAtLeftTargetHeight(epsilonMeters) && isAtRightTargetHeight(epsilonMeters);
     }
-    
+
+    public final boolean isAtLeftTargetHeight(double epsilonMeters) {
+        return Math.abs(getTargetHeight() - getLeftHeight()) < epsilonMeters;
+    }
+
+    public final boolean isAtRightTargetHeight(double epsilonMeters) {
+        return Math.abs(getTargetHeight() - getRightHeight()) < epsilonMeters;
+    }
+
     public abstract double getHeight();
+    
+    public abstract double getLeftHeight();
+    public abstract double getRightHeight();
+
     public abstract double getVelocity();
 
     /*** LIMITS ***/
@@ -55,6 +67,7 @@ public abstract class Climber extends SubsystemBase {
 
     @Override
     public void periodic() {
-        climberVisualizer.setHeight(getHeight());
+        climberVisualizer.setLeftHeight(getLeftHeight());
+        climberVisualizer.setRightHeight(getRightHeight());
     }
 }
