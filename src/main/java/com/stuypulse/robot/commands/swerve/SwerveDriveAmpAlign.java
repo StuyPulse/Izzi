@@ -30,9 +30,11 @@ public class SwerveDriveAmpAlign extends SequentialCommandGroup {
 
     public SwerveDriveAmpAlign() {
         addCommands(
+            new SwerveDrivePathFindTo(getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get())).get(),
+
             new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get()))
                 .withTolerance(AMP_WALL_SETUP_X_TOLERANCE, AMP_WALL_SETUP_Y_TOLERANCE, AMP_WALL_SETUP_ANGLE_TOLERANCE),
-            
+
             new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SCORE_DISTANCE.get()))
                 .withTolerance(AMP_WALL_SCORE_X_TOLERANCE, AMP_WALL_SCORE_Y_TOLERANCE, AMP_WALL_SCORE_ANGLE_TOLERANCE)
         );

@@ -114,8 +114,7 @@ public class RobotContainer {
         // score amp
         driver.getLeftBumper()
             .whileTrue(new ConveyorToAmp()
-                .alongWith(new SwerveDrivePathFindTo(Field.getAmpPathFindPose()).get())
-                .andThen(new SwerveDriveAmpAlign())
+                .alongWith(new SwerveDriveAmpAlign())
                 .andThen(new AmperScore()))
             .onFalse(new AmperStop());
 
