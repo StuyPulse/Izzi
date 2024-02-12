@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveSetpointGenerator {
     private final SwerveDriveKinematics kinematics;
@@ -43,7 +44,7 @@ public class SwerveSetpointGenerator {
      * @return whether the two numbers are within 1e-6 of each other.
      */
     private boolean toleranceEquals(double a, double b) {
-        return Math.abs(a - b) < 1e-6; 
+        return Math.abs(a - b) < 1e-2; 
     }
 
     /**
@@ -144,12 +145,12 @@ public class SwerveSetpointGenerator {
 
     public ChassisSpeeds generateSetpoint(ChassisSpeeds prevSetpoint, ChassisSpeeds desiredState) {
         SwerveConstraints constraints = Swerve.CONSTRAINTS;
-        SwerveModuleState[] prevModuleStates = SwerveDrive.getInstance().getState();
+        SwerveModuleState[] prevModuleStates = kinematics.toSwerveModuleStates(prevSetpoint);
         SwerveModuleState[] desiredModuleStates = kinematics.toSwerveModuleStates(desiredState);
 
         // Enforce drive velocity limits
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredModuleStates, constraints.maxDriveVel);
-        desiredState = kinematics.toChassisSpeeds(desiredModuleStates);
+        // SwerveDriveKinematics.desaturateWheelSpeeds(desiredModuleStates, constraints.maxDriveVel);
+        // desiredState = kinematics.toChassisSpeeds(desiredModuleStates);
 
         // Get minimum turn interpolant across all modules i.e. enforce turn velocity limits   
         int maxTurnIterations = 8;
@@ -179,7 +180,7 @@ public class SwerveSetpointGenerator {
             Translation2d desiredVel = new Translation2d(desiredModuleStates[i].speedMetersPerSecond, desiredModuleStates[i].angle);
 
             double driveInterpolant = getMaxDriveInterpolant(
-                constraints.maxDriveVel * Settings.DT,
+                constraints.maxDriveAccel * Settings.DT,
                 new RegulaFalsiState(
                     maxDriveIterations,
                     prevVel,
@@ -191,6 +192,9 @@ public class SwerveSetpointGenerator {
             minDriveInterpolant = Math.min(minDriveInterpolant, driveInterpolant);
         } 
 
+        SmartDashboard.putNumber("Swerve/Turn S", minTurnInterpolant);
+        SmartDashboard.putNumber("Swerve/Drive S", minDriveInterpolant);
+
         double dx = desiredState.vxMetersPerSecond - prevSetpoint.vxMetersPerSecond;
         double dy = desiredState.vyMetersPerSecond - prevSetpoint.vyMetersPerSecond;
         double dtheta = desiredState.omegaRadiansPerSecond - prevSetpoint.omegaRadiansPerSecond;
@@ -199,6 +203,8 @@ public class SwerveSetpointGenerator {
             prevSetpoint.vyMetersPerSecond + minDriveInterpolant * dy,
             prevSetpoint.omegaRadiansPerSecond + minTurnInterpolant * dtheta
         );
+
+        System.out.println("LOG: " + desiredState.vxMetersPerSecond + " " + desiredState.vyMetersPerSecond + " " + desiredState.omegaRadiansPerSecond);
 
         return setpoint;
     }

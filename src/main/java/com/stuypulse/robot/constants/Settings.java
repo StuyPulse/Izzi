@@ -104,7 +104,7 @@ public interface Settings {
         SmartNumber MAX_MODULE_SPEED = new SmartNumber("Swerve/Max Module Speed (meter per s)", 5.0);
         SmartNumber MODULE_VELOCITY_DEADBAND = new SmartNumber("Swerve/Module Velocity Deadband (m per s)", 0.05);
 
-        SwerveConstraints CONSTRAINTS = new SwerveConstraints(5.0, 2.0, 4.0); // TODO: determine
+        SwerveConstraints CONSTRAINTS = new SwerveConstraints(5.0, 12.0, 4.0); // TODO: determine
 
         public interface Motion {   
             PIDConstants XY = new PIDConstants(0.7, 0, 0.02);

@@ -202,7 +202,12 @@ public class SwerveDrive extends SubsystemBase {
     }
     
     public void setChassisSpeeds(ChassisSpeeds robotSpeeds) {
+        if (Math.hypot(robotSpeeds.vxMetersPerSecond, robotSpeeds.vyMetersPerSecond) < Swerve.MODULE_VELOCITY_DEADBAND.get()) {
+            setModuleStates(kinematics.toSwerveModuleStates(robotSpeeds));
+            prevSetpoint = new ChassisSpeeds();
+        }
         desiredRobotSpeeds = robotSpeeds;
+        SmartDashboard.putNumberArray("Swerve/Desired Speeds", new double[] {robotSpeeds.vxMetersPerSecond, robotSpeeds.vyMetersPerSecond, robotSpeeds.omegaRadiansPerSecond});
         // setModuleStates(kinematics.toSwerveModuleStates(robotSpeeds));
     }
 
@@ -246,6 +251,18 @@ public class SwerveDrive extends SubsystemBase {
     public double getForwardAccelerationGs() {
         return gyro.getWorldLinearAccelY();
     }
+
+    private boolean toleranceEquals(double a, double b) {
+        return Math.abs(a - b) < 1e-1; 
+    }
+
+    private boolean atChassisSpeeds(ChassisSpeeds speeds) {
+        ChassisSpeeds current = getChassisSpeeds();
+        boolean vxE = toleranceEquals(current.vxMetersPerSecond, speeds.vxMetersPerSecond);
+        boolean vyE = toleranceEquals(current.vyMetersPerSecond, speeds.vyMetersPerSecond);
+        boolean omegaE = toleranceEquals(current.omegaRadiansPerSecond, speeds.omegaRadiansPerSecond);
+        return vxE && vyE && omegaE;
+    }
     
     @Override
     public void periodic() {
@@ -260,9 +277,13 @@ public class SwerveDrive extends SubsystemBase {
             ));
         }
 
-        ChassisSpeeds nextSetpoint = setpointGenerator.generateSetpoint(prevSetpoint, desiredRobotSpeeds);
-        prevSetpoint = nextSetpoint;
-        setModuleStates(kinematics.toSwerveModuleStates(nextSetpoint)); 
+        if (atChassisSpeeds(prevSetpoint)) {
+            ChassisSpeeds nextSetpoint = setpointGenerator.generateSetpoint(prevSetpoint, desiredRobotSpeeds);
+            prevSetpoint = nextSetpoint;
+            setModuleStates(kinematics.toSwerveModuleStates(nextSetpoint)); 
+        }
+
+        SmartDashboard.putNumberArray("Swerve/Previous Setpoint", new double[] {prevSetpoint.vxMetersPerSecond, prevSetpoint.vyMetersPerSecond, prevSetpoint.omegaRadiansPerSecond});
 
         SmartDashboard.putNumber("Swerve/Gyro/Angle (deg)", getGyroAngle().getDegrees());
         SmartDashboard.putNumber("Swerve/Gyro/Pitch (deg)", getGyroPitch().getDegrees());
@@ -283,9 +304,4 @@ public class SwerveDrive extends SubsystemBase {
         // show gyro angle in simulation
         gyro.setAngleAdjustment(gyro.getAngle() - Math.toDegrees(getChassisSpeeds().omegaRadiansPerSecond * Settings.DT));
     }
-
-	public SwerveModuleState[] getState() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'getState'");
-	}
 }
