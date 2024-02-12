@@ -88,12 +88,19 @@ public class ClimberVisualizer {
         SmartDashboard.putData("Climber", climber);
     }
 
-    public void setHeight(double newHeight) {
+    public void setLeftHeight(double newHeight) {
         double percentDone = newHeight / Settings.Climber.MAX_HEIGHT;
 
         double stageBottomY = OUTER_STAGE_HEIGHT * percentDone;
 
         leftBottomRoot.setPosition(leftRootX, stageBottomY);
-        rightBottomRoot.setPosition(rightRootX, stageBottomY);
+    }
+
+    public void setRightHeight(double newHeight) {
+        double percentDone = newHeight / Settings.Climber.MAX_HEIGHT;
+
+        double stageBottomY = OUTER_STAGE_HEIGHT * percentDone;
+
+        rightBottomRoot.setPosition(leftRootX, stageBottomY);
     }
 }

@@ -10,8 +10,8 @@ public class SwerveDriveResetHeading extends InstantCommand {
     
     public SwerveDriveResetHeading(Rotation2d heading) {
         super(() -> {
-            Odometry o = Odometry.getInstance();
-            o.reset(new Pose2d(o.getTranslation(), heading));
+            Odometry odometry = Odometry.getInstance();
+            odometry.reset(new Pose2d(odometry.getPose().getTranslation(), heading));
         });
     }
 

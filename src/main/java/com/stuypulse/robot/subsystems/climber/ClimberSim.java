@@ -43,6 +43,16 @@ public class ClimberSim extends Climber {
     }
 
     @Override
+    public double getLeftHeight() {
+        return sim.getPositionMeters();
+    }
+
+    @Override
+    public double getRightHeight() {
+        return sim.getPositionMeters();
+    }
+
+    @Override
     public double getVelocity() {
         return sim.getVelocityMetersPerSecond();
     }

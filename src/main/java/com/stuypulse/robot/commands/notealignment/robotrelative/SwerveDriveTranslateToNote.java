@@ -60,7 +60,7 @@ public class SwerveDriveTranslateToNote extends Command {
         Translation2d robotToNote = vision.getRobotRelativeNotePose();
         Rotation2d kZero = new Rotation2d();
         Pose2d targetPose = new Pose2d(
-            new Translation2d(Swerve.CENTER_TO_INTAKE_FRONT, 0).rotateBy(odometry.getRotation()),
+            new Translation2d(Swerve.CENTER_TO_INTAKE_FRONT, 0).rotateBy(odometry.getPose().getRotation()),
             kZero);
 
         // translate to note only if note in view
