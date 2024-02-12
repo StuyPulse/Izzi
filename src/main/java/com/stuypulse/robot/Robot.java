@@ -5,6 +5,8 @@
 
 package com.stuypulse.robot;
 
+import com.pathplanner.lib.pathfinding.LocalADStar;
+import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.stuypulse.robot.commands.leds.LEDSet;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAlign;
@@ -30,6 +32,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
+        Pathfinding.setPathfinder(new LocalADStar());
+        
         DataLogManager.start();
 
         scheduler = CommandScheduler.getInstance();
