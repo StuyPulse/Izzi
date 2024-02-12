@@ -24,6 +24,10 @@ import edu.wpi.first.math.util.Units;
 public interface Settings {
     double DT = 1.0 / 50.0;
 
+    // TODO: Update these values
+    double WIDTH = Units.inchesToMeters(32);
+    double LENGTH = Units.inchesToMeters(36);
+
     public interface Climber {
         double MIN_HEIGHT = 0.0;
         double MAX_HEIGHT = Units.inchesToMeters(17.48);
