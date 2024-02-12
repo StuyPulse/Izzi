@@ -59,14 +59,14 @@ public class SwerveDriveDriveToNote extends Command {
     public void execute() {
         Translation2d robotToNote = vision.getRobotRelativeNotePose();
         Pose2d targetPose = new Pose2d(
-            new Translation2d(Swerve.CENTER_TO_INTAKE_FRONT, 0).rotateBy(odometry.getRotation()),
+            new Translation2d(Swerve.CENTER_TO_INTAKE_FRONT, 0).rotateBy(odometry.getPose().getRotation()),
             new Rotation2d());
 
         if(vision.hasNoteData()) {
             swerve.setChassisSpeeds(controller.update(targetPose, new Pose2d(robotToNote, robotToNote.getAngle())));
         }
         else {
-            swerve.setChassisSpeeds(controller.update(targetPose, new Pose2d(targetPose.getTranslation(), odometry.getRotation())));
+            swerve.setChassisSpeeds(controller.update(targetPose, new Pose2d(targetPose.getTranslation(), odometry.getPose().getRotation())));
         }
 
         SmartDashboard.putBoolean("Note Detection/Is Aligned", aligned.get());

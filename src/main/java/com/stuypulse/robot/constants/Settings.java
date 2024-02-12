@@ -67,18 +67,19 @@ public interface Settings {
             double VEL_LIMIT = 3.0;
             double ACCEL_LIMIT = 2.0;
 
-            SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Amp Score Height", 1.0); // TODO: determine
-            SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Trap Score Height", 1.0); // TODO: determine
+            // TODO: Tune these values
+            SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Amp Score Height", 1.0);
+            SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Trap Score Height", 1.0);
 
             public interface Encoder {
-                double GEARING = 9; // ~9:1
-                double DRUM_RADIUS = 0.025; // meters 
+                double GEARING = 9; 
+                double DRUM_RADIUS = Units.inchesToMeters(1); 
                 double DRUM_CIRCUMFERENCE = DRUM_RADIUS * Math.PI * 2;
 
                 double POSITION_CONVERSION = GEARING * DRUM_CIRCUMFERENCE;
                 double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
             }
-
+            // TODO: SysID these values
             public interface Feedforward {
                 SmartNumber kS = new SmartNumber("Amper/Lift/FF/kS", 0.0);
                 SmartNumber kV = new SmartNumber("Amper/Lift/FF/kV", 0.0);
@@ -86,6 +87,7 @@ public interface Settings {
                 SmartNumber kG = new SmartNumber("Amper/Lift/FF/kG", 0.0);
             }
 
+            // TODO: Tune these values
             public interface PID {
                 SmartNumber kP = new SmartNumber("Amper/Lift/PID/kP", 3.0);
                 SmartNumber kI = new SmartNumber("Amper/Lift/PID/kI", 0.0);
@@ -109,6 +111,7 @@ public interface Settings {
             double BUZZ_INTENSITY = 0.5;
         }
 
+        // TODO: Tune these values
         public interface Motion {   
             PIDConstants XY = new PIDConstants(0.7, 0, 0.02);
             PIDConstants THETA = new PIDConstants(10, 0, 0.1);
@@ -116,7 +119,7 @@ public interface Settings {
 
         public interface Encoder {
             public interface Drive {
-                double WHEEL_DIAMETER = Units.inchesToMeters(3);
+                double WHEEL_DIAMETER = Units.inchesToMeters(4);
                 double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
                 double GEAR_RATIO = 1.0 / 4.71;
 
@@ -131,26 +134,30 @@ public interface Settings {
         }
 
         public interface Turn {
+            // TODO: Tune these values
             SmartNumber kP = new SmartNumber("Swerve/Turn/PID/kP", 1.0);
             SmartNumber kI = new SmartNumber("Swerve/Turn/PID/kI", 0.0);
             SmartNumber kD = new SmartNumber("Swerve/Turn/PID/kD", 0.0);
 
+            // TODO: SysID these values
             SmartNumber kS = new SmartNumber("Swerve/Turn/FF/kS", 0.01);
             SmartNumber kV = new SmartNumber("Swerve/Turn/FF/kV", 0.25);
             SmartNumber kA = new SmartNumber("Swerve/Turn/FF/kA", 0.01);
         }
 
         public interface Drive {
+            // TODO: Tune these values
             SmartNumber kP = new SmartNumber("Swerve/Drive/PID/kP", 1.0);
             SmartNumber kI = new SmartNumber("Swerve/Drive/PID/kI", 0.00);
             SmartNumber kD = new SmartNumber("Swerve/Drive/PID/kD", 0.00);
 
+            // TODO: SysID these values
             SmartNumber kS = new SmartNumber("Swerve/Drive/FF/kS", 0.01);
             SmartNumber kV = new SmartNumber("Swerve/Drive/FF/kV", 0.25);
             SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.01);
         }
 
-
+        // TODO: Get module offset values
         public interface FrontRight {
             String ID = "Front Right";
             Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(0)     
@@ -222,19 +229,24 @@ public interface Settings {
     public interface Shooter {
         double MOMENT_OF_INERTIA = 1;
         
+        // TODO: Tune these values
         SmartNumber PODIUM_SHOT_LEFT_RPM = new SmartNumber("Shooter/Podium Shot Left RPM", 0);
         SmartNumber PODIUM_SHOT_RIGHT_RPM = new SmartNumber("Shooter/Podium Shot Right RPM", 0);
-        SmartNumber AMP_LEFT_RPM = new SmartNumber("Shooter/To Amp Left RPM", 0);
-        SmartNumber AMP_RIGHT_RPM = new SmartNumber("Shooter/To Amp Right RPM", 0);
+
+        SmartNumber AMP_LEFT_RPM = new SmartNumber("Shooter/Amp Left RPM", 0);
+        SmartNumber AMP_RIGHT_RPM = new SmartNumber("Shooter/Amp Right RPM", 0);
+
         SmartNumber BACKWARDS_LEFT_RPM = new SmartNumber("Shooter/Backwards Left RPM", 0);
         SmartNumber BACKWARDS_RIGHT_RPM = new SmartNumber("Shooter/Backwards Right RPM", 0);
         
+        // TODO: SysID these values
         public interface Feedforward {
-            SmartNumber kV = new SmartNumber("Shooter/FF/kV",0.0);
-            SmartNumber kA = new SmartNumber("Shooter/FF/kA",0.0);
-            SmartNumber kS = new SmartNumber("Shooter/FF/kS",0.0); //CHANGE LATER            
+            SmartNumber kV = new SmartNumber("Shooter/FF/kV", 0.0);
+            SmartNumber kA = new SmartNumber("Shooter/FF/kA", 0.0);
+            SmartNumber kS = new SmartNumber("Shooter/FF/kS", 0.0);
         }
 
+        // TODO: Tune these values
         public interface PID {
             SmartNumber kP = new SmartNumber("Shooter/PID/kP", 0.0);
             SmartNumber kI = new SmartNumber("Shooter/PID/kI", 0.0);
@@ -252,7 +264,7 @@ public interface Settings {
         SmartNumber ACQUIRE_SPEED = new SmartNumber("Intake/Acquire Speed", 1);
         SmartNumber DEACQUIRE_SPEED = new SmartNumber("Intake/Deacquire Speed", 1);
     }
-  
+    
     public interface Conveyor {
         SmartNumber GANDALF_SHOOTER_SPEED = new SmartNumber("Conveyor/Gandalf Shooter Speed", 1);
         SmartNumber GANDALF_AMP_SPEED = new SmartNumber("Conveyor/Gandalf Amp Speed", 1);
@@ -265,10 +277,13 @@ public interface Settings {
 
     public interface Alignment {
         double DEBOUNCE_TIME = 0.05;
+
+        // TODO: Tune these values
         SmartNumber X_TOLERANCE = new SmartNumber("Alignment/X Tolerance", 0.1);
         SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
         SmartNumber ANGLE_TOLERANCE = new SmartNumber("Alignment/Angle Tolerance", 5);
 
+        // TODO: Measure these values
         SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Alignment/Podium Shot Distance", Units.inchesToMeters(110));
         SmartNumber PODIUM_SHOT_MAX_ANGLE = new SmartNumber("Alignment/Podium Shot Max Angle", 80);
         
@@ -280,12 +295,14 @@ public interface Settings {
 
         SmartNumber INTO_CHAIN_SPEED = new SmartNumber("Alignment/Trap/Into Chain Speed", 0.25);
 
+        // TODO: Tune these values
         public interface Translation {
             SmartNumber kP = new SmartNumber("Alignment/Translation/kP", 4.0);
             SmartNumber kI = new SmartNumber("Alignment/Translation/kI", 0.0);
             SmartNumber kD = new SmartNumber("Alignment/Translation/kD", 0.0);
         }
 
+        // TODO: Tune these values
         public interface Rotation {
             SmartNumber kP = new SmartNumber("Alignment/Rotation/kP", 3.0);
             SmartNumber kI = new SmartNumber("Alignment/Rotation/kI", 0.0);
