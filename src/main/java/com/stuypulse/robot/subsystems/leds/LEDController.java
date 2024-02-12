@@ -1,16 +1,12 @@
 package com.stuypulse.robot.subsystems.leds;
 
-import com.stuypulse.robot.Robot;
-import com.stuypulse.robot.Robot.MatchState;
 import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.subsystems.Manager;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDInstruction;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -34,7 +30,6 @@ public class LEDController extends SubsystemBase {
     
     private AddressableLED leds;
     private AddressableLEDBuffer ledsBuffer;
-    private LEDInstruction currentInstruction;
 
     protected LEDController() {
         leds = new AddressableLED(Ports.LEDController.PORT);
@@ -44,35 +39,13 @@ public class LEDController extends SubsystemBase {
         leds.setData(ledsBuffer);
         leds.start();
 
-        currentInstruction = LEDInstructions.OFF;
+        runLEDInstruction(LEDInstructions.OFF);
 
         SmartDashboard.putData(instance);
     }
 
-
     public void runLEDInstruction(LEDInstruction instruction) {
-        currentInstruction = instruction;
         instruction.setLED(ledsBuffer);
         leds.setData(ledsBuffer);
-    }
-
-    public LEDInstruction getDefaultColor() {
-        switch (Manager.getInstance().getScoreLocation()) {
-            case SPEAKER: return LEDInstructions.YELLOW;
-            case AMP: return LEDInstructions.ORANGE;
-            case TRAP: return LEDInstructions.PINK;
-            default: return LEDInstructions.OFF;
-        }
-    }
-
-    @Override
-    public void periodic() {
-        if (currentInstruction == getDefaultColor() || Robot.getMatchState() != MatchState.DISABLE) { 
-            runLEDInstruction(getDefaultColor());
-        }
-        else {
-            runLEDInstruction(currentInstruction);     
-        }  
-        SmartDashboard.putString("LED/ Current Instruction", currentInstruction.toString());
     }
 }

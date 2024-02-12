@@ -2,7 +2,6 @@ package com.stuypulse.robot.subsystems.leds.instructions;
 
 import java.util.Arrays;
 
-import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.util.SLColor;
 
@@ -74,8 +73,6 @@ public class LEDAutonChooser extends LEDSection {
 
     @Override
     public void setLED(AddressableLEDBuffer ledBuffer) {
-        if (Robot.getMatchState() == Robot.MatchState.DISABLE) {
-            super.setLED(ledBuffer);
-        }
+        super.setLED(ledBuffer);
     }
 }

@@ -67,7 +67,7 @@ public interface Settings {
             double VEL_LIMIT = 3.0;
             double ACCEL_LIMIT = 2.0;
 
-            SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Amp Score Height", .5); // TODO: determine
+            SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Amp Score Height", 1.0); // TODO: determine
             SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Trap Score Height", 1.0); // TODO: determine
 
             public interface Encoder {

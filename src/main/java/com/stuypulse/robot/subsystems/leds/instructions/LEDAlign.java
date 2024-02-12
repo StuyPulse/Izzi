@@ -1,7 +1,6 @@
 package com.stuypulse.robot.subsystems.leds.instructions;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.constants.Settings;
@@ -53,31 +52,29 @@ public class LEDAlign implements LEDInstruction {
  
     @Override
     public void setLED(AddressableLEDBuffer ledsBuffer) {
-        if (Robot.getMatchState() == Robot.MatchState.DISABLE) {
-            Pose2d pose = odometry.getPose();
-            int middleLEDindex = ledsBuffer.getLength() / 2;
-            ledsBuffer.setLED(middleLEDindex, Color.kBlack);
-            if (isXAligned() && isYAligned() && isThetaAligned()) {
-                ledController.runLEDInstruction(LEDInstructions.RAINBOW);
-            }
-            else {
-                int index = middleLEDindex;
+        Pose2d pose = odometry.getPose();
+        int middleLEDindex = ledsBuffer.getLength() / 2;
+        ledsBuffer.setLED(middleLEDindex, Color.kBlack);
+        if (isXAligned() && isYAligned() && isThetaAligned()) {
+            ledController.runLEDInstruction(LEDInstructions.RAINBOW);
+        }
+        else {
+            int index = middleLEDindex;
 
-                if (!isXAligned.get()) {
-                    ledController.runLEDInstruction(LEDInstructions.RED);
-                    index = linearInterp(pose.getX(), startPose.getX(), LED.TRANSLATION_SPREAD.get());
-                } 
-                if (!isYAligned.get() && isXAligned()) {
-                    ledController.runLEDInstruction(LEDInstructions.GREEN);
-                    index = linearInterp(pose.getY(), startPose.getY(), LED.TRANSLATION_SPREAD.get());
-                }
-                if (!isThetaAligned.get() && isXAligned() && isYAligned()) {
-                    ledController.runLEDInstruction(LEDInstructions.DARK_BLUE);
-                    index = linearInterp(pose.getRotation().getDegrees(), startPose.getRotation().getDegrees(), LED.ROTATION_SPREAD.get());
-                }
-                
-                ledsBuffer.setLED(index, Color.kWhite);
+            if (!isXAligned.get()) {
+                ledController.runLEDInstruction(LEDInstructions.RED);
+                index = linearInterp(pose.getX(), startPose.getX(), LED.TRANSLATION_SPREAD.get());
+            } 
+            if (!isYAligned.get() && isXAligned()) {
+                ledController.runLEDInstruction(LEDInstructions.GREEN);
+                index = linearInterp(pose.getY(), startPose.getY(), LED.TRANSLATION_SPREAD.get());
             }
+            if (!isThetaAligned.get() && isXAligned() && isYAligned()) {
+                ledController.runLEDInstruction(LEDInstructions.DARK_BLUE);
+                index = linearInterp(pose.getRotation().getDegrees(), startPose.getRotation().getDegrees(), LED.ROTATION_SPREAD.get());
+            }
+            
+            ledsBuffer.setLED(index, Color.kWhite);
         }
     }
 
