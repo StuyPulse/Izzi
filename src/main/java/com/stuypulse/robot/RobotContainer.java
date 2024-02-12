@@ -18,6 +18,7 @@ import com.stuypulse.robot.commands.shooter.*;
 import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.constants.Settings.Driver;
 import com.stuypulse.robot.constants.Settings.Swerve.Assist;
@@ -106,13 +107,15 @@ public class RobotContainer {
         // score speaker
         driver.getRightBumper()
             .whileTrue(new ConveyorToShooter()
-                .alongWith(new SwerveDriveToShoot())
+                .alongWith(new SwerveDrivePathFindTo(Field.getSpeakerPathFindPose()).get())
+                .andThen(new SwerveDriveToShoot())
                 .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop());
         // score amp
         driver.getLeftBumper()
             .whileTrue(new ConveyorToAmp()
-                .alongWith(new SwerveDriveAmpAlign())
+                .alongWith(new SwerveDrivePathFindTo(Field.getAmpPathFindPose()).get())
+                .andThen(new SwerveDriveAmpAlign())
                 .andThen(new AmperScore()))
             .onFalse(new AmperStop());
 
