@@ -5,6 +5,7 @@
 
 package com.stuypulse.robot.constants;
 
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.util.PIDConstants;
 import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.network.SmartBoolean;
@@ -109,7 +110,13 @@ public interface Settings {
             double BUZZ_INTENSITY = 0.5;
         }
 
-        public interface Motion {   
+        public interface Motion {
+            SmartNumber MAX_VELOCITY = new SmartNumber("Swerve/Motion/Max Velocity", 3.0);
+            SmartNumber MAX_ACCELERATION = new SmartNumber("Swerve/Motion/Max Acceleration", 6.0);
+            SmartNumber MAX_ANGULAR_VELOCITY = new SmartNumber("Swerve/Motion/Max Angular Velocity", Units.degreesToRadians(540));
+            SmartNumber MAX_ANGULAR_ACCELERATION = new SmartNumber("Swerve/Motion/Max Angular Acceleration", Units.degreesToRadians(720));
+
+            PathConstraints DEFAULT_CONSTRAINTS = new PathConstraints(MAX_VELOCITY.get(), MAX_ACCELERATION.get(), MAX_ANGULAR_VELOCITY.get(), MAX_ANGULAR_ACCELERATION.get());
             PIDConstants XY = new PIDConstants(0.7, 0, 0.02);
             PIDConstants THETA = new PIDConstants(10, 0, 0.1);
         }
