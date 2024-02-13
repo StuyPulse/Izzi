@@ -55,7 +55,7 @@ public class LEDAlign implements LEDInstruction {
         Pose2d pose = odometry.getPose();
         int middleLEDindex = ledsBuffer.getLength() / 2;
         ledsBuffer.setLED(middleLEDindex, Color.kBlack);
-        
+
         if (isXAligned() && isYAligned() && isThetaAligned()) {
             ledController.runLEDInstruction(LEDInstructions.RAINBOW);
         }
