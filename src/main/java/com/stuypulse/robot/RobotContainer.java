@@ -81,6 +81,7 @@ public class RobotContainer {
 
     private void configureDefaultCommands() {
         swerve.setDefaultCommand(new SwerveDriveDrive(driver));
+        leds.setDefaultCommand(new LEDDefaultMode());
     }
 
     /**********************/
@@ -99,41 +100,40 @@ public class RobotContainer {
     }
 
     private void configureDriverBindings() {
+        // intaking with swerve pointing at note
         driver.getRightTriggerButton()
             .whileTrue(new IntakeAcquire())
-            .whileTrue(new SwerveDriveNoteAlignedDrive(driver));
+            .whileTrue(new SwerveDriveNoteAlignedDrive(driver))
+            .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));
 
-        // score speaker
+        // note to shooter and align
+        // then shoot
         driver.getRightBumper()
-            .onTrue(new LEDSet(LEDInstructions.SPEAKER))
             .whileTrue(new ConveyorToShooter()
-                .alongWith(new SwerveDriveToShoot())
+                .alongWith(new SwerveDriveToShoot()
+                    .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
                 .andThen(new ConveyorShoot()))
-            .onFalse(new ConveyorStop())
-            .onFalse(new LEDReset());
-        // score amp
+            .onFalse(new ConveyorStop());
+        
+        // note to amper and align
+        // then score
         driver.getLeftBumper()
-            .onTrue(new LEDSet(LEDInstructions.AMP))
             .whileTrue(new ConveyorToAmp()
-                .alongWith(new SwerveDriveAmpAlign())
+                .alongWith(new SwerveDriveAmpAlign()
+                    .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
                 .andThen(new AmperScore()))
-            .onFalse(new AmperStop())
-            .onFalse(new LEDReset());
+            .onFalse(new AmperStop());
 
         // score speaker no align
         driver.getStartButton()
-            .onTrue(new LEDSet(LEDInstructions.SPEAKER))
             .whileTrue(new ConveyorToShooter()
                 .andThen(new ConveyorShoot()))
-            .onFalse(new ConveyorStop())
-            .onFalse(new LEDReset());
+            .onFalse(new ConveyorStop());
         // score amp no align
         driver.getSelectButton()
-            .onTrue(new LEDSet(LEDInstructions.AMP))
             .whileTrue(new ConveyorToAmp()
                 .andThen(new AmperScore()))
-            .onFalse(new AmperStop())
-            .onFalse(new LEDReset());
+            .onFalse(new AmperStop());
     
         driver.getDPadUp()
             .onTrue(new ClimberToTop());
@@ -146,20 +146,19 @@ public class RobotContainer {
             .whileTrue(new ClimberScoreRoutine());
         
         driver.getTopButton()
-            .onTrue(new LEDSet(LEDInstructions.GREEN))
+            // on command start
             .onTrue(new BuzzController(driver, Assist.BUZZ_INTENSITY)
-                .andThen(new LEDReset()))
-                
+                .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
+            
             .onTrue(new SwerveDriveAutomatic(driver)
-                .andThen(new LEDSet(LEDInstructions.GREEN))
-                .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY))
-                .andThen(new LEDReset())
+                // after command end
+                .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
+                    .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
 
                 .andThen(new WaitCommand(Driver.Drive.BUZZ_DURATION))
                 
-                .andThen(new LEDSet(LEDInstructions.GREEN))
-                .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY))
-                .andThen(new LEDReset()));
+                .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
+                    .deadlineWith(new LEDSet(LEDInstructions.GREEN))));
     }
 
     private void configureOperatorBindings() {
@@ -172,13 +171,12 @@ public class RobotContainer {
         operator.getLeftTriggerButton()
             .whileTrue(new ConveyorOuttake());
         operator.getRightTriggerButton()
-            .whileTrue(new IntakeAcquire());
+            .whileTrue(new IntakeAcquire())
+            .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));
 
         operator.getLeftBumper()
-            .onTrue(new LEDSet(LEDInstructions.AMP))
             .onTrue(ConveyorToAmp.withCheckLift());
         operator.getRightBumper()
-            .onTrue(new LEDSet(LEDInstructions.SPEAKER))
             .onTrue(new ConveyorToShooter());
 
         operator.getTopButton()
@@ -206,8 +204,7 @@ public class RobotContainer {
         
         // human player attention button
         operator.getSelectButton()
-            .whileTrue(new LEDSet(LEDInstructions.PULSE_PURPLE))
-            .onFalse(new LEDReset());
+            .whileTrue(new LEDSet(LEDInstructions.PULSE_PURPLE));
     }
 
     /**************/

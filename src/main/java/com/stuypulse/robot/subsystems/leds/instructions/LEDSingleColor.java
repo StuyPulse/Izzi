@@ -25,7 +25,7 @@ public class LEDSingleColor implements LEDInstruction {
     @Override
     public void setLED(AddressableLEDBuffer ledsBuffer) {
         for (int i = 0; i < ledsBuffer.getLength(); i++) {
-            ledsBuffer.setRGB(i, color.getRed(), color.getGreen(), color.getBlue());
+            ledsBuffer.setLED(i, color);
         }
     }
 }

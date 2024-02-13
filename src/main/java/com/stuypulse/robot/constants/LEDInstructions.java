@@ -58,8 +58,8 @@ public interface LEDInstructions {
 
     LEDInstruction DEFAULT = LEDInstructions.OFF;
 
-    LEDInstruction SPEAKER = LEDInstructions.YELLOW;
-    LEDInstruction AMP = LEDInstructions.ORANGE;
+    LEDInstruction SPEAKER = LEDInstructions.ORANGE;
+    LEDInstruction AMP = LEDInstructions.GOLD;
     LEDInstruction TRAP = LEDInstructions.PINK;
 
     LEDInstruction ASSIST_FLASH = LEDInstructions.GREEN;
