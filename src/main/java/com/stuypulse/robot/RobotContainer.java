@@ -107,8 +107,9 @@ public class RobotContainer {
         // score speaker
         driver.getRightBumper()
             .whileTrue(new ConveyorToShooter()
-                .alongWith(new SwerveDrivePathFindTo(Field.getSpeakerPathFindPose()).get())
-                .andThen(new SwerveDriveToShoot())
+                .alongWith(new SwerveDriveToShoot())
+                // .alongWith(new SwerveDrivePathFindTo(Field.getSpeakerPathFindPose()).get())
+                // .andThen(new SwerveDriveToShoot())
                 .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop());
         // score amp
