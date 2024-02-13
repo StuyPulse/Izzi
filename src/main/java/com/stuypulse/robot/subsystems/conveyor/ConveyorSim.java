@@ -26,7 +26,7 @@ public class ConveyorSim extends Conveyor {
 
     @Override
     public boolean isNoteAtShooter() {
-        return false;
+        return gandalfMotorSpeed > 0 && feederMotorSpeed > 0;
     }
 
     @Override

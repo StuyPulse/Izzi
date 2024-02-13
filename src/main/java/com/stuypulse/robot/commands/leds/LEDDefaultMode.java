@@ -9,6 +9,7 @@ import com.stuypulse.robot.subsystems.leds.instructions.LEDInstruction;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -42,12 +43,17 @@ public class LEDDefaultMode extends Command {
     private LEDInstruction getInstruction() {
         if (Math.abs(amper.getLiftHeight() - Lift.TRAP_SCORE_HEIGHT.get()) < Lift.MAX_HEIGHT_ERROR)
             return LEDInstructions.RAINBOW;
-
-        if (vision.getOutputs().isEmpty()) return LEDInstructions.WHITE;
-        if (conveyor.isNoteAtShooter())    return LEDInstructions.SPEAKER;
-        if (amper.hasNote())               return LEDInstructions.AMP;
-        if (noteVision.hasNoteData())      return LEDInstructions.RED;
-
+        if (conveyor.isNoteAtShooter())                             return LEDInstructions.SPEAKER;
+        if (RobotBase.isReal()) {
+            if (amper.hasNote())               return LEDInstructions.AMP;
+            if (amper.hasNote() && amper.getTargetHeight() == Lift.TRAP_SCORE_HEIGHT.get()) return LEDInstructions.TRAP;
+            if (noteVision.hasNoteData())             return LEDInstructions.RED;    
+            if (vision.getOutputs().isEmpty())        return LEDInstructions.WHITE;
+        }
+        else {
+            if (amper.getTargetHeight() == Lift.AMP_SCORE_HEIGHT.get()) return LEDInstructions.AMP;
+            if (amper.getTargetHeight() == Lift.TRAP_SCORE_HEIGHT.get()) return LEDInstructions.TRAP;
+        }
         return LEDInstructions.DEFAULT;
     }
 
