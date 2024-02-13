@@ -78,6 +78,30 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "GShoot To F (HGF)"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F To Shoot (HGF)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorShoot"
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "IntakeStop"
