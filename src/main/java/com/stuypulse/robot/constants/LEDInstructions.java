@@ -9,17 +9,6 @@ import com.stuypulse.robot.subsystems.leds.instructions.RichieMode;
 import com.stuypulse.robot.util.SLColor;
  
 public interface LEDInstructions {
-    /********************************************/
-    /*** LED CONSTANTS TO BE USED IN COMMANDS ***/
-    /********************************************/
-
-    LEDInstruction DEFAULT = LEDInstructions.OFF;
-
-    LEDInstruction SPEAKER = LEDInstructions.YELLOW;
-    LEDInstruction AMP = LEDInstructions.ORANGE;
-    LEDInstruction TRAP = LEDInstructions.PINK;
-
-    LEDInstruction ASSIST_FLASH = LEDInstructions.GREEN;
 
     /**************/
     /*** STATIC ***/
@@ -62,6 +51,18 @@ public interface LEDInstructions {
     LEDInstruction PULSE_RED_BLUE = new LEDPulseColor(SLColor.RED, SLColor.BLUE);
     LEDInstruction PULSE_PURPLE = new LEDPulseColor(SLColor.PURPLE, .25);
     LEDInstruction RICHIE = new RichieMode(SLColor.RED);
+
+    /********************************************/
+    /*** LED CONSTANTS TO BE USED IN COMMANDS ***/
+    /********************************************/
+
+    LEDInstruction DEFAULT = LEDInstructions.OFF;
+
+    LEDInstruction SPEAKER = LEDInstructions.YELLOW;
+    LEDInstruction AMP = LEDInstructions.ORANGE;
+    LEDInstruction TRAP = LEDInstructions.PINK;
+
+    LEDInstruction ASSIST_FLASH = LEDInstructions.GREEN;
 
     //TO FUTURE USERS, DONT PUT LEDAlign and LEDAutonChooser (any disabled LEDInstructions) inside the LEDInstructions interface 
 }
