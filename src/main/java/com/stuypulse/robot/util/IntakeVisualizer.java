@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 
 public class IntakeVisualizer {
-
+ 
     private double intakeAngle = 0.0;
     private double gandalfAngle = 0.0;
     private double shooterFeederAngle = 0.0;
@@ -97,9 +97,9 @@ public class IntakeVisualizer {
         root_lower3 = intake.getRoot("Three Lower", 3.3, 4.5);
     
         rootIntakeIR = intake.getRoot("Intake Sensor", 1.5, 4.6);
-        rootShooterIR = intake.getRoot("Shooter Sensor", 7, 7.2); 
-        rootAmpIR = intake.getRoot("Amp Sensor", 7, 4.6);
-
+        rootAmpIR = intake.getRoot("Shooter Sensor", 7, 7.2); 
+        rootShooterIR = intake.getRoot("Amp Sensor", 7, 4.6);
+         
         rollingRootMidLeft = intake.getRoot("Rolling Root Middle Left", 2, 6.2); //find accurate values later
         rollingRootMidRight = intake.getRoot("Rolling Root Middle Right", 3.3, 4.5); //find accurate values later
 
@@ -137,8 +137,8 @@ public class IntakeVisualizer {
 
         intakeIRSensor = getLigament("Intake Sensor", 1, 0, red);
         shooterIRSensor = getLigament("Shooter Sensor", 1, 0, red);
-        ampIRSensor = getLigament("Amp Sensor", 1, 0, red);
-
+        ampIRSensor = getLigament("Amp Sensor", 1, 0, red);   
+           
         rightLigamentTop = getLigament("Right Top Ligament", 3, 15, blue);
         rightLigamentBottom = getLigament("Right Bottom Ligament", 3, -15, blue);
 
