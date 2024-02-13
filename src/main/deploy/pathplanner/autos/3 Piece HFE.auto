@@ -1,0 +1,55 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.3992020999924704,
+      "y": 2.850407598330388
+    },
+    "rotation": -63.38831811724382
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Start To H (HFE)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H To Shoot (HFE)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "HShoot To F (HFE)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F To Shoot (HFE)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FShoot To E (HFE)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E To Shoot (HFE)"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

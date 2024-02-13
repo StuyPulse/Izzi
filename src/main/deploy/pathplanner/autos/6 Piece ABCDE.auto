@@ -1,0 +1,61 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.5,
+      "y": 4.3
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Start To C (ABC)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C To B (ABC)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B To A (ABC)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A To D (ABCD)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "D To Shoot (ABCD)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DShoot To E (ABCDE)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E To Shoot (ABCDE)"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

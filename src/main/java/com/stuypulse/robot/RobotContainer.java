@@ -6,6 +6,7 @@
 package com.stuypulse.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.commands.leds.*;
 import com.stuypulse.robot.commands.amper.*;
@@ -87,7 +88,14 @@ public class RobotContainer {
     /*** NAMED COMMANDS ***/
     /**********************/
 
-    private void configureNamedCommands() {}
+    private void configureNamedCommands() {
+        NamedCommands.registerCommand("intake acquire", new IntakeAcquire());
+        NamedCommands.registerCommand("intake stop", new IntakeStop());
+        NamedCommands.registerCommand("drive to note", new SwerveDriveDriveToNote()
+            .alongWith(new IntakeAcquire())
+            .andThen(new IntakeStop()));
+        NamedCommands.registerCommand("drive to score", new SwerveDriveToShoot());
+    }
 
     /***************/
     /*** BUTTONS ***/
