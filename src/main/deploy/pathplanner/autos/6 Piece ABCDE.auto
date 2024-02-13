@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.5,
-      "y": 4.3
+      "x": 1.462744046458869,
+      "y": 4.628040033669767
     },
     "rotation": 0
   },
@@ -12,9 +12,39 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "SetPodiumRangeShot"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Start To C (ABC)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeAcquire"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorShoot"
           }
         },
         {
@@ -24,9 +54,33 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorShoot"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "B To A (ABC)"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorShoot"
           }
         },
         {
@@ -36,9 +90,21 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "D To Shoot (ABCD)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorShoot"
           }
         },
         {
@@ -48,9 +114,21 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "E To Shoot (ABCDE)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorShoot"
           }
         }
       ]

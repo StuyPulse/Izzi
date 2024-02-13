@@ -89,12 +89,14 @@ public class RobotContainer {
     /**********************/
 
     private void configureNamedCommands() {
-        NamedCommands.registerCommand("intake acquire", new IntakeAcquire());
-        NamedCommands.registerCommand("intake stop", new IntakeStop());
-        NamedCommands.registerCommand("drive to note", new SwerveDriveDriveToNote()
+        NamedCommands.registerCommand("IntakeAcquire", new IntakeAcquire());
+        NamedCommands.registerCommand("IntakeStop", new IntakeStop());
+        NamedCommands.registerCommand("DriveToNote", new SwerveDriveDriveToNote()
             .alongWith(new IntakeAcquire())
             .andThen(new IntakeStop()));
-        NamedCommands.registerCommand("drive to score", new SwerveDriveToShoot());
+        NamedCommands.registerCommand("DriveToShoot", new SwerveDriveToShoot());
+        NamedCommands.registerCommand("SetPodiumRangeShot", new ShooterPodiumShot());
+        NamedCommands.registerCommand("ConveyorShoot", new ConveyorToShooter().andThen(new ConveyorShoot()));
     }
 
     /***************/

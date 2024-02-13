@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.5,
-      "y": 4.3
+      "x": 1.462744046458869,
+      "y": 4.628040033669767
     },
     "rotation": 0.0
   },
@@ -12,15 +12,33 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "SetPodiumRangeShot"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Start To C (ABC)"
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 1.0
+            "name": "ConveyorShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeAcquire"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorShoot"
           }
         },
         {
@@ -30,15 +48,27 @@
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 1.0
+            "name": "ConveyorShoot"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "B To A (ABC)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeStop"
           }
         }
       ]

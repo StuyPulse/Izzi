@@ -12,39 +12,93 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Start To H (HFE)"
+            "name": "SetPodiumRangeShot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeAcquire"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "H To Shoot (HFE)"
+            "pathName": "Start To H (HGF)"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "HShoot To F (HFE)"
+            "pathName": "H To HShoot (HGF)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorShoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "F To Shoot (HFE)"
+            "pathName": "HShoot To G (HGF)"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "FShoot To E (HFE)"
+            "pathName": "G To Shoot (HGF)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorShoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "E To Shoot (HFE)"
+            "pathName": "GShoot To F (HGF)"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F To Shoot (HGF)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorShoot"
           }
         }
       ]
