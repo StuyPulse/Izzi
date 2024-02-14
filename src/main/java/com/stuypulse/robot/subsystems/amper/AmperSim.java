@@ -13,6 +13,7 @@ import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.control.feedforward.ElevatorFeedforward;
 import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
+import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.numbers.filters.MotionProfile;
 
@@ -32,6 +33,7 @@ public class AmperSim extends Amper {
 
     private final SmartNumber maxVelocity;
     private final SmartNumber maxAcceleration;
+    private final SmartBoolean ampIR;
     
     protected AmperSim() {
         sim = new ElevatorSim(
@@ -47,6 +49,7 @@ public class AmperSim extends Amper {
 
         maxVelocity = new SmartNumber("Amper/Lift/Max Velocity", Lift.VEL_LIMIT);
         maxAcceleration = new SmartNumber("Amper/Lift/Max Acceleration", Lift.ACCEL_LIMIT);
+        ampIR = new SmartBoolean("Amper/IR Sensor", false);
 
         controller = new MotorFeedforward(Lift.Feedforward.kS, Lift.Feedforward.kV, Lift.Feedforward.kA).position()
             .add(new ElevatorFeedforward(Lift.Feedforward.kG))
@@ -89,7 +92,7 @@ public class AmperSim extends Amper {
 
     @Override
     public boolean hasNote() {
-        return false;
+        return ampIR.get();
     }
 
     @Override
