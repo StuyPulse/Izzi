@@ -20,7 +20,7 @@ public class AmperLiftFineAdjust extends Command {
     @Override
     public void execute() {
         if (gamepad.getRawDPadUp()) {
-            amper.setTargetHeight(amper.getTargetHeight() + Operator.LIFT_ADJUST_SPEED.get());
+            amper.setTargetHeight(amper.getLiftHeight() + Operator.LIFT_ADJUST_SPEED.get());
         } 
         else if (gamepad.getRawDPadDown()) {
             amper.setTargetHeight(amper.getLiftHeight() - Operator.LIFT_ADJUST_SPEED.get());
