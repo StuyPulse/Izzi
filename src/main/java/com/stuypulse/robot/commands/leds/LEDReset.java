@@ -1,11 +1,28 @@
 package com.stuypulse.robot.commands.leds;
 
 import com.stuypulse.robot.constants.LEDInstructions;
+import com.stuypulse.robot.subsystems.leds.LEDController;
 
-public class LEDReset extends LEDSet {
-    
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+
+public class LEDReset extends InstantCommand {
+
+    @Override
+    public boolean runsWhenDisabled() {
+        return true;
+    }
+
+    private final LEDController ledController;
+
     public LEDReset() {
-        super(LEDInstructions.DEFAULT);
+        this.ledController = LEDController.getInstance();
+
+        addRequirements(ledController);
+    }
+    
+    @Override
+    public void initialize() {
+        ledController.runLEDInstruction(LEDInstructions.DEFAULT);
     }
 
 }
