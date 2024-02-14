@@ -23,7 +23,7 @@ public interface Motors {
   
     public interface Amper {
         CANSparkMaxConfig LIFT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake);
-        CANSparkMaxConfig SCORE_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake);
+        CANSparkMaxConfig SCORE_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
     }
   
     public interface Swerve {
@@ -32,7 +32,7 @@ public interface Motors {
     }
 
     public interface Intake {
-        CANSparkMaxConfig MOTOR_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake);
+        CANSparkMaxConfig MOTOR_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
     }
   
     public interface Shooter {
@@ -41,7 +41,7 @@ public interface Motors {
     }
   
     public interface Conveyor {
-        CANSparkMaxConfig GANDALF_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake);
+        CANSparkMaxConfig GANDALF_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
         CANSparkMaxConfig SHOOTER_FEEDER_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake);
     }
 
