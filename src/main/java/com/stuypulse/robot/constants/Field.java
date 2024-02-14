@@ -8,7 +8,9 @@ import com.stuypulse.robot.Robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation3d;
 
 import edu.wpi.first.math.util.Units;
@@ -134,6 +136,10 @@ public interface Field {
         return SPEAKER_POSES[Robot.isBlue() ? 0 : 1];
     }
 
+    public static Pose2d getSpeakerPathFindPose() {
+        return SPEAKER_POSES[Robot.isBlue() ? 0 : 1].transformBy(new Transform2d(0, Units.inchesToMeters(200), new Rotation2d()));
+    }
+
     double SPEAKER_OPENING_X = Units.inchesToMeters(13.6);
 
     /*** AMP ***/
@@ -145,6 +151,14 @@ public interface Field {
 
     public static Pose2d getAllianceAmpPose() {
         return AMP_POSES[Robot.isBlue() ? 0 : 1];
+    }
+
+    public static Pose2d getOpposingAmpPose() {
+        return AMP_POSES[Robot.isBlue() ? 1 : 0];
+    }
+
+    public static Pose2d getAmpPathFindPose() {
+        return AMP_POSES[Robot.isBlue() ? 0 : 1].transformBy(new Transform2d(0, Units.inchesToMeters(56), new Rotation2d()));
     }
 
     /*** TRAP ***/

@@ -6,6 +6,7 @@
 package com.stuypulse.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.commands.leds.*;
 import com.stuypulse.robot.commands.amper.*;
@@ -18,6 +19,7 @@ import com.stuypulse.robot.commands.shooter.*;
 import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.constants.Settings.Driver;
 import com.stuypulse.robot.constants.Settings.Swerve.Assist;
@@ -88,7 +90,16 @@ public class RobotContainer {
     /*** NAMED COMMANDS ***/
     /**********************/
 
-    private void configureNamedCommands() {}
+    private void configureNamedCommands() {
+        NamedCommands.registerCommand("IntakeAcquire", new IntakeAcquire());
+        NamedCommands.registerCommand("IntakeStop", new IntakeStop());
+        NamedCommands.registerCommand("DriveToNote", new SwerveDriveDriveToNote()
+            .alongWith(new IntakeAcquire())
+            .andThen(new IntakeStop()));
+        NamedCommands.registerCommand("DriveToShoot", new SwerveDriveToShoot());
+        NamedCommands.registerCommand("SetPodiumRangeShot", new ShooterPodiumShot());
+        NamedCommands.registerCommand("ConveyorShoot", new ConveyorToShooter().andThen(new ConveyorShoot()));
+    }
 
     /***************/
     /*** BUTTONS ***/
@@ -112,6 +123,9 @@ public class RobotContainer {
             .whileTrue(new ConveyorToShooter()
                 .alongWith(new SwerveDriveToShoot()
                     .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
+                // .alongWith(new SwerveDrivePathFindTo(Field.getSpeakerPathFindPose()).get())
+                // .andThen(new SwerveDriveToShoot()
+                //    .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
                 .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop());
         
