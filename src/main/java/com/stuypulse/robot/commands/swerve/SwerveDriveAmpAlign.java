@@ -12,9 +12,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class SwerveDriveAmpAlign extends SequentialCommandGroup {
 
-    private static final double AMP_WALL_SETUP_X_TOLERANCE = Units.inchesToMeters(2.0);
-    private static final double AMP_WALL_SETUP_Y_TOLERANCE = Units.inchesToMeters(4.0);
-    private static final double AMP_WALL_SETUP_ANGLE_TOLERANCE = 5;
+    // private static final double AMP_WALL_SETUP_X_TOLERANCE = Units.inchesToMeters(2.0);
+    // private static final double AMP_WALL_SETUP_Y_TOLERANCE = Units.inchesToMeters(4.0);
+    // private static final double AMP_WALL_SETUP_ANGLE_TOLERANCE = 5;
 
     private static final double AMP_WALL_SCORE_X_TOLERANCE = Units.inchesToMeters(0.75);
     private static final double AMP_WALL_SCORE_Y_TOLERANCE = Units.inchesToMeters(1.0);
@@ -32,8 +32,8 @@ public class SwerveDriveAmpAlign extends SequentialCommandGroup {
         addCommands(
             new SwerveDrivePathFindTo(getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get())).get(),
 
-            new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get()))
-                .withTolerance(AMP_WALL_SETUP_X_TOLERANCE, AMP_WALL_SETUP_Y_TOLERANCE, AMP_WALL_SETUP_ANGLE_TOLERANCE),
+            // new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get()))
+            //     .withTolerance(AMP_WALL_SETUP_X_TOLERANCE, AMP_WALL_SETUP_Y_TOLERANCE, AMP_WALL_SETUP_ANGLE_TOLERANCE),
             
             new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SCORE_DISTANCE.get()))
                 .withTolerance(AMP_WALL_SCORE_X_TOLERANCE, AMP_WALL_SCORE_Y_TOLERANCE, AMP_WALL_SCORE_ANGLE_TOLERANCE)
