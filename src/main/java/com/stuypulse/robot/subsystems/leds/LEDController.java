@@ -7,7 +7,6 @@ import com.stuypulse.robot.subsystems.leds.instructions.LEDInstruction;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -40,23 +39,13 @@ public class LEDController extends SubsystemBase {
         leds.setData(ledsBuffer);
         leds.start();
 
+        runLEDInstruction(LEDInstructions.DEFAULT);
+
         SmartDashboard.putData(instance);
     }
-
 
     public void runLEDInstruction(LEDInstruction instruction) {
         instruction.setLED(ledsBuffer);
         leds.setData(ledsBuffer);
-    }
-
-    public LEDInstruction getDefaultColor() {
-        return LEDInstructions.RED;
-    }
-
-    @Override
-    public void periodic() {
-        if (RobotBase.isReal()) {
-            /*runLEDInstruction(getDefaultColor() );*/
-        }
     }
 }

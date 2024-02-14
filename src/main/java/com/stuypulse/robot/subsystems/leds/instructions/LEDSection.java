@@ -41,7 +41,7 @@ public class LEDSection implements LEDInstruction {
         int sectionIndex = 0;
         
         for (int ledIndex = 0; ledIndex < ledBuffer.getLength(); ledIndex++) {
-            if (sectionIndex > separatorIndexes[ledIndex]) {
+            if (ledIndex > separatorIndexes[sectionIndex]) {
                 sectionIndex++;
             }
 

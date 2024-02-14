@@ -5,6 +5,7 @@
 
 package com.stuypulse.robot;
 
+import com.stuypulse.robot.commands.leds.LEDReset;
 import com.pathplanner.lib.pathfinding.LocalADStar;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.stuypulse.robot.commands.leds.LEDSet;
@@ -95,6 +96,8 @@ public class Robot extends TimedRobot {
             auto.schedule();
         }
 
+        scheduler.schedule(new LEDReset());
+
         SmartDashboard.putString("Robot State", "AUTON");
     }
 
@@ -114,6 +117,8 @@ public class Robot extends TimedRobot {
             auto.cancel();
         }
 
+        scheduler.schedule(new LEDReset());
+
         SmartDashboard.putString("Robot State", "TELEOP");
     }
 
@@ -130,6 +135,8 @@ public class Robot extends TimedRobot {
     @Override
     public void testInit() {
         CommandScheduler.getInstance().cancelAll();
+
+        scheduler.schedule(new LEDReset());
 
         SmartDashboard.putString("Robot State", "TEST");
     }

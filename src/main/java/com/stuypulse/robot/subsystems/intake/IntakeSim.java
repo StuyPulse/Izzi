@@ -9,11 +9,11 @@ public class IntakeSim extends Intake {
 
     private double motor;
 
-    private SmartBoolean IR;
+    private SmartBoolean intakeIR;
 
     public IntakeSim() {
         motor = 0;
-        IR = new SmartBoolean("Intake/Sim IR Value", false);
+        intakeIR = new SmartBoolean("Intake/Sim IR Value", false);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class IntakeSim extends Intake {
 
     @Override
     public boolean hasNote() {
-        return IR.get();
+        return intakeIR.get();
     }
 
     @Override
