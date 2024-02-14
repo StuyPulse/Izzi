@@ -39,21 +39,21 @@ public class LEDDefaultMode extends Command {
 
         addRequirements(leds);
     }
-
+    
     private LEDInstruction getInstruction() {
         if (Math.abs(amper.getLiftHeight() - Lift.TRAP_SCORE_HEIGHT.get()) < Lift.MAX_HEIGHT_ERROR)
-            return LEDInstructions.RAINBOW;
-        if (conveyor.isNoteAtShooter())                             return LEDInstructions.SPEAKER;
+            return LEDInstructions.TRAP;
+        if (conveyor.isNoteAtShooter())
+            return LEDInstructions.SPEAKER;
+        if (amper.hasNote())
+            return LEDInstructions.AMP;
         if (RobotBase.isReal()) {
-            if (amper.hasNote())               return LEDInstructions.AMP;
-            if (amper.hasNote() && amper.getTargetHeight() == Lift.TRAP_SCORE_HEIGHT.get()) return LEDInstructions.TRAP;
-            if (noteVision.hasNoteData())             return LEDInstructions.RED;    
-            if (vision.getOutputs().isEmpty())        return LEDInstructions.WHITE;
+            if (noteVision.hasNoteData())
+                return LEDInstructions.RED;    
+            if (vision.getOutputs().isEmpty())
+                return LEDInstructions.WHITE;
         }
-        else {
-            if (amper.getTargetHeight() == Lift.AMP_SCORE_HEIGHT.get()) return LEDInstructions.AMP;
-            if (amper.getTargetHeight() == Lift.TRAP_SCORE_HEIGHT.get()) return LEDInstructions.TRAP;
-        }
+
         return LEDInstructions.DEFAULT;
     }
 
@@ -61,5 +61,6 @@ public class LEDDefaultMode extends Command {
     public void execute() {
         leds.runLEDInstruction(getInstruction());
     }
-    
 }
+
+
