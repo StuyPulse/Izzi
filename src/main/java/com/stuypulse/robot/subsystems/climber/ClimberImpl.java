@@ -10,7 +10,9 @@ import com.revrobotics.RelativeEncoder;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -55,8 +57,15 @@ public class ClimberImpl extends Climber {
     }
 
     @Override
-    public void setTargetHeight(double height) {
-        super.setTargetHeight(height);
+    public void setLeftTargetHeight(double leftHeight) {
+        super.setLeftTargetHeight(leftHeight);
+
+        voltageOverride = Optional.empty();
+    }
+
+    @Override
+    public void setRightTargetHeight(double rightHeight) {
+        super.setRightTargetHeight(rightHeight);
 
         voltageOverride = Optional.empty();
     }
@@ -81,6 +90,21 @@ public class ClimberImpl extends Climber {
         return (leftEncoder.getVelocity() + rightEncoder.getVelocity()) / 2;
     }
 
+    public double calculateBalanceOffset() {
+        SwerveDrive swerve = SwerveDrive.getInstance();
+        Rotation2d roll = swerve.getGyroRoll();
+        
+        double offset = Math.sin(roll.getRadians()) / Settings.Climber.DISTANCE;
+
+        if (roll.getRadians() - Math.PI / 2 > 0) {
+            setRightTargetHeight(getRightTargetHeight() + offset);
+        } else {
+            setLeftTargetHeight(getLeftTargetHeight() + offset);
+        }
+
+        return offset;
+    }
+
     /*** LIMITS ***/
 
     @Override
@@ -89,11 +113,11 @@ public class ClimberImpl extends Climber {
     }
 
     private boolean leftAtTop() {
-        return !topLeftLimit.get();
+        return !topLeftLimit.get() || getHeight() >= Settings.Climber.MAX_HEIGHT;
     }
 
     private boolean rightAtTop() {
-        return !topRightLimit.get();
+        return !topRightLimit.get() || getHeight() >= Settings.Climber.MAX_HEIGHT;
     }
 
     @Override
@@ -102,11 +126,11 @@ public class ClimberImpl extends Climber {
     }
 
     private boolean leftAtBottom() {
-        return !bottomRightLimit.get();
+        return !bottomRightLimit.get() || getHeight() <= Settings.Climber.MIN_HEIGHT;
     }
 
     private boolean rightAtBottom() {
-        return !bottomLeftLimit.get();
+        return !bottomLeftLimit.get() || getHeight() <= Settings.Climber.MIN_HEIGHT;
     }
 
     @Override
@@ -158,9 +182,10 @@ public class ClimberImpl extends Climber {
         if (voltageOverride.isPresent()) {
             setVoltage(voltageOverride.get());
         } else {
+            calculateBalanceOffset();
             if (isAtLeftTargetHeight(Settings.Climber.BangBang.THRESHOLD)) {
                 setLeftVoltage(0.0);
-            } else if (getLeftHeight() > getTargetHeight()) {
+            } else if (getLeftHeight() > getLeftTargetHeight()) {
                 setLeftVoltage(-Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
             } else {
                 setLeftVoltage(+Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
@@ -168,7 +193,7 @@ public class ClimberImpl extends Climber {
 
             if (isAtRightTargetHeight(Settings.Climber.BangBang.THRESHOLD)) {
                 setRightVoltage(0.0);
-            } else if (getRightHeight() > getTargetHeight()) {
+            } else if (getRightHeight() > getRightTargetHeight()) {
                 setRightVoltage(-Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
             } else {
                 setRightVoltage(+Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
@@ -180,10 +205,15 @@ public class ClimberImpl extends Climber {
         SmartDashboard.putNumber("Climber/Left Height", getLeftHeight());
         SmartDashboard.putNumber("Climber/Right Height", getRightHeight());
         SmartDashboard.putNumber("Climber/Velocity", getVelocity());
+        SmartDashboard.putNumber("Climber/Offset", calculateBalanceOffset());
 
         if (atBottom()) {
             leftEncoder.setPosition(Settings.Climber.MIN_HEIGHT);
             rightEncoder.setPosition(Settings.Climber.MIN_HEIGHT);
+        }
+        else if (atTop()) {
+            leftEncoder.setPosition(Settings.Climber.MAX_HEIGHT);
+            rightEncoder.setPosition(Settings.Climber.MAX_HEIGHT);
         }
     }
 }

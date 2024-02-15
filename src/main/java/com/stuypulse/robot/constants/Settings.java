@@ -32,6 +32,8 @@ public interface Settings {
         double MIN_HEIGHT = 0.0;
         double MAX_HEIGHT = Units.inchesToMeters(17.48);
 
+        double DISTANCE = Units.inchesToMeters(24);
+
         double MASS = Units.lbsToKilograms(2.173979);
         double DRUM_RADIUS = Units.inchesToMeters(1.025);
 

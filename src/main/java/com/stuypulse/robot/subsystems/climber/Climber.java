@@ -22,21 +22,32 @@ public abstract class Climber extends SubsystemBase {
         return instance;
     }
 
-    private final SmartNumber targetHeight;
+    private final SmartNumber leftTargetHeight;
+    private final SmartNumber rightTargetHeight;
 
     private final ClimberVisualizer climberVisualizer;
 
     public Climber() {
-        targetHeight = new SmartNumber("Climber/Target Height", 0.0);
+        leftTargetHeight = new SmartNumber("Climber/Left Target Height", 0.0);
+        rightTargetHeight = new SmartNumber("Climber/Right Target Height", 0.0);
+
         climberVisualizer = new ClimberVisualizer();
     }
 
-    public void setTargetHeight(double height) {
-        targetHeight.set(height);
+    public void setLeftTargetHeight(double leftHeight) {
+        leftTargetHeight.set(leftHeight);
     }
 
-    public final double getTargetHeight() {
-        return targetHeight.get();
+    public void setRightTargetHeight(double rightHeight) {
+        rightTargetHeight.set(rightHeight);
+    }
+
+    public final double getLeftTargetHeight() {
+        return leftTargetHeight.get();
+    }
+
+    public final double getRightTargetHeight() {
+        return leftTargetHeight.get();
     }
 
     public final boolean isAtTargetHeight(double epsilonMeters) {
@@ -44,11 +55,11 @@ public abstract class Climber extends SubsystemBase {
     }
 
     public final boolean isAtLeftTargetHeight(double epsilonMeters) {
-        return Math.abs(getTargetHeight() - getLeftHeight()) < epsilonMeters;
+        return Math.abs(getLeftTargetHeight() - getLeftHeight()) < epsilonMeters;
     }
 
     public final boolean isAtRightTargetHeight(double epsilonMeters) {
-        return Math.abs(getTargetHeight() - getRightHeight()) < epsilonMeters;
+        return Math.abs(getRightTargetHeight() - getRightHeight()) < epsilonMeters;
     }
 
     public abstract double getHeight();
