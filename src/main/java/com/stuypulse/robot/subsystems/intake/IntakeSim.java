@@ -1,7 +1,14 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.subsystems.intake;
 
-import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.stuylib.network.SmartBoolean;
+
+import com.stuypulse.robot.constants.Settings;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -21,7 +28,7 @@ public class IntakeSim extends Intake {
         motor = +Settings.Intake.ACQUIRE_SPEED.get();
     }
 
-    @Override 
+    @Override
     public void deacquire() {
         motor = -Settings.Intake.DEACQUIRE_SPEED.get();
     }
@@ -44,7 +51,7 @@ public class IntakeSim extends Intake {
     @Override
     public void periodic() {
         super.periodic();
-        
+
         SmartDashboard.putNumber("Intake/Speed", motor);
     }
 }

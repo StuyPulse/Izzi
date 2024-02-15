@@ -1,3 +1,9 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.subsystems.leds.instructions;
 
 import com.stuypulse.robot.constants.Settings;
@@ -19,7 +25,7 @@ public class LEDSection implements LEDInstruction {
         this.separatorIndexes = separatorIndexes;
     }
 
-    public LEDSection(SLColor[] sections){
+    public LEDSection(SLColor[] sections) {
         this.sections = sections;
 
         int totalLEDLength = Settings.LED.LED_LENGTH;
@@ -28,8 +34,8 @@ public class LEDSection implements LEDInstruction {
 
         this.separatorIndexes = new int[sections.length];
 
-        //extra LEDs get distributed to the first few sections
-        for (int i = 0; i < sections.length; i++){
+        // extra LEDs get distributed to the first few sections
+        for (int i = 0; i < sections.length; i++) {
             int offset = Math.min(extraLEDS, i);
             int extraLEDForCurrentSection = (i < extraLEDS ? 1 : 0);
             this.separatorIndexes[i] = (i + 1) * sectionLength + offset + extraLEDForCurrentSection;
@@ -37,9 +43,9 @@ public class LEDSection implements LEDInstruction {
     }
 
     @Override
-    public void setLED(AddressableLEDBuffer ledBuffer){
+    public void setLED(AddressableLEDBuffer ledBuffer) {
         int sectionIndex = 0;
-        
+
         for (int ledIndex = 0; ledIndex < ledBuffer.getLength(); ledIndex++) {
             if (ledIndex > separatorIndexes[sectionIndex]) {
                 sectionIndex++;

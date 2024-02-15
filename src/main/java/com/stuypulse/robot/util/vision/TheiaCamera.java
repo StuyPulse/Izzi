@@ -1,16 +1,19 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.util.vision;
 
-import java.util.Optional;
-
-import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Cameras.CameraConfig;
-
-import edu.wpi.first.math.util.Units;
+import com.stuypulse.robot.constants.Field;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.DoubleArrayPublisher;
 import edu.wpi.first.networktables.DoubleArraySubscriber;
 import edu.wpi.first.networktables.DoubleSubscriber;
@@ -19,12 +22,14 @@ import edu.wpi.first.networktables.IntegerSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
+import java.util.Optional;
+
 /**
- * This class handles interactions between the robot code 
- * and the Theia AprilTag system through the NetworkTables.
+ * This class handles interactions between the robot code and the Theia AprilTag system through the
+ * NetworkTables.
  */
 public class TheiaCamera {
-    
+
     private final String name;
     private final Pose3d cameraLocation;
 
@@ -43,7 +48,7 @@ public class TheiaCamera {
     private final DoubleArraySubscriber poseSub;
     private final IntegerArraySubscriber idSub;
     private final IntegerSubscriber counterSub;
-                     
+
     private final DoubleArrayPublisher layoutPub;
 
     private double rawLatency;
@@ -52,7 +57,7 @@ public class TheiaCamera {
     private long[] rawids;
     private long rawCounter;
     private long lastCounter;
-    
+
     public TheiaCamera(String name, Pose3d cameraLocation) {
         this.name = name;
         this.cameraLocation = cameraLocation;
@@ -82,9 +87,10 @@ public class TheiaCamera {
     public TheiaCamera(CameraConfig config) {
         this(config.getName(), config.getLocation());
     }
-    
+
     /**
      * Returns the name of the camera.
+     *
      * @return the name of the camera
      */
     public String getName() {
@@ -93,15 +99,14 @@ public class TheiaCamera {
 
     /**
      * Returns the FPS of the data that is coming from the camera.
+     *
      * @return the FPS of the data that is coming from the camera
      */
     public int getFPS() {
         return (int) rawFPS;
     }
 
-    /**
-     * Pull the data from the NetworkTables and store it in the class.
-     */
+    /** Pull the data from the NetworkTables and store it in the class. */
     private void updateData() {
         rawLatency = latencySub.get();
         rawFPS = (int) fpsSub.get();
@@ -112,17 +117,18 @@ public class TheiaCamera {
 
     /**
      * Helper class that returns the rawPose as a Pose3d.
+     *
      * @return the rawPose as a Pose3d
      */
     private Pose3d getDataAsPose3d() {
         return new Pose3d(
-            new Translation3d(rawPose[0], rawPose[1], rawPose[2]), 
-            new Rotation3d(rawPose[3], rawPose[4], rawPose[5])
-        );
+                new Translation3d(rawPose[0], rawPose[1], rawPose[2]),
+                new Rotation3d(rawPose[3], rawPose[4], rawPose[5]));
     }
 
     /**
      * Returns the pose of the robot relative to the field.
+     *
      * @return the pose of the robot relative to the field
      */
     private Pose3d getRobotPose() {
@@ -134,6 +140,7 @@ public class TheiaCamera {
 
     /**
      * Returns the IDs of the tags detected.
+     *
      * @return the IDs of the tags detected
      */
     private int[] getIDs() {
@@ -146,6 +153,7 @@ public class TheiaCamera {
 
     /**
      * Returns an Optional holding the vision data from the camera.
+     *
      * @return the vision data from the camera in an Optional
      */
     public Optional<VisionData> getVisionData() {
@@ -157,9 +165,9 @@ public class TheiaCamera {
         if (rawCounter - lastCounter != 1) {
             return Optional.empty();
         }
-        
+
         lastCounter = rawCounter;
-        
+
         VisionData data = new VisionData(getRobotPose(), getIDs(), timestamp);
         if (!data.isValidData()) {
             return Optional.empty();
@@ -169,6 +177,7 @@ public class TheiaCamera {
 
     /**
      * Sets the tag layout of the camera.
+     *
      * @param ids the tag IDs
      */
     public void setTagLayout(int... ids) {

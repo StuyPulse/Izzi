@@ -1,25 +1,26 @@
-/************************ PROJECT PHIL ************************/
-/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved.*/
-/* This work is licensed under the terms of the MIT license.  */
-/**************************************************************/
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
 
 package com.stuypulse.robot;
 
 import com.stuypulse.robot.commands.leds.LEDReset;
-import com.pathplanner.lib.pathfinding.LocalADStar;
-import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.stuypulse.robot.commands.leds.LEDSet;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAlign;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAutonChooser;
 
 import edu.wpi.first.wpilibj.DataLogManager;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
+import com.pathplanner.lib.pathfinding.LocalADStar;
+import com.pathplanner.lib.pathfinding.Pathfinding;
 
 public class Robot extends TimedRobot {
 
@@ -34,7 +35,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         Pathfinding.setPathfinder(new LocalADStar());
-        
+
         DataLogManager.start();
 
         scheduler = CommandScheduler.getInstance();
@@ -50,7 +51,8 @@ public class Robot extends TimedRobot {
     }
 
     public static boolean isBlue() {
-        return DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue;
+        return DriverStation.getAlliance().isPresent()
+                && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue;
     }
 
     /*********************/
@@ -78,15 +80,14 @@ public class Robot extends TimedRobot {
 
         if (Settings.LED.LED_AUTON_TOGGLE.get()) {
             scheduler.schedule(new LEDSet(new LEDAlign()));
-        }
-        else {
+        } else {
             scheduler.schedule(new LEDSet(new LEDAutonChooser()));
         }
     }
 
     /***********************/
     /*** AUTONOMOUS MODE ***/
-    /***********************/  
+    /***********************/
 
     @Override
     public void autonomousInit() {

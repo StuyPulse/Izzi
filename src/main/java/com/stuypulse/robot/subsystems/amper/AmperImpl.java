@@ -1,13 +1,11 @@
-package com.stuypulse.robot.subsystems.amper;
-import java.util.Optional;
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
 
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.stuypulse.robot.constants.Motors;
-import com.stuypulse.robot.constants.Ports;
-import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.constants.Settings.Amper.Lift;
+package com.stuypulse.robot.subsystems.amper;
+
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.control.feedforward.ElevatorFeedforward;
@@ -15,12 +13,22 @@ import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
 import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.numbers.filters.MotionProfile;
 
+import com.stuypulse.robot.constants.Motors;
+import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Amper.Lift;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+
+import java.util.Optional;
 
 public class AmperImpl extends Amper {
-    
+
     private final CANSparkMax scoreMotor;
     private final CANSparkMax liftMotor;
     private final RelativeEncoder liftEncoder;
@@ -151,7 +159,7 @@ public class AmperImpl extends Amper {
         controller.update(getTargetHeight(), getLiftHeight());
 
         double voltage = voltageOverride.orElse(controller.getOutput());
-        
+
         if (liftAtBottom() && voltage < 0 || liftAtTop() && voltage > 0) {
             stopLift();
         } else {
@@ -164,5 +172,4 @@ public class AmperImpl extends Amper {
         SmartDashboard.putNumber("Amper/Lift Current", liftMotor.getOutputCurrent());
         SmartDashboard.putNumber("Amper/Lift Height", getLiftHeight());
     }
-
 }

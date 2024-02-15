@@ -1,10 +1,13 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.subsystems.swerve;
 
-import com.kauailabs.navx.frc.AHRS;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PathPlannerLogging;
-import com.pathplanner.lib.util.ReplanningConfig;
+import com.stuypulse.stuylib.math.Vector2D;
+
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Swerve;
@@ -13,10 +16,9 @@ import com.stuypulse.robot.constants.Settings.Swerve.BackRight;
 import com.stuypulse.robot.constants.Settings.Swerve.FrontLeft;
 import com.stuypulse.robot.constants.Settings.Swerve.FrontRight;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
-import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleSim;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModule;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleImpl;
-import com.stuypulse.stuylib.math.Vector2D;
+import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleSim;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -34,43 +36,49 @@ import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-/*   
-*  Fields: 
-*    - swerveModules:  AbstractSwerveModule...
-*    - kinematics:  SwerveDriveKinematics
-*    - gyro: AHRS
-*    - modules2D: FieldObject2D[]
-*
-*   Tasks:
-*    - drive
-*    - followDrive 
-*    - trackingDrive
-*    - aligning (Trap, Speaker, Amp)
-*    - GTADrive (shooting while driving)
-*
-*   Methods:
-*    + singleton
-*    + initFieldObject(Field2D field): void
-*    + getModulePositions(): Translation2D[]
-*    + getModuleStates(): SwerveModuleStates[]
-*    + getModuleOffsets(): Rotation2D[]
-*    + getChassisSpeeds(): ChassisSpeed[]
-*    + setModuleStates(SwerveModuleState... states): void
-*    + setChassisSpeed(ChassisSpeed): void 
-*    + drive(double, Rotation2D)
-*    + stop(double, Rotation2D)
-*
-*  SwerveDrive.java
-*   Methods:
-*    - getGyroAngle(): Rotation2D
-*    - getGyroYaw(): Rotation2D
-*    - getGyroPitch(): Rotation2D
-*    - getGyroRoll(): Rotation2D
-*    - getKinematics(): SwerveDriveKinematics
-*    + periodic(): void
-*    
-*
-*/
+import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PathPlannerLogging;
+import com.pathplanner.lib.util.ReplanningConfig;
+
+/*
+ *  Fields:
+ *    - swerveModules:  AbstractSwerveModule...
+ *    - kinematics:  SwerveDriveKinematics
+ *    - gyro: AHRS
+ *    - modules2D: FieldObject2D[]
+ *
+ *   Tasks:
+ *    - drive
+ *    - followDrive
+ *    - trackingDrive
+ *    - aligning (Trap, Speaker, Amp)
+ *    - GTADrive (shooting while driving)
+ *
+ *   Methods:
+ *    + singleton
+ *    + initFieldObject(Field2D field): void
+ *    + getModulePositions(): Translation2D[]
+ *    + getModuleStates(): SwerveModuleStates[]
+ *    + getModuleOffsets(): Rotation2D[]
+ *    + getChassisSpeeds(): ChassisSpeed[]
+ *    + setModuleStates(SwerveModuleState... states): void
+ *    + setChassisSpeed(ChassisSpeed): void
+ *    + drive(double, Rotation2D)
+ *    + stop(double, Rotation2D)
+ *
+ *  SwerveDrive.java
+ *   Methods:
+ *    - getGyroAngle(): Rotation2D
+ *    - getGyroYaw(): Rotation2D
+ *    - getGyroPitch(): Rotation2D
+ *    - getGyroRoll(): Rotation2D
+ *    - getKinematics(): SwerveDriveKinematics
+ *    + periodic(): void
+ *
+ *
+ */
 public class SwerveDrive extends SubsystemBase {
 
     private static final SwerveDrive instance;
@@ -85,7 +93,7 @@ public class SwerveDrive extends SubsystemBase {
             );
         }     
         else {
-            instance = new SwerveDrive(  
+            instance = new SwerveDrive(
                 new SwerveModuleImpl(FrontRight.ID, FrontRight.MODULE_OFFSET, Ports.Swerve.FrontRight.TURN, FrontRight.ABSOLUTE_OFFSET, Ports.Swerve.FrontRight.DRIVE, Ports.Swerve.FrontRight.ENCODER),
                 new SwerveModuleImpl(FrontLeft.ID, FrontLeft.MODULE_OFFSET, Ports.Swerve.FrontLeft.TURN, FrontLeft.ABSOLUTE_OFFSET, Ports.Swerve.FrontLeft.DRIVE, Ports.Swerve.FrontLeft.ENCODER),
                 new SwerveModuleImpl(BackLeft.ID, BackLeft.MODULE_OFFSET, Ports.Swerve.BackLeft.TURN, BackLeft.ABSOLUTE_OFFSET, Ports.Swerve.BackLeft.DRIVE, Ports.Swerve.FrontLeft.ENCODER),
@@ -102,10 +110,10 @@ public class SwerveDrive extends SubsystemBase {
     private final SwerveDriveKinematics kinematics;
     private final AHRS gyro;
     private final FieldObject2d[] modules2D;
-    
 
     /**
      * Creates a new Swerve Drive using the provided modules
+     *
      * @param modules the modules to use
      */
     protected SwerveDrive(SwerveModule... modules) {
@@ -113,29 +121,29 @@ public class SwerveDrive extends SubsystemBase {
         kinematics = new SwerveDriveKinematics(getModuleOffsets());
         gyro = new AHRS(SPI.Port.kMXP);
         modules2D = new FieldObject2d[modules.length];
-    }  
-    
+    }
+
     public void configureAutoBuilder() {
         Odometry odometry = Odometry.getInstance();
 
         AutoBuilder.configureHolonomic(
             odometry::getPose,
             odometry::reset,
-            this::getChassisSpeeds, 
-            this::setChassisSpeeds, 
+            this::getChassisSpeeds,
+            this::setChassisSpeeds,
             new HolonomicPathFollowerConfig(
-                Swerve.Motion.XY, 
-                Swerve.Motion.THETA, 
-                Swerve.MAX_MODULE_SPEED.get(), 
-                Swerve.WIDTH, 
-                new ReplanningConfig(true, true)), 
+                Swerve.Motion.XY,
+                Swerve.Motion.THETA,
+                Swerve.MAX_MODULE_SPEED.get(),
+                Swerve.WIDTH,
+                new ReplanningConfig(true, true)),
             () -> {
                 var alliance = DriverStation.getAlliance();
                 if (alliance.isPresent()) {
                     return alliance.get() == DriverStation.Alliance.Red;
                 }
                 return false;
-            }, 
+            },
             instance
         );
 
@@ -143,7 +151,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void initFieldObject(Field2d field) {
-        for (int i = 0; i < modules.length; i++){
+        for (int i = 0; i < modules.length; i++) {
             modules2D[i] = field.getObject(modules[i].getId() + "-2d");
         }
     }
@@ -152,18 +160,18 @@ public class SwerveDrive extends SubsystemBase {
     public SwerveDriveKinematics getKinematics() {
         return kinematics;
     }
-    
+
     public SwerveModuleState[] getModuleStates() {
         SwerveModuleState[] states = new SwerveModuleState[modules.length];
-        for (int i = 0; i< modules.length; i++){
+        for (int i = 0; i < modules.length; i++) {
             states[i] = modules[i].getState();
         }
         return states;
     }
-    
+
     public SwerveModulePosition[] getModulePositions() {
         SwerveModulePosition[] offsets = new SwerveModulePosition[modules.length];
-        for (int i = 0; i < modules.length; i++){
+        for (int i = 0; i < modules.length; i++) {
             offsets[i] = modules[i].getModulePosition();
         }
         return offsets;
@@ -176,20 +184,20 @@ public class SwerveDrive extends SubsystemBase {
         }
         return offsets;
     }
-        
+
     public ChassisSpeeds getChassisSpeeds() {
         return kinematics.toChassisSpeeds(getModuleStates());
     }
-    
+
     /** Setters **/
     public void setModuleStates(SwerveModuleState[] states) {
         if (states.length != modules.length) {
             throw new IllegalArgumentException("Provided incorrect number of states for swerve drive modules");
         }
-        
+
         SwerveDriveKinematics.desaturateWheelSpeeds(states, Swerve.MAX_MODULE_SPEED.get());
 
-        for (int i = 0; i < modules.length; i++){
+        for (int i = 0; i < modules.length; i++) {
             modules[i].setTargetState(states[i]);
         }
     }
@@ -199,28 +207,28 @@ public class SwerveDrive extends SubsystemBase {
             chassisSpeeds,
             Odometry.getInstance().getPose().getRotation()));
     }
-    
+
     public void setChassisSpeeds(ChassisSpeeds robotSpeeds) {
         setModuleStates(kinematics.toSwerveModuleStates(robotSpeeds));
     }
 
     public void setXMode() {
         setModuleStates(
-            new SwerveModuleState[] {
-                new SwerveModuleState(0, Rotation2d.fromDegrees(225)),
-                new SwerveModuleState(0, Rotation2d.fromDegrees(315)),
-                new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
-                new SwerveModuleState(0, Rotation2d.fromDegrees(135))
-            }
-        );
+                new SwerveModuleState[] {
+                    new SwerveModuleState(0, Rotation2d.fromDegrees(225)),
+                    new SwerveModuleState(0, Rotation2d.fromDegrees(315)),
+                    new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
+                    new SwerveModuleState(0, Rotation2d.fromDegrees(135))
+                }
+            );
     }
 
-    /** Drive Functions **/
+    /** Drive Functions * */
     public void drive(Vector2D velocity, double rotation) {
         ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                velocity.y, -velocity.x,
-                -rotation,
-                Odometry.getInstance().getPose().getRotation());
+            velocity.y, -velocity.x,
+            -rotation,
+            Odometry.getInstance().getPose().getRotation());
 
         Pose2d robotVel = new Pose2d(
             Settings.DT * speeds.vxMetersPerSecond,
@@ -237,7 +245,7 @@ public class SwerveDrive extends SubsystemBase {
 
     public void stop() {
         setChassisSpeeds(new ChassisSpeeds());
-    } 
+    }
 
     /** Gyro **/
     public Rotation2d getGyroAngle() {
@@ -247,7 +255,7 @@ public class SwerveDrive extends SubsystemBase {
     public Rotation2d getGyroPitch() {
         return Rotation2d.fromDegrees(gyro.getPitch());
     }
-    
+
     public Rotation2d getGyroRoll() {
         return Rotation2d.fromDegrees(gyro.getRoll());
     }
@@ -255,7 +263,7 @@ public class SwerveDrive extends SubsystemBase {
     public double getForwardAccelerationGs() {
         return gyro.getWorldLinearAccelY();
     }
-    
+
     @Override
     public void periodic() {
         Odometry odometry = Odometry.getInstance();

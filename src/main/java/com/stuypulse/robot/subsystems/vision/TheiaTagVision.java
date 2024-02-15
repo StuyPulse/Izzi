@@ -1,6 +1,10 @@
-package com.stuypulse.robot.subsystems.vision;
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
 
-import java.util.ArrayList;
+package com.stuypulse.robot.subsystems.vision;
 
 import com.stuypulse.robot.constants.Cameras;
 import com.stuypulse.robot.util.vision.TheiaCamera;
@@ -8,6 +12,8 @@ import com.stuypulse.robot.util.vision.VisionData;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import java.util.ArrayList;
 
 public class TheiaTagVision extends AprilTagVision {
 
@@ -19,12 +25,13 @@ public class TheiaTagVision extends AprilTagVision {
         for (int i = 0; i < Cameras.APRILTAG_CAMERAS.length; i++) {
             cameras[i] = new TheiaCamera(Cameras.APRILTAG_CAMERAS[i]);
         }
-        
+
         outputs = new ArrayList<VisionData>();
     }
 
     /**
      * Returns the outputs of the vision system.
+     *
      * @return the outputs of the vision system
      */
     @Override
@@ -34,6 +41,7 @@ public class TheiaTagVision extends AprilTagVision {
 
     /**
      * Sets the tag layout of the vision system.
+     *
      * @param ids the tag IDs
      */
     @Override
@@ -69,4 +77,3 @@ public class TheiaTagVision extends AprilTagVision {
         SmartDashboard.putBoolean("Vision/Has Any Data", !outputs.isEmpty());
     }
 }
- 

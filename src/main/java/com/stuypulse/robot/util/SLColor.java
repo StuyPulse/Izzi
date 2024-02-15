@@ -1,15 +1,22 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.util;
 
+import com.stuypulse.stuylib.math.SLMath;
+
 import edu.wpi.first.wpilibj.util.Color8Bit;
-//import edu.wpi.first.wpilibj.util.Color8 implicitly in code
 
 import java.awt.Color;
 import java.util.Objects;
 
-import com.stuypulse.stuylib.math.SLMath;
-  
 /**
- * StuyLib wrapper class for colors that handles various Color classes used in FRC (java.awt.Color, wpilibj.util.Color, wpilibj.util.Color8Bit)
+ * StuyLib wrapper class for colors that handles various Color classes used in FRC (java.awt.Color,
+ * wpilibj.util.Color, wpilibj.util.Color8Bit)
+ *
  * @author Richie Xue
  */
 public class SLColor extends edu.wpi.first.wpilibj.util.Color {
@@ -18,9 +25,7 @@ public class SLColor extends edu.wpi.first.wpilibj.util.Color {
     private final int green;
     private final int blue;
 
-    /**
-     * Constructs an LEDColor object defaulted to black
-     */
+    /** Constructs an LEDColor object defaulted to black */
     public SLColor() {
         this(0, 0, 0);
     }
@@ -31,7 +36,7 @@ public class SLColor extends edu.wpi.first.wpilibj.util.Color {
      * @param r the r value [0-255]
      * @param g the g value [0-255]
      * @param b the b value [0-255]
-    */
+     */
     public SLColor(int red, int green, int blue) {
         super(red, green, blue);
         this.red = (int) SLMath.clamp(red, 0, 255);
@@ -43,7 +48,7 @@ public class SLColor extends edu.wpi.first.wpilibj.util.Color {
      * Constructs an LEDColor object from java.awt.Color objects
      *
      * @param color The java.awt.Color object
-    */
+     */
     public SLColor(Color color) {
         this(color.getRed(), color.getGreen(), color.getBlue());
     }
@@ -52,7 +57,7 @@ public class SLColor extends edu.wpi.first.wpilibj.util.Color {
      * Constructs an LEDColor object from edu.wpi.first.wpilibj.util.Color objects
      *
      * @param color The edu.wpi.first.wpilibj.util.Color object
-    */
+     */
     public SLColor(edu.wpi.first.wpilibj.util.Color color) {
         this((int) color.red * 255, (int) color.green * 255, (int) color.green * 255);
     }
@@ -61,7 +66,7 @@ public class SLColor extends edu.wpi.first.wpilibj.util.Color {
      * Constructs an LEDColor object from edu.wpi.first.wpilibj.util.Color8Bit objects
      *
      * @param color The edu.wpi.first.wpilibj.util.Color8Bit object
-    */
+     */
     public SLColor(Color8Bit color) {
         this(color.red, color.blue, color.green);
     }
@@ -94,24 +99,24 @@ public class SLColor extends edu.wpi.first.wpilibj.util.Color {
     }
 
     /* Getters to convert LEDColor objects into other Color types */
-    
+
     /**
-     * @return the SLColor object as the java.awt.Color object equivalent 
-    */
+     * @return the SLColor object as the java.awt.Color object equivalent
+     */
     public Color getAWTColor() {
         return new Color(red, green, blue);
     }
 
     /**
-     * @return the SLColor object as the edu.wpi.first.wpilibj.util.Color object equivalent 
-    */
+     * @return the SLColor object as the edu.wpi.first.wpilibj.util.Color object equivalent
+     */
     public edu.wpi.first.wpilibj.util.Color getWPILibColor() {
         return new edu.wpi.first.wpilibj.util.Color(red / 255.0, green / 255.0, blue / 255.0);
     }
 
     /**
-     * @return the SLColor object as the edu.wpi.first.wpilibj.util.Color8Bit object equivalent 
-    */
+     * @return the SLColor object as the edu.wpi.first.wpilibj.util.Color8Bit object equivalent
+     */
     public Color8Bit getColor8Bit() {
         return new Color8Bit(red, green, blue);
     }
@@ -119,32 +124,32 @@ public class SLColor extends edu.wpi.first.wpilibj.util.Color {
     @Override
     public boolean equals(Object other) {
         if (this == other) {
-        return true;
+            return true;
         }
         if (other == null || getClass() != other.getClass()) {
-        return false;
+            return false;
         }
 
         SLColor color = (SLColor) other;
         return Integer.compare(color.red, red) == 0
-            && Integer.compare(color.green, green) == 0
-            && Integer.compare(color.blue, blue) == 0;
+                && Integer.compare(color.green, green) == 0
+                && Integer.compare(color.blue, blue) == 0;
     }
 
     @Override
     public int hashCode() {
-      return Objects.hash(red, green, blue);
+        return Objects.hash(red, green, blue);
     }
 
     /**
      * Return this color represented as a hex string.
      *
      * @return a string of the format <code>#RRGGBB</code>
-    */
+     */
     @Override
     public String toString() {
         return String.format(
-            "#%02X%02X%02X", (int) (red * 255), (int) (green * 255), (int) (blue * 255));
+                "#%02X%02X%02X", (int) (red * 255), (int) (green * 255), (int) (blue * 255));
     }
 
     /***********************/
@@ -169,7 +174,7 @@ public class SLColor extends edu.wpi.first.wpilibj.util.Color {
     public static final SLColor ORANGE = new SLColor(255, 128, 0);
     public static final SLColor PINK = new SLColor(255, 192, 203);
     public static final SLColor PURPLE = new SLColor(160, 32, 240);
-    public static final SLColor RED = new SLColor(255, 0 , 0);
+    public static final SLColor RED = new SLColor(255, 0, 0);
     public static final SLColor RED_ORANGE = new SLColor(255, 83, 73);
     public static final SLColor VIOLET = new SLColor(127, 0, 255);
     public static final SLColor WHITE = new SLColor(255, 255, 255);

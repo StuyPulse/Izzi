@@ -1,13 +1,18 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.commands.swerve;
+
+import static com.stuypulse.robot.constants.Settings.Alignment.*;
 
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 
-import static com.stuypulse.robot.constants.Settings.Alignment.*;
-
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
@@ -19,6 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 public class SwerveDriveToAutoStart extends Command {
     private final SwerveDrive swerve;
@@ -82,5 +88,4 @@ public class SwerveDriveToAutoStart extends Command {
         swerve.stop();
         targetPose2d.setPose(Double.NaN, Double.NaN, new Rotation2d(Double.NaN));
     }
-
 }

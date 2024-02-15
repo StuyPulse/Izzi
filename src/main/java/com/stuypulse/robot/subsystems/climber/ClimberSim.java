@@ -1,32 +1,36 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.subsystems.climber;
 
-import edu.wpi.first.math.system.plant.DCMotor;
+import com.stuypulse.robot.constants.Settings;
 
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Optional;
 
-import com.stuypulse.robot.constants.Settings;
-
 public class ClimberSim extends Climber {
-    
+
     private final ElevatorSim sim;
 
     private Optional<Double> voltageOverride;
 
     protected ClimberSim() {
         sim = new ElevatorSim(
-            DCMotor.getNEO(2), 
-            Settings.Climber.Encoder.GEAR_RATIO, 
-            Settings.Climber.MASS, 
-            Settings.Climber.DRUM_RADIUS, 
-            Settings.Climber.MIN_HEIGHT, 
-            Settings.Climber.MAX_HEIGHT, 
-            true, 
-            Settings.Climber.MIN_HEIGHT
-        );
-        
+            DCMotor.getNEO(2),
+            Settings.Climber.Encoder.GEAR_RATIO,
+            Settings.Climber.MASS,
+            Settings.Climber.DRUM_RADIUS,
+            Settings.Climber.MIN_HEIGHT,
+            Settings.Climber.MAX_HEIGHT,
+            true,
+            Settings.Climber.MIN_HEIGHT);
+
         voltageOverride = Optional.empty();
     }
 

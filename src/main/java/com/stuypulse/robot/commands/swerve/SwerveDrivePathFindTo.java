@@ -1,11 +1,18 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.commands.swerve;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.PathConstraints;
 import com.stuypulse.robot.constants.Settings;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathConstraints;
 
 public class SwerveDrivePathFindTo {
 
@@ -14,7 +21,11 @@ public class SwerveDrivePathFindTo {
     private double endVelocity;
     private double endRotationDelay;
 
-    public SwerveDrivePathFindTo(Pose2d target, PathConstraints constraints, double endVelocity, double endRotationDelay) {
+    public SwerveDrivePathFindTo(
+            Pose2d target,
+            PathConstraints constraints,
+            double endVelocity,
+            double endRotationDelay) {
         this.target = target;
         this.constraints = constraints;
         this.endVelocity = endVelocity;
@@ -24,7 +35,7 @@ public class SwerveDrivePathFindTo {
     public SwerveDrivePathFindTo(Pose2d target, PathConstraints constraints, double endVelocity) {
         this(target, constraints, endVelocity, 0);
     }
-    
+
     public SwerveDrivePathFindTo(Pose2d target, PathConstraints constraints) {
         this(target, constraints, 0);
     }

@@ -1,13 +1,20 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.subsystems.leds.instructions;
+
+import com.stuypulse.stuylib.util.StopWatch;
 
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.util.SLColor;
-import com.stuypulse.stuylib.util.StopWatch;
 
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 
 public class LEDPulseColor implements LEDInstruction {
-    
+
     private final SLColor color;
     private final SLColor altcolor;
     private final StopWatch stopwatch;
@@ -51,5 +58,3 @@ public class LEDPulseColor implements LEDInstruction {
         }
     }
 }
-
-

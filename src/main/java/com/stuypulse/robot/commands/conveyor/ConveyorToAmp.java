@@ -1,14 +1,18 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.commands.conveyor;
-
-import com.stuypulse.robot.subsystems.conveyor.Conveyor;
-
-import com.stuypulse.robot.subsystems.intake.Intake;
-
-import edu.wpi.first.wpilibj2.command.Command;
 
 import com.stuypulse.robot.commands.amper.AmperToHeight;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.amper.Amper;
+import com.stuypulse.robot.subsystems.conveyor.Conveyor;
+import com.stuypulse.robot.subsystems.intake.Intake;
+
+import edu.wpi.first.wpilibj2.command.Command;
 
 public class ConveyorToAmp extends Command {
     public static Command withCheckLift() {
@@ -47,5 +51,3 @@ public class ConveyorToAmp extends Command {
         amper.stopRoller();
     }
 }
-
-

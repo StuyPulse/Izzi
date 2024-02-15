@@ -1,12 +1,17 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.subsystems.odometry;
 
-import java.util.ArrayList;
+import com.stuypulse.stuylib.network.SmartBoolean;
 
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.robot.util.vision.AprilTag;
 import com.stuypulse.robot.util.vision.VisionData;
-import com.stuypulse.stuylib.network.SmartBoolean;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -16,11 +21,11 @@ import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-/**
- * This class handles the odometry of the robot.
- */
+import java.util.ArrayList;
+
+/** This class handles the odometry of the robot. */
 public class Odometry extends SubsystemBase {
-    
+
     private static final Odometry instance;
 
     static {
@@ -34,18 +39,26 @@ public class Odometry extends SubsystemBase {
     private final SwerveDriveOdometry odometry;
     private final SwerveDrivePoseEstimator estimator;
     private final SmartBoolean VISION_ACTIVE;
-    
+
     private final Field2d field;
     private final FieldObject2d odometryPose2D;
     private final FieldObject2d estimatorPose2D;
 
     protected Odometry() {
         SwerveDrive swerve = SwerveDrive.getInstance();
-        odometry = new SwerveDriveOdometry(swerve.getKinematics(), swerve.getGyroAngle(), swerve.getModulePositions(), new Pose2d());
-        estimator = new SwerveDrivePoseEstimator(swerve.getKinematics(), swerve.getGyroAngle(), swerve.getModulePositions(), new Pose2d());
+        odometry = new SwerveDriveOdometry(
+            swerve.getKinematics(),
+            swerve.getGyroAngle(),
+            swerve.getModulePositions(),
+            new Pose2d());
+        estimator = new SwerveDrivePoseEstimator(
+            swerve.getKinematics(),
+            swerve.getGyroAngle(),
+            swerve.getModulePositions(),
+            new Pose2d());
 
         VISION_ACTIVE = new SmartBoolean("Odometry/VISION ACTIVE", true);
-        
+
         field = new Field2d();
         swerve.initFieldObject(field);
         odometryPose2D = field.getObject("Odometry Pose");
@@ -63,11 +76,14 @@ public class Odometry extends SubsystemBase {
     }
 
     public double getDistanceToTag(AprilTag tag) {
-        return getPose().getTranslation().getDistance(tag.getLocation().getTranslation().toTranslation2d());
+        return getPose()
+            .getTranslation()
+            .getDistance(tag.getLocation().getTranslation().toTranslation2d());
     }
 
     /**
      * Reset the pose of the odometry to the given pose.
+     *
      * @param pose the pose to reset to
      */
     public void reset(Pose2d pose) {
@@ -81,7 +97,7 @@ public class Odometry extends SubsystemBase {
         odometry.update(swerve.getGyroAngle(), swerve.getModulePositions());
         estimator.update(swerve.getGyroAngle(), swerve.getModulePositions());
     }
-    
+
     private void updateEstimatorWithVisionData(ArrayList<VisionData> outputs) {
         for (VisionData data : outputs) {
             estimator.addVisionMeasurement(data.getPose().toPose2d(), data.getTimestamp());
@@ -93,7 +109,7 @@ public class Odometry extends SubsystemBase {
         ArrayList<VisionData> outputs = AprilTagVision.getInstance().getOutputs();
 
         updateOdometry();
-        
+
         if (VISION_ACTIVE.get()) {
             updateEstimatorWithVisionData(outputs);
         }
