@@ -26,6 +26,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
@@ -40,7 +41,7 @@ import com.ctre.phoenix6.hardware.CANcoder;
  *   - state: SwerveModuleState
  *
  *   physical Components:
- *   - turn: CANSparkMax
+ *   - turn: CANSparkFlex
  *   - drive: CANSparkMax
  *   - driveEncoder: RelativeEncoder
  *   - turnAbsoluteEncoder: SparkAbsoluteEncoder
@@ -60,7 +61,7 @@ public class SwerveModuleImpl extends SwerveModule {
     private final Rotation2d angleOffset;
 
     private final CANSparkMax turnMotor;
-    private final CANSparkMax driveMotor;
+    private final CANSparkFlex driveMotor;
 
     private final RelativeEncoder driveEncoder;
     private final CANcoder turnEncoder;
@@ -88,7 +89,7 @@ public class SwerveModuleImpl extends SwerveModule {
 
         this.angleOffset = angleOffset;
 
-        driveMotor = new CANSparkMax(driveID, MotorType.kBrushless);
+        driveMotor = new CANSparkFlex(driveID, MotorType.kBrushless);
         turnMotor = new CANSparkMax(turnID, MotorType.kBrushless);
 
         driveEncoder = driveMotor.getEncoder();

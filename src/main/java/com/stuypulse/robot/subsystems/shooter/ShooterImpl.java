@@ -18,13 +18,13 @@ import com.stuypulse.robot.constants.Settings.Shooter.PID;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 
 public class ShooterImpl extends Shooter {
 
-    private final CANSparkMax leftMotor;
-    private final CANSparkMax rightMotor;
+    private final CANSparkFlex leftMotor;
+    private final CANSparkFlex rightMotor;
 
     private final RelativeEncoder leftEncoder;
     private final RelativeEncoder rightEncoder;
@@ -33,8 +33,8 @@ public class ShooterImpl extends Shooter {
     private final Controller rightController;
 
     protected ShooterImpl() {
-        leftMotor = new CANSparkMax(Ports.Shooter.LEFT_MOTOR, MotorType.kBrushless);
-        rightMotor = new CANSparkMax(Ports.Shooter.RIGHT_MOTOR, MotorType.kBrushless);
+        leftMotor = new CANSparkFlex(Ports.Shooter.LEFT_MOTOR, MotorType.kBrushless);
+        rightMotor = new CANSparkFlex(Ports.Shooter.RIGHT_MOTOR, MotorType.kBrushless);
 
         leftEncoder = leftMotor.getEncoder();
         rightEncoder = rightMotor.getEncoder();
