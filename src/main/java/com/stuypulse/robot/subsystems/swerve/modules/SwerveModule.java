@@ -1,3 +1,9 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.subsystems.swerve.modules;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -30,7 +36,9 @@ public abstract class SwerveModule extends SubsystemBase {
     }
 
     public abstract double getVelocity();
+
     public abstract Rotation2d getAngle();
+
     public abstract SwerveModulePosition getModulePosition();
 
     public final SwerveModuleState getState() {
@@ -53,5 +61,3 @@ public abstract class SwerveModule extends SubsystemBase {
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Velocity", getVelocity());
     }
 }
-    
-

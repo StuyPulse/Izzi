@@ -1,10 +1,13 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.constants;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import com.stuypulse.robot.util.vision.AprilTag;
 import com.stuypulse.robot.Robot;
+import com.stuypulse.robot.util.vision.AprilTag;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -12,13 +15,12 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation3d;
-
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation;
 
-/**
- * This interface stores information about the field elements.
- */
+import java.util.ArrayList;
+import java.util.Arrays;
+
+/** This interface stores information about the field elements. */
 public interface Field {
 
     double WIDTH = Units.inchesToMeters(323.25);
@@ -50,8 +52,13 @@ public interface Field {
 
         public final AprilTag tag;
 
-        public int getID() { return tag.getID(); }
-        public Pose3d getLocation() { return tag.getLocation(); }
+        public int getID() {
+            return tag.getID();
+        }
+
+        public Pose3d getLocation() {
+            return tag.getLocation();
+        }
 
         private NamedTags() {
             tag = APRILTAGS[ordinal()];
@@ -79,25 +86,25 @@ public interface Field {
     };
 
     public static boolean isValidTag(int id) {
-        for(AprilTag tag : APRILTAGS) { 
-            if (tag.getID() == id) { 
+        for (AprilTag tag : APRILTAGS) {
+            if (tag.getID() == id) {
                 return true;
             }
         }
         return false;
     }
-    
+
     public static AprilTag[] getApriltagLayout(int... ids) {
         ArrayList<AprilTag> tags = new ArrayList<AprilTag>();
 
         for (int id : ids) {
             for (AprilTag tag : APRILTAGS) {
-                if (tag.getID() == id) { 
+                if (tag.getID() == id) {
                     tags.add(tag);
                 }
             }
         }
-                
+
         AprilTag[] tags_array = new AprilTag[tags.size()];
         return tags.toArray(tags_array);
     }
@@ -137,7 +144,8 @@ public interface Field {
     }
 
     public static Pose2d getSpeakerPathFindPose() {
-        return SPEAKER_POSES[Robot.isBlue() ? 0 : 1].transformBy(new Transform2d(0, Units.inchesToMeters(200), new Rotation2d()));
+        return SPEAKER_POSES[Robot.isBlue() ? 0 : 1].transformBy(
+            new Transform2d(0, Units.inchesToMeters(200), new Rotation2d()));
     }
 
     double SPEAKER_OPENING_X = Units.inchesToMeters(13.6);
@@ -158,7 +166,8 @@ public interface Field {
     }
 
     public static Pose2d getAmpPathFindPose() {
-        return AMP_POSES[Robot.isBlue() ? 0 : 1].transformBy(new Transform2d(0, Units.inchesToMeters(56), new Rotation2d()));
+        return AMP_POSES[Robot.isBlue() ? 0 : 1].transformBy(
+            new Transform2d(0, Units.inchesToMeters(56), new Rotation2d()));
     }
 
     /*** TRAP ***/

@@ -1,7 +1,8 @@
-/************************ PROJECT PHIL ************************/
-/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved.*/
-/* This work is licensed under the terms of the MIT license.  */
-/**************************************************************/
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
 
 package com.stuypulse.robot.constants;
 
@@ -20,9 +21,9 @@ public interface Ports {
         int TOP_RIGHT_LIMIT = 9;
         int TOP_LEFT_LIMIT = 8;
         int BOTTOM_RIGHT_LIMIT = 7;
-        int BOTTOM_LEFT_LIMIT = 6;        
+        int BOTTOM_LEFT_LIMIT = 6;
     }
-  
+
     public interface Amper {
         int SCORE = 31;
         int LIFT = 30;
@@ -32,7 +33,7 @@ public interface Ports {
         int LIFT_TOP_LIMIT = 5;
         int AMP_IR = 2;
     }
-  
+
     public interface Swerve {
         public interface FrontRight {
             int DRIVE = 10;
@@ -46,7 +47,7 @@ public interface Ports {
             int ENCODER = 2;
         }
 
-        public interface BackLeft{
+        public interface BackLeft {
             int DRIVE = 14;
             int TURN = 15;
             int ENCODER = 3;
@@ -63,9 +64,9 @@ public interface Ports {
         int MOTOR = 40;
         int IR_SENSOR = 1;
     }
-  
+
     public interface Shooter {
-        int LEFT_MOTOR = 20; 
+        int LEFT_MOTOR = 20;
         int RIGHT_MOTOR = 21;
     }
 
@@ -77,6 +78,6 @@ public interface Ports {
     }
 
     public interface LEDController {
-        int PORT = 0; //PWM
+        int PORT = 0; // PWM
     }
 }

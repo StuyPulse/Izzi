@@ -1,3 +1,9 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.subsystems.vision;
 
 import static com.stuypulse.robot.constants.Cameras.Limelight.*;
@@ -38,6 +44,7 @@ public class LLNoteVision extends NoteVision {
 
     /**
      * Get whether the Limelight has data.
+     *
      * @return whether the Limelight has data
      */
     @Override
@@ -52,6 +59,7 @@ public class LLNoteVision extends NoteVision {
 
     /**
      * Get the estimated pose of the note.
+     *
      * @return the estimated pose of the note
      */
     @Override
@@ -64,7 +72,9 @@ public class LLNoteVision extends NoteVision {
         Translation2d sum = new Translation2d();
 
         for (Limelight limelight : limelights) {
-            sum = sum.plus(new Translation2d(limelight.getDistanceToNote(), Rotation2d.fromDegrees(limelight.getXAngle())));
+            sum = sum.plus(new Translation2d(
+                limelight.getDistanceToNote(),
+                Rotation2d.fromDegrees(limelight.getXAngle())));
         }
 
         return sum.div(limelights.length);
@@ -86,7 +96,9 @@ public class LLNoteVision extends NoteVision {
                 .minus(limelight.getRobotRelativePose().getTranslation().toTranslation2d())
                 .rotateBy(limelight.getRobotRelativePose().getRotation().toRotation2d());
 
-            Translation2d fieldToNote = robotToNote.rotateBy(odometry.getPose().getRotation()).plus(odometry.getPose().getTranslation());
+            Translation2d fieldToNote = robotToNote
+                .rotateBy(odometry.getPose().getRotation())
+                .plus(odometry.getPose().getTranslation());
 
             sum = sum.plus(fieldToNote);
         }

@@ -1,3 +1,9 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.subsystems.leds;
 
 import com.stuypulse.robot.constants.LEDInstructions;
@@ -18,22 +24,22 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 
 public class LEDController extends SubsystemBase {
-    private static LEDController instance; 
+    private static LEDController instance;
 
     static {
         instance = new LEDController();
     }
-    
+
     public static LEDController getInstance() {
         return instance;
     }
-    
+
     private AddressableLED leds;
     private AddressableLEDBuffer ledsBuffer;
 
     protected LEDController() {
         leds = new AddressableLED(Ports.LEDController.PORT);
-        ledsBuffer = new AddressableLEDBuffer(Settings.LED.LED_LENGTH); 
+        ledsBuffer = new AddressableLEDBuffer(Settings.LED.LED_LENGTH);
 
         leds.setLength(ledsBuffer.getLength());
         leds.setData(ledsBuffer);

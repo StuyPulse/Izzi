@@ -1,14 +1,18 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.util.vision;
 
 import com.stuypulse.robot.constants.Field;
 
 import edu.wpi.first.math.geometry.Pose3d;
 
-/**
- * This class stores pieces of data from the vision system.
- */
+/** This class stores pieces of data from the vision system. */
 public class VisionData {
-    
+
     private final Pose3d outputPose;
     private final int[] ids;
     private final double timestamp;
@@ -18,9 +22,10 @@ public class VisionData {
         this.ids = ids;
         this.timestamp = timestamp;
     }
-    
+
     /**
      * Returns the pose of the robot relative to the field.
+     *
      * @return the pose of the robot relative to the field
      */
     public Pose3d getPose() {
@@ -29,6 +34,7 @@ public class VisionData {
 
     /**
      * Returns the IDs of the tags detected.
+     *
      * @return the IDs of the tags detected
      */
     public int[] getIDs() {
@@ -37,23 +43,28 @@ public class VisionData {
 
     /**
      * Returns the timestamp of the vision data.
+     *
      * @return the timestamp of the vision data
      */
     public double getTimestamp() {
         return timestamp;
     }
-    
+
     /**
      * Returns the distance to any tag on the field.
+     *
      * @param id the tag ID
      * @return the distance to the tag
      */
     public double getDistanceToTag(int id) {
-        return outputPose.getTranslation().getDistance(Field.getTag(id).getLocation().getTranslation());
+        return outputPose
+            .getTranslation()
+            .getDistance(Field.getTag(id).getLocation().getTranslation());
     }
-    
+
     /**
      * Returns the primary tag ID (first id).
+     *
      * @return the primary tag ID
      */
     public int getPrimaryID() {
@@ -62,6 +73,7 @@ public class VisionData {
 
     /**
      * Returns if the data is valid.
+     *
      * @return if valid data
      */
     public boolean isValidData() {
@@ -79,9 +91,18 @@ public class VisionData {
             }
         }
 
-        if (Double.isNaN(outputPose.getX()) || outputPose.getX() < 0  || outputPose.getX() > Field.LENGTH) return false;
-        if (Double.isNaN(outputPose.getY()) || outputPose.getY() < 0  || outputPose.getY() > Field.WIDTH) return false;
-        if (Double.isNaN(outputPose.getZ()) || outputPose.getZ() < -1 || outputPose.getZ() > 1) return false;
+        if (Double.isNaN(outputPose.getX())
+                || outputPose.getX() < 0
+                || outputPose.getX() > Field.LENGTH)
+            return false;
+        if (Double.isNaN(outputPose.getY())
+                || outputPose.getY() < 0
+                || outputPose.getY() > Field.WIDTH)
+            return false;
+        if (Double.isNaN(outputPose.getZ())
+                || outputPose.getZ() < -1
+                || outputPose.getZ() > 1)
+            return false;
 
         return true;
     }

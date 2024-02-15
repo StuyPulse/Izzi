@@ -1,7 +1,8 @@
-/************************ PROJECT PHIL ************************/
-/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved.*/
-/* This work is licensed under the terms of the MIT license.  */
-/**************************************************************/
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
 
 package com.stuypulse.robot.constants;
 
@@ -18,14 +19,13 @@ import com.revrobotics.CANSparkMax;
  *  - The Open Loop Ramp Rate
  */
 public interface Motors {
-    
+
     /** Classes to store all of the values a motor needs */
-  
     public interface Amper {
         CANSparkMaxConfig LIFT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake);
         CANSparkMaxConfig SCORE_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
     }
-  
+
     public interface Swerve {
         public CANSparkMaxConfig DRIVE_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake);
         public CANSparkMaxConfig TURN_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake);
@@ -34,12 +34,12 @@ public interface Motors {
     public interface Intake {
         CANSparkMaxConfig MOTOR_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
     }
-  
+
     public interface Shooter {
-        CANSparkMaxConfig LEFT_SHOOTER = new CANSparkMaxConfig(false,IdleMode.kCoast);
-        CANSparkMaxConfig RIGHT_SHOOTER = new CANSparkMaxConfig(false,IdleMode.kCoast);      
+        CANSparkMaxConfig LEFT_SHOOTER = new CANSparkMaxConfig(false, IdleMode.kCoast);
+        CANSparkMaxConfig RIGHT_SHOOTER = new CANSparkMaxConfig(false, IdleMode.kCoast);
     }
-  
+
     public interface Conveyor {
         CANSparkMaxConfig GANDALF_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
         CANSparkMaxConfig SHOOTER_FEEDER_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake);
@@ -81,8 +81,6 @@ public interface Motors {
             motor.setSmartCurrentLimit(CURRENT_LIMIT_AMPS);
             motor.setOpenLoopRampRate(OPEN_LOOP_RAMP_RATE);
             motor.burnFlash();
-         }
-          
-     }
-
+        }
+    }
 }

@@ -1,3 +1,9 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.constants;
 
 import com.stuypulse.robot.subsystems.leds.instructions.LEDInstruction;
@@ -7,7 +13,7 @@ import com.stuypulse.robot.subsystems.leds.instructions.LEDSection;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDSingleColor;
 import com.stuypulse.robot.subsystems.leds.instructions.RichieMode;
 import com.stuypulse.robot.util.SLColor;
- 
+
 public interface LEDInstructions {
 
     /**************/
@@ -34,7 +40,7 @@ public interface LEDInstructions {
     LEDInstruction ORANGE = new LEDSingleColor(new SLColor(255, 128, 0));
     LEDInstruction PINK = new LEDSingleColor(new SLColor(255, 192, 203));
     LEDInstruction PURPLE = new LEDSingleColor(new SLColor(160, 32, 240));
-    LEDInstruction RED = new LEDSingleColor(new SLColor(255, 0 , 0));
+    LEDInstruction RED = new LEDSingleColor(new SLColor(255, 0, 0));
     LEDInstruction RED_ORANGE = new LEDSingleColor(new SLColor(255, 83, 73));
     LEDInstruction VIOLET = new LEDSingleColor(new SLColor(127, 0, 255));
     LEDInstruction WHITE = new LEDSingleColor(new SLColor(255, 255, 255));
@@ -47,6 +53,7 @@ public interface LEDInstructions {
     /******************/
 
     LEDInstruction RAINBOW = new LEDRainbow();
+
     LEDInstruction PULSE_RED = new LEDPulseColor(SLColor.RED);
     LEDInstruction PULSE_RED_BLUE = new LEDPulseColor(SLColor.RED, SLColor.BLUE);
     LEDInstruction PULSE_PURPLE = new LEDPulseColor(SLColor.PURPLE, .25);
@@ -64,5 +71,6 @@ public interface LEDInstructions {
 
     LEDInstruction ASSIST_FLASH = LEDInstructions.GREEN;
 
-    //TO FUTURE USERS, DONT PUT LEDAlign and LEDAutonChooser (any disabled LEDInstructions) inside the LEDInstructions interface 
+    // TO FUTURE USERS, DONT PUT LEDAlign and LEDAutonChooser (any disabled LEDInstructions) inside
+    // the LEDInstructions interface
 }

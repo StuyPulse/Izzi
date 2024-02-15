@@ -1,10 +1,17 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.subsystems.amper;
+
+import com.stuypulse.stuylib.math.SLMath;
+import com.stuypulse.stuylib.network.SmartNumber;
 
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
-import com.stuypulse.stuylib.math.SLMath;
-import com.stuypulse.stuylib.network.SmartNumber;
 
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
@@ -32,8 +39,7 @@ public abstract class Amper extends SubsystemBase {
     static {
         if (Robot.isReal()) {
             instance = new AmperImpl();
-        }
-        else {
+        } else {
             instance = new AmperSim();
         }
     }
@@ -43,7 +49,7 @@ public abstract class Amper extends SubsystemBase {
     }
 
     private final SmartNumber targetHeight;
-    
+
     private final Mechanism2d mechanism2d;
     private final MechanismLigament2d lift2d;
 
@@ -64,14 +70,16 @@ public abstract class Amper extends SubsystemBase {
             Settings.Amper.Lift.ANGLE_TO_GROUND.getDegrees(),
             10,
             new Color8Bit(Color.kAqua)));
-        
+
         SmartDashboard.putData("Lift Mechanism", mechanism2d);
     }
 
     /*** LIFT CONTROL ***/
 
     public void setTargetHeight(double height) {
-        targetHeight.set(SLMath.clamp(height, Settings.Amper.Lift.MIN_HEIGHT, Settings.Amper.Lift.MAX_HEIGHT));
+        targetHeight.set(
+                SLMath.clamp(
+                        height, Settings.Amper.Lift.MIN_HEIGHT, Settings.Amper.Lift.MAX_HEIGHT));
     }
 
     public final double getTargetHeight() {
@@ -81,23 +89,29 @@ public abstract class Amper extends SubsystemBase {
     public final boolean isAtTargetHeight(double epsilonMeters) {
         return Math.abs(getTargetHeight() - getLiftHeight()) < epsilonMeters;
     }
-    
+
     public abstract boolean liftAtBottom();
+
     public abstract boolean liftAtTop();
+
     public abstract double getLiftHeight();
+
     public abstract void stopLift();
 
     /*** IR SENSOR ***/
-    
+
     public abstract boolean hasNote();
 
     /*** SCORE ROLLERS ***/
 
     public abstract void score();
+
     public abstract void intake();
+
     public abstract void stopRoller();
 
     public abstract double getNoteDistance();
+
     // public abstract boolean touchingAmp();
 
     /*** LIFT CONFIG ***/
