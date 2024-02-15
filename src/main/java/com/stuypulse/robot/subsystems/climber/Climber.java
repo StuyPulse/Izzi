@@ -23,12 +23,15 @@ public abstract class Climber extends SubsystemBase {
     }
 
     private final SmartNumber targetHeight;
+    private boolean isUsingBoth;
 
     private final ClimberVisualizer climberVisualizer;
 
     public Climber() {
         targetHeight = new SmartNumber("Climber/Target Height", 0.0);
         climberVisualizer = new ClimberVisualizer();
+
+        isUsingBoth = true;
     }
 
     public void setTargetHeight(double height) {
@@ -40,7 +43,11 @@ public abstract class Climber extends SubsystemBase {
     }
 
     public final boolean isAtTargetHeight(double epsilonMeters) {
-        return isAtLeftTargetHeight(epsilonMeters) && isAtRightTargetHeight(epsilonMeters);
+        if (isUsingBoth) {
+            return isAtLeftTargetHeight(epsilonMeters) && isAtRightTargetHeight(epsilonMeters);
+        } else {
+            return isAtLeftTargetHeight(epsilonMeters) || isAtRightTargetHeight(epsilonMeters);
+        }
     }
 
     public final boolean isAtLeftTargetHeight(double epsilonMeters) {
@@ -51,13 +58,17 @@ public abstract class Climber extends SubsystemBase {
         return Math.abs(getTargetHeight() - getRightHeight()) < epsilonMeters;
     }
 
+    public void setUsingBoth(boolean howMany) {
+        isUsingBoth = howMany;
+    }
+
     public abstract double getHeight();
     
     public abstract double getLeftHeight();
     public abstract double getRightHeight();
 
     public abstract double getVelocity();
-
+    
     /*** LIMITS ***/
 
     public abstract boolean atTop();

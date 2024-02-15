@@ -27,5 +27,4 @@ public class ClimberToHeight extends InstantCommand {
     public void initialize() {
         climber.setTargetHeight(height);
     }
-
 }

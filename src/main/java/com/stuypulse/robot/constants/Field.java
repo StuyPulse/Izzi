@@ -12,7 +12,6 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
 
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation;
 
 /**
  * This interface stores information about the field elements.
@@ -52,7 +51,7 @@ public interface Field {
         public Pose3d getLocation() { return tag.getLocation(); }
 
         private NamedTags() {
-            tag = APRILTAGS[ordinal() + 1];
+            tag = APRILTAGS[ordinal()];
         }
     }
 

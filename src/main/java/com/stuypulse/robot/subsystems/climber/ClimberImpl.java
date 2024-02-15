@@ -1,5 +1,6 @@
 package com.stuypulse.robot.subsystems.climber;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 
 import java.util.Optional;
@@ -10,12 +11,15 @@ import com.revrobotics.RelativeEncoder;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.stuylib.network.SmartBoolean;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ClimberImpl extends Climber {
+
+    private SmartBoolean whichSide;
     
     private final CANSparkMax rightMotor;
     private final CANSparkMax leftMotor;
@@ -161,8 +165,10 @@ public class ClimberImpl extends Climber {
         
         SmartDashboard.putNumber("Climber/Left Voltage", leftMotor.getAppliedOutput() * leftMotor.getBusVoltage());
         SmartDashboard.putNumber("Climber/Right Voltage", rightMotor.getAppliedOutput() * rightMotor.getBusVoltage());
+
         SmartDashboard.putNumber("Climber/Left Height", getLeftHeight());
         SmartDashboard.putNumber("Climber/Right Height", getRightHeight());
+
         SmartDashboard.putNumber("Climber/Velocity", getVelocity());
 
         if (atBottom()) {

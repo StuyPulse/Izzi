@@ -101,6 +101,6 @@ public class ClimberVisualizer {
 
         double stageBottomY = OUTER_STAGE_HEIGHT * percentDone;
 
-        rightBottomRoot.setPosition(leftRootX, stageBottomY);
+        rightBottomRoot.setPosition(rightRootX, stageBottomY);
     }
 }
