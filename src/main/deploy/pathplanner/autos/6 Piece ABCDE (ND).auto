@@ -1,0 +1,151 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.462744046458869,
+      "y": 4.628040033669767
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "SetPodiumRangeShot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Start To C (ABC)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeAcquire"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C To B (ABC)"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B To A (ABC)"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A To Intermediate D"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TranslateToNote"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "D To Shoot (ABCD)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TopShoot To Intermediate E"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TranslateToNote"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E To Shoot (ABCDE)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorShoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

@@ -15,6 +15,7 @@ import com.stuypulse.robot.commands.climber.*;
 import com.stuypulse.robot.commands.swerve.*;
 import com.stuypulse.robot.commands.intake.*;
 import com.stuypulse.robot.commands.notealignment.SwerveDriveNoteAlignedDrive;
+import com.stuypulse.robot.commands.notealignment.SwerveDriveTranslateToNote;
 import com.stuypulse.robot.commands.shooter.*;
 import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.constants.Ports;
@@ -98,7 +99,8 @@ public class RobotContainer {
             .andThen(new IntakeStop()));
         NamedCommands.registerCommand("DriveToShoot", new SwerveDriveToShoot());
         NamedCommands.registerCommand("SetPodiumRangeShot", new ShooterPodiumShot());
-        NamedCommands.registerCommand("ConveyorShoot", new ConveyorToShooter().andThen(new ConveyorShoot()));
+        NamedCommands.registerCommand("ConveyorShoot", new ConveyorToShooter().andThen(new ConveyorShoot()).andThen(new WaitCommand(0.5)).andThen(new ConveyorStop()));
+        NamedCommands.registerCommand("TranslateToNote", new SwerveDriveTranslateToNote());
     }
 
     /***************/
