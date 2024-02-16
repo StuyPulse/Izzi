@@ -91,7 +91,7 @@ public class RobotContainer {
     /**********************/
 
     private void configureNamedCommands() {
-        NamedCommands.registerCommand("IntakeAcquire", new IntakeAcquire());
+        NamedCommands.registerCommand("IntakeAcquire", new IntakeAcquireForever());
         NamedCommands.registerCommand("IntakeStop", new IntakeStop());
         NamedCommands.registerCommand("DriveToNote", new SwerveDriveDriveToNote()
             .alongWith(new IntakeAcquire())
