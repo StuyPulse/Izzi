@@ -38,6 +38,8 @@ import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 
 import com.stuypulse.robot.subsystems.climber.*;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -101,6 +103,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("SetPodiumRangeShot", new ShooterPodiumShot());
         NamedCommands.registerCommand("ConveyorShoot", new ConveyorToShooter().andThen(new ConveyorShoot()).andThen(new WaitCommand(0.5)).andThen(new ConveyorStop()));
         NamedCommands.registerCommand("TranslateToNote", new SwerveDriveTranslateToNote());
+        NamedCommands.registerCommand("PathFindToShoot", new SwerveDrivePathFindTo(new Pose2d(3.35, 6.80, new Rotation2d(23))).get());
     }
 
     /***************/
