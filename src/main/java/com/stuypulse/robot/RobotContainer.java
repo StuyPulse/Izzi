@@ -101,9 +101,9 @@ public class RobotContainer {
             .andThen(new IntakeStop()));
         NamedCommands.registerCommand("DriveToShoot", new SwerveDriveToShoot());
         NamedCommands.registerCommand("SetPodiumRangeShot", new ShooterPodiumShot());
-        NamedCommands.registerCommand("ConveyorShoot", new ConveyorToShooter().andThen(new ConveyorShoot()).andThen(new WaitCommand(0.5)).andThen(new ConveyorStop()));
+        NamedCommands.registerCommand("ConveyorShoot", new ConveyorShootRoutine());
         NamedCommands.registerCommand("TranslateToNote", new SwerveDriveTranslateToNote());
-        NamedCommands.registerCommand("PathFindToShoot", new SwerveDrivePathFindTo(new Pose2d(3.35, 6.80, new Rotation2d(23))).get());
+        NamedCommands.registerCommand("PathFindToShoot", new SwerveDrivePathFindTo(Field.TOP_SHOOT_POSE).get());
     }
 
     /***************/

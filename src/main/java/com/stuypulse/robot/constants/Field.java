@@ -183,4 +183,10 @@ public interface Field {
     public static Pose2d getClosestAllianceTrapPose(Pose2d robotPose) {
         return robotPose.nearest(Arrays.asList(getAllianceTrapPoses()));
     }
+
+    /**** SHOOT POSES ****/
+
+    public Pose2d TOP_SHOOT_POSE = new Pose2d(3.35, 6.80, new Rotation2d(23));
+    public Pose2d ALTERNATE_TOP_SHOOT_POSE = new Pose2d(3.40, 5.21, new Rotation2d(-6));
+    public Pose2d BOTTOM_SHOOT_POSE = new Pose2d(2.54, 3.23, new Rotation2d(-40));
 }
