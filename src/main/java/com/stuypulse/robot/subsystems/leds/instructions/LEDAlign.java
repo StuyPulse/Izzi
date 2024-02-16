@@ -16,6 +16,8 @@ import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.LED;
 import com.stuypulse.robot.subsystems.leds.LEDController;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
+import com.stuypulse.robot.subsystems.vision.AprilTagVision;
+import com.stuypulse.robot.subsystems.vision.TheiaTagVision;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
@@ -89,9 +91,9 @@ public class LEDAlign implements LEDInstruction {
                     startPose.getRotation().getDegrees(),
                     LED.ROTATION_SPREAD.get());
             }
-
             ledsBuffer.setLED(index, Color.kWhite);
         }
+        if (TheiaTagVision.getInstance().getOutputs().isEmpty()) LEDInstructions.WHITE.setLED(ledsBuffer); 
     }
 
     private int linearInterp(double robotMeasurement, double targetPos, double spread) {
@@ -105,4 +107,5 @@ public class LEDAlign implements LEDInstruction {
         }
         return (int) (Settings.LED.LED_LENGTH * (robotMeasurement - lowerBound) / (spread * 2));
     }
+
 }

@@ -10,7 +10,6 @@ import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.util.SLColor;
 
-import edu.wpi.first.wpilibj.DriverStation;
 
 import java.util.Arrays;
 
