@@ -9,6 +9,7 @@ package com.stuypulse.robot.commands.notealignment;
 import static com.stuypulse.robot.constants.Settings.Alignment.*;
 import static com.stuypulse.robot.constants.Settings.NoteDetection.*;
 
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.streams.booleans.BStream;
@@ -23,6 +24,8 @@ import com.stuypulse.robot.util.HolonomicController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -67,12 +70,16 @@ public class SwerveDriveTranslateToNote extends Command {
 
         Pose2d targetPose = new Pose2d(targetTranslation, targetRotation);
 
-        // translate to note only if note in view
+        // translate to note only if note in view AND not outside of boundary in auton
         if (vision.hasNoteData()) {
-            swerve.setChassisSpeeds(
-                controller.update(
-                    targetPose,
-                    new Pose2d(odometry.getPose().getTranslation(), targetRotation)));
+            if (DriverStation.isAutonomous() && Field.getAutonNoteDetectionBoundary() - targetPose.getX() < 0) {
+                swerve.setChassisSpeeds(new ChassisSpeeds());
+            } else {
+                swerve.setChassisSpeeds(
+                    controller.update(
+                        targetPose,
+                        new Pose2d(odometry.getPose().getTranslation(), targetRotation)));
+            }
         }
 
         SmartDashboard.putBoolean("Note Detection/Is Aligned", aligned.get());

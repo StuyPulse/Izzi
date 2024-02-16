@@ -192,4 +192,12 @@ public interface Field {
     public static Pose2d getClosestAllianceTrapPose(Pose2d robotPose) {
         return robotPose.nearest(Arrays.asList(getAllianceTrapPoses()));
     }
+
+    /***** NOTE DETECTION *****/
+
+    public double NOTE_BOUNDARY_RANGE_FROM_CENTER = Units.inchesToMeters(Settings.LENGTH / 2);
+
+    public static double getAutonNoteDetectionBoundary() {
+        return Robot.isBlue() ? WIDTH / 2 + NOTE_BOUNDARY_RANGE_FROM_CENTER : WIDTH / 2 - NOTE_BOUNDARY_RANGE_FROM_CENTER;
+    }
 }
