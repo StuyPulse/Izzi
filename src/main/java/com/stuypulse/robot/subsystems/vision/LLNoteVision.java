@@ -8,8 +8,14 @@ package com.stuypulse.robot.subsystems.vision;
 
 import static com.stuypulse.robot.constants.Cameras.Limelight.*;
 
+import com.stuypulse.robot.constants.Settings.NoteDetection;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.util.vision.Limelight;
+import com.stuypulse.stuylib.math.Vector2D;
+import com.stuypulse.stuylib.streams.booleans.BStream;
+import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
+import com.stuypulse.stuylib.streams.vectors.VStream;
+import com.stuypulse.stuylib.streams.vectors.filters.VTimedMovingAverage;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -21,8 +27,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class LLNoteVision extends NoteVision {
 
     private final Limelight[] limelights;
-    private Translation2d notePose;
-    private FieldObject2d note;
+
+    private final FieldObject2d note;
+
+    private final VStream notePose;
+    private final BStream noteData;
+    
+    private Vector2D notePoseRaw;
 
     protected LLNoteVision() {
         String[] hostNames = LIMELIGHTS;
@@ -39,7 +50,13 @@ public class LLNoteVision extends NoteVision {
 
         note = Odometry.getInstance().getField().getObject("Note");
 
-        notePose = new Translation2d();
+        notePose = VStream.create(() -> notePoseRaw)
+            .filtered(new VTimedMovingAverage(0.5));
+        
+        noteData = BStream.create(this::hasNoteDataRaw)
+            .filtered(new BDebounceRC.Both(NoteDetection.HAS_NOTE_DEBOUNCE));
+        
+        notePoseRaw = Vector2D.kOrigin;
     }
 
     /**
@@ -49,6 +66,10 @@ public class LLNoteVision extends NoteVision {
      */
     @Override
     public boolean hasNoteData() {
+        return noteData.get();
+    }
+
+    private boolean hasNoteDataRaw() {
         for (Limelight limelight : limelights) {
             if (limelight.hasNoteData()) {
                 return true;
@@ -64,7 +85,7 @@ public class LLNoteVision extends NoteVision {
      */
     @Override
     public Translation2d getEstimatedNotePose() {
-        return notePose;
+        return notePose.get().getTranslation2d();
     }
 
     @Override
@@ -103,29 +124,28 @@ public class LLNoteVision extends NoteVision {
             sum = sum.plus(fieldToNote);
         }
 
-        notePose = sum.div(limelights.length);
+        notePoseRaw = new Vector2D(sum.div(limelights.length));
     }
 
     @Override
     public void periodic() {
         for (int i = 0; i < limelights.length; ++i) {
             limelights[i].updateData();
-            notePose = getEstimatedNotePose();
         }
 
-        note.setPose(new Pose2d(notePose, new Rotation2d()));
+        note.setPose(new Pose2d(getEstimatedNotePose(), new Rotation2d()));
 
-        if (hasNoteData()) updateNotePose();
+        if (hasNoteDataRaw()) updateNotePose();
         updateTelemetry();
     }
 
     private void updateTelemetry() {
-        if (hasNoteData()) {
+        if (hasNoteDataRaw()) {
             SmartDashboard.putNumber("Note Detection/X Angle", limelights[0].getXAngle());
             SmartDashboard.putNumber("Note Detection/Y Angle", limelights[0].getYAngle());
             SmartDashboard.putNumber("Note Detection/Distance", limelights[0].getDistanceToNote());
-            SmartDashboard.putNumber("Note Detection/Estimated X", notePose.getX());
-            SmartDashboard.putNumber("Note Detection/Estimated Y", notePose.getY());
+            SmartDashboard.putNumber("Note Detection/Estimated X", getEstimatedNotePose().getX());
+            SmartDashboard.putNumber("Note Detection/Estimated Y", getEstimatedNotePose().getY());
         } else {
             SmartDashboard.putNumber("Note Detection/X Angle", 0);
             SmartDashboard.putNumber("Note Detection/Y Angle", 0);

@@ -11,6 +11,7 @@ import com.stuypulse.stuylib.network.SmartNumber;
 
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.RobotType;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
 
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
@@ -37,7 +38,7 @@ public abstract class Amper extends SubsystemBase {
     private static final Amper instance;
 
     static {
-        if (Robot.isReal()) {
+        if (Robot.ROBOT == RobotType.IZZI) {
             instance = new AmperImpl();
         } else {
             instance = new AmperSim();
