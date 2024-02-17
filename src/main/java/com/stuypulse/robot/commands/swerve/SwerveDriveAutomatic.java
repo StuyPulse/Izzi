@@ -50,8 +50,7 @@ public class SwerveDriveAutomatic extends SwerveDriveDriveAligned {
             return Rotation2d.fromDegrees(Robot.isBlue() ? 270.0 : 90.0);
         }
 
-        Translation2d robotPose = odometry.getPose().getTranslation()
-            .plus(SwerveDriveDriveAligned.getLookaheadOffset(Assist.ALIGN_LOOKAHEAD_SECONDS));
+        Translation2d robotPose = odometry.getPose().getTranslation();
         
         Translation2d speakerPose = Field.getAllianceSpeakerPose().getTranslation();
 
@@ -68,6 +67,28 @@ public class SwerveDriveAutomatic extends SwerveDriveDriveAligned {
         }
 
         return odometry.getPose().getRotation();
+    }
+
+    @Override
+    public double getDistanceToTarget() {
+        if (amper.hasNote()) return 100;
+
+        Translation2d robotPose = odometry.getPose().getTranslation();
+        
+        Translation2d speakerPose = Field.getAllianceSpeakerPose().getTranslation();
+
+        double distanceToSpeaker = speakerPose.getDistance(robotPose);
+
+        if ((intake.hasNote() || conveyor.isNoteAtShooter())
+                && (distanceToSpeaker < Assist.ALIGN_MIN_SPEAKER_DIST.get())) {
+            return speakerPose.getDistance(robotPose);
+        }
+        
+        if (llNoteVision.hasNoteData()) {
+            return llNoteVision.getEstimatedNotePose().getDistance(robotPose);
+        }
+
+        return 0;
     }
 
     @Override

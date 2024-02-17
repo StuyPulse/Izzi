@@ -9,7 +9,6 @@ package com.stuypulse.robot.commands.notealignment;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.robot.commands.swerve.SwerveDriveDriveAligned;
 import com.stuypulse.robot.constants.Settings.Swerve;
-import com.stuypulse.robot.constants.Settings.Swerve.Assist;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
 
@@ -28,12 +27,19 @@ public class SwerveDriveNoteAlignedDrive extends SwerveDriveDriveAligned {
 		noteVision = NoteVision.getInstance();
     }
 
+    private Translation2d getRobotTranslation() {
+        return odometry.getPose().getTranslation()
+            .plus(new Translation2d(Swerve.CENTER_TO_INTAKE_FRONT, 0)
+                .rotateBy(odometry.getPose().getRotation()));
+    }
+
     @Override
     public Rotation2d getTargetAngle() {
-		Translation2d targetTranslation = SwerveDriveDriveAligned.getLookaheadOffset(Assist.ALIGN_LOOKAHEAD_SECONDS)
-			.plus(new Translation2d(Swerve.CENTER_TO_INTAKE_FRONT, 0)
-				.rotateBy(odometry.getPose().getRotation()));
+		return noteVision.getEstimatedNotePose().minus(getRobotTranslation()).getAngle();
+    }
 
-		return noteVision.getEstimatedNotePose().minus(targetTranslation).getAngle();
+    @Override
+    public double getDistanceToTarget() {
+        return noteVision.getEstimatedNotePose().getDistance(getRobotTranslation());
     }
 }
