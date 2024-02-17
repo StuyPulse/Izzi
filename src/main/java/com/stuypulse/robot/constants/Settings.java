@@ -24,6 +24,29 @@ import com.pathplanner.lib.util.PIDConstants;
  * values that we can edit on Shuffleboard.
  */
 public interface Settings {
+    public enum RobotType {
+        JIM("03262B9F"),
+        TUMBLER("0305A69D"),
+        IZZI(""),
+        SIM("");
+
+        public final String serialNum;
+
+        RobotType(String serialNum) {
+            this.serialNum = serialNum;
+        }
+
+        public static RobotType fromString(String serialNum) {
+            for (RobotType robot : RobotType.values()) {
+                if (robot.serialNum.equals(serialNum.toUpperCase())) {
+                    return robot;
+                }
+            }
+
+            return RobotType.SIM;
+        }
+    }
+
     double DT = 1.0 / 50.0;
 
     // TODO: Update these values
@@ -115,9 +138,16 @@ public interface Settings {
         SmartNumber MODULE_VELOCITY_DEADBAND = new SmartNumber("Swerve/Module Velocity Deadband (m per s)", 0.05);
 
         public interface Assist {
-            SmartNumber ALIGN_MIN_SPEAKER_DIST = new SmartNumber("Swerve/Assist/Minimum Distance to Speaker", 4); //change
-            double ALIGN_LOOKAHEAD_SECONDS = 0.5;
+            SmartNumber ALIGN_MIN_SPEAKER_DIST = new SmartNumber("SwerveAssist/Minimum Distance to Speaker", 4); //change
+            
             double BUZZ_INTENSITY = 0.5;
+
+            SmartNumber kP = new SmartNumber("SwerveAssist/kP", 3.0);
+            SmartNumber kI = new SmartNumber("SwerveAssist/kI", 0.0);
+            SmartNumber kD = new SmartNumber("SwerveAssist/kD", 0.0);
+
+            double ANGLE_DERIV_RC = 0.05;
+            double REDUCED_FF_DIST = 0.75;
         }
 
         // TODO: Tune these values
@@ -209,6 +239,8 @@ public interface Settings {
 
     public interface NoteDetection {
         double X_ANGLE_RC = 0.05;
+
+        SmartNumber HAS_NOTE_DEBOUNCE = new SmartNumber("Note Detection/Has Note Debounce", 0.2);
 
         SmartNumber THRESHOLD_X = new SmartNumber("Note Detection/X Threshold", 0.2);
         SmartNumber THRESHOLD_Y = new SmartNumber("Note Detection/Y Threshold", Units.inchesToMeters(2));

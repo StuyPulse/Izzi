@@ -7,10 +7,10 @@
 package com.stuypulse.robot.subsystems.climber;
 
 import com.stuypulse.stuylib.network.SmartNumber;
-
+import com.stuypulse.robot.Robot;
+import com.stuypulse.robot.constants.Settings.RobotType;
 import com.stuypulse.robot.util.ClimberVisualizer;
 
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class Climber extends SubsystemBase {
@@ -18,7 +18,7 @@ public abstract class Climber extends SubsystemBase {
     private static final Climber instance;
 
     static {
-        if (RobotBase.isReal()) {
+        if (Robot.ROBOT == RobotType.IZZI) {
             instance = new ClimberImpl();
         } else {
             instance = new ClimberSim();

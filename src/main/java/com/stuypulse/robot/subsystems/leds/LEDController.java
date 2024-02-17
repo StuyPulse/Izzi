@@ -6,9 +6,11 @@
 
 package com.stuypulse.robot.subsystems.leds;
 
+import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.RobotType;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDInstruction;
 
 import edu.wpi.first.wpilibj.AddressableLED;
@@ -27,7 +29,11 @@ public class LEDController extends SubsystemBase {
     private static LEDController instance;
 
     static {
-        instance = new LEDController();
+        if (Robot.ROBOT == RobotType.JIM) {
+            instance = new LEDController(0, 55);
+        } else {
+            instance = new LEDController(Ports.LEDController.PORT, Settings.LED.LED_LENGTH);
+        }
     }
 
     public static LEDController getInstance() {
@@ -37,9 +43,9 @@ public class LEDController extends SubsystemBase {
     private AddressableLED leds;
     private AddressableLEDBuffer ledsBuffer;
 
-    protected LEDController() {
-        leds = new AddressableLED(Ports.LEDController.PORT);
-        ledsBuffer = new AddressableLEDBuffer(Settings.LED.LED_LENGTH);
+    protected LEDController(int port, int length) {
+        leds = new AddressableLED(port);
+        ledsBuffer = new AddressableLEDBuffer(length);
 
         leds.setLength(ledsBuffer.getLength());
         leds.setData(ledsBuffer);

@@ -8,7 +8,11 @@ package com.stuypulse.robot;
 
 import com.stuypulse.robot.commands.leds.LEDReset;
 import com.stuypulse.robot.commands.leds.LEDSet;
+import com.stuypulse.robot.commands.vision.VisionChangeWhiteList;
+import com.stuypulse.robot.commands.vision.VisionReloadWhiteList;
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.RobotType;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAlign;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAutonChooser;
 
@@ -23,6 +27,15 @@ import com.pathplanner.lib.pathfinding.LocalADStar;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 
 public class Robot extends TimedRobot {
+    
+    public static final RobotType ROBOT;
+
+    static {
+        if (Robot.isSimulation())
+            ROBOT = RobotType.SIM;
+        else
+            ROBOT = RobotType.fromString(System.getenv("serialnum"));
+    }
 
     private RobotContainer robot;
     private CommandScheduler scheduler;
@@ -43,6 +56,7 @@ public class Robot extends TimedRobot {
         robot = new RobotContainer();
 
         SmartDashboard.putString("Robot State", "DISABLED");
+        SmartDashboard.putString("Robot", ROBOT.name());
     }
 
     @Override
@@ -83,6 +97,9 @@ public class Robot extends TimedRobot {
         } else {
             scheduler.schedule(new LEDSet(new LEDAutonChooser()));
         }
+
+        // reload whitelist in case of alliance change
+        scheduler.schedule(new VisionReloadWhiteList());
     }
 
     /***********************/
