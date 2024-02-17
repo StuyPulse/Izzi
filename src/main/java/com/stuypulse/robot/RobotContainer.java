@@ -17,8 +17,10 @@ import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.commands.intake.*;
 import com.stuypulse.robot.commands.leds.*;
 import com.stuypulse.robot.commands.notealignment.SwerveDriveNoteAlignedDrive;
+import com.stuypulse.robot.commands.notealignment.SwerveDriveTranslateToNote;
 import com.stuypulse.robot.commands.shooter.*;
 import com.stuypulse.robot.commands.swerve.*;
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
@@ -35,6 +37,8 @@ import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -92,7 +96,7 @@ public class RobotContainer {
     /**********************/
 
     private void configureNamedCommands() {
-        NamedCommands.registerCommand("IntakeAcquire", new IntakeAcquire());
+        NamedCommands.registerCommand("IntakeAcquire", new IntakeAcquireForever());
         NamedCommands.registerCommand("IntakeStop", new IntakeStop());
         NamedCommands.registerCommand(
             "DriveToNote",
@@ -101,8 +105,9 @@ public class RobotContainer {
                 .andThen(new IntakeStop()));
         NamedCommands.registerCommand("DriveToShoot", new SwerveDriveToShoot());
         NamedCommands.registerCommand("SetPodiumRangeShot", new ShooterPodiumShot());
-        NamedCommands.registerCommand(
-            "ConveyorShoot", new ConveyorToShooter().andThen(new ConveyorShoot()));
+        NamedCommands.registerCommand("ConveyorShoot", new ConveyorShootRoutine());
+        NamedCommands.registerCommand("TranslateToNote", new SwerveDriveTranslateToNote());
+        NamedCommands.registerCommand("PathFindToShoot", new SwerveDrivePathFindTo(Field.TOP_SHOOT_POSE).get());
     }
 
     /***************/

@@ -16,11 +16,11 @@
     },
     {
       "anchor": {
-        "x": 2.5372885306588757,
+        "x": 2.54,
         "y": 3.23
       },
       "prevControl": {
-        "x": 4.708389897320883,
+        "x": 4.711101366662007,
         "y": 2.174634582125068
       },
       "nextControl": null,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "HFE",
+  "folder": "HGF",
   "previewStartingState": null,
   "useDefaultConstraints": true
 }
