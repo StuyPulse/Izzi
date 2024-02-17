@@ -202,13 +202,7 @@ public class SwerveDrive extends SubsystemBase {
     }
     
     public void setChassisSpeeds(ChassisSpeeds robotSpeeds) {
-        if (Math.hypot(robotSpeeds.vxMetersPerSecond, robotSpeeds.vyMetersPerSecond) < Swerve.MODULE_VELOCITY_DEADBAND.get()) {
-            setModuleStates(kinematics.toSwerveModuleStates(robotSpeeds));
-            prevSetpoint = new ChassisSpeeds();
-        }
         desiredRobotSpeeds = robotSpeeds;
-        SmartDashboard.putNumberArray("Swerve/Desired Speeds", new double[] {robotSpeeds.vxMetersPerSecond, robotSpeeds.vyMetersPerSecond, robotSpeeds.omegaRadiansPerSecond});
-        // setModuleStates(kinematics.toSwerveModuleStates(robotSpeeds));
     }
 
     /** Drive Functions **/
