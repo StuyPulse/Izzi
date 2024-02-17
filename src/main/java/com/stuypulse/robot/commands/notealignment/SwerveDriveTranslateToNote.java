@@ -38,6 +38,8 @@ public class SwerveDriveTranslateToNote extends Command {
     private final HolonomicController controller;
     private final BStream aligned;
 
+    private Pose2d targetPose;
+
     public SwerveDriveTranslateToNote() {
         this.swerve = SwerveDrive.getInstance();
         this.odometry = Odometry.getInstance();
@@ -51,6 +53,7 @@ public class SwerveDriveTranslateToNote extends Command {
         SmartDashboard.putData("Note Detection/Controller", controller);
 
         aligned = BStream.create(this::isAligned).filtered(new BDebounceRC.Rising(DEBOUNCE_TIME));
+        targetPose = new Pose2d();
 
         addRequirements(swerve);
     }
@@ -68,18 +71,14 @@ public class SwerveDriveTranslateToNote extends Command {
 
         Rotation2d targetRotation = vision.getEstimatedNotePose().minus(targetTranslation).getAngle();
 
-        Pose2d targetPose = new Pose2d(targetTranslation, targetRotation);
+        targetPose = new Pose2d(targetTranslation, targetRotation);
 
-        // translate to note only if note in view AND not outside of boundary in auton
+        // translate to note only if note in view
         if (vision.hasNoteData()) {
-            if (DriverStation.isAutonomous() && Field.getAutonNoteDetectionBoundary() - targetPose.getX() < 0) {
-                swerve.setChassisSpeeds(new ChassisSpeeds());
-            } else {
-                swerve.setChassisSpeeds(
-                    controller.update(
-                        targetPose,
-                        new Pose2d(odometry.getPose().getTranslation(), targetRotation)));
-            }
+            swerve.setChassisSpeeds(
+                controller.update(
+                    targetPose,
+                    new Pose2d(odometry.getPose().getTranslation(), targetRotation)));
         }
 
         SmartDashboard.putBoolean("Note Detection/Is Aligned", aligned.get());
@@ -87,6 +86,6 @@ public class SwerveDriveTranslateToNote extends Command {
 
     @Override
     public boolean isFinished() {
-        return aligned.get();
+        return aligned.get() || (DriverStation.isAutonomous() && Field.getAutonNoteDetectionBoundary() - targetPose.getX() < 0);
     }
 }
