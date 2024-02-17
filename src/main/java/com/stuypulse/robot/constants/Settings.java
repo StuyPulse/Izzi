@@ -24,6 +24,29 @@ import com.pathplanner.lib.util.PIDConstants;
  * values that we can edit on Shuffleboard.
  */
 public interface Settings {
+    public enum RobotType {
+        JIM("03262B9F"),
+        TUMBLER("0305A69D"),
+        IZZI(""),
+        SIM("");
+
+        public final String serialNum;
+
+        RobotType(String serialNum) {
+            this.serialNum = serialNum;
+        }
+
+        public static RobotType fromString(String serialNum) {
+            for (RobotType robot : RobotType.values()) {
+                if (robot.serialNum.equals(serialNum.toUpperCase())) {
+                    return robot;
+                }
+            }
+
+            return RobotType.SIM;
+        }
+    }
+
     double DT = 1.0 / 50.0;
 
     // TODO: Update these values

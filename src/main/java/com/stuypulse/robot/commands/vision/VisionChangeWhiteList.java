@@ -12,6 +12,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class VisionChangeWhiteList extends InstantCommand {
 
+    @Override
+    public boolean runsWhenDisabled() {
+        return true;
+    }
+
     private final int[] ids;
 
     public VisionChangeWhiteList(int... ids) {

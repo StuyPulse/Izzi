@@ -6,11 +6,12 @@
 
 package com.stuypulse.robot.subsystems.intake;
 
+import com.stuypulse.robot.Robot;
+import com.stuypulse.robot.constants.Settings.RobotType;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.util.IntakeVisualizer;
 
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class Intake extends SubsystemBase {
@@ -18,8 +19,10 @@ public abstract class Intake extends SubsystemBase {
     private static final Intake instance;
 
     static {
-        if (RobotBase.isReal()) {
+        if (Robot.ROBOT == RobotType.IZZI) {
             instance = new IntakeImpl();
+        } else if (Robot.ROBOT == RobotType.TUMBLER) {
+            instance = new TumblerIntake();
         } else {
             instance = new IntakeSim();
         }
