@@ -99,7 +99,7 @@ public class Robot extends TimedRobot {
         }
 
         // reload whitelist in case of alliance change
-        scheduler.schedule(new VisionChangeWhiteList(7));
+        scheduler.schedule(new VisionReloadWhiteList());
     }
 
     /***********************/

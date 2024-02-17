@@ -32,7 +32,7 @@ public interface Cameras {
         Pose3d[] POSITIONS = switch (Robot.ROBOT) {
             case IZZI    -> new Pose3d[] { IZZI_POSE };
             case TUMBLER -> new Pose3d[] { TUMBLER_POSE };
-            default      -> new Pose3d[] {};
+            default      -> new Pose3d[] { IZZI_POSE };
         };
     }
 
@@ -52,8 +52,10 @@ public interface Cameras {
                         -Units.inchesToMeters(12), 0, +Units.inchesToMeters(5),
                         new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(180))))
             };
-        
-        default -> new CameraConfig[] {};
+            
+        default -> new CameraConfig[] {
+            new CameraConfig("samera0", new Pose3d(new Translation3d(), new Rotation3d()))
+        };
     };
 
     public static class CameraConfig {
