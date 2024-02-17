@@ -8,6 +8,9 @@ package com.stuypulse.robot;
 
 import com.stuypulse.robot.commands.leds.LEDReset;
 import com.stuypulse.robot.commands.leds.LEDSet;
+import com.stuypulse.robot.commands.vision.VisionChangeWhiteList;
+import com.stuypulse.robot.commands.vision.VisionReloadWhiteList;
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.RobotType;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAlign;
@@ -94,6 +97,9 @@ public class Robot extends TimedRobot {
         } else {
             scheduler.schedule(new LEDSet(new LEDAutonChooser()));
         }
+
+        // reload whitelist in case of alliance change
+        scheduler.schedule(new VisionReloadWhiteList());
     }
 
     /***********************/
