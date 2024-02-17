@@ -22,7 +22,7 @@ public interface Cameras {
         Pose3d[] POSITIONS =
             new Pose3d[] {
                 new Pose3d(
-                    new Translation3d(Units.inchesToMeters(0), 0, Units.inchesToMeters(0)),
+                    new Translation3d(0, Units.inchesToMeters(16.156338), Units.inchesToMeters(13.833919)),
                     new Rotation3d(0, Math.toRadians(0), Math.toRadians(0)))
             };
     }
@@ -30,9 +30,9 @@ public interface Cameras {
     public CameraConfig[] APRILTAG_CAMERAS =
         new CameraConfig[] {
             // TODO: Update with real values
-            new CameraConfig("samera0", new Pose3d(new Translation3d(0, 16.387490, 16.267379), new Rotation3d(0, 0, 0))),     // INTAKE
-            new CameraConfig("samera1", new Pose3d(new Translation3d(0, -11.59286, 11.926806), new Rotation3d(0, 0, 180))),    // SHOOTER
-            new CameraConfig("samera2", new Pose3d(new Translation3d(0, 2.307881, 23.974534), new Rotation3d(0, 0, 180))),     // CLIMBER
+            new CameraConfig("samera0", new Pose3d(new Translation3d(0, Units.inchesToMeters(16.387490), Units.inchesToMeters(16.267379)), new Rotation3d(0, Units.degreesToRadians(60), 0))),                               // INTAKE
+            new CameraConfig("samera1", new Pose3d(new Translation3d(0, -Units.inchesToMeters(11.59286), Units.inchesToMeters(11.926806)), new Rotation3d(0, Units.degreesToRadians(-56), Units.degreesToRadians(180)))),    // SHOOTER
+            new CameraConfig("samera2", new Pose3d(new Translation3d(0, Units.inchesToMeters(2.307881), Units.inchesToMeters(23.974534)), new Rotation3d(0, Units.degreesToRadians(-81), Units.degreesToRadians(180)))),     // CLIMBER
         };
 
     public static class CameraConfig {
