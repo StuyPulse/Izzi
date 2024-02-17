@@ -179,9 +179,6 @@ public class TheiaCamera {
 
         VisionData data = new VisionData(getRobotPose(), getIDs(), timestamp);
 
-        SmartDashboard.putNumber("Vision/X", data.getPose().getX());
-        SmartDashboard.putNumber("Vision/Y", data.getPose().getY());
-
         if (!data.isValidData()) {
             return Optional.empty();
         }
