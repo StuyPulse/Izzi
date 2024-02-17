@@ -30,9 +30,9 @@ public interface Cameras {
     public CameraConfig[] APRILTAG_CAMERAS =
         new CameraConfig[] {
             // TODO: Update with real values
-            new CameraConfig("samera0", new Pose3d(new Translation3d(), new Rotation3d())),
-            new CameraConfig("samera1", new Pose3d(new Translation3d(), new Rotation3d())),
-            new CameraConfig("samera2", new Pose3d(new Translation3d(), new Rotation3d())),
+            new CameraConfig("samera0", new Pose3d(new Translation3d(0, 16.387490, 16.267379), new Rotation3d(0, 0, 0))),     // INTAKE
+            new CameraConfig("samera1", new Pose3d(new Translation3d(0, -11.59286, 11.926806), new Rotation3d(0, 0, 180))),    // SHOOTER
+            new CameraConfig("samera2", new Pose3d(new Translation3d(0, 2.307881, 23.974534), new Rotation3d(0, 0, 180))),     // CLIMBER
         };
 
     public static class CameraConfig {
