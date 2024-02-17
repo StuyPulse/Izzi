@@ -102,7 +102,7 @@ public class SwerveDrive extends SubsystemBase {
                 new SwerveModuleSim(BackLeft.ID, BackLeft.MODULE_OFFSET),
                 new SwerveModuleSim(BackRight.ID, BackRight.MODULE_OFFSET)
             );
-        }
+        }     
     }
 
     public static SwerveDrive getInstance() {
