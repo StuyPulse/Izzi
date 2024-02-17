@@ -49,6 +49,24 @@
     }
   },
   "NetworkTables": {
+    "SmartDashboard": {
+      "Swerve": {
+        "Modules": {
+          "Back Left": {
+            "open": true
+          },
+          "open": true
+        },
+        "double[]##v_/SmartDashboard/Swerve/Desired Speeds": {
+          "open": true
+        },
+        "double[]##v_/SmartDashboard/Swerve/Previous Setpoint": {
+          "open": true
+        },
+        "open": true
+      },
+      "open": true
+    },
     "combined": true
   },
   "NetworkTables Info": {

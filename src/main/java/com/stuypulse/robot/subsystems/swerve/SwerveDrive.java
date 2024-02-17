@@ -274,7 +274,7 @@ public class SwerveDrive extends SubsystemBase {
             modules2D[i].setPose(new Pose2d(
                 pose.getTranslation().plus(modules[i].getModuleOffset().rotateBy(angle)),
                 modules[i].getAngle().plus(angle)
-            ));
+            )); 
         }
 
         if (atChassisSpeeds(prevSetpoint)) {

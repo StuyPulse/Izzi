@@ -68,30 +68,36 @@ public class SwerveSetpointGenerator {
     }
 
     private double findRoot(Function2d func, RegulaFalsiState state) {        
-        double interpolant = 0.0;
-        while(state.iterationsLeft > 0 && toleranceEquals(state.leftEndOutput, state.rightEndOutput)) {
-            double interpolantTerm = -state.leftEndOutput / (state.rightEndOutput - state.leftEndOutput);
-            interpolantTerm = Math.max(0.0, Math.min(1.0, interpolantTerm)); // keep within [0, 1]
-            
-            Translation2d rootGuess = state.rightEndInput.minus(state.leftEndInput).times(interpolantTerm).plus(state.leftEndInput);
-            double rootGuessOutput = func.f(rootGuess); 
+        double intervalSize = state.rightEndInput.getNorm() - state.leftEndInput.getNorm();
+        System.out.println("leftInput: " + state.leftEndInput + ", rightInput: " + state.rightEndInput + ", leftOutput: " + state.leftEndOutput +  ", rightOutput: " + state.rightEndOutput);
+    
+        while(state.iterationsLeft > 0 && !toleranceEquals(state.leftEndOutput, state.rightEndOutput)) {
+            Translation2d rootGuess = state.leftEndInput.plus(state.rightEndInput).div(2);
+            double rootGuessOutput = func.f(rootGuess);
+
+            System.out.print("rootGuessOutput: " + rootGuessOutput);
 
             if (rootGuessOutput < 0) {
                 // Since we undershot, we'll add the fraction of the remaining interpolant 
                 // term to our current interpolant term.
-                interpolant = interpolant * (1 - interpolantTerm) + interpolantTerm;
+                // interpolant = interpolant * (1 - interpolantTerm) + interpolantTerm;
                 state.leftEndInput = rootGuess;
                 state.leftEndOutput = rootGuessOutput;
+                System.out.println(" (undershot)");
             }
             else { 
                 // Since we overshot, the interpolant term is the fraction of the previous
                 // interpolant that our next interpolant must be.
-                interpolant *= interpolantTerm;
                 state.rightEndInput = rootGuess;
                 state.rightEndOutput = rootGuessOutput; 
+                System.out.println(" (overshot)");
             }
             --state.iterationsLeft;
         }
+
+        double interpolant = state.rightEndInput.getNorm() / intervalSize;
+        System.out.println("interpolant: " + interpolant);
+        System.out.println();
 
         return interpolant;
     }
@@ -204,7 +210,7 @@ public class SwerveSetpointGenerator {
             prevSetpoint.omegaRadiansPerSecond + minTurnInterpolant * dtheta
         );
 
-        System.out.println("LOG: " + desiredState.vxMetersPerSecond + " " + desiredState.vyMetersPerSecond + " " + desiredState.omegaRadiansPerSecond);
+        // System.out.println("LOG: " + desiredState.vxMetersPerSecond + " " + desiredState.vyMetersPerSecond + " " + desiredState.omegaRadiansPerSecond);
 
         return setpoint;
     }
