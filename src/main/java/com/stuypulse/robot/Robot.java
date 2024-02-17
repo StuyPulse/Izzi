@@ -9,6 +9,7 @@ package com.stuypulse.robot;
 import com.stuypulse.robot.commands.leds.LEDReset;
 import com.stuypulse.robot.commands.leds.LEDSet;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.RobotType;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAlign;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAutonChooser;
 
@@ -23,6 +24,15 @@ import com.pathplanner.lib.pathfinding.LocalADStar;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 
 public class Robot extends TimedRobot {
+    
+    public static final RobotType ROBOT;
+
+    static {
+        if (Robot.isSimulation())
+            ROBOT = RobotType.SIM;
+        else
+            ROBOT = RobotType.fromString(System.getenv("serialnum"));
+    }
 
     private RobotContainer robot;
     private CommandScheduler scheduler;
