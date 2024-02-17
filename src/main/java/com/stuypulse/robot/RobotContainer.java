@@ -141,17 +141,18 @@ public class RobotContainer {
         // note to amper and align
         // then score
         driver.getLeftBumper()
-                .whileTrue(new ConveyorToAmp()
-                    .alongWith(new SwerveDriveAmpAlign()
-                        .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
-                    .andThen(new AmperScore()))
-                .onFalse(new AmperStop());
+            .whileTrue(new ConveyorToAmp()
+                .alongWith(new SwerveDriveAmpAlign()
+                    .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
+                .andThen(new AmperScore()))
+            .onFalse(new AmperStop());
 
         // score speaker no align
         driver.getStartButton()
             .whileTrue(new ConveyorToShooter()
             .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop());
+            
         // score amp no align
         driver.getSelectButton()
             .whileTrue(new ConveyorToAmp()

@@ -53,6 +53,7 @@ public class Robot extends TimedRobot {
         robot = new RobotContainer();
 
         SmartDashboard.putString("Robot State", "DISABLED");
+        SmartDashboard.putString("Robot", ROBOT.name());
     }
 
     @Override
