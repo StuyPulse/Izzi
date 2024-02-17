@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 
@@ -29,13 +30,20 @@ public interface Field {
 
     double NOTE_LENGTH = Units.inchesToMeters(14.0);
 
-    Transform3d ORIGIN_TRANSFORM_3D = new Transform3d(
-        new Pose3d(),
-        new Pose3d(Field.LENGTH, Field.WIDTH, 0, new Rotation3d(0, 0, Math.toRadians(180))));
-    
-    Transform2d ORIGIN_TRANSFORM_2D = new Transform2d(
-        new Pose2d(),
-        new Pose2d(Field.LENGTH, Field.WIDTH, Rotation2d.fromDegrees(180)));
+    public static Pose3d transformToOppositeAlliance(Pose3d pose) {
+        Pose3d rotated = pose.rotateBy(new Rotation3d(0, 0, Math.PI));
+
+        return new Pose3d(
+            rotated.getTranslation().plus(new Translation3d(LENGTH, WIDTH, 0)),
+            rotated.getRotation());
+    }
+
+    public static Pose2d transformToOppositeAlliance(Pose2d pose) {
+        Pose2d rotated = pose.rotateBy(Rotation2d.fromDegrees(180));
+        return new Pose2d(
+            rotated.getTranslation().plus(new Translation2d(LENGTH, WIDTH)),
+            rotated.getRotation());
+    }
 
     /*** APRILTAGS ***/
 

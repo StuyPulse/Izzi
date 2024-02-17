@@ -21,6 +21,7 @@ import edu.wpi.first.networktables.IntegerArraySubscriber;
 import edu.wpi.first.networktables.IntegerSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Optional;
 
@@ -177,6 +178,9 @@ public class TheiaCamera {
         lastCounter = rawCounter;
 
         VisionData data = new VisionData(getRobotPose(), getIDs(), timestamp);
+
+        SmartDashboard.putNumber("Vision/X", data.getPose().getX());
+        SmartDashboard.putNumber("Vision/Y", data.getPose().getY());
 
         if (!data.isValidData()) {
             return Optional.empty();

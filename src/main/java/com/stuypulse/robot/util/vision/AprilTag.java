@@ -40,7 +40,7 @@ public class AprilTag {
         if (Robot.isBlue()) {
             return blueLocation;
         } else {
-            return blueLocation.transformBy(Field.ORIGIN_TRANSFORM_3D);
+            return Field.transformToOppositeAlliance(blueLocation);
         }
     }
 }
