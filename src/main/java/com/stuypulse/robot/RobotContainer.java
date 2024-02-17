@@ -198,9 +198,13 @@ public class RobotContainer {
                 .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));
 
         operator.getLeftBumper()
-            .onTrue(ConveyorToAmp.withCheckLift());
+            .onTrue(ConveyorToAmp.withCheckLift())
+            .onFalse(new ConveyorStop())
+            .onFalse(new IntakeStop());
         operator.getRightBumper()
-            .onTrue(new ConveyorToShooter());
+            .onTrue(new ConveyorToShooter())
+            .onFalse(new ConveyorStop())
+            .onFalse(new IntakeStop());
 
         operator.getTopButton()
                 .onTrue(new AmperScore())

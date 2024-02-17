@@ -33,11 +33,11 @@ public interface Motors {
     }
 
     public interface Intake {
-        CANSparkMaxConfig MOTOR_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
+        CANSparkMaxConfig MOTOR_CONFIG = new CANSparkMaxConfig(true, IdleMode.kBrake, 80, 0.1);
     }
 
     public interface Shooter {
-        CANSparkFlexConfig LEFT_SHOOTER = new CANSparkFlexConfig(false, IdleMode.kCoast);
+        CANSparkFlexConfig LEFT_SHOOTER = new CANSparkFlexConfig(true, IdleMode.kCoast);
         CANSparkFlexConfig RIGHT_SHOOTER = new CANSparkFlexConfig(false, IdleMode.kCoast);
     }
 
@@ -47,7 +47,7 @@ public interface Motors {
     }
 
     public interface Climber {
-        CANSparkMaxConfig LEFT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
+        CANSparkMaxConfig LEFT_MOTOR = new CANSparkMaxConfig(true, IdleMode.kBrake, 80, 0.1);
         CANSparkMaxConfig RIGHT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
     }
 
