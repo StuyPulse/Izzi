@@ -1,12 +1,11 @@
-/************************ PROJECT PHIL ************************/
-/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved.*/
-/* This work is licensed under the terms of the MIT license.  */
-/**************************************************************/
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
 
 package com.stuypulse.robot.constants;
 
-import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.util.PIDConstants;
 import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
@@ -14,6 +13,9 @@ import com.stuypulse.stuylib.network.SmartNumber;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.util.PIDConstants;
 
 /*-
  * File containing tunable settings for every subsystem on the robot.
@@ -47,17 +49,17 @@ public interface Settings {
             double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
         }
     }
-  
+
     public interface Amper {
-        double AMP_ROLLER_DIAMETER = Units.inchesToMeters(1.25); 
-        
+        double AMP_ROLLER_DIAMETER = Units.inchesToMeters(1.25);
+
         public interface Score {
             SmartNumber SCORE_SPEED = new SmartNumber("Amper/Score/Score Speed", 1.0);
             SmartNumber INTAKE_SPEED = new SmartNumber("Amper/Score/Intake Speed", 1.0);
 
             double SCORE_MOTOR_CONVERSION = AMP_ROLLER_DIAMETER * Math.PI;
         }
-        
+
         public interface Lift {
             double CARRIAGE_MASS = 10; // kg
 
@@ -77,13 +79,14 @@ public interface Settings {
             SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Trap Score Height", 1.0);
 
             public interface Encoder {
-                double GEARING = 9; 
-                double DRUM_RADIUS = Units.inchesToMeters(1); 
+                double GEARING = 9;
+                double DRUM_RADIUS = Units.inchesToMeters(1);
                 double DRUM_CIRCUMFERENCE = DRUM_RADIUS * Math.PI * 2;
 
                 double POSITION_CONVERSION = GEARING * DRUM_CIRCUMFERENCE;
                 double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
             }
+
             // TODO: SysID these values
             public interface Feedforward {
                 SmartNumber kS = new SmartNumber("Amper/Lift/FF/kS", 0.0);
@@ -113,6 +116,7 @@ public interface Settings {
 
         public interface Assist {
             SmartNumber ALIGN_MIN_SPEAKER_DIST = new SmartNumber("Swerve/Assist/Minimum Distance to Speaker", 4); //change
+            double ALIGN_LOOKAHEAD_SECONDS = 0.5;
             double BUZZ_INTENSITY = 0.5;
         }
 
@@ -123,8 +127,13 @@ public interface Settings {
             SmartNumber MAX_ANGULAR_VELOCITY = new SmartNumber("Swerve/Motion/Max Angular Velocity", Units.degreesToRadians(540));
             SmartNumber MAX_ANGULAR_ACCELERATION = new SmartNumber("Swerve/Motion/Max Angular Acceleration", Units.degreesToRadians(720));
 
-            PathConstraints DEFAULT_CONSTRAINTS = new PathConstraints(MAX_VELOCITY.get(), MAX_ACCELERATION.get(), MAX_ANGULAR_VELOCITY.get(), MAX_ANGULAR_ACCELERATION.get());
-            
+            PathConstraints DEFAULT_CONSTRAINTS =
+                new PathConstraints(
+                    MAX_VELOCITY.get(),
+                    MAX_ACCELERATION.get(),
+                    MAX_ANGULAR_VELOCITY.get(),
+                    MAX_ANGULAR_ACCELERATION.get());
+
             PIDConstants XY = new PIDConstants(0.7, 0, 0.02);
             PIDConstants THETA = new PIDConstants(10, 0, 0.1);
         }
@@ -172,8 +181,7 @@ public interface Settings {
         // TODO: Get module offset values
         public interface FrontRight {
             String ID = "Front Right";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(0)     
-                .plus(Rotation2d.fromDegrees(0));
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(0).plus(Rotation2d.fromDegrees(0));
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * +0.5, LENGTH * -0.5);
         }
 
@@ -233,14 +241,14 @@ public interface Settings {
 
     public interface Operator {
         SmartNumber DEADBAND = new SmartNumber("Operator Settings/Manual Climb + Lift Deadband", 0.1);
-        SmartNumber CLIMB_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Climber Max Drive Voltage", 8.0); 
-        SmartNumber LIFT_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Lift Max Drive Voltage", 6.0); 
+        SmartNumber CLIMB_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Climber Max Drive Voltage", 8.0);
+        SmartNumber LIFT_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Lift Max Drive Voltage", 6.0);
         SmartNumber LIFT_ADJUST_SPEED = new SmartNumber("Operator Settings/Lift Fine Adjust Speed", Units.inchesToMeters(1.0));
     }
 
     public interface Shooter {
         double MOMENT_OF_INERTIA = 1;
-        
+
         // TODO: Tune these values
         SmartNumber PODIUM_SHOT_LEFT_RPM = new SmartNumber("Shooter/Podium Shot Left RPM", 0);
         SmartNumber PODIUM_SHOT_RIGHT_RPM = new SmartNumber("Shooter/Podium Shot Right RPM", 0);
@@ -250,7 +258,7 @@ public interface Settings {
 
         SmartNumber BACKWARDS_LEFT_RPM = new SmartNumber("Shooter/Backwards Left RPM", 0);
         SmartNumber BACKWARDS_RIGHT_RPM = new SmartNumber("Shooter/Backwards Right RPM", 0);
-        
+
         // TODO: SysID these values
         public interface Feedforward {
             SmartNumber kV = new SmartNumber("Shooter/FF/kV", 0.0);
@@ -276,13 +284,13 @@ public interface Settings {
         SmartNumber ACQUIRE_SPEED = new SmartNumber("Intake/Acquire Speed", 1);
         SmartNumber DEACQUIRE_SPEED = new SmartNumber("Intake/Deacquire Speed", 1);
     }
-    
+
     public interface Conveyor {
         SmartNumber GANDALF_SHOOTER_SPEED = new SmartNumber("Conveyor/Gandalf Shooter Speed", 1);
         SmartNumber GANDALF_AMP_SPEED = new SmartNumber("Conveyor/Gandalf Amp Speed", 1);
         SmartNumber FEEDER_SHOOTER_SPEED = new SmartNumber("Conveyor/Shooter Feeder Speed", 1);
         SmartNumber FEEDER_AMP_SPEED = new SmartNumber("Conveyor/Shooter Feeder Speed", 1);
-        
+
         SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.2);
         SmartNumber RECALL_DEBOUNCE = new SmartNumber("Conveyor/Recall Delay", 1.0);
 
@@ -300,7 +308,7 @@ public interface Settings {
         // TODO: Measure these values
         SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Alignment/Podium Shot Distance", Units.inchesToMeters(110));
         SmartNumber PODIUM_SHOT_MAX_ANGLE = new SmartNumber("Alignment/Podium Shot Max Angle", 80);
-        
+
         SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(12.0));
         SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(6.0));
 

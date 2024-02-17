@@ -1,11 +1,10 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.subsystems.climber;
-
-import com.revrobotics.CANSparkMax;
-
-import java.util.Optional;
-
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
 
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
@@ -15,8 +14,14 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+
+import java.util.Optional;
+
 public class ClimberImpl extends Climber {
-    
+
     private final CANSparkMax rightMotor;
     private final CANSparkMax leftMotor;
 
@@ -47,7 +52,7 @@ public class ClimberImpl extends Climber {
         topLeftLimit = new DigitalInput(Ports.Climber.TOP_LEFT_LIMIT);
         bottomRightLimit = new DigitalInput(Ports.Climber.BOTTOM_RIGHT_LIMIT);
         bottomLeftLimit = new DigitalInput(Ports.Climber.BOTTOM_LEFT_LIMIT);
-        
+
         voltageOverride = Optional.empty();
 
         Motors.Climber.LEFT_MOTOR.configure(leftMotor);
@@ -174,7 +179,7 @@ public class ClimberImpl extends Climber {
                 setRightVoltage(+Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
             }
         }
-        
+
         SmartDashboard.putNumber("Climber/Left Voltage", leftMotor.getAppliedOutput() * leftMotor.getBusVoltage());
         SmartDashboard.putNumber("Climber/Right Voltage", rightMotor.getAppliedOutput() * rightMotor.getBusVoltage());
         SmartDashboard.putNumber("Climber/Left Height", getLeftHeight());

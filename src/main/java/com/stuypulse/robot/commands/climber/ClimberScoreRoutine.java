@@ -1,4 +1,11 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.commands.climber;
+
 import com.stuypulse.robot.commands.amper.AmperScore;
 import com.stuypulse.robot.commands.amper.AmperSetLiftConstraints;
 import com.stuypulse.robot.commands.amper.AmperToHeight;
@@ -21,11 +28,11 @@ public class ClimberScoreRoutine extends SequentialCommandGroup {
             ClimberToHeight.untilDone(Settings.Climber.MIN_HEIGHT)
                 .alongWith(
                     new SequentialCommandGroup(
-                        new WaitCommand(DELAY_LIFT_SECONDS),
-                        // slow down lift
-                        new AmperSetLiftConstraints(AMPER_MAX_VELOCITY, AMPER_MAX_ACCELERATION),
-                        AmperToHeight.untilDone(Lift.TRAP_SCORE_HEIGHT.get()),
-                        new AmperSetLiftConstraints()
+                    new WaitCommand(DELAY_LIFT_SECONDS),
+                    // slow down lift
+                    new AmperSetLiftConstraints(AMPER_MAX_VELOCITY, AMPER_MAX_ACCELERATION),
+                    AmperToHeight.untilDone(Lift.TRAP_SCORE_HEIGHT.get()),
+                    new AmperSetLiftConstraints()
                     )),
             AmperScore.forSeconds(AMPER_SCORE_SECONDS)
         );

@@ -1,3 +1,9 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.commands;
 
 import com.stuypulse.stuylib.input.Gamepad;
@@ -14,7 +20,7 @@ public class BuzzController extends InstantCommand {
 
     private final StopWatch timer;
     private final double seconds;
-    
+
     public BuzzController(Gamepad driver, double intensity, double seconds) {
         this.driver = driver;
         this.intensity = intensity;

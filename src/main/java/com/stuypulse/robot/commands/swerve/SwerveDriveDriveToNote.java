@@ -1,22 +1,24 @@
-/************************ PROJECT JIM *************************/
-/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved.*/
-/* This work is licensed under the terms of the MIT license.  */
-/**************************************************************/
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
 
 package com.stuypulse.robot.commands.swerve;
 
-import static com.stuypulse.robot.constants.Settings.NoteDetection.*;
 import static com.stuypulse.robot.constants.Settings.Alignment.*;
+import static com.stuypulse.robot.constants.Settings.NoteDetection.*;
 
-import com.stuypulse.robot.constants.Settings.Swerve;
-import com.stuypulse.robot.subsystems.vision.NoteVision;
-import com.stuypulse.robot.subsystems.odometry.Odometry;
-import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
-import com.stuypulse.robot.util.HolonomicController;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
+
+import com.stuypulse.robot.constants.Settings.Swerve;
+import com.stuypulse.robot.subsystems.odometry.Odometry;
+import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
+import com.stuypulse.robot.subsystems.vision.NoteVision;
+import com.stuypulse.robot.util.HolonomicController;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -41,8 +43,7 @@ public class SwerveDriveDriveToNote extends Command {
         controller = new HolonomicController(
             new PIDController(Translation.kP,Translation.kI,Translation.kD),
             new PIDController(Translation.kP, Translation.kI, Translation.kD),
-            new AnglePIDController(Rotation.kP, Rotation.kI, Rotation.kD)
-        );
+            new AnglePIDController(Rotation.kP, Rotation.kI, Rotation.kD));
 
         SmartDashboard.putData("Note Detection/Controller", controller);
 
@@ -57,8 +58,10 @@ public class SwerveDriveDriveToNote extends Command {
 
     @Override
     public void execute() {
-        Translation2d targetTranslation = odometry.getPose().getTranslation().plus(
-            new Translation2d(Swerve.CENTER_TO_INTAKE_FRONT, 0).rotateBy(odometry.getPose().getRotation()));
+        Translation2d targetTranslation = odometry.getPose()
+            .getTranslation().plus(
+                new Translation2d(Swerve.CENTER_TO_INTAKE_FRONT, 0)
+                    .rotateBy(odometry.getPose().getRotation()));
 
         Rotation2d targetRotation = vision.getEstimatedNotePose().minus(targetTranslation).getAngle();
 
@@ -67,10 +70,12 @@ public class SwerveDriveDriveToNote extends Command {
         if (vision.hasNoteData()) {
             // drive to note
             swerve.setChassisSpeeds(controller.update(targetPose, odometry.getPose()));
-        }
-        else {
+        } else {
             // only rotate toward saved note pose
-            swerve.setChassisSpeeds(controller.update(targetPose, new Pose2d(targetTranslation, odometry.getPose().getRotation())));
+            swerve.setChassisSpeeds(
+                controller.update(
+                    targetPose,
+                    new Pose2d(targetTranslation, odometry.getPose().getRotation())));
         }
 
         SmartDashboard.putBoolean("Note Detection/Is Aligned", aligned.get());

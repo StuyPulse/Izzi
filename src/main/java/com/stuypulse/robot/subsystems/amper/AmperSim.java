@@ -1,14 +1,15 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.subsystems.amper;
 
 import static com.stuypulse.robot.constants.Settings.Amper.Lift.CARRIAGE_MASS;
 import static com.stuypulse.robot.constants.Settings.Amper.Lift.MAX_HEIGHT;
 import static com.stuypulse.robot.constants.Settings.Amper.Lift.MIN_HEIGHT;
 
-import java.util.Optional;
-
-import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.constants.Settings.Amper.Lift;
-import com.stuypulse.robot.constants.Settings.Amper.Lift.Encoder;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.control.feedforward.ElevatorFeedforward;
@@ -17,11 +18,17 @@ import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.numbers.filters.MotionProfile;
 
+import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Amper.Lift;
+import com.stuypulse.robot.constants.Settings.Amper.Lift.Encoder;
+
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.BatterySim;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import java.util.Optional;
 
 public class AmperSim extends Amper {
 
@@ -34,7 +41,7 @@ public class AmperSim extends Amper {
     private final SmartNumber maxVelocity;
     private final SmartNumber maxAcceleration;
     private final SmartBoolean ampIR;
-    
+
     protected AmperSim() {
         sim = new ElevatorSim(
             DCMotor.getNEO(1),
@@ -44,8 +51,7 @@ public class AmperSim extends Amper {
             MIN_HEIGHT,
             MAX_HEIGHT,
             true,
-            0
-        );
+            0);
 
         maxVelocity = new SmartNumber("Amper/Lift/Max Velocity", Lift.VEL_LIMIT);
         maxAcceleration = new SmartNumber("Amper/Lift/Max Acceleration", Lift.ACCEL_LIMIT);
@@ -101,8 +107,8 @@ public class AmperSim extends Amper {
     @Override
     public void score() {}
 
-	@Override
-	public void stopRoller() {}
+    @Override
+    public void stopRoller() {}
 
     // @Override
     // public boolean touchingAmp() {
@@ -126,7 +132,7 @@ public class AmperSim extends Amper {
     public double getNoteDistance() {
         return 0.0;
     }
-    
+
     @Override
     public void periodic() {
         super.periodic();
@@ -134,7 +140,7 @@ public class AmperSim extends Amper {
         controller.update(getTargetHeight(), getLiftHeight());
 
         double voltage = voltageOverride.orElse(controller.getOutput());
-        
+
         if (liftAtBottom() && voltage < 0 || liftAtTop() && voltage > 0) {
             stopLift();
         } else {

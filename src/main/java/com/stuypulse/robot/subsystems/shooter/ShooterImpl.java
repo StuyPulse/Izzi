@@ -1,22 +1,30 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.subsystems.shooter;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.stuypulse.robot.constants.Motors;
-import com.stuypulse.robot.constants.Ports;
-import com.stuypulse.robot.constants.Settings.Shooter.Feedforward;
-import com.stuypulse.robot.constants.Settings.Shooter.PID;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
 
+import com.stuypulse.robot.constants.Motors;
+import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.constants.Settings.Shooter.Feedforward;
+import com.stuypulse.robot.constants.Settings.Shooter.PID;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkFlex;
+import com.revrobotics.RelativeEncoder;
 
 public class ShooterImpl extends Shooter {
 
-    private final CANSparkMax leftMotor;
-    private final CANSparkMax rightMotor;
+    private final CANSparkFlex leftMotor;
+    private final CANSparkFlex rightMotor;
 
     private final RelativeEncoder leftEncoder;
     private final RelativeEncoder rightEncoder;
@@ -25,8 +33,8 @@ public class ShooterImpl extends Shooter {
     private final Controller rightController;
 
     protected ShooterImpl() {
-        leftMotor = new CANSparkMax(Ports.Shooter.LEFT_MOTOR, MotorType.kBrushless);
-        rightMotor = new CANSparkMax(Ports.Shooter.RIGHT_MOTOR, MotorType.kBrushless);
+        leftMotor = new CANSparkFlex(Ports.Shooter.LEFT_MOTOR, MotorType.kBrushless);
+        rightMotor = new CANSparkFlex(Ports.Shooter.RIGHT_MOTOR, MotorType.kBrushless);
 
         leftEncoder = leftMotor.getEncoder();
         rightEncoder = rightMotor.getEncoder();
@@ -55,14 +63,14 @@ public class ShooterImpl extends Shooter {
     public double getRightShooterRPM() {
         return rightEncoder.getVelocity();
     }
-    
+
     @Override
     public void periodic() {
         super.periodic();
 
         leftController.update(getLeftTargetRPM(), getLeftShooterRPM());
         rightController.update(getRightTargetRPM(), getRightShooterRPM());
-        
+
         leftMotor.setVoltage(leftController.getOutput());
         rightMotor.setVoltage(rightController.getOutput());
 

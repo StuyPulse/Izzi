@@ -1,3 +1,9 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.util;
 
 import com.stuypulse.stuylib.control.Controller;
@@ -24,23 +30,24 @@ public class HolonomicController implements Sendable {
         xController.update(setpoint.getX(), measurement.getX());
         yController.update(setpoint.getY(), measurement.getY());
         angleController.update(
-            Angle.fromRotation2d(setpoint.getRotation()),
-            Angle.fromRotation2d(measurement.getRotation()));
-
+                Angle.fromRotation2d(setpoint.getRotation()),
+                Angle.fromRotation2d(measurement.getRotation()));
 
         return getOutput();
     }
 
     public ChassisSpeeds getOutput() {
         return ChassisSpeeds.fromFieldRelativeSpeeds(
-            xController.getOutput(),
-            yController.getOutput(),
-            angleController.getOutput(),
-            angleController.getMeasurement().getRotation2d());
+                xController.getOutput(),
+                yController.getOutput(),
+                angleController.getOutput(),
+                angleController.getMeasurement().getRotation2d());
     }
 
     public boolean isDone(double xToleranceMeters, double yToleranceMeters, double angleToleranceDegrees) {
-        return xController.isDone(xToleranceMeters) && yController.isDone(yToleranceMeters) && angleController.isDoneDegrees(angleToleranceDegrees);
+        return xController.isDone(xToleranceMeters)
+                && yController.isDone(yToleranceMeters)
+                && angleController.isDoneDegrees(angleToleranceDegrees);
     }
 
     @Override

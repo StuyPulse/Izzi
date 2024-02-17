@@ -1,3 +1,9 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.subsystems.conveyor;
 
 import edu.wpi.first.wpilibj.RobotBase;
@@ -8,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * - Motor (cansparkmax, kraken?)
  * - shooter IR sensor
  * - set mode
- * 
+ *
  * Methods
  * - toAmp()
  * - toShooter()
@@ -18,7 +24,7 @@ public abstract class Conveyor extends SubsystemBase {
 
     private static final Conveyor instance;
 
-    static{
+    static {
         if (RobotBase.isReal()) {
             instance = new ConveyorImpl();
         } else {
@@ -26,15 +32,18 @@ public abstract class Conveyor extends SubsystemBase {
         }
     }
 
-    public static Conveyor getInstance(){
+    public static Conveyor getInstance() {
         return instance;
-    };
+    }
 
     public abstract double getGandalfSpeed();
+
     public abstract double getFeederSpeed();
 
     public abstract void toShooter();
+
     public abstract void toAmp();
+
     public abstract void stop();
 
     public abstract boolean isNoteAtShooter();

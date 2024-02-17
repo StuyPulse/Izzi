@@ -1,3 +1,9 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.commands.swerve;
 
 import com.stuypulse.robot.Robot;
@@ -34,10 +40,12 @@ public class SwerveDriveAmpAlign extends SequentialCommandGroup {
 
             // new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get()))
             //     .withTolerance(AMP_WALL_SETUP_X_TOLERANCE, AMP_WALL_SETUP_Y_TOLERANCE, AMP_WALL_SETUP_ANGLE_TOLERANCE),
-            
+
             new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SCORE_DISTANCE.get()))
-                .withTolerance(AMP_WALL_SCORE_X_TOLERANCE, AMP_WALL_SCORE_Y_TOLERANCE, AMP_WALL_SCORE_ANGLE_TOLERANCE)
+                .withTolerance(
+                    AMP_WALL_SCORE_X_TOLERANCE,
+                    AMP_WALL_SCORE_Y_TOLERANCE,
+                    AMP_WALL_SCORE_ANGLE_TOLERANCE)
         );
     }
-    
 }

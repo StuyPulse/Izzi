@@ -1,17 +1,23 @@
-package com.stuypulse.robot.commands.climber;
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
 
-import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.subsystems.climber.Climber;
+package com.stuypulse.robot.commands.climber;
 
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.streams.numbers.IStream;
+
+import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.subsystems.climber.Climber;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class ClimberDrive extends Command {
-    
-    private final Climber climber; 
+
+    private final Climber climber;
     private final IStream voltage;
 
     public ClimberDrive(Gamepad gamepad) {
@@ -26,7 +32,7 @@ public class ClimberDrive extends Command {
     @Override
     public void execute() {
         climber.setVoltageOverride(voltage.get());
-        
+
         SmartDashboard.putNumber("Climber/Gamepad Voltage", voltage.get());
     }
 

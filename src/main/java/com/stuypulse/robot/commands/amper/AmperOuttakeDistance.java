@@ -1,10 +1,17 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.commands.amper;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import com.stuypulse.robot.subsystems.amper.Amper;
 
+import edu.wpi.first.wpilibj2.command.Command;
+
 public class AmperOuttakeDistance extends Command {
-    
+
     private final Amper amper;
     private final double distance;
 
@@ -15,7 +22,7 @@ public class AmperOuttakeDistance extends Command {
         this.distance = distance;
         addRequirements(amper);
     }
-    
+
     @Override
     public void initialize() {
         startingDistance = amper.getNoteDistance();
@@ -35,5 +42,4 @@ public class AmperOuttakeDistance extends Command {
     public boolean isFinished() {
         return amper.getNoteDistance() >= distance + startingDistance;
     }
-
 }

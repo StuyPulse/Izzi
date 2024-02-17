@@ -1,3 +1,9 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
 package com.stuypulse.robot.commands.leds;
 
 import com.stuypulse.robot.constants.LEDInstructions;
@@ -13,11 +19,11 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
- * White lost vision 
- * 
+ * White lost vision
+ *
  * Orange speaker
  * Gold amp
- * 
+ *
  * Red for should stop intake (intake ir sees smth)
  * Rainbow for when at right height for trap
  */
@@ -39,19 +45,15 @@ public class LEDDefaultMode extends Command {
 
         addRequirements(leds);
     }
-    
+
     private LEDInstruction getInstruction() {
         if (Math.abs(amper.getLiftHeight() - Lift.TRAP_SCORE_HEIGHT.get()) < Lift.MAX_HEIGHT_ERROR)
             return LEDInstructions.TRAP;
-        if (conveyor.isNoteAtShooter())
-            return LEDInstructions.SPEAKER;
-        if (amper.hasNote())
-            return LEDInstructions.AMP;
-        if (intake.hasNote())
-            return LEDInstructions.RED;   
-        if (RobotBase.isReal()) { 
-            if (vision.getOutputs().isEmpty())
-                return LEDInstructions.WHITE;
+        if (conveyor.isNoteAtShooter()) return LEDInstructions.SPEAKER;
+        if (amper.hasNote()) return LEDInstructions.AMP;
+        if (intake.hasNote()) return LEDInstructions.RED;
+        if (RobotBase.isReal()) {
+            if (vision.getOutputs().isEmpty()) return LEDInstructions.WHITE;
         }
 
         return LEDInstructions.DEFAULT;
@@ -62,5 +64,3 @@ public class LEDDefaultMode extends Command {
         leds.runLEDInstruction(getInstruction());
     }
 }
-
-
