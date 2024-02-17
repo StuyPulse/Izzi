@@ -6,9 +6,10 @@
 
 package com.stuypulse.robot.subsystems.shooter;
 
+import com.stuypulse.robot.Robot;
+import com.stuypulse.robot.constants.Settings.RobotType;
 import com.stuypulse.stuylib.network.SmartNumber;
 
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class Shooter extends SubsystemBase {
@@ -16,7 +17,7 @@ public abstract class Shooter extends SubsystemBase {
     private static final Shooter instance;
 
     static {
-        if (RobotBase.isReal()) {
+        if (Robot.ROBOT == RobotType.IZZI) {
             instance = new ShooterImpl();
         } else {
             instance = new ShooterSim();

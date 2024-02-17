@@ -7,7 +7,7 @@
 package com.stuypulse.robot.subsystems.odometry;
 
 import com.stuypulse.stuylib.network.SmartBoolean;
-
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.robot.util.vision.AprilTag;
@@ -15,6 +15,7 @@ import com.stuypulse.robot.util.vision.VisionData;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
@@ -44,6 +45,8 @@ public class Odometry extends SubsystemBase {
     private final FieldObject2d odometryPose2D;
     private final FieldObject2d estimatorPose2D;
 
+    private Pose2d lastGoodPose;
+
     protected Odometry() {
         SwerveDrive swerve = SwerveDrive.getInstance();
         odometry = new SwerveDriveOdometry(
@@ -63,6 +66,8 @@ public class Odometry extends SubsystemBase {
         swerve.initFieldObject(field);
         odometryPose2D = field.getObject("Odometry Pose");
         estimatorPose2D = field.getObject("Estimator Pose");
+
+        lastGoodPose = new Pose2d();
 
         SmartDashboard.putData("Field", field);
     }
@@ -112,6 +117,16 @@ public class Odometry extends SubsystemBase {
 
         if (VISION_ACTIVE.get()) {
             updateEstimatorWithVisionData(outputs);
+        }
+
+        if (estimator.getEstimatedPosition().getTranslation().getNorm() > new Translation2d(Field.LENGTH, Field.WIDTH).getNorm() || 
+            odometry.getPoseMeters().getTranslation().getNorm() > new Translation2d(Field.LENGTH, Field.WIDTH).getNorm() ||
+            estimator.getEstimatedPosition().getX() == Double.NaN || estimator.getEstimatedPosition().getY() == Double.NaN ||
+            odometry.getPoseMeters().getX() == Double.NaN || odometry.getPoseMeters().getY() == Double.NaN
+        ) {
+            reset(lastGoodPose);
+        } else {
+            lastGoodPose = getPose();
         }
 
         updateTelemetry();

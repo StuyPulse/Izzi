@@ -6,7 +6,9 @@
 
 package com.stuypulse.robot.subsystems.conveyor;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import com.stuypulse.robot.Robot;
+import com.stuypulse.robot.constants.Settings.RobotType;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /*
@@ -25,7 +27,7 @@ public abstract class Conveyor extends SubsystemBase {
     private static final Conveyor instance;
 
     static {
-        if (RobotBase.isReal()) {
+        if (Robot.ROBOT == RobotType.IZZI) {
             instance = new ConveyorImpl();
         } else {
             instance = new ConveyorSim();

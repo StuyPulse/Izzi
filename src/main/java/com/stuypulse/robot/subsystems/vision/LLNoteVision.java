@@ -32,6 +32,8 @@ public class LLNoteVision extends NoteVision {
 
     private final VStream notePose;
     private final BStream noteData;
+    
+    private Vector2D notePoseRaw;
 
     protected LLNoteVision() {
         String[] hostNames = LIMELIGHTS;
@@ -48,11 +50,13 @@ public class LLNoteVision extends NoteVision {
 
         note = Odometry.getInstance().getField().getObject("Note");
 
-        notePose = VStream.create(this::updateNotePose)
+        notePose = VStream.create(() -> notePoseRaw)
             .filtered(new VTimedMovingAverage(0.5));
         
         noteData = BStream.create(this::hasNoteDataRaw)
             .filtered(new BDebounceRC.Both(NoteDetection.HAS_NOTE_DEBOUNCE));
+        
+        notePoseRaw = Vector2D.kOrigin;
     }
 
     /**
@@ -101,7 +105,7 @@ public class LLNoteVision extends NoteVision {
      * @Calculates the estimated pose of the note by averaging data from all available limelights.
      * Sets the pose to `notePose` that can be accessed with `getEstimatedNotePose()`.
      */
-    private Vector2D updateNotePose() {
+    private void updateNotePose() {
         Translation2d sum = new Translation2d();
 
         for (Limelight limelight : limelights) {
@@ -120,7 +124,7 @@ public class LLNoteVision extends NoteVision {
             sum = sum.plus(fieldToNote);
         }
 
-        return new Vector2D(sum.div(limelights.length));
+        notePoseRaw = new Vector2D(sum.div(limelights.length));
     }
 
     @Override
@@ -131,12 +135,12 @@ public class LLNoteVision extends NoteVision {
 
         note.setPose(new Pose2d(getEstimatedNotePose(), new Rotation2d()));
 
-        if (hasNoteData()) updateNotePose();
+        if (hasNoteDataRaw()) updateNotePose();
         updateTelemetry();
     }
 
     private void updateTelemetry() {
-        if (hasNoteData()) {
+        if (hasNoteDataRaw()) {
             SmartDashboard.putNumber("Note Detection/X Angle", limelights[0].getXAngle());
             SmartDashboard.putNumber("Note Detection/Y Angle", limelights[0].getYAngle());
             SmartDashboard.putNumber("Note Detection/Distance", limelights[0].getDistanceToNote());

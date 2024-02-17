@@ -21,6 +21,7 @@ import edu.wpi.first.networktables.IntegerArraySubscriber;
 import edu.wpi.first.networktables.IntegerSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Optional;
 
@@ -80,8 +81,8 @@ public class TheiaCamera {
         latencySub = outputTable.getDoubleTopic("latency").subscribe(0);
         fpsSub = outputTable.getIntegerTopic("fps").subscribe(0);
         poseSub = outputTable.getDoubleArrayTopic("pose").subscribe(new double[] {});
-        idSub = outputTable.getIntegerArrayTopic("fid").subscribe(new long[] {});
-        counterSub = outputTable.getIntegerTopic("counter").subscribe(0);
+        idSub = outputTable.getIntegerArrayTopic("tids").subscribe(new long[] {});
+        counterSub = outputTable.getIntegerTopic("update_counter").subscribe(0);
     }
 
     public TheiaCamera(CameraConfig config) {
@@ -104,6 +105,11 @@ public class TheiaCamera {
      */
     public int getFPS() {
         return (int) rawFPS;
+    }
+
+    private boolean hasData() {
+        return rawPose.length > 0 &&
+               rawids.length > 0;
     }
 
     /** Pull the data from the NetworkTables and store it in the class. */
@@ -134,8 +140,7 @@ public class TheiaCamera {
     private Pose3d getRobotPose() {
         return getDataAsPose3d()
             .transformBy(new Transform3d(cameraLocation.getTranslation(), cameraLocation.getRotation())
-            .inverse()
-        );
+                .inverse());
     }
 
     /**
@@ -159,16 +164,24 @@ public class TheiaCamera {
     public Optional<VisionData> getVisionData() {
         updateData();
 
+        if (!hasData()) return Optional.empty();
+
         double fpgaTime = latencySub.getLastChange() / 1_000_000.0;
         double timestamp = fpgaTime - Units.millisecondsToSeconds(rawLatency);
 
-        if (rawCounter - lastCounter != 1) {
+        if (rawCounter - lastCounter < 1) {
+            lastCounter = rawCounter;
+
             return Optional.empty();
         }
 
         lastCounter = rawCounter;
 
         VisionData data = new VisionData(getRobotPose(), getIDs(), timestamp);
+
+        SmartDashboard.putNumber("Vision/X", data.getPose().getX());
+        SmartDashboard.putNumber("Vision/Y", data.getPose().getY());
+
         if (!data.isValidData()) {
             return Optional.empty();
         }
