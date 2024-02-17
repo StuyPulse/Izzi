@@ -6,17 +6,20 @@
 
 package com.stuypulse.robot.util.vision;
 
+import com.stuypulse.robot.Robot;
+import com.stuypulse.robot.constants.Field;
+
 import edu.wpi.first.math.geometry.Pose3d;
 
 /** This class stores information about a tag. */
 public class AprilTag {
 
     private final int id;
-    private final Pose3d location;
+    private final Pose3d blueLocation;
 
-    public AprilTag(int id, Pose3d location) {
+    public AprilTag(int id, Pose3d blueLocation) {
         this.id = id;
-        this.location = location;
+        this.blueLocation = blueLocation;
     }
 
     /**
@@ -34,6 +37,10 @@ public class AprilTag {
      * @return the location of the tag on the field
      */
     public Pose3d getLocation() {
-        return location;
+        if (Robot.isBlue()) {
+            return blueLocation;
+        } else {
+            return blueLocation.transformBy(Field.ORIGIN_TRANSFORM_3D);
+        }
     }
 }
