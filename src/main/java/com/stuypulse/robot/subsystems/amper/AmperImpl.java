@@ -90,7 +90,7 @@ public class AmperImpl extends Amper {
 
     @Override
     public double getLiftHeight() {
-        return liftEncoder.getPosition();
+        return -liftEncoder.getPosition();
     }
 
     @Override

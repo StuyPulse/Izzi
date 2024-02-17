@@ -27,7 +27,7 @@ public interface Settings {
     public enum RobotType {
         JIM("03262B9F"),
         TUMBLER("0305A69D"),
-        IZZI(""),
+        IZZI("032B4BC2"),
         SIM("");
 
         public final String serialNum;
@@ -66,9 +66,12 @@ public interface Settings {
         }
 
         public interface Encoder {
-            double GEAR_RATIO = 12.0;
+            double GEAR_RATIO = 1.0 / 12.0;
 
-            double POSITION_CONVERSION = 1.0;
+            double DRUM_DIAMETER = Units.inchesToMeters(2);
+            double DRUM_CIRCUMFERENCE = DRUM_RADIUS * Math.PI;
+
+            double POSITION_CONVERSION = DRUM_CIRCUMFERENCE * GEAR_RATIO;
             double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
         }
     }
@@ -102,7 +105,7 @@ public interface Settings {
             SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Trap Score Height", 1.0);
 
             public interface Encoder {
-                double GEARING = 9;
+                double GEARING = 1.0 / 9.0;
                 double DRUM_RADIUS = Units.inchesToMeters(1);
                 double DRUM_CIRCUMFERENCE = DRUM_RADIUS * Math.PI * 2;
 
@@ -185,54 +188,47 @@ public interface Settings {
         }
 
         public interface Turn {
-            // TODO: Tune these values
-            SmartNumber kP = new SmartNumber("Swerve/Turn/PID/kP", 1.0);
-            SmartNumber kI = new SmartNumber("Swerve/Turn/PID/kI", 0.0);
+            SmartNumber kP = new SmartNumber("Swerve/Turn/PID/kP", 0.0);
+            double kI = 0.0;
             SmartNumber kD = new SmartNumber("Swerve/Turn/PID/kD", 0.0);
 
-            // TODO: SysID these values
-            SmartNumber kS = new SmartNumber("Swerve/Turn/FF/kS", 0.01);
-            SmartNumber kV = new SmartNumber("Swerve/Turn/FF/kV", 0.25);
-            SmartNumber kA = new SmartNumber("Swerve/Turn/FF/kA", 0.01);
+            SmartNumber kS = new SmartNumber("Swerve/Turn/FF/kS", 0.25582);
+            SmartNumber kV = new SmartNumber("Swerve/Turn/FF/kV", 0.00205);
+            SmartNumber kA = new SmartNumber("Swerve/Turn/FF/kA", 0.00020123);
         }
 
         public interface Drive {
-            // TODO: Tune these values
-            SmartNumber kP = new SmartNumber("Swerve/Drive/PID/kP", 1.0);
-            SmartNumber kI = new SmartNumber("Swerve/Drive/PID/kI", 0.00);
-            SmartNumber kD = new SmartNumber("Swerve/Drive/PID/kD", 0.00);
+            SmartNumber kP = new SmartNumber("Swerve/Drive/PID/kP", 0.48346);
+            double kI = 0.0;
+            SmartNumber kD = new SmartNumber("Swerve/Drive/PID/kD", 0.0);
 
-            // TODO: SysID these values
-            SmartNumber kS = new SmartNumber("Swerve/Drive/FF/kS", 0.01);
-            SmartNumber kV = new SmartNumber("Swerve/Drive/FF/kV", 0.25);
-            SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.01);
+            SmartNumber kS = new SmartNumber("Swerve/Drive/FF/kS", 0.062097);
+            SmartNumber kV = new SmartNumber("Swerve/Drive/FF/kV", 1.768);
+            SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.41581);
         }
 
         // TODO: Get module offset values
         public interface FrontRight {
             String ID = "Front Right";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(0).plus(Rotation2d.fromDegrees(0));
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(152.6);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * +0.5, LENGTH * -0.5);
         }
 
         public interface FrontLeft {
             String ID = "Front Left";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(0)
-                .plus(Rotation2d.fromDegrees(270));
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-48.9);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * +0.5, LENGTH * +0.5);
         }
 
         public interface BackLeft {
             String ID = "Back Left";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(0)
-                .plus(Rotation2d.fromDegrees(180));
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(99.4);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * +0.5);
         }
 
         public interface BackRight {
             String ID = "Back Right";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(0) 
-                .plus(Rotation2d.fromDegrees(90));
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(179.0);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * -0.5);
         }
     }

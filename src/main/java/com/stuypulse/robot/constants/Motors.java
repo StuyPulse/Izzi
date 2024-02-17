@@ -28,7 +28,7 @@ public interface Motors {
     }
 
     public interface Swerve {
-        CANSparkFlexConfig DRIVE_CONFIG = new CANSparkFlexConfig(false, IdleMode.kBrake);
+        CANSparkFlexConfig DRIVE_CONFIG = new CANSparkFlexConfig(true, IdleMode.kBrake);
         CANSparkMaxConfig TURN_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake);
     }
 
