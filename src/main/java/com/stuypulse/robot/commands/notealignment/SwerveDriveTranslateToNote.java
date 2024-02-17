@@ -24,7 +24,6 @@ import com.stuypulse.robot.util.HolonomicController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -86,6 +85,6 @@ public class SwerveDriveTranslateToNote extends Command {
 
     @Override
     public boolean isFinished() {
-        return aligned.get() || (DriverStation.isAutonomous() && Field.getAutonNoteDetectionBoundary() - targetPose.getX() < 0);
+        return aligned.get() || (DriverStation.isAutonomous() && targetPose.getX() > Field.NOTE_BOUNDARY);
     }
 }

@@ -7,6 +7,7 @@
 package com.stuypulse.robot.constants;
 
 import com.stuypulse.robot.Robot;
+import com.stuypulse.robot.util.MirroredPose2d;
 import com.stuypulse.robot.util.vision.AprilTag;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -14,10 +15,10 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -204,15 +205,11 @@ public interface Field {
 
     /***** NOTE DETECTION *****/
 
-    public double NOTE_BOUNDARY_RANGE_FROM_CENTER = Units.inchesToMeters(Settings.LENGTH / 2);
-
-    public static double getAutonNoteDetectionBoundary() {
-        return Robot.isBlue() ? WIDTH / 2 + NOTE_BOUNDARY_RANGE_FROM_CENTER : WIDTH / 2 - NOTE_BOUNDARY_RANGE_FROM_CENTER;
-    }
+    public double NOTE_BOUNDARY = LENGTH / 2 + Units.inchesToMeters(Settings.LENGTH / 2);
 
     /**** SHOOT POSES ****/
 
-    public Pose2d TOP_SHOOT_POSE = new Pose2d(3.35, 6.80, new Rotation2d(23));
-    public Pose2d ALTERNATE_TOP_SHOOT_POSE = new Pose2d(3.40, 5.21, new Rotation2d(-6));
-    public Pose2d BOTTOM_SHOOT_POSE = new Pose2d(2.54, 3.23, new Rotation2d(-40));
+    public MirroredPose2d TOP_SHOOT_POSE = new MirroredPose2d(Alliance.Blue, new Pose2d(3.35, 6.80, new Rotation2d(23)));
+    public MirroredPose2d ALTERNATE_TOP_SHOOT_POSE = new MirroredPose2d(Alliance.Blue, new Pose2d(3.40, 5.21, new Rotation2d(-6)));
+    public MirroredPose2d BOTTOM_SHOOT_POSE = new MirroredPose2d(Alliance.Blue, new Pose2d(2.54, 3.23, new Rotation2d(-40)));
 }
