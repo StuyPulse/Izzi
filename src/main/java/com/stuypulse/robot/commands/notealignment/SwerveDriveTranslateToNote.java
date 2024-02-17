@@ -9,6 +9,7 @@ package com.stuypulse.robot.commands.notealignment;
 import static com.stuypulse.robot.constants.Settings.Alignment.*;
 import static com.stuypulse.robot.constants.Settings.NoteDetection.*;
 
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.streams.booleans.BStream;
@@ -23,6 +24,7 @@ import com.stuypulse.robot.util.HolonomicController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -34,6 +36,8 @@ public class SwerveDriveTranslateToNote extends Command {
 
     private final HolonomicController controller;
     private final BStream aligned;
+
+    private Pose2d targetPose;
 
     public SwerveDriveTranslateToNote() {
         this.swerve = SwerveDrive.getInstance();
@@ -48,6 +52,7 @@ public class SwerveDriveTranslateToNote extends Command {
         SmartDashboard.putData("Note Detection/Controller", controller);
 
         aligned = BStream.create(this::isAligned).filtered(new BDebounceRC.Rising(DEBOUNCE_TIME));
+        targetPose = new Pose2d();
 
         addRequirements(swerve);
     }
@@ -65,7 +70,7 @@ public class SwerveDriveTranslateToNote extends Command {
 
         Rotation2d targetRotation = vision.getEstimatedNotePose().minus(targetTranslation).getAngle();
 
-        Pose2d targetPose = new Pose2d(targetTranslation, targetRotation);
+        targetPose = new Pose2d(targetTranslation, targetRotation);
 
         // translate to note only if note in view
         if (vision.hasNoteData()) {
@@ -80,6 +85,6 @@ public class SwerveDriveTranslateToNote extends Command {
 
     @Override
     public boolean isFinished() {
-        return aligned.get();
+        return aligned.get() || (DriverStation.isAutonomous() && targetPose.getX() > Field.NOTE_BOUNDARY);
     }
 }
