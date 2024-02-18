@@ -6,18 +6,18 @@
 
 package com.stuypulse.robot.commands.climber;
 
-import com.stuypulse.robot.commands.DoNothingCommand;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.climber.Climber;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 public class ClimberToHeight extends InstantCommand {
 
     public static Command untilDone(double height) {
         return new ClimberToHeight(height)
-            .andThen(new DoNothingCommand().until(() -> Climber.getInstance().isAtTargetHeight(Settings.Climber.BangBang.THRESHOLD)));
+            .andThen(new WaitUntilCommand(() -> Climber.getInstance().isAtTargetHeight(Settings.Climber.BangBang.THRESHOLD)));
     }
 
     private final Climber climber;
