@@ -63,13 +63,20 @@ public class TheiaTagVision extends AprilTagVision {
 
         outputs.clear();
 
+        boolean hasAnyData = false;
+
         for (TheiaCamera camera : cameras) {
+            if (camera.getVisionData().isPresent())
+                hasAnyData = true;
+
             camera.getVisionData().ifPresent(
                 (VisionData data) -> {
                     outputs.add(data);
                     updateTelemetry("Vision/" + camera.getName(), data);
                 });
         }
+
+        SmartDashboard.putBoolean("Vision/Has Any Data", hasAnyData);
     }
 
     private void updateTelemetry(String prefix, VisionData data) {
@@ -81,7 +88,6 @@ public class TheiaTagVision extends AprilTagVision {
 
         SmartDashboard.putNumber(prefix + "/Pose Rotation", Units.radiansToDegrees(data.getPose().getRotation().getAngle()));
         SmartDashboard.putNumber(prefix + "/Timestamp", data.getTimestamp());
-        SmartDashboard.putBoolean("Vision/Has Any Data", !outputs.isEmpty());
 
         robot.setPose(data.getPose().toPose2d());
     }

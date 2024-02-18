@@ -20,8 +20,8 @@ public interface Ports {
 
         int TOP_RIGHT_LIMIT = 9;
         int TOP_LEFT_LIMIT = 8;
-        int BOTTOM_RIGHT_LIMIT = 7;
-        int BOTTOM_LEFT_LIMIT = 6;
+        int BOTTOM_RIGHT_LIMIT = 6;
+        int BOTTOM_LEFT_LIMIT = 7;
     }
 
     public interface Amper {

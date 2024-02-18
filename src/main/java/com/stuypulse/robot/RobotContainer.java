@@ -200,9 +200,14 @@ public class RobotContainer {
                 .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));
 
         operator.getLeftBumper()
-            .onTrue(ConveyorToAmp.withCheckLift());
+            .onTrue(ConveyorToAmp.withCheckLift())
+            .onFalse(new ConveyorStop())
+            .onFalse(new IntakeStop())
+            .onFalse(new AmperStop());
         operator.getRightBumper()
-            .onTrue(new ConveyorToShooter());
+            .onTrue(new ConveyorToShooter())
+            .onFalse(new ConveyorStop())
+            .onFalse(new IntakeStop());
 
         operator.getTopButton()
                 .onTrue(new AmperScore())
@@ -250,6 +255,10 @@ public class RobotContainer {
     }
 
     public static String getAutonomousCommandNameStatic() {
+        if (autonChooser.getSelected() == null) {
+            return "DoNothingAuton";
+        }
+        
         return autonChooser.getSelected().getName();
     }
 }
