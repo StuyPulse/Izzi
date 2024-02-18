@@ -101,7 +101,7 @@ public interface Settings {
             double ACCEL_LIMIT = 2.0;
 
             // TODO: Tune these values
-            SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Amp Score Height", 0.0);
+            SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Amp Score Height", 0.34);
             SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Trap Score Height", 0.0);
 
             public interface Encoder {

@@ -173,6 +173,5 @@ public class AmperImpl extends Amper {
         SmartDashboard.putNumber("Amper/Lift Height", getLiftHeight());
 
         SmartDashboard.putBoolean("Amper/Has Note", hasNote());
-        SmartDashboard.putBoolean("Amper/Has Note (Raw)", !ampIRSensor.get());
     }
 }

@@ -24,7 +24,7 @@ public interface Motors {
     /** Classes to store all of the values a motor needs */
     public interface Amper {
         CANSparkMaxConfig LIFT_MOTOR = new CANSparkMaxConfig(true, IdleMode.kBrake);
-        CANSparkMaxConfig SCORE_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
+        CANSparkMaxConfig SCORE_MOTOR = new CANSparkMaxConfig(true, IdleMode.kBrake, 80, 0.1);
     }
 
     public interface Swerve {
