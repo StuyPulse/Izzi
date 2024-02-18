@@ -62,7 +62,7 @@ public interface Ports {
 
     public interface Intake {
         int MOTOR = 40;
-        int IR_SENSOR = 1;
+        int IR_SENSOR = 3;
     }
 
     public interface Shooter {
