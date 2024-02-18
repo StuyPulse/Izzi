@@ -72,15 +72,14 @@ public abstract class Amper extends SubsystemBase {
             10,
             new Color8Bit(Color.kAqua)));
 
-        SmartDashboard.putData("Lift Mechanism", mechanism2d);
+        SmartDashboard.putData("Visualizers/Lift", mechanism2d);
     }
 
     /*** LIFT CONTROL ***/
 
     public void setTargetHeight(double height) {
-        targetHeight.set(
-                SLMath.clamp(
-                        height, Settings.Amper.Lift.MIN_HEIGHT, Settings.Amper.Lift.MAX_HEIGHT));
+        targetHeight.set(SLMath.clamp(
+            height, Settings.Amper.Lift.MIN_HEIGHT, Settings.Amper.Lift.MAX_HEIGHT));
     }
 
     public final double getTargetHeight() {
@@ -128,5 +127,11 @@ public abstract class Amper extends SubsystemBase {
     @Override
     public void periodic() {
         lift2d.setLength(Settings.Amper.Lift.VISUALIZATION_MIN_LENGTH + getLiftHeight());
+
+        if (targetHeight.get() > Settings.Amper.Lift.MAX_HEIGHT)
+            targetHeight.set(Settings.Amper.Lift.MAX_HEIGHT);
+        
+        if (targetHeight.get() < Settings.Amper.Lift.MIN_HEIGHT)
+            targetHeight.set(Settings.Amper.Lift.MIN_HEIGHT);
     }
 }

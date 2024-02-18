@@ -23,7 +23,7 @@ public interface Motors {
 
     /** Classes to store all of the values a motor needs */
     public interface Amper {
-        CANSparkMaxConfig LIFT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake);
+        CANSparkMaxConfig LIFT_MOTOR = new CANSparkMaxConfig(true, IdleMode.kBrake);
         CANSparkMaxConfig SCORE_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
     }
 
@@ -37,8 +37,8 @@ public interface Motors {
     }
 
     public interface Shooter {
-        CANSparkFlexConfig LEFT_SHOOTER = new CANSparkFlexConfig(true, IdleMode.kCoast);
-        CANSparkFlexConfig RIGHT_SHOOTER = new CANSparkFlexConfig(false, IdleMode.kCoast);
+        CANSparkFlexConfig LEFT_SHOOTER = new CANSparkFlexConfig(true, IdleMode.kBrake);
+        CANSparkFlexConfig RIGHT_SHOOTER = new CANSparkFlexConfig(false, IdleMode.kBrake);
     }
 
     public interface Conveyor {

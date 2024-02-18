@@ -90,7 +90,7 @@ public class AmperImpl extends Amper {
 
     @Override
     public double getLiftHeight() {
-        return -liftEncoder.getPosition();
+        return liftEncoder.getPosition();
     }
 
     @Override
@@ -171,5 +171,8 @@ public class AmperImpl extends Amper {
         SmartDashboard.putNumber("Amper/Intake Current", scoreMotor.getOutputCurrent());
         SmartDashboard.putNumber("Amper/Lift Current", liftMotor.getOutputCurrent());
         SmartDashboard.putNumber("Amper/Lift Height", getLiftHeight());
+
+        SmartDashboard.putBoolean("Amper/Has Note", hasNote());
+        SmartDashboard.putBoolean("Amper/Has Note (Raw)", !ampIRSensor.get());
     }
 }

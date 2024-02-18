@@ -89,6 +89,7 @@ public class IntakeImpl extends Intake {
         SmartDashboard.putNumber("Intake/Current", motor.getOutputCurrent());
 
         SmartDashboard.putBoolean("Intake/Is Stalling", isStalling());
-        SmartDashboard.putBoolean("Intake/IR is triggered", isTriggered());
+        SmartDashboard.putBoolean("Intake/Has Note", isTriggered());
+        SmartDashboard.putBoolean("Intake/Has Note (Raw)", !sensor.get());
     }
 }

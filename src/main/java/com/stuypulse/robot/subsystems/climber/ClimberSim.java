@@ -25,7 +25,7 @@ public class ClimberSim extends Climber {
             DCMotor.getNEO(2),
             Settings.Climber.Encoder.GEAR_RATIO,
             Settings.Climber.MASS,
-            Settings.Climber.DRUM_RADIUS,
+            Settings.Climber.Encoder.SPROCKET_RADIUS,
             Settings.Climber.MIN_HEIGHT,
             Settings.Climber.MAX_HEIGHT,
             true,

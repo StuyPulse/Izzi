@@ -55,23 +55,23 @@ public interface Settings {
 
     public interface Climber {
         double MIN_HEIGHT = 0.0;
-        double MAX_HEIGHT = Units.inchesToMeters(17.48);
+        double MAX_HEIGHT = Units.inchesToMeters(17.75);
 
         double MASS = Units.lbsToKilograms(2.173979);
-        double DRUM_RADIUS = Units.inchesToMeters(1.025);
 
         public interface BangBang {
-            double CONTROLLER_VOLTAGE = 8.0;
+            double CONTROLLER_VOLTAGE = 0.0;
             double THRESHOLD = 0.03;
         }
 
         public interface Encoder {
             double GEAR_RATIO = 1.0 / 12.0;
 
-            double DRUM_DIAMETER = Units.inchesToMeters(2);
-            double DRUM_CIRCUMFERENCE = DRUM_RADIUS * Math.PI;
+            // distance from center of sprocket to hook
+            double SPROCKET_RADIUS = Units.inchesToMeters(0.95);
+            double SPROCKET_CIRCUMFERENCE = SPROCKET_RADIUS * Math.PI * 2;
 
-            double POSITION_CONVERSION = DRUM_CIRCUMFERENCE * GEAR_RATIO;
+            double POSITION_CONVERSION = SPROCKET_CIRCUMFERENCE * GEAR_RATIO;
             double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
         }
     }
@@ -90,7 +90,7 @@ public interface Settings {
             double CARRIAGE_MASS = 10; // kg
 
             double MIN_HEIGHT = 0;
-            double MAX_HEIGHT = 1.8475325; // meters
+            double MAX_HEIGHT = Units.inchesToMeters(14.75);
 
             double VISUALIZATION_MIN_LENGTH = 0.5;
             Rotation2d ANGLE_TO_GROUND = Rotation2d.fromDegrees(68.02);
@@ -101,12 +101,12 @@ public interface Settings {
             double ACCEL_LIMIT = 2.0;
 
             // TODO: Tune these values
-            SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Amp Score Height", 1.0);
-            SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Trap Score Height", 1.0);
+            SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Amp Score Height", 0.0);
+            SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Trap Score Height", 0.0);
 
             public interface Encoder {
                 double GEARING = 1.0 / 9.0;
-                double DRUM_RADIUS = Units.inchesToMeters(1);
+                double DRUM_RADIUS = Units.inchesToMeters(1.0);
                 double DRUM_CIRCUMFERENCE = DRUM_RADIUS * Math.PI * 2;
 
                 double POSITION_CONVERSION = GEARING * DRUM_CIRCUMFERENCE;
@@ -115,15 +115,15 @@ public interface Settings {
 
             // TODO: SysID these values
             public interface Feedforward {
-                SmartNumber kS = new SmartNumber("Amper/Lift/FF/kS", 0.0);
-                SmartNumber kV = new SmartNumber("Amper/Lift/FF/kV", 0.0);
-                SmartNumber kA = new SmartNumber("Amper/Lift/FF/kA", 0.0);
-                SmartNumber kG = new SmartNumber("Amper/Lift/FF/kG", 0.0);
+                SmartNumber kS = new SmartNumber("Amper/Lift/FF/kS", 0.18665);
+                SmartNumber kV = new SmartNumber("Amper/Lift/FF/kV", 6.6702);
+                SmartNumber kA = new SmartNumber("Amper/Lift/FF/kA", 0.803);
+                SmartNumber kG = new SmartNumber("Amper/Lift/FF/kG", 0.20667);
             }
 
             // TODO: Tune these values
             public interface PID {
-                SmartNumber kP = new SmartNumber("Amper/Lift/PID/kP", 3.0);
+                SmartNumber kP = new SmartNumber("Amper/Lift/PID/kP", 0.53252);
                 SmartNumber kI = new SmartNumber("Amper/Lift/PID/kI", 0.0);
                 SmartNumber kD = new SmartNumber("Amper/Lift/PID/kD", 0.0);
             }
@@ -269,7 +269,7 @@ public interface Settings {
 
     public interface Operator {
         SmartNumber DEADBAND = new SmartNumber("Operator Settings/Manual Climb + Lift Deadband", 0.1);
-        SmartNumber CLIMB_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Climber Max Drive Voltage", 8.0);
+        SmartNumber CLIMB_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Climber Max Drive Voltage", 1.0);
         SmartNumber LIFT_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Lift Max Drive Voltage", 6.0);
         SmartNumber LIFT_ADJUST_SPEED = new SmartNumber("Operator Settings/Lift Fine Adjust Speed", Units.inchesToMeters(1.0));
     }
