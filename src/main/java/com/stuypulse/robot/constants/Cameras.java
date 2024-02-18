@@ -22,8 +22,8 @@ public interface Cameras {
             new Rotation3d(0, Math.toRadians(8), Math.toRadians(2)));
 
         Pose3d IZZI_POSE = new Pose3d(
-            new Translation3d(0, Units.inchesToMeters(16.156338), Units.inchesToMeters(13.833919)),
-            new Rotation3d(0, Math.toRadians(0), Math.toRadians(0)))
+                new Translation3d(Units.inchesToMeters(16.156338), 0, Units.inchesToMeters(13.833919)),
+                new Rotation3d(0, Units.degreesToRadians(15), 0));
 
         String[] LIMELIGHTS = {"limelight"};
 
@@ -39,9 +39,9 @@ public interface Cameras {
     public CameraConfig[] APRILTAG_CAMERAS = switch (Robot.ROBOT) {
         case IZZI -> 
             new CameraConfig[] {
-                new CameraConfig("samera0", new Pose3d(new Translation3d(0, Units.inchesToMeters(16.387490), Units.inchesToMeters(16.267379)), new Rotation3d(0, Units.degreesToRadians(60), 0))),                               // INTAKE
-                new CameraConfig("samera1", new Pose3d(new Translation3d(0, -Units.inchesToMeters(11.59286), Units.inchesToMeters(11.926806)), new Rotation3d(0, Units.degreesToRadians(-56), Units.degreesToRadians(180)))),    // SHOOTER
-                new CameraConfig("samera2", new Pose3d(new Translation3d(0, Units.inchesToMeters(2.307881), Units.inchesToMeters(23.974534)), new Rotation3d(0, Units.degreesToRadians(-81), Units.degreesToRadians(180)))),     // CLIMBER
+                new CameraConfig("samera0", new Pose3d(new Translation3d(Units.inchesToMeters(16.387490), 0, Units.inchesToMeters(16.267379)), new Rotation3d(0, Units.degreesToRadians(60), 0))),                               // INTAKE
+                new CameraConfig("samera1", new Pose3d(new Translation3d(-Units.inchesToMeters(11.59286), 0, Units.inchesToMeters(11.926806)), new Rotation3d(0, Units.degreesToRadians(-56), Units.degreesToRadians(180)))),    // SHOOTER
+                new CameraConfig("samera2", new Pose3d(new Translation3d(Units.inchesToMeters(2.307881), 0, Units.inchesToMeters(23.974534)), new Rotation3d(0, Units.degreesToRadians(-81), Units.degreesToRadians(180)))),     // CLIMBER
             };
         
         case TUMBLER ->
