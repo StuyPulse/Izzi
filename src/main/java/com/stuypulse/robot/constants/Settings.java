@@ -113,19 +113,18 @@ public interface Settings {
                 double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
             }
 
-            // TODO: SysID these values
             public interface Feedforward {
-                SmartNumber kS = new SmartNumber("Amper/Lift/FF/kS", 0.18665);
-                SmartNumber kV = new SmartNumber("Amper/Lift/FF/kV", 6.6702);
-                SmartNumber kA = new SmartNumber("Amper/Lift/FF/kA", 0.803);
-                SmartNumber kG = new SmartNumber("Amper/Lift/FF/kG", 0.20667);
+                double kS = 0.18665;
+                double kV = 6.6702;
+                double kA = 0.803;
+                double kG = 0.2;
             }
 
             // TODO: Tune these values
             public interface PID {
-                SmartNumber kP = new SmartNumber("Amper/Lift/PID/kP", 0.53252);
-                SmartNumber kI = new SmartNumber("Amper/Lift/PID/kI", 0.0);
-                SmartNumber kD = new SmartNumber("Amper/Lift/PID/kD", 0.0);
+                double kP = 0.5;
+                double kI = 0.0;
+                double kD = 0.0;
             }
         }
     }
@@ -188,13 +187,13 @@ public interface Settings {
         }
 
         public interface Turn {
-            SmartNumber kP = new SmartNumber("Swerve/Turn/PID/kP", 0.0);
+            double kP = 7.0;
             double kI = 0.0;
-            SmartNumber kD = new SmartNumber("Swerve/Turn/PID/kD", 0.0);
+            double kD = 0.05;
 
-            SmartNumber kS = new SmartNumber("Swerve/Turn/FF/kS", 0.25582);
-            SmartNumber kV = new SmartNumber("Swerve/Turn/FF/kV", 0.00205);
-            SmartNumber kA = new SmartNumber("Swerve/Turn/FF/kA", 0.00020123);
+            double kS = 0.25582;
+            double kV = 0.00205;
+            double kA = 0.00020123;
         }
 
         public interface Drive {
