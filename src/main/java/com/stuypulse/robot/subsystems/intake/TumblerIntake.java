@@ -43,6 +43,12 @@ public class TumblerIntake extends Intake {
     }
 
     @Override
+    public void move() {
+        topMotor.set(+1.0);
+        bottomMotor.set(-1.0);
+    }
+
+    @Override
     public void deacquire() {
         topMotor.set(-1.0);
         bottomMotor.set(+1.0);

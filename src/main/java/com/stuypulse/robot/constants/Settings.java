@@ -117,7 +117,7 @@ public interface Settings {
                 double kS = 0.18665;
                 double kV = 6.6702;
                 double kA = 0.803;
-                double kG = 0.2;
+                double kG = 0.15;
             }
 
             public interface PID {
@@ -300,22 +300,23 @@ public interface Settings {
 
     public interface Intake {
         public interface Detection {
-            double TRIGGER_TIME = 0.05;
+            double TRIGGER_TIME = 0.0;
             double STALL_TIME = 0.05;
             double STALL_CURRENT = 40;
         }
 
         double ACQUIRE_SPEED = 1.0;
         double DEACQUIRE_SPEED = 1.0;
+        SmartNumber MOVE_SPEED = new SmartNumber("Intake/Move Speed", 0.75);
     }
 
     public interface Conveyor {
         SmartNumber GANDALF_SHOOTER_SPEED = new SmartNumber("Conveyor/Gandalf Shooter Speed", 1.0);
         double GANDALF_AMP_SPEED = 1.0;
-        SmartNumber FEEDER_SHOOTER_SPEED = new SmartNumber("Conveyor/Shooter Feeder Speed", 1.0);
-        SmartNumber FEEDER_AMP_SPEED = new SmartNumber("Conveyor/Shooter Feeder Speed", 1.0);
+        SmartNumber FEEDER_SHOOTER_SPEED = new SmartNumber("Conveyor/Shooter Feeder To Shooter Speed", 0.5);
+        SmartNumber FEEDER_AMP_SPEED = new SmartNumber("Conveyor/Shooter Feeder To Amp Speed", 1.0);
 
-        SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.2);
+        SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.0);
         SmartNumber RECALL_DEBOUNCE = new SmartNumber("Conveyor/Recall Delay", 1.0);
 
         SmartNumber SHOOT_WAIT_DELAY = new SmartNumber("Conveyor/Shoot Wait Delay", 0.5);

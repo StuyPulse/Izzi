@@ -4,19 +4,19 @@
 /* that can be found in the repository LICENSE file.           */
 /***************************************************************/
 
-package com.stuypulse.robot.commands.conveyor;
+package com.stuypulse.robot.commands.intake;
 
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.intake.Intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class ConveyorToShooter extends Command {
+public class IntakeToShooter extends Command {
 
     private final Conveyor conveyor;
     private final Intake intake;
 
-    public ConveyorToShooter() {
+    public IntakeToShooter() {
         conveyor = Conveyor.getInstance();
         intake = Intake.getInstance();
 
@@ -26,7 +26,7 @@ public class ConveyorToShooter extends Command {
     @Override
     public void execute() {
         conveyor.toShooter();
-        intake.move();
+        intake.acquire();
     }
 
     @Override
