@@ -27,10 +27,10 @@ public class ClimberSetupRoutine extends SequentialCommandGroup {
     private final double ANGLE_TOLERANCE_DEGREES = 3.0;
 
     private Pose2d getTargetPose() {
-	Pose2d closestTrap = Field.getClosestAllianceTrapPose(Odometry.getInstance().getPose());
-	Translation2d offsetTranslation = new Translation2d(Alignment.TRAP_SETUP_DISTANCE.get(), closestTrap.getRotation());
+        Pose2d closestTrap = Field.getClosestAllianceTrapPose(Odometry.getInstance().getPose());
+        Translation2d offsetTranslation = new Translation2d(Alignment.TRAP_SETUP_DISTANCE.get(), closestTrap.getRotation());
 
-	return new Pose2d(closestTrap.getTranslation().plus(offsetTranslation), closestTrap.getRotation());
+        return new Pose2d(closestTrap.getTranslation().plus(offsetTranslation), closestTrap.getRotation());
     }
 
     public ClimberSetupRoutine() {

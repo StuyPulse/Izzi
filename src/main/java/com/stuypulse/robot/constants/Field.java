@@ -7,6 +7,7 @@
 package com.stuypulse.robot.constants;
 
 import com.stuypulse.robot.Robot;
+import com.stuypulse.robot.util.MirroredPose2d;
 import com.stuypulse.robot.util.vision.AprilTag;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -14,8 +15,10 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +30,21 @@ public interface Field {
     double LENGTH = Units.inchesToMeters(651.25);
 
     double NOTE_LENGTH = Units.inchesToMeters(14.0);
+
+    public static Pose3d transformToOppositeAlliance(Pose3d pose) {
+        Pose3d rotated = pose.rotateBy(new Rotation3d(0, 0, Math.PI));
+
+        return new Pose3d(
+            rotated.getTranslation().plus(new Translation3d(LENGTH, WIDTH, 0)),
+            rotated.getRotation());
+    }
+
+    public static Pose2d transformToOppositeAlliance(Pose2d pose) {
+        Pose2d rotated = pose.rotateBy(Rotation2d.fromDegrees(180));
+        return new Pose2d(
+            rotated.getTranslation().plus(new Translation2d(LENGTH, WIDTH)),
+            rotated.getRotation());
+    }
 
     /*** APRILTAGS ***/
 
@@ -134,17 +152,13 @@ public interface Field {
 
     /*** SPEAKER ***/
 
-    Pose2d SPEAKER_POSES[] = {
-        NamedTags.BLUE_SPEAKER.getLocation().toPose2d(),
-        NamedTags.RED_SPEAKER.getLocation().toPose2d(),
-    };
-
     public static Pose2d getAllianceSpeakerPose() {
-        return SPEAKER_POSES[Robot.isBlue() ? 0 : 1];
+        return (Robot.isBlue() ? NamedTags.BLUE_SPEAKER : NamedTags.RED_SPEAKER)
+            .getLocation().toPose2d();
     }
 
     public static Pose2d getSpeakerPathFindPose() {
-        return SPEAKER_POSES[Robot.isBlue() ? 0 : 1].transformBy(
+        return getAllianceSpeakerPose().transformBy(
             new Transform2d(0, Units.inchesToMeters(200), new Rotation2d()));
     }
 
@@ -152,50 +166,50 @@ public interface Field {
 
     /*** AMP ***/
 
-    Pose2d AMP_POSES[] = {
-        NamedTags.BLUE_AMP.getLocation().toPose2d(),
-        NamedTags.RED_AMP.getLocation().toPose2d(),
-    };
-
     public static Pose2d getAllianceAmpPose() {
-        return AMP_POSES[Robot.isBlue() ? 0 : 1];
+        return (Robot.isBlue() ? NamedTags.BLUE_AMP : NamedTags.RED_AMP)
+            .getLocation().toPose2d();
     }
 
     public static Pose2d getOpposingAmpPose() {
-        return AMP_POSES[Robot.isBlue() ? 1 : 0];
+        return (Robot.isBlue() ? NamedTags.RED_AMP : NamedTags.BLUE_AMP)
+            .getLocation().toPose2d();
     }
 
     public static Pose2d getAmpPathFindPose() {
-        return AMP_POSES[Robot.isBlue() ? 0 : 1].transformBy(
+        return getAllianceAmpPose().transformBy(
             new Transform2d(0, Units.inchesToMeters(56), new Rotation2d()));
     }
 
     /*** TRAP ***/
 
-    Pose2d TRAP_POSES[][] = {
-        {
-            NamedTags.BLUE_STAGE_FAR.getLocation().toPose2d(),
-            NamedTags.BLUE_STAGE_LEFT.getLocation().toPose2d(),
-            NamedTags.BLUE_STAGE_RIGHT.getLocation().toPose2d()
-        },
-        {
-            NamedTags.RED_STAGE_FAR.getLocation().toPose2d(),
-            NamedTags.RED_STAGE_LEFT.getLocation().toPose2d(),
-            NamedTags.RED_STAGE_RIGHT.getLocation().toPose2d()
-        }
-    };
-
     public static Pose2d[] getAllianceTrapPoses() {
-        return TRAP_POSES[Robot.isBlue() ? 0 : 1];
+        if (Robot.isBlue()) {
+            return new Pose2d[] {
+                NamedTags.BLUE_STAGE_FAR.getLocation().toPose2d(),
+                NamedTags.BLUE_STAGE_LEFT.getLocation().toPose2d(),
+                NamedTags.BLUE_STAGE_RIGHT.getLocation().toPose2d()
+            };
+        } else {
+            return new Pose2d[] {
+                NamedTags.RED_STAGE_FAR.getLocation().toPose2d(),
+                NamedTags.RED_STAGE_LEFT.getLocation().toPose2d(),
+                NamedTags.RED_STAGE_RIGHT.getLocation().toPose2d()
+            };
+        }
     }
 
     public static Pose2d getClosestAllianceTrapPose(Pose2d robotPose) {
         return robotPose.nearest(Arrays.asList(getAllianceTrapPoses()));
     }
 
+    /***** NOTE DETECTION *****/
+
+    public double NOTE_BOUNDARY = LENGTH / 2 + Units.inchesToMeters(Settings.LENGTH / 2);
+
     /**** SHOOT POSES ****/
 
-    public Pose2d TOP_SHOOT_POSE = new Pose2d(3.35, 6.80, new Rotation2d(23));
-    public Pose2d ALTERNATE_TOP_SHOOT_POSE = new Pose2d(3.40, 5.21, new Rotation2d(-6));
-    public Pose2d BOTTOM_SHOOT_POSE = new Pose2d(2.54, 3.23, new Rotation2d(-40));
+    public MirroredPose2d TOP_SHOOT_POSE = new MirroredPose2d(Alliance.Blue, new Pose2d(3.35, 6.80, new Rotation2d(23)));
+    public MirroredPose2d ALTERNATE_TOP_SHOOT_POSE = new MirroredPose2d(Alliance.Blue, new Pose2d(3.40, 5.21, new Rotation2d(-6)));
+    public MirroredPose2d BOTTOM_SHOOT_POSE = new MirroredPose2d(Alliance.Blue, new Pose2d(2.54, 3.23, new Rotation2d(-40)));
 }

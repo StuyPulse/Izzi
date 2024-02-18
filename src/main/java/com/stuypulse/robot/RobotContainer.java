@@ -107,7 +107,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("SetPodiumRangeShot", new ShooterPodiumShot());
         NamedCommands.registerCommand("ConveyorShoot", new ConveyorShootRoutine());
         NamedCommands.registerCommand("TranslateToNote", new SwerveDriveTranslateToNote());
-        NamedCommands.registerCommand("PathFindToShoot", new SwerveDrivePathFindTo(Field.TOP_SHOOT_POSE).get());
+        // NOTE: this command will not change the pose if the alliance changes after deploy (I think)
+        NamedCommands.registerCommand("PathFindToShoot", new SwerveDrivePathFindTo(Field.TOP_SHOOT_POSE.get()).get());
     }
 
     /***************/
@@ -141,17 +142,18 @@ public class RobotContainer {
         // note to amper and align
         // then score
         driver.getLeftBumper()
-                .whileTrue(new ConveyorToAmp()
-                    .alongWith(new SwerveDriveAmpAlign()
-                        .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
-                    .andThen(new AmperScore()))
-                .onFalse(new AmperStop());
+            .whileTrue(new ConveyorToAmp()
+                .alongWith(new SwerveDriveAmpAlign()
+                    .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
+                .andThen(new AmperScore()))
+            .onFalse(new AmperStop());
 
         // score speaker no align
         driver.getStartButton()
             .whileTrue(new ConveyorToShooter()
             .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop());
+            
         // score amp no align
         driver.getSelectButton()
             .whileTrue(new ConveyorToAmp()
@@ -198,9 +200,14 @@ public class RobotContainer {
                 .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));
 
         operator.getLeftBumper()
-            .onTrue(ConveyorToAmp.withCheckLift());
+            .onTrue(ConveyorToAmp.withCheckLift())
+            .onFalse(new ConveyorStop())
+            .onFalse(new IntakeStop())
+            .onFalse(new AmperStop());
         operator.getRightBumper()
-            .onTrue(new ConveyorToShooter());
+            .onTrue(new ConveyorToShooter())
+            .onFalse(new ConveyorStop())
+            .onFalse(new IntakeStop());
 
         operator.getTopButton()
                 .onTrue(new AmperScore())
@@ -248,6 +255,10 @@ public class RobotContainer {
     }
 
     public static String getAutonomousCommandNameStatic() {
+        if (autonChooser.getSelected() == null) {
+            return "DoNothingAuton";
+        }
+        
         return autonChooser.getSelected().getName();
     }
 }

@@ -7,10 +7,12 @@
 package com.stuypulse.robot.subsystems.vision;
 
 import com.stuypulse.robot.constants.Cameras;
+import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.util.vision.TheiaCamera;
 import com.stuypulse.robot.util.vision.VisionData;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.ArrayList;
@@ -20,6 +22,8 @@ public class TheiaTagVision extends AprilTagVision {
     private final TheiaCamera[] cameras;
     private final ArrayList<VisionData> outputs;
 
+    private final FieldObject2d robot;
+
     protected TheiaTagVision() {
         this.cameras = new TheiaCamera[Cameras.APRILTAG_CAMERAS.length];
         for (int i = 0; i < Cameras.APRILTAG_CAMERAS.length; i++) {
@@ -27,6 +31,8 @@ public class TheiaTagVision extends AprilTagVision {
         }
 
         outputs = new ArrayList<VisionData>();
+
+        robot = Odometry.getInstance().getField().getObject("Vision Pose");
     }
 
     /**
@@ -57,12 +63,20 @@ public class TheiaTagVision extends AprilTagVision {
 
         outputs.clear();
 
+        boolean hasAnyData = false;
+
         for (TheiaCamera camera : cameras) {
-            if (camera.getVisionData().isPresent()) {
-                outputs.add(camera.getVisionData().get());
-                updateTelemetry(getName(), camera.getVisionData().get());
-            }
+            if (camera.getVisionData().isPresent())
+                hasAnyData = true;
+
+            camera.getVisionData().ifPresent(
+                (VisionData data) -> {
+                    outputs.add(data);
+                    updateTelemetry("Vision/" + camera.getName(), data);
+                });
         }
+
+        SmartDashboard.putBoolean("Vision/Has Any Data", hasAnyData);
     }
 
     private void updateTelemetry(String prefix, VisionData data) {
@@ -74,6 +88,7 @@ public class TheiaTagVision extends AprilTagVision {
 
         SmartDashboard.putNumber(prefix + "/Pose Rotation", Units.radiansToDegrees(data.getPose().getRotation().getAngle()));
         SmartDashboard.putNumber(prefix + "/Timestamp", data.getTimestamp());
-        SmartDashboard.putBoolean("Vision/Has Any Data", !outputs.isEmpty());
+
+        robot.setPose(data.getPose().toPose2d());
     }
 }

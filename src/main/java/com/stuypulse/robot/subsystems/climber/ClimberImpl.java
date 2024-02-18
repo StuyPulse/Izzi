@@ -186,6 +186,9 @@ public class ClimberImpl extends Climber {
         SmartDashboard.putNumber("Climber/Right Height", getRightHeight());
         SmartDashboard.putNumber("Climber/Velocity", getVelocity());
 
+        SmartDashboard.putBoolean("Climber/Left At Bottom", leftAtBottom());
+        SmartDashboard.putBoolean("Climber/Right At Bottom", rightAtBottom());
+
         if (atBottom()) {
             leftEncoder.setPosition(Settings.Climber.MIN_HEIGHT);
             rightEncoder.setPosition(Settings.Climber.MIN_HEIGHT);

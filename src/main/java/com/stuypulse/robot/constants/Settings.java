@@ -24,6 +24,29 @@ import com.pathplanner.lib.util.PIDConstants;
  * values that we can edit on Shuffleboard.
  */
 public interface Settings {
+    public enum RobotType {
+        JIM("03262B9F"),
+        TUMBLER("0305A69D"),
+        IZZI("032B4BC2"),
+        SIM("");
+
+        public final String serialNum;
+
+        RobotType(String serialNum) {
+            this.serialNum = serialNum;
+        }
+
+        public static RobotType fromString(String serialNum) {
+            for (RobotType robot : RobotType.values()) {
+                if (robot.serialNum.equals(serialNum.toUpperCase())) {
+                    return robot;
+                }
+            }
+
+            return RobotType.SIM;
+        }
+    }
+
     double DT = 1.0 / 50.0;
 
     // TODO: Update these values
@@ -32,20 +55,23 @@ public interface Settings {
 
     public interface Climber {
         double MIN_HEIGHT = 0.0;
-        double MAX_HEIGHT = Units.inchesToMeters(17.48);
+        double MAX_HEIGHT = Units.inchesToMeters(17.75);
 
         double MASS = Units.lbsToKilograms(2.173979);
-        double DRUM_RADIUS = Units.inchesToMeters(1.025);
 
         public interface BangBang {
-            double CONTROLLER_VOLTAGE = 8.0;
+            double CONTROLLER_VOLTAGE = 0.0;
             double THRESHOLD = 0.03;
         }
 
         public interface Encoder {
-            double GEAR_RATIO = 12.0;
+            double GEAR_RATIO = 1.0 / 12.0;
 
-            double POSITION_CONVERSION = 1.0;
+            // distance from center of sprocket to hook
+            double SPROCKET_RADIUS = Units.inchesToMeters(0.95);
+            double SPROCKET_CIRCUMFERENCE = SPROCKET_RADIUS * Math.PI * 2;
+
+            double POSITION_CONVERSION = SPROCKET_CIRCUMFERENCE * GEAR_RATIO;
             double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
         }
     }
@@ -64,7 +90,7 @@ public interface Settings {
             double CARRIAGE_MASS = 10; // kg
 
             double MIN_HEIGHT = 0;
-            double MAX_HEIGHT = 1.8475325; // meters
+            double MAX_HEIGHT = Units.inchesToMeters(14.75);
 
             double VISUALIZATION_MIN_LENGTH = 0.5;
             Rotation2d ANGLE_TO_GROUND = Rotation2d.fromDegrees(68.02);
@@ -75,12 +101,12 @@ public interface Settings {
             double ACCEL_LIMIT = 2.0;
 
             // TODO: Tune these values
-            SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Amp Score Height", 1.0);
-            SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Trap Score Height", 1.0);
+            SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Amp Score Height", 0.34);
+            SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Trap Score Height", 0.0);
 
             public interface Encoder {
-                double GEARING = 9;
-                double DRUM_RADIUS = Units.inchesToMeters(1);
+                double GEARING = 1.0 / 9.0;
+                double DRUM_RADIUS = Units.inchesToMeters(1.0);
                 double DRUM_CIRCUMFERENCE = DRUM_RADIUS * Math.PI * 2;
 
                 double POSITION_CONVERSION = GEARING * DRUM_CIRCUMFERENCE;
@@ -89,15 +115,15 @@ public interface Settings {
 
             // TODO: SysID these values
             public interface Feedforward {
-                SmartNumber kS = new SmartNumber("Amper/Lift/FF/kS", 0.0);
-                SmartNumber kV = new SmartNumber("Amper/Lift/FF/kV", 0.0);
-                SmartNumber kA = new SmartNumber("Amper/Lift/FF/kA", 0.0);
-                SmartNumber kG = new SmartNumber("Amper/Lift/FF/kG", 0.0);
+                SmartNumber kS = new SmartNumber("Amper/Lift/FF/kS", 0.18665);
+                SmartNumber kV = new SmartNumber("Amper/Lift/FF/kV", 6.6702);
+                SmartNumber kA = new SmartNumber("Amper/Lift/FF/kA", 0.803);
+                SmartNumber kG = new SmartNumber("Amper/Lift/FF/kG", 0.20667);
             }
 
             // TODO: Tune these values
             public interface PID {
-                SmartNumber kP = new SmartNumber("Amper/Lift/PID/kP", 3.0);
+                SmartNumber kP = new SmartNumber("Amper/Lift/PID/kP", 0.53252);
                 SmartNumber kI = new SmartNumber("Amper/Lift/PID/kI", 0.0);
                 SmartNumber kD = new SmartNumber("Amper/Lift/PID/kD", 0.0);
             }
@@ -162,54 +188,47 @@ public interface Settings {
         }
 
         public interface Turn {
-            // TODO: Tune these values
-            SmartNumber kP = new SmartNumber("Swerve/Turn/PID/kP", 1.0);
-            SmartNumber kI = new SmartNumber("Swerve/Turn/PID/kI", 0.0);
+            SmartNumber kP = new SmartNumber("Swerve/Turn/PID/kP", 0.0);
+            double kI = 0.0;
             SmartNumber kD = new SmartNumber("Swerve/Turn/PID/kD", 0.0);
 
-            // TODO: SysID these values
-            SmartNumber kS = new SmartNumber("Swerve/Turn/FF/kS", 0.01);
-            SmartNumber kV = new SmartNumber("Swerve/Turn/FF/kV", 0.25);
-            SmartNumber kA = new SmartNumber("Swerve/Turn/FF/kA", 0.01);
+            SmartNumber kS = new SmartNumber("Swerve/Turn/FF/kS", 0.25582);
+            SmartNumber kV = new SmartNumber("Swerve/Turn/FF/kV", 0.00205);
+            SmartNumber kA = new SmartNumber("Swerve/Turn/FF/kA", 0.00020123);
         }
 
         public interface Drive {
-            // TODO: Tune these values
-            SmartNumber kP = new SmartNumber("Swerve/Drive/PID/kP", 1.0);
-            SmartNumber kI = new SmartNumber("Swerve/Drive/PID/kI", 0.00);
-            SmartNumber kD = new SmartNumber("Swerve/Drive/PID/kD", 0.00);
+            SmartNumber kP = new SmartNumber("Swerve/Drive/PID/kP", 0.48346);
+            double kI = 0.0;
+            SmartNumber kD = new SmartNumber("Swerve/Drive/PID/kD", 0.0);
 
-            // TODO: SysID these values
-            SmartNumber kS = new SmartNumber("Swerve/Drive/FF/kS", 0.01);
-            SmartNumber kV = new SmartNumber("Swerve/Drive/FF/kV", 0.25);
-            SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.01);
+            SmartNumber kS = new SmartNumber("Swerve/Drive/FF/kS", 0.062097);
+            SmartNumber kV = new SmartNumber("Swerve/Drive/FF/kV", 1.768);
+            SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.41581);
         }
 
         // TODO: Get module offset values
         public interface FrontRight {
             String ID = "Front Right";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(0).plus(Rotation2d.fromDegrees(0));
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(152.6);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * +0.5, LENGTH * -0.5);
         }
 
         public interface FrontLeft {
             String ID = "Front Left";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(0)
-                .plus(Rotation2d.fromDegrees(270));
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-48.9);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * +0.5, LENGTH * +0.5);
         }
 
         public interface BackLeft {
             String ID = "Back Left";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(0)
-                .plus(Rotation2d.fromDegrees(180));
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(99.4);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * +0.5);
         }
 
         public interface BackRight {
             String ID = "Back Right";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(0) 
-                .plus(Rotation2d.fromDegrees(90));
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(179.0);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * -0.5);
         }
     }
@@ -250,7 +269,7 @@ public interface Settings {
 
     public interface Operator {
         SmartNumber DEADBAND = new SmartNumber("Operator Settings/Manual Climb + Lift Deadband", 0.1);
-        SmartNumber CLIMB_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Climber Max Drive Voltage", 8.0);
+        SmartNumber CLIMB_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Climber Max Drive Voltage", 1.0);
         SmartNumber LIFT_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Lift Max Drive Voltage", 6.0);
         SmartNumber LIFT_ADJUST_SPEED = new SmartNumber("Operator Settings/Lift Fine Adjust Speed", Units.inchesToMeters(1.0));
     }

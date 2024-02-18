@@ -82,5 +82,8 @@ public class ConveyorImpl extends Conveyor {
 
         SmartDashboard.putNumber("Conveyor/Gandalf Motor Speed", gandalfMotor.get());
         SmartDashboard.putNumber("Conveyor/Shooter Feeder Motor Spped", shooterFeederMotor.get());
+
+        SmartDashboard.putBoolean("Conveyor/Note At Shooter", isNoteAtShooter());
+        SmartDashboard.putBoolean("Conveyor/Note At Shooter (Raw)", !irSensor.get());
     }
 }
