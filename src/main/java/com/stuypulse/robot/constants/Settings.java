@@ -60,8 +60,8 @@ public interface Settings {
         double MASS = Units.lbsToKilograms(2.173979);
 
         public interface BangBang {
-            double CONTROLLER_VOLTAGE = 0.0;
-            double THRESHOLD = 0.03;
+            double CONTROLLER_VOLTAGE = 7.0;
+            double THRESHOLD = 0.05;
         }
 
         public interface Encoder {
