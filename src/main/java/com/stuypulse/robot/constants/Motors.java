@@ -37,8 +37,8 @@ public interface Motors {
     }
 
     public interface Shooter {
-        CANSparkFlexConfig LEFT_SHOOTER = new CANSparkFlexConfig(true, IdleMode.kBrake);
-        CANSparkFlexConfig RIGHT_SHOOTER = new CANSparkFlexConfig(false, IdleMode.kBrake);
+        CANSparkFlexConfig LEFT_SHOOTER = new CANSparkFlexConfig(true, IdleMode.kCoast);
+        CANSparkFlexConfig RIGHT_SHOOTER = new CANSparkFlexConfig(false, IdleMode.kCoast);
     }
 
     public interface Conveyor {
