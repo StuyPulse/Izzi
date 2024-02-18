@@ -122,7 +122,7 @@ public class AmperImpl extends Amper {
 
     @Override
     public void fromConveyor() {
-        scoreMotor.set(Settings.Amper.Score.FROM_CONVEYOR_SPEED.get());
+        scoreMotor.set(Settings.Amper.Score.FROM_CONVEYOR_SPEED);
     }
 
     @Override

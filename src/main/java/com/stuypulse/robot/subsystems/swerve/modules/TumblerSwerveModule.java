@@ -109,7 +109,7 @@ public class TumblerSwerveModule extends SwerveModule {
             getTargetState().speedMetersPerSecond,
             getVelocity());
 
-        if (Math.abs(driveController.getSetpoint()) < Settings.Swerve.MODULE_VELOCITY_DEADBAND.get()) {
+        if (Math.abs(driveController.getSetpoint()) < Settings.Swerve.MODULE_VELOCITY_DEADBAND) {
             driveMotor.setVoltage(0);
             turnMotor.setVoltage(0);
         } else {

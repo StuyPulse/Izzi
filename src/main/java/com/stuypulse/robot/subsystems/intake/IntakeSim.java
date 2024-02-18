@@ -25,12 +25,12 @@ public class IntakeSim extends Intake {
 
     @Override
     public void acquire() {
-        motor = +Settings.Intake.ACQUIRE_SPEED.get();
+        motor = +Settings.Intake.ACQUIRE_SPEED;
     }
 
     @Override
     public void deacquire() {
-        motor = -Settings.Intake.DEACQUIRE_SPEED.get();
+        motor = -Settings.Intake.DEACQUIRE_SPEED;
     }
 
     @Override

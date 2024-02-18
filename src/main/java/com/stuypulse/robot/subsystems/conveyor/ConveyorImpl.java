@@ -64,7 +64,7 @@ public class ConveyorImpl extends Conveyor {
 
     @Override
     public void toAmp() {
-        gandalfMotor.set(-Settings.Conveyor.GANDALF_AMP_SPEED.get());
+        gandalfMotor.set(-Settings.Conveyor.GANDALF_AMP_SPEED);
         shooterFeederMotor.set(+Settings.Conveyor.FEEDER_AMP_SPEED.get());
     }
 
