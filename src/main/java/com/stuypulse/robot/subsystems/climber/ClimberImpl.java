@@ -68,7 +68,7 @@ public class ClimberImpl extends Climber {
 
     @Override
     public double getHeight() {
-        return getLeftHeight() + getRightHeight() / 2;
+        return (getLeftHeight() + getRightHeight()) / 2.0;
     }
 
     @Override
