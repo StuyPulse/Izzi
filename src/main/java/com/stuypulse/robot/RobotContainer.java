@@ -202,7 +202,8 @@ public class RobotContainer {
         operator.getLeftBumper()
             .onTrue(ConveyorToAmp.withCheckLift())
             .onFalse(new ConveyorStop())
-            .onFalse(new IntakeStop());
+            .onFalse(new IntakeStop())
+            .onFalse(new AmperStop());
         operator.getRightBumper()
             .onTrue(new ConveyorToShooter())
             .onFalse(new ConveyorStop())
