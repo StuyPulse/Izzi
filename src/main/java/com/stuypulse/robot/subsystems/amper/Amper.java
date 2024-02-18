@@ -106,7 +106,9 @@ public abstract class Amper extends SubsystemBase {
 
     public abstract void score();
 
-    public abstract void intake();
+    public abstract void fromConveyor();
+
+    public abstract void toConveyor();
 
     public abstract void stopRoller();
 

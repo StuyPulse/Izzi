@@ -81,7 +81,8 @@ public interface Settings {
 
         public interface Score {
             SmartNumber SCORE_SPEED = new SmartNumber("Amper/Score/Score Speed", 1.0);
-            SmartNumber INTAKE_SPEED = new SmartNumber("Amper/Score/Intake Speed", 1.0);
+            SmartNumber FROM_CONVEYOR_SPEED = new SmartNumber("Amper/Score/From Conveyor Speed", 0.5);
+            SmartNumber TO_CONVEYOR_SPEED = new SmartNumber("Amper/Score/To Conveyor Speed", 1.0);
 
             double SCORE_MOTOR_CONVERSION = AMP_ROLLER_DIAMETER * Math.PI;
         }
@@ -277,25 +278,25 @@ public interface Settings {
         double MOMENT_OF_INERTIA = 1;
 
         // TODO: Tune these values
-        SmartNumber PODIUM_SHOT_LEFT_RPM = new SmartNumber("Shooter/Podium Shot Left RPM", 0);
-        SmartNumber PODIUM_SHOT_RIGHT_RPM = new SmartNumber("Shooter/Podium Shot Right RPM", 0);
+        SmartNumber PODIUM_SHOT_LEFT_RPM = new SmartNumber("Shooter/Podium Shot Left RPM", 5000);
+        SmartNumber PODIUM_SHOT_RIGHT_RPM = new SmartNumber("Shooter/Podium Shot Right RPM", 5000);
 
-        SmartNumber AMP_LEFT_RPM = new SmartNumber("Shooter/Amp Left RPM", 0);
-        SmartNumber AMP_RIGHT_RPM = new SmartNumber("Shooter/Amp Right RPM", 0);
+        double AMP_LEFT_RPM = PODIUM_SHOT_LEFT_RPM.get();
+        double AMP_RIGHT_RPM = PODIUM_SHOT_RIGHT_RPM.get();
 
         SmartNumber BACKWARDS_LEFT_RPM = new SmartNumber("Shooter/Backwards Left RPM", 0);
         SmartNumber BACKWARDS_RIGHT_RPM = new SmartNumber("Shooter/Backwards Right RPM", 0);
 
         // TODO: SysID these values
         public interface Feedforward {
-            SmartNumber kV = new SmartNumber("Shooter/FF/kV", 0.0);
-            SmartNumber kA = new SmartNumber("Shooter/FF/kA", 0.0);
-            SmartNumber kS = new SmartNumber("Shooter/FF/kS", 0.0);
+            SmartNumber kV = new SmartNumber("Shooter/FF/kV", 0.0017898);
+            SmartNumber kA = new SmartNumber("Shooter/FF/kA", 0.00020903);
+            SmartNumber kS = new SmartNumber("Shooter/FF/kS", 0.13793);
         }
 
         // TODO: Tune these values
         public interface PID {
-            SmartNumber kP = new SmartNumber("Shooter/PID/kP", 0.0);
+            SmartNumber kP = new SmartNumber("Shooter/PID/kP", 0.000200);
             SmartNumber kI = new SmartNumber("Shooter/PID/kI", 0.0);
             SmartNumber kD = new SmartNumber("Shooter/PID/kD", 0.0);
         }

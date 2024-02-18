@@ -6,6 +6,7 @@
 
 package com.stuypulse.robot.commands.amper;
 
+import com.stuypulse.robot.commands.DoNothingCommand;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.subsystems.amper.Amper;
 
@@ -16,7 +17,7 @@ public class AmperToHeight extends InstantCommand {
 
     public static Command untilDone(double height) {
         return new AmperToHeight(height)
-                .until(() -> Amper.getInstance().isAtTargetHeight(Lift.MAX_HEIGHT_ERROR));
+            .andThen(new DoNothingCommand().until(() -> Amper.getInstance().isAtTargetHeight(Lift.MAX_HEIGHT_ERROR)));
     }
 
     private final Amper amper;

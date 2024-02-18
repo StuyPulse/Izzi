@@ -6,14 +6,14 @@
 
 package com.stuypulse.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.Command;
 
 /*-
  * This command does a whole load of nothing...
  *
  * @author Ivan Chen
  */
-public class DoNothingCommand extends InstantCommand {
+public class DoNothingCommand extends Command {
 
     public DoNothingCommand() {
         // Do loads of nothing

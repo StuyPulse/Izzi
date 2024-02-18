@@ -25,6 +25,7 @@ import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Driver;
+import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.constants.Settings.Swerve.Assist;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.climber.*;
@@ -37,8 +38,6 @@ import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -149,15 +148,17 @@ public class RobotContainer {
             .onFalse(new AmperStop());
 
         // score speaker no align
+        // right button
         driver.getStartButton()
             .whileTrue(new ConveyorToShooter()
             .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop());
             
         // score amp no align
+        // left button
         driver.getSelectButton()
             .whileTrue(new ConveyorToAmp()
-            .andThen(new AmperScore()))
+                .andThen(new AmperScore()))
             .onFalse(new AmperStop());
 
         driver.getDPadUp()
@@ -169,6 +170,10 @@ public class RobotContainer {
             .whileTrue(new ClimberSetupRoutine());
         driver.getBottomButton()
             .whileTrue(new ClimberScoreRoutine());
+        
+        driver.getLeftTriggerButton()
+            .onTrue(new IntakeDeacquire())
+            .onFalse(new IntakeStop());
 
         driver.getTopButton()
             // on command start

@@ -121,8 +121,13 @@ public class AmperImpl extends Amper {
     }
 
     @Override
-    public void intake() {
-        scoreMotor.set(-Settings.Amper.Score.INTAKE_SPEED.get());
+    public void fromConveyor() {
+        scoreMotor.set(Settings.Amper.Score.FROM_CONVEYOR_SPEED.get());
+    }
+
+    @Override
+    public void toConveyor() {
+        scoreMotor.set(-Settings.Amper.Score.TO_CONVEYOR_SPEED.get());
     }
 
     @Override
