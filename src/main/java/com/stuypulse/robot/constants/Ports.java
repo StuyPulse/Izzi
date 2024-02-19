@@ -30,7 +30,7 @@ public interface Ports {
 
         // int ALIGNED_BUMP_SWITCH = 3;
         int LIFT_BOTTOM_LIMIT = 4;
-        int LIFT_TOP_LIMIT = 5;
+        // int LIFT_TOP_LIMIT = 5;
         int AMP_IR = 2;
     }
 
@@ -62,12 +62,12 @@ public interface Ports {
 
     public interface Intake {
         int MOTOR = 40;
-        int IR_SENSOR = 1;
+        int IR_SENSOR = 3;
     }
 
     public interface Shooter {
-        int LEFT_MOTOR = 20;
-        int RIGHT_MOTOR = 21;
+        int LEFT_MOTOR = 21;
+        int RIGHT_MOTOR = 20;
     }
 
     public interface Conveyor {

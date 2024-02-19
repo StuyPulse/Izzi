@@ -43,12 +43,12 @@ public class IntakeImpl extends Intake {
 
     @Override
     public void acquire() {
-        motor.set(+Settings.Intake.ACQUIRE_SPEED.getAsDouble());
+        motor.set(+Settings.Intake.ACQUIRE_SPEED);
     }
 
     @Override
     public void deacquire() {
-        motor.set(-Settings.Intake.DEACQUIRE_SPEED.getAsDouble());
+        motor.set(-Settings.Intake.DEACQUIRE_SPEED);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class IntakeImpl extends Intake {
     // Detection
 
     private boolean isMomentarilyStalling() {
-        return motor.getOutputCurrent() > Settings.Intake.Detection.STALL_CURRENT.getAsDouble();
+        return motor.getOutputCurrent() > Settings.Intake.Detection.STALL_CURRENT;
     }
 
     private boolean isStalling() {

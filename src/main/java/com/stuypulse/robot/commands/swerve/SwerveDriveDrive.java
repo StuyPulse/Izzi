@@ -36,7 +36,7 @@ public class SwerveDriveDrive extends Command {
             .filtered(
                 new VDeadZone(Drive.DEADBAND),
                 x -> x.clamp(1),
-                x -> Settings.vpow(x, Drive.POWER.get()),
+                x -> x.pow(Drive.POWER.get()),
                 x -> x.mul(Drive.MAX_TELEOP_SPEED.get()),
                 new VRateLimit(Drive.MAX_TELEOP_ACCEL.get()),
                 new VLowPassFilter(Drive.RC.get()));

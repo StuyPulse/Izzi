@@ -43,7 +43,7 @@ public class ConveyorSim extends Conveyor {
 
     @Override
     public void toAmp() {
-        gandalfMotorSpeed = -Settings.Conveyor.GANDALF_AMP_SPEED.get();
+        gandalfMotorSpeed = -Settings.Conveyor.GANDALF_AMP_SPEED;
         feederMotorSpeed =  +Settings.Conveyor.FEEDER_AMP_SPEED.get();
     }
 

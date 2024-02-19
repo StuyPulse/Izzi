@@ -36,7 +36,7 @@ public class AmperImpl extends Amper {
 
     // private final DigitalInput alignedSwitch;
     private final DigitalInput minSwitch;
-    private final DigitalInput maxSwitch;
+    // private final DigitalInput maxSwitch;
     private final DigitalInput ampIRSensor;
 
     private final Controller controller;
@@ -59,7 +59,7 @@ public class AmperImpl extends Amper {
 
         // alignedSwitch = new DigitalInput(Ports.Amper.ALIGNED_BUMP_SWITCH);
         minSwitch = new DigitalInput(Ports.Amper.LIFT_BOTTOM_LIMIT);
-        maxSwitch = new DigitalInput(Ports.Amper.LIFT_TOP_LIMIT);
+        // maxSwitch = new DigitalInput(Ports.Amper.LIFT_TOP_LIMIT);
         ampIRSensor = new DigitalInput(Ports.Amper.AMP_IR);
 
         maxVelocity = new SmartNumber("Amper/Lift/Max Velocity", Lift.VEL_LIMIT);
@@ -85,7 +85,8 @@ public class AmperImpl extends Amper {
 
     @Override
     public boolean liftAtTop() {
-        return !maxSwitch.get();
+        return false;
+        // return !maxSwitch.get();
     }
 
     @Override
@@ -120,8 +121,13 @@ public class AmperImpl extends Amper {
     }
 
     @Override
-    public void intake() {
-        scoreMotor.set(-Settings.Amper.Score.INTAKE_SPEED.get());
+    public void fromConveyor() {
+        scoreMotor.set(Settings.Amper.Score.FROM_CONVEYOR_SPEED);
+    }
+
+    @Override
+    public void toConveyor() {
+        scoreMotor.set(-Settings.Amper.Score.TO_CONVEYOR_SPEED.get());
     }
 
     @Override
@@ -173,5 +179,6 @@ public class AmperImpl extends Amper {
         SmartDashboard.putNumber("Amper/Lift Height", getLiftHeight());
 
         SmartDashboard.putBoolean("Amper/Has Note", hasNote());
+        SmartDashboard.putBoolean("Amper/At Bottom", liftAtBottom());
     }
 }

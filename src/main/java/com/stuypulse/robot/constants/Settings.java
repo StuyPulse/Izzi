@@ -49,7 +49,6 @@ public interface Settings {
 
     double DT = 1.0 / 50.0;
 
-    // TODO: Update these values
     double WIDTH = Units.inchesToMeters(32);
     double LENGTH = Units.inchesToMeters(36);
 
@@ -60,8 +59,8 @@ public interface Settings {
         double MASS = Units.lbsToKilograms(2.173979);
 
         public interface BangBang {
-            double CONTROLLER_VOLTAGE = 0.0;
-            double THRESHOLD = 0.03;
+            double CONTROLLER_VOLTAGE = 7.0;
+            double THRESHOLD = 0.05;
         }
 
         public interface Encoder {
@@ -81,7 +80,8 @@ public interface Settings {
 
         public interface Score {
             SmartNumber SCORE_SPEED = new SmartNumber("Amper/Score/Score Speed", 1.0);
-            SmartNumber INTAKE_SPEED = new SmartNumber("Amper/Score/Intake Speed", 1.0);
+            double FROM_CONVEYOR_SPEED = 0.5;
+            SmartNumber TO_CONVEYOR_SPEED = new SmartNumber("Amper/Score/To Conveyor Speed", 1.0);
 
             double SCORE_MOTOR_CONVERSION = AMP_ROLLER_DIAMETER * Math.PI;
         }
@@ -113,19 +113,17 @@ public interface Settings {
                 double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
             }
 
-            // TODO: SysID these values
             public interface Feedforward {
-                SmartNumber kS = new SmartNumber("Amper/Lift/FF/kS", 0.18665);
-                SmartNumber kV = new SmartNumber("Amper/Lift/FF/kV", 6.6702);
-                SmartNumber kA = new SmartNumber("Amper/Lift/FF/kA", 0.803);
-                SmartNumber kG = new SmartNumber("Amper/Lift/FF/kG", 0.20667);
+                double kS = 0.18665;
+                double kV = 6.6702;
+                double kA = 0.803;
+                double kG = 0.15;
             }
 
-            // TODO: Tune these values
             public interface PID {
-                SmartNumber kP = new SmartNumber("Amper/Lift/PID/kP", 0.53252);
-                SmartNumber kI = new SmartNumber("Amper/Lift/PID/kI", 0.0);
-                SmartNumber kD = new SmartNumber("Amper/Lift/PID/kD", 0.0);
+                double kP = 0.5;
+                double kI = 0.0;
+                double kD = 0.0;
             }
         }
     }
@@ -136,9 +134,9 @@ public interface Settings {
         double LENGTH = Units.inchesToMeters(20.75);
         double CENTER_TO_INTAKE_FRONT = Units.inchesToMeters(17.9);
 
-        SmartNumber MAX_MODULE_SPEED = new SmartNumber("Swerve/Max Module Speed (meter per s)", 5.0);
+        double MAX_MODULE_SPEED = 5.0;
 
-        SmartNumber MODULE_VELOCITY_DEADBAND = new SmartNumber("Swerve/Module Velocity Deadband (m per s)", 0.05);
+        double MODULE_VELOCITY_DEADBAND = 0.05;
 
         public interface Assist {
             SmartNumber ALIGN_MIN_SPEAKER_DIST = new SmartNumber("SwerveAssist/Minimum Distance to Speaker", 4); //change
@@ -188,15 +186,16 @@ public interface Settings {
         }
 
         public interface Turn {
-            SmartNumber kP = new SmartNumber("Swerve/Turn/PID/kP", 0.0);
+            double kP = 7.0;
             double kI = 0.0;
-            SmartNumber kD = new SmartNumber("Swerve/Turn/PID/kD", 0.0);
+            double kD = 0.05;
 
-            SmartNumber kS = new SmartNumber("Swerve/Turn/FF/kS", 0.25582);
-            SmartNumber kV = new SmartNumber("Swerve/Turn/FF/kV", 0.00205);
-            SmartNumber kA = new SmartNumber("Swerve/Turn/FF/kA", 0.00020123);
+            double kS = 0.25582;
+            double kV = 0.00205;
+            double kA = 0.00020123;
         }
 
+        // TODO: retune on carpet
         public interface Drive {
             SmartNumber kP = new SmartNumber("Swerve/Drive/PID/kP", 0.48346);
             double kI = 0.0;
@@ -207,7 +206,6 @@ public interface Settings {
             SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.41581);
         }
 
-        // TODO: Get module offset values
         public interface FrontRight {
             String ID = "Front Right";
             Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(152.6);
@@ -253,7 +251,7 @@ public interface Settings {
             SmartNumber RC = new SmartNumber("Driver Settings/Drive/RC", 0.01);
             SmartNumber POWER = new SmartNumber("Driver Settings/Drive/Power", 2);
 
-            SmartNumber MAX_TELEOP_SPEED = new SmartNumber("Driver Settings/Drive/Max Speed", Swerve.MAX_MODULE_SPEED.get());
+            SmartNumber MAX_TELEOP_SPEED = new SmartNumber("Driver Settings/Drive/Max Speed", Swerve.MAX_MODULE_SPEED);
             SmartNumber MAX_TELEOP_ACCEL = new SmartNumber("Driver Settings/Drive/Max Accleration", 15);
         }
 
@@ -268,7 +266,7 @@ public interface Settings {
     }
 
     public interface Operator {
-        SmartNumber DEADBAND = new SmartNumber("Operator Settings/Manual Climb + Lift Deadband", 0.1);
+        SmartNumber DEADBAND = new SmartNumber("Operator Settings/Manual Climb + Lift Deadband", 0.05);
         SmartNumber CLIMB_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Climber Max Drive Voltage", 1.0);
         SmartNumber LIFT_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Lift Max Drive Voltage", 6.0);
         SmartNumber LIFT_ADJUST_SPEED = new SmartNumber("Operator Settings/Lift Fine Adjust Speed", Units.inchesToMeters(1.0));
@@ -278,48 +276,46 @@ public interface Settings {
         double MOMENT_OF_INERTIA = 1;
 
         // TODO: Tune these values
-        SmartNumber PODIUM_SHOT_LEFT_RPM = new SmartNumber("Shooter/Podium Shot Left RPM", 0);
-        SmartNumber PODIUM_SHOT_RIGHT_RPM = new SmartNumber("Shooter/Podium Shot Right RPM", 0);
+        SmartNumber PODIUM_SHOT_LEFT_RPM = new SmartNumber("Shooter/Podium Shot Left RPM", 3750);
+        SmartNumber PODIUM_SHOT_RIGHT_RPM = new SmartNumber("Shooter/Podium Shot Right RPM", 3750);
 
-        SmartNumber AMP_LEFT_RPM = new SmartNumber("Shooter/Amp Left RPM", 0);
-        SmartNumber AMP_RIGHT_RPM = new SmartNumber("Shooter/Amp Right RPM", 0);
+        double AMP_LEFT_RPM = PODIUM_SHOT_LEFT_RPM.get();
+        double AMP_RIGHT_RPM = PODIUM_SHOT_RIGHT_RPM.get();
 
         SmartNumber BACKWARDS_LEFT_RPM = new SmartNumber("Shooter/Backwards Left RPM", 0);
         SmartNumber BACKWARDS_RIGHT_RPM = new SmartNumber("Shooter/Backwards Right RPM", 0);
 
-        // TODO: SysID these values
         public interface Feedforward {
-            SmartNumber kV = new SmartNumber("Shooter/FF/kV", 0.0);
-            SmartNumber kA = new SmartNumber("Shooter/FF/kA", 0.0);
-            SmartNumber kS = new SmartNumber("Shooter/FF/kS", 0.0);
+            double kV = 0.0017898;
+            double kA = 0.00020903;
+            double kS = 0.13793;
         }
 
-        // TODO: Tune these values
         public interface PID {
-            SmartNumber kP = new SmartNumber("Shooter/PID/kP", 0.0);
-            SmartNumber kI = new SmartNumber("Shooter/PID/kI", 0.0);
-            SmartNumber kD = new SmartNumber("Shooter/PID/kD", 0.0);
+            double kP = 0.0002;
+            double kI = 0.0;
+            double kD = 0.0;
         }
     }
 
     public interface Intake {
         public interface Detection {
-            SmartNumber TRIGGER_TIME = new SmartNumber("Intake/Trigger Debounce Time", 0.05);
-            SmartNumber STALL_TIME = new SmartNumber("Intake/Stall Debounce Time", .05);
-            SmartNumber STALL_CURRENT = new SmartNumber("Intake/Stall Current", 40);
+            double TRIGGER_TIME = 0.0;
+            double STALL_TIME = 0.05;
+            double STALL_CURRENT = 40;
         }
 
-        SmartNumber ACQUIRE_SPEED = new SmartNumber("Intake/Acquire Speed", 1);
-        SmartNumber DEACQUIRE_SPEED = new SmartNumber("Intake/Deacquire Speed", 1);
+        double ACQUIRE_SPEED = 1.0;
+        double DEACQUIRE_SPEED = 1.0;
     }
 
     public interface Conveyor {
-        SmartNumber GANDALF_SHOOTER_SPEED = new SmartNumber("Conveyor/Gandalf Shooter Speed", 1);
-        SmartNumber GANDALF_AMP_SPEED = new SmartNumber("Conveyor/Gandalf Amp Speed", 1);
-        SmartNumber FEEDER_SHOOTER_SPEED = new SmartNumber("Conveyor/Shooter Feeder Speed", 1);
-        SmartNumber FEEDER_AMP_SPEED = new SmartNumber("Conveyor/Shooter Feeder Speed", 1);
+        SmartNumber GANDALF_SHOOTER_SPEED = new SmartNumber("Conveyor/Gandalf Shooter Speed", 1.0);
+        double GANDALF_AMP_SPEED = 1.0;
+        SmartNumber FEEDER_SHOOTER_SPEED = new SmartNumber("Conveyor/Shooter Feeder To Shooter Speed", 0.5);
+        SmartNumber FEEDER_AMP_SPEED = new SmartNumber("Conveyor/Shooter Feeder To Amp Speed", 1.0);
 
-        SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.2);
+        SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.0);
         SmartNumber RECALL_DEBOUNCE = new SmartNumber("Conveyor/Recall Delay", 1.0);
 
         SmartNumber SHOOT_WAIT_DELAY = new SmartNumber("Conveyor/Shoot Wait Delay", 0.5);
@@ -368,9 +364,5 @@ public interface Settings {
         SmartNumber ROTATION_SPREAD = new SmartNumber("LED/LED Rotation Spread (deg)", 35);
 
         SmartBoolean LED_AUTON_TOGGLE = new SmartBoolean("LED/Auton Align Display?", true);
-    }
-
-    public static Vector2D vpow(Vector2D vec, double power) {
-        return vec.mul(Math.pow(vec.magnitude(), power - 1));
     }
 }

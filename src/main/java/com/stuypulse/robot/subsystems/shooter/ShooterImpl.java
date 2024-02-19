@@ -39,6 +39,9 @@ public class ShooterImpl extends Shooter {
         leftEncoder = leftMotor.getEncoder();
         rightEncoder = rightMotor.getEncoder();
 
+        leftEncoder.setVelocityConversionFactor(1.0);
+        rightEncoder.setVelocityConversionFactor(1.0);
+
         leftController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
             .add(new PIDController(PID.kP, PID.kI, PID.kD));
         rightController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()

@@ -25,6 +25,7 @@ import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Driver;
+import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.constants.Settings.Swerve.Assist;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.climber.*;
@@ -37,8 +38,6 @@ import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -149,21 +148,24 @@ public class RobotContainer {
             .onFalse(new AmperStop());
 
         // score speaker no align
-        driver.getStartButton()
+        driver.getRightMenuButton()
             .whileTrue(new ConveyorToShooter()
-            .andThen(new ConveyorShoot()))
+                .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop());
             
         // score amp no align
-        driver.getSelectButton()
+        driver.getLeftMenuButton()
             .whileTrue(new ConveyorToAmp()
-            .andThen(new AmperScore()))
+                .andThen(new AmperScore()))
             .onFalse(new AmperStop());
 
         driver.getDPadUp()
             .onTrue(new ClimberToTop());
         driver.getDPadDown()
             .onTrue(new ClimberToBottom());
+
+        driver.getDPadRight()
+            .onTrue(new SwerveDriveResetHeading());
 
         driver.getRightButton()
             .whileTrue(new ClimberSetupRoutine());
@@ -233,7 +235,7 @@ public class RobotContainer {
             .onTrue(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT));
 
         // human player attention button
-        operator.getSelectButton()
+        operator.getRightMenuButton()
             .whileTrue(new LEDSet(LEDInstructions.PULSE_PURPLE));
     }
 

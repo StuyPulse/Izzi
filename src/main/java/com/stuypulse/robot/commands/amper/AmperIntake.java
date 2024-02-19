@@ -21,7 +21,7 @@ public class AmperIntake extends Command {
 
     @Override
     public void initialize() {
-        amper.intake();
+        amper.toConveyor();
     }
 
     @Override

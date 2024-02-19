@@ -102,7 +102,8 @@ public class SwerveModuleImpl extends SwerveModule {
         driveController = new PIDController(Drive.kP, Drive.kI, Drive.kD)
             .add(new MotorFeedforward(Drive.kS, Drive.kV, Drive.kA).velocity());
 
-        angleController = new AnglePIDController(Turn.kP, Turn.kI, Turn.kD);
+        angleController = new AnglePIDController(Turn.kP, Turn.kI, Turn.kD)
+            .setOutputFilter(x -> -x);
 
         Motors.Swerve.DRIVE_CONFIG.configure(driveMotor);
         Motors.Swerve.TURN_CONFIG.configure(turnMotor);
@@ -137,7 +138,7 @@ public class SwerveModuleImpl extends SwerveModule {
             Angle.fromRotation2d(getAngle()));
 
         if (Math.abs(driveController.getSetpoint())
-                < Settings.Swerve.MODULE_VELOCITY_DEADBAND.get()) {
+                < Settings.Swerve.MODULE_VELOCITY_DEADBAND) {
             driveMotor.setVoltage(0);
             turnMotor.setVoltage(0);
         } else {

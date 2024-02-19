@@ -169,11 +169,11 @@ public class TheiaCamera {
         double fpgaTime = latencySub.getLastChange() / 1_000_000.0;
         double timestamp = fpgaTime - Units.millisecondsToSeconds(rawLatency);
 
-        if (rawCounter - lastCounter < 1) {
-            lastCounter = rawCounter;
+        // if (rawCounter - lastCounter < 1) {
+        //     lastCounter = rawCounter;
 
-            return Optional.empty();
-        }
+        //     return Optional.empty();
+        // }
 
         lastCounter = rawCounter;
 
