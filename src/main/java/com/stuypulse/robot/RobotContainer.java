@@ -151,7 +151,7 @@ public class RobotContainer {
         // right button
         driver.getStartButton()
             .whileTrue(new ConveyorToShooter()
-            .andThen(new ConveyorShoot()))
+                .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop());
             
         // score amp no align
@@ -173,10 +173,6 @@ public class RobotContainer {
             .whileTrue(new ClimberSetupRoutine());
         driver.getBottomButton()
             .whileTrue(new ClimberScoreRoutine());
-        
-        driver.getLeftTriggerButton()
-            .onTrue(new IntakeDeacquire())
-            .onFalse(new IntakeStop());
 
         driver.getTopButton()
             // on command start
