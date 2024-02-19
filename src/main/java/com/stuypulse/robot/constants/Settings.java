@@ -276,8 +276,8 @@ public interface Settings {
         double MOMENT_OF_INERTIA = 1;
 
         // TODO: Tune these values
-        SmartNumber PODIUM_SHOT_LEFT_RPM = new SmartNumber("Shooter/Podium Shot Left RPM", 5000);
-        SmartNumber PODIUM_SHOT_RIGHT_RPM = new SmartNumber("Shooter/Podium Shot Right RPM", 5000);
+        SmartNumber PODIUM_SHOT_LEFT_RPM = new SmartNumber("Shooter/Podium Shot Left RPM", 3750);
+        SmartNumber PODIUM_SHOT_RIGHT_RPM = new SmartNumber("Shooter/Podium Shot Right RPM", 3750);
 
         double AMP_LEFT_RPM = PODIUM_SHOT_LEFT_RPM.get();
         double AMP_RIGHT_RPM = PODIUM_SHOT_RIGHT_RPM.get();
