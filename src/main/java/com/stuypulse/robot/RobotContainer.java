@@ -148,15 +148,13 @@ public class RobotContainer {
             .onFalse(new AmperStop());
 
         // score speaker no align
-        // right button
-        driver.getStartButton()
+        driver.getRightMenuButton()
             .whileTrue(new ConveyorToShooter()
                 .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop());
             
         // score amp no align
-        // left button
-        driver.getSelectButton()
+        driver.getLeftMenuButton()
             .whileTrue(new ConveyorToAmp()
                 .andThen(new AmperScore()))
             .onFalse(new AmperStop());
@@ -237,7 +235,7 @@ public class RobotContainer {
             .onTrue(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT));
 
         // human player attention button
-        operator.getSelectButton()
+        operator.getRightMenuButton()
             .whileTrue(new LEDSet(LEDInstructions.PULSE_PURPLE));
     }
 
