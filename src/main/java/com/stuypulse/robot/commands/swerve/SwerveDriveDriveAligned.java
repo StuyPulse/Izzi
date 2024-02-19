@@ -1,6 +1,5 @@
 package com.stuypulse.robot.commands.swerve;
 
-import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Driver.Drive;
 import com.stuypulse.robot.constants.Settings.Swerve.Assist;
 import com.stuypulse.robot.subsystems.odometry.Odometry;

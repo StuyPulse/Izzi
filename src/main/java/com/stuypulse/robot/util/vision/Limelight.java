@@ -97,7 +97,7 @@ public class Limelight {
      * @return the x angle of the note relative to the robot
      */
     public double getXAngle() {
-        return xAngle.get() - Units.radiansToDegrees(POSITIONS[limelightID].getRotation().getZ());
+        return -(xAngle.get() - Units.radiansToDegrees(POSITIONS[limelightID].getRotation().getZ()));
     }
 
     /**

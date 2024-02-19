@@ -47,7 +47,7 @@ public class SwerveDriveAmpAlign extends SequentialCommandGroup {
         addCommands(
             new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get()))
                 .withTolerance(AMP_WALL_SETUP_X_TOLERANCE, AMP_WALL_SETUP_Y_TOLERANCE, AMP_WALL_SETUP_ANGLE_TOLERANCE)
-                .deadlineWith(new LEDSet(LEDInstructions.GREEN))
+                    .deadlineWith(new LEDSet(LEDInstructions.GREEN))
                 .alongWith(new ConveyorToAmp()),
 
             new AmperToHeight(Lift.AMP_SCORE_HEIGHT.get()),

@@ -129,6 +129,8 @@ public class LLNoteVision extends NoteVision {
 
     @Override
     public void periodic() {
+        super.periodic();
+
         for (int i = 0; i < limelights.length; ++i) {
             limelights[i].updateData();
         }
