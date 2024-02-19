@@ -39,9 +39,18 @@ public interface Cameras {
     public CameraConfig[] APRILTAG_CAMERAS = switch (Robot.ROBOT) {
         case IZZI -> 
             new CameraConfig[] {
-                new CameraConfig("samera0", new Pose3d(new Translation3d(Units.inchesToMeters(16.387490), 0, Units.inchesToMeters(16.267379)), new Rotation3d(0, Units.degreesToRadians(60), 0))),                               // INTAKE
-                new CameraConfig("samera1", new Pose3d(new Translation3d(-Units.inchesToMeters(11.59286), 0, Units.inchesToMeters(11.926806)), new Rotation3d(0, Units.degreesToRadians(-56), Units.degreesToRadians(180)))),    // SHOOTER
-                new CameraConfig("samera2", new Pose3d(new Translation3d(Units.inchesToMeters(2.307881), 0, Units.inchesToMeters(23.974534)), new Rotation3d(0, Units.degreesToRadians(-81), Units.degreesToRadians(180)))),     // CLIMBER
+                // INTAKE
+                new CameraConfig("samera2", new Pose3d(
+                    new Translation3d(Units.inchesToMeters(16.387490), 0, Units.inchesToMeters(16.267379)),
+                    new Rotation3d(0, Units.degreesToRadians(60), 0))),
+                // SHOOTER
+                new CameraConfig("samera0", new Pose3d(
+                    new Translation3d(Units.inchesToMeters(-11.5), 0, Units.inchesToMeters(11.75)),
+                    new Rotation3d(0, Units.degreesToRadians(-81), Units.degreesToRadians(180)))),
+                // CLIMBER
+                new CameraConfig("samera3", new Pose3d(
+                    new Translation3d(Units.inchesToMeters(2.0), 0, Units.inchesToMeters(23.5)),
+                    new Rotation3d(0, Units.degreesToRadians(-56), Units.degreesToRadians(180)))),
             };
         
         case TUMBLER ->
