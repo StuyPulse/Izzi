@@ -18,6 +18,7 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Swerve.Drive;
 import com.stuypulse.robot.constants.Settings.Swerve.Encoder;
 import com.stuypulse.robot.constants.Settings.Swerve.Turn;
+import com.stuypulse.robot.util.StupidFilter;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -69,6 +70,9 @@ public class SwerveModuleImpl extends SwerveModule {
     private final Controller driveController;
     private final AngleController angleController;
 
+    private final StupidFilter driveVel;
+    private final StupidFilter drivePos;
+
     /**
      * Creates a new Swerve Module
      *
@@ -105,13 +109,16 @@ public class SwerveModuleImpl extends SwerveModule {
         angleController = new AnglePIDController(Turn.kP, Turn.kI, Turn.kD)
             .setOutputFilter(x -> -x);
 
+        driveVel = new StupidFilter();
+        drivePos = new StupidFilter();
+
         Motors.Swerve.DRIVE_CONFIG.configure(driveMotor);
         Motors.Swerve.TURN_CONFIG.configure(turnMotor);
     }
 
     @Override
     public double getVelocity() {
-        return driveEncoder.getVelocity();
+        return driveVel.get(driveEncoder.getVelocity());
     }
 
     @Override
@@ -122,7 +129,7 @@ public class SwerveModuleImpl extends SwerveModule {
 
     @Override
     public SwerveModulePosition getModulePosition() {
-        return new SwerveModulePosition(driveEncoder.getPosition(), getAngle());
+        return new SwerveModulePosition(drivePos.get(driveEncoder.getPosition()), getAngle());
     }
 
     @Override

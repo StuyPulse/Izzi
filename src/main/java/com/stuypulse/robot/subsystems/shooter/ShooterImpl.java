@@ -14,6 +14,7 @@ import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings.Shooter.Feedforward;
 import com.stuypulse.robot.constants.Settings.Shooter.PID;
+import com.stuypulse.robot.util.StupidFilter;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -32,6 +33,9 @@ public class ShooterImpl extends Shooter {
     private final Controller leftController;
     private final Controller rightController;
 
+    private final StupidFilter leftVel;
+    private final StupidFilter rightVel;
+
     protected ShooterImpl() {
         leftMotor = new CANSparkFlex(Ports.Shooter.LEFT_MOTOR, MotorType.kBrushless);
         rightMotor = new CANSparkFlex(Ports.Shooter.RIGHT_MOTOR, MotorType.kBrushless);
@@ -46,6 +50,9 @@ public class ShooterImpl extends Shooter {
             .add(new PIDController(PID.kP, PID.kI, PID.kD));
         rightController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
             .add(new PIDController(PID.kP, PID.kI, PID.kD));
+        
+        leftVel = new StupidFilter();
+        rightVel = new StupidFilter();
 
         Motors.Shooter.LEFT_SHOOTER.configure(leftMotor);
         Motors.Shooter.RIGHT_SHOOTER.configure(rightMotor);
@@ -59,12 +66,12 @@ public class ShooterImpl extends Shooter {
 
     @Override
     public double getLeftShooterRPM() {
-        return leftEncoder.getVelocity();
+        return leftVel.get(leftEncoder.getVelocity());
     }
 
     @Override
     public double getRightShooterRPM() {
-        return rightEncoder.getVelocity();
+        return rightVel.get(rightEncoder.getVelocity());
     }
 
     @Override
