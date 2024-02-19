@@ -122,7 +122,7 @@ public class RobotContainer {
     private void configureDriverBindings() {
         // intaking with swerve pointing at note
         driver.getRightTriggerButton()
-            .whileTrue(new IntakeAcquire())
+            .whileTrue(new IntakeAcquire().andThen(new BuzzController(driver)))
             .whileTrue(new SwerveDriveNoteAlignedDrive(driver))
             .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));
 
@@ -195,7 +195,7 @@ public class RobotContainer {
         operator.getLeftTriggerButton()
             .whileTrue(new ConveyorOuttake());
         operator.getRightTriggerButton()
-                .whileTrue(new IntakeAcquire())
+                .whileTrue(new IntakeAcquire().andThen(new BuzzController(driver)))
                 .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));
 
         operator.getLeftBumper()
@@ -209,10 +209,10 @@ public class RobotContainer {
             .onFalse(new IntakeStop());
 
         operator.getTopButton()
-                .onTrue(new AmperScore())
-                .onTrue(new ConveyorShoot())
-                .onFalse(new AmperStop())
-                .onFalse(new ConveyorStop());
+            .onTrue(new AmperScore())
+            .onTrue(new ConveyorShoot())
+            .onFalse(new AmperStop())
+            .onFalse(new ConveyorStop());
 
         operator.getDPadUp()
             .whileTrue(new AmperLiftFineAdjust(operator));
@@ -234,6 +234,10 @@ public class RobotContainer {
         // human player attention button
         operator.getRightMenuButton()
             .whileTrue(new LEDSet(LEDInstructions.PULSE_PURPLE));
+        
+        operator.getLeftMenuButton()
+            .onTrue(new AmperIntake())
+            .onFalse(new AmperStop());
     }
 
     /**************/
