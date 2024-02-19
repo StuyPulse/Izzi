@@ -99,9 +99,10 @@ public class RobotContainer {
         NamedCommands.registerCommand("IntakeStop", new IntakeStop());
         NamedCommands.registerCommand(
             "DriveToNote",
-            new SwerveDriveDriveToNote()
-                .alongWith(new IntakeAcquire())
-                .andThen(new IntakeStop()));
+            new DoNothingCommand());
+            // new SwerveDriveDriveToNote()
+            //     .alongWith(new IntakeAcquire())
+            //     .andThen(new IntakeStop()));
         NamedCommands.registerCommand("DriveToShoot", new SwerveDriveToShoot());
         NamedCommands.registerCommand("SetPodiumRangeShot", new ShooterPodiumShot());
         NamedCommands.registerCommand("ConveyorShoot", new ConveyorShootRoutine());
