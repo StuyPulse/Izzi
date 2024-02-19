@@ -38,7 +38,7 @@ public class SwerveDriveToShoot extends SwerveDriveToPose {
 
         return new Pose2d(
                 speaker.plus(speakerToRobot.times(Alignment.PODIUM_SHOT_DISTANCE.get())),
-                speakerToRobot.getAngle().plus(Rotation2d.fromDegrees(180)));
+                speakerToRobot.getAngle());
     }
 
     public SwerveDriveToShoot() {
