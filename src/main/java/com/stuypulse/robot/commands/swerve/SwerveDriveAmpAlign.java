@@ -30,7 +30,7 @@ public class SwerveDriveAmpAlign extends SequentialCommandGroup {
     private static final double AMP_WALL_SETUP_ANGLE_TOLERANCE = 5;
 
     private static final double AMP_WALL_SCORE_X_TOLERANCE = Units.inchesToMeters(0.75);
-    private static final double AMP_WALL_SCORE_Y_TOLERANCE = Units.inchesToMeters(0.75);
+    private static final double AMP_WALL_SCORE_Y_TOLERANCE = Units.inchesToMeters(1.25);
     private static final double AMP_WALL_SCORE_ANGLE_TOLERANCE = 2;
 
     private static Pose2d getTargetPose(double distanceToWall) {
@@ -50,7 +50,7 @@ public class SwerveDriveAmpAlign extends SequentialCommandGroup {
                     .deadlineWith(new LEDSet(LEDInstructions.GREEN))
                 .alongWith(new ConveyorToAmp()),
 
-            new AmperToHeight(Lift.AMP_SCORE_HEIGHT.get()),
+            new AmperToHeight(Lift.AMP_SCORE_HEIGHT),
 
             new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SCORE_DISTANCE.get()))
                 .withTolerance(

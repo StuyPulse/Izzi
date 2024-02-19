@@ -9,6 +9,7 @@ package com.stuypulse.robot.commands.notealignment.robotrelative;
 import static com.stuypulse.robot.constants.Settings.Alignment.*;
 import static com.stuypulse.robot.constants.Settings.NoteDetection.*;
 
+import com.stuypulse.robot.constants.Settings.NoteDetection;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.streams.booleans.BStream;
@@ -41,9 +42,9 @@ public class SwerveDriveTranslateToNote extends Command {
         odometry = Odometry.getInstance();
 
         controller = new HolonomicController(
-            new PIDController(Translation.kP, Translation.kI, Translation.kD),
-            new PIDController(Translation.kP, Translation.kI, Translation.kD),
-            new AnglePIDController(Rotation.kP, Rotation.kI, Rotation.kD));
+            new PIDController(NoteDetection.Translation.kP, NoteDetection.Translation.kI, NoteDetection.Translation.kD),
+            new PIDController(NoteDetection.Translation.kP, NoteDetection.Translation.kI, NoteDetection.Translation.kD),
+            new AnglePIDController(NoteDetection.Rotation.kP, NoteDetection.Rotation.kI, NoteDetection.Rotation.kD));
 
         SmartDashboard.putData("Note Detection/Controller", controller);
 

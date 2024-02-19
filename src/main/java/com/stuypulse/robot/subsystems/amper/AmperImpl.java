@@ -117,7 +117,7 @@ public class AmperImpl extends Amper {
 
     @Override
     public void score() {
-        scoreMotor.set(Settings.Amper.Score.SCORE_SPEED.get());
+        scoreMotor.set(Settings.Amper.Score.SCORE_SPEED);
     }
 
     @Override

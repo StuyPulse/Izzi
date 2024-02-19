@@ -6,7 +6,6 @@
 
 package com.stuypulse.robot.constants;
 
-import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 
@@ -58,6 +57,8 @@ public interface Settings {
 
         double MASS = Units.lbsToKilograms(2.173979);
 
+        SmartNumber kG = new SmartNumber("Climber/kG", 4.0);
+
         public interface BangBang {
             double CONTROLLER_VOLTAGE = 7.0;
             double THRESHOLD = 0.05;
@@ -79,7 +80,7 @@ public interface Settings {
         double AMP_ROLLER_DIAMETER = Units.inchesToMeters(1.25);
 
         public interface Score {
-            SmartNumber SCORE_SPEED = new SmartNumber("Amper/Score/Score Speed", 1.0);
+            double SCORE_SPEED = 1.0;
             double FROM_CONVEYOR_SPEED = 0.35;
             SmartNumber TO_CONVEYOR_SPEED = new SmartNumber("Amper/Score/To Conveyor Speed", 1.0);
 
@@ -100,9 +101,8 @@ public interface Settings {
             double VEL_LIMIT = 3.0;
             double ACCEL_LIMIT = 2.0;
 
-            // TODO: Tune these values
-            SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Amp Score Height", 0.34);
-            SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Trap Score Height", 0.0);
+            double AMP_SCORE_HEIGHT = 0.34;
+            double TRAP_SCORE_HEIGHT = AMP_SCORE_HEIGHT;
 
             public interface Encoder {
                 double GEARING = 1.0 / 9.0;
@@ -243,6 +243,18 @@ public interface Settings {
         SmartNumber DRIVE_SPEED = new SmartNumber("Note Detection/Drive Speed", 1);
 
         SmartNumber INTAKE_THRESHOLD_DISTANCE = new SmartNumber("Note Detection/In Intake Path Distance", 0.9);
+        
+        public interface Translation {
+            SmartNumber kP = new SmartNumber("Note Detection/Translation/kP", 4.0);
+            SmartNumber kI = new SmartNumber("Note Detection/Translation/kI", 0.0);
+            SmartNumber kD = new SmartNumber("Note Detection/Translation/kD", 0.0);
+        }
+
+        public interface Rotation {
+            SmartNumber kP = new SmartNumber("Note Detection/Rotation/kP", 2.0);
+            SmartNumber kI = new SmartNumber("Note Detection/Rotation/kI", 0.0);
+            SmartNumber kD = new SmartNumber("Note Detection/Rotation/kD", 0.0);
+        }
     }
 
     public interface Driver {
@@ -258,7 +270,7 @@ public interface Settings {
         }
 
         public interface Turn {
-            SmartNumber DEADBAND = new SmartNumber("Driver Settings/Turn/Deadband", 0.05);
+            SmartNumber DEADBAND = new SmartNumber("Driver Settings/Turn/Deadband", 0.03);
 
             SmartNumber RC = new SmartNumber("Driver Settings/Turn/RC", 0.05);
             SmartNumber POWER = new SmartNumber("Driver Settings/Turn/Power", 2);
