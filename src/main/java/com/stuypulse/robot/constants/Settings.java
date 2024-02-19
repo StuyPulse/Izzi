@@ -307,7 +307,6 @@ public interface Settings {
 
         double ACQUIRE_SPEED = 1.0;
         double DEACQUIRE_SPEED = 1.0;
-        SmartNumber MOVE_SPEED = new SmartNumber("Intake/Move Speed", 0.75);
     }
 
     public interface Conveyor {

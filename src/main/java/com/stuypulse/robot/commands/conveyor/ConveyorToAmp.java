@@ -35,7 +35,7 @@ public class ConveyorToAmp extends Command {
     @Override
     public void execute() {
         conveyor.toAmp();
-        intake.move();
+        intake.acquire();
         amper.fromConveyor();
     }
 

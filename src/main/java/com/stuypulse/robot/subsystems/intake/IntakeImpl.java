@@ -47,11 +47,6 @@ public class IntakeImpl extends Intake {
     }
 
     @Override
-    public void move() {
-        motor.set(+Settings.Intake.MOVE_SPEED.get());
-    }
-
-    @Override
     public void deacquire() {
         motor.set(-Settings.Intake.DEACQUIRE_SPEED);
     }

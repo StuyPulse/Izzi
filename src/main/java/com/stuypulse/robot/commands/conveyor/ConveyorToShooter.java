@@ -26,7 +26,7 @@ public class ConveyorToShooter extends Command {
     @Override
     public void execute() {
         conveyor.toShooter();
-        intake.move();
+        intake.acquire();
     }
 
     @Override

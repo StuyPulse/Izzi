@@ -40,8 +40,6 @@ public abstract class Intake extends SubsystemBase {
 
     public abstract void acquire();
 
-    public abstract void move();
-
     public abstract void deacquire();
 
     public abstract void stop();

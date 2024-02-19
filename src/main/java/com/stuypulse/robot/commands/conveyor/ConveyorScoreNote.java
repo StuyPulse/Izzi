@@ -41,7 +41,7 @@ public class ConveyorScoreNote extends Command {
             amper.score();
         } else if (noteAtShooter) {
             conveyor.toShooter();
-            intake.move();
+            intake.acquire();
         }
     }
 
