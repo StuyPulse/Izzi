@@ -47,7 +47,7 @@ public class AmperToHeight extends InstantCommand {
     public static boolean isUnderStage() {
         Translation2d[] blueTriangle = new Translation2d[] {
             new Translation2d(Units.inchesToMeters(126.13), Units.inchesToMeters(205.78)), //center 
-            new Translation2d(Units.inchesToMeters(218.36), Units.inchesToMeters(151.68)), //bottom
+            new Translation2d(Units.inchesToMeters(218), Units.inchesToMeters(151.68)), //bottom
             new Translation2d(Units.inchesToMeters(218), Units.inchesToMeters(269))        //top
         };
 
@@ -78,7 +78,7 @@ public class AmperToHeight extends InstantCommand {
         //checking if the robot is under the stage by comparing the robot's position to the lines
         Pose2d robotPose = Odometry.getInstance().getPose();
         for (int i = 0; i < 3; i++) {
-            if (robotPose.getTranslation().getY() < slopes[i] * robotPose.getTranslation().getX() + yIntercepts[i]) {
+            if (robotPose.getTranslation().getY() > slopes[i] * robotPose.getTranslation().getX() + yIntercepts[i]) {
                 return true;
             }
         }
