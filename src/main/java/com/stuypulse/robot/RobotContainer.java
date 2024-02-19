@@ -166,6 +166,9 @@ public class RobotContainer {
         driver.getDPadDown()
             .onTrue(new ClimberToBottom());
 
+        driver.getDPadRight()
+            .onTrue(new SwerveDriveResetHeading());
+
         driver.getRightButton()
             .whileTrue(new ClimberSetupRoutine());
         driver.getBottomButton()
