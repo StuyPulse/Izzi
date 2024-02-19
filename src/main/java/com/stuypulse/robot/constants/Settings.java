@@ -80,7 +80,7 @@ public interface Settings {
 
         public interface Score {
             SmartNumber SCORE_SPEED = new SmartNumber("Amper/Score/Score Speed", 1.0);
-            double FROM_CONVEYOR_SPEED = 0.5;
+            double FROM_CONVEYOR_SPEED = 0.35;
             SmartNumber TO_CONVEYOR_SPEED = new SmartNumber("Amper/Score/To Conveyor Speed", 1.0);
 
             double SCORE_MOTOR_CONVERSION = AMP_ROLLER_DIAMETER * Math.PI;
@@ -134,7 +134,7 @@ public interface Settings {
         double LENGTH = Units.inchesToMeters(20.75);
         double CENTER_TO_INTAKE_FRONT = Units.inchesToMeters(17.9);
 
-        double MAX_MODULE_SPEED = 5.0;
+        double MAX_MODULE_SPEED = 5.55;
 
         double MODULE_VELOCITY_DEADBAND = 0.05;
 
@@ -334,23 +334,21 @@ public interface Settings {
         SmartNumber PODIUM_SHOT_MAX_ANGLE = new SmartNumber("Alignment/Podium Shot Max Angle", 80);
 
         SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(23.0));
-        SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(19.0));
+        SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(17.5));
 
         SmartNumber TRAP_SETUP_DISTANCE = new SmartNumber("Alignment/Trap/Setup Pose Distance", Units.inchesToMeters(22.0));
         SmartNumber TRAP_CLIMB_DISTANCE = new SmartNumber("Alignment/Trap/Climb Distance", Units.inchesToMeters(18.0));
 
         SmartNumber INTO_CHAIN_SPEED = new SmartNumber("Alignment/Trap/Into Chain Speed", 0.25);
 
-        // TODO: Tune these values
         public interface Translation {
-            SmartNumber kP = new SmartNumber("Alignment/Translation/kP", 4.0);
+            SmartNumber kP = new SmartNumber("Alignment/Translation/kP", 5.0);
             SmartNumber kI = new SmartNumber("Alignment/Translation/kI", 0.0);
             SmartNumber kD = new SmartNumber("Alignment/Translation/kD", 0.0);
         }
 
-        // TODO: Tune these values
         public interface Rotation {
-            SmartNumber kP = new SmartNumber("Alignment/Rotation/kP", 3.0);
+            SmartNumber kP = new SmartNumber("Alignment/Rotation/kP", 6.0);
             SmartNumber kI = new SmartNumber("Alignment/Rotation/kI", 0.0);
             SmartNumber kD = new SmartNumber("Alignment/Rotation/kD", 0.0);
         }

@@ -123,7 +123,7 @@ public class RobotContainer {
         // intaking with swerve pointing at note
         driver.getRightTriggerButton()
             .whileTrue(new IntakeAcquire())
-            .whileTrue(new SwerveDriveNoteAlignedDrive(driver))
+            // .whileTrue(new SwerveDriveNoteAlignedDrive(driver))
             .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));
 
         // note to shooter and align
@@ -138,13 +138,10 @@ public class RobotContainer {
                     .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop());
 
-        // note to amper and align
-        // then score
+        // note to amper and align then score
         driver.getLeftBumper()
-            .whileTrue(new ConveyorToAmp()
-                .alongWith(new SwerveDriveAmpAlign()
-                    .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
-                .andThen(new AmperScore()))
+            .whileTrue(new SwerveDriveAmpAlign())
+            .onFalse(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT))
             .onFalse(new AmperStop());
 
         // score speaker no align
