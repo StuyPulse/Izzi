@@ -135,6 +135,27 @@ public class Odometry extends SubsystemBase {
         }
     }
 
+    // private void updateEstimatorWithVisionData(ArrayList<VisionData> outputs) {
+    //     Pose2d poseSum = new Pose2d();
+    //     double timestampSum = 0;
+    //     double areaSum = 0;
+
+    //     for (VisionData data : outputs) {
+    //         Pose2d weighted = data.getPose().toPose2d().times(data.getArea());
+
+    //         poseSum = new Pose2d(
+    //             poseSum.getTranslation().plus(weighted.getTranslation()),
+    //             poseSum.getRotation().plus(weighted.getRotation())
+    //         );
+
+    //         areaSum += data.getArea();
+
+    //         timestampSum += data.getTimestamp() * data.getArea();
+    //     }
+
+    //     estimator.addVisionMeasurement(poseSum.div(areaSum), timestampSum / areaSum);
+    // }
+
     @Override
     public void periodic() {
         ArrayList<VisionData> outputs = AprilTagVision.getInstance().getOutputs();
