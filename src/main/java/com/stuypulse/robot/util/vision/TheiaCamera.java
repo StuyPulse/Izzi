@@ -7,6 +7,7 @@
 package com.stuypulse.robot.util.vision;
 
 import com.stuypulse.robot.constants.Cameras.CameraConfig;
+import com.stuypulse.robot.util.LogPose3d;
 import com.stuypulse.robot.constants.Field;
 
 import edu.wpi.first.math.geometry.Pose3d;
@@ -21,6 +22,7 @@ import edu.wpi.first.networktables.IntegerArraySubscriber;
 import edu.wpi.first.networktables.IntegerSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.PubSubOption;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Optional;
@@ -78,11 +80,11 @@ public class TheiaCamera {
         layoutPub.set(Field.getLayoutAsDoubleArray(Field.APRILTAGS));
 
         NetworkTable outputTable = table.getSubTable("output");
-        latencySub = outputTable.getDoubleTopic("latency").subscribe(0);
-        fpsSub = outputTable.getIntegerTopic("fps").subscribe(0);
-        poseSub = outputTable.getDoubleArrayTopic("pose").subscribe(new double[] {});
-        idSub = outputTable.getIntegerArrayTopic("tids").subscribe(new long[] {});
-        counterSub = outputTable.getIntegerTopic("update_counter").subscribe(0);
+        latencySub = outputTable.getDoubleTopic("latency").subscribe(0, PubSubOption.periodic(0.02));
+        fpsSub = outputTable.getIntegerTopic("fps").subscribe(0, PubSubOption.periodic(0.02));
+        poseSub = outputTable.getDoubleArrayTopic("pose").subscribe(new double[] {}, PubSubOption.periodic(0.02));
+        idSub = outputTable.getIntegerArrayTopic("tids").subscribe(new long[] {}, PubSubOption.periodic(0.02));
+        counterSub = outputTable.getIntegerTopic("update_counter").subscribe(0, PubSubOption.periodic(0.02));
     }
 
     public TheiaCamera(CameraConfig config) {
@@ -165,6 +167,8 @@ public class TheiaCamera {
         updateData();
 
         if (!hasData()) return Optional.empty();
+
+        LogPose3d.logPose3d("Vision/" + getName() + "/Pose3d", getRobotPose());
 
         double fpgaTime = latencySub.getLastChange() / 1_000_000.0;
         double timestamp = fpgaTime - Units.millisecondsToSeconds(rawLatency);

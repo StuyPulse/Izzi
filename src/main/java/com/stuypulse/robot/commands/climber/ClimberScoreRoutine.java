@@ -31,7 +31,7 @@ public class ClimberScoreRoutine extends SequentialCommandGroup {
                     new WaitCommand(DELAY_LIFT_SECONDS),
                     // slow down lift
                     new AmperSetLiftConstraints(AMPER_MAX_VELOCITY, AMPER_MAX_ACCELERATION),
-                    AmperToHeight.untilDone(Lift.TRAP_SCORE_HEIGHT.get()),
+                    AmperToHeight.untilDone(Lift.TRAP_SCORE_HEIGHT),
                     new AmperSetLiftConstraints()
                     )),
             AmperScore.forSeconds(AMPER_SCORE_SECONDS)

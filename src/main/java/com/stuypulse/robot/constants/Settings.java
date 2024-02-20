@@ -6,7 +6,6 @@
 
 package com.stuypulse.robot.constants;
 
-import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 
@@ -58,6 +57,8 @@ public interface Settings {
 
         double MASS = Units.lbsToKilograms(2.173979);
 
+        SmartNumber kG = new SmartNumber("Climber/kG", 4.0);
+
         public interface BangBang {
             double CONTROLLER_VOLTAGE = 7.0;
             double THRESHOLD = 0.05;
@@ -79,8 +80,8 @@ public interface Settings {
         double AMP_ROLLER_DIAMETER = Units.inchesToMeters(1.25);
 
         public interface Score {
-            SmartNumber SCORE_SPEED = new SmartNumber("Amper/Score/Score Speed", 1.0);
-            double FROM_CONVEYOR_SPEED = 0.5;
+            double SCORE_SPEED = 1.0;
+            double FROM_CONVEYOR_SPEED = 0.35;
             SmartNumber TO_CONVEYOR_SPEED = new SmartNumber("Amper/Score/To Conveyor Speed", 1.0);
 
             double SCORE_MOTOR_CONVERSION = AMP_ROLLER_DIAMETER * Math.PI;
@@ -100,9 +101,8 @@ public interface Settings {
             double VEL_LIMIT = 3.0;
             double ACCEL_LIMIT = 2.0;
 
-            // TODO: Tune these values
-            SmartNumber AMP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Amp Score Height", 0.34);
-            SmartNumber TRAP_SCORE_HEIGHT = new SmartNumber("Amper/Lift/Trap Score Height", 0.0);
+            double AMP_SCORE_HEIGHT = 0.34;
+            double TRAP_SCORE_HEIGHT = AMP_SCORE_HEIGHT;
 
             public interface Encoder {
                 double GEARING = 1.0 / 9.0;
@@ -132,9 +132,9 @@ public interface Settings {
         // between wheel centers
         double WIDTH = Units.inchesToMeters(20.75);
         double LENGTH = Units.inchesToMeters(20.75);
-        double CENTER_TO_INTAKE_FRONT = Units.inchesToMeters(17.9);
+        double CENTER_TO_INTAKE_FRONT = Units.inchesToMeters(13.0);
 
-        double MAX_MODULE_SPEED = 5.0;
+        double MAX_MODULE_SPEED = 5.55;
 
         double MODULE_VELOCITY_DEADBAND = 0.05;
 
@@ -143,7 +143,7 @@ public interface Settings {
             
             double BUZZ_INTENSITY = 0.5;
 
-            SmartNumber kP = new SmartNumber("SwerveAssist/kP", 3.0);
+            SmartNumber kP = new SmartNumber("SwerveAssist/kP", 2.0);
             SmartNumber kI = new SmartNumber("SwerveAssist/kI", 0.0);
             SmartNumber kD = new SmartNumber("SwerveAssist/kD", 0.0);
 
@@ -241,6 +241,20 @@ public interface Settings {
         SmartNumber THRESHOLD_ANGLE = new SmartNumber("Note Detection/Angle Threshold", 1);
 
         SmartNumber DRIVE_SPEED = new SmartNumber("Note Detection/Drive Speed", 1);
+
+        SmartNumber INTAKE_THRESHOLD_DISTANCE = new SmartNumber("Note Detection/In Intake Path Distance", 0.9);
+        
+        public interface Translation {
+            SmartNumber kP = new SmartNumber("Note Detection/Translation/kP", 4.0);
+            SmartNumber kI = new SmartNumber("Note Detection/Translation/kI", 0.0);
+            SmartNumber kD = new SmartNumber("Note Detection/Translation/kD", 0.0);
+        }
+
+        public interface Rotation {
+            SmartNumber kP = new SmartNumber("Note Detection/Rotation/kP", 2.0);
+            SmartNumber kI = new SmartNumber("Note Detection/Rotation/kI", 0.0);
+            SmartNumber kD = new SmartNumber("Note Detection/Rotation/kD", 0.0);
+        }
     }
 
     public interface Driver {
@@ -256,7 +270,7 @@ public interface Settings {
         }
 
         public interface Turn {
-            SmartNumber DEADBAND = new SmartNumber("Driver Settings/Turn/Deadband", 0.05);
+            SmartNumber DEADBAND = new SmartNumber("Driver Settings/Turn/Deadband", 0.03);
 
             SmartNumber RC = new SmartNumber("Driver Settings/Turn/RC", 0.05);
             SmartNumber POWER = new SmartNumber("Driver Settings/Turn/Power", 2);
@@ -333,24 +347,22 @@ public interface Settings {
         SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Alignment/Podium Shot Distance", Units.inchesToMeters(110));
         SmartNumber PODIUM_SHOT_MAX_ANGLE = new SmartNumber("Alignment/Podium Shot Max Angle", 80);
 
-        SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(12.0));
-        SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(6.0));
+        SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(23.0));
+        SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(17.5));
 
         SmartNumber TRAP_SETUP_DISTANCE = new SmartNumber("Alignment/Trap/Setup Pose Distance", Units.inchesToMeters(22.0));
         SmartNumber TRAP_CLIMB_DISTANCE = new SmartNumber("Alignment/Trap/Climb Distance", Units.inchesToMeters(18.0));
 
         SmartNumber INTO_CHAIN_SPEED = new SmartNumber("Alignment/Trap/Into Chain Speed", 0.25);
 
-        // TODO: Tune these values
         public interface Translation {
-            SmartNumber kP = new SmartNumber("Alignment/Translation/kP", 4.0);
+            SmartNumber kP = new SmartNumber("Alignment/Translation/kP", 5.0);
             SmartNumber kI = new SmartNumber("Alignment/Translation/kI", 0.0);
             SmartNumber kD = new SmartNumber("Alignment/Translation/kD", 0.0);
         }
 
-        // TODO: Tune these values
         public interface Rotation {
-            SmartNumber kP = new SmartNumber("Alignment/Rotation/kP", 3.0);
+            SmartNumber kP = new SmartNumber("Alignment/Rotation/kP", 6.0);
             SmartNumber kI = new SmartNumber("Alignment/Rotation/kI", 0.0);
             SmartNumber kD = new SmartNumber("Alignment/Rotation/kD", 0.0);
         }

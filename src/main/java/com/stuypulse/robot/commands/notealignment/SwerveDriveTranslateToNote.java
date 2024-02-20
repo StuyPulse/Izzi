@@ -14,7 +14,7 @@ import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
-
+import com.stuypulse.robot.constants.Settings.NoteDetection;
 import com.stuypulse.robot.constants.Settings.Swerve;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
@@ -45,9 +45,9 @@ public class SwerveDriveTranslateToNote extends Command {
         this.vision = NoteVision.getInstance();
 
         controller = new HolonomicController(
-            new PIDController(Translation.kP, Translation.kI, Translation.kD),
-            new PIDController(Translation.kP, Translation.kI, Translation.kD),
-            new AnglePIDController(Rotation.kP, Rotation.kI, Rotation.kD));
+            new PIDController(NoteDetection.Translation.kP, NoteDetection.Translation.kI, NoteDetection.Translation.kD),
+            new PIDController(NoteDetection.Translation.kP, NoteDetection.Translation.kI, NoteDetection.Translation.kD),
+            new AnglePIDController(NoteDetection.Rotation.kP, NoteDetection.Rotation.kI, NoteDetection.Rotation.kD));
 
         SmartDashboard.putData("Note Detection/Controller", controller);
 
