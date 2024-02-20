@@ -56,10 +56,10 @@ public class VisionData {
      * @param id the tag ID
      * @return the distance to the tag
      */
-    public double getDistanceToTag(int id) {
+    public double getDistanceToTag() {
         return outputPose
             .getTranslation()
-            .getDistance(Field.getTag(id).getLocation().getTranslation());
+            .getDistance(Field.getTag(getPrimaryID()).getLocation().getTranslation());
     }
 
     /**
