@@ -51,12 +51,12 @@ public class VisionData {
     }
 
     /**
-     * Returns the distance to any tag on the field.
+     * Returns the distance to the primary tag in each vision data entry.
      *
      * @param id the tag ID
-     * @return the distance to the tag
+     * @return the distance to the primary tag
      */
-    public double getDistanceToTag() {
+    public double getDistanceToPrimaryTag() {
         return outputPose
             .getTranslation()
             .getDistance(Field.getTag(getPrimaryID()).getLocation().getTranslation());
