@@ -76,7 +76,7 @@ public class AmperToHeight extends InstantCommand {
         //checking if the robot is under the stage by comparing the robot's position to the lines
         Pose2d robotPose = Odometry.getInstance().getPose();
         for (int i = 0; i < 3; i++) {
-            if (robotPose.getTranslation().getY() > slopes[i] * robotPose.getTranslation().getX() + yIntercepts[i]) {
+            if (robotPose.getTranslation().getY() > slopes[i] * robotPose.getTranslation().getX() + yIntercepts[i] && robotPose.getTranslation().getY() > blueTriangle[1].getY() && robotPose.getTranslation().getY() < blueTriangle[2].getY()) {
                 if ((robotPose.getTranslation().getX() > blueTriangle[0].getX() 
                   && robotPose.getTranslation().getX() < blueTriangle[2].getX()) ||
                     (robotPose.getTranslation().getX() < redTriangle[0].getX() 
