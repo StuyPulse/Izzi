@@ -47,7 +47,7 @@ public class LEDDefaultMode extends Command {
     }
 
     private LEDInstruction getInstruction() {
-        if (Math.abs(amper.getLiftHeight() - Lift.TRAP_SCORE_HEIGHT.get()) < Lift.MAX_HEIGHT_ERROR)
+        if (Math.abs(amper.getLiftHeight() - Lift.TRAP_SCORE_HEIGHT) < Lift.MAX_HEIGHT_ERROR)
             return LEDInstructions.TRAP;
         if (conveyor.isNoteAtShooter()) return LEDInstructions.SPEAKER;
         if (amper.hasNote()) return LEDInstructions.AMP;
