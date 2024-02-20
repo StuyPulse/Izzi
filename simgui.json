@@ -62,6 +62,9 @@
   },
   "NetworkTables": {
     "SmartDashboard": {
+      "Amper": {
+        "open": true
+      },
       "Conveyor": {
         "open": true
       },
@@ -81,6 +84,7 @@
     },
     "Server": {
       "open": true
-    }
+    },
+    "visible": true
   }
 }
