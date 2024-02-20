@@ -8,6 +8,7 @@ package com.stuypulse.robot.util.vision;
 
 import com.stuypulse.robot.constants.Cameras.CameraConfig;
 import com.stuypulse.robot.util.LogPose3d;
+import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.robot.constants.Field;
 
 import edu.wpi.first.math.geometry.Pose3d;
@@ -64,6 +65,8 @@ public class TheiaCamera {
     private double[] rawAreas;
     private long lastCounter;
 
+    private final SmartBoolean enabled;
+
     public TheiaCamera(String name, Pose3d cameraLocation) {
         this.name = name;
         this.cameraLocation = cameraLocation;
@@ -89,6 +92,8 @@ public class TheiaCamera {
         idSub = outputTable.getIntegerArrayTopic("tids").subscribe(new long[] {}, PubSubOption.periodic(0.02));
         counterSub = outputTable.getIntegerTopic("update_counter").subscribe(0, PubSubOption.periodic(0.02));
         areaSub = outputTable.getDoubleArrayTopic("areas").subscribe(new double[] {}, PubSubOption.periodic(0.02));
+
+        enabled = new SmartBoolean(name + "Enabled", true);
     }
 
     public TheiaCamera(CameraConfig config) {
@@ -172,6 +177,7 @@ public class TheiaCamera {
         updateData();
 
         if (!hasData()) return Optional.empty();
+        if (!enabled.get()) return Optional.empty();
 
         LogPose3d.logPose3d("Vision/" + getName() + "/Pose3d", getRobotPose());
 
