@@ -7,16 +7,21 @@
 package com.stuypulse.robot.subsystems.odometry;
 
 import com.stuypulse.stuylib.network.SmartBoolean;
+import com.stuypulse.robot.constants.Cameras;
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
+import com.stuypulse.robot.util.LinearRegression;
 import com.stuypulse.robot.util.vision.AprilTag;
 import com.stuypulse.robot.util.vision.VisionData;
 
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -45,6 +50,9 @@ public class Odometry extends SubsystemBase {
     private final FieldObject2d odometryPose2D;
     private final FieldObject2d estimatorPose2D;
 
+    private final LinearRegression xyRegression;
+    private final LinearRegression thetaRegression;
+
     private Pose2d lastGoodPose;
 
     protected Odometry() {
@@ -66,6 +74,9 @@ public class Odometry extends SubsystemBase {
         swerve.initFieldObject(field);
         odometryPose2D = field.getObject("Odometry Pose");
         estimatorPose2D = field.getObject("Estimator Pose");
+
+        xyRegression = new LinearRegression(Cameras.xyStdDevs);
+        thetaRegression = new LinearRegression(Cameras.thetaStdDevs);
 
         lastGoodPose = new Pose2d();
 
@@ -103,9 +114,24 @@ public class Odometry extends SubsystemBase {
         estimator.update(swerve.getGyroAngle(), swerve.getModulePositions());
     }
 
+    private Vector<N3> getStandardDeviation(VisionData data) {
+        double distance = data.getDistanceToPrimaryTag();
+
+        double xyStdDev = xyRegression.calculatePoint(distance);
+        double thetaStdDev = thetaRegression.calculatePoint(distance);
+
+        SmartDashboard.putNumber("Odometry/StdDevs/XY", xyStdDev);
+        SmartDashboard.putNumber("Odometry/StdDevs/Theta", thetaStdDev);
+
+        return VecBuilder.fill(
+                xyStdDev,
+                xyStdDev,
+                thetaStdDev);
+    }
+
     private void updateEstimatorWithVisionData(ArrayList<VisionData> outputs) {
         for (VisionData data : outputs) {
-            estimator.addVisionMeasurement(data.getPose().toPose2d(), data.getTimestamp());
+            estimator.addVisionMeasurement(data.getPose().toPose2d(), data.getTimestamp(), getStandardDeviation(data));
         }
     }
 
