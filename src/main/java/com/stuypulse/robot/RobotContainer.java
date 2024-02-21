@@ -126,7 +126,7 @@ public class RobotContainer {
         driver.getRightBumper()
             .whileTrue(new ConveyorToShooter()
                     .alongWith(new SwerveDriveToShoot()
-                        .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
+                        .deadlineWith(new LEDSet(LEDInstructions.ASSIST_FLASH)))
                     // .alongWith(new SwerveDrivePathFindTo(Field.getSpeakerPathFindPose()).get())
                     // .andThen(new SwerveDriveToShoot()
                     //    .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
@@ -136,19 +136,19 @@ public class RobotContainer {
         // note to amper and align
         // then score
         driver.getLeftBumper()
-                .whileTrue(new ConveyorToAmp()
-                    .alongWith(new SwerveDriveAmpAlign()
-                        .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
-                    .andThen(new AmperScore()))
-                .onFalse(new AmperStop());
+            .whileTrue(new ConveyorToAmp()
+                .alongWith(new SwerveDriveAmpAlign()
+                    .deadlineWith(new LEDSet(LEDInstructions.ASSIST_FLASH)))
+                .andThen(new AmperScore()))
+            .onFalse(new AmperStop());
 
         // score speaker no align
-        driver.getStartButton()
+        driver.getRightMenuButton()
             .whileTrue(new ConveyorToShooter()
             .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop());
         // score amp no align
-        driver.getSelectButton()
+        driver.getLeftMenuButton()
             .whileTrue(new ConveyorToAmp()
             .andThen(new AmperScore()))
             .onFalse(new AmperStop());
@@ -166,17 +166,17 @@ public class RobotContainer {
         driver.getTopButton()
             // on command start
             .onTrue(new BuzzController(driver, Assist.BUZZ_INTENSITY)
-                .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
+                .deadlineWith(new LEDSet(LEDInstructions.ASSIST_FLASH)))
                 
             .onTrue(new SwerveDriveAutomatic(driver)
                 // after command end
                 .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
-                    .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
+                    .deadlineWith(new LEDSet(LEDInstructions.RED)))
 
                 .andThen(new WaitCommand(Driver.Drive.BUZZ_DURATION))
                 
                 .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
-                    .deadlineWith(new LEDSet(LEDInstructions.GREEN))));
+                    .deadlineWith(new LEDSet(LEDInstructions.RED))));
     }
 
     private void configureOperatorBindings() {
@@ -221,7 +221,7 @@ public class RobotContainer {
             .onTrue(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT));
 
         // human player attention button
-        operator.getSelectButton()
+        operator.getRightMenuButton()
             .whileTrue(new LEDSet(LEDInstructions.PULSE_PURPLE));
     }
 
