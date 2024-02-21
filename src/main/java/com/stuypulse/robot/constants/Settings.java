@@ -59,6 +59,13 @@ public interface Settings {
 
         SmartNumber kG = new SmartNumber("Climber/kG", 4.0);
 
+
+        SmartBoolean CLIMBER_SAFETY = new SmartBoolean("Climber/SAFETY", true);
+
+        public interface Detection {
+            double LIFTING_CURRENT = 40;
+        }
+
         public interface BangBang {
             double CONTROLLER_VOLTAGE = 7.0;
             double THRESHOLD = 0.05;
@@ -243,6 +250,8 @@ public interface Settings {
         SmartNumber DRIVE_SPEED = new SmartNumber("Note Detection/Drive Speed", 1);
 
         SmartNumber INTAKE_THRESHOLD_DISTANCE = new SmartNumber("Note Detection/In Intake Path Distance", 0.9);
+
+        double MAX_FULLY_IN_FEW_ANGLE = 20;
         
         public interface Translation {
             SmartNumber kP = new SmartNumber("Note Detection/Translation/kP", 4.0);
@@ -281,7 +290,7 @@ public interface Settings {
 
     public interface Operator {
         SmartNumber DEADBAND = new SmartNumber("Operator Settings/Manual Climb + Lift Deadband", 0.05);
-        SmartNumber CLIMB_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Climber Max Drive Voltage", 1.0);
+        SmartNumber CLIMB_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Climber Max Drive Voltage", 7.0);
         SmartNumber LIFT_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Lift Max Drive Voltage", 6.0);
         SmartNumber LIFT_ADJUST_SPEED = new SmartNumber("Operator Settings/Lift Fine Adjust Speed", Units.inchesToMeters(1.0));
     }
@@ -326,7 +335,8 @@ public interface Settings {
     public interface Conveyor {
         SmartNumber GANDALF_SHOOTER_SPEED = new SmartNumber("Conveyor/Gandalf Shooter Speed", 1.0);
         double GANDALF_AMP_SPEED = 1.0;
-        SmartNumber FEEDER_SHOOTER_SPEED = new SmartNumber("Conveyor/Shooter Feeder To Shooter Speed", 0.5);
+        SmartNumber FEEDER_SHOOTER_SPEED = new SmartNumber("Conveyor/Shooter Feeder To Shooter Speed", 0.25);
+        SmartNumber FEEDER_SHOOT_SPEED = new SmartNumber("Conveyor/Shooter Feeder To Shooter Speed", 1.0);
         SmartNumber FEEDER_AMP_SPEED = new SmartNumber("Conveyor/Shooter Feeder To Amp Speed", 1.0);
 
         SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.0);

@@ -36,6 +36,12 @@ public class ConveyorSim extends Conveyor {
     }
 
     @Override
+    public void shoot() {
+        gandalfMotorSpeed = +Settings.Conveyor.GANDALF_SHOOTER_SPEED.get();
+        feederMotorSpeed =  +Settings.Conveyor.FEEDER_SHOOT_SPEED.get();
+    }
+
+    @Override
     public void toShooter() {
         gandalfMotorSpeed = +Settings.Conveyor.GANDALF_SHOOTER_SPEED.get();
         feederMotorSpeed =  +Settings.Conveyor.FEEDER_SHOOTER_SPEED.get();
@@ -48,8 +54,12 @@ public class ConveyorSim extends Conveyor {
     }
 
     @Override
-    public void stop() {
+    public void stopGandalf() {
         gandalfMotorSpeed = 0;
+    }
+
+    @Override
+    public void stopFeeder() {
         feederMotorSpeed = 0;
     }
 

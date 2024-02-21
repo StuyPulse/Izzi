@@ -41,15 +41,15 @@ public interface Cameras {
         case IZZI -> 
             new CameraConfig[] {
                 // INTAKE
-                new CameraConfig("samera2", new Pose3d(
-                    new Translation3d(Units.inchesToMeters(16.387490), 0, Units.inchesToMeters(16.267379)),
-                    new Rotation3d(0, Units.degreesToRadians(30), 0))),
+                new CameraConfig("samera3", new Pose3d(
+                    new Translation3d(Units.inchesToMeters(16.5) + 0.2 , 0, Units.inchesToMeters(16.267379)),
+                    new Rotation3d(0, Units.degreesToRadians(-30), 0))),
                 // SHOOTER
                 new CameraConfig("samera0", new Pose3d(
                     new Translation3d(Units.inchesToMeters(-11.5), 0, Units.inchesToMeters(11.75)),
                     new Rotation3d(0, Units.degreesToRadians(-9), Units.degreesToRadians(180)))),
                 // CLIMBER
-                new CameraConfig("samera3", new Pose3d(
+                new CameraConfig("samera2", new Pose3d(
                     new Translation3d(Units.inchesToMeters(2.0), 0, Units.inchesToMeters(23.5)),
                     new Rotation3d(0, Units.degreesToRadians(-34), Units.degreesToRadians(180)))),
             };

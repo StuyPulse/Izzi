@@ -22,6 +22,6 @@ public class ConveyorShoot extends InstantCommand {
 
     @Override
     public void initialize() {
-        conveyor.toShooter();
+        conveyor.shoot();
     }
 }
