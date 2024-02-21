@@ -89,5 +89,8 @@ public class ShooterImpl extends Shooter {
 
         SmartDashboard.putNumber("Shooter/Left Voltage", leftMotor.getBusVoltage() * leftMotor.getAppliedOutput());
         SmartDashboard.putNumber("Shooter/Right Voltage", rightMotor.getBusVoltage() * rightMotor.getAppliedOutput());
+
+        SmartDashboard.putNumber("Shooter/Left Current", leftMotor.getOutputCurrent() );
+        SmartDashboard.putNumber("Shooter/Right Current", rightMotor.getOutputCurrent());
     }
 }
