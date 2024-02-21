@@ -71,6 +71,12 @@ public class ConveyorImpl extends Conveyor {
     }
 
     @Override
+    public void shoot() {
+        gandalfMotor.set(+Settings.Conveyor.GANDALF_SHOOTER_SPEED.get());
+        shooterFeederMotor.set(+Settings.Conveyor.FEEDER_SHOOT_SPEED.get());
+    }
+
+    @Override
     public void toShooter() {
         gandalfMotor.set(+Settings.Conveyor.GANDALF_SHOOTER_SPEED.get());
         shooterFeederMotor.set(+Settings.Conveyor.FEEDER_SHOOTER_SPEED.get());
@@ -82,8 +88,13 @@ public class ConveyorImpl extends Conveyor {
         shooterFeederMotor.set(+Settings.Conveyor.FEEDER_AMP_SPEED.get());
     }
 
-    public void stop() {
+    @Override
+    public void stopGandalf() {
         gandalfMotor.set(0);
+    }
+
+    @Override
+    public void stopFeeder() {
         shooterFeederMotor.set(0);
     }
 

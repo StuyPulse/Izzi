@@ -59,6 +59,9 @@ public interface Settings {
 
         SmartNumber kG = new SmartNumber("Climber/kG", 4.0);
 
+
+        SmartBoolean CLIMBER_SAFETY = new SmartBoolean("Climber/SAFETY", true);
+
         public interface BangBang {
             double CONTROLLER_VOLTAGE = 7.0;
             double THRESHOLD = 0.05;

@@ -120,12 +120,14 @@ public class ClimberImpl extends Climber {
     }
 
     private void setVoltage(double voltage) {
-        if (atTop() && voltage > 0) {
-            DriverStation.reportWarning("Climber Top Limit Reached", false);
-            voltage = 0.0;
-        } else if (atBottom() && voltage < 0) {
-            DriverStation.reportWarning("Climber Bottom Limit Reached", false);
-            voltage = 0.0;
+        if (Settings.Climber.CLIMBER_SAFETY.get()) {
+            if (atTop() && voltage > 0) {
+                DriverStation.reportWarning("Climber Top Limit Reached", false);
+                voltage = 0.0;
+            } else if (atBottom() && voltage < 0) {
+                DriverStation.reportWarning("Climber Bottom Limit Reached", false);
+                voltage = 0.0;
+            }
         }
 
         rightMotor.setVoltage(voltage);
@@ -133,24 +135,28 @@ public class ClimberImpl extends Climber {
     }
 
     private void setLeftVoltage(double voltage) {
-        if (leftAtTop() && voltage > 0) {
-            DriverStation.reportWarning("Climber Top Left Limit Reached", false);
-            voltage = 0.0;
-        } else if (leftAtBottom() && voltage < 0) {
-            DriverStation.reportWarning("Climber Bottom Left Limit Reached", false);
-            voltage = 0.0;
+        if (Settings.Climber.CLIMBER_SAFETY.get()) {
+            if (leftAtTop() && voltage > 0) {
+                DriverStation.reportWarning("Climber Top Left Limit Reached", false);
+                voltage = 0.0;
+            } else if (leftAtBottom() && voltage < 0) {
+                DriverStation.reportWarning("Climber Bottom Left Limit Reached", false);
+                voltage = 0.0;
+            }
         }
 
         leftMotor.setVoltage(voltage);
     }
 
     private void setRightVoltage(double voltage) {
-        if (rightAtTop() && voltage > 0) {
-            DriverStation.reportWarning("Climber Top Right Limit Reached", false);
-            voltage = 0.0;
-        } else if (rightAtBottom() && voltage < 0) {
-            DriverStation.reportWarning("Climber Bottom Right Limit Reached", false);
-            voltage = 0.0;
+        if (Settings.Climber.CLIMBER_SAFETY.get()) {
+            if (rightAtTop() && voltage > 0) {
+                DriverStation.reportWarning("Climber Top Right Limit Reached", false);
+                voltage = 0.0;
+            } else if (rightAtBottom() && voltage < 0) {
+                DriverStation.reportWarning("Climber Bottom Right Limit Reached", false);
+                voltage = 0.0;
+            }
         }
 
         rightMotor.setVoltage(voltage);
@@ -188,6 +194,9 @@ public class ClimberImpl extends Climber {
 
         SmartDashboard.putBoolean("Climber/Left At Bottom", leftAtBottom());
         SmartDashboard.putBoolean("Climber/Right At Bottom", rightAtBottom());
+
+        SmartDashboard.putBoolean("Climber/Left At Top", leftAtTop());
+        SmartDashboard.putBoolean("Climber/Right At Top", leftAtTop());
 
         if (atBottom()) {
             leftEncoder.setPosition(Settings.Climber.MIN_HEIGHT);
