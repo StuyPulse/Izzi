@@ -129,32 +129,32 @@ public class Odometry extends SubsystemBase {
                 thetaStdDev);
     }
 
-    private void updateEstimatorWithVisionData(ArrayList<VisionData> outputs) {
-        for (VisionData data : outputs) {
-            estimator.addVisionMeasurement(data.getPose().toPose2d(), data.getTimestamp(), getStandardDeviation(data));
-        }
-    }
-
     // private void updateEstimatorWithVisionData(ArrayList<VisionData> outputs) {
-    //     Pose2d poseSum = new Pose2d();
-    //     double timestampSum = 0;
-    //     double areaSum = 0;
-
     //     for (VisionData data : outputs) {
-    //         Pose2d weighted = data.getPose().toPose2d().times(data.getArea());
-
-    //         poseSum = new Pose2d(
-    //             poseSum.getTranslation().plus(weighted.getTranslation()),
-    //             poseSum.getRotation().plus(weighted.getRotation())
-    //         );
-
-    //         areaSum += data.getArea();
-
-    //         timestampSum += data.getTimestamp() * data.getArea();
+    //         estimator.addVisionMeasurement(data.getPose().toPose2d(), data.getTimestamp(), getStandardDeviation(data));
     //     }
-
-    //     estimator.addVisionMeasurement(poseSum.div(areaSum), timestampSum / areaSum);
     // }
+
+    private void updateEstimatorWithVisionData(ArrayList<VisionData> outputs) {
+        Pose2d poseSum = new Pose2d();
+        double timestampSum = 0;
+        double areaSum = 0;
+
+        for (VisionData data : outputs) {
+            Pose2d weighted = data.getPose().toPose2d().times(data.getArea());
+
+            poseSum = new Pose2d(
+                poseSum.getTranslation().plus(weighted.getTranslation()),
+                poseSum.getRotation().plus(weighted.getRotation())
+            );
+
+            areaSum += data.getArea();
+
+            timestampSum += data.getTimestamp() * data.getArea();
+        }
+
+        estimator.addVisionMeasurement(poseSum.div(areaSum), timestampSum / areaSum);
+    }
 
     @Override
     public void periodic() {
@@ -162,7 +162,7 @@ public class Odometry extends SubsystemBase {
 
         updateOdometry();
 
-        if (VISION_ACTIVE.get()) {
+        if (VISION_ACTIVE.get() && outputs.size() > 0) {
             updateEstimatorWithVisionData(outputs);
         }
 
