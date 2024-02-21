@@ -114,6 +114,10 @@ public class ClimberImpl extends Climber {
         return !bottomLeftLimit.get();
     }
 
+    private boolean isLifting() {
+        return rightMotor.getOutputCurrent() > Settings.Climber.Detection.LIFTING_CURRENT && leftMotor.getOutputCurrent() > Settings.Climber.Detection.LIFTING_CURRENT;
+    }
+
     @Override
     public void setVoltageOverride(double voltage) {
         voltageOverride = Optional.of(voltage);
@@ -197,6 +201,8 @@ public class ClimberImpl extends Climber {
 
         SmartDashboard.putBoolean("Climber/Left At Top", leftAtTop());
         SmartDashboard.putBoolean("Climber/Right At Top", leftAtTop());
+
+        SmartDashboard.putBoolean("Climber/Is Lifting", isLifting());
 
         if (atBottom()) {
             leftEncoder.setPosition(Settings.Climber.MIN_HEIGHT);
