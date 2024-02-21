@@ -84,7 +84,7 @@ public class TheiaTagVision extends AprilTagVision {
         SmartDashboard.putNumber(prefix + "/Pose Y", data.getPose().getY());
         SmartDashboard.putNumber(prefix + "/Pose Z", data.getPose().getZ());
 
-        SmartDashboard.putNumber(prefix + "/Distance to Tag", data.getDistanceToTag(data.getPrimaryID()));
+        SmartDashboard.putNumber(prefix + "/Distance to Tag", data.getDistanceToPrimaryTag());
 
         SmartDashboard.putNumber(prefix + "/Pose Rotation", Units.radiansToDegrees(data.getPose().getRotation().getAngle()));
         SmartDashboard.putNumber(prefix + "/Timestamp", data.getTimestamp());
