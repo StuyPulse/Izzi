@@ -17,21 +17,15 @@ import java.util.Arrays;
 public class LEDAutonChooser extends LEDSection {
     public enum AutonLEDColors {
         X("DoNothingAuton"),
-        OM("1 Note + Mobility.auto"),
-        OC("2 Note C.auto"),
-        OF("2 Note Center F.auto"),
-        OG("2 Note Center G.auto"),
-        OH("2 Note Center H.auto"),
-        ODA("3 Note (D, A).auto"),
-        OEA("3 Note (E, A).auto"),
-        OGF("3 Note Center (G, F).auto"),
-        OHG("3 Note Center (H, G).auto"),
-        // ("3 Note.auto"),
-        OEDA("4 Note (E, D, A).auto"),
-        // ("4 Note End D.auto"),
-        // OES("4 Note End Speaker.auto"),
-        // ("5 Note.auto"),
-        // ("6 Note.auto"),
+        OM("1 Piece + Mobility"),
+        OC("2 Piece C"),
+        OH("2 Piece H"),
+        OCB("3 Piece CB"),
+        OHG("3 Piece HG"),
+        OGHF("4 Piece GHF"),
+        OHGF("4 Piece HGF"),
+        OCBA("4 Piece CBA"),
+        OCBADF(/* "6 Piece CBADF (ND+PF).auto", "6 Piece CBADF (ND).auto",*/ "6 Piece CBADF"),
         M("Mobility.auto");
 
         public final String autonName;
