@@ -62,13 +62,12 @@ public interface Settings {
 
         SmartBoolean CLIMBER_SAFETY = new SmartBoolean("Climber/SAFETY", true);
 
-        public interface Detection {
-            double LIFTING_CURRENT = 40;
-        }
-
-        public interface BangBang {
-            double CONTROLLER_VOLTAGE = 7.0;
-            double THRESHOLD = 0.05;
+        public interface Control {
+            double UP_VOLTAGE = 3;
+            double DOWN_VOLTAGE = 3;
+            double CLIMB_VOLTAGE = 7;
+            
+            double STALL_CURRENT = 40;
         }
 
         public interface Encoder {

@@ -165,10 +165,10 @@ public class RobotContainer {
         driver.getDPadRight()
             .onTrue(new SwerveDriveResetHeading());
 
-        driver.getRightButton()
-            .whileTrue(new ClimberSetupRoutine());
-        driver.getBottomButton()
-            .whileTrue(new ClimberScoreRoutine());
+        // driver.getRightButton()
+        //     .whileTrue(new ClimberSetupRoutine());
+        // driver.getBottomButton()
+        //     .whileTrue(new ClimberScoreRoutine());
 
         driver.getTopButton()
             // on command start

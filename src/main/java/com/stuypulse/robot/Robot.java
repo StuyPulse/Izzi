@@ -134,7 +134,7 @@ public class Robot extends TimedRobot {
             auto.cancel();
         }
 
-        robot.climber.setTargetHeight(robot.climber.getHeight());
+        robot.climber.stop();
         scheduler.schedule(new LEDReset());
         scheduler.schedule(new ShooterPodiumShot());
 
