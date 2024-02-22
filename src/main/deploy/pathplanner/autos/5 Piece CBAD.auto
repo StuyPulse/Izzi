@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3992020999924704,
-      "y": 2.850407598330388
+      "x": 1.462744046458869,
+      "y": 4.628040033669767
     },
-    "rotation": -63.38831811724382
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -18,29 +18,29 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "DriveToShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootFromFeeder"
-          }
-        },
-        {
           "type": "sequential",
           "data": {
             "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Start To C (ABC)"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootFromFeeder"
+                }
+              },
               {
                 "type": "parallel",
                 "data": {
                   "commands": [
                     {
-                      "type": "path",
+                      "type": "named",
                       "data": {
-                        "pathName": "Start To H (HGF)"
+                        "name": "DriveToShoot"
                       }
                     },
                     {
@@ -53,21 +53,9 @@
                 }
               },
               {
-                "type": "path",
-                "data": {
-                  "pathName": "H To HShoot (HGF)"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
-                  "name": "DriveToShoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootFromFeeder"
+                  "name": "ConveyorShootRoutine"
                 }
               }
             ]
@@ -84,7 +72,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "HShoot To G (HGF)"
+                        "pathName": "C To B (ABC)"
                       }
                     },
                     {
@@ -97,12 +85,6 @@
                 }
               },
               {
-                "type": "path",
-                "data": {
-                  "pathName": "G To Shoot (HGF)"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "DriveToShoot"
@@ -111,7 +93,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShootFromFeeder"
+                  "name": "ConveyorShootRoutine"
                 }
               }
             ]
@@ -128,7 +110,45 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "GShoot To F (HGF)"
+                        "pathName": "B To A (ABC)"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IntakeToShooter"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "DriveToShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ConveyorShootRoutine"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "A To D (ABCD)"
                       }
                     },
                     {
@@ -143,7 +163,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "F To Shoot (HGF)"
+                  "pathName": "D To Shoot (ABCD)"
                 }
               },
               {
@@ -155,7 +175,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShootFromFeeder"
+                  "name": "ConveyorShootRoutine"
                 }
               }
             ]

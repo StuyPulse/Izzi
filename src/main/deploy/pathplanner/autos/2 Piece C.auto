@@ -5,7 +5,7 @@
       "x": 1.462744046458869,
       "y": 4.628040033669767
     },
-    "rotation": 0.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -18,39 +18,28 @@
           }
         },
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "Start To C (ABC)"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ConveyorShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeAcquire"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ConveyorShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeStop"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Start To C (ABC)"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootFromFeeder"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeToShooter"
+                }
+              }
+            ]
           }
         }
       ]

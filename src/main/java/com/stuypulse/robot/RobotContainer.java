@@ -94,23 +94,36 @@ public class RobotContainer {
     /**********************/
 
     private void configureNamedCommands() {
-        NamedCommands.registerCommand("IntakeAcquire", new IntakeAcquireForever());
-        NamedCommands.registerCommand("IntakeToShooter", new ConveyorToShooter());
+        // Acquiring
+        NamedCommands.registerCommand("IntakeAcquireForever", new IntakeAcquireForever());
+        NamedCommands.registerCommand("FeederShoot", new ConveyorShoot());
         NamedCommands.registerCommand("IntakeToAmp", new ConveyorToAmp());
-        NamedCommands.registerCommand("IntakeStop", new IntakeStop());
+        NamedCommands.registerCommand("IntakeToFeeder", new ConveyorToShooter());
+
         NamedCommands.registerCommand(
             "DriveToNote",
             new DoNothingCommand());
             // new SwerveDriveDriveToNote()
             //     .alongWith(new IntakeAcquire())
             //     .andThen(new IntakeStop()));
-        NamedCommands.registerCommand("DriveToShoot", new SwerveDriveToShoot());
+
+        // Amp
+        NamedCommands.registerCommand("AmpRoutine", new AutonAmpRoutine());
+
+        // Shooting
         NamedCommands.registerCommand("SetPodiumRangeShot", new ShooterPodiumShot());
-        NamedCommands.registerCommand("ConveyorShoot", new ConveyorShootRoutine());
+        NamedCommands.registerCommand("ConveyorShootRoutine", new ConveyorShootRoutine());
+
+        // Auto Aligning
         NamedCommands.registerCommand("TranslateToNote", new SwerveDriveTranslateToNote());
+        NamedCommands.registerCommand("DriveToShoot", new SwerveDriveToShoot());
         // NOTE: this command will not change the pose if the alliance changes after deploy (I think)
         NamedCommands.registerCommand("PathFindToShoot", new SwerveDrivePathFindTo(Field.TOP_SHOOT_POSE.get()).get());
-        NamedCommands.registerCommand("AmpRoutine", new AutonAmpRoutine());
+
+        // Stopping
+        NamedCommands.registerCommand("IntakeStop", new IntakeStop());
+        NamedCommands.registerCommand("ConveyorStop", new ConveyorStop());
+        NamedCommands.registerCommand("ShooterStop", new ShooterStop());
     }
 
     /***************/

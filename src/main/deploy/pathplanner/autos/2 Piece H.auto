@@ -20,43 +20,57 @@
         {
           "type": "named",
           "data": {
-            "name": "ConveyorShoot"
+            "name": "DriveToShoot"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "IntakeAcquire"
+            "name": "ShootFromFeeder"
           }
         },
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "Start To H (HGF)"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "H To HShoot (HGF)"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ConveyorShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeStop"
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Start To H (HGF)"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IntakeToShooter"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "H To HShoot (HGF)"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "DriveToShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootFromFeeder"
+                }
+              }
+            ]
           }
         }
       ]
