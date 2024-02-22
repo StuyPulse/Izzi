@@ -4,31 +4,53 @@
     {
       "anchor": {
         "x": 1.839020724229238,
-        "y": 7.69612446010193
+        "y": 7.65
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.698540005116758,
-        "y": 7.26333482455738
+        "x": 2.839020724229238,
+        "y": 7.65
       },
       "isLocked": false,
       "linkedName": "Amp"
     },
     {
       "anchor": {
-        "x": 2.59369456600603,
-        "y": 4.350884604908678
+        "x": 5.0,
+        "y": 7.65
       },
       "prevControl": {
-        "x": 2.59369456600603,
-        "y": 5.180557503612933
+        "x": 4.051187594400436,
+        "y": 7.65
+      },
+      "nextControl": {
+        "x": 5.829672898704256,
+        "y": 7.65
+      },
+      "isLocked": false,
+      "linkedName": "Amp Path Midpoint"
+    },
+    {
+      "anchor": {
+        "x": 8.18,
+        "y": 4.199111125005965
+      },
+      "prevControl": {
+        "x": 7.383999734463539,
+        "y": 5.19422257066447
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": -90.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {

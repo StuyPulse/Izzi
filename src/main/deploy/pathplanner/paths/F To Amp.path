@@ -1,0 +1,74 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.16,
+        "y": 4.2
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.199683324352181,
+        "y": 5.707827849538801
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.0,
+        "y": 7.65
+      },
+      "prevControl": {
+        "x": 6.032753309847493,
+        "y": 7.65
+      },
+      "nextControl": {
+        "x": 3.9192459734592147,
+        "y": 7.65
+      },
+      "isLocked": false,
+      "linkedName": "Amp Path Midpoint"
+    },
+    {
+      "anchor": {
+        "x": 1.839020724229238,
+        "y": 7.65
+      },
+      "prevControl": {
+        "x": 2.504368862513055,
+        "y": 7.65
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Amp"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": -90.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -90.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Amp ABC",
+  "previewStartingState": {
+    "rotation": -30.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
