@@ -27,7 +27,7 @@ public class LEDAutonChooser extends LEDSection {
         OCBA("4 Piece CBA"),
         OCBAD("5 Piece CBAD"),
         OCBAE("5 Piece CBAE"),
-        ODEF("Amp Auto DEF"),
+        ODEF("Amp Auto (DEF)"),
         OCBADF(/* "6 Piece CBADF (ND+PF).auto", "6 Piece CBADF (ND).auto",*/ "6 Piece CBADF"),
         M("Mobility");
 
@@ -66,13 +66,12 @@ public class LEDAutonChooser extends LEDSection {
                 }
             }
 
-            colorArray[9] =  Robot.isBlue() ? SLColor.BLUE : SLColor.RED;
             return colorArray;
         }
 
         public static AutonLEDColors fromName(String name) {
             return Arrays.stream(values())
-                .filter((autonLedColor) -> autonLedColor.autonName.matches(name))
+                .filter((autonLedColor) -> autonLedColor.autonName.equals(name))
                 .findFirst()
                 .orElseThrow(
                     () -> new IllegalArgumentException(
