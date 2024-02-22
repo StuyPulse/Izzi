@@ -25,7 +25,6 @@ import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Driver;
-import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.constants.Settings.Swerve.Assist;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.climber.*;
@@ -131,12 +130,10 @@ public class RobotContainer {
         // then shoot
         driver.getRightBumper()
             .whileTrue(new ConveyorToShooter()
-                    .alongWith(new SwerveDriveToShoot()
-                        .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
-                    // .alongWith(new SwerveDrivePathFindTo(Field.getSpeakerPathFindPose()).get())
-                    // .andThen(new SwerveDriveToShoot()
-                    //    .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
-                    .andThen(new ConveyorShoot()))
+                    .andThen(new WaitCommand(Settings.Conveyor.AT_FEEDER_WAIT_DELAY.get()))
+                .alongWith(new SwerveDriveToShoot()
+                    .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
+                .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop());
 
         // note to amper and align then score
@@ -148,6 +145,7 @@ public class RobotContainer {
         // score speaker no align
         driver.getRightMenuButton()
             .whileTrue(new ConveyorToShooter()
+                    .andThen(new WaitCommand(Settings.Conveyor.AT_FEEDER_WAIT_DELAY.get()))
                 .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop());
             
