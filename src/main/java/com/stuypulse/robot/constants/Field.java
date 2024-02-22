@@ -207,9 +207,9 @@ public interface Field {
     /*** STAGE ***/
 
     Translation2d[] CLOSE_STAGE_TRIANGLE = new Translation2d[] {
-        new Translation2d(Units.inchesToMeters(126.13), Units.inchesToMeters(205.78)), // center 
-        new Translation2d(Units.inchesToMeters(218.00), Units.inchesToMeters(151.68)), // bottom
-        new Translation2d(Units.inchesToMeters(218.00), Units.inchesToMeters(269))     // top
+        new Translation2d(Units.inchesToMeters(125), Units.inchesToMeters(155)), // center 
+        new Translation2d(Units.inchesToMeters(222.6), Units.inchesToMeters(105)), // bottom
+        new Translation2d(Units.inchesToMeters(222.6), Units.inchesToMeters(205.9))     // top
     };
 
     Translation2d[] FAR_STAGE_TRIANGLE = new Translation2d[] {
@@ -220,7 +220,9 @@ public interface Field {
 
     public static boolean robotUnderStage() {
         Translation2d robot = Odometry.getInstance().getPose().getTranslation();
-
+        //for (Translation2d point : CLOSE_STAGE_TRIANGLE) Odometry.getInstance().getField().getObject(point.toString()).setPose(new Pose2d(point, new Rotation2d()));
+        //for (Translation2d point : FAR_STAGE_TRIANGLE) Odometry.getInstance().getField().getObject(point.toString()).setPose(new Pose2d(point, new Rotation2d()));
+        
         return pointInTriangle(robot, CLOSE_STAGE_TRIANGLE) || pointInTriangle(robot, FAR_STAGE_TRIANGLE);
     }
 
@@ -228,17 +230,21 @@ public interface Field {
         double[] slopes = new double[3];
         double[] yIntercepts = new double[3];
 
-        // constructing lines from the triangles to check if the robot is under the stage
+        // Constructing lines from the triangles to check if the robot is under the stage
         for (int i = 0; i < 3; i++) {
             slopes[i] = (triangle[(i + 1) % 3].getY() - triangle[i].getY())
-                      / (triangle[(i + 1) % 3].getX() - triangle[i].getX());
-            
+                    / (triangle[(i + 1) % 3].getX() - triangle[i].getX());
+
             yIntercepts[i] = triangle[i].getY() - slopes[i] * triangle[i].getX();
         }
 
-        // checking if the robot is under the stage by comparing the robot's position to the lines
+        // Checking if the robot is under the stage by comparing the robot's position to the lines
         for (int i = 0; i < 3; i++) {
-            if (point.getY() > slopes[i] * point.getX() + yIntercepts[i]) {
+            if (point.getY() > slopes[i] * point.getX() + yIntercepts[i]
+                    && point.getY() < Math.max(triangle[i].getY(), triangle[(i + 1) % 3].getY())
+                    && point.getY() > Math.min(triangle[i].getY(), triangle[(i + 1) % 3].getY())
+                    && point.getX() > Math.min(triangle[i].getX(), triangle[(i + 1) % 3].getX())
+                    && point.getX() < Math.max(triangle[i].getX(), triangle[(i + 1) % 3].getX())) {
                 return true;
             }
         }
