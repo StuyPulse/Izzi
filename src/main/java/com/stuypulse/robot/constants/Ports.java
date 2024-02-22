@@ -18,10 +18,10 @@ public interface Ports {
         int LEFT_MOTOR = 60;
         int RIGHT_MOTOR = 61;
 
-        int TOP_RIGHT_LIMIT = 9;
-        int TOP_LEFT_LIMIT = 3;
-        int BOTTOM_RIGHT_LIMIT = 4;
-        int BOTTOM_LEFT_LIMIT = 7;
+        // int TOP_RIGHT_LIMIT = 9;
+        // int TOP_LEFT_LIMIT = 3;
+        int BOTTOM_RIGHT_LIMIT = 9;
+        int BOTTOM_LEFT_LIMIT = 4;
     }
 
     public interface Amper {
