@@ -108,6 +108,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("TranslateToNote", new SwerveDriveTranslateToNote());
         // NOTE: this command will not change the pose if the alliance changes after deploy (I think)
         NamedCommands.registerCommand("PathFindToShoot", new SwerveDrivePathFindTo(Field.TOP_SHOOT_POSE.get()).get());
+        NamedCommands.registerCommand("AmpRoutine", new SwerveDriveAmpAlign().andThen(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT)).andThen(new AmperStop()));
     }
 
     /***************/
