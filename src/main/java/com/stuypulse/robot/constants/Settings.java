@@ -383,8 +383,8 @@ public interface Settings {
         int LED_LENGTH = 15; 
         SmartNumber BLINK_TIME = new SmartNumber("LED/LED Blink Time", .5);
 
-        SmartNumber TRANSLATION_SPREAD = new SmartNumber("LED/LED Translation Spread (m)", 1);
-        SmartNumber ROTATION_SPREAD = new SmartNumber("LED/LED Rotation Spread (deg)", 35);
+        SmartNumber TRANSLATION_SPREAD = new SmartNumber("LED/LED Translation Spread (m)", 0.5);
+        SmartNumber ROTATION_SPREAD = new SmartNumber("LED/LED Rotation Spread (deg)", 15);
 
         SmartBoolean LED_AUTON_TOGGLE = new SmartBoolean("LED/Auton Align Display?", true);
     }
