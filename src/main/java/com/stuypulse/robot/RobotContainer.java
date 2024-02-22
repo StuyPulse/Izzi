@@ -25,6 +25,7 @@ import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Driver;
+import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.constants.Settings.Swerve.Assist;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.climber.*;
@@ -94,36 +95,20 @@ public class RobotContainer {
     /**********************/
 
     private void configureNamedCommands() {
-        // Acquiring
-        NamedCommands.registerCommand("IntakeAcquireForever", new IntakeAcquireForever());
-        NamedCommands.registerCommand("FeederShoot", new ConveyorShoot());
-        NamedCommands.registerCommand("IntakeToAmp", new ConveyorToAmp());
-        NamedCommands.registerCommand("IntakeToFeeder", new ConveyorToShooter());
-
+        NamedCommands.registerCommand("IntakeAcquire", new IntakeAcquireForever());
+        NamedCommands.registerCommand("IntakeStop", new IntakeStop());
         NamedCommands.registerCommand(
             "DriveToNote",
             new DoNothingCommand());
             // new SwerveDriveDriveToNote()
             //     .alongWith(new IntakeAcquire())
             //     .andThen(new IntakeStop()));
-
-        // Amp
-        NamedCommands.registerCommand("AmpRoutine", new AutonAmpRoutine());
-
-        // Shooting
-        NamedCommands.registerCommand("SetPodiumRangeShot", new ShooterPodiumShot());
-        NamedCommands.registerCommand("ConveyorShootRoutine", new ConveyorShootRoutine());
-
-        // Auto Aligning
-        NamedCommands.registerCommand("TranslateToNote", new SwerveDriveTranslateToNote());
         NamedCommands.registerCommand("DriveToShoot", new SwerveDriveToShoot());
+        NamedCommands.registerCommand("SetPodiumRangeShot", new ShooterPodiumShot());
+        NamedCommands.registerCommand("ConveyorShoot", new ConveyorShootRoutine());
+        NamedCommands.registerCommand("TranslateToNote", new SwerveDriveTranslateToNote());
         // NOTE: this command will not change the pose if the alliance changes after deploy (I think)
         NamedCommands.registerCommand("PathFindToShoot", new SwerveDrivePathFindTo(Field.TOP_SHOOT_POSE.get()).get());
-
-        // Stopping
-        NamedCommands.registerCommand("IntakeStop", new IntakeStop());
-        NamedCommands.registerCommand("ConveyorStop", new ConveyorStop());
-        NamedCommands.registerCommand("ShooterStop", new ShooterStop());
     }
 
     /***************/
@@ -147,7 +132,7 @@ public class RobotContainer {
         driver.getRightBumper()
             .whileTrue(new ConveyorToShooter()
                     .alongWith(new SwerveDriveToShoot()
-                        .deadlineWith(new LEDSet(LEDInstructions.ASSIST_FLASH)))
+                        .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
                     // .alongWith(new SwerveDrivePathFindTo(Field.getSpeakerPathFindPose()).get())
                     // .andThen(new SwerveDriveToShoot()
                     //    .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
@@ -156,16 +141,13 @@ public class RobotContainer {
 
         // note to amper and align then score
         driver.getLeftBumper()
-            .whileTrue(new ConveyorToAmp()
-                .alongWith(new SwerveDriveAmpAlign()
-                    .deadlineWith(new LEDSet(LEDInstructions.ASSIST_FLASH)))
-                .andThen(new AmperScore()))
+            .whileTrue(new SwerveDriveAmpAlign())
+            .onFalse(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT))
             .onFalse(new AmperStop());
 
         // score speaker no align
         driver.getRightMenuButton()
             .whileTrue(new ConveyorToShooter()
-                    .andThen(new WaitCommand(Settings.Conveyor.AT_FEEDER_WAIT_DELAY.get()))
                 .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop());
             
@@ -191,17 +173,17 @@ public class RobotContainer {
         driver.getTopButton()
             // on command start
             .onTrue(new BuzzController(driver, Assist.BUZZ_INTENSITY)
-                .deadlineWith(new LEDSet(LEDInstructions.ASSIST_FLASH)))
+                .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
                 
             .onTrue(new SwerveDriveAutomatic(driver)
                 // after command end
                 .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
-                    .deadlineWith(new LEDSet(LEDInstructions.RED)))
+                    .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
 
                 .andThen(new WaitCommand(Driver.Drive.BUZZ_DURATION))
                 
                 .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
-                    .deadlineWith(new LEDSet(LEDInstructions.RED))));
+                    .deadlineWith(new LEDSet(LEDInstructions.GREEN))));
     }
 
     private void configureOperatorBindings() {
