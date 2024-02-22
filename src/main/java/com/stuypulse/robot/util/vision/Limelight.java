@@ -104,13 +104,13 @@ public class Limelight {
     public double getXAngle() {
         double deg = getRawXAngle();
 
-        if (Math.abs(deg) < NoteDetection.MAX_FULLY_IN_FEW_ANGLE)
+        if (Math.abs(deg) < NoteDetection.MAX_FULLY_IN_VIEW_ANGLE)
             return deg;
 
         if (deg < 0)
-            deg = -Math.pow(deg + NoteDetection.MAX_FULLY_IN_FEW_ANGLE, 1.3) - NoteDetection.MAX_FULLY_IN_FEW_ANGLE;
+            deg = -Math.pow(deg + NoteDetection.MAX_FULLY_IN_VIEW_ANGLE, 1.3) - NoteDetection.MAX_FULLY_IN_VIEW_ANGLE;
         else
-            deg = +Math.pow(deg - NoteDetection.MAX_FULLY_IN_FEW_ANGLE, 1.3) + NoteDetection.MAX_FULLY_IN_FEW_ANGLE;
+            deg = +Math.pow(deg - NoteDetection.MAX_FULLY_IN_VIEW_ANGLE, 1.3) + NoteDetection.MAX_FULLY_IN_VIEW_ANGLE;
         
         return deg;
     }

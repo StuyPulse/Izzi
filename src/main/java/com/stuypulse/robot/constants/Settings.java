@@ -250,7 +250,7 @@ public interface Settings {
 
         SmartNumber INTAKE_THRESHOLD_DISTANCE = new SmartNumber("Note Detection/In Intake Path Distance", 0.9);
 
-        double MAX_FULLY_IN_FEW_ANGLE = 20;
+        double MAX_FULLY_IN_VIEW_ANGLE = 20;
         
         public interface Translation {
             SmartNumber kP = new SmartNumber("Note Detection/Translation/kP", 4.0);
