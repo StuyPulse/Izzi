@@ -165,10 +165,10 @@ public class RobotContainer {
         driver.getDPadRight()
             .onTrue(new SwerveDriveResetHeading());
 
-        driver.getRightButton()
-            .whileTrue(new ClimberSetupRoutine());
-        driver.getBottomButton()
-            .whileTrue(new ClimberScoreRoutine());
+        // driver.getRightButton()
+        //     .whileTrue(new ClimberSetupRoutine());
+        // driver.getBottomButton()
+        //     .whileTrue(new ClimberScoreRoutine());
 
         driver.getTopButton()
             // on command start
@@ -196,8 +196,8 @@ public class RobotContainer {
         operator.getLeftTriggerButton()
             .whileTrue(new ConveyorOuttake());
         operator.getRightTriggerButton()
-                .whileTrue(new IntakeAcquire().andThen(new BuzzController(driver)))
-                .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));
+            .whileTrue(new IntakeAcquire().andThen(new BuzzController(driver)))
+            .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));
 
         operator.getLeftBumper()
             .onTrue(ConveyorToAmp.withCheckLift())

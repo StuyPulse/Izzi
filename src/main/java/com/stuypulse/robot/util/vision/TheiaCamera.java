@@ -8,6 +8,7 @@ package com.stuypulse.robot.util.vision;
 
 import com.stuypulse.robot.constants.Cameras.CameraConfig;
 import com.stuypulse.robot.util.LogPose3d;
+import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.robot.constants.Field;
 
 import edu.wpi.first.math.geometry.Pose3d;
@@ -23,7 +24,6 @@ import edu.wpi.first.networktables.IntegerSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.PubSubOption;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Optional;
 
@@ -45,12 +45,15 @@ public class TheiaCamera {
     private final double camera_gain = 0.0;
     private final double camera_brightness = 0.0;
 
+    private final int camera_pixel_count = camera_resolution_height * camera_resolution_width;
+
     // NetworkTables
     private final DoubleSubscriber latencySub;
     private final IntegerSubscriber fpsSub;
     private final DoubleArraySubscriber poseSub;
     private final IntegerArraySubscriber idSub;
     private final IntegerSubscriber counterSub;
+    private final DoubleArraySubscriber areaSub;
 
     private final DoubleArrayPublisher layoutPub;
 
@@ -59,7 +62,10 @@ public class TheiaCamera {
     private double[] rawPose;
     private long[] rawids;
     private long rawCounter;
+    private double[] rawAreas;
     private long lastCounter;
+
+    private final SmartBoolean enabled;
 
     public TheiaCamera(String name, Pose3d cameraLocation) {
         this.name = name;
@@ -85,6 +91,9 @@ public class TheiaCamera {
         poseSub = outputTable.getDoubleArrayTopic("pose").subscribe(new double[] {}, PubSubOption.periodic(0.02));
         idSub = outputTable.getIntegerArrayTopic("tids").subscribe(new long[] {}, PubSubOption.periodic(0.02));
         counterSub = outputTable.getIntegerTopic("update_counter").subscribe(0, PubSubOption.periodic(0.02));
+        areaSub = outputTable.getDoubleArrayTopic("areas").subscribe(new double[] {}, PubSubOption.periodic(0.02));
+
+        enabled = new SmartBoolean(name + "Enabled", true);
     }
 
     public TheiaCamera(CameraConfig config) {
@@ -121,6 +130,7 @@ public class TheiaCamera {
         rawPose = poseSub.get();
         rawids = idSub.get();
         rawCounter = counterSub.get();
+        rawAreas = areaSub.get();
     }
 
     /**
@@ -167,6 +177,7 @@ public class TheiaCamera {
         updateData();
 
         if (!hasData()) return Optional.empty();
+        if (!enabled.get()) return Optional.empty();
 
         LogPose3d.logPose3d("Vision/" + getName() + "/Pose3d", getRobotPose());
 
@@ -181,7 +192,7 @@ public class TheiaCamera {
 
         lastCounter = rawCounter;
 
-        VisionData data = new VisionData(getRobotPose(), getIDs(), timestamp);
+        VisionData data = new VisionData(getRobotPose(), getIDs(), timestamp, rawAreas[0] / camera_pixel_count);
 
         if (!data.isValidData()) {
             return Optional.empty();

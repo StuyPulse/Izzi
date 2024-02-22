@@ -16,11 +16,13 @@ public class VisionData {
     private final Pose3d outputPose;
     private final int[] ids;
     private final double timestamp;
+    private final double area;
 
-    public VisionData(Pose3d outputPose, int[] ids, double timestamp) {
+    public VisionData(Pose3d outputPose, int[] ids, double timestamp, double area) {
         this.outputPose = outputPose;
         this.ids = ids;
         this.timestamp = timestamp;
+        this.area = area;
     }
 
     /**
@@ -51,15 +53,15 @@ public class VisionData {
     }
 
     /**
-     * Returns the distance to any tag on the field.
+     * Returns the distance to the primary tag in each vision data entry.
      *
      * @param id the tag ID
-     * @return the distance to the tag
+     * @return the distance to the primary tag
      */
-    public double getDistanceToTag(int id) {
+    public double getDistanceToPrimaryTag() {
         return outputPose
             .getTranslation()
-            .getDistance(Field.getTag(id).getLocation().getTranslation());
+            .getDistance(Field.getTag(getPrimaryID()).getLocation().getTranslation());
     }
 
     /**
@@ -69,6 +71,15 @@ public class VisionData {
      */
     public int getPrimaryID() {
         return ids.length == 0 ? -1 : ids[0];
+    }
+
+    /**
+     * Returns the area percentage of the primary tag.
+     *
+     * @return the area percentage of the primary tag
+     */
+    public double getArea() {
+        return area;
     }
 
     /**
