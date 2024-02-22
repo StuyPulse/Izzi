@@ -40,22 +40,11 @@ public abstract class Conveyor extends SubsystemBase {
 
     public abstract double getGandalfSpeed();
 
-    public abstract double getFeederSpeed();
-
     public abstract void toShooter();
 
     public abstract void toAmp();
 
-    public abstract void shoot();
-
-    public final void stop() {
-        stopFeeder();
-        stopGandalf();
-    }
-
-    public abstract void stopFeeder();
-
-    public abstract void stopGandalf();
+    public abstract void stop();
 
     public abstract boolean isNoteAtShooter();
 }

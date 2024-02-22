@@ -57,6 +57,6 @@ public abstract class Intake extends SubsystemBase {
             Amper.getInstance().hasNote(),
             getIntakeRollerSpeed(),
             conveyor.getGandalfSpeed(),
-            conveyor.getFeederSpeed());
+            0);
     }
 }

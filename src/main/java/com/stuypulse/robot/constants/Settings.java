@@ -297,9 +297,8 @@ public interface Settings {
     public interface Shooter {
         double MOMENT_OF_INERTIA = 1;
 
-        // TODO: Tune these values
-        SmartNumber PODIUM_SHOT_LEFT_RPM = new SmartNumber("Shooter/Podium Shot Left RPM", 3750);
-        SmartNumber PODIUM_SHOT_RIGHT_RPM = new SmartNumber("Shooter/Podium Shot Right RPM", 3750);
+        SmartNumber PODIUM_SHOT_LEFT_RPM = new SmartNumber("Shooter/Podium Shot Left RPM", 4250);
+        SmartNumber PODIUM_SHOT_RIGHT_RPM = new SmartNumber("Shooter/Podium Shot Right RPM", 4250);
 
         double AMP_LEFT_RPM = PODIUM_SHOT_LEFT_RPM.get();
         double AMP_RIGHT_RPM = PODIUM_SHOT_RIGHT_RPM.get();
@@ -308,9 +307,23 @@ public interface Settings {
         SmartNumber BACKWARDS_RIGHT_RPM = new SmartNumber("Shooter/Backwards Right RPM", 0);
 
         public interface Feedforward {
-            double kV = 0.0017898;
-            double kA = 0.00020903;
+            double kV = 0.001500;
+            double kA = 0.000150;
             double kS = 0.13793;
+        }
+
+        public interface PID {
+            double kP = 0.0001;
+            double kI = 0.0;
+            double kD = 0.0;
+        }
+    }
+
+    public interface Feeder {
+        public interface Feedforward {
+            double kS = 0.57918;
+            double kV = 0.002250;
+            double kA = 0.0018385;
         }
 
         public interface PID {
@@ -334,9 +347,6 @@ public interface Settings {
     public interface Conveyor {
         SmartNumber GANDALF_SHOOTER_SPEED = new SmartNumber("Conveyor/Gandalf Shooter Speed", 1.0);
         double GANDALF_AMP_SPEED = 1.0;
-        SmartNumber FEEDER_SHOOTER_SPEED = new SmartNumber("Conveyor/Shooter Feeder To Shooter Speed", 0.25);
-        SmartNumber FEEDER_SHOOT_SPEED = new SmartNumber("Conveyor/Shooter Feeder To Shooter Speed", 1.0);
-        SmartNumber FEEDER_AMP_SPEED = new SmartNumber("Conveyor/Shooter Feeder To Amp Speed", 1.0);
 
         SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.0);
         SmartNumber RECALL_DEBOUNCE = new SmartNumber("Conveyor/Recall Delay", 1.0);
@@ -354,9 +364,8 @@ public interface Settings {
         SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
         SmartNumber ANGLE_TOLERANCE = new SmartNumber("Alignment/Angle Tolerance", 5);
 
-        // TODO: Measure these values
-        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Alignment/Podium Shot Distance", Units.inchesToMeters(110));
-        SmartNumber PODIUM_SHOT_MAX_ANGLE = new SmartNumber("Alignment/Podium Shot Max Angle", 80);
+        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Alignment/Podium Shot Distance", Units.inchesToMeters(126));
+        double PODIUM_SHOT_MAX_ANGLE = 80;
 
         SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(23.0));
         SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(17.5));

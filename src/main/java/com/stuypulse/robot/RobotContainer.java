@@ -98,7 +98,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("IntakeAcquireForever", new IntakeAcquireForever());
         NamedCommands.registerCommand("FeederShoot", new ConveyorShoot());
         NamedCommands.registerCommand("IntakeToAmp", new ConveyorToAmp());
-        NamedCommands.registerCommand("IntakeToFeeder", new ConveyorToShooter());
+        NamedCommands.registerCommand("IntakeToFeeder", new IntakeAcquire());
 
         NamedCommands.registerCommand(
             "DriveToNote",
@@ -122,7 +122,7 @@ public class RobotContainer {
 
         // Stopping
         NamedCommands.registerCommand("IntakeStop", new IntakeStop());
-        NamedCommands.registerCommand("ConveyorStop", new ConveyorStop());
+        NamedCommands.registerCommand("ConveyorStop", new ConveyorStop().alongWith(new IntakeStop()));
         NamedCommands.registerCommand("ShooterStop", new ShooterStop());
     }
 
@@ -145,12 +145,11 @@ public class RobotContainer {
         // note to shooter and align
         // then shoot
         driver.getRightBumper()
-            .whileTrue(new ConveyorToShooter()
-                    .andThen(new WaitCommand(Settings.Conveyor.AT_FEEDER_WAIT_DELAY.get()))
-                .alongWith(new SwerveDriveToShoot()
-                    .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
+            .whileTrue(new SwerveDriveToShoot()
+                    .deadlineWith(new LEDSet(LEDInstructions.GREEN))
                 .andThen(new ConveyorShoot()))
-            .onFalse(new ConveyorStop());
+            .onFalse(new ConveyorStop())
+            .onFalse(new IntakeStop());
 
         // note to amper and align then score
         driver.getLeftBumper()
@@ -160,10 +159,9 @@ public class RobotContainer {
 
         // score speaker no align
         driver.getRightMenuButton()
-            .whileTrue(new ConveyorToShooter()
-                    .andThen(new WaitCommand(Settings.Conveyor.AT_FEEDER_WAIT_DELAY.get()))
-                .andThen(new ConveyorShoot()))
-            .onFalse(new ConveyorStop());
+            .onTrue(new ConveyorShoot())
+            .onFalse(new ConveyorStop())
+            .onFalse(new IntakeStop());
             
         // score amp no align
         driver.getLeftMenuButton()
@@ -218,16 +216,13 @@ public class RobotContainer {
             .onFalse(new ConveyorStop())
             .onFalse(new IntakeStop())
             .onFalse(new AmperStop());
-        operator.getRightBumper()
-            .onTrue(new ConveyorToShooter())
-            .onFalse(new ConveyorStop())
-            .onFalse(new IntakeStop());
 
         operator.getTopButton()
             .onTrue(new AmperScore())
             .onTrue(new ConveyorShoot())
             .onFalse(new AmperStop())
-            .onFalse(new ConveyorStop());
+            .onFalse(new ConveyorStop())
+            .onFalse(new IntakeStop());
 
         operator.getDPadUp()
             .whileTrue(new AmperLiftFineAdjust(operator));
