@@ -41,12 +41,6 @@
                 }
               },
               {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.5
-                }
-              },
-              {
                 "type": "path",
                 "data": {
                   "pathName": "D To Amp"
@@ -85,12 +79,6 @@
                 }
               },
               {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.5
-                }
-              },
-              {
                 "type": "path",
                 "data": {
                   "pathName": "E To Amp"
@@ -126,12 +114,6 @@
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.5
                 }
               },
               {
