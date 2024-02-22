@@ -25,8 +25,11 @@ public class LEDAutonChooser extends LEDSection {
         OGHF("4 Piece GHF"),
         OHGF("4 Piece HGF"),
         OCBA("4 Piece CBA"),
+        OCBAD("5 Piece CBAD"),
+        OCBAE("5 Piece CBAE"),
+        ODEF("Amp Auto DEF"),
         OCBADF(/* "6 Piece CBADF (ND+PF).auto", "6 Piece CBADF (ND).auto",*/ "6 Piece CBADF"),
-        M("Mobility.auto");
+        M("Mobility");
 
         public final String autonName;
         public SLColor[] ledColors;
