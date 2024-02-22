@@ -23,6 +23,8 @@ import com.pathplanner.lib.util.PIDConstants;
  * values that we can edit on Shuffleboard.
  */
 public interface Settings {
+
+    // checks the current RIO's serial number to determine which robot is running
     public enum RobotType {
         JIM("03262B9F"),
         TUMBLER("0305A69D"),
