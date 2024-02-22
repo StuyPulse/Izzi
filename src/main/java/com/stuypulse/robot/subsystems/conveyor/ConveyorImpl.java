@@ -46,7 +46,7 @@ public class ConveyorImpl extends Conveyor {
         feederEncoder.setPositionConversionFactor(1.0);
         feederEncoder.setVelocityConversionFactor(1.0);
 
-        irSensor = new DigitalInput(Ports.Conveyor.IR_SENSOR);
+        irSensor = new DigitalInput(Ports.Shooter.IR_SENSOR);
 
         isAtShooter = BStream.create(irSensor).not()
             .filtered(new BDebounce.Rising(Settings.Conveyor.DEBOUNCE_TIME));

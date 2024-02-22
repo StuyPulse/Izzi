@@ -68,13 +68,13 @@ public interface Ports {
     public interface Shooter {
         int LEFT_MOTOR = 20;
         int RIGHT_MOTOR = 21;
+
+        int IR_SENSOR = 0;
     }
 
     public interface Conveyor {
         int GANDALF = 50;
         int FEEDER = 51;
-
-        int IR_SENSOR = 0;
     }
 
     public interface LEDController {
