@@ -6,11 +6,10 @@
 
 package com.stuypulse.robot.subsystems.climber;
 
-import com.stuypulse.stuylib.network.SmartNumber;
-
+import com.stuypulse.robot.Robot;
+import com.stuypulse.robot.constants.Settings.RobotType;
 import com.stuypulse.robot.util.ClimberVisualizer;
 
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class Climber extends SubsystemBase {
@@ -18,7 +17,7 @@ public abstract class Climber extends SubsystemBase {
     private static final Climber instance;
 
     static {
-        if (RobotBase.isReal()) {
+        if (Robot.ROBOT == RobotType.IZZI) {
             instance = new ClimberImpl();
         } else {
             instance = new ClimberSim();
@@ -29,50 +28,31 @@ public abstract class Climber extends SubsystemBase {
         return instance;
     }
 
-    private final SmartNumber targetHeight;
-
     private final ClimberVisualizer climberVisualizer;
 
     public Climber() {
-        targetHeight = new SmartNumber("Climber/Target Height", 0.0);
         climberVisualizer = new ClimberVisualizer();
     }
 
-    public void setTargetHeight(double height) {
-        targetHeight.set(height);
-    }
+    public abstract void toTop();
 
-    public final double getTargetHeight() {
-        return targetHeight.get();
-    }
+    public abstract void toBottom();
 
-    public final boolean isAtTargetHeight(double epsilonMeters) {
-        return isAtLeftTargetHeight(epsilonMeters) && isAtRightTargetHeight(epsilonMeters);
-    }
+    public abstract void stop();
 
-    public final boolean isAtLeftTargetHeight(double epsilonMeters) {
-        return Math.abs(getTargetHeight() - getLeftHeight()) < epsilonMeters;
-    }
+    public abstract void setVoltageOverride(double voltage);
 
-    public final boolean isAtRightTargetHeight(double epsilonMeters) {
-        return Math.abs(getTargetHeight() - getRightHeight()) < epsilonMeters;
-    }
+    /*** SENSORS ***/
 
-    public abstract double getHeight();
+    public final double getHeight() {
+        return (getLeftHeight() + getRightHeight()) / 2.0;
+    }
 
     public abstract double getLeftHeight();
 
     public abstract double getRightHeight();
 
     public abstract double getVelocity();
-
-    /*** LIMITS ***/
-
-    public abstract boolean atTop();
-
-    public abstract boolean atBottom();
-
-    public abstract void setVoltageOverride(double voltage);
 
     @Override
     public void periodic() {

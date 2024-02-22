@@ -10,11 +10,10 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/SmartDashboard/Autonomous": "String Chooser",
-      "/SmartDashboard/Climber": "Mechanism2d",
       "/SmartDashboard/Field": "Field2d",
-      "/SmartDashboard/Intake": "Mechanism2d",
-      "/SmartDashboard/Intake Visualizer": "Mechanism2d",
-      "/SmartDashboard/Lift Mechanism": "Mechanism2d"
+      "/SmartDashboard/Visualizers/Climber": "Mechanism2d",
+      "/SmartDashboard/Visualizers/Intake": "Mechanism2d",
+      "/SmartDashboard/Visualizers/Lift": "Mechanism2d"
     },
     "windows": {
       "/FMSInfo": {
@@ -23,11 +22,6 @@
         }
       },
       "/SmartDashboard/Autonomous": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Climber": {
         "window": {
           "visible": true
         }
@@ -48,12 +42,17 @@
           "visible": true
         }
       },
-      "/SmartDashboard/Intake Visualizer": {
+      "/SmartDashboard/Visualizers/Climber": {
         "window": {
           "visible": true
         }
       },
-      "/SmartDashboard/Lift Mechanism": {
+      "/SmartDashboard/Visualizers/Intake": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Visualizers/Lift": {
         "window": {
           "visible": true
         }
@@ -71,7 +70,10 @@
       "Intake": {
         "open": true
       },
-      "Operator Settings": {
+      "Visualizers": {
+        "Climber": {
+          "open": true
+        },
         "open": true
       },
       "open": true

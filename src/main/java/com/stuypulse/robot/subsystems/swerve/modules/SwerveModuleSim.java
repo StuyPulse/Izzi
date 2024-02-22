@@ -42,7 +42,7 @@ public class SwerveModuleSim extends SwerveModule {
         super(id, offset);
 
         driveSim = PositionVelocitySystem.getPositionVelocitySim(Drive.kV.get(), Drive.kA.get());
-        turnSim = new LinearSystemSim<N2,N1,N1>(LinearSystemId.identifyPositionSystem(Turn.kV.get(), Turn.kA.get()));
+        turnSim = new LinearSystemSim<N2,N1,N1>(LinearSystemId.identifyPositionSystem(Turn.kV, Turn.kA));
 
         driveController = new PIDController(Drive.kP, Drive.kI, Drive.kD)
             .add(new MotorFeedforward(Drive.kS, Drive.kV, Drive.kA).velocity());
@@ -82,7 +82,7 @@ public class SwerveModuleSim extends SwerveModule {
             Angle.fromRotation2d(getAngle()));
 
         if (Math.abs(driveController.getSetpoint())
-                < Settings.Swerve.MODULE_VELOCITY_DEADBAND.get()) {
+                < Settings.Swerve.MODULE_VELOCITY_DEADBAND) {
             driveSim.setInput(0);
             turnSim.setInput(0);
         } else {

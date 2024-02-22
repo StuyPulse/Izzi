@@ -11,6 +11,7 @@ import com.stuypulse.stuylib.network.SmartNumber;
 
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.RobotType;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
 
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
@@ -37,7 +38,7 @@ public abstract class Amper extends SubsystemBase {
     private static final Amper instance;
 
     static {
-        if (Robot.isReal()) {
+        if (Robot.ROBOT == RobotType.IZZI) {
             instance = new AmperImpl();
         } else {
             instance = new AmperSim();
@@ -71,15 +72,14 @@ public abstract class Amper extends SubsystemBase {
             10,
             new Color8Bit(Color.kAqua)));
 
-        SmartDashboard.putData("Lift Mechanism", mechanism2d);
+        SmartDashboard.putData("Visualizers/Lift", mechanism2d);
     }
 
     /*** LIFT CONTROL ***/
 
     public void setTargetHeight(double height) {
-        targetHeight.set(
-                SLMath.clamp(
-                        height, Settings.Amper.Lift.MIN_HEIGHT, Settings.Amper.Lift.MAX_HEIGHT));
+        targetHeight.set(SLMath.clamp(
+            height, Settings.Amper.Lift.MIN_HEIGHT, Settings.Amper.Lift.MAX_HEIGHT));
     }
 
     public final double getTargetHeight() {
@@ -106,7 +106,9 @@ public abstract class Amper extends SubsystemBase {
 
     public abstract void score();
 
-    public abstract void intake();
+    public abstract void fromConveyor();
+
+    public abstract void toConveyor();
 
     public abstract void stopRoller();
 
@@ -127,5 +129,11 @@ public abstract class Amper extends SubsystemBase {
     @Override
     public void periodic() {
         lift2d.setLength(Settings.Amper.Lift.VISUALIZATION_MIN_LENGTH + getLiftHeight());
+
+        if (targetHeight.get() > Settings.Amper.Lift.MAX_HEIGHT)
+            targetHeight.set(Settings.Amper.Lift.MAX_HEIGHT);
+        
+        if (targetHeight.get() < Settings.Amper.Lift.MIN_HEIGHT)
+            targetHeight.set(Settings.Amper.Lift.MIN_HEIGHT);
     }
 }

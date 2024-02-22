@@ -7,9 +7,10 @@
 package com.stuypulse.robot.subsystems.swerve;
 
 import com.stuypulse.stuylib.math.Vector2D;
-
+import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.RobotType;
 import com.stuypulse.robot.constants.Settings.Swerve;
 import com.stuypulse.robot.constants.Settings.Swerve.BackLeft;
 import com.stuypulse.robot.constants.Settings.Swerve.BackRight;
@@ -19,6 +20,7 @@ import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModule;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleImpl;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleSim;
+import com.stuypulse.robot.subsystems.swerve.modules.TumblerSwerveModule;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -84,7 +86,16 @@ public class SwerveDrive extends SubsystemBase {
     private static final SwerveDrive instance;
 
     static {
-        if (RobotBase.isSimulation()) {
+        if (Robot.ROBOT == RobotType.IZZI) {
+            instance = new SwerveDrive(
+                new SwerveModuleImpl(FrontRight.ID, FrontRight.MODULE_OFFSET, Ports.Swerve.FrontRight.DRIVE, FrontRight.ABSOLUTE_OFFSET, Ports.Swerve.FrontRight.TURN, Ports.Swerve.FrontRight.ENCODER),
+                new SwerveModuleImpl(FrontLeft.ID, FrontLeft.MODULE_OFFSET, Ports.Swerve.FrontLeft.DRIVE, FrontLeft.ABSOLUTE_OFFSET, Ports.Swerve.FrontLeft.TURN, Ports.Swerve.FrontLeft.ENCODER),
+                new SwerveModuleImpl(BackLeft.ID, BackLeft.MODULE_OFFSET, Ports.Swerve.BackLeft.DRIVE, BackLeft.ABSOLUTE_OFFSET, Ports.Swerve.BackLeft.TURN, Ports.Swerve.BackLeft.ENCODER),
+                new SwerveModuleImpl(BackRight.ID, BackRight.MODULE_OFFSET, Ports.Swerve.BackRight.DRIVE, BackRight.ABSOLUTE_OFFSET, Ports.Swerve.BackRight.TURN, Ports.Swerve.BackRight.ENCODER)
+            );
+        } else if (Robot.ROBOT == RobotType.TUMBLER) {
+            instance = new SwerveDrive(TumblerSwerveModule.getModules());
+        } else {
             instance = new SwerveDrive(
                 new SwerveModuleSim(FrontRight.ID, FrontRight.MODULE_OFFSET),
                 new SwerveModuleSim(FrontLeft.ID, FrontLeft.MODULE_OFFSET),
@@ -92,14 +103,6 @@ public class SwerveDrive extends SubsystemBase {
                 new SwerveModuleSim(BackRight.ID, BackRight.MODULE_OFFSET)
             );
         }     
-        else {
-            instance = new SwerveDrive(
-                new SwerveModuleImpl(FrontRight.ID, FrontRight.MODULE_OFFSET, Ports.Swerve.FrontRight.TURN, FrontRight.ABSOLUTE_OFFSET, Ports.Swerve.FrontRight.DRIVE, Ports.Swerve.FrontRight.ENCODER),
-                new SwerveModuleImpl(FrontLeft.ID, FrontLeft.MODULE_OFFSET, Ports.Swerve.FrontLeft.TURN, FrontLeft.ABSOLUTE_OFFSET, Ports.Swerve.FrontLeft.DRIVE, Ports.Swerve.FrontLeft.ENCODER),
-                new SwerveModuleImpl(BackLeft.ID, BackLeft.MODULE_OFFSET, Ports.Swerve.BackLeft.TURN, BackLeft.ABSOLUTE_OFFSET, Ports.Swerve.BackLeft.DRIVE, Ports.Swerve.FrontLeft.ENCODER),
-                new SwerveModuleImpl(BackRight.ID, BackRight.MODULE_OFFSET, Ports.Swerve.BackRight.TURN, BackRight.ABSOLUTE_OFFSET, Ports.Swerve.BackRight.DRIVE, Ports.Swerve.FrontLeft.ENCODER)
-            );
-        }
     }
 
     public static SwerveDrive getInstance() {
@@ -134,7 +137,7 @@ public class SwerveDrive extends SubsystemBase {
             new HolonomicPathFollowerConfig(
                 Swerve.Motion.XY,
                 Swerve.Motion.THETA,
-                Swerve.MAX_MODULE_SPEED.get(),
+                Swerve.MAX_MODULE_SPEED,
                 Swerve.WIDTH,
                 new ReplanningConfig(true, true)),
             () -> {
@@ -195,7 +198,7 @@ public class SwerveDrive extends SubsystemBase {
             throw new IllegalArgumentException("Provided incorrect number of states for swerve drive modules");
         }
 
-        SwerveDriveKinematics.desaturateWheelSpeeds(states, Swerve.MAX_MODULE_SPEED.get());
+        SwerveDriveKinematics.desaturateWheelSpeeds(states, Swerve.MAX_MODULE_SPEED);
 
         for (int i = 0; i < modules.length; i++) {
             modules[i].setTargetState(states[i]);

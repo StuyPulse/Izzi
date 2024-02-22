@@ -23,22 +23,22 @@ public interface Motors {
 
     /** Classes to store all of the values a motor needs */
     public interface Amper {
-        CANSparkMaxConfig LIFT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake);
-        CANSparkMaxConfig SCORE_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
+        CANSparkMaxConfig LIFT_MOTOR = new CANSparkMaxConfig(true, IdleMode.kBrake);
+        CANSparkMaxConfig SCORE_MOTOR = new CANSparkMaxConfig(true, IdleMode.kBrake, 80, 0.1);
     }
 
     public interface Swerve {
-        CANSparkFlexConfig DRIVE_CONFIG = new CANSparkFlexConfig(false, IdleMode.kBrake);
+        CANSparkFlexConfig DRIVE_CONFIG = new CANSparkFlexConfig(true, IdleMode.kBrake);
         CANSparkMaxConfig TURN_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake);
     }
 
     public interface Intake {
-        CANSparkMaxConfig MOTOR_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
+        CANSparkMaxConfig MOTOR_CONFIG = new CANSparkMaxConfig(true, IdleMode.kBrake, 80, 0.1);
     }
 
     public interface Shooter {
         CANSparkFlexConfig LEFT_SHOOTER = new CANSparkFlexConfig(false, IdleMode.kCoast);
-        CANSparkFlexConfig RIGHT_SHOOTER = new CANSparkFlexConfig(false, IdleMode.kCoast);
+        CANSparkFlexConfig RIGHT_SHOOTER = new CANSparkFlexConfig(true, IdleMode.kCoast);
     }
 
     public interface Conveyor {
@@ -47,7 +47,7 @@ public interface Motors {
     }
 
     public interface Climber {
-        CANSparkMaxConfig LEFT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
+        CANSparkMaxConfig LEFT_MOTOR = new CANSparkMaxConfig(true, IdleMode.kBrake, 80, 0.1);
         CANSparkMaxConfig RIGHT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
     }
 

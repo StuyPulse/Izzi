@@ -91,7 +91,7 @@ public class ClimberVisualizer {
         leftBottomRoot.append(leftLigament);
         rightBottomRoot.append(rightLigament);
 
-        SmartDashboard.putData("Climber", climber);
+        SmartDashboard.putData("Visualizers/Climber", climber);
     }
 
     public void setLeftHeight(double newHeight) {

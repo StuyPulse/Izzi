@@ -25,25 +25,13 @@ public class ClimberSim extends Climber {
             DCMotor.getNEO(2),
             Settings.Climber.Encoder.GEAR_RATIO,
             Settings.Climber.MASS,
-            Settings.Climber.DRUM_RADIUS,
+            Settings.Climber.Encoder.SPROCKET_RADIUS,
             Settings.Climber.MIN_HEIGHT,
             Settings.Climber.MAX_HEIGHT,
             true,
             Settings.Climber.MIN_HEIGHT);
 
         voltageOverride = Optional.empty();
-    }
-
-    @Override
-    public void setTargetHeight(double height) {
-        super.setTargetHeight(height);
-
-        voltageOverride = Optional.empty();
-    }
-
-    @Override
-    public double getHeight() {
-        return sim.getPositionMeters();
     }
 
     @Override
@@ -61,14 +49,27 @@ public class ClimberSim extends Climber {
         return sim.getVelocityMetersPerSecond();
     }
 
-    /*** LIMITS ***/
+    @Override
+    public void toTop() {
+        setVoltage(+Settings.Climber.Control.UP_VOLTAGE);
+    }
 
     @Override
+    public void toBottom() {
+        setVoltage(-Settings.Climber.Control.DOWN_VOLTAGE);
+    }
+
+    @Override
+    public void stop() {
+        setVoltage(0.0);
+    }
+
+    /*** LIMITS ***/
+
     public boolean atTop() {
         return sim.hasHitUpperLimit();
     }
 
-    @Override
     public boolean atBottom() {
         return sim.hasHitLowerLimit();
     }
@@ -88,14 +89,6 @@ public class ClimberSim extends Climber {
 
         if (voltageOverride.isPresent()) {
             setVoltage(voltageOverride.get());
-        } else {
-            if (isAtTargetHeight(Settings.Climber.BangBang.THRESHOLD)) {
-                setVoltage(0.0);
-            } else if (getHeight() > getTargetHeight()) {
-                setVoltage(-Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
-            } else {
-                setVoltage(+Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
-            }
         }
 
         SmartDashboard.putNumber("Climber/Height", getHeight());

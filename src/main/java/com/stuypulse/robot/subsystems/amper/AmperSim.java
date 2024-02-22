@@ -101,7 +101,10 @@ public class AmperSim extends Amper {
     }
 
     @Override
-    public void intake() {}
+    public void fromConveyor() {}
+
+    @Override
+    public void toConveyor() {}
 
     @Override
     public void score() {}

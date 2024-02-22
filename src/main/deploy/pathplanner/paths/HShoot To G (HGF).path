@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.255408167645039,
-        "y": 1.8416301871666243
+        "x": 5.24800854479096,
+        "y": 1.8566743119000566
       },
       "isLocked": false,
       "linkedName": "HShoot"
     },
     {
       "anchor": {
-        "x": 7.973482183437167,
-        "y": 2.274414255425734
+        "x": 7.986512293282833,
+        "y": 2.4439784667872297
       },
       "prevControl": {
-        "x": 6.01870341486632,
-        "y": 1.75293497917725
+        "x": 5.884339107545403,
+        "y": 1.9604179716714474
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": 21.51132992649323,
+    "rotation": 0.515203372540753,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "HFE",
+  "folder": "HGF",
   "previewStartingState": null,
   "useDefaultConstraints": true
 }

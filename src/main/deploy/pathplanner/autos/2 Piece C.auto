@@ -1,0 +1,50 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.462744046458869,
+      "y": 4.628040033669767
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "SetPodiumRangeShot"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Start To C (ABC)"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootFromFeeder"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeToShooter"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

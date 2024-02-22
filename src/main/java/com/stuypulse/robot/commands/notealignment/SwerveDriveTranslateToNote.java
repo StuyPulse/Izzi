@@ -9,11 +9,12 @@ package com.stuypulse.robot.commands.notealignment;
 import static com.stuypulse.robot.constants.Settings.Alignment.*;
 import static com.stuypulse.robot.constants.Settings.NoteDetection.*;
 
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
-
+import com.stuypulse.robot.constants.Settings.NoteDetection;
 import com.stuypulse.robot.constants.Settings.Swerve;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
@@ -23,6 +24,7 @@ import com.stuypulse.robot.util.HolonomicController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -35,19 +37,22 @@ public class SwerveDriveTranslateToNote extends Command {
     private final HolonomicController controller;
     private final BStream aligned;
 
+    private Pose2d targetPose;
+
     public SwerveDriveTranslateToNote() {
         this.swerve = SwerveDrive.getInstance();
         this.odometry = Odometry.getInstance();
         this.vision = NoteVision.getInstance();
 
         controller = new HolonomicController(
-            new PIDController(Translation.kP, Translation.kI, Translation.kD),
-            new PIDController(Translation.kP, Translation.kI, Translation.kD),
-            new AnglePIDController(Rotation.kP, Rotation.kI, Rotation.kD));
+            new PIDController(NoteDetection.Translation.kP, NoteDetection.Translation.kI, NoteDetection.Translation.kD),
+            new PIDController(NoteDetection.Translation.kP, NoteDetection.Translation.kI, NoteDetection.Translation.kD),
+            new AnglePIDController(NoteDetection.Rotation.kP, NoteDetection.Rotation.kI, NoteDetection.Rotation.kD));
 
         SmartDashboard.putData("Note Detection/Controller", controller);
 
         aligned = BStream.create(this::isAligned).filtered(new BDebounceRC.Rising(DEBOUNCE_TIME));
+        targetPose = new Pose2d();
 
         addRequirements(swerve);
     }
@@ -65,7 +70,7 @@ public class SwerveDriveTranslateToNote extends Command {
 
         Rotation2d targetRotation = vision.getEstimatedNotePose().minus(targetTranslation).getAngle();
 
-        Pose2d targetPose = new Pose2d(targetTranslation, targetRotation);
+        targetPose = new Pose2d(targetTranslation, targetRotation);
 
         // translate to note only if note in view
         if (vision.hasNoteData()) {
@@ -80,6 +85,6 @@ public class SwerveDriveTranslateToNote extends Command {
 
     @Override
     public boolean isFinished() {
-        return aligned.get();
+        return aligned.get() || (DriverStation.isAutonomous() && targetPose.getX() > Field.NOTE_BOUNDARY);
     }
 }

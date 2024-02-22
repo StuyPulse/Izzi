@@ -1,0 +1,55 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.986512293282833,
+        "y": 2.4439784667872297
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.942154488340009,
+        "y": 1.7120909271657958
+      },
+      "isLocked": false,
+      "linkedName": "G"
+    },
+    {
+      "anchor": {
+        "x": 2.5372885306588757,
+        "y": 3.23
+      },
+      "prevControl": {
+        "x": 4.7769361668280625,
+        "y": 1.8125529029920913
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "HShoot"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.0,
+      "rotationDegrees": 0.8290217277682228,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -38.01026976540658,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "HGF",
+  "previewStartingState": null,
+  "useDefaultConstraints": true
+}

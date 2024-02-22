@@ -38,7 +38,7 @@ public class ClimberDrive extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        climber.setTargetHeight(climber.getHeight());
+        climber.stop();
     }
 
     @Override

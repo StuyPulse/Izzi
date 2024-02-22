@@ -60,7 +60,7 @@ public class ConveyorRecall extends Command {
             shooter.setRightTargetRPM(-Settings.Shooter.BACKWARDS_RIGHT_RPM.get());
 
             conveyor.toShooter();
-            amper.intake();
+            amper.toConveyor();
         }
     }
 

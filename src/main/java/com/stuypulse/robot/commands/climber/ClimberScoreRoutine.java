@@ -24,17 +24,17 @@ public class ClimberScoreRoutine extends SequentialCommandGroup {
 
     public ClimberScoreRoutine() {
         addCommands(
-            // lower climber and raise lift (after delay) simultaneously
-            ClimberToHeight.untilDone(Settings.Climber.MIN_HEIGHT)
-                .alongWith(
-                    new SequentialCommandGroup(
-                    new WaitCommand(DELAY_LIFT_SECONDS),
-                    // slow down lift
-                    new AmperSetLiftConstraints(AMPER_MAX_VELOCITY, AMPER_MAX_ACCELERATION),
-                    AmperToHeight.untilDone(Lift.TRAP_SCORE_HEIGHT.get()),
-                    new AmperSetLiftConstraints()
-                    )),
-            AmperScore.forSeconds(AMPER_SCORE_SECONDS)
+            // // lower climber and raise lift (after delay) simultaneously
+            // ClimberToHeight.untilDone(Settings.Climber.MIN_HEIGHT)
+            //     .alongWith(
+            //         new SequentialCommandGroup(
+            //         new WaitCommand(DELAY_LIFT_SECONDS),
+            //         // slow down lift
+            //         new AmperSetLiftConstraints(AMPER_MAX_VELOCITY, AMPER_MAX_ACCELERATION),
+            //         AmperToHeight.untilDone(Lift.TRAP_SCORE_HEIGHT),
+            //         new AmperSetLiftConstraints()
+            //         )),
+            // AmperScore.forSeconds(AMPER_SCORE_SECONDS)
         );
     }
 }

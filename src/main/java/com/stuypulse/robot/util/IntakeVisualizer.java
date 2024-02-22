@@ -161,7 +161,7 @@ public class IntakeVisualizer {
         rollingRootConveyorBot.append(rollingConveyorBot);
         rollingRootGandalf.append(rollingGandalf);
 
-        SmartDashboard.putData("Intake Visualizer", intake);
+        SmartDashboard.putData("Visualizers/Intake", intake);
     }
 
     public void update(

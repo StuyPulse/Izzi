@@ -9,9 +9,9 @@ package com.stuypulse.robot.subsystems.climber;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.stuylib.streams.booleans.BStream;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -28,8 +28,8 @@ public class ClimberImpl extends Climber {
     private final RelativeEncoder rightEncoder;
     private final RelativeEncoder leftEncoder;
 
-    private final DigitalInput topRightLimit;
-    private final DigitalInput topLeftLimit;
+    // private final DigitalInput topRightLimit;
+    // private final DigitalInput topLeftLimit;
     private final DigitalInput bottomRightLimit;
     private final DigitalInput bottomLeftLimit;
 
@@ -48,8 +48,8 @@ public class ClimberImpl extends Climber {
         rightEncoder.setVelocityConversionFactor(Settings.Climber.Encoder.VELOCITY_CONVERSION);
         leftEncoder.setVelocityConversionFactor(Settings.Climber.Encoder.VELOCITY_CONVERSION);
 
-        topRightLimit = new DigitalInput(Ports.Climber.TOP_RIGHT_LIMIT);
-        topLeftLimit = new DigitalInput(Ports.Climber.TOP_LEFT_LIMIT);
+        // topRightLimit = new DigitalInput(Ports.Climber.TOP_RIGHT_LIMIT);
+        // topLeftLimit = new DigitalInput(Ports.Climber.TOP_LEFT_LIMIT);
         bottomRightLimit = new DigitalInput(Ports.Climber.BOTTOM_RIGHT_LIMIT);
         bottomLeftLimit = new DigitalInput(Ports.Climber.BOTTOM_LEFT_LIMIT);
 
@@ -60,15 +60,21 @@ public class ClimberImpl extends Climber {
     }
 
     @Override
-    public void setTargetHeight(double height) {
-        super.setTargetHeight(height);
-
-        voltageOverride = Optional.empty();
+    public void toTop() {
+        rightMotor.setVoltage(+Settings.Climber.Control.UP_VOLTAGE);
+        leftMotor.setVoltage(+Settings.Climber.Control.UP_VOLTAGE);
     }
 
     @Override
-    public double getHeight() {
-        return getLeftHeight() + getRightHeight() / 2;
+    public void toBottom() {
+        rightMotor.setVoltage(-Settings.Climber.Control.DOWN_VOLTAGE);
+        leftMotor.setVoltage(-Settings.Climber.Control.DOWN_VOLTAGE);
+    }
+
+    @Override
+    public void stop() {
+        rightMotor.setVoltage(0.0);
+        leftMotor.setVoltage(0.0);
     }
 
     @Override
@@ -88,21 +94,19 @@ public class ClimberImpl extends Climber {
 
     /*** LIMITS ***/
 
-    @Override
-    public boolean atTop() {
-        return leftAtTop() || rightAtTop();
-    }
+    // private boolean atTop() {
+    //     return leftAtTop() || rightAtTop();
+    // }
 
-    private boolean leftAtTop() {
-        return !topLeftLimit.get();
-    }
+    // private boolean leftAtTop() {
+    //     return !topLeftLimit.get();
+    // }
 
-    private boolean rightAtTop() {
-        return !topRightLimit.get();
-    }
+    // private boolean rightAtTop() {
+    //     return !topRightLimit.get();
+    // }
 
-    @Override
-    public boolean atBottom() {
+    private boolean atBottom() {
         return leftAtBottom() || rightAtBottom();
     }
 
@@ -114,46 +118,25 @@ public class ClimberImpl extends Climber {
         return !bottomLeftLimit.get();
     }
 
+    private boolean isLeftStalling() {
+        return rightMotor.getOutputCurrent() > Settings.Climber.Control.STALL_CURRENT;
+    }
+
+    private boolean isRightStalling() {
+        return leftMotor.getOutputCurrent() > Settings.Climber.Control.STALL_CURRENT;
+    }
+
     @Override
     public void setVoltageOverride(double voltage) {
         voltageOverride = Optional.of(voltage);
     }
 
-    private void setVoltage(double voltage) {
-        if (atTop() && voltage > 0) {
-            DriverStation.reportWarning("Climber Top Limit Reached", false);
-            voltage = 0.0;
-        } else if (atBottom() && voltage < 0) {
-            DriverStation.reportWarning("Climber Bottom Limit Reached", false);
-            voltage = 0.0;
-        }
-
-        rightMotor.setVoltage(voltage);
-        leftMotor.setVoltage(voltage);
+    private double getLeftVoltage() {
+        return leftMotor.getAppliedOutput() * leftMotor.getBusVoltage();
     }
 
-    private void setLeftVoltage(double voltage) {
-        if (leftAtTop() && voltage > 0) {
-            DriverStation.reportWarning("Climber Top Left Limit Reached", false);
-            voltage = 0.0;
-        } else if (leftAtBottom() && voltage < 0) {
-            DriverStation.reportWarning("Climber Bottom Left Limit Reached", false);
-            voltage = 0.0;
-        }
-
-        leftMotor.setVoltage(voltage);
-    }
-
-    private void setRightVoltage(double voltage) {
-        if (rightAtTop() && voltage > 0) {
-            DriverStation.reportWarning("Climber Top Right Limit Reached", false);
-            voltage = 0.0;
-        } else if (rightAtBottom() && voltage < 0) {
-            DriverStation.reportWarning("Climber Bottom Right Limit Reached", false);
-            voltage = 0.0;
-        }
-
-        rightMotor.setVoltage(voltage);
+    private double getRightVoltage() {
+        return rightMotor.getAppliedOutput() * rightMotor.getBusVoltage();
     }
 
     @Override
@@ -161,30 +144,32 @@ public class ClimberImpl extends Climber {
         super.periodic();
 
         if (voltageOverride.isPresent()) {
-            setVoltage(voltageOverride.get());
+            leftMotor.setVoltage(voltageOverride.get());
+            rightMotor.setVoltage(voltageOverride.get());
         } else {
-            if (isAtLeftTargetHeight(Settings.Climber.BangBang.THRESHOLD)) {
-                setLeftVoltage(0.0);
-            } else if (getLeftHeight() > getTargetHeight()) {
-                setLeftVoltage(-Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
-            } else {
-                setLeftVoltage(+Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
-            }
+            if (getLeftVoltage() > 0 && isLeftStalling()) leftMotor.stopMotor();
+            if (getRightVoltage() > 0 && isRightStalling()) rightMotor.stopMotor();
 
-            if (isAtRightTargetHeight(Settings.Climber.BangBang.THRESHOLD)) {
-                setRightVoltage(0.0);
-            } else if (getRightHeight() > getTargetHeight()) {
-                setRightVoltage(-Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
-            } else {
-                setRightVoltage(+Settings.Climber.BangBang.CONTROLLER_VOLTAGE);
-            }
+            if (getLeftVoltage() < 0 && isLeftStalling()) leftMotor.setVoltage(-Settings.Climber.Control.CLIMB_VOLTAGE);
+            if (getRightVoltage() < 0 && isRightStalling()) rightMotor.setVoltage(-Settings.Climber.Control.CLIMB_VOLTAGE);
         }
 
-        SmartDashboard.putNumber("Climber/Left Voltage", leftMotor.getAppliedOutput() * leftMotor.getBusVoltage());
-        SmartDashboard.putNumber("Climber/Right Voltage", rightMotor.getAppliedOutput() * rightMotor.getBusVoltage());
+        SmartDashboard.putNumber("Climber/Left Voltage", getLeftVoltage());
+        SmartDashboard.putNumber("Climber/Right Voltage", getRightVoltage());
         SmartDashboard.putNumber("Climber/Left Height", getLeftHeight());
         SmartDashboard.putNumber("Climber/Right Height", getRightHeight());
+        SmartDashboard.putNumber("Climber/Left Current", leftMotor.getOutputCurrent());
+        SmartDashboard.putNumber("Climber/Right Current", rightMotor.getOutputCurrent());
         SmartDashboard.putNumber("Climber/Velocity", getVelocity());
+
+        SmartDashboard.putBoolean("Climber/Left At Bottom", leftAtBottom());
+        SmartDashboard.putBoolean("Climber/Right At Bottom", rightAtBottom());
+
+        // SmartDashboard.putBoolean("Climber/Left At Top", leftAtTop());
+        // SmartDashboard.putBoolean("Climber/Right At Top", leftAtTop());
+
+        SmartDashboard.putBoolean("Climber/Left Stalling", isLeftStalling());
+        SmartDashboard.putBoolean("Climber/Right Stalling", isRightStalling());
 
         if (atBottom()) {
             leftEncoder.setPosition(Settings.Climber.MIN_HEIGHT);

@@ -17,8 +17,10 @@ import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.commands.intake.*;
 import com.stuypulse.robot.commands.leds.*;
 import com.stuypulse.robot.commands.notealignment.SwerveDriveNoteAlignedDrive;
+import com.stuypulse.robot.commands.notealignment.SwerveDriveTranslateToNote;
 import com.stuypulse.robot.commands.shooter.*;
 import com.stuypulse.robot.commands.swerve.*;
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
@@ -92,17 +94,36 @@ public class RobotContainer {
     /**********************/
 
     private void configureNamedCommands() {
-        NamedCommands.registerCommand("IntakeAcquire", new IntakeAcquire());
-        NamedCommands.registerCommand("IntakeStop", new IntakeStop());
+        // Acquiring
+        NamedCommands.registerCommand("IntakeAcquireForever", new IntakeAcquireForever());
+        NamedCommands.registerCommand("FeederShoot", new ConveyorShoot());
+        NamedCommands.registerCommand("IntakeToAmp", new ConveyorToAmp());
+        NamedCommands.registerCommand("IntakeToFeeder", new ConveyorToShooter());
+
         NamedCommands.registerCommand(
             "DriveToNote",
-            new SwerveDriveDriveToNote()
-                .alongWith(new IntakeAcquire())
-                .andThen(new IntakeStop()));
-        NamedCommands.registerCommand("DriveToShoot", new SwerveDriveToShoot());
+            new DoNothingCommand());
+            // new SwerveDriveDriveToNote()
+            //     .alongWith(new IntakeAcquire())
+            //     .andThen(new IntakeStop()));
+
+        // Amp
+        NamedCommands.registerCommand("AmpRoutine", new AutonAmpRoutine());
+
+        // Shooting
         NamedCommands.registerCommand("SetPodiumRangeShot", new ShooterPodiumShot());
-        NamedCommands.registerCommand(
-            "ConveyorShoot", new ConveyorToShooter().andThen(new ConveyorShoot()));
+        NamedCommands.registerCommand("ConveyorShootRoutine", new ConveyorShootRoutine());
+
+        // Auto Aligning
+        NamedCommands.registerCommand("TranslateToNote", new SwerveDriveTranslateToNote());
+        NamedCommands.registerCommand("DriveToShoot", new SwerveDriveToShoot());
+        // NOTE: this command will not change the pose if the alliance changes after deploy (I think)
+        NamedCommands.registerCommand("PathFindToShoot", new SwerveDrivePathFindTo(Field.TOP_SHOOT_POSE.get()).get());
+
+        // Stopping
+        NamedCommands.registerCommand("IntakeStop", new IntakeStop());
+        NamedCommands.registerCommand("ConveyorStop", new ConveyorStop());
+        NamedCommands.registerCommand("ShooterStop", new ShooterStop());
     }
 
     /***************/
@@ -117,7 +138,7 @@ public class RobotContainer {
     private void configureDriverBindings() {
         // intaking with swerve pointing at note
         driver.getRightTriggerButton()
-            .whileTrue(new IntakeAcquire())
+            .whileTrue(new IntakeAcquire().andThen(new BuzzController(driver)))
             .whileTrue(new SwerveDriveNoteAlignedDrive(driver))
             .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));
 
@@ -133,8 +154,7 @@ public class RobotContainer {
                     .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop());
 
-        // note to amper and align
-        // then score
+        // note to amper and align then score
         driver.getLeftBumper()
             .whileTrue(new ConveyorToAmp()
                 .alongWith(new SwerveDriveAmpAlign()
@@ -145,12 +165,14 @@ public class RobotContainer {
         // score speaker no align
         driver.getRightMenuButton()
             .whileTrue(new ConveyorToShooter()
-            .andThen(new ConveyorShoot()))
+                    .andThen(new WaitCommand(Settings.Conveyor.AT_FEEDER_WAIT_DELAY.get()))
+                .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop());
+            
         // score amp no align
         driver.getLeftMenuButton()
             .whileTrue(new ConveyorToAmp()
-            .andThen(new AmperScore()))
+                .andThen(new AmperScore()))
             .onFalse(new AmperStop());
 
         driver.getDPadUp()
@@ -158,10 +180,13 @@ public class RobotContainer {
         driver.getDPadDown()
             .onTrue(new ClimberToBottom());
 
-        driver.getRightButton()
-            .whileTrue(new ClimberSetupRoutine());
-        driver.getBottomButton()
-            .whileTrue(new ClimberScoreRoutine());
+        driver.getDPadRight()
+            .onTrue(new SwerveDriveResetHeading());
+
+        // driver.getRightButton()
+        //     .whileTrue(new ClimberSetupRoutine());
+        // driver.getBottomButton()
+        //     .whileTrue(new ClimberScoreRoutine());
 
         driver.getTopButton()
             // on command start
@@ -189,19 +214,24 @@ public class RobotContainer {
         operator.getLeftTriggerButton()
             .whileTrue(new ConveyorOuttake());
         operator.getRightTriggerButton()
-                .whileTrue(new IntakeAcquire())
-                .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));
+            .whileTrue(new IntakeAcquire().andThen(new BuzzController(driver)))
+            .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));
 
         operator.getLeftBumper()
-            .onTrue(ConveyorToAmp.withCheckLift());
+            .onTrue(ConveyorToAmp.withCheckLift())
+            .onFalse(new ConveyorStop())
+            .onFalse(new IntakeStop())
+            .onFalse(new AmperStop());
         operator.getRightBumper()
-            .onTrue(new ConveyorToShooter());
+            .onTrue(new ConveyorToShooter())
+            .onFalse(new ConveyorStop())
+            .onFalse(new IntakeStop());
 
         operator.getTopButton()
-                .onTrue(new AmperScore())
-                .onTrue(new ConveyorShoot())
-                .onFalse(new AmperStop())
-                .onFalse(new ConveyorStop());
+            .onTrue(new AmperScore())
+            .onTrue(new ConveyorShoot())
+            .onFalse(new AmperStop())
+            .onFalse(new ConveyorStop());
 
         operator.getDPadUp()
             .whileTrue(new AmperLiftFineAdjust(operator));
@@ -214,15 +244,19 @@ public class RobotContainer {
             .onTrue(new ClimberToBottom());
 
         operator.getLeftButton()
-                .onTrue(new AmperToHeight(Settings.Amper.Lift.TRAP_SCORE_HEIGHT.get()));
+                .onTrue(new AmperToHeight(Settings.Amper.Lift.TRAP_SCORE_HEIGHT));
         operator.getRightButton()
-                .onTrue(new AmperToHeight(Settings.Amper.Lift.AMP_SCORE_HEIGHT.get()));
+                .onTrue(new AmperToHeight(Settings.Amper.Lift.AMP_SCORE_HEIGHT));
         operator.getBottomButton()
             .onTrue(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT));
 
         // human player attention button
         operator.getRightMenuButton()
             .whileTrue(new LEDSet(LEDInstructions.PULSE_PURPLE));
+        
+        operator.getLeftMenuButton()
+            .onTrue(new AmperIntake())
+            .onFalse(new AmperStop());
     }
 
     /**************/
@@ -243,6 +277,10 @@ public class RobotContainer {
     }
 
     public static String getAutonomousCommandNameStatic() {
+        if (autonChooser.getSelected() == null) {
+            return "DoNothingAuton";
+        }
+        
         return autonChooser.getSelected().getName();
     }
 }
