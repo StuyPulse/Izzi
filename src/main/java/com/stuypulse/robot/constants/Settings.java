@@ -60,8 +60,6 @@ public interface Settings {
         SmartNumber kG = new SmartNumber("Climber/kG", 4.0);
 
 
-        SmartBoolean CLIMBER_SAFETY = new SmartBoolean("Climber/SAFETY", true);
-
         public interface Control {
             double UP_VOLTAGE = 3;
             double DOWN_VOLTAGE = 3;
