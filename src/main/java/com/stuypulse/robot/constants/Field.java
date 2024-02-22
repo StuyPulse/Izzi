@@ -7,6 +7,7 @@
 package com.stuypulse.robot.constants;
 
 import com.stuypulse.robot.Robot;
+import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.util.MirroredPose2d;
 import com.stuypulse.robot.util.vision.AprilTag;
 
@@ -201,6 +202,48 @@ public interface Field {
 
     public static Pose2d getClosestAllianceTrapPose(Pose2d robotPose) {
         return robotPose.nearest(Arrays.asList(getAllianceTrapPoses()));
+    }
+
+    /*** STAGE ***/
+
+    Translation2d[] CLOSE_STAGE_TRIANGLE = new Translation2d[] {
+        new Translation2d(Units.inchesToMeters(126.13), Units.inchesToMeters(205.78)), // center 
+        new Translation2d(Units.inchesToMeters(218.00), Units.inchesToMeters(151.68)), // bottom
+        new Translation2d(Units.inchesToMeters(218.00), Units.inchesToMeters(269))     // top
+    };
+
+    Translation2d[] FAR_STAGE_TRIANGLE = new Translation2d[] {
+        new Translation2d(Field.LENGTH - CLOSE_STAGE_TRIANGLE[0].getX(), CLOSE_STAGE_TRIANGLE[0].getY()), // center 
+        new Translation2d(Field.LENGTH - CLOSE_STAGE_TRIANGLE[1].getX(), CLOSE_STAGE_TRIANGLE[1].getY()), // bottom
+        new Translation2d(Field.LENGTH - CLOSE_STAGE_TRIANGLE[2].getX(), CLOSE_STAGE_TRIANGLE[2].getY()), // top
+    };
+
+    public static boolean robotUnderStage() {
+        Translation2d robot = Odometry.getInstance().getPose().getTranslation();
+
+        return pointInTriangle(robot, CLOSE_STAGE_TRIANGLE) || pointInTriangle(robot, FAR_STAGE_TRIANGLE);
+    }
+
+    private static boolean pointInTriangle(Translation2d point, Translation2d[] triangle) {
+        double[] slopes = new double[3];
+        double[] yIntercepts = new double[3];
+
+        // constructing lines from the triangles to check if the robot is under the stage
+        for (int i = 0; i < 3; i++) {
+            slopes[i] = (triangle[(i + 1) % 3].getY() - triangle[i].getY())
+                      / (triangle[(i + 1) % 3].getX() - triangle[i].getX());
+            
+            yIntercepts[i] = triangle[i].getY() - slopes[i] * triangle[i].getX();
+        }
+
+        // checking if the robot is under the stage by comparing the robot's position to the lines
+        for (int i = 0; i < 3; i++) {
+            if (point.getY() > slopes[i] * point.getX() + yIntercepts[i]) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /***** NOTE DETECTION *****/
