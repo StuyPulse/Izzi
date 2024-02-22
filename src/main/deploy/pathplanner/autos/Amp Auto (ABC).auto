@@ -1,0 +1,61 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.5004569308183757,
+      "y": 7.322982720762895
+    },
+    "rotation": -89.90394894475284
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "AmpRoutine"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp To A"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AmpRoutine"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp To B"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AmpRoutine"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp To C"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AmpRoutine"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
