@@ -12,7 +12,7 @@ import com.stuypulse.stuylib.control.feedforward.ElevatorFeedforward;
 import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
 import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.numbers.filters.MotionProfile;
-
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
@@ -180,5 +180,7 @@ public class AmperImpl extends Amper {
 
         SmartDashboard.putBoolean("Amper/Has Note", hasNote());
         SmartDashboard.putBoolean("Amper/At Bottom", liftAtBottom());
+
+        SmartDashboard.putBoolean("Amper/Under Stage", Field.robotUnderStage());
     }
 }
