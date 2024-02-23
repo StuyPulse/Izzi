@@ -41,13 +41,13 @@ public class SwerveModuleSim extends SwerveModule {
     public SwerveModuleSim(String id, Translation2d offset) {
         super(id, offset);
 
-        driveSim = PositionVelocitySystem.getPositionVelocitySim(Drive.kV.get(), Drive.kA.get());
-        turnSim = new LinearSystemSim<N2,N1,N1>(LinearSystemId.identifyPositionSystem(Turn.kV, Turn.kA));
+        driveSim = PositionVelocitySystem.getPositionVelocitySim(0.25, 0.01);
+        turnSim = new LinearSystemSim<N2,N1,N1>(LinearSystemId.identifyPositionSystem(0.25, 0.01));
 
-        driveController = new PIDController(Drive.kP, Drive.kI, Drive.kD)
-            .add(new MotorFeedforward(Drive.kS, Drive.kV, Drive.kA).velocity());
+        driveController = new PIDController(1.0, 0.0, 0.0)
+            .add(new MotorFeedforward(0.01, 0.25, 0.01).velocity());
 
-        angleController = new AnglePIDController(Turn.kP, Turn.kI, Turn.kD);
+        angleController = new AnglePIDController(1.0, 0.0, 0.0);
     }
 
     private double getPosition() {
