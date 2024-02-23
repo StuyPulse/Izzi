@@ -3,34 +3,67 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.462744046458869,
-        "y": 4.628040033669767
+        "x": 3.003227285286416,
+        "y": 3.3275809966798504
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.762744046458869,
-        "y": 4.628040033669767
+        "x": 2.3824003870105956,
+        "y": 3.440939353976922
+      },
+      "isLocked": false,
+      "linkedName": "First Shoot"
+    },
+    {
+      "anchor": {
+        "x": 2.4449445866897688,
+        "y": 4.387130697624491
+      },
+      "prevControl": {
+        "x": 2.333076521621793,
+        "y": 3.803993770561946
+      },
+      "nextControl": {
+        "x": 2.54300917789288,
+        "y": 4.8983139770803295
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.45,
-        "y": 4.3
+        "x": 3.5916523460651093,
+        "y": 5.126507939027783
       },
       "prevControl": {
-        "x": 2.1901923788646687,
-        "y": 4.45
+        "x": 3.1103360300098584,
+        "y": 4.913636519981373
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "C"
+      "linkedName": "After Shoot C"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 45.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "IntakeToShooter",
+      "waypointRelativePos": 0.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 4.0,
@@ -39,14 +72,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -30.0,
+    "rotation": 18.644334460441236,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "ABCDE",
-  "previewStartingState": {
-    "rotation": 0.0,
-    "velocity": 0
-  },
-  "useDefaultConstraints": true
+  "previewStartingState": null,
+  "useDefaultConstraints": false
 }

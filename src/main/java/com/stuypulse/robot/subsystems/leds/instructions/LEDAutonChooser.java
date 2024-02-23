@@ -10,7 +10,7 @@ import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.util.SLColor;
 
-import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 
 import java.util.Arrays;
 
@@ -25,8 +25,11 @@ public class LEDAutonChooser extends LEDSection {
         OGHF("4 Piece GHF"),
         OHGF("4 Piece HGF"),
         OCBA("4 Piece CBA"),
+        OCBAD("5 Piece CBAD"),
+        OCBAE("5 Piece CBAE"),
+        ODEF("Amp Auto (DEF)"),
         OCBADF(/* "6 Piece CBADF (ND+PF).auto", "6 Piece CBADF (ND).auto",*/ "6 Piece CBADF"),
-        M("Mobility.auto");
+        M("Mobility");
 
         public final String autonName;
         public SLColor[] ledColors;
@@ -42,7 +45,6 @@ public class LEDAutonChooser extends LEDSection {
 
             SLColor[] rainbow = new SLColor[] {
                 SLColor.RED,
-                SLColor.RED_ORANGE,
                 SLColor.ORANGE,
                 SLColor.YELLOW,
                 SLColor.LIME,
@@ -64,13 +66,12 @@ public class LEDAutonChooser extends LEDSection {
                 }
             }
 
-            colorArray[9] = Robot.isBlue() ? SLColor.BLUE : SLColor.RED;
             return colorArray;
         }
 
         public static AutonLEDColors fromName(String name) {
             return Arrays.stream(values())
-                .filter((autonLedColor) -> autonLedColor.autonName.matches(name))
+                .filter((autonLedColor) -> autonLedColor.autonName.equals(name))
                 .findFirst()
                 .orElseThrow(
                     () -> new IllegalArgumentException(
@@ -82,5 +83,11 @@ public class LEDAutonChooser extends LEDSection {
 
     public LEDAutonChooser() {
         super(AutonLEDColors.fromName(RobotContainer.getAutonomousCommandNameStatic()).ledColors);
+    }
+
+    @Override
+    public void setLED(AddressableLEDBuffer ledBuffer) {
+        super.setLED(ledBuffer);
+        ledBuffer.setLED(ledBuffer.getLength() - 1, Robot.isBlue() ? SLColor.BLUE : SLColor.RED);
     }
 }

@@ -18,10 +18,10 @@ public interface Ports {
         int LEFT_MOTOR = 60;
         int RIGHT_MOTOR = 61;
 
-        int TOP_RIGHT_LIMIT = 9;
-        int TOP_LEFT_LIMIT = 3;
-        int BOTTOM_RIGHT_LIMIT = 4;
-        int BOTTOM_LEFT_LIMIT = 7;
+        // int TOP_RIGHT_LIMIT = 9;
+        // int TOP_LEFT_LIMIT = 3;
+        int BOTTOM_RIGHT_LIMIT = 9;
+        int BOTTOM_LEFT_LIMIT = 4;
     }
 
     public interface Amper {
@@ -49,13 +49,13 @@ public interface Ports {
 
         public interface BackLeft {
             int DRIVE = 14;
-            int TURN = 15;
+            int TURN = 17;
             int ENCODER = 3;
         }
 
         public interface BackRight {
             int DRIVE = 16;
-            int TURN = 17;
+            int TURN = 15;
             int ENCODER = 4;
         }
     }
@@ -66,15 +66,15 @@ public interface Ports {
     }
 
     public interface Shooter {
-        int LEFT_MOTOR = 20;
-        int RIGHT_MOTOR = 21;
+        int LEFT_MOTOR = 21;
+        int RIGHT_MOTOR = 20;
+
+        int IR_SENSOR = 0;
     }
 
     public interface Conveyor {
         int GANDALF = 50;
         int FEEDER = 51;
-
-        int IR_SENSOR = 0;
     }
 
     public interface LEDController {

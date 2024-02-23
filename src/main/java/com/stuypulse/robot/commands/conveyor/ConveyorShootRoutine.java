@@ -9,7 +9,6 @@ public class ConveyorShootRoutine extends SequentialCommandGroup {
 
     public ConveyorShootRoutine() {
         addCommands(
-            new ConveyorToShooter(),
             new ConveyorShoot(),
             new WaitCommand(Settings.Conveyor.SHOOT_WAIT_DELAY.get()),
             new ConveyorStop()

@@ -7,21 +7,25 @@
 package com.stuypulse.robot.commands.conveyor;
 
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
+import com.stuypulse.robot.subsystems.intake.Intake;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class ConveyorShoot extends InstantCommand {
 
     private final Conveyor conveyor;
+    private final Intake intake;
 
     public ConveyorShoot() {
         conveyor = Conveyor.getInstance();
+        intake = Intake.getInstance();
 
-        addRequirements(conveyor);
+        addRequirements(conveyor, intake);
     }
 
     @Override
     public void initialize() {
-        conveyor.shoot();
+        conveyor.toShooter();
+        intake.acquire();
     }
 }

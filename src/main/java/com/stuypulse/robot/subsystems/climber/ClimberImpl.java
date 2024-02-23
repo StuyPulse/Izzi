@@ -9,7 +9,6 @@ package com.stuypulse.robot.subsystems.climber;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.stuylib.streams.booleans.BStream;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -75,6 +74,8 @@ public class ClimberImpl extends Climber {
     public void stop() {
         rightMotor.setVoltage(0.0);
         leftMotor.setVoltage(0.0);
+
+        voltageOverride = Optional.empty();
     }
 
     @Override

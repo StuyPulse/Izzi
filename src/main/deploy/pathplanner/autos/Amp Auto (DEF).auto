@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3992020999924704,
-      "y": 2.850407598330388
+      "x": 1.5004569308183757,
+      "y": 7.322982720762895
     },
-    "rotation": -63.38831811724382
+    "rotation": -89.90394894475284
   },
   "command": {
     "type": "sequential",
@@ -14,19 +14,83 @@
         {
           "type": "named",
           "data": {
-            "name": "SetPodiumRangeShot"
+            "name": "AmpRoutine"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Amp To D"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IntakeToAmp"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "D To Amp"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "DriveToShoot"
+            "name": "AmpRoutine"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Amp To E"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IntakeToAmp"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "E To Amp"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ShootFromFeeder"
+            "name": "AmpRoutine"
           }
         },
         {
@@ -40,13 +104,13 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Start To H (HGF)"
+                        "pathName": "Amp To F"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "IntakeToShooter"
+                        "name": "IntakeToAmp"
                       }
                     }
                   ]
@@ -55,110 +119,16 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "H To HShoot (HGF)"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "DriveToShoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootFromFeeder"
+                  "pathName": "F To Amp"
                 }
               }
             ]
           }
         },
         {
-          "type": "sequential",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "HShoot To G (HGF)"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "IntakeToShooter"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "G To Shoot (HGF)"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "DriveToShoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootFromFeeder"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "GShoot To F (HGF)"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "IntakeToShooter"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "F To Shoot (HGF)"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "DriveToShoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootFromFeeder"
-                }
-              }
-            ]
+            "name": "AmpRoutine"
           }
         }
       ]

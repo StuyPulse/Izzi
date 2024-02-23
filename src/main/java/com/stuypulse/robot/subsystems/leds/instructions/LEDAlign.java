@@ -16,9 +16,11 @@ import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.LED;
 import com.stuypulse.robot.subsystems.leds.LEDController;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
+import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.util.Color;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -92,6 +94,9 @@ public class LEDAlign implements LEDInstruction {
 
             ledsBuffer.setLED(index, Color.kWhite);
         }
+
+        if (RobotBase.isReal() && AprilTagVision.getInstance().getOutputs().isEmpty())
+            LEDInstructions.WHITE.setLED(ledsBuffer);
     }
 
     private int linearInterp(double robotMeasurement, double targetPos, double spread) {
