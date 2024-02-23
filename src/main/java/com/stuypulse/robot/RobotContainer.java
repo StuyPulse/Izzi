@@ -227,7 +227,7 @@ public class RobotContainer {
         autonChooser.addOption("2 Piece C", new TwoPieceC());
 
         autonChooser.addOption("4 Piece HGF", new FourPieceHGF());
-        autonChooser.addOption("3 Piece HG", new ThreePieceGH());
+        autonChooser.addOption("3 Piece HG", new ThreePieceHG());
         autonChooser.addOption("2 Piece H", new TwoPieceH());
 
         autonChooser.addOption("4 Piece GHF", new FourPieceGHF());
