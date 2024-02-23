@@ -13,6 +13,7 @@ import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.commands.amper.*;
 import com.stuypulse.robot.commands.auton.*;
 import com.stuypulse.robot.commands.auton.CBADE.*;
+import com.stuypulse.robot.commands.auton.GHF.FourPieceGHF;
 import com.stuypulse.robot.commands.auton.HGF.*;
 import com.stuypulse.robot.commands.climber.*;
 import com.stuypulse.robot.commands.conveyor.*;

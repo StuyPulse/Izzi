@@ -1,4 +1,4 @@
-package com.stuypulse.robot.commands.auton.HGF;
+package com.stuypulse.robot.commands.auton.GHF;
 
 import com.stuypulse.robot.commands.auton.FollowPathAlignAndShoot;
 import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
