@@ -1,4 +1,4 @@
-package com.stuypulse.robot.commands.auton.ABCDE;
+package com.stuypulse.robot.commands.auton.CBADE;
 
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
 import com.stuypulse.robot.commands.intake.IntakeAcquire;
@@ -9,9 +9,9 @@ import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class SixPieceCBADE extends SequentialCommandGroup {
+public class FivePieceCBAE extends SequentialCommandGroup {
 
-    public SixPieceCBADE() {
+    public FivePieceCBAE() {
         addCommands(
             new ParallelCommandGroup(
                 new ShooterPodiumShot(),
@@ -31,13 +31,8 @@ public class SixPieceCBADE extends SequentialCommandGroup {
             new SwerveDriveToShoot(),
             new ConveyorShootRoutine(),
 
-            SwerveDrive.getInstance().followPathCommand("A To D").raceWith(new IntakeAcquire()),
-            SwerveDrive.getInstance().followPathCommand("D To Shoot"),
-            new SwerveDriveToShoot(),
-            new ConveyorShootRoutine(),
-
-            SwerveDrive.getInstance().followPathCommand("Shoot To E").raceWith(new IntakeAcquire()),
-            SwerveDrive.getInstance().followPathCommand("D To Shoot"),
+            SwerveDrive.getInstance().followPathCommand("A To E").raceWith(new IntakeAcquire()),
+            SwerveDrive.getInstance().followPathCommand("E To Shoot"),
             new SwerveDriveToShoot(),
             new ConveyorShootRoutine()
         );

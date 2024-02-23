@@ -1,4 +1,4 @@
-package com.stuypulse.robot.commands.auton.ABCDE;
+package com.stuypulse.robot.commands.auton.CBADE;
 
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
 import com.stuypulse.robot.commands.intake.IntakeAcquire;
