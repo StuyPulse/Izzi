@@ -1,5 +1,7 @@
 package com.stuypulse.robot.commands.auton.CBADE;
 
+import com.stuypulse.robot.commands.auton.FollowPathAlignAndShoot;
+import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
 import com.stuypulse.robot.commands.intake.IntakeAcquire;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
@@ -22,27 +24,23 @@ public class SixPieceCBADE extends SequentialCommandGroup {
             ),
             new ConveyorShootRoutine(),
 
-            SwerveDrive.getInstance().followPathCommand("First Piece To C").raceWith(new IntakeAcquire()),
+            new FollowPathAndIntake("First Piece To C"),
             new SwerveDriveToShoot(),
             new ConveyorShootRoutine(),
 
-            SwerveDrive.getInstance().followPathCommand("C To B").raceWith(new IntakeAcquire()),
+            new FollowPathAndIntake("C To B"),
             new SwerveDriveToShoot(),
             new ConveyorShootRoutine(),
 
-            SwerveDrive.getInstance().followPathCommand("B To A").raceWith(new IntakeAcquire()),
+            new FollowPathAndIntake("B To A"),
             new SwerveDriveToShoot(),
             new ConveyorShootRoutine(),
 
-            SwerveDrive.getInstance().followPathCommand("A To D").raceWith(new IntakeAcquire()),
-            SwerveDrive.getInstance().followPathCommand("D To Shoot"),
-            new SwerveDriveToShoot(),
-            new ConveyorShootRoutine(),
+            new FollowPathAndIntake("A To D"),
+            new FollowPathAlignAndShoot("D To Shoot"),
 
-            SwerveDrive.getInstance().followPathCommand("Shoot To E").raceWith(new IntakeAcquire()),
-            SwerveDrive.getInstance().followPathCommand("D To Shoot"),
-            new SwerveDriveToShoot(),
-            new ConveyorShootRoutine()
+            new FollowPathAndIntake("Shoot To E"),
+            new FollowPathAlignAndShoot("D To Shoot")
         );
     }
     
