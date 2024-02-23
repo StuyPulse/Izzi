@@ -120,7 +120,8 @@ public class TheiaCamera {
 
     private boolean hasData() {
         return rawPose.length > 0 &&
-               rawids.length > 0;
+               rawids.length > 0 &&
+               rawAreas.length > 0;
     }
 
     /** Pull the data from the NetworkTables and store it in the class. */
