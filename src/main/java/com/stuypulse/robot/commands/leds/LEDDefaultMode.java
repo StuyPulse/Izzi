@@ -52,9 +52,6 @@ public class LEDDefaultMode extends Command {
         if (conveyor.isNoteAtShooter()) return LEDInstructions.SPEAKER;
         if (amper.hasNote()) return LEDInstructions.AMP;
         if (intake.hasNote()) return LEDInstructions.RED;
-        if (RobotBase.isReal()) {
-            if (vision.getOutputs().isEmpty()) return LEDInstructions.WHITE;
-        }
 
         return LEDInstructions.DEFAULT;
     }
