@@ -13,7 +13,7 @@ import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.commands.amper.*;
 import com.stuypulse.robot.commands.auton.*;
 import com.stuypulse.robot.commands.auton.CBADE.*;
-import com.stuypulse.robot.commands.auton.GHF.FourPieceGHF;
+import com.stuypulse.robot.commands.auton.GHF.*;
 import com.stuypulse.robot.commands.auton.HGF.*;
 import com.stuypulse.robot.commands.climber.*;
 import com.stuypulse.robot.commands.conveyor.*;
@@ -216,6 +216,7 @@ public class RobotContainer {
 
     public void configureAutons() {
         autonChooser.setDefaultOption("Do Nothing", new DoNothingAuton());
+
         autonChooser.addOption("6 Piece CBADE", new SixPieceCBADE());
         autonChooser.addOption("5 Piece CBAD", new FivePieceCBAD());
         autonChooser.addOption("5 Piece CBAE", new FivePieceCBAE());
@@ -223,8 +224,13 @@ public class RobotContainer {
         autonChooser.addOption("3 Piece CB", new ThreePieceCB());
         autonChooser.addOption("2 Piece C", new TwoPieceC());
 
-        autonChooser.addOption("Four Piece HGF", new FourPieceHGF());
-        autonChooser.addOption("Four Piece GHF", new FourPieceGHF());
+        autonChooser.addOption("4 Piece HGF", new FourPieceHGF());
+        autonChooser.addOption("3 Piece HG", new ThreePieceGH());
+        autonChooser.addOption("2 Piece H", new TwoPieceH());
+
+        autonChooser.addOption("4 Piece GHF", new FourPieceGHF());
+        autonChooser.addOption("3 Piece GH", new ThreePieceGH());
+        autonChooser.addOption("2 Piece G", new TwoPieceG());
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }
