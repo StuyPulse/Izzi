@@ -30,10 +30,12 @@ public abstract class Shooter extends SubsystemBase {
 
     private final SmartNumber leftTargetRPM;
     private final SmartNumber rightTargetRPM;
+    private final SmartNumber feederTargetRPM;
 
     public Shooter() {
         leftTargetRPM = new SmartNumber("Shooter/Left Target RPM", 0);
         rightTargetRPM = new SmartNumber("Shooter/Right Target RPM", 0);
+        feederTargetRPM = new SmartNumber("Shooter/Feeder Target RPM", 0);
     }
 
     public final double getLeftTargetRPM() {
@@ -44,12 +46,20 @@ public abstract class Shooter extends SubsystemBase {
         return rightTargetRPM.get();
     }
 
+    public final double getFeederTargetRPM() {
+        return feederTargetRPM.get();
+    }
+
     public final void setLeftTargetRPM(Number leftTargetRPM) {
         this.leftTargetRPM.set(leftTargetRPM);
     }
 
     public final void setRightTargetRPM(Number rightTargetRPM) {
         this.rightTargetRPM.set(rightTargetRPM);
+    }
+
+    public final void setFeederTargetRPM(Number feederTargetRPM) {
+        this.feederTargetRPM.set(feederTargetRPM);
     }
 
     public abstract void stop();

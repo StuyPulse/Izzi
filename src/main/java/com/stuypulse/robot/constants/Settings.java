@@ -6,6 +6,7 @@
 
 package com.stuypulse.robot.constants;
 
+import com.stuypulse.robot.util.ShooterSpeeds;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 
@@ -297,23 +298,16 @@ public interface Settings {
     public interface Shooter {
         double MOMENT_OF_INERTIA = 1;
 
-        SmartNumber PODIUM_SHOT_LEFT_RPM = new SmartNumber("Shooter/Podium Shot Left RPM", 4250);
-        SmartNumber PODIUM_SHOT_RIGHT_RPM = new SmartNumber("Shooter/Podium Shot Right RPM", 4250);
-
-        double AMP_LEFT_RPM = PODIUM_SHOT_LEFT_RPM.get();
-        double AMP_RIGHT_RPM = PODIUM_SHOT_RIGHT_RPM.get();
-
-        SmartNumber BACKWARDS_LEFT_RPM = new SmartNumber("Shooter/Backwards Left RPM", 0);
-        SmartNumber BACKWARDS_RIGHT_RPM = new SmartNumber("Shooter/Backwards Right RPM", 0);
+        ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(4400, 4400, 3100);
 
         public interface Feedforward {
-            double kV = 0.0017;
-            double kA = 0.00020903;
-            double kS = 0.13793;
+            double kS = 0.073976;
+            double kV = 0.0016902;
+            double kA = 0.00013268;
         }
 
         public interface PID {
-            double kP = 0.0001;
+            double kP = 0.00007543;
             double kI = 0.0;
             double kD = 0.0;
         }

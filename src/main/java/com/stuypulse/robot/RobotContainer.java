@@ -19,7 +19,7 @@ import com.stuypulse.robot.commands.climber.*;
 import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.commands.intake.*;
 import com.stuypulse.robot.commands.leds.*;
-import com.stuypulse.robot.commands.notealignment.SwerveDriveNoteAlignedDrive;
+import com.stuypulse.robot.commands.notealignment.*;
 import com.stuypulse.robot.commands.shooter.*;
 import com.stuypulse.robot.commands.swerve.*;
 import com.stuypulse.robot.constants.LEDInstructions;
@@ -166,7 +166,8 @@ public class RobotContainer {
                 .whileTrue(new AmperLiftDrive(operator));
 
         operator.getLeftTriggerButton()
-            .whileTrue(new ConveyorOuttake());
+            .onTrue(new IntakeDeacquire())
+            .onFalse(new IntakeStop());
         operator.getRightTriggerButton()
             .whileTrue(new IntakeAcquire().andThen(new BuzzController(driver)))
             .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));

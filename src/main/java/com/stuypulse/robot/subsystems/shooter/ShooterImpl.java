@@ -90,10 +90,6 @@ public class ShooterImpl extends Shooter {
         return feederEncoder.getVelocity();
     }
 
-    private double getFeederTargetRPM() {
-        return (getLeftTargetRPM() + getRightTargetRPM()) / 2.0;
-    }
-
     @Override
     public void periodic() {
         super.periodic();
