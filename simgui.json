@@ -69,23 +69,13 @@
   },
   "NetworkTables": {
     "SmartDashboard": {
-      "Amper": {
-        "open": true
-      },
-      "Conveyor": {
-        "open": true
-      },
-      "Intake": {
-        "open": true
-      },
-      "LED": {
+      "Swerve": {
         "open": true
       },
       "Visualizers": {
         "Climber": {
           "open": true
-        },
-        "open": true
+        }
       },
       "open": true
     },

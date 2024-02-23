@@ -12,6 +12,12 @@ import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.commands.amper.*;
 import com.stuypulse.robot.commands.auton.*;
+import com.stuypulse.robot.commands.auton.ABCDE.FivePieceCBAD;
+import com.stuypulse.robot.commands.auton.ABCDE.FivePieceCBAE;
+import com.stuypulse.robot.commands.auton.ABCDE.FourPieceCBA;
+import com.stuypulse.robot.commands.auton.ABCDE.SixPieceCBADE;
+import com.stuypulse.robot.commands.auton.ABCDE.ThreePieceCB;
+import com.stuypulse.robot.commands.auton.ABCDE.TwoPieceC;
 import com.stuypulse.robot.commands.climber.*;
 import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.commands.intake.*;
@@ -213,6 +219,12 @@ public class RobotContainer {
 
     public void configureAutons() {
         autonChooser.setDefaultOption("Do Nothing", new DoNothingAuton());
+        autonChooser.addOption("6 Piece CBADE", new SixPieceCBADE());
+        autonChooser.addOption("5 Piece CBAD", new FivePieceCBAD());
+        autonChooser.addOption("5 Piece CBAE", new FivePieceCBAE());
+        autonChooser.addOption("4 Piece CBA", new FourPieceCBA());
+        autonChooser.addOption("3 Piece CB", new ThreePieceCB());
+        autonChooser.addOption("2 Piece C", new TwoPieceC());
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }
