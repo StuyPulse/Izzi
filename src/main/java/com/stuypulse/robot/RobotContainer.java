@@ -217,6 +217,8 @@ public class RobotContainer {
     public void configureAutons() {
         autonChooser.setDefaultOption("Do Nothing", new DoNothingAuton());
 
+        autonChooser.addOption("Mobility", new Mobility());
+
         autonChooser.addOption("6 Piece CBADE", new SixPieceCBADE());
         autonChooser.addOption("5 Piece CBAD", new FivePieceCBAD());
         autonChooser.addOption("5 Piece CBAE", new FivePieceCBAE());
