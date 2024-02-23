@@ -13,22 +13,23 @@ import com.stuypulse.robot.util.SLColor;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 
 import java.util.Arrays;
-
+        
 public class LEDAutonChooser extends LEDSection {
     public enum AutonLEDColors {
         X("DoNothingAuton"),
-        OM("1 Piece + Mobility"),
-        OC("2 Piece C"),
-        OH("2 Piece H"),
-        OCB("3 Piece CB"),
-        OHG("3 Piece HG"),
-        OGHF("4 Piece GHF"),
-        OHGF("4 Piece HGF"),
-        OCBA("4 Piece CBA"),
-        OCBAD("5 Piece CBAD"),
-        OCBAE("5 Piece CBAE"),
+        OC("TwoPieceC"),
+        OH("TwoPieceH"),
+        OG("TwoPieceG"),
+        OCB("ThreePieceCB"),
+        OHG("ThreePieceHG"),
+        OGH("ThreePieceGH"),
+        OGHF("FourPieceGHF"),
+        OHGF("FourPieceHGF"),
+        OCBA("FourPieceCBA"),
+        OCBAD("FivePieceCBAD"),
+        OCBAE("FivePieceCBAE"),
         ODEF("Amp Auto (DEF)"),
-        OCBADF(/* "6 Piece CBADF (ND+PF).auto", "6 Piece CBADF (ND).auto",*/ "6 Piece CBADF"),
+        OCBADE("SixPieceCBADE"),
         M("Mobility");
 
         public final String autonName;
@@ -70,15 +71,14 @@ public class LEDAutonChooser extends LEDSection {
         }
 
         public static AutonLEDColors fromName(String name) {
-            return X;
-            // return Arrays.stream(values())
-            //     .filter((autonLedColor) -> autonLedColor.autonName.equals(name))
-            //     .findFirst()
-            //     .orElseThrow(
-            //         () -> new IllegalArgumentException(
-            //             "No LED configuration for auton with name: "
-            //                 + name
-            //                 + " found"));
+            return Arrays.stream(values())
+                .filter((autonLedColor) -> autonLedColor.autonName.equals(name))
+                .findFirst()
+                .orElseThrow(
+                    () -> new IllegalArgumentException(
+                        "No LED configuration for auton with name: "
+                            + name
+                            + " found"));
         }
     }
 
