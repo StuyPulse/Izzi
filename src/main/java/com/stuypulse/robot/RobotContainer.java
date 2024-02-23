@@ -123,9 +123,6 @@ public class RobotContainer {
         // Auto Aligning
         NamedCommands.registerCommand("TranslateToNote", new SwerveDriveTranslateToNote());
         NamedCommands.registerCommand("DriveToShoot", new SwerveDriveToShoot());
-        NamedCommands.registerCommand("SetPodiumRangeShot", new ShooterPodiumShot());
-        NamedCommands.registerCommand("ConveyorShoot", new ConveyorShootRoutine());
-        NamedCommands.registerCommand("TranslateToNote", new SwerveDriveTranslateToNote());
         // NOTE: this command will not change the pose if the alliance changes after deploy (I think)
         NamedCommands.registerCommand("PathFindToShoot", new SwerveDrivePathFindTo(Field.TOP_SHOOT_POSE.get()).get());
 

@@ -110,5 +110,4 @@ public class LEDAlign implements LEDInstruction {
         }
         return (int) (Settings.LED.LED_LENGTH * (robotMeasurement - lowerBound) / (spread * 2));
     }
-
 }
