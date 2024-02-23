@@ -177,10 +177,10 @@ public class TheiaCamera {
     public Optional<VisionData> getVisionData() {
         updateData();
 
+        LogPose3d.logPose3d("Vision/" + getName() + "/Pose3d", new Pose3d(Double.NaN, Double.NaN, Double.NaN, new Rotation3d(Double.NaN, Double.NaN, Double.NaN)));
+
         if (!hasData()) return Optional.empty();
         if (!enabled.get()) return Optional.empty();
-
-        LogPose3d.logPose3d("Vision/" + getName() + "/Pose3d", getRobotPose());
 
         double fpgaTime = latencySub.getLastChange() / 1_000_000.0;
         double timestamp = fpgaTime - Units.millisecondsToSeconds(rawLatency);
@@ -196,8 +196,13 @@ public class TheiaCamera {
         VisionData data = new VisionData(getRobotPose(), getIDs(), timestamp, rawAreas[0] / camera_pixel_count);
 
         if (!data.isValidData()) {
+            LogPose3d.logPose3d("Vision/" + getName() + "/Pose3d", new Pose3d(Double.NaN, Double.NaN, Double.NaN, new Rotation3d(Double.NaN, Double.NaN, Double.NaN)));
+        
             return Optional.empty();
         }
+
+        LogPose3d.logPose3d("Vision/" + getName() + "/Pose3d", data.getPose());
+
         return Optional.of(data);
     }
 
