@@ -1,5 +1,13 @@
 {
   "HALProvider": {
+    "Addressable LEDs": {
+      "0": {
+        "columns": 15
+      },
+      "window": {
+        "visible": true
+      }
+    },
     "Other Devices": {
       "window": {
         "visible": false
@@ -61,7 +69,16 @@
   },
   "NetworkTables": {
     "SmartDashboard": {
+      "Amper": {
+        "open": true
+      },
+      "Conveyor": {
+        "open": true
+      },
       "Intake": {
+        "open": true
+      },
+      "LED": {
         "open": true
       },
       "Visualizers": {
@@ -80,6 +97,7 @@
     },
     "Server": {
       "open": true
-    }
+    },
+    "visible": true
   }
 }

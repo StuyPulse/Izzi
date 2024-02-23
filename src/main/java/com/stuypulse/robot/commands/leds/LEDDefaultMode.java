@@ -7,7 +7,6 @@
 package com.stuypulse.robot.commands.leds;
 
 import com.stuypulse.robot.constants.LEDInstructions;
-import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.intake.Intake;
@@ -47,11 +46,13 @@ public class LEDDefaultMode extends Command {
     }
 
     private LEDInstruction getInstruction() {
-        if (Math.abs(amper.getLiftHeight() - Lift.TRAP_SCORE_HEIGHT) < Lift.MAX_HEIGHT_ERROR)
+        /*
+        if (Math.abs(amper.getLiftHeight() - Lift.TRAP_SCORE_HEIGHT.get()) < Lift.MAX_HEIGHT_ERROR)
             return LEDInstructions.TRAP;
+        */    
         if (conveyor.isNoteAtShooter()) return LEDInstructions.SPEAKER;
-        if (amper.hasNote()) return LEDInstructions.AMP;
-        if (intake.hasNote()) return LEDInstructions.RED;
+        else if (amper.hasNote())       return LEDInstructions.AMP;
+        else if (intake.hasNote())      return LEDInstructions.RED;
 
         return LEDInstructions.DEFAULT;
     }
