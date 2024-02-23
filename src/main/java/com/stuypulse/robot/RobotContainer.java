@@ -17,15 +17,12 @@ import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.commands.intake.*;
 import com.stuypulse.robot.commands.leds.*;
 import com.stuypulse.robot.commands.notealignment.SwerveDriveNoteAlignedDrive;
-import com.stuypulse.robot.commands.notealignment.SwerveDriveTranslateToNote;
 import com.stuypulse.robot.commands.shooter.*;
 import com.stuypulse.robot.commands.swerve.*;
-import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Driver;
-import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.constants.Settings.Swerve.Assist;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.climber.*;
@@ -43,9 +40,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
 
 public class RobotContainer {
 
@@ -70,10 +64,9 @@ public class RobotContainer {
 
     // RobotContainer
     public RobotContainer() {
-        swerve.configureAutoBuilder();
+        autonChooser = new SendableChooser<Command>();
 
         configureDefaultCommands();
-        configureNamedCommands();
         configureButtonBindings();
         configureAutons();
 
@@ -88,48 +81,6 @@ public class RobotContainer {
     private void configureDefaultCommands() {
         swerve.setDefaultCommand(new SwerveDriveDrive(driver));
         leds.setDefaultCommand(new LEDDefaultMode());
-    }
-
-    /**********************/
-    /*** NAMED COMMANDS ***/
-    /**********************/
-
-    private void configureNamedCommands() {
-        final double INTAKING_TIMEOUT = 2.0;
-        final double SHOOTER_STARTUP_DELAY = 0.5;
-
-        // Acquiring
-        NamedCommands.registerCommand("IntakeAcquireForever", new IntakeAcquireForever());
-        NamedCommands.registerCommand("ShootFromFeeder", new ConveyorShoot());
-        NamedCommands.registerCommand("ConveyorShoot", new ConveyorShoot());
-        NamedCommands.registerCommand("FeederShoot", new ConveyorShoot());
-        NamedCommands.registerCommand("IntakeToAmp", new ConveyorToAmp().withTimeout(INTAKING_TIMEOUT));
-        NamedCommands.registerCommand("IntakeToShooter", new IntakeAcquire().withTimeout(INTAKING_TIMEOUT));
-
-        NamedCommands.registerCommand(
-            "DriveToNote",
-            new DoNothingCommand());
-            // new SwerveDriveDriveToNote()
-            //     .alongWith(new IntakeAcquire())
-            //     .andThen(new IntakeStop()));
-
-        // Amp
-        NamedCommands.registerCommand("AmpRoutine", new AutonAmpRoutine());
-
-        // Shooting
-        NamedCommands.registerCommand("SetPodiumRangeShot", new WaitCommand(SHOOTER_STARTUP_DELAY).andThen(new ShooterPodiumShot()));
-        NamedCommands.registerCommand("ConveyorShootRoutine", new ConveyorShootRoutine());
-
-        // Auto Aligning
-        NamedCommands.registerCommand("TranslateToNote", new SwerveDriveTranslateToNote());
-        NamedCommands.registerCommand("DriveToShoot", new SwerveDriveToShoot());
-        // NOTE: this command will not change the pose if the alliance changes after deploy (I think)
-        NamedCommands.registerCommand("PathFindToShoot", new SwerveDrivePathFindTo(Field.TOP_SHOOT_POSE.get()).get());
-
-        // Stopping
-        NamedCommands.registerCommand("IntakeStop", new IntakeStop());
-        NamedCommands.registerCommand("ConveyorStop", new ConveyorStop().alongWith(new IntakeStop()));
-        NamedCommands.registerCommand("ShooterStop", new ShooterStop());
     }
 
     /***************/
@@ -261,10 +212,7 @@ public class RobotContainer {
     /**************/
 
     public void configureAutons() {
-        autonChooser = AutoBuilder.buildAutoChooser();
-
-        // need auton for testing leds
-        autonChooser.setDefaultOption("DoNothingAuton", new DoNothingAuton());
+        autonChooser.setDefaultOption("Do Nothing", new DoNothingAuton());
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }
