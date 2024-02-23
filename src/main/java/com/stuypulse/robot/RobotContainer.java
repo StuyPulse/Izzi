@@ -12,6 +12,7 @@ import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.commands.amper.*;
 import com.stuypulse.robot.commands.auton.*;
+import com.stuypulse.robot.commands.auton.HGF.*;
 import com.stuypulse.robot.commands.climber.*;
 import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.commands.intake.*;
@@ -213,6 +214,9 @@ public class RobotContainer {
 
     public void configureAutons() {
         autonChooser.setDefaultOption("Do Nothing", new DoNothingAuton());
+
+        autonChooser.addOption("Four Piece HGF", new FourPieceHGF());
+        autonChooser.addOption("Four Piece GHF", new FourPieceGHF());
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }
