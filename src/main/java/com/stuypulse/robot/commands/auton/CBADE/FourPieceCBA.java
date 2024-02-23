@@ -1,5 +1,6 @@
 package com.stuypulse.robot.commands.auton.CBADE;
 
+import com.stuypulse.robot.commands.auton.FollowPathAlignAndShoot;
 import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
@@ -22,10 +23,9 @@ public class FourPieceCBA extends SequentialCommandGroup {
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake("First Piece To C"),
-            new SwerveDriveToShoot(),
-            new ConveyorShootRoutine(),
+            new FollowPathAlignAndShoot("C To CShoot"),
 
-            new FollowPathAndIntake("C To B"),
+            new FollowPathAndIntake("CShoot To B"),
             new SwerveDriveToShoot(),
             new ConveyorShootRoutine(),
 
