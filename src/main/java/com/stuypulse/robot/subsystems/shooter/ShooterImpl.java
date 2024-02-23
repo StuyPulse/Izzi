@@ -9,13 +9,11 @@ package com.stuypulse.robot.subsystems.shooter;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
-import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings.Feeder;
 import com.stuypulse.robot.constants.Settings.Shooter.Feedforward;
 import com.stuypulse.robot.constants.Settings.Shooter.PID;
-import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.util.StupidFilter;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -46,10 +44,6 @@ public class ShooterImpl extends Shooter {
         leftMotor = new CANSparkFlex(Ports.Shooter.LEFT_MOTOR, MotorType.kBrushless);
         rightMotor = new CANSparkFlex(Ports.Shooter.RIGHT_MOTOR, MotorType.kBrushless);
         feederMotor = new CANSparkMax(Ports.Conveyor.FEEDER, MotorType.kBrushless);
-
-        leftMotor.enableVoltageCompensation(12.0);
-        rightMotor.enableVoltageCompensation(12.0);
-        feederMotor.enableVoltageCompensation(12.0);
 
         leftEncoder = leftMotor.getEncoder();
         rightEncoder = rightMotor.getEncoder();
