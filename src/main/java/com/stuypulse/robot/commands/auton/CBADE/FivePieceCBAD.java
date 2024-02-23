@@ -3,6 +3,7 @@ package com.stuypulse.robot.commands.auton.CBADE;
 import com.stuypulse.robot.commands.auton.FollowPathAlignAndShoot;
 import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
+import com.stuypulse.robot.commands.intake.IntakeAcquire;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToShoot;
 import com.stuypulse.robot.constants.Settings.Auton;
@@ -22,10 +23,12 @@ public class FivePieceCBAD extends SequentialCommandGroup {
             ),
             new ConveyorShootRoutine(),
 
-            new FollowPathAndIntake("First Piece To C"),
-            new FollowPathAlignAndShoot("C To CShoot"),
+            new IntakeAcquire().withTimeout(Auton.DEFAULT_INTAKE_TIMEOUT),
+            
+            new SwerveDriveToShoot(),
+            new ConveyorShootRoutine(),
 
-            new FollowPathAndIntake("CShoot To B"),
+            new FollowPathAndIntake("C To B"),
             new SwerveDriveToShoot(),
             new ConveyorShootRoutine(),
 

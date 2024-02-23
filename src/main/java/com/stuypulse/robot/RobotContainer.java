@@ -215,7 +215,9 @@ public class RobotContainer {
     /**************/
 
     public void configureAutons() {
-        autonChooser.setDefaultOption("Do Nothing", new DoNothingAuton());
+        autonChooser.addOption("Do Nothing", new DoNothingAuton());
+
+        autonChooser.setDefaultOption("Square", new Square());
 
         autonChooser.addOption("Mobility", new Mobility());
 

@@ -320,14 +320,16 @@ public interface Settings {
     }
 
     public interface Feeder {
+        double GEARING = 18.0 / 30.0;
+
         public interface Feedforward {
-            double kS = 0.57918;
-            double kV = 0.002250;
-            double kA = 0.0018385;
+            double kS = 0.38049;
+            double kV = 0.034498;
+            double kA = 0.0034532;
         }
 
         public interface PID {
-            double kP = 0.0002;
+            double kP = 0.0041249;
             double kI = 0.0;
             double kD = 0.0;
         }
