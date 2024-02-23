@@ -98,9 +98,13 @@ public class ShooterImpl extends Shooter {
         rightController.update(getRightTargetRPM(), getRightShooterRPM());
         feederController.update(getFeederTargetRPM(), getFeederRPM());
 
-        leftMotor.setVoltage(leftController.getOutput());
-        rightMotor.setVoltage(rightController.getOutput());
-        feederMotor.setVoltage(feederController.getOutput());
+        if (getLeftTargetRPM() == 0 && getRightTargetRPM() == 0 && getFeederTargetRPM() == 0) {
+            stop();
+        } else {
+            leftMotor.setVoltage(leftController.getOutput());
+            rightMotor.setVoltage(rightController.getOutput());
+            feederMotor.setVoltage(feederController.getOutput());
+        }
 
         SmartDashboard.putNumber("Shooter/Right RPM", getRightShooterRPM());
         SmartDashboard.putNumber("Shooter/Left RPM", getLeftShooterRPM());
