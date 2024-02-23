@@ -94,11 +94,16 @@ public class RobotContainer {
     /**********************/
 
     private void configureNamedCommands() {
+        final double INTAKING_TIMEOUT = 2.0;
+        final double SHOOTER_STARTUP_DELAY = 0.5;
+
         // Acquiring
         NamedCommands.registerCommand("IntakeAcquireForever", new IntakeAcquireForever());
+        NamedCommands.registerCommand("ShootFromFeeder", new ConveyorShoot());
+        NamedCommands.registerCommand("ConveyorShoot", new ConveyorShoot());
         NamedCommands.registerCommand("FeederShoot", new ConveyorShoot());
-        NamedCommands.registerCommand("IntakeToAmp", new ConveyorToAmp());
-        NamedCommands.registerCommand("IntakeToFeeder", new IntakeAcquire());
+        NamedCommands.registerCommand("IntakeToAmp", new ConveyorToAmp().withTimeout(INTAKING_TIMEOUT));
+        NamedCommands.registerCommand("IntakeToShooter", new IntakeAcquire().withTimeout(INTAKING_TIMEOUT));
 
         NamedCommands.registerCommand(
             "DriveToNote",
@@ -111,7 +116,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("AmpRoutine", new AutonAmpRoutine());
 
         // Shooting
-        NamedCommands.registerCommand("SetPodiumRangeShot", new ShooterPodiumShot());
+        NamedCommands.registerCommand("SetPodiumRangeShot", new WaitCommand(SHOOTER_STARTUP_DELAY).andThen(new ShooterPodiumShot()));
         NamedCommands.registerCommand("ConveyorShootRoutine", new ConveyorShootRoutine());
 
         // Auto Aligning

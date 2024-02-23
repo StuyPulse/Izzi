@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.462744046458869,
-      "y": 4.628040033669767
+      "x": 3.003227285286416,
+      "y": 3.3275809966798504
     },
     "rotation": 0
   },
@@ -12,9 +12,28 @@
     "data": {
       "commands": [
         {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "SetPodiumRangeShot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "DriveToShoot"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "SetPodiumRangeShot"
+            "name": "ConveyorShootRoutine"
           }
         },
         {
@@ -30,26 +49,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShootFromFeeder"
-                }
-              },
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "DriveToShoot"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "IntakeToShooter"
-                      }
-                    }
-                  ]
+                  "name": "DriveToShoot"
                 }
               },
               {
@@ -66,22 +66,9 @@
           "data": {
             "commands": [
               {
-                "type": "parallel",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "C To B (ABC)"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "IntakeToShooter"
-                      }
-                    }
-                  ]
+                  "pathName": "C To B (ABC)"
                 }
               },
               {
@@ -111,12 +98,6 @@
                       "type": "path",
                       "data": {
                         "pathName": "B To A (ABC)"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "IntakeToShooter"
                       }
                     }
                   ]
