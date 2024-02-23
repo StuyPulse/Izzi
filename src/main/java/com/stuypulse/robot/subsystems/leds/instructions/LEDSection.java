@@ -29,17 +29,17 @@ public class LEDSection implements LEDInstruction {
         this.sections = sections;
 
         int totalLEDLength = Settings.LED.LED_LENGTH;
-        int sectionLength = totalLEDLength / sections.length; 
+        int sectionLength = totalLEDLength / sections.length;
         int extraLEDS = totalLEDLength % sections.length;
 
         this.separatorIndexes = new int[sections.length];
 
         // extra LEDs get distributed to the first few sections
         for (int i = 0; i < sections.length; i++) {
-            int offset = Math.min(extraLEDS, i); 
+            int offset = Math.min(extraLEDS, i);
             int extraLEDForCurrentSection = (i < extraLEDS ? 1 : 0);
             this.separatorIndexes[i] = (i + 1) * sectionLength + offset + extraLEDForCurrentSection - 1;
-        } 
+        }
     }
 
     @Override
