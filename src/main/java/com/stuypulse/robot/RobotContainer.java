@@ -99,7 +99,7 @@ public class RobotContainer {
         // intaking with swerve pointing at note
         driver.getRightTriggerButton()
             .whileTrue(new IntakeAcquire().andThen(new BuzzController(driver)))
-            .whileTrue(new SwerveDriveNoteAlignedDrive(driver))
+            // .whileTrue(new SwerveDriveNoteAlignedDrive(driver))
             .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));
 
         // note to shooter and align
