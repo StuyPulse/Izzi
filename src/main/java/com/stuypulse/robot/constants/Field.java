@@ -207,9 +207,9 @@ public interface Field {
     /*** STAGE ***/
 
     Translation2d[] CLOSE_STAGE_TRIANGLE = new Translation2d[] {
-        new Translation2d(Units.inchesToMeters(125), Units.inchesToMeters(155)), // center 
-        new Translation2d(Units.inchesToMeters(222.6), Units.inchesToMeters(105)), // bottom
-        new Translation2d(Units.inchesToMeters(222.6), Units.inchesToMeters(205.9))     // top
+        new Translation2d(Units.inchesToMeters(125.0), WIDTH / 2.0),                       // center 
+        new Translation2d(Units.inchesToMeters(222.6), Units.inchesToMeters(105)),  // bottom
+        new Translation2d(Units.inchesToMeters(222.6), Units.inchesToMeters(205.9)) // top
     };
 
     Translation2d[] FAR_STAGE_TRIANGLE = new Translation2d[] {
@@ -220,8 +220,6 @@ public interface Field {
 
     public static boolean robotUnderStage() {
         Translation2d robot = Odometry.getInstance().getPose().getTranslation();
-        //for (Translation2d point : CLOSE_STAGE_TRIANGLE) Odometry.getInstance().getField().getObject(point.toString()).setPose(new Pose2d(point, new Rotation2d()));
-        //for (Translation2d point : FAR_STAGE_TRIANGLE) Odometry.getInstance().getField().getObject(point.toString()).setPose(new Pose2d(point, new Rotation2d()));
         
         return pointInTriangle(robot, CLOSE_STAGE_TRIANGLE) || pointInTriangle(robot, FAR_STAGE_TRIANGLE);
     }
