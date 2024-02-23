@@ -307,8 +307,8 @@ public interface Settings {
         SmartNumber BACKWARDS_RIGHT_RPM = new SmartNumber("Shooter/Backwards Right RPM", 0);
 
         public interface Feedforward {
-            double kV = 0.001500;
-            double kA = 0.000150;
+            double kV = 0.0017;
+            double kA = 0.00020903;
             double kS = 0.13793;
         }
 
@@ -337,7 +337,7 @@ public interface Settings {
         public interface Detection {
             double TRIGGER_TIME = 0.0;
             double STALL_TIME = 0.05;
-            double STALL_CURRENT = 40;
+            double STALL_CURRENT = 30;
         }
 
         double ACQUIRE_SPEED = 1.0;
@@ -395,6 +395,6 @@ public interface Settings {
         SmartNumber TRANSLATION_SPREAD = new SmartNumber("LED/LED Translation Spread (m)", 1);
         SmartNumber ROTATION_SPREAD = new SmartNumber("LED/LED Rotation Spread (deg)", 35);
 
-        SmartBoolean LED_AUTON_TOGGLE = new SmartBoolean("LED/Auton Align Display?", true);
+        SmartBoolean LED_AUTON_TOGGLE = new SmartBoolean("LED/Auton Align Display", false);
     }
 }
