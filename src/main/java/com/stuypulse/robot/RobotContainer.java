@@ -95,20 +95,44 @@ public class RobotContainer {
     /**********************/
 
     private void configureNamedCommands() {
-        NamedCommands.registerCommand("IntakeAcquire", new IntakeAcquireForever());
-        NamedCommands.registerCommand("IntakeStop", new IntakeStop());
+        final double INTAKING_TIMEOUT = 2.0;
+        final double SHOOTER_STARTUP_DELAY = 0.5;
+
+        // Acquiring
+        NamedCommands.registerCommand("IntakeAcquireForever", new IntakeAcquireForever());
+        NamedCommands.registerCommand("ShootFromFeeder", new ConveyorShoot());
+        NamedCommands.registerCommand("ConveyorShoot", new ConveyorShoot());
+        NamedCommands.registerCommand("FeederShoot", new ConveyorShoot());
+        NamedCommands.registerCommand("IntakeToAmp", new ConveyorToAmp().withTimeout(INTAKING_TIMEOUT));
+        NamedCommands.registerCommand("IntakeToShooter", new IntakeAcquire().withTimeout(INTAKING_TIMEOUT));
+
         NamedCommands.registerCommand(
             "DriveToNote",
             new DoNothingCommand());
             // new SwerveDriveDriveToNote()
             //     .alongWith(new IntakeAcquire())
             //     .andThen(new IntakeStop()));
+
+        // Amp
+        NamedCommands.registerCommand("AmpRoutine", new AutonAmpRoutine());
+
+        // Shooting
+        NamedCommands.registerCommand("SetPodiumRangeShot", new WaitCommand(SHOOTER_STARTUP_DELAY).andThen(new ShooterPodiumShot()));
+        NamedCommands.registerCommand("ConveyorShootRoutine", new ConveyorShootRoutine());
+
+        // Auto Aligning
+        NamedCommands.registerCommand("TranslateToNote", new SwerveDriveTranslateToNote());
         NamedCommands.registerCommand("DriveToShoot", new SwerveDriveToShoot());
         NamedCommands.registerCommand("SetPodiumRangeShot", new ShooterPodiumShot());
         NamedCommands.registerCommand("ConveyorShoot", new ConveyorShootRoutine());
         NamedCommands.registerCommand("TranslateToNote", new SwerveDriveTranslateToNote());
         // NOTE: this command will not change the pose if the alliance changes after deploy (I think)
         NamedCommands.registerCommand("PathFindToShoot", new SwerveDrivePathFindTo(Field.TOP_SHOOT_POSE.get()).get());
+
+        // Stopping
+        NamedCommands.registerCommand("IntakeStop", new IntakeStop());
+        NamedCommands.registerCommand("ConveyorStop", new ConveyorStop().alongWith(new IntakeStop()));
+        NamedCommands.registerCommand("ShooterStop", new ShooterStop());
     }
 
     /***************/
@@ -130,14 +154,11 @@ public class RobotContainer {
         // note to shooter and align
         // then shoot
         driver.getRightBumper()
-            .whileTrue(new ConveyorToShooter()
-                    .alongWith(new SwerveDriveToShoot()
-                        .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
-                    // .alongWith(new SwerveDrivePathFindTo(Field.getSpeakerPathFindPose()).get())
-                    // .andThen(new SwerveDriveToShoot()
-                    //    .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
-                    .andThen(new ConveyorShoot()))
-            .onFalse(new ConveyorStop());
+            .whileTrue(new SwerveDriveToShoot()
+                    .deadlineWith(new LEDSet(LEDInstructions.GREEN))
+                .andThen(new ConveyorShoot()))
+            .onFalse(new ConveyorStop())
+            .onFalse(new IntakeStop());
 
         // note to amper and align then score
         driver.getLeftBumper()
@@ -147,9 +168,9 @@ public class RobotContainer {
 
         // score speaker no align
         driver.getRightMenuButton()
-            .whileTrue(new ConveyorToShooter()
-                .andThen(new ConveyorShoot()))
-            .onFalse(new ConveyorStop());
+            .onTrue(new ConveyorShoot())
+            .onFalse(new ConveyorStop())
+            .onFalse(new IntakeStop());
             
         // score amp no align
         driver.getLeftMenuButton()
@@ -204,16 +225,13 @@ public class RobotContainer {
             .onFalse(new ConveyorStop())
             .onFalse(new IntakeStop())
             .onFalse(new AmperStop());
-        operator.getRightBumper()
-            .onTrue(new ConveyorToShooter())
-            .onFalse(new ConveyorStop())
-            .onFalse(new IntakeStop());
 
         operator.getTopButton()
             .onTrue(new AmperScore())
             .onTrue(new ConveyorShoot())
             .onFalse(new AmperStop())
-            .onFalse(new ConveyorStop());
+            .onFalse(new ConveyorStop())
+            .onFalse(new IntakeStop());
 
         operator.getDPadUp()
             .whileTrue(new AmperLiftFineAdjust(operator));

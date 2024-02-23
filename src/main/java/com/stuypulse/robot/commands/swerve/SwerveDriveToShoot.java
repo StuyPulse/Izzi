@@ -12,7 +12,6 @@ import com.stuypulse.robot.subsystems.odometry.Odometry;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 
 public class SwerveDriveToShoot extends SwerveDriveToPose {
@@ -27,7 +26,7 @@ public class SwerveDriveToShoot extends SwerveDriveToPose {
         // https://www.desmos.com/calculator/vj4sn6mv6m
         double heightLimit = Math.abs(
             speakerToRobot.getX()
-                * Math.tan(Math.toRadians(Alignment.PODIUM_SHOT_MAX_ANGLE.get())));
+                * Math.tan(Math.toRadians(Alignment.PODIUM_SHOT_MAX_ANGLE)));
         
         speakerToRobot =
             new Translation2d(

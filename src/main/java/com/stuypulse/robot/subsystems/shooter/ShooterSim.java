@@ -74,4 +74,9 @@ public class ShooterSim extends Shooter {
         leftWheel.update(Settings.DT);
         rightWheel.update(Settings.DT);
     }
+
+    @Override
+    public double getFeederRPM() {
+        return 0;
+    }
 }

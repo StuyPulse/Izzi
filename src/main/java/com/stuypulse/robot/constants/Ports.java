@@ -49,13 +49,13 @@ public interface Ports {
 
         public interface BackLeft {
             int DRIVE = 14;
-            int TURN = 15;
+            int TURN = 17;
             int ENCODER = 3;
         }
 
         public interface BackRight {
             int DRIVE = 16;
-            int TURN = 17;
+            int TURN = 15;
             int ENCODER = 4;
         }
     }
@@ -66,8 +66,8 @@ public interface Ports {
     }
 
     public interface Shooter {
-        int LEFT_MOTOR = 20;
-        int RIGHT_MOTOR = 21;
+        int LEFT_MOTOR = 21;
+        int RIGHT_MOTOR = 20;
 
         int IR_SENSOR = 0;
     }

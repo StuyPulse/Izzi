@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.45,
-        "y": 4.3
+        "x": 3.5916523460651093,
+        "y": 5.126507939027783
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0964466094067262,
-        "y": 4.653553390593274
+        "x": 1.320591210750874,
+        "y": 3.9611955637601755
       },
       "isLocked": false,
-      "linkedName": "C"
+      "linkedName": "After Shoot C"
     },
     {
       "anchor": {
-        "x": 2.45,
-        "y": 5.54
+        "x": 3.6976553901024474,
+        "y": 5.7409410029013515
       },
       "prevControl": {
-        "x": 2.0964466094067262,
-        "y": 5.186446609406726
+        "x": 1.4244790013017525,
+        "y": 5.706664281632135
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +30,18 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "IntakeToShooter",
+      "waypointRelativePos": 0.5,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 4.0,
@@ -45,7 +56,7 @@
   "reversed": false,
   "folder": "ABCDE",
   "previewStartingState": {
-    "rotation": -30.0,
+    "rotation": 6.416619470272588,
     "velocity": 0
   },
   "useDefaultConstraints": true

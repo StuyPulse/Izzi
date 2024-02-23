@@ -57,4 +57,6 @@ public abstract class Shooter extends SubsystemBase {
     public abstract double getLeftShooterRPM();
 
     public abstract double getRightShooterRPM();
+
+    public abstract double getFeederRPM();
 }
