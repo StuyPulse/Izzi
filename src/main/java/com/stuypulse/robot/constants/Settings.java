@@ -397,4 +397,9 @@ public interface Settings {
 
         SmartBoolean LED_AUTON_TOGGLE = new SmartBoolean("LED/Auton Align Display", false);
     }
+
+    public interface Auton {
+        double SHOOTER_STARTUP_DELAY = 0.5;
+        double DEFAULT_INTAKE_TIMEOUT = 2;
+    }
 }

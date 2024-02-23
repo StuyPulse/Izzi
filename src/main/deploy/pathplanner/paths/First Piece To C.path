@@ -3,54 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.003227285286416,
-        "y": 3.3275809966798504
+        "x": 2.930353883855916,
+        "y": 3.166018730185609
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3824003870105956,
-        "y": 3.440939353976922
+        "x": 2.1603760383446695,
+        "y": 3.4537360417313434
       },
       "isLocked": false,
       "linkedName": "First Shoot"
     },
     {
       "anchor": {
-        "x": 2.4449445866897688,
-        "y": 4.387130697624491
+        "x": 2.584618034976811,
+        "y": 3.8980499581369537
       },
       "prevControl": {
-        "x": 2.333076521621793,
-        "y": 3.803993770561946
-      },
-      "nextControl": {
-        "x": 2.54300917789288,
-        "y": 4.8983139770803295
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 3.5916523460651093,
-        "y": 5.126507939027783
-      },
-      "prevControl": {
-        "x": 3.1103360300098584,
-        "y": 4.913636519981373
+        "x": 2.2858552291178658,
+        "y": 3.7513705444077563
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "After Shoot C"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 45.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
@@ -72,7 +50,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 18.644334460441236,
+    "rotation": 25.07357964460519,
     "rotateFast": false
   },
   "reversed": false,

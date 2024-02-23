@@ -3,45 +3,34 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.5916523460651093,
-        "y": 5.126507939027783
+        "x": 2.584618034976811,
+        "y": 3.8980499581369537
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.320591210750874,
-        "y": 3.9611955637601755
+        "x": 2.0742686902040472,
+        "y": 4.6954040019191154
       },
       "isLocked": false,
       "linkedName": "After Shoot C"
     },
     {
       "anchor": {
-        "x": 3.6976553901024474,
-        "y": 5.7409410029013515
+        "x": 3.690355153858456,
+        "y": 4.96726568453137
       },
       "prevControl": {
-        "x": 1.4244790013017525,
-        "y": 5.706664281632135
+        "x": 2.757129653148195,
+        "y": 5.055035795256775
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "B"
+      "linkedName": "Shoot C"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "IntakeToShooter",
-      "waypointRelativePos": 0.5,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": []
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 4.0,
@@ -50,14 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": -6.527599618426269,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "ABCDE",
-  "previewStartingState": {
-    "rotation": 6.416619470272588,
-    "velocity": 0
-  },
-  "useDefaultConstraints": true
+  "previewStartingState": null,
+  "useDefaultConstraints": false
 }
