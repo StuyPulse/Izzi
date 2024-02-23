@@ -14,6 +14,7 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.RobotType;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAlign;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAutonChooser;
+import com.stuypulse.robot.subsystems.leds.instructions.LEDRainbow;
 
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -24,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import com.pathplanner.lib.pathfinding.LocalADStar;
 import com.pathplanner.lib.pathfinding.Pathfinding;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 public class Robot extends TimedRobot {
     
@@ -74,6 +76,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
+        robot.intake.setIdleMode(IdleMode.kCoast);
+        robot.conveyor.setIdleMode(IdleMode.kCoast);
+
+        scheduler.schedule(new LEDSet(new LEDRainbow()));
+
         SmartDashboard.putString("Robot State", "DISABLED");
     }
 
@@ -91,11 +98,11 @@ public class Robot extends TimedRobot {
             DriverStation.reportWarning("Shooter IR sensor reporting note while disabled!", false);
         }
 
-        if (Settings.LED.LED_AUTON_TOGGLE.get()) {
-            scheduler.schedule(new LEDSet(new LEDAlign()));
-        } else {
-            scheduler.schedule(new LEDSet(new LEDAutonChooser()));
-        }
+        // if (Settings.LED.LED_AUTON_TOGGLE.get()) {
+        //     scheduler.schedule(new LEDSet(new LEDAlign()));
+        // } else {
+        //     scheduler.schedule(new LEDSet(new LEDAutonChooser()));
+        // }
 
         // reload whitelist in case of alliance change
         scheduler.schedule(new VisionReloadWhiteList());
@@ -114,6 +121,9 @@ public class Robot extends TimedRobot {
         }
 
         scheduler.schedule(new LEDReset());
+
+        robot.intake.setIdleMode(IdleMode.kBrake);
+        robot.conveyor.setIdleMode(IdleMode.kBrake);
 
         SmartDashboard.putString("Robot State", "AUTON");
     }
@@ -138,6 +148,9 @@ public class Robot extends TimedRobot {
         scheduler.schedule(new LEDReset());
         scheduler.schedule(new ShooterPodiumShot());
 
+        robot.intake.setIdleMode(IdleMode.kBrake);
+        robot.conveyor.setIdleMode(IdleMode.kBrake);
+
         SmartDashboard.putString("Robot State", "TELEOP");
     }
 
@@ -156,6 +169,9 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().cancelAll();
 
         scheduler.schedule(new LEDReset());
+
+        robot.intake.setIdleMode(IdleMode.kBrake);
+        robot.conveyor.setIdleMode(IdleMode.kBrake);
 
         SmartDashboard.putString("Robot State", "TEST");
     }

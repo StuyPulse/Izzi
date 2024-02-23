@@ -17,6 +17,7 @@ import com.stuypulse.robot.constants.Settings;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
@@ -54,6 +55,12 @@ public class IntakeImpl extends Intake {
     @Override
     public void stop() {
         motor.stopMotor();
+    }
+
+    @Override
+    public void setIdleMode(IdleMode mode) {
+        motor.setIdleMode(mode);
+        motor.burnFlash();
     }
 
     // Detection

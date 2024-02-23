@@ -17,6 +17,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -69,6 +70,12 @@ public class ConveyorImpl extends Conveyor {
     @Override
     public void stop() {
         gandalfMotor.stopMotor();
+    }
+
+    @Override
+    public void setIdleMode(IdleMode mode) {
+        gandalfMotor.setIdleMode(mode);
+        gandalfMotor.burnFlash();
     }
 
     @Override

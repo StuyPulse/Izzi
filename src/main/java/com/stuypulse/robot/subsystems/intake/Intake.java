@@ -6,6 +6,7 @@
 
 package com.stuypulse.robot.subsystems.intake;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Settings.RobotType;
 import com.stuypulse.robot.subsystems.amper.Amper;
@@ -43,6 +44,8 @@ public abstract class Intake extends SubsystemBase {
     public abstract void deacquire();
 
     public abstract void stop();
+
+    public abstract void setIdleMode(IdleMode mode);
 
     public abstract boolean hasNote();
 

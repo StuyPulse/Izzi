@@ -6,6 +6,7 @@
 
 package com.stuypulse.robot.subsystems.conveyor;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.stuypulse.robot.constants.Settings;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -48,5 +49,9 @@ public class ConveyorSim extends Conveyor {
         super.periodic();
 
         SmartDashboard.putNumber("Conveyor/Gandalf Motor Speed", gandalfMotorSpeed);
+    }
+
+    @Override
+    public void setIdleMode(IdleMode mode) {
     }
 }
