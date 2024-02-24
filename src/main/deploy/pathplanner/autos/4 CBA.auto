@@ -1,0 +1,37 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "First Piece To C"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C to CShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CShoot To B"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B To A"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

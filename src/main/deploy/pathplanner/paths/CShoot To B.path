@@ -3,38 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.35631802745087,
-        "y": 5.430938908174114
+        "x": 3.375380412797863,
+        "y": 5.0416149258224445
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.819687861597946,
-        "y": 4.772306771465396
+        "x": 1.8218850835849822,
+        "y": 4.460538786818315
       },
       "isLocked": false,
       "linkedName": "Shoot C"
     },
     {
       "anchor": {
-        "x": 3.1016184300887124,
-        "y": 6.07074619704795
+        "x": 2.7501222965408894,
+        "y": 5.591870572630035
       },
       "prevControl": {
-        "x": 2.1754596703637854,
-        "y": 6.022051007064977
+        "x": 1.8239635368159623,
+        "y": 5.543175382647062
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "B"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.45,
-      "rotationDegrees": 45.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
