@@ -10,7 +10,7 @@ public class FollowPathAlignAndShoot extends SequentialCommandGroup {
     
     public FollowPathAlignAndShoot(String path) {
         addCommands(
-            SwerveDrive.getInstance().followPathCommand("H To HShoot (HGF)"),
+            SwerveDrive.getInstance().followPathCommand(path),
             new SwerveDriveToShoot(),
             new ConveyorShootRoutine()
         );
