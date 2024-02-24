@@ -66,7 +66,15 @@ public class Odometry extends SubsystemBase {
             swerve.getKinematics(),
             swerve.getGyroAngle(),
             swerve.getModulePositions(),
-            new Pose2d());
+            new Pose2d(),
+            VecBuilder.fill(
+                0.1,
+                0.1,
+                0.1),
+            VecBuilder.fill(
+                0.9,
+                0.9,
+                10));
 
         VISION_ACTIVE = new SmartBoolean("Odometry/VISION ACTIVE", true);
 
@@ -81,6 +89,10 @@ public class Odometry extends SubsystemBase {
         lastGoodPose = new Pose2d();
 
         SmartDashboard.putData("Field", field);
+    }
+
+    public void setVisionEnabled(boolean enabled) {
+        VISION_ACTIVE.set(enabled);
     }
 
     public Field2d getField() {
