@@ -8,19 +8,19 @@
         {
           "type": "path",
           "data": {
+            "pathName": "Start To C"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
             "pathName": "First Piece To C"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C to CShoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "CShoot To B"
+            "pathName": "C to B"
           }
         },
         {

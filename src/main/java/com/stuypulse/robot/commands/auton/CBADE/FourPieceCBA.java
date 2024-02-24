@@ -11,13 +11,13 @@ public class FourPieceCBA extends SequentialCommandGroup {
 
     public FourPieceCBA() {
         addCommands(
-            // new FollowPathAlignAndShoot("Start To C", -45),
-            new SwerveDriveToShoot(-45),
+            new FollowPathAlignAndShoot("Start To C", -45),
 
             new FollowPathAndIntake("First Piece To C"),
-            new FollowPathAlignAndShoot("C to CShoot", -5),
+            new SwerveDriveToShoot(-5),
+            new ConveyorShootRoutine(),
 
-            new FollowPathAndIntake("CShoot To B"),
+            new FollowPathAndIntake("C To B"),
             new SwerveDriveToShoot(5),
             new ConveyorShootRoutine(),
 
