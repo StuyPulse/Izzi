@@ -172,7 +172,7 @@ public interface Settings {
                     MAX_ANGULAR_VELOCITY.get(),
                     MAX_ANGULAR_ACCELERATION.get());
 
-            PIDConstants XY = new PIDConstants(1.5, 0, 0.02);
+            PIDConstants XY = new PIDConstants(2.5, 0, 0.02);
             PIDConstants THETA = new PIDConstants(10, 0, 0.1);
         }
 
@@ -180,7 +180,7 @@ public interface Settings {
             public interface Drive {
                 double WHEEL_DIAMETER = Units.inchesToMeters(4);
                 double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
-                double GEAR_RATIO = 1.0 / 4.71;
+                double GEAR_RATIO = 1.0 / 6.12;
 
                 double POSITION_CONVERSION = WHEEL_CIRCUMFERENCE * GEAR_RATIO;
                 double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
@@ -203,36 +203,36 @@ public interface Settings {
         }
 
         public interface Drive {
-            SmartNumber kP = new SmartNumber("Swerve/Drive/PID/kP", 0.4);
+            SmartNumber kP = new SmartNumber("Swerve/Drive/PID/kP", 0.2);
             double kI = 0.0;
             double kD = 0.0;
 
             double kS = 0.15297;
-            SmartNumber kV = new SmartNumber("Swerve/Drive/FF/kV", 1.75);
-            SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.3);
+            SmartNumber kV = new SmartNumber("Swerve/Drive/FF/kV", 1.6);
+            SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.2);
         }
 
         public interface FrontRight {
             String ID = "Front Right";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(152.6);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(153.720703);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * +0.5, LENGTH * -0.5);
         }
 
         public interface FrontLeft {
             String ID = "Front Left";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-48.9);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-50.273438);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * +0.5, LENGTH * +0.5);
         }
 
         public interface BackLeft {
             String ID = "Back Left";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(99.4);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(99.052734);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * +0.5);
         }
 
         public interface BackRight {
             String ID = "Back Right";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(179.0);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(177.714844);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * -0.5);
         }
     }
