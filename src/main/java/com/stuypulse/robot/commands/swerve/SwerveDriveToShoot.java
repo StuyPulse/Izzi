@@ -42,5 +42,7 @@ public class SwerveDriveToShoot extends SwerveDriveToPose {
 
     public SwerveDriveToShoot() {
         super(() -> getSpeakerTargetPose());
+
+        withTolerance(0.025, 0.025, 3);
     }
 }

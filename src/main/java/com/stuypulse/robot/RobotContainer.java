@@ -105,11 +105,14 @@ public class RobotContainer {
         // note to shooter and align
         // then shoot
         driver.getRightBumper()
+            .onTrue(new ShooterPodiumShot())
             .whileTrue(new SwerveDriveToShoot()
                     .deadlineWith(new LEDSet(LEDInstructions.GREEN))
+                .andThen(new ShooterWaitForTarget())
                 .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop())
-            .onFalse(new IntakeStop());
+            .onFalse(new IntakeStop())
+            .onFalse(new ShooterStop());
 
         // note to amper and align then score
         driver.getLeftBumper()
@@ -119,9 +122,11 @@ public class RobotContainer {
 
         // score speaker no align
         driver.getRightMenuButton()
-            .onTrue(new ConveyorShoot())
+            .onTrue(new ShooterPodiumShot())
+            .onTrue(new ShooterWaitForTarget().andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop())
-            .onFalse(new IntakeStop());
+            .onFalse(new IntakeStop())
+            .onFalse(new ShooterStop());
             
         // score amp no align
         driver.getLeftMenuButton()

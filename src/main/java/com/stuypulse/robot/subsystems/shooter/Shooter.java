@@ -7,7 +7,9 @@
 package com.stuypulse.robot.subsystems.shooter;
 
 import com.stuypulse.robot.Robot;
+import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.RobotType;
+import com.stuypulse.robot.util.ShooterSpeeds;
 import com.stuypulse.stuylib.network.SmartNumber;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -50,16 +52,17 @@ public abstract class Shooter extends SubsystemBase {
         return feederTargetRPM.get();
     }
 
-    public final void setLeftTargetRPM(Number leftTargetRPM) {
-        this.leftTargetRPM.set(leftTargetRPM);
+    public final void setTargetSpeeds(ShooterSpeeds speeds) {
+        this.leftTargetRPM.set(speeds.leftRPM);
+        this.rightTargetRPM.set(speeds.rightRPM);
+        this.feederTargetRPM.set(speeds.feederRPM);
     }
 
-    public final void setRightTargetRPM(Number rightTargetRPM) {
-        this.rightTargetRPM.set(rightTargetRPM);
-    }
+    public final boolean atTargetSpeeds() {
+        return getFeederRPM() > getFeederTargetRPM() - Settings.Shooter.AT_RPM_EPSILON
+            && getLeftShooterRPM() > getLeftTargetRPM() - Settings.Shooter.AT_RPM_EPSILON
+            && getRightShooterRPM() > getRightTargetRPM() - Settings.Shooter.AT_RPM_EPSILON;
 
-    public final void setFeederTargetRPM(Number feederTargetRPM) {
-        this.feederTargetRPM.set(feederTargetRPM);
     }
 
     public abstract void stop();

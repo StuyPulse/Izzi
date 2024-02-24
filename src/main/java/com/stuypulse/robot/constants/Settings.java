@@ -298,32 +298,36 @@ public interface Settings {
     public interface Shooter {
         double MOMENT_OF_INERTIA = 1;
 
-        ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(4400, 4400, 3100);
+        ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(4350, 4500, 4350);
+
+        ShooterSpeeds HANDOFF = new ShooterSpeeds(4000, 2000);
+
+        double AT_RPM_EPSILON = 125;
 
         public interface Feedforward {
             double kS = 0.073976;
-            double kV = 0.0016902;
+            double kV = 0.00175;
             double kA = 0.00013268;
         }
 
         public interface PID {
-            double kP = 0.00007543;
+            double kP = 0.001;
             double kI = 0.0;
             double kD = 0.0;
         }
     }
 
     public interface Feeder {
-        double GEARING = 18.0 / 30.0;
+        double GEARING = 1.0;
 
         public interface Feedforward {
-            double kS = 0.38049;
-            double kV = 0.034498;
-            double kA = 0.0034532;
+            double kS = 0.57918;
+            double kV = 0.002250;
+            double kA = 0.0018385;
         }
 
         public interface PID {
-            double kP = 0.0041249;
+            double kP = 0.0008;
             double kI = 0.0;
             double kD = 0.0;
         }
@@ -360,7 +364,7 @@ public interface Settings {
         SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
         SmartNumber ANGLE_TOLERANCE = new SmartNumber("Alignment/Angle Tolerance", 5);
 
-        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Alignment/Podium Shot Distance", 3.05);
+        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Alignment/Podium Shot Distance", 3.02);
         double PODIUM_SHOT_MAX_ANGLE = 80;
 
         SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(23.0));

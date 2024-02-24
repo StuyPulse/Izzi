@@ -27,8 +27,6 @@ public class ShooterSetRPM extends InstantCommand {
 
     @Override
     public void initialize() {
-        shooter.setLeftTargetRPM(speeds.leftRPM);
-        shooter.setRightTargetRPM(speeds.rightRPM);
-        shooter.setFeederTargetRPM(speeds.feederRPM);
+        shooter.setTargetSpeeds(speeds);
     }
 }

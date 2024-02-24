@@ -9,6 +9,7 @@ package com.stuypulse.robot;
 import com.stuypulse.robot.commands.leds.LEDReset;
 import com.stuypulse.robot.commands.leds.LEDSet;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
+import com.stuypulse.robot.commands.shooter.ShooterStop;
 import com.stuypulse.robot.commands.vision.VisionReloadWhiteList;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.RobotType;
@@ -146,7 +147,7 @@ public class Robot extends TimedRobot {
 
         robot.climber.stop();
         scheduler.schedule(new LEDReset());
-        scheduler.schedule(new ShooterPodiumShot());
+        scheduler.schedule(new ShooterStop());
 
         robot.intake.setIdleMode(IdleMode.kBrake);
         robot.conveyor.setIdleMode(IdleMode.kBrake);
