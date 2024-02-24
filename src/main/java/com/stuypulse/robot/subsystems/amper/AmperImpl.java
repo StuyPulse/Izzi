@@ -167,11 +167,12 @@ public class AmperImpl extends Amper {
         double voltage = voltageOverride.orElse(controller.getOutput());
 
         if (liftAtBottom() && voltage < 0 || liftAtTop() && voltage > 0) {
-            stopLift();
-        } else {
-            liftMotor.setVoltage(voltage);
+            voltage = 0;
         }
 
+        liftMotor.setVoltage(voltage);
+
+        SmartDashboard.putNumber("Amper/Voltage", voltage);
         SmartDashboard.putNumber("Amper/Intake Speed", scoreMotor.get());
         SmartDashboard.putNumber("Amper/Lift Speed", liftMotor.get());
         SmartDashboard.putNumber("Amper/Intake Current", scoreMotor.getOutputCurrent());
