@@ -55,7 +55,7 @@ public class SwerveDriveToShoot extends SwerveDriveToPose {
     public SwerveDriveToShoot(double angleToSpeaker) {
         super(() -> getSpeakerTargetPose(Rotation2d.fromDegrees(angleToSpeaker)));
 
-        withTolerance(0.025, 0.025, 3);
+        withTolerance(0.1, 0.1, 5);
     }
 
     public SwerveDriveToShoot() {

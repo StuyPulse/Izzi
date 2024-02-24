@@ -17,8 +17,8 @@ public class SixPieceCBADE extends SequentialCommandGroup {
     public SixPieceCBADE() {
         addCommands(
             new ParallelCommandGroup(
-                new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
-                    .andThen(new ShooterPodiumShot()),
+                // new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
+                //     .andThen(new ShooterPodiumShot()),
                 
                 new FollowPathAlignAndShoot("Start To C", -40)
             ),
