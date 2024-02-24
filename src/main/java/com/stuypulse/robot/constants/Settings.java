@@ -350,7 +350,7 @@ public interface Settings {
         SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.0);
         SmartNumber RECALL_DEBOUNCE = new SmartNumber("Conveyor/Recall Delay", 1.0);
 
-        SmartNumber SHOOT_WAIT_DELAY = new SmartNumber("Conveyor/Shoot Wait Delay", 0.5);
+        SmartNumber SHOOT_WAIT_DELAY = new SmartNumber("Conveyor/Shoot Wait Delay", 0.35);
 
         SmartNumber AT_FEEDER_WAIT_DELAY = new SmartNumber("Conveyor/At Feeder Wait Delay", 0.5);
     }
@@ -398,7 +398,7 @@ public interface Settings {
     }
 
     public interface Auton {
-        double SHOOTER_STARTUP_DELAY = 0.5;
-        double DEFAULT_INTAKE_TIMEOUT = 2;
+        double SHOOTER_STARTUP_DELAY = 0.25;
+        double DEFAULT_INTAKE_TIMEOUT = 0.75;
     }
 }
