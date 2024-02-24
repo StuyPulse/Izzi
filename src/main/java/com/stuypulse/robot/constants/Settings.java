@@ -161,7 +161,7 @@ public interface Settings {
         // TODO: Tune these values
         public interface Motion {
             SmartNumber MAX_VELOCITY = new SmartNumber("Swerve/Motion/Max Velocity", 3.0);
-            SmartNumber MAX_ACCELERATION = new SmartNumber("Swerve/Motion/Max Acceleration", 6.0);
+            SmartNumber MAX_ACCELERATION = new SmartNumber("Swerve/Motion/Max Acceleration", 4.0);
             SmartNumber MAX_ANGULAR_VELOCITY = new SmartNumber("Swerve/Motion/Max Angular Velocity", Units.degreesToRadians(540));
             SmartNumber MAX_ANGULAR_ACCELERATION = new SmartNumber("Swerve/Motion/Max Angular Acceleration", Units.degreesToRadians(720));
 
@@ -172,7 +172,7 @@ public interface Settings {
                     MAX_ANGULAR_VELOCITY.get(),
                     MAX_ANGULAR_ACCELERATION.get());
 
-            PIDConstants XY = new PIDConstants(0.7, 0, 0.02);
+            PIDConstants XY = new PIDConstants(1.5, 0, 0.02);
             PIDConstants THETA = new PIDConstants(10, 0, 0.1);
         }
 
