@@ -71,14 +71,15 @@ public class LEDAutonChooser extends LEDSection {
         }
 
         public static AutonLEDColors fromName(String name) {
-            return Arrays.stream(values())
-                .filter((autonLedColor) -> autonLedColor.autonName.equals(name))
-                .findFirst()
-                .orElseThrow(
-                    () -> new IllegalArgumentException(
-                        "No LED configuration for auton with name: "
-                            + name
-                            + " found"));
+            return X;
+            // return Arrays.stream(values())
+            //     .filter((autonLedColor) -> autonLedColor.autonName.equals(name))
+            //     .findFirst()
+            //     .orElseThrow(
+            //         () -> new IllegalArgumentException(
+            //             "No LED configuration for auton with name: "
+            //                 + name
+            //                 + " found"));
         }
     }
 
