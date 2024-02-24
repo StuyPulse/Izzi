@@ -177,7 +177,7 @@ public class TheiaCamera {
     public Optional<VisionData> getVisionData() {
         updateData();
 
-        LogPose3d.logPose3d("Vision/" + getName() + "/Pose3d", new Pose3d(Double.NaN, Double.NaN, Double.NaN, new Rotation3d(Double.NaN, Double.NaN, Double.NaN)));
+        LogPose3d.clearPose3d("Vision/" + getName() + "/Pose3d");
 
         if (!hasData()) return Optional.empty();
         if (!enabled.get()) return Optional.empty();
@@ -195,11 +195,7 @@ public class TheiaCamera {
 
         VisionData data = new VisionData(getRobotPose(), getIDs(), timestamp, rawAreas[0] / camera_pixel_count);
 
-        if (!data.isValidData()) {
-            LogPose3d.logPose3d("Vision/" + getName() + "/Pose3d", new Pose3d(Double.NaN, Double.NaN, Double.NaN, new Rotation3d(Double.NaN, Double.NaN, Double.NaN)));
-        
-            return Optional.empty();
-        }
+        if (!data.isValidData()) return Optional.empty();
 
         LogPose3d.logPose3d("Vision/" + getName() + "/Pose3d", data.getPose());
 
