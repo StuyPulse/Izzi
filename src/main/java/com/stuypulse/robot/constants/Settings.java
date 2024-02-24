@@ -297,20 +297,20 @@ public interface Settings {
     public interface Shooter {
         double MOMENT_OF_INERTIA = 1;
 
-        ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(4350, 4500, 4350);
+        ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(3600, 2000);
 
-        ShooterSpeeds HANDOFF = new ShooterSpeeds(4000, 2000);
+        ShooterSpeeds HANDOFF = new ShooterSpeeds(2000, 2000);
 
         double AT_RPM_EPSILON = 125;
 
         public interface Feedforward {
-            double kS = 0.073976;
-            double kV = 0.00175;
-            double kA = 0.00013268;
+            double kS = 0.11873;
+            double kV = 0.0017968;
+            double kA = 0.00024169;
         }
 
         public interface PID {
-            double kP = 0.001;
+            double kP = 0.00034711;
             double kI = 0.0;
             double kD = 0.0;
         }
@@ -320,13 +320,13 @@ public interface Settings {
         double GEARING = 1.0;
 
         public interface Feedforward {
-            double kS = 0.57918;
-            double kV = 0.002250;
-            double kA = 0.0018385;
+            double kS = 0.56773;
+            double kV = 0.0021208;
+            double kA = 0.00021068;
         }
 
         public interface PID {
-            double kP = 0.0008;
+            double kP = 0.00018918;
             double kI = 0.0;
             double kD = 0.0;
         }
