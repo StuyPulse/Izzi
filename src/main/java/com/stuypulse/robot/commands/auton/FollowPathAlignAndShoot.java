@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class FollowPathAlignAndShoot extends SequentialCommandGroup {
     
-    public FollowPathAlignAndShoot(String path) {
+    public FollowPathAlignAndShoot(String path, double angle) {
         addCommands(
             SwerveDrive.getInstance().followPathCommand(path),
-            new SwerveDriveToShoot(),
+            new SwerveDriveToShoot(angle),
             new ConveyorShootRoutine()
         );
     }
