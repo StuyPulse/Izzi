@@ -1,5 +1,6 @@
 package com.stuypulse.robot.commands.auton.HGF;
 
+import com.pathplanner.lib.util.PIDConstants;
 import com.stuypulse.robot.commands.auton.FollowPathAlignAndShoot;
 import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;

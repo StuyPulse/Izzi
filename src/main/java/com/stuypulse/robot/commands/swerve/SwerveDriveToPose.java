@@ -12,7 +12,7 @@ import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
-
+import com.pathplanner.lib.util.PIDConstants;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Swerve;
 import com.stuypulse.robot.constants.Settings.Alignment.Rotation;
@@ -72,6 +72,26 @@ public class SwerveDriveToPose extends Command {
         thetaTolerance = Alignment.ANGLE_TOLERANCE.get();
 
         addRequirements(swerve);
+    }
+    
+    public SwerveDriveToPose withTranslationConstants(PIDConstants pid) {
+        controller.setTranslationConstants(pid.kP, pid.kI, pid.kD);
+        return this;
+    }
+    
+    public SwerveDriveToPose withRotationConstants(PIDConstants pid) {
+        controller.setRotationConstants(pid.kP, pid.kI, pid.kD);
+        return this;
+    }
+
+    public SwerveDriveToPose withTranslationConstants(double p, double i, double d) {
+        controller.setTranslationConstants(p, i, d);
+        return this;
+    }
+    
+    public SwerveDriveToPose withRotationConstants(double p, double i, double d) {
+        controller.setRotationConstants(p, i, d);
+        return this;
     }
 
     public SwerveDriveToPose withTolerance(Number x, Number y, Number theta) {

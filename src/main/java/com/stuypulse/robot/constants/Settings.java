@@ -400,5 +400,6 @@ public interface Settings {
     public interface Auton {
         double SHOOTER_STARTUP_DELAY = 0.25;
         double DEFAULT_INTAKE_TIMEOUT = 0.75;
+        double SHOOTER_START_PRE = 1.0;
     }
 }

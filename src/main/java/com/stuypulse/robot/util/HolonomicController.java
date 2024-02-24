@@ -6,8 +6,8 @@
 
 package com.stuypulse.robot.util;
 
-import com.stuypulse.stuylib.control.Controller;
-import com.stuypulse.stuylib.control.angle.AngleController;
+import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
+import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.math.Angle;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -16,11 +16,11 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 
 public class HolonomicController implements Sendable {
-    private final Controller xController;
-    private final Controller yController;
-    private final AngleController angleController;
+    private PIDController xController;
+    private PIDController yController;
+    private AnglePIDController angleController;
 
-    public HolonomicController(Controller xController, Controller yController, AngleController angleController) {
+    public HolonomicController(PIDController xController, PIDController yController, AnglePIDController angleController) {
         this.xController = xController;
         this.yController = yController;
         this.angleController = angleController;
@@ -48,6 +48,17 @@ public class HolonomicController implements Sendable {
         return xController.isDone(xToleranceMeters)
                 && yController.isDone(yToleranceMeters)
                 && angleController.isDoneDegrees(angleToleranceDegrees);
+    }
+
+    public HolonomicController setTranslationConstants(double p, double i, double d) {
+        xController.setPID(p, i, d);
+        yController.setPID(p, i, d);
+        return this;
+    }
+    
+    public HolonomicController setRotationConstants(double p, double i, double d) {
+        angleController.setPID(p, i, d);
+        return this;
     }
 
     @Override
