@@ -23,12 +23,10 @@ public class SixPieceCBADE extends SequentialCommandGroup {
             ),
             new ConveyorShootRoutine(),
 
-            new IntakeAcquire().withTimeout(Auton.DEFAULT_INTAKE_TIMEOUT),
-            
-            new SwerveDriveToShoot(),
-            new ConveyorShootRoutine(),
+            new FollowPathAndIntake("First Piece To C"),
+            new FollowPathAlignAndShoot("C to CShoot"),
 
-            new FollowPathAndIntake("C To B"),
+            new FollowPathAndIntake("CShoot To B"),
             new SwerveDriveToShoot(),
             new ConveyorShootRoutine(),
 
