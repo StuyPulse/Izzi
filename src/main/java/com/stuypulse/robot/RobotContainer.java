@@ -251,7 +251,7 @@ public class RobotContainer {
 
     public static String getAutonomousCommandNameStatic() {
         if (autonChooser.getSelected() == null) {
-            return "DoNothingAuton";
+            return "Do Nothing";
         }
         
         return autonChooser.getSelected().getName();
