@@ -148,7 +148,7 @@ public interface Settings {
         public interface Assist {
             SmartNumber ALIGN_MIN_SPEAKER_DIST = new SmartNumber("SwerveAssist/Minimum Distance to Speaker", 4); //change
             
-            double BUZZ_INTENSITY = 0.5;
+            double BUZZ_INTENSITY = 0.65;
 
             SmartNumber kP = new SmartNumber("SwerveAssist/kP", 2.0);
             SmartNumber kI = new SmartNumber("SwerveAssist/kI", 0.0);
