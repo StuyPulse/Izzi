@@ -39,8 +39,8 @@ public class LEDDefaultMode extends Command {
     }
 
     private LEDInstruction getInstruction() {
-        if (amper.hasNote())       return LEDInstructions.AMP;
-        else if (intake.hasNote()) return LEDInstructions.RED;
+        // if (amper.hasNote())  return LEDInstructions.AMP;
+        if (intake.hasNote()) return LEDInstructions.RED;
 
         return LEDInstructions.DEFAULT;
     }

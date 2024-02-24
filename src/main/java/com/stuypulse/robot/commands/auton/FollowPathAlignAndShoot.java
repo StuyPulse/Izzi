@@ -35,6 +35,18 @@ public class FollowPathAlignAndShoot extends SequentialCommandGroup {
         );
     }
 
+    public FollowPathAlignAndShoot(String path, double angle, double routineDelay) {
+        addCommands(
+            new ParallelCommandGroup(
+                SwerveDrive.getInstance().followPathCommand(path),
+                new WaitCommand(getPathTime(path) - Auton.SHOOTER_START_PRE).andThen(new ShooterPodiumShot())
+            ),
+            new SwerveDriveToShoot(angle),
+            new ShooterWaitForTarget().andThen(new ConveyorShootRoutine(routineDelay)),
+            new ShooterStop()
+        );
+    }
+
     public FollowPathAlignAndShoot(String path, double angle, PIDConstants translation, PIDConstants rotation) {
         addCommands(
             new ParallelCommandGroup(

@@ -297,7 +297,7 @@ public interface Settings {
     public interface Shooter {
         double MOMENT_OF_INERTIA = 1;
 
-        ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(3600, 2000);
+        ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(3600 - 250, 3600 + 250, 2400);
 
         ShooterSpeeds HANDOFF = new ShooterSpeeds(2000, 2000);
 
@@ -317,16 +317,16 @@ public interface Settings {
     }
 
     public interface Feeder {
-        double GEARING = 1.0;
+        double GEARING = 18.0 / 30.0;
 
         public interface Feedforward {
-            double kS = 0.56773;
-            double kV = 0.0021208;
-            double kA = 0.00021068;
+            double kS = 0.71611;
+            double kV = 0.003400;
+            double kA = 0.00040287;
         }
 
         public interface PID {
-            double kP = 0.00018918;
+            double kP = 0.00020863;
             double kI = 0.0;
             double kD = 0.0;
         }
@@ -363,7 +363,7 @@ public interface Settings {
         SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
         SmartNumber ANGLE_TOLERANCE = new SmartNumber("Alignment/Angle Tolerance", 5);
 
-        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Alignment/Podium Shot Distance", 3.02);
+        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Alignment/Podium Shot Distance", 3.00);
         double PODIUM_SHOT_MAX_ANGLE = 80;
 
         SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(23.0));
@@ -398,6 +398,8 @@ public interface Settings {
     }
 
     public interface Auton {
+        double MAX_SHOT_DISTANCE = 3.1;
+
         double SHOOTER_STARTUP_DELAY = 0.25;
         double DEFAULT_INTAKE_TIMEOUT = 0.75;
         double SHOOTER_START_PRE = 1.0;

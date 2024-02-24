@@ -22,7 +22,7 @@ public class FourPieceHGF extends SequentialCommandGroup {
                 new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
                     .andThen(new ShooterPodiumShot()),
 
-                new SwerveDriveToShoot(-50)
+                new SwerveDriveToShoot(-50).withTolerance(0.1, 0.1, 2)
             ),
 
             new ShooterWaitForTarget().andThen(new ConveyorShootRoutine()),
@@ -33,7 +33,7 @@ public class FourPieceHGF extends SequentialCommandGroup {
             new FollowPathAndIntake("HShoot To G (HGF)"),
             new FollowPathAlignAndShoot("G To Shoot (HGF)", -7),
             new FollowPathAndIntake("GShoot To F (HGF)"),
-            new FollowPathAlignAndShoot("F To Shoot (HGF)", -7)
+            new FollowPathAlignAndShoot("F To Shoot (HGF)", -7, 1.0)
         );
     }
 

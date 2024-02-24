@@ -22,6 +22,18 @@
           "data": {
             "pathName": "B To A"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A To E"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E To Shoot"
+          }
         }
       ]
     }
