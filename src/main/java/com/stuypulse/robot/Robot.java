@@ -87,16 +87,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledPeriodic() {
-        if (robot.intake.hasNote()) {
-            DriverStation.reportWarning("Intake IR sensor reporting note while disabled!", false);
-        }
-
         if (robot.amper.hasNote()) {
             DriverStation.reportWarning("Amper IR sensor reporting note while disabled!", false);
-        }
-
-        if (robot.conveyor.isNoteAtShooter()) {
-            DriverStation.reportWarning("Shooter IR sensor reporting note while disabled!", false);
         }
 
         if (Settings.LED.LED_AUTON_TOGGLE.get()) {
@@ -121,6 +113,7 @@ public class Robot extends TimedRobot {
             auto.schedule();
         }
 
+        robot.amper.setTargetHeight(robot.amper.getLiftHeight());
         scheduler.schedule(new LEDReset());
 
         robot.intake.setIdleMode(IdleMode.kBrake);
@@ -146,6 +139,7 @@ public class Robot extends TimedRobot {
         }
 
         robot.climber.stop();
+        robot.amper.setTargetHeight(robot.amper.getLiftHeight());
         scheduler.schedule(new LEDReset());
         scheduler.schedule(new ShooterStop());
 
