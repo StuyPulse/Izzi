@@ -202,15 +202,14 @@ public interface Settings {
             double kA = 0.00020123;
         }
 
-        // TODO: retune on carpet
         public interface Drive {
-            SmartNumber kP = new SmartNumber("Swerve/Drive/PID/kP", 0.48346);
+            SmartNumber kP = new SmartNumber("Swerve/Drive/PID/kP", 0.4);
             double kI = 0.0;
-            SmartNumber kD = new SmartNumber("Swerve/Drive/PID/kD", 0.0);
+            double kD = 0.0;
 
-            SmartNumber kS = new SmartNumber("Swerve/Drive/FF/kS", 0.062097);
-            SmartNumber kV = new SmartNumber("Swerve/Drive/FF/kV", 1.768);
-            SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.41581);
+            double kS = 0.15297;
+            SmartNumber kV = new SmartNumber("Swerve/Drive/FF/kV", 1.75);
+            SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.3);
         }
 
         public interface FrontRight {
