@@ -9,11 +9,13 @@ package com.stuypulse.robot;
 import com.stuypulse.robot.commands.leds.LEDReset;
 import com.stuypulse.robot.commands.leds.LEDSet;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
+import com.stuypulse.robot.commands.shooter.ShooterStop;
 import com.stuypulse.robot.commands.vision.VisionReloadWhiteList;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.RobotType;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAlign;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAutonChooser;
+import com.stuypulse.robot.subsystems.leds.instructions.LEDRainbow;
 
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -24,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import com.pathplanner.lib.pathfinding.LocalADStar;
 import com.pathplanner.lib.pathfinding.Pathfinding;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 public class Robot extends TimedRobot {
     
@@ -74,6 +77,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
+        robot.intake.setIdleMode(IdleMode.kCoast);
+        robot.conveyor.setIdleMode(IdleMode.kCoast);
+
+        // scheduler.schedule(new LEDSet(new LEDRainbow()));
+
         SmartDashboard.putString("Robot State", "DISABLED");
     }
 
@@ -115,6 +123,9 @@ public class Robot extends TimedRobot {
 
         scheduler.schedule(new LEDReset());
 
+        robot.intake.setIdleMode(IdleMode.kBrake);
+        robot.conveyor.setIdleMode(IdleMode.kBrake);
+
         SmartDashboard.putString("Robot State", "AUTON");
     }
 
@@ -136,7 +147,10 @@ public class Robot extends TimedRobot {
 
         robot.climber.stop();
         scheduler.schedule(new LEDReset());
-        scheduler.schedule(new ShooterPodiumShot());
+        scheduler.schedule(new ShooterStop());
+
+        robot.intake.setIdleMode(IdleMode.kBrake);
+        robot.conveyor.setIdleMode(IdleMode.kBrake);
 
         SmartDashboard.putString("Robot State", "TELEOP");
     }
@@ -156,6 +170,9 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().cancelAll();
 
         scheduler.schedule(new LEDReset());
+
+        robot.intake.setIdleMode(IdleMode.kBrake);
+        robot.conveyor.setIdleMode(IdleMode.kBrake);
 
         SmartDashboard.putString("Robot State", "TEST");
     }

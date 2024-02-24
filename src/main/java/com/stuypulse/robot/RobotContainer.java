@@ -19,7 +19,7 @@ import com.stuypulse.robot.commands.climber.*;
 import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.commands.intake.*;
 import com.stuypulse.robot.commands.leds.*;
-import com.stuypulse.robot.commands.notealignment.SwerveDriveNoteAlignedDrive;
+import com.stuypulse.robot.commands.notealignment.*;
 import com.stuypulse.robot.commands.shooter.*;
 import com.stuypulse.robot.commands.swerve.*;
 import com.stuypulse.robot.constants.LEDInstructions;
@@ -99,17 +99,20 @@ public class RobotContainer {
         // intaking with swerve pointing at note
         driver.getRightTriggerButton()
             .whileTrue(new IntakeAcquire().andThen(new BuzzController(driver)))
-            .whileTrue(new SwerveDriveNoteAlignedDrive(driver))
+            // .whileTrue(new SwerveDriveNoteAlignedDrive(driver))
             .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));
 
         // note to shooter and align
         // then shoot
         driver.getRightBumper()
+            .onTrue(new ShooterPodiumShot())
             .whileTrue(new SwerveDriveToShoot()
                     .deadlineWith(new LEDSet(LEDInstructions.GREEN))
+                .andThen(new ShooterWaitForTarget())
                 .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop())
-            .onFalse(new IntakeStop());
+            .onFalse(new IntakeStop())
+            .onFalse(new ShooterStop());
 
         // note to amper and align then score
         driver.getLeftBumper()
@@ -119,9 +122,11 @@ public class RobotContainer {
 
         // score speaker no align
         driver.getRightMenuButton()
-            .onTrue(new ConveyorShoot())
+            .onTrue(new ShooterPodiumShot())
+            .onTrue(new ShooterWaitForTarget().andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop())
-            .onFalse(new IntakeStop());
+            .onFalse(new IntakeStop())
+            .onFalse(new ShooterStop());
             
         // score amp no align
         driver.getLeftMenuButton()
@@ -131,8 +136,8 @@ public class RobotContainer {
 
         driver.getDPadUp()
             .onTrue(new ClimberToTop());
-        driver.getDPadDown()
-            .onTrue(new ClimberToBottom());
+        // driver.getDPadDown()
+        //     .onTrue(new ClimberToBottom());
 
         driver.getDPadRight()
             .onTrue(new SwerveDriveResetHeading());
@@ -166,7 +171,8 @@ public class RobotContainer {
                 .whileTrue(new AmperLiftDrive(operator));
 
         operator.getLeftTriggerButton()
-            .whileTrue(new ConveyorOuttake());
+            .onTrue(new IntakeDeacquire())
+            .onFalse(new IntakeStop());
         operator.getRightTriggerButton()
             .whileTrue(new IntakeAcquire().andThen(new BuzzController(driver)))
             .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));
@@ -191,8 +197,8 @@ public class RobotContainer {
 
         operator.getDPadRight()
             .onTrue(new ClimberToTop());
-        operator.getDPadLeft()
-            .onTrue(new ClimberToBottom());
+        // operator.getDPadLeft()
+        //     .onTrue(new ClimberToBottom());
 
         operator.getLeftButton()
                 .onTrue(new AmperToHeight(Settings.Amper.Lift.TRAP_SCORE_HEIGHT));
@@ -215,7 +221,9 @@ public class RobotContainer {
     /**************/
 
     public void configureAutons() {
-        autonChooser.setDefaultOption("Do Nothing", new DoNothingAuton());
+        autonChooser.addOption("Do Nothing", new DoNothingAuton());
+
+        autonChooser.setDefaultOption("Square", new Square());
 
         autonChooser.addOption("Mobility", new Mobility());
 
@@ -227,7 +235,7 @@ public class RobotContainer {
         autonChooser.addOption("2 Piece C", new TwoPieceC());
 
         autonChooser.addOption("4 Piece HGF", new FourPieceHGF());
-        autonChooser.addOption("3 Piece HG", new ThreePieceGH());
+        autonChooser.addOption("3 Piece HG", new ThreePieceHG());
         autonChooser.addOption("2 Piece H", new TwoPieceH());
 
         autonChooser.addOption("4 Piece GHF", new FourPieceGHF());
@@ -243,7 +251,7 @@ public class RobotContainer {
 
     public static String getAutonomousCommandNameStatic() {
         if (autonChooser.getSelected() == null) {
-            return "DoNothingAuton";
+            return "Do Nothing";
         }
         
         return autonChooser.getSelected().getName();

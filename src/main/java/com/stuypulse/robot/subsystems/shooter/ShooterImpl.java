@@ -9,13 +9,11 @@ package com.stuypulse.robot.subsystems.shooter;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
-import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings.Feeder;
 import com.stuypulse.robot.constants.Settings.Shooter.Feedforward;
 import com.stuypulse.robot.constants.Settings.Shooter.PID;
-import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.util.StupidFilter;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -47,17 +45,13 @@ public class ShooterImpl extends Shooter {
         rightMotor = new CANSparkFlex(Ports.Shooter.RIGHT_MOTOR, MotorType.kBrushless);
         feederMotor = new CANSparkMax(Ports.Conveyor.FEEDER, MotorType.kBrushless);
 
-        leftMotor.enableVoltageCompensation(12.0);
-        rightMotor.enableVoltageCompensation(12.0);
-        feederMotor.enableVoltageCompensation(12.0);
-
         leftEncoder = leftMotor.getEncoder();
         rightEncoder = rightMotor.getEncoder();
         feederEncoder = feederMotor.getEncoder();
 
         leftEncoder.setVelocityConversionFactor(1.0);
         rightEncoder.setVelocityConversionFactor(1.0);
-        feederEncoder.setVelocityConversionFactor(1.0);
+        feederEncoder.setVelocityConversionFactor(Feeder.GEARING);
 
         leftController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
             .add(new PIDController(PID.kP, PID.kI, PID.kD));
@@ -96,10 +90,6 @@ public class ShooterImpl extends Shooter {
         return feederEncoder.getVelocity();
     }
 
-    private double getFeederTargetRPM() {
-        return (getLeftTargetRPM() + getRightTargetRPM()) / 2.0;
-    }
-
     @Override
     public void periodic() {
         super.periodic();
@@ -108,9 +98,13 @@ public class ShooterImpl extends Shooter {
         rightController.update(getRightTargetRPM(), getRightShooterRPM());
         feederController.update(getFeederTargetRPM(), getFeederRPM());
 
-        leftMotor.setVoltage(leftController.getOutput());
-        rightMotor.setVoltage(rightController.getOutput());
-        feederMotor.setVoltage(feederController.getOutput());
+        if (getLeftTargetRPM() == 0 && getRightTargetRPM() == 0 && getFeederTargetRPM() == 0) {
+            stop();
+        } else {
+            leftMotor.setVoltage(leftController.getOutput());
+            rightMotor.setVoltage(rightController.getOutput());
+            feederMotor.setVoltage(feederController.getOutput());
+        }
 
         SmartDashboard.putNumber("Shooter/Right RPM", getRightShooterRPM());
         SmartDashboard.putNumber("Shooter/Left RPM", getLeftShooterRPM());

@@ -129,7 +129,7 @@ public class SwerveDrive extends SubsystemBase {
                 Motion.THETA,
                 Settings.Swerve.MAX_MODULE_SPEED,
                 Math.hypot(Settings.Swerve.LENGTH, Settings.Swerve.WIDTH),
-                new ReplanningConfig()
+                new ReplanningConfig(false, false)
             ),
             () -> {
                 var alliance = DriverStation.getAlliance();

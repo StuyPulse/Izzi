@@ -77,5 +77,9 @@ public class TumblerIntake extends Intake {
         SmartDashboard.putNumber("Intake/Top Motor Current", topMotor.getOutputCurrent());
         SmartDashboard.putNumber("Intake/Bottom Motor Current", bottomMotor.getOutputCurrent());
     }
+
+    @Override
+    public void setIdleMode(IdleMode mode) {
+    }
     
 }

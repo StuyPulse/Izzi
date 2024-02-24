@@ -6,6 +6,7 @@
 
 package com.stuypulse.robot.constants;
 
+import com.stuypulse.robot.util.ShooterSpeeds;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 
@@ -147,7 +148,7 @@ public interface Settings {
         public interface Assist {
             SmartNumber ALIGN_MIN_SPEAKER_DIST = new SmartNumber("SwerveAssist/Minimum Distance to Speaker", 4); //change
             
-            double BUZZ_INTENSITY = 0.5;
+            double BUZZ_INTENSITY = 0.65;
 
             SmartNumber kP = new SmartNumber("SwerveAssist/kP", 2.0);
             SmartNumber kI = new SmartNumber("SwerveAssist/kI", 0.0);
@@ -160,7 +161,7 @@ public interface Settings {
         // TODO: Tune these values
         public interface Motion {
             SmartNumber MAX_VELOCITY = new SmartNumber("Swerve/Motion/Max Velocity", 3.0);
-            SmartNumber MAX_ACCELERATION = new SmartNumber("Swerve/Motion/Max Acceleration", 6.0);
+            SmartNumber MAX_ACCELERATION = new SmartNumber("Swerve/Motion/Max Acceleration", 4.0);
             SmartNumber MAX_ANGULAR_VELOCITY = new SmartNumber("Swerve/Motion/Max Angular Velocity", Units.degreesToRadians(540));
             SmartNumber MAX_ANGULAR_ACCELERATION = new SmartNumber("Swerve/Motion/Max Angular Acceleration", Units.degreesToRadians(720));
 
@@ -171,7 +172,7 @@ public interface Settings {
                     MAX_ANGULAR_VELOCITY.get(),
                     MAX_ANGULAR_ACCELERATION.get());
 
-            PIDConstants XY = new PIDConstants(0.7, 0, 0.02);
+            PIDConstants XY = new PIDConstants(1.5, 0, 0.02);
             PIDConstants THETA = new PIDConstants(10, 0, 0.1);
         }
 
@@ -201,15 +202,14 @@ public interface Settings {
             double kA = 0.00020123;
         }
 
-        // TODO: retune on carpet
         public interface Drive {
-            SmartNumber kP = new SmartNumber("Swerve/Drive/PID/kP", 0.48346);
+            SmartNumber kP = new SmartNumber("Swerve/Drive/PID/kP", 0.4);
             double kI = 0.0;
-            SmartNumber kD = new SmartNumber("Swerve/Drive/PID/kD", 0.0);
+            double kD = 0.0;
 
-            SmartNumber kS = new SmartNumber("Swerve/Drive/FF/kS", 0.062097);
-            SmartNumber kV = new SmartNumber("Swerve/Drive/FF/kV", 1.768);
-            SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.41581);
+            double kS = 0.15297;
+            SmartNumber kV = new SmartNumber("Swerve/Drive/FF/kV", 1.75);
+            SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.3);
         }
 
         public interface FrontRight {
@@ -297,29 +297,28 @@ public interface Settings {
     public interface Shooter {
         double MOMENT_OF_INERTIA = 1;
 
-        SmartNumber PODIUM_SHOT_LEFT_RPM = new SmartNumber("Shooter/Podium Shot Left RPM", 4250);
-        SmartNumber PODIUM_SHOT_RIGHT_RPM = new SmartNumber("Shooter/Podium Shot Right RPM", 4250);
+        ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(4350, 4500, 4350);
 
-        double AMP_LEFT_RPM = PODIUM_SHOT_LEFT_RPM.get();
-        double AMP_RIGHT_RPM = PODIUM_SHOT_RIGHT_RPM.get();
+        ShooterSpeeds HANDOFF = new ShooterSpeeds(4000, 2000);
 
-        SmartNumber BACKWARDS_LEFT_RPM = new SmartNumber("Shooter/Backwards Left RPM", 0);
-        SmartNumber BACKWARDS_RIGHT_RPM = new SmartNumber("Shooter/Backwards Right RPM", 0);
+        double AT_RPM_EPSILON = 125;
 
         public interface Feedforward {
-            double kV = 0.0017;
-            double kA = 0.00020903;
-            double kS = 0.13793;
+            double kS = 0.073976;
+            double kV = 0.00175;
+            double kA = 0.00013268;
         }
 
         public interface PID {
-            double kP = 0.0001;
+            double kP = 0.001;
             double kI = 0.0;
             double kD = 0.0;
         }
     }
 
     public interface Feeder {
+        double GEARING = 1.0;
+
         public interface Feedforward {
             double kS = 0.57918;
             double kV = 0.002250;
@@ -327,7 +326,7 @@ public interface Settings {
         }
 
         public interface PID {
-            double kP = 0.0002;
+            double kP = 0.0008;
             double kI = 0.0;
             double kD = 0.0;
         }
@@ -364,7 +363,7 @@ public interface Settings {
         SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
         SmartNumber ANGLE_TOLERANCE = new SmartNumber("Alignment/Angle Tolerance", 5);
 
-        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Alignment/Podium Shot Distance", Units.inchesToMeters(126));
+        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Alignment/Podium Shot Distance", 3.02);
         double PODIUM_SHOT_MAX_ANGLE = 80;
 
         SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(23.0));

@@ -7,7 +7,6 @@ import com.stuypulse.robot.commands.intake.IntakeAcquire;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToShoot;
 import com.stuypulse.robot.constants.Settings.Auton;
-import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -25,7 +24,7 @@ public class SixPieceCBADE extends SequentialCommandGroup {
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake("First Piece To C"),
-            new FollowPathAlignAndShoot("C To CShoot"),
+            new FollowPathAlignAndShoot("C to CShoot"),
 
             new FollowPathAndIntake("CShoot To B"),
             new SwerveDriveToShoot(),

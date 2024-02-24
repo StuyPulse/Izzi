@@ -13,22 +13,23 @@ import com.stuypulse.robot.util.SLColor;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 
 import java.util.Arrays;
-
+        
 public class LEDAutonChooser extends LEDSection {
     public enum AutonLEDColors {
-        X("DoNothingAuton"),
-        OM("1 Piece + Mobility"),
+        X("Do Nothing"),
         OC("2 Piece C"),
         OH("2 Piece H"),
+        OG("2 Piece G"),
         OCB("3 Piece CB"),
         OHG("3 Piece HG"),
+        OGH("3 Piece GH"),
         OGHF("4 Piece GHF"),
         OHGF("4 Piece HGF"),
         OCBA("4 Piece CBA"),
         OCBAD("5 Piece CBAD"),
         OCBAE("5 Piece CBAE"),
         ODEF("Amp Auto (DEF)"),
-        OCBADF(/* "6 Piece CBADF (ND+PF).auto", "6 Piece CBADF (ND).auto",*/ "6 Piece CBADF"),
+        OCBADE("6 Piece CBADE"),
         M("Mobility");
 
         public final String autonName;
