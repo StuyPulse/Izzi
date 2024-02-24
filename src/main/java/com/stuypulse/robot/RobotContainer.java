@@ -18,6 +18,7 @@ import com.stuypulse.robot.commands.auton.HGF.*;
 import com.stuypulse.robot.commands.auton.tests.CurvedLine;
 import com.stuypulse.robot.commands.auton.tests.SharpCurvedLine;
 import com.stuypulse.robot.commands.auton.tests.SimpleNote;
+import com.stuypulse.robot.commands.auton.tests.Speed;
 import com.stuypulse.robot.commands.auton.tests.Square;
 import com.stuypulse.robot.commands.auton.tests.StraightLine;
 import com.stuypulse.robot.commands.auton.tests.StraightLineTurning;
@@ -235,6 +236,7 @@ public class RobotContainer {
         autonChooser.addOption("Curved Line", new CurvedLine());
         autonChooser.addOption("Sharp Curved Line", new SharpCurvedLine());
         autonChooser.addOption("SimpleNote", new SimpleNote());
+        autonChooser.addOption("SPEED", new Speed());
 
         autonChooser.addOption("Mobility", new Mobility());
 
