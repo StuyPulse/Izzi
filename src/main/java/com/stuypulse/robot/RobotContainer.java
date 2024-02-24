@@ -136,8 +136,8 @@ public class RobotContainer {
 
         driver.getDPadUp()
             .onTrue(new ClimberToTop());
-        driver.getDPadDown()
-            .onTrue(new ClimberToBottom());
+        // driver.getDPadDown()
+        //     .onTrue(new ClimberToBottom());
 
         driver.getDPadRight()
             .onTrue(new SwerveDriveResetHeading());
@@ -197,8 +197,8 @@ public class RobotContainer {
 
         operator.getDPadRight()
             .onTrue(new ClimberToTop());
-        operator.getDPadLeft()
-            .onTrue(new ClimberToBottom());
+        // operator.getDPadLeft()
+        //     .onTrue(new ClimberToBottom());
 
         operator.getLeftButton()
                 .onTrue(new AmperToHeight(Settings.Amper.Lift.TRAP_SCORE_HEIGHT));
