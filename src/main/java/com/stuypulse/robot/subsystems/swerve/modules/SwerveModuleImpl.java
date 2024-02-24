@@ -109,8 +109,8 @@ public class SwerveModuleImpl extends SwerveModule {
         angleController = new AnglePIDController(Turn.kP, Turn.kI, Turn.kD)
             .setOutputFilter(x -> -x);
 
-        driveVel = new StupidFilter();
-        drivePos = new StupidFilter();
+        driveVel = new StupidFilter(getId() + " Drive Velocity");
+        drivePos = new StupidFilter(getId() + " Drive Position");
 
         Motors.Swerve.DRIVE_CONFIG.configure(driveMotor);
         Motors.Swerve.TURN_CONFIG.configure(turnMotor);
