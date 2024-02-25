@@ -6,6 +6,7 @@
 
 package com.stuypulse.robot.commands.shooter;
 
+import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.shooter.Shooter;
 import com.stuypulse.robot.util.ShooterSpeeds;
 
@@ -27,6 +28,6 @@ public class ShooterSetRPM extends InstantCommand {
 
     @Override
     public void initialize() {
-        shooter.setTargetSpeeds(speeds);
+        shooter.setTargetSpeeds(speeds.update(Odometry.getInstance().getPose()));
     }
 }

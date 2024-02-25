@@ -69,13 +69,6 @@ public class ShooterImpl extends Shooter {
     }
 
     @Override
-    public void stop() {
-        leftMotor.stopMotor();
-        rightMotor.stopMotor();
-        feederMotor.stopMotor();
-    }
-
-    @Override
     public double getLeftShooterRPM() {
         return leftVel.get(leftEncoder.getVelocity());
     }
@@ -99,7 +92,9 @@ public class ShooterImpl extends Shooter {
         feederController.update(getFeederTargetRPM(), getFeederRPM());
 
         if (getLeftTargetRPM() == 0 && getRightTargetRPM() == 0 && getFeederTargetRPM() == 0) {
-            stop();
+            leftMotor.stopMotor();
+            rightMotor.stopMotor();
+            feederMotor.stopMotor();
         } else {
             leftMotor.setVoltage(leftController.getOutput());
             rightMotor.setVoltage(rightController.getOutput());
@@ -109,7 +104,6 @@ public class ShooterImpl extends Shooter {
         SmartDashboard.putNumber("Shooter/Right RPM", getRightShooterRPM());
         SmartDashboard.putNumber("Shooter/Left RPM", getLeftShooterRPM());
         SmartDashboard.putNumber("Shooter/Feeder RPM", getFeederRPM());
-        SmartDashboard.putNumber("Shooter/Feeder Target RPM", getFeederTargetRPM());
 
         SmartDashboard.putNumber("Shooter/Left Voltage", leftMotor.getBusVoltage() * leftMotor.getAppliedOutput());
         SmartDashboard.putNumber("Shooter/Right Voltage", rightMotor.getBusVoltage() * rightMotor.getAppliedOutput());

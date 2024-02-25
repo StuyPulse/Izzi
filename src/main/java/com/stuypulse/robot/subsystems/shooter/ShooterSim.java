@@ -37,12 +37,6 @@ public class ShooterSim extends Shooter {
     }
 
     @Override
-    public void stop() {
-        leftWheel.setInputVoltage(0);
-        rightWheel.setInputVoltage(0);
-    }
-
-    @Override
     public double getLeftShooterRPM() {
         return leftWheel.getAngularVelocityRPM();
     }
@@ -59,8 +53,13 @@ public class ShooterSim extends Shooter {
         leftController.update(getLeftTargetRPM(), getLeftShooterRPM());
         rightController.update(getRightTargetRPM(), getRightShooterRPM());
 
-        leftWheel.setInputVoltage(leftController.getOutput());
-        rightWheel.setInputVoltage(rightController.getOutput());
+        if (getLeftTargetRPM() == 0 && getRightTargetRPM() == 0) {
+            leftWheel.setInputVoltage(0);
+            rightWheel.setInputVoltage(0);
+        } else {
+            leftWheel.setInputVoltage(leftController.getOutput());
+            rightWheel.setInputVoltage(rightController.getOutput());
+        }
 
         SmartDashboard.putNumber("Shooter/Right RPM", getRightShooterRPM());
         SmartDashboard.putNumber("Shooter/Left RPM", getLeftShooterRPM());
