@@ -11,6 +11,7 @@ import com.stuypulse.robot.RobotContainer;
 import com.stuypulse.robot.util.SLColor;
 
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.DriverStation;
 
 import java.util.Arrays;
         
@@ -71,15 +72,13 @@ public class LEDAutonChooser extends LEDSection {
         }
 
         public static AutonLEDColors fromName(String name) {
-            return X;
-            // return Arrays.stream(values())
-            //     .filter((autonLedColor) -> autonLedColor.autonName.equals(name))
-            //     .findFirst()
-            //     .orElseThrow(
-            //         () -> new IllegalArgumentException(
-            //             "No LED configuration for auton with name: "
-            //                 + name
-            //                 + " found"));
+            return Arrays.stream(values())
+                .filter((autonLedColor) -> autonLedColor.autonName.equals(name))
+                .findFirst()
+                .orElseGet(() -> {
+                    DriverStation.reportWarning("AutonLEDColors.fromName: " + name + " not found", false);
+                    return X;
+                });
         }
     }
 
