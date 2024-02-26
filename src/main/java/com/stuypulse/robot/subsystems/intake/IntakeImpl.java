@@ -84,6 +84,11 @@ public class IntakeImpl extends Intake {
     }
 
     @Override
+    public boolean hasNotePartially() {
+        return hasNote() || isStalling();
+    }
+
+    @Override
     public double getIntakeRollerSpeed() {
         return motor.get();
     }
@@ -96,6 +101,7 @@ public class IntakeImpl extends Intake {
         SmartDashboard.putNumber("Intake/Current", motor.getOutputCurrent());
 
         SmartDashboard.putBoolean("Intake/Is Stalling", isStalling());
+        SmartDashboard.putBoolean("Intake/Above Current Limit", isMomentarilyStalling());
         SmartDashboard.putBoolean("Intake/Has Note", isTriggered());
         SmartDashboard.putBoolean("Intake/Has Note (Raw)", !sensor.get());
     }

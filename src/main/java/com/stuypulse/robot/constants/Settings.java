@@ -343,7 +343,7 @@ public interface Settings {
         public interface Detection {
             double TRIGGER_TIME = 0.0;
             double STALL_TIME = 0.05;
-            double STALL_CURRENT = 30;
+            double STALL_CURRENT = 50;
         }
 
         double ACQUIRE_SPEED = 1.0;
