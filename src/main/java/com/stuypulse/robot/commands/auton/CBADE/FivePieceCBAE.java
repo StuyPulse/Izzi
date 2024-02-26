@@ -3,7 +3,6 @@ package com.stuypulse.robot.commands.auton.CBADE;
 import com.stuypulse.robot.commands.auton.FollowPathAlignAndShoot;
 import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
-import com.stuypulse.robot.commands.intake.IntakeAcquire;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToShoot;
@@ -21,26 +20,26 @@ public class FivePieceCBAE extends SequentialCommandGroup {
                 new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
                     .andThen(new ShooterPodiumShot()),
                 
-                new SwerveDriveToShoot(-45)
+                SwerveDriveToPose.speakerRelative(-45)
             ),
 
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake("First Piece To C"),
-            new SwerveDriveToPose(() -> SwerveDriveToShoot.getSpeakerTargetPose(2.9))
-                .withTolerance(0.1, 0.1, 5),
+            new SwerveDriveToShoot(2.9)
+                .withTolerance(0.1, 5),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake("C to B"),
-            new SwerveDriveToShoot(5),
+            SwerveDriveToPose.speakerRelative(5),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake("B To A"),
-            new SwerveDriveToShoot(35),
+            SwerveDriveToPose.speakerRelative(35),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake("A To E"),
-            new FollowPathAlignAndShoot("E To Shoot", 30)
+            new FollowPathAlignAndShoot("E To Shoot", SwerveDriveToPose.speakerRelative(30))
         );
     }
     

@@ -21,23 +21,23 @@ public class FourPieceCBA extends SequentialCommandGroup {
                 new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
                     .andThen(new ShooterPodiumShot()),
                 
-                new SwerveDriveToShoot(-45)
+                SwerveDriveToPose.speakerRelative(-45)
             ),
 
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake("First Piece To C"),
-            new SwerveDriveToPose(() -> SwerveDriveToShoot.getSpeakerTargetPose(2.9))
-                .withTolerance(0.1, 0.1, 5),
+            new SwerveDriveToShoot(2.9)
+                .withTolerance(0.1, 5),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake("C to B"),
-            new SwerveDriveToShoot(5),
+            SwerveDriveToPose.speakerRelative(5),
             new ConveyorShootRoutine(),
 
             // TODO: reduce angle tolerance on last shot
             new FollowPathAndIntake("B To A"),
-            new SwerveDriveToShoot(35),
+            SwerveDriveToPose.speakerRelative(35),
             new ConveyorShootRoutine(),
 
             new ShooterStop()

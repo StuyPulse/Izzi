@@ -225,22 +225,16 @@ public class RobotContainer {
     public void configureAutons() {
         autonChooser.addOption("Do Nothing", new DoNothingAuton());
 
-        // autonChooser.addOption("Square", new Square());
-        // autonChooser.addOption("Straight Line", new StraightLine());
-        // autonChooser.addOption("Straight Line Turning", new StraightLineTurning());
-        // autonChooser.addOption("Curved Line", new CurvedLine());
-        // autonChooser.addOption("Sharp Curved Line", new SharpCurvedLine());
-        // autonChooser.addOption("SimpleNote", new SimpleNote());
-        // autonChooser.addOption("SPEED", new Speed());
-
         autonChooser.addOption("Mobility", new Mobility());
 
-        autonChooser.setDefaultOption("5 Piece CBAE", new FivePieceCBAE());
-        autonChooser.addOption("4 Piece CBA", new FourPieceCBA());
+        autonChooser.addOption("5 Piece CBAE", new FivePieceCBAE());
+        autonChooser.setDefaultOption("4 Piece CBA", new FourPieceCBA());
         autonChooser.addOption("3 Piece CB", new ThreePieceCB());
+        autonChooser.addOption("2 Piece C", new TwoPieceC());
 
         autonChooser.addOption("4 Piece HGF", new FourPieceHGF());
         autonChooser.addOption("3 Piece HG", new ThreePieceHG());
+        autonChooser.addOption("2 Piece H", new TwoPieceH());
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }
