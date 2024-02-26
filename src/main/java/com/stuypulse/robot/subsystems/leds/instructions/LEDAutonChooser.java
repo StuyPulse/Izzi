@@ -8,6 +8,7 @@ package com.stuypulse.robot.subsystems.leds.instructions;
 
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.RobotContainer;
+import com.stuypulse.robot.constants.Settings.LED;
 import com.stuypulse.robot.util.SLColor;
 
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
@@ -41,7 +42,7 @@ public class LEDAutonChooser extends LEDSection {
         }
 
         private static SLColor[] autonToLEDSection(char[] pieces) {
-            SLColor[] colorArray = new SLColor[10];
+            SLColor[] colorArray = new SLColor[15];
             Arrays.fill(colorArray, new SLColor());
 
             SLColor[] rainbow = new SLColor[] {
@@ -67,6 +68,11 @@ public class LEDAutonChooser extends LEDSection {
                 }
             }
 
+            colorArray[9] = SLColor.WHITE; 
+            for (int i = 10; i < LED.LED_LENGTH; i++) {
+                colorArray[i] = (Robot.isBlue() ? SLColor.BLUE : SLColor.RED);
+            }
+            
             return colorArray;
         }
 
@@ -88,6 +94,5 @@ public class LEDAutonChooser extends LEDSection {
     @Override
     public void setLED(AddressableLEDBuffer ledBuffer) {
         super.setLED(ledBuffer);
-        ledBuffer.setLED(ledBuffer.getLength() - 1, Robot.isBlue() ? SLColor.BLUE : SLColor.RED);
     }
 }
