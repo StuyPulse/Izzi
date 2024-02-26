@@ -38,9 +38,7 @@ public class FourPieceCBA extends SequentialCommandGroup {
             // TODO: reduce angle tolerance on last shot
             new FollowPathAndIntake("B To A"),
             new SwerveDriveToShoot(35),
-            new ConveyorShootRoutine(),
-
-            new ShooterStop()
+            new ConveyorShootRoutine()
         );
     }
     
