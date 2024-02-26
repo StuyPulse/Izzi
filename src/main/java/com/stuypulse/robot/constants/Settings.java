@@ -248,7 +248,7 @@ public interface Settings {
         SmartNumber THRESHOLD_Y = new SmartNumber("Note Detection/Y Threshold", Units.inchesToMeters(2));
         SmartNumber THRESHOLD_ANGLE = new SmartNumber("Note Detection/Angle Threshold", 1);
 
-        SmartNumber DRIVE_SPEED = new SmartNumber("Note Detection/Drive Speed", 1);
+        SmartNumber DRIVE_SPEED = new SmartNumber("Note Detection/Drive Speed", 0.5);
 
         SmartNumber INTAKE_THRESHOLD_DISTANCE = new SmartNumber("Note Detection/In Intake Path Distance", 0.9);
 
@@ -345,6 +345,8 @@ public interface Settings {
 
         double ACQUIRE_SPEED = 1.0;
         double DEACQUIRE_SPEED = 1.0;
+        
+        double TELEOP_DRIVE_STARTUP_DELAY = 0.25;
     }
 
     public interface Conveyor {

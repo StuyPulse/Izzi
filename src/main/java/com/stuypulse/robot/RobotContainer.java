@@ -99,9 +99,15 @@ public class RobotContainer {
     private void configureDriverBindings() {
         // intaking with swerve pointing at note
         driver.getRightTriggerButton()
-            .whileTrue(new IntakeAcquire().andThen(new BuzzController(driver)))
-            // .whileTrue(new SwerveDriveNoteAlignedDrive(driver))
-            .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));
+            .whileTrue(new WaitCommand(Settings.Intake.TELEOP_DRIVE_STARTUP_DELAY)
+                .andThen(new IntakeAcquire()
+                    .deadlineWith(new LEDSet(LEDInstructions.DARK_BLUE)))
+                .andThen(new BuzzController(driver)))
+            .whileTrue(new SwerveDriveToNote());
+        
+        driver.getLeftTriggerButton()
+            .onTrue(new IntakeDeacquire())
+            .onFalse(new IntakeStop());
 
         // note to shooter and align
         // then shoot
