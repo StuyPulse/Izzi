@@ -92,6 +92,8 @@ public interface Settings {
             SmartNumber TO_CONVEYOR_SPEED = new SmartNumber("Amper/Score/To Conveyor Speed", 1.0);
 
             double SCORE_MOTOR_CONVERSION = AMP_ROLLER_DIAMETER * Math.PI;
+
+            double DRIVE_AWAY_SPEED = 0.5;
         }
 
         public interface Lift {
@@ -297,6 +299,8 @@ public interface Settings {
     public interface Shooter {
         double MOMENT_OF_INERTIA = 1;
 
+        double TELEOP_SHOOTER_STARTUP_DELAY = 0.25;
+
         ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(3600, 500, 2400);
 
         ShooterSpeeds HANDOFF = new ShooterSpeeds(2000, 2000);
@@ -367,7 +371,7 @@ public interface Settings {
         double PODIUM_SHOT_MAX_ANGLE = 80;
 
         SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(23.0));
-        SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(17.5));
+        SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(20.5));
 
         SmartNumber TRAP_SETUP_DISTANCE = new SmartNumber("Alignment/Trap/Setup Pose Distance", Units.inchesToMeters(22.0));
         SmartNumber TRAP_CLIMB_DISTANCE = new SmartNumber("Alignment/Trap/Climb Distance", Units.inchesToMeters(18.0));

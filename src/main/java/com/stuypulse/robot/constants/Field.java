@@ -182,6 +182,10 @@ public interface Field {
             new Transform2d(0, Units.inchesToMeters(56), new Rotation2d()));
     }
 
+    public static AprilTag getAllianceAmpTag() {
+        return (Robot.isBlue() ? NamedTags.BLUE_AMP : NamedTags.RED_AMP).tag;
+    }
+
     /*** TRAP ***/
 
     public static Pose2d[] getAllianceTrapPoses() {
