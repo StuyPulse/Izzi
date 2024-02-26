@@ -65,10 +65,6 @@ public interface LEDInstructions {
 
     LEDInstruction DEFAULT = LEDInstructions.OFF;
 
-    LEDInstruction SPEAKER = LEDInstructions.ORANGE;
-    LEDInstruction AMP = LEDInstructions.PINK;
-    LEDInstruction TRAP = LEDInstructions.GOLD;
-
     LEDInstruction ASSIST_FLASH = LEDInstructions.GREEN;
 
     // TO FUTURE USERS, DONT PUT LEDAlign and LEDAutonChooser (any disabled LEDInstructions) inside
