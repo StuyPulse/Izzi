@@ -19,13 +19,13 @@ public class TwoPieceH extends SequentialCommandGroup {
                 new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
                     .andThen(new ShooterPodiumShot()),
 
-                new SwerveDriveToShoot()
+                new SwerveDriveToShoot(-50)
             ),
 
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake("Start To H (HGF)"),
-            new FollowPathAlignAndShoot("H To HShoot (HGF)")
+            new FollowPathAlignAndShoot("H To HShoot (HGF)", -45)
         );
     }
 

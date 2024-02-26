@@ -245,6 +245,10 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void setChassisSpeeds(ChassisSpeeds robotSpeeds) {
+        SmartDashboard.putNumber("Swerve/Chassis Target X", robotSpeeds.vxMetersPerSecond);
+        SmartDashboard.putNumber("Swerve/Chassis Target Y", robotSpeeds.vyMetersPerSecond);
+        SmartDashboard.putNumber("Swerve/Chassis Target Omega", robotSpeeds.omegaRadiansPerSecond);
+
         setModuleStates(kinematics.toSwerveModuleStates(robotSpeeds));
     }
 

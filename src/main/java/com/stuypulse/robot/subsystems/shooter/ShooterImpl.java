@@ -60,8 +60,8 @@ public class ShooterImpl extends Shooter {
         feederController = new MotorFeedforward(Feeder.Feedforward.kS, Feeder.Feedforward.kV, Feeder.Feedforward.kA).velocity()
             .add(new PIDController(Feeder.PID.kP, Feeder.PID.kI, Feeder.PID.kD));
         
-        leftVel = new StupidFilter();
-        rightVel = new StupidFilter();
+        leftVel = new StupidFilter("Left Shooter Velocity");
+        rightVel = new StupidFilter("Right Shooter Velocity");
 
         Motors.Shooter.LEFT_SHOOTER.configure(leftMotor);
         Motors.Shooter.RIGHT_SHOOTER.configure(rightMotor);

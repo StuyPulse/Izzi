@@ -17,28 +17,29 @@ public class SixPieceCBADE extends SequentialCommandGroup {
     public SixPieceCBADE() {
         addCommands(
             new ParallelCommandGroup(
-                new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
-                    .andThen(new ShooterPodiumShot()),
-                new SwerveDriveToShoot()
+                // new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
+                //     .andThen(new ShooterPodiumShot()),
+                
+                new FollowPathAlignAndShoot("Start To C", -40)
             ),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake("First Piece To C"),
-            new FollowPathAlignAndShoot("C to CShoot"),
+            new FollowPathAlignAndShoot("C to CShoot", -5),
 
             new FollowPathAndIntake("CShoot To B"),
-            new SwerveDriveToShoot(),
+            new SwerveDriveToShoot(5),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake("B To A"),
-            new SwerveDriveToShoot(),
+            new SwerveDriveToShoot(40),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake("A To D"),
-            new FollowPathAlignAndShoot("D To Shoot"),
+            new FollowPathAlignAndShoot("D To Shoot", 30),
 
             new FollowPathAndIntake("Shoot To E"),
-            new FollowPathAlignAndShoot("D To Shoot")
+            new FollowPathAlignAndShoot("E To Shoot", 30)
         );
     }
     

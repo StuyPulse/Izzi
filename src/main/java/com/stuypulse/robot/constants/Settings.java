@@ -172,7 +172,7 @@ public interface Settings {
                     MAX_ANGULAR_VELOCITY.get(),
                     MAX_ANGULAR_ACCELERATION.get());
 
-            PIDConstants XY = new PIDConstants(1.5, 0, 0.02);
+            PIDConstants XY = new PIDConstants(2.5, 0, 0.02);
             PIDConstants THETA = new PIDConstants(10, 0, 0.1);
         }
 
@@ -180,7 +180,7 @@ public interface Settings {
             public interface Drive {
                 double WHEEL_DIAMETER = Units.inchesToMeters(4);
                 double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
-                double GEAR_RATIO = 1.0 / 4.71;
+                double GEAR_RATIO = 1.0 / 6.12;
 
                 double POSITION_CONVERSION = WHEEL_CIRCUMFERENCE * GEAR_RATIO;
                 double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
@@ -203,36 +203,36 @@ public interface Settings {
         }
 
         public interface Drive {
-            SmartNumber kP = new SmartNumber("Swerve/Drive/PID/kP", 0.4);
+            SmartNumber kP = new SmartNumber("Swerve/Drive/PID/kP", 0.2);
             double kI = 0.0;
             double kD = 0.0;
 
             double kS = 0.15297;
-            SmartNumber kV = new SmartNumber("Swerve/Drive/FF/kV", 1.75);
-            SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.3);
+            SmartNumber kV = new SmartNumber("Swerve/Drive/FF/kV", 1.6);
+            SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.2);
         }
 
         public interface FrontRight {
             String ID = "Front Right";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(152.6);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(153.720703);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * +0.5, LENGTH * -0.5);
         }
 
         public interface FrontLeft {
             String ID = "Front Left";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-48.9);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-50.273438);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * +0.5, LENGTH * +0.5);
         }
 
         public interface BackLeft {
             String ID = "Back Left";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(99.4);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(99.052734);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * +0.5);
         }
 
         public interface BackRight {
             String ID = "Back Right";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(179.0);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(177.714844);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * -0.5);
         }
     }
@@ -297,36 +297,36 @@ public interface Settings {
     public interface Shooter {
         double MOMENT_OF_INERTIA = 1;
 
-        ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(4350, 4500, 4350);
+        ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(3600 - 250, 3600 + 250, 2400);
 
-        ShooterSpeeds HANDOFF = new ShooterSpeeds(4000, 2000);
+        ShooterSpeeds HANDOFF = new ShooterSpeeds(2000, 2000);
 
         double AT_RPM_EPSILON = 125;
 
         public interface Feedforward {
-            double kS = 0.073976;
-            double kV = 0.00175;
-            double kA = 0.00013268;
+            double kS = 0.11873;
+            double kV = 0.0017968;
+            double kA = 0.00024169;
         }
 
         public interface PID {
-            double kP = 0.001;
+            double kP = 0.00034711;
             double kI = 0.0;
             double kD = 0.0;
         }
     }
 
     public interface Feeder {
-        double GEARING = 1.0;
+        double GEARING = 18.0 / 30.0;
 
         public interface Feedforward {
-            double kS = 0.57918;
-            double kV = 0.002250;
-            double kA = 0.0018385;
+            double kS = 0.71611;
+            double kV = 0.003400;
+            double kA = 0.00040287;
         }
 
         public interface PID {
-            double kP = 0.0008;
+            double kP = 0.00020863;
             double kI = 0.0;
             double kD = 0.0;
         }
@@ -350,7 +350,7 @@ public interface Settings {
         SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.0);
         SmartNumber RECALL_DEBOUNCE = new SmartNumber("Conveyor/Recall Delay", 1.0);
 
-        SmartNumber SHOOT_WAIT_DELAY = new SmartNumber("Conveyor/Shoot Wait Delay", 0.5);
+        SmartNumber SHOOT_WAIT_DELAY = new SmartNumber("Conveyor/Shoot Wait Delay", 0.35);
 
         SmartNumber AT_FEEDER_WAIT_DELAY = new SmartNumber("Conveyor/At Feeder Wait Delay", 0.5);
     }
@@ -363,7 +363,7 @@ public interface Settings {
         SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
         SmartNumber ANGLE_TOLERANCE = new SmartNumber("Alignment/Angle Tolerance", 5);
 
-        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Alignment/Podium Shot Distance", 3.02);
+        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Alignment/Podium Shot Distance", 3.00);
         double PODIUM_SHOT_MAX_ANGLE = 80;
 
         SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(23.0));
@@ -398,7 +398,10 @@ public interface Settings {
     }
 
     public interface Auton {
-        double SHOOTER_STARTUP_DELAY = 0.5;
-        double DEFAULT_INTAKE_TIMEOUT = 2;
+        double MAX_SHOT_DISTANCE = 3.1;
+
+        double SHOOTER_STARTUP_DELAY = 0.25;
+        double DEFAULT_INTAKE_TIMEOUT = 0.75;
+        double SHOOTER_START_PRE = 1.0;
     }
 }

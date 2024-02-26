@@ -15,6 +15,7 @@ import com.stuypulse.robot.commands.auton.*;
 import com.stuypulse.robot.commands.auton.CBADE.*;
 import com.stuypulse.robot.commands.auton.GHF.*;
 import com.stuypulse.robot.commands.auton.HGF.*;
+import com.stuypulse.robot.commands.auton.tests.*;
 import com.stuypulse.robot.commands.climber.*;
 import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.commands.intake.*;
@@ -107,7 +108,7 @@ public class RobotContainer {
         driver.getRightBumper()
             .onTrue(new ShooterPodiumShot())
             .whileTrue(new SwerveDriveToShoot()
-                    .deadlineWith(new LEDSet(LEDInstructions.GREEN))
+                    .deadlineWith(new LEDSet(LEDInstructions.ASSIST_FLASH))
                 .andThen(new ShooterWaitForTarget())
                 .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop())
@@ -223,24 +224,22 @@ public class RobotContainer {
     public void configureAutons() {
         autonChooser.addOption("Do Nothing", new DoNothingAuton());
 
-        autonChooser.setDefaultOption("Square", new Square());
+        // autonChooser.addOption("Square", new Square());
+        // autonChooser.addOption("Straight Line", new StraightLine());
+        // autonChooser.addOption("Straight Line Turning", new StraightLineTurning());
+        // autonChooser.addOption("Curved Line", new CurvedLine());
+        // autonChooser.addOption("Sharp Curved Line", new SharpCurvedLine());
+        // autonChooser.addOption("SimpleNote", new SimpleNote());
+        // autonChooser.addOption("SPEED", new Speed());
 
         autonChooser.addOption("Mobility", new Mobility());
 
-        autonChooser.addOption("6 Piece CBADE", new SixPieceCBADE());
-        autonChooser.addOption("5 Piece CBAD", new FivePieceCBAD());
-        autonChooser.addOption("5 Piece CBAE", new FivePieceCBAE());
+        autonChooser.setDefaultOption("5 Piece CBAE", new FivePieceCBAE());
         autonChooser.addOption("4 Piece CBA", new FourPieceCBA());
         autonChooser.addOption("3 Piece CB", new ThreePieceCB());
-        autonChooser.addOption("2 Piece C", new TwoPieceC());
 
         autonChooser.addOption("4 Piece HGF", new FourPieceHGF());
         autonChooser.addOption("3 Piece HG", new ThreePieceHG());
-        autonChooser.addOption("2 Piece H", new TwoPieceH());
-
-        autonChooser.addOption("4 Piece GHF", new FourPieceGHF());
-        autonChooser.addOption("3 Piece GH", new ThreePieceGH());
-        autonChooser.addOption("2 Piece G", new TwoPieceG());
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }

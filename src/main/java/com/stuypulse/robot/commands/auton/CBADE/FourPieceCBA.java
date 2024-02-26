@@ -4,11 +4,10 @@ import com.stuypulse.robot.commands.auton.FollowPathAlignAndShoot;
 import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
+import com.stuypulse.robot.commands.shooter.ShooterStop;
+import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToShoot;
-import com.stuypulse.robot.commands.vision.VisionChangeWhiteList;
-import com.stuypulse.robot.commands.vision.VisionReloadWhiteList;
 import com.stuypulse.robot.constants.Settings.Auton;
-import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -18,28 +17,30 @@ public class FourPieceCBA extends SequentialCommandGroup {
 
     public FourPieceCBA() {
         addCommands(
-            new VisionChangeWhiteList(7),
-        
             new ParallelCommandGroup(
                 new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
                     .andThen(new ShooterPodiumShot()),
                 
-                new FollowPathAlignAndShoot("Start To C")
+                new SwerveDriveToShoot(-45)
             ),
 
+            new ConveyorShootRoutine(),
+
             new FollowPathAndIntake("First Piece To C"),
-            new WaitCommand(0.2),
-            new FollowPathAlignAndShoot("C to CShoot"),
-
-            new FollowPathAndIntake("CShoot To B"),
-            new SwerveDriveToShoot(),
+            new SwerveDriveToPose(() -> SwerveDriveToShoot.getSpeakerTargetPose(2.9))
+                .withTolerance(0.1, 0.1, 5),
             new ConveyorShootRoutine(),
 
+            new FollowPathAndIntake("C to B"),
+            new SwerveDriveToShoot(5),
+            new ConveyorShootRoutine(),
+
+            // TODO: reduce angle tolerance on last shot
             new FollowPathAndIntake("B To A"),
-            new SwerveDriveToShoot(),
+            new SwerveDriveToShoot(35),
             new ConveyorShootRoutine(),
 
-            new VisionReloadWhiteList()
+            new ShooterStop()
         );
     }
     
