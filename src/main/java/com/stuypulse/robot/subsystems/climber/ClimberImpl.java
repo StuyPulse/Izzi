@@ -151,8 +151,8 @@ public class ClimberImpl extends Climber {
             if (getLeftVoltage() > 0 && isLeftStalling()) leftMotor.stopMotor();
             if (getRightVoltage() > 0 && isRightStalling()) rightMotor.stopMotor();
 
-            if (getLeftVoltage() < 0 && isLeftStalling()) leftMotor.setVoltage(-Settings.Climber.Control.CLIMB_VOLTAGE);
-            if (getRightVoltage() < 0 && isRightStalling()) rightMotor.setVoltage(-Settings.Climber.Control.CLIMB_VOLTAGE);
+            // if (getLeftVoltage() < 0 && isLeftStalling()) leftMotor.setVoltage(-Settings.Climber.Control.CLIMB_VOLTAGE);
+            // if (getRightVoltage() < 0 && isRightStalling()) rightMotor.setVoltage(-Settings.Climber.Control.CLIMB_VOLTAGE);
         }
 
         SmartDashboard.putNumber("Climber/Left Voltage", getLeftVoltage());

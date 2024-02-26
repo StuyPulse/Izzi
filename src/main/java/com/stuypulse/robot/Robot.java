@@ -113,6 +113,7 @@ public class Robot extends TimedRobot {
             auto.schedule();
         }
 
+        robot.climber.stop();
         robot.amper.setTargetHeight(robot.amper.getLiftHeight());
         scheduler.schedule(new LEDReset());
 

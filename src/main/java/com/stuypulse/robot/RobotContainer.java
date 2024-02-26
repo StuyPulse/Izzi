@@ -227,8 +227,8 @@ public class RobotContainer {
 
         autonChooser.addOption("Mobility", new Mobility());
 
-        autonChooser.addOption("5 Piece CBAE", new FivePieceCBAE());
-        autonChooser.setDefaultOption("4 Piece CBA", new FourPieceCBA());
+        autonChooser.setDefaultOption("5 Piece CBAE", new FivePieceCBAE());
+        autonChooser.addOption("4 Piece CBA", new FourPieceCBA());
         autonChooser.addOption("3 Piece CB", new ThreePieceCB());
         autonChooser.addOption("2 Piece C", new TwoPieceC());
 
