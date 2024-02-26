@@ -136,8 +136,8 @@ public class RobotContainer {
                 .andThen(new AmperScore()))
             .onFalse(new AmperStop());
 
-        driver.getDPadUp()
-            .onTrue(new ClimberToTop());
+        // driver.getDPadUp()
+        //     .onTrue(new ClimberToTop());
         // driver.getDPadDown()
         //     .onTrue(new ClimberToBottom());
 
@@ -197,8 +197,8 @@ public class RobotContainer {
         operator.getDPadDown()
             .whileTrue(new AmperLiftFineAdjust(operator));
 
-        operator.getDPadRight()
-            .onTrue(new ClimberToTop());
+        // operator.getDPadRight()
+        //     .onTrue(new ClimberToTop());
         // operator.getDPadLeft()
         //     .onTrue(new ClimberToBottom());
 
