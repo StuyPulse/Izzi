@@ -175,6 +175,11 @@ public class AmperImpl extends Amper {
             voltage = 0;
         }
 
+        boolean closeToBottom = getTargetHeight() == Settings.Amper.Lift.MIN_HEIGHT && isAtTargetHeight(0.04);
+        if (closeToBottom && voltage > 0) {
+            voltage = 0;
+        }
+
         liftMotor.setVoltage(voltage);
 
         SmartDashboard.putNumber("Amper/Voltage", voltage);
@@ -186,7 +191,8 @@ public class AmperImpl extends Amper {
 
         SmartDashboard.putBoolean("Amper/Has Note", hasNote());
         SmartDashboard.putBoolean("Amper/At Bottom", liftAtBottom());
-
+        SmartDashboard.putBoolean("Amper/Close To Bottom", closeToBottom);
+        
         SmartDashboard.putBoolean("Amper/Under Stage", Field.robotUnderStage());
     }
 }

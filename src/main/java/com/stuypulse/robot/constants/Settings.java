@@ -126,13 +126,13 @@ public interface Settings {
                 double kS = 0.18665;
                 double kV = 6.6702;
                 double kA = 0.803;
-                double kG = 0.15;
+                double kG = 0.3;
             }
 
             public interface PID {
-                double kP = 0.5;
+                double kP = 1.5;
                 double kI = 0.0;
-                double kD = 0.0;
+                double kD = 0.2;
             }
         }
     }

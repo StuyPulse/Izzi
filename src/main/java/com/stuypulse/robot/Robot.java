@@ -8,11 +8,11 @@ package com.stuypulse.robot;
 
 import com.stuypulse.robot.commands.leds.LEDReset;
 import com.stuypulse.robot.commands.leds.LEDSet;
-import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
 import com.stuypulse.robot.commands.shooter.ShooterStop;
 import com.stuypulse.robot.commands.vision.VisionReloadWhiteList;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.RobotType;
+import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAlign;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAutonChooser;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDRainbow;
@@ -114,7 +114,7 @@ public class Robot extends TimedRobot {
         }
 
         robot.climber.stop();
-        robot.amper.setTargetHeight(robot.amper.getLiftHeight());
+        robot.amper.setTargetHeight(Lift.MIN_HEIGHT);
         scheduler.schedule(new LEDReset());
 
         robot.intake.setIdleMode(IdleMode.kBrake);
@@ -140,7 +140,7 @@ public class Robot extends TimedRobot {
         }
 
         robot.climber.stop();
-        robot.amper.setTargetHeight(robot.amper.getLiftHeight());
+        robot.amper.setTargetHeight(Lift.MIN_HEIGHT);
         scheduler.schedule(new LEDReset());
         scheduler.schedule(new ShooterStop());
 
