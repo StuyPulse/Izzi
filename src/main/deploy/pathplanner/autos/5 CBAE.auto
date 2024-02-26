@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "First Piece To C"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C to B"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B To A"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A To E"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E To Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

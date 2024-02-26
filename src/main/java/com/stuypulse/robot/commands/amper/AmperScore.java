@@ -20,6 +20,11 @@ public class AmperScore extends InstantCommand {
             .andThen(new AmperStop());
     }
 
+    public static Command untilDone() {
+        return new AmperScore()
+            .until(() -> !Amper.getInstance().hasNote());
+    }
+
     private final Amper amper;
 
     public AmperScore() {

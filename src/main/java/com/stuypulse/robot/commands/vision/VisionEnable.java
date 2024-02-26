@@ -6,7 +6,10 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class VisionEnable extends InstantCommand {
 
-    public VisionEnable() {
+    public VisionEnable() {}
+  
+    @Override
+    public void initialize() {
         Odometry.getInstance().setVisionEnabled(true);
     }
 }
