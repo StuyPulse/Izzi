@@ -25,12 +25,11 @@ public class ThreePieceCB extends SequentialCommandGroup {
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake("First Piece To C"),
-            new SwerveDriveToShoot(2.9)
-                .withTolerance(0.1, 5),
+            new SwerveDriveToShoot(2.9),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake("C to B"),
-            SwerveDriveToPose.speakerRelative(5),
+            new SwerveDriveToShoot(),
             new ConveyorShootRoutine()
         );
     }

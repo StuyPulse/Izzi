@@ -31,7 +31,6 @@ public class FivePieceCBAE extends SequentialCommandGroup {
 
             new FollowPathAndIntake("C to B"),
             new SwerveDriveToShoot(),
-            // SwerveDriveToPose.speakerRelative(5),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake("B To A"),
