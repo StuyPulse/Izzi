@@ -45,6 +45,16 @@ public class ShooterSim extends Shooter {
     public double getRightShooterRPM() {
         return rightWheel.getAngularVelocityRPM();
     }
+    
+    @Override
+    public double getFeederRPM() {
+        return 0;
+    }
+
+    @Override
+    public boolean noteShot() {
+        return atTargetSpeeds();
+    }
 
     @Override
     public void periodic() {
@@ -72,10 +82,5 @@ public class ShooterSim extends Shooter {
     public void simulationPeriodic() {
         leftWheel.update(Settings.DT);
         rightWheel.update(Settings.DT);
-    }
-
-    @Override
-    public double getFeederRPM() {
-        return 0;
     }
 }

@@ -307,6 +307,9 @@ public interface Settings {
 
         double AT_RPM_EPSILON = 125;
 
+        SmartNumber RPM_CHANGE_RC = new SmartNumber("Shooter/RPM Change RC", 0.2);
+        double RPM_CHANGE_DIP_THRESHOLD = 100;
+
         public interface Feedforward {
             double kS = 0.11873;
             double kV = 0.0017968;

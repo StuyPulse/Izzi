@@ -9,8 +9,11 @@ package com.stuypulse.robot.subsystems.shooter;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
+import com.stuypulse.stuylib.streams.numbers.IStream;
+import com.stuypulse.stuylib.streams.numbers.filters.HighPassFilter;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Feeder;
 import com.stuypulse.robot.constants.Settings.Shooter.Feedforward;
 import com.stuypulse.robot.constants.Settings.Shooter.PID;
@@ -36,7 +39,9 @@ public class ShooterImpl extends Shooter {
     private final Controller leftController;
     private final Controller rightController;
     private final Controller feederController;
-
+    
+    private final IStream rpmChange;
+    
     private final StupidFilter leftVel;
     private final StupidFilter rightVel;
 
@@ -60,6 +65,9 @@ public class ShooterImpl extends Shooter {
         feederController = new MotorFeedforward(Feeder.Feedforward.kS, Feeder.Feedforward.kV, Feeder.Feedforward.kA).velocity()
             .add(new PIDController(Feeder.PID.kP, Feeder.PID.kI, Feeder.PID.kD));
         
+        rpmChange = IStream.create(this::getAverageShooterRPM)
+            .filtered(new HighPassFilter(Settings.Shooter.RPM_CHANGE_RC));
+
         leftVel = new StupidFilter("Left Shooter Velocity");
         rightVel = new StupidFilter("Right Shooter Velocity");
 
@@ -81,6 +89,11 @@ public class ShooterImpl extends Shooter {
     @Override
     public double getFeederRPM() {
         return feederEncoder.getVelocity();
+    }
+
+    @Override
+    public boolean noteShot() {
+        return getLeftTargetRPM() > 0 && getRightTargetRPM() > 0 && rpmChange.get() < -Settings.Shooter.RPM_CHANGE_DIP_THRESHOLD;
     }
 
     @Override
@@ -112,5 +125,8 @@ public class ShooterImpl extends Shooter {
         SmartDashboard.putNumber("Shooter/Left Current", leftMotor.getOutputCurrent());
         SmartDashboard.putNumber("Shooter/Right Current", rightMotor.getOutputCurrent());
         SmartDashboard.putNumber("Shooter/Feeder Current", feederMotor.getOutputCurrent());
+
+        SmartDashboard.putNumber("Shooter/RPM Change", rpmChange.get());
+        SmartDashboard.putBoolean("Shooter/Note Shot", noteShot());
     }
 }
