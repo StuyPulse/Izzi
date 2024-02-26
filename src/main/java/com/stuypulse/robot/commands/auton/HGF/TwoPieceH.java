@@ -7,6 +7,7 @@ import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
 import com.stuypulse.robot.commands.shooter.ShooterStop;
 import com.stuypulse.robot.commands.shooter.ShooterWaitForTarget;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
+import com.stuypulse.robot.commands.swerve.SwerveDriveToShoot;
 import com.stuypulse.robot.constants.Settings.Auton;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -25,11 +26,12 @@ public class TwoPieceH extends SequentialCommandGroup {
                     .withTolerance(0.1, 0.1, 2)
             ),
 
-            new ShooterWaitForTarget().andThen(new ConveyorShootRoutine()),
+            new ShooterWaitForTarget(),
+            new ConveyorShootRoutine(),
             new ShooterStop(),
 
             new FollowPathAndIntake("Start To H (HGF)"),
-            new FollowPathAlignAndShoot("H To HShoot (HGF)", SwerveDriveToPose.speakerRelative(-45))
+            new FollowPathAlignAndShoot("H To HShoot (HGF)", new SwerveDriveToShoot())
         );
     }
 
