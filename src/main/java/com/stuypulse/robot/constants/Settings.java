@@ -297,7 +297,7 @@ public interface Settings {
     public interface Shooter {
         double MOMENT_OF_INERTIA = 1;
 
-        ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(3600 - 250, 3600 + 250, 2400);
+        ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(3600, 500, 2400);
 
         ShooterSpeeds HANDOFF = new ShooterSpeeds(2000, 2000);
 

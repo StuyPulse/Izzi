@@ -5,7 +5,8 @@
   "pathFolders": [
     "ABCDE",
     "ABCDE (ND)",
-    "HGF"
+    "HGF",
+    "Tests"
   ],
   "autoFolders": [],
   "defaultMaxVel": 5.55,
