@@ -10,14 +10,14 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.stuypulse.robot.constants.Motors.CANSparkMaxConfig;
+import com.stuypulse.robot.constants.Motors.CANSparkConfig;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TumblerIntake extends Intake {
 
-    private static final CANSparkMaxConfig TOP_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake);
-    private static final CANSparkMaxConfig BOTTOM_CONFIG = new CANSparkMaxConfig(true, IdleMode.kBrake);
+    private static final CANSparkConfig TOP_CONFIG = new CANSparkConfig(false, IdleMode.kBrake);
+    private static final CANSparkConfig BOTTOM_CONFIG = new CANSparkConfig(true, IdleMode.kBrake);
 
     private final CANSparkMax topMotor;
     private final RelativeEncoder topEncoder;
