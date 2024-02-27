@@ -10,6 +10,7 @@ import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounce;
 
 import com.stuypulse.robot.constants.Motors;
+import com.stuypulse.robot.constants.Motors.StatusFrame;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 
@@ -43,6 +44,8 @@ public class ConveyorImpl extends Conveyor {
 
         isAtShooter = BStream.create(irSensor).not()
             .filtered(new BDebounce.Rising(Settings.Conveyor.DEBOUNCE_TIME));
+
+        Motors.disableStatusFrames(gandalfMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
 
         Motors.Conveyor.GANDALF_MOTOR.configure(gandalfMotor);
     }
