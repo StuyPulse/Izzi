@@ -102,8 +102,8 @@ public class RobotContainer {
             .whileTrue(new WaitCommand(Settings.Intake.TELEOP_DRIVE_STARTUP_DELAY)
                 .andThen(new IntakeAcquire()
                     .deadlineWith(new LEDSet(LEDInstructions.DARK_BLUE)))
-                .andThen(new BuzzController(driver)))
-            .whileTrue(new SwerveDriveToNote());
+                .andThen(new BuzzController(driver)));
+            // .whileTrue(new SwerveDriveToNote());
         
         driver.getLeftTriggerButton()
             .onTrue(new IntakeDeacquire())
@@ -169,6 +169,12 @@ public class RobotContainer {
                 
                 .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
                     .deadlineWith(new LEDSet(LEDInstructions.GREEN))));
+
+        driver.getRightButton()
+            .whileTrue(SwerveDriveToPose.toClimb());
+
+        driver.getBottomButton()
+            .whileTrue(new SwerveDriveDriveToChain());
     }
 
     private void configureOperatorBindings() {
