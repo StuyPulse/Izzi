@@ -49,6 +49,8 @@ public abstract class Intake extends SubsystemBase {
 
     public abstract boolean hasNote();
 
+    public boolean hasNotePartially() { return hasNote(); }
+
     public abstract double getIntakeRollerSpeed();
 
     @Override

@@ -13,6 +13,7 @@ import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 import com.pathplanner.lib.util.PIDConstants;
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Swerve;
 import com.stuypulse.robot.constants.Settings.Alignment.Rotation;
@@ -24,6 +25,7 @@ import com.stuypulse.robot.util.HolonomicController;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,6 +34,37 @@ import java.util.function.Supplier;
 
 public class SwerveDriveToPose extends Command {
 
+    public static SwerveDriveToPose speakerRelative(double angleToSpeaker, double distanceToSpeaker) {
+        Rotation2d angle = Rotation2d.fromDegrees(
+            SLMath.clamp(angleToSpeaker, Alignment.PODIUM_SHOT_MAX_ANGLE));
+        
+        double distance = SLMath.clamp(distanceToSpeaker, 1, 5);
+
+        return new SwerveDriveToPose(() -> new Pose2d(
+            Field.getAllianceSpeakerPose().getTranslation()
+                .plus(new Translation2d(distance, angle)),
+            angle));
+    }
+
+    public static SwerveDriveToPose speakerRelative(double angleToSpeaker) {
+        return speakerRelative(angleToSpeaker, Alignment.PODIUM_SHOT_DISTANCE);
+    }
+
+    public static SwerveDriveToPose toClimb() {
+        return toClimb(Alignment.TRAP_SETUP_DISTANCE.get());
+    }
+
+    public static SwerveDriveToPose toClimb(double distance) {
+        return new SwerveDriveToPose(
+            () -> {
+                Pose2d closestTrap = Field.getClosestAllianceTrapPose(Odometry.getInstance().getPose());
+                Translation2d offsetTranslation = new Translation2d(distance, closestTrap.getRotation());
+                
+                return new Pose2d(closestTrap.getTranslation().plus(offsetTranslation), closestTrap.getRotation());
+            }
+        ).withTolerance(3.0, 3.0, 3.0);
+    }
+    
     private final SwerveDrive swerve;
     private final Odometry odometry;
 

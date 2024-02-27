@@ -17,6 +17,7 @@ import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
+import com.stuypulse.robot.util.StupidFilter;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -46,6 +47,8 @@ public class AmperImpl extends Amper {
     private final SmartNumber maxVelocity;
     private final SmartNumber maxAcceleration;
 
+    private final StupidFilter liftHeight;
+
     protected AmperImpl() {
         scoreMotor = new CANSparkMax(Ports.Amper.SCORE, MotorType.kBrushless);
         scoreEncoder = scoreMotor.getEncoder();
@@ -72,6 +75,8 @@ public class AmperImpl extends Amper {
 
         voltageOverride = Optional.empty();
 
+        liftHeight = new StupidFilter("Lift Height");
+
         Motors.Amper.LIFT_MOTOR.configure(liftMotor);
         Motors.Amper.SCORE_MOTOR.configure(scoreMotor);
     }
@@ -91,7 +96,7 @@ public class AmperImpl extends Amper {
 
     @Override
     public double getLiftHeight() {
-        return liftEncoder.getPosition();
+        return liftHeight.get(liftEncoder.getPosition());
     }
 
     @Override
@@ -170,6 +175,11 @@ public class AmperImpl extends Amper {
             voltage = 0;
         }
 
+        boolean closeToBottom = getTargetHeight() == Settings.Amper.Lift.MIN_HEIGHT && isAtTargetHeight(0.04);
+        if (closeToBottom && voltage > 0) {
+            voltage = 0;
+        }
+
         liftMotor.setVoltage(voltage);
 
         SmartDashboard.putNumber("Amper/Voltage", voltage);
@@ -181,7 +191,8 @@ public class AmperImpl extends Amper {
 
         SmartDashboard.putBoolean("Amper/Has Note", hasNote());
         SmartDashboard.putBoolean("Amper/At Bottom", liftAtBottom());
-
+        SmartDashboard.putBoolean("Amper/Close To Bottom", closeToBottom);
+        
         SmartDashboard.putBoolean("Amper/Under Stage", Field.robotUnderStage());
     }
 }

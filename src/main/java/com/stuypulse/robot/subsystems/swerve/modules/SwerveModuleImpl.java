@@ -73,6 +73,9 @@ public class SwerveModuleImpl extends SwerveModule {
     private final StupidFilter driveVel;
     private final StupidFilter drivePos;
 
+    private final StupidFilter driveVoltage;
+    private final StupidFilter targetDriveSpeed;
+
     /**
      * Creates a new Swerve Module
      *
@@ -111,6 +114,8 @@ public class SwerveModuleImpl extends SwerveModule {
 
         driveVel = new StupidFilter(getId() + " Drive Velocity");
         drivePos = new StupidFilter(getId() + " Drive Position");
+        driveVoltage = new StupidFilter(getId() + " Drive Voltage");
+        targetDriveSpeed = new StupidFilter(getId() + " Drive Target Speed");
 
         Motors.Swerve.DRIVE_CONFIG.configure(driveMotor);
         Motors.Swerve.TURN_CONFIG.configure(turnMotor);
@@ -137,7 +142,7 @@ public class SwerveModuleImpl extends SwerveModule {
         super.periodic();
 
         driveController.update(
-            getTargetState().speedMetersPerSecond,
+            targetDriveSpeed.get(getTargetState().speedMetersPerSecond),
             getVelocity());
 
         angleController.update(
@@ -146,10 +151,10 @@ public class SwerveModuleImpl extends SwerveModule {
 
         if (Math.abs(driveController.getSetpoint())
                 < Settings.Swerve.MODULE_VELOCITY_DEADBAND) {
-            driveMotor.setVoltage(0);
+            driveMotor.setVoltage(driveVoltage.get(0));
             turnMotor.setVoltage(0);
         } else {
-            driveMotor.setVoltage(driveController.getOutput());
+            driveMotor.setVoltage(driveVoltage.get(driveController.getOutput()));
             turnMotor.setVoltage(angleController.getOutput());
         }
         

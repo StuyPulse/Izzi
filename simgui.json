@@ -68,6 +68,9 @@
     }
   },
   "NetworkTables": {
+    "FMSInfo": {
+      "open": true
+    },
     "SmartDashboard": {
       "Swerve": {
         "open": true
@@ -87,6 +90,7 @@
     },
     "Server": {
       "open": true
-    }
+    },
+    "visible": true
   }
 }

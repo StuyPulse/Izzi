@@ -99,16 +99,23 @@ public class RobotContainer {
     private void configureDriverBindings() {
         // intaking with swerve pointing at note
         driver.getRightTriggerButton()
-            .whileTrue(new IntakeAcquire().andThen(new BuzzController(driver)))
-            // .whileTrue(new SwerveDriveNoteAlignedDrive(driver))
-            .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));
+            .whileTrue(new WaitCommand(Settings.Intake.TELEOP_DRIVE_STARTUP_DELAY)
+                .andThen(new IntakeAcquire()
+                    .deadlineWith(new LEDSet(LEDInstructions.DARK_BLUE)))
+                .andThen(new BuzzController(driver)));
+            // .whileTrue(new SwerveDriveToNote());
+        
+        driver.getLeftTriggerButton()
+            .onTrue(new IntakeDeacquire())
+            .onFalse(new IntakeStop());
 
         // note to shooter and align
         // then shoot
         driver.getRightBumper()
             .onTrue(new ShooterPodiumShot())
-            .whileTrue(new SwerveDriveToShoot()
-                    .deadlineWith(new LEDSet(LEDInstructions.ASSIST_FLASH))
+            .whileTrue(new WaitCommand(Settings.Shooter.TELEOP_SHOOTER_STARTUP_DELAY)
+                .andThen(new SwerveDriveToShoot()
+                    .deadlineWith(new LEDSet(LEDInstructions.ASSIST_FLASH)))
                 .andThen(new ShooterWaitForTarget())
                 .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop())
@@ -135,8 +142,8 @@ public class RobotContainer {
                 .andThen(new AmperScore()))
             .onFalse(new AmperStop());
 
-        driver.getDPadUp()
-            .onTrue(new ClimberToTop());
+        // driver.getDPadUp()
+        //     .onTrue(new ClimberToTop());
         // driver.getDPadDown()
         //     .onTrue(new ClimberToBottom());
 
@@ -162,6 +169,12 @@ public class RobotContainer {
                 
                 .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
                     .deadlineWith(new LEDSet(LEDInstructions.GREEN))));
+
+        driver.getRightButton()
+            .whileTrue(SwerveDriveToPose.toClimb());
+
+        driver.getBottomButton()
+            .whileTrue(new SwerveDriveDriveToChain());
     }
 
     private void configureOperatorBindings() {
@@ -196,8 +209,8 @@ public class RobotContainer {
         operator.getDPadDown()
             .whileTrue(new AmperLiftFineAdjust(operator));
 
-        operator.getDPadRight()
-            .onTrue(new ClimberToTop());
+        // operator.getDPadRight()
+        //     .onTrue(new ClimberToTop());
         // operator.getDPadLeft()
         //     .onTrue(new ClimberToBottom());
 
@@ -224,22 +237,16 @@ public class RobotContainer {
     public void configureAutons() {
         autonChooser.addOption("Do Nothing", new DoNothingAuton());
 
-        // autonChooser.addOption("Square", new Square());
-        // autonChooser.addOption("Straight Line", new StraightLine());
-        // autonChooser.addOption("Straight Line Turning", new StraightLineTurning());
-        // autonChooser.addOption("Curved Line", new CurvedLine());
-        // autonChooser.addOption("Sharp Curved Line", new SharpCurvedLine());
-        // autonChooser.addOption("SimpleNote", new SimpleNote());
-        // autonChooser.addOption("SPEED", new Speed());
-
         autonChooser.addOption("Mobility", new Mobility());
 
         autonChooser.setDefaultOption("5 Piece CBAE", new FivePieceCBAE());
         autonChooser.addOption("4 Piece CBA", new FourPieceCBA());
         autonChooser.addOption("3 Piece CB", new ThreePieceCB());
+        autonChooser.addOption("2 Piece C", new TwoPieceC());
 
         autonChooser.addOption("4 Piece HGF", new FourPieceHGF());
         autonChooser.addOption("3 Piece HG", new ThreePieceHG());
+        autonChooser.addOption("2 Piece H", new TwoPieceH());
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }

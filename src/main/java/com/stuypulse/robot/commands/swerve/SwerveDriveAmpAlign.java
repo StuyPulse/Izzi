@@ -11,21 +11,28 @@ import com.stuypulse.robot.commands.amper.AmperScore;
 import com.stuypulse.robot.commands.amper.AmperToHeight;
 import com.stuypulse.robot.commands.conveyor.ConveyorToAmp;
 import com.stuypulse.robot.commands.leds.LEDSet;
+import com.stuypulse.robot.commands.vision.VisionChangeWhiteList;
+import com.stuypulse.robot.commands.vision.VisionReloadWhiteList;
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.LEDInstructions;
+import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
+import com.stuypulse.robot.constants.Settings.Amper.Score;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
+import com.stuypulse.stuylib.math.Vector2D;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class SwerveDriveAmpAlign extends SequentialCommandGroup {
 
-    private static final double AMP_WALL_SETUP_X_TOLERANCE = Units.inchesToMeters(2.0);
+    private static final double AMP_WALL_SETUP_X_TOLERANCE = Units.inchesToMeters(1.0);
     private static final double AMP_WALL_SETUP_Y_TOLERANCE = Units.inchesToMeters(4.0);
     private static final double AMP_WALL_SETUP_ANGLE_TOLERANCE = 5;
 
@@ -45,21 +52,33 @@ public class SwerveDriveAmpAlign extends SequentialCommandGroup {
 
     public SwerveDriveAmpAlign() {
         addCommands(
-            new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get()))
-                .withTolerance(AMP_WALL_SETUP_X_TOLERANCE, AMP_WALL_SETUP_Y_TOLERANCE, AMP_WALL_SETUP_ANGLE_TOLERANCE)
+            new VisionChangeWhiteList(Field.getAllianceAmpTag().getID()),
+
+            new ConveyorToAmp()
+                .alongWith(new WaitCommand(Settings.Shooter.TELEOP_SHOOTER_STARTUP_DELAY)
+                    .andThen(new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get()))
+                        .withTolerance(AMP_WALL_SETUP_X_TOLERANCE, AMP_WALL_SETUP_Y_TOLERANCE, AMP_WALL_SETUP_ANGLE_TOLERANCE)
+                            .deadlineWith(new LEDSet(LEDInstructions.GREEN)))),
+
+            new ParallelCommandGroup(
+                AmperToHeight.untilDone(Lift.AMP_SCORE_HEIGHT),
+
+                new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SCORE_DISTANCE.get()))
+                    .withTolerance(
+                        AMP_WALL_SCORE_X_TOLERANCE,
+                        AMP_WALL_SCORE_Y_TOLERANCE,
+                        AMP_WALL_SCORE_ANGLE_TOLERANCE)
                     .deadlineWith(new LEDSet(LEDInstructions.GREEN))
-                .alongWith(new ConveyorToAmp()),
+            ),
 
-            new AmperToHeight(Lift.AMP_SCORE_HEIGHT),
-
-            new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SCORE_DISTANCE.get()))
-                .withTolerance(
-                    AMP_WALL_SCORE_X_TOLERANCE,
-                    AMP_WALL_SCORE_Y_TOLERANCE,
-                    AMP_WALL_SCORE_ANGLE_TOLERANCE)
-                .deadlineWith(new LEDSet(LEDInstructions.GREEN)),
+            new VisionReloadWhiteList(),
             
-            new AmperScore()
+            AmperScore.untilDone(),
+
+            new SwerveDriveDriveDirection(
+                new Vector2D(new Translation2d(
+                    Score.DRIVE_AWAY_SPEED, 
+                    Field.getAllianceAmpTag().getLocation().toPose2d().getRotation())))
         );
     }
 }

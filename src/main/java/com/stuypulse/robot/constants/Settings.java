@@ -92,6 +92,8 @@ public interface Settings {
             SmartNumber TO_CONVEYOR_SPEED = new SmartNumber("Amper/Score/To Conveyor Speed", 1.0);
 
             double SCORE_MOTOR_CONVERSION = AMP_ROLLER_DIAMETER * Math.PI;
+
+            double DRIVE_AWAY_SPEED = 0.5;
         }
 
         public interface Lift {
@@ -124,13 +126,13 @@ public interface Settings {
                 double kS = 0.18665;
                 double kV = 6.6702;
                 double kA = 0.803;
-                double kG = 0.15;
+                double kG = 0.3;
             }
 
             public interface PID {
-                double kP = 0.5;
+                double kP = 1.5;
                 double kI = 0.0;
-                double kD = 0.0;
+                double kD = 0.2;
             }
         }
     }
@@ -246,7 +248,7 @@ public interface Settings {
         SmartNumber THRESHOLD_Y = new SmartNumber("Note Detection/Y Threshold", Units.inchesToMeters(2));
         SmartNumber THRESHOLD_ANGLE = new SmartNumber("Note Detection/Angle Threshold", 1);
 
-        SmartNumber DRIVE_SPEED = new SmartNumber("Note Detection/Drive Speed", 1);
+        SmartNumber DRIVE_SPEED = new SmartNumber("Note Detection/Drive Speed", 0.5);
 
         SmartNumber INTAKE_THRESHOLD_DISTANCE = new SmartNumber("Note Detection/In Intake Path Distance", 0.9);
 
@@ -297,11 +299,16 @@ public interface Settings {
     public interface Shooter {
         double MOMENT_OF_INERTIA = 1;
 
-        ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(3600 - 250, 3600 + 250, 2400);
+        double TELEOP_SHOOTER_STARTUP_DELAY = 0.25;
+
+        ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(3600, 500, 2400);
 
         ShooterSpeeds HANDOFF = new ShooterSpeeds(2000, 2000);
 
         double AT_RPM_EPSILON = 125;
+
+        SmartNumber RPM_CHANGE_RC = new SmartNumber("Shooter/RPM Change RC", 0.2);
+        double RPM_CHANGE_DIP_THRESHOLD = 100;
 
         public interface Feedforward {
             double kS = 0.11873;
@@ -336,11 +343,13 @@ public interface Settings {
         public interface Detection {
             double TRIGGER_TIME = 0.0;
             double STALL_TIME = 0.05;
-            double STALL_CURRENT = 30;
+            double STALL_CURRENT = 50;
         }
 
         double ACQUIRE_SPEED = 1.0;
         double DEACQUIRE_SPEED = 1.0;
+        
+        double TELEOP_DRIVE_STARTUP_DELAY = 0.25;
     }
 
     public interface Conveyor {
@@ -358,16 +367,15 @@ public interface Settings {
     public interface Alignment {
         double DEBOUNCE_TIME = 0.05;
 
-        // TODO: Tune these values
         SmartNumber X_TOLERANCE = new SmartNumber("Alignment/X Tolerance", 0.1);
         SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
         SmartNumber ANGLE_TOLERANCE = new SmartNumber("Alignment/Angle Tolerance", 5);
 
-        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Alignment/Podium Shot Distance", 3.00);
+        double PODIUM_SHOT_DISTANCE = 3.0;
         double PODIUM_SHOT_MAX_ANGLE = 80;
 
         SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(23.0));
-        SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(17.5));
+        SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(20.5));
 
         SmartNumber TRAP_SETUP_DISTANCE = new SmartNumber("Alignment/Trap/Setup Pose Distance", Units.inchesToMeters(22.0));
         SmartNumber TRAP_CLIMB_DISTANCE = new SmartNumber("Alignment/Trap/Climb Distance", Units.inchesToMeters(18.0));
@@ -384,6 +392,20 @@ public interface Settings {
             SmartNumber kP = new SmartNumber("Alignment/Rotation/kP", 6.0);
             SmartNumber kI = new SmartNumber("Alignment/Rotation/kI", 0.0);
             SmartNumber kD = new SmartNumber("Alignment/Rotation/kD", 0.0);
+        }
+
+        public interface Shoot {
+            public interface Translation {
+                SmartNumber kP = new SmartNumber("ShootAlign/Translation/kP", 12.0);
+                SmartNumber kI = new SmartNumber("ShootAlign/Translation/kI", 0.0);
+                SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.0);
+            }
+    
+            public interface Rotation {
+                SmartNumber kP = new SmartNumber("ShootAlign/Rotation/kP", 8.0);
+                SmartNumber kI = new SmartNumber("ShootAlign/Rotation/kI", 0.0);
+                SmartNumber kD = new SmartNumber("ShootAlign/Rotation/kD", 0.0);
+            }
         }
     }
 

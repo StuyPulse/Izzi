@@ -53,23 +53,30 @@ public abstract class Shooter extends SubsystemBase {
     }
 
     public final void setTargetSpeeds(ShooterSpeeds speeds) {
-        this.leftTargetRPM.set(speeds.leftRPM);
-        this.rightTargetRPM.set(speeds.rightRPM);
-        this.feederTargetRPM.set(speeds.feederRPM);
+        this.leftTargetRPM.set(speeds.getLeftRPM());
+        this.rightTargetRPM.set(speeds.getRightRPM());
+        this.feederTargetRPM.set(speeds.getFeederRPM());
+    }
+    
+    public final void stop() {
+        setTargetSpeeds(new ShooterSpeeds());
     }
 
     public final boolean atTargetSpeeds() {
-        return getFeederRPM() > getFeederTargetRPM() - Settings.Shooter.AT_RPM_EPSILON
-            && getLeftShooterRPM() > getLeftTargetRPM() - Settings.Shooter.AT_RPM_EPSILON
-            && getRightShooterRPM() > getRightTargetRPM() - Settings.Shooter.AT_RPM_EPSILON;
-
+        return Math.abs(getFeederRPM() - getFeederTargetRPM()) < Settings.Shooter.AT_RPM_EPSILON
+            && Math.abs(getLeftShooterRPM() - getLeftTargetRPM()) < Settings.Shooter.AT_RPM_EPSILON
+            && Math.abs(getRightShooterRPM() - getRightTargetRPM()) < Settings.Shooter.AT_RPM_EPSILON;
     }
-
-    public abstract void stop();
 
     public abstract double getLeftShooterRPM();
 
     public abstract double getRightShooterRPM();
 
+    public final double getAverageShooterRPM() {
+        return (getLeftShooterRPM() + getRightShooterRPM()) / 2.0;
+    }
+
     public abstract double getFeederRPM();
+
+    public abstract boolean noteShot();
 }
