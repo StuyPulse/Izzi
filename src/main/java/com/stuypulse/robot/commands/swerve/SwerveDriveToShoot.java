@@ -2,8 +2,7 @@ package com.stuypulse.robot.commands.swerve;
 
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings.Alignment;
-import com.stuypulse.robot.constants.Settings.Alignment.Rotation;
-import com.stuypulse.robot.constants.Settings.Alignment.Translation;
+import com.stuypulse.robot.constants.Settings.Alignment.Shoot;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
@@ -42,9 +41,9 @@ public class SwerveDriveToShoot extends Command {
         swerve = SwerveDrive.getInstance();
         odometry = Odometry.getInstance();
 
-        distanceController = new PIDController(Translation.kP, Translation.kI, Translation.kD);
+        distanceController = new PIDController(Shoot.Translation.kP, Shoot.Translation.kI, Shoot.Translation.kD);
         
-        angleController = new AnglePIDController(Rotation.kP, Rotation.kI, Rotation.kD);
+        angleController = new AnglePIDController(Shoot.Rotation.kP, Shoot.Rotation.kI, Shoot.Rotation.kD);
 
         isAligned = BStream.create(this::isAligned)
             .filtered(new BDebounceRC.Rising(Alignment.DEBOUNCE_TIME));
