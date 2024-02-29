@@ -55,7 +55,7 @@ public class ConveyorToAmp extends Command {
     @Override
     public void end(boolean interrupted) {
         conveyor.stop();
-        shooter.setTargetSpeeds(new ShooterSpeeds());
+        shooter.stop();
         intake.stop();
         amper.stopRoller();
     }

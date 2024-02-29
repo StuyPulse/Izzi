@@ -124,7 +124,7 @@ public class RobotContainer {
 
         // note to amper and align then score
         driver.getLeftBumper()
-            .whileTrue(new SwerveDriveAmpAlign())
+            .whileTrue(new AmpScoreRoutine())
             .onFalse(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT))
             .onFalse(new AmperStop());
 

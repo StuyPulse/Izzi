@@ -4,13 +4,15 @@
 /* that can be found in the repository LICENSE file.           */
 /***************************************************************/
 
-package com.stuypulse.robot.commands.swerve;
+package com.stuypulse.robot.commands;
 
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.commands.amper.AmperScore;
 import com.stuypulse.robot.commands.amper.AmperToHeight;
 import com.stuypulse.robot.commands.conveyor.ConveyorToAmp;
 import com.stuypulse.robot.commands.leds.LEDSet;
+import com.stuypulse.robot.commands.swerve.SwerveDriveDriveDirection;
+import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
 import com.stuypulse.robot.commands.vision.VisionChangeWhiteList;
 import com.stuypulse.robot.commands.vision.VisionReloadWhiteList;
 import com.stuypulse.robot.constants.Field;
@@ -30,7 +32,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-public class SwerveDriveAmpAlign extends SequentialCommandGroup {
+public class AmpScoreRoutine extends SequentialCommandGroup {
 
     private static final double AMP_WALL_SETUP_X_TOLERANCE = Units.inchesToMeters(1.0);
     private static final double AMP_WALL_SETUP_Y_TOLERANCE = Units.inchesToMeters(4.0);
@@ -50,7 +52,7 @@ public class SwerveDriveAmpAlign extends SequentialCommandGroup {
         return new Pose2d(amp.plus(delta), targetAngle);
     }
 
-    public SwerveDriveAmpAlign() {
+    public AmpScoreRoutine() {
         addCommands(
             new VisionChangeWhiteList(Field.getAllianceAmpTag().getID()),
 
