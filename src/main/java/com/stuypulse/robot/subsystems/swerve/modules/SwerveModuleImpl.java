@@ -158,6 +158,7 @@ public class SwerveModuleImpl extends SwerveModule {
             turnMotor.setVoltage(angleController.getOutput());
         }
         
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Current", driveMotor.getOutputCurrent());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Position", driveEncoder.getPosition());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Voltage", driveController.getOutput());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Turn Voltage", angleController.getOutput());
