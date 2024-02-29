@@ -188,8 +188,9 @@ public class RobotContainer {
             .onTrue(new IntakeDeacquire())
             .onFalse(new IntakeStop());
         operator.getRightTriggerButton()
-            .whileTrue(new IntakeAcquire().andThen(new BuzzController(driver)))
-            .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));
+            .whileTrue(new IntakeAcquire()
+                .deadlineWith(new LEDSet(LEDInstructions.DARK_BLUE))
+                .andThen(new BuzzController(driver)));
 
         operator.getLeftBumper()
             .onTrue(ConveyorToAmp.withCheckLift())
