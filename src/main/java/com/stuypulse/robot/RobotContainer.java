@@ -34,11 +34,13 @@ import com.stuypulse.robot.subsystems.climber.*;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.leds.LEDController;
+import com.stuypulse.robot.subsystems.leds.instructions.LEDPulseColor;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.shooter.Shooter;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
+import com.stuypulse.robot.util.SLColor;
 import com.stuypulse.robot.util.ShooterSpeeds;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -101,10 +103,12 @@ public class RobotContainer {
     private void configureDriverBindings() {
         // intaking with swerve pointing at note
         driver.getRightTriggerButton()
-            .whileTrue(new WaitCommand(Settings.Intake.TELEOP_DRIVE_STARTUP_DELAY)
-                .andThen(new IntakeAcquire()
-                    .deadlineWith(new LEDSet(LEDInstructions.DARK_BLUE)))
-                .andThen(new BuzzController(driver)));
+            .whileTrue(//new WaitCommand(Settings.Intake.TELEOP_DRIVE_STARTUP_DELAY).andThen(
+                new IntakeAcquire()
+                    .deadlineWith(new LEDSet(LEDInstructions.DARK_BLUE))
+                .andThen(new BuzzController(driver)
+                    .alongWith(new LEDSet(new LEDPulseColor(SLColor.RED, 0.5))
+                        .withTimeout(3.0))));
             // .whileTrue(new SwerveDriveToNote());
         
         driver.getLeftTriggerButton()
@@ -141,6 +145,7 @@ public class RobotContainer {
         // score amp no align
         driver.getLeftMenuButton()
             .whileTrue(ConveyorToAmp.withCheckLift()
+                .andThen(AmperToHeight.untilDone(Lift.AMP_SCORE_HEIGHT))
                 .andThen(new AmperScore()))
             .onFalse(new AmperStop())
             .onFalse(new AmperToHeight(Lift.MIN_HEIGHT));
@@ -193,13 +198,15 @@ public class RobotContainer {
         operator.getRightTriggerButton()
             .whileTrue(new IntakeAcquire()
                 .deadlineWith(new LEDSet(LEDInstructions.DARK_BLUE))
-                .andThen(new BuzzController(driver)));
+                .andThen(new BuzzController(driver)
+                    .alongWith(new LEDSet(new LEDPulseColor(SLColor.RED, 0.5))
+                        .withTimeout(3.0))));
 
-        operator.getLeftBumper()
-            .onTrue(ConveyorToAmp.withCheckLift())
-            .onFalse(new ConveyorStop())
-            .onFalse(new IntakeStop())
-            .onFalse(new AmperStop());
+        // operator.getLeftBumper()
+        //     .onTrue(ConveyorToAmp.withCheckLift())
+        //     .onFalse(new ConveyorStop())
+        //     .onFalse(new IntakeStop())
+        //     .onFalse(new AmperStop());
 
         operator.getTopButton()
             .onTrue(new AmperScore())
@@ -217,16 +224,16 @@ public class RobotContainer {
         //     .onTrue(new ClimberToTop());
         // operator.getDPadLeft()
         //     .onTrue(new ClimberToBottom());
-        operator.getDPadRight()
-            .onTrue(new IntakeDeacquire())
-            .onTrue(new AmperToConveyor())
-            .onTrue(new ShooterSetRPM(new ShooterSpeeds(-2000, -2000)))
-            .onFalse(new IntakeStop())
-            .onFalse(new AmperStop())
-            .onFalse(new ShooterStop());
 
-        operator.getLeftButton()
-                .onTrue(new AmperToHeight(Settings.Amper.Lift.TRAP_SCORE_HEIGHT));
+        operator.getDPadRight()
+            .onTrue(new GandalfToShoot())
+            .onFalse(new ConveyorStop());
+        operator.getDPadLeft()
+            .onTrue(new GandalfToAmp())
+            .onFalse(new ConveyorStop());
+
+        // operator.getLeftButton()
+        //         .onTrue(new AmperToHeight(Settings.Amper.Lift.TRAP_SCORE_HEIGHT));
         operator.getRightButton()
                 .onTrue(new AmperToHeight(Settings.Amper.Lift.AMP_SCORE_HEIGHT));
         operator.getBottomButton()

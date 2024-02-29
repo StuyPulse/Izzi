@@ -24,13 +24,13 @@ public class AmperToConveyor extends Command {
         amper.toConveyor();
     }
 
-    @Override
-    public boolean isFinished() {
-        return amper.hasNote();
-    }
+    // @Override
+    // public boolean isFinished() {
+    //     return amper.hasNote();
+    // }
 
-    @Override
-    public void end(boolean interrupted) {
-        amper.stopRoller();
-    }
+    // @Override
+    // public void end(boolean interrupted) {
+    //     amper.stopRoller();
+    // }
 }
