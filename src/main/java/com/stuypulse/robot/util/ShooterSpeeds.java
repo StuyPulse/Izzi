@@ -39,16 +39,19 @@ public class ShooterSpeeds {
     }
 
     public ShooterSpeeds update(Pose2d robotPose) {
-        double higher = shooterRPM + shooterDifferential / 2.0;
-        double lower = shooterRPM - shooterDifferential / 2.0;
+        // double higher = shooterRPM + shooterDifferential / 2.0;
+        // double lower = shooterRPM - shooterDifferential / 2.0;
 
-        if (robotPose.getY() > Field.getAllianceSpeakerPose().getY()) {
-            rightRPM = higher;
-            leftRPM = lower;
-        } else {
-            rightRPM = lower;
-            leftRPM = higher;
-        }
+        // if (robotPose.getY() > Field.getAllianceSpeakerPose().getY()) {
+        //     rightRPM = higher;
+        //     leftRPM = lower;
+        // } else {
+        //     rightRPM = lower;
+        //     leftRPM = higher;
+        // }
+        
+        leftRPM = shooterRPM + shooterDifferential / 2.0;
+        rightRPM = shooterRPM - shooterDifferential / 2.0;
 
         return this;
     }
