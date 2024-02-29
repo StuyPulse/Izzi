@@ -107,7 +107,7 @@ public class RobotContainer {
                 new IntakeAcquire()
                     .deadlineWith(new LEDSet(LEDInstructions.DARK_BLUE))
                 .andThen(new BuzzController(driver)
-                    .alongWith(new LEDSet(new LEDPulseColor(SLColor.RED, 0.5))
+                    .alongWith(new LEDSet(LEDInstructions.PICKUP)
                         .withTimeout(3.0))));
             // .whileTrue(new SwerveDriveToNote());
         
@@ -199,7 +199,7 @@ public class RobotContainer {
             .whileTrue(new IntakeAcquire()
                 .deadlineWith(new LEDSet(LEDInstructions.DARK_BLUE))
                 .andThen(new BuzzController(driver)
-                    .alongWith(new LEDSet(new LEDPulseColor(SLColor.RED, 0.5))
+                    .alongWith(new LEDSet(LEDInstructions.PICKUP)
                         .withTimeout(3.0))));
 
         // operator.getLeftBumper()
