@@ -54,8 +54,6 @@ public class AmpScoreRoutine extends SequentialCommandGroup {
 
     public AmpScoreRoutine() {
         addCommands(
-            new VisionChangeWhiteList(Field.getAllianceAmpTag().getID()),
-
             new ConveyorToAmp()
                 .alongWith(new WaitCommand(Settings.Shooter.TELEOP_SHOOTER_STARTUP_DELAY)
                     .andThen(new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get()))
@@ -73,8 +71,6 @@ public class AmpScoreRoutine extends SequentialCommandGroup {
                     .deadlineWith(new LEDSet(LEDInstructions.GREEN))
             ),
 
-            new VisionReloadWhiteList(),
-            
             AmperScore.untilDone(),
 
             new SwerveDriveDriveDirection(
