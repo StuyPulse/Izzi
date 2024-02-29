@@ -10,11 +10,11 @@ import com.stuypulse.robot.subsystems.amper.Amper;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class AmperIntake extends Command {
+public class AmperToConveyor extends Command {
 
     private final Amper amper;
 
-    public AmperIntake() {
+    public AmperToConveyor() {
         amper = Amper.getInstance();
         addRequirements(amper);
     }

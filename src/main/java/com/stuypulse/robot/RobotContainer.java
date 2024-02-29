@@ -38,6 +38,7 @@ import com.stuypulse.robot.subsystems.shooter.Shooter;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
+import com.stuypulse.robot.util.ShooterSpeeds;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -214,6 +215,13 @@ public class RobotContainer {
         //     .onTrue(new ClimberToTop());
         // operator.getDPadLeft()
         //     .onTrue(new ClimberToBottom());
+        operator.getDPadRight()
+            .onTrue(new IntakeDeacquire())
+            .onTrue(new AmperToConveyor())
+            .onTrue(new ShooterSetRPM(new ShooterSpeeds(-2000, -2000)))
+            .onFalse(new IntakeStop())
+            .onFalse(new AmperStop())
+            .onFalse(new ShooterStop());
 
         operator.getLeftButton()
                 .onTrue(new AmperToHeight(Settings.Amper.Lift.TRAP_SCORE_HEIGHT));
@@ -227,7 +235,7 @@ public class RobotContainer {
             .whileTrue(new LEDSet(LEDInstructions.PULSE_PURPLE));
         
         operator.getLeftMenuButton()
-            .onTrue(new AmperIntake())
+            .onTrue(new AmperToConveyor())
             .onFalse(new AmperStop());
     }
 
