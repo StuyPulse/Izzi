@@ -7,9 +7,9 @@ import edu.wpi.first.math.geometry.Pose2d;
 
 public class ShooterSpeeds {
 
-    private final double shooterRPM;
+    private final Number shooterRPM;
     private final double shooterDifferential;
-    private final double feederRPM;
+    private final Number feederRPM;
 
     private double leftRPM;
     private double rightRPM;
@@ -19,18 +19,10 @@ public class ShooterSpeeds {
     }
 
     public ShooterSpeeds(Number shooterRPM, Number feederRPM) {
-        this(shooterRPM.doubleValue(), feederRPM.doubleValue());
+        this(shooterRPM.doubleValue(), 0, feederRPM.doubleValue());
     }
 
-    public ShooterSpeeds(double shooterRPM, double feederRPM) {
-        this(shooterRPM, 0, feederRPM);
-    }
-
-    public ShooterSpeeds(Number shooterRPM, Number shooterDifferential, Number feederRPM) {
-        this(shooterRPM.doubleValue(), shooterDifferential.doubleValue(), feederRPM.doubleValue());
-    }
-    
-    public ShooterSpeeds(double shooterRPM, double shooterDifferential, double feederRPM) {
+    public ShooterSpeeds(Number shooterRPM, double shooterDifferential, Number feederRPM) {
         this.shooterRPM = shooterRPM;
         this.shooterDifferential = shooterDifferential;
         this.feederRPM = feederRPM;
@@ -50,8 +42,8 @@ public class ShooterSpeeds {
         //     leftRPM = higher;
         // }
         
-        leftRPM = shooterRPM + shooterDifferential / 2.0;
-        rightRPM = shooterRPM - shooterDifferential / 2.0;
+        leftRPM = shooterRPM.doubleValue() + shooterDifferential / 2.0;
+        rightRPM = shooterRPM.doubleValue() - shooterDifferential / 2.0;
 
         return this;
     }
@@ -65,6 +57,6 @@ public class ShooterSpeeds {
     }
 
     public double getFeederRPM() {
-        return feederRPM;
+        return feederRPM.doubleValue();
     }
 }
