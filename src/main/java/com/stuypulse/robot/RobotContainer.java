@@ -26,6 +26,7 @@ import com.stuypulse.robot.commands.swerve.*;
 import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.constants.Settings.Driver;
 import com.stuypulse.robot.constants.Settings.Swerve.Assist;
 import com.stuypulse.robot.subsystems.amper.Amper;
@@ -139,9 +140,10 @@ public class RobotContainer {
             
         // score amp no align
         driver.getLeftMenuButton()
-            .whileTrue(new ConveyorToAmp()
+            .whileTrue(ConveyorToAmp.withCheckLift()
                 .andThen(new AmperScore()))
-            .onFalse(new AmperStop());
+            .onFalse(new AmperStop())
+            .onFalse(new AmperToHeight(Lift.MIN_HEIGHT));
 
         // driver.getDPadUp()
         //     .onTrue(new ClimberToTop());
