@@ -41,13 +41,13 @@ public interface Motors {
 
     /** Classes to store all of the values a motor needs */
     public interface Amper {
-        CANSparkConfig LIFT_MOTOR = new CANSparkConfig(true, IdleMode.kBrake);
-        CANSparkConfig SCORE_MOTOR = new CANSparkConfig(true, IdleMode.kBrake, 80, 0.1);
+        CANSparkConfig LIFT_MOTOR = new CANSparkConfig(true, IdleMode.kBrake, 80);
+        CANSparkConfig SCORE_MOTOR = new CANSparkConfig(true, IdleMode.kBrake, 500, 0.1);
     }
 
     public interface Swerve {
-        CANSparkConfig DRIVE_CONFIG = new CANSparkConfig(true, IdleMode.kBrake);
-        CANSparkConfig TURN_CONFIG = new CANSparkConfig(false, IdleMode.kBrake);
+        CANSparkConfig DRIVE_CONFIG = new CANSparkConfig(true, IdleMode.kBrake, 80);
+        CANSparkConfig TURN_CONFIG = new CANSparkConfig(false, IdleMode.kBrake, 80);
     }
 
     public interface Intake {
@@ -55,13 +55,13 @@ public interface Motors {
     }
 
     public interface Shooter {
-        CANSparkConfig LEFT_SHOOTER = new CANSparkConfig(false, IdleMode.kCoast);
-        CANSparkConfig RIGHT_SHOOTER = new CANSparkConfig(true, IdleMode.kCoast);
+        CANSparkConfig LEFT_SHOOTER = new CANSparkConfig(false, IdleMode.kCoast, 500);
+        CANSparkConfig RIGHT_SHOOTER = new CANSparkConfig(true, IdleMode.kCoast, 500);
     }
 
     public interface Conveyor {
-        CANSparkConfig GANDALF_MOTOR = new CANSparkConfig(false, IdleMode.kBrake, 80, 0.1);
-        CANSparkConfig SHOOTER_FEEDER_MOTOR = new CANSparkConfig(false, IdleMode.kBrake);
+        CANSparkConfig GANDALF_MOTOR = new CANSparkConfig(false, IdleMode.kBrake,500, 0.1);
+        CANSparkConfig SHOOTER_FEEDER_MOTOR = new CANSparkConfig(false, IdleMode.kBrake, 500);
     }
 
     public interface Climber {
@@ -91,7 +91,7 @@ public interface Motors {
         }
 
         public CANSparkConfig(boolean inverted, IdleMode idleMode) {
-            this(inverted, idleMode, 80);
+            this(inverted, idleMode, 500);
         }
 
         public void configure(CANSparkBase motor) {
