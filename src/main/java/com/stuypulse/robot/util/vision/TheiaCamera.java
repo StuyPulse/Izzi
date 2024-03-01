@@ -16,6 +16,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.networktables.DoubleArrayPublisher;
 import edu.wpi.first.networktables.DoubleArraySubscriber;
 import edu.wpi.first.networktables.DoubleSubscriber;
@@ -35,7 +36,7 @@ public class TheiaCamera {
 
     private final String name;
     private final Pose3d cameraLocation;
-
+    
     // Default Values
     private final int camera_id = 0;
     private final int camera_resolution_width = 1600;
@@ -67,7 +68,7 @@ public class TheiaCamera {
 
     private final SmartBoolean enabled;
 
-    public TheiaCamera(String name, Pose3d cameraLocation) {
+    public TheiaCamera(String name, Pose3d cameraLocation, String ip, int port) {
         this.name = name;
         this.cameraLocation = cameraLocation;
 
@@ -94,10 +95,12 @@ public class TheiaCamera {
         areaSub = outputTable.getDoubleArrayTopic("areas").subscribe(new double[] {}, PubSubOption.periodic(0.02));
 
         enabled = new SmartBoolean(name + "Enabled", true);
+        
+        PortForwarder.add(port, "10.6.94." + ip, 5802);
     }
 
     public TheiaCamera(CameraConfig config) {
-        this(config.getName(), config.getLocation());
+        this(config.getName(), config.getLocation(), config.getIP(), config.getForwardedPort());
     }
 
     /**
