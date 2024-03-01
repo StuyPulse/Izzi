@@ -40,6 +40,7 @@ import com.stuypulse.robot.subsystems.shooter.Shooter;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
+import com.stuypulse.robot.util.PathUtil;
 import com.stuypulse.robot.util.SLColor;
 import com.stuypulse.robot.util.ShooterSpeeds;
 
@@ -257,15 +258,23 @@ public class RobotContainer {
 
         autonChooser.addOption("Mobility", new Mobility());
 
-        autonChooser.setDefaultOption("5 Piece CBAE", new FivePieceCBAE());
-        autonChooser.addOption("Blay 5 Piece CBAE", new BlayFivePieceCBAE());
-        autonChooser.addOption("4 Piece CBA", new FourPieceCBA());
-        autonChooser.addOption("3 Piece CB", new ThreePieceCB());
-        autonChooser.addOption("2 Piece C", new TwoPieceC());
+        autonChooser.setDefaultOption("Blue 5 Piece CBAE", new FivePieceCBAE(
+            PathUtil.loadPaths("First Piece To C", "C to B", "B To A", "A To E", "E To Shoot")));
+        
+        autonChooser.setDefaultOption("Red 5 Piece CBAE", new FivePieceCBAE(
+            PathUtil.loadPathsRed("First Piece To C", "C to B", "B To A", "A To E", "E To Shoot")));
+        
+        autonChooser.addOption("Blue Blay 5 Piece CBAE", new BlayFivePieceCBAE(
+            PathUtil.loadPaths("Blay First Piece To C", "C to B", "B To A", "A To E", "E To Shoot")));
+            
+        autonChooser.addOption("Red Blay 5 Piece CBAE", new BlayFivePieceCBAE(
+            PathUtil.loadPathsRed("Blay First Piece To C", "C to B", "B To A", "A To E", "E To Shoot")));
 
-        autonChooser.addOption("4 Piece HGF", new FourPieceHGF());
-        autonChooser.addOption("3 Piece HG", new ThreePieceHG());
-        autonChooser.addOption("2 Piece H", new TwoPieceH());
+        autonChooser.addOption("Blue 4 Piece HGF", new FourPieceHGF(
+            PathUtil.loadPaths("Start To H (HGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)", "F To Shoot (HGF)")));
+        
+        autonChooser.addOption("Red 4 Piece HGF", new FourPieceHGF(
+            PathUtil.loadPathsRed("Start To H (HGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)", "F To Shoot (HGF)")));
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }

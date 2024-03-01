@@ -1,5 +1,6 @@
 package com.stuypulse.robot.commands.auton.HGF;
 
+import com.pathplanner.lib.path.PathPlannerPath;
 import com.stuypulse.robot.commands.auton.FollowPathAlignAndShoot;
 import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
@@ -16,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class FourPieceHGF extends SequentialCommandGroup {
 
-    public FourPieceHGF() {
+    public FourPieceHGF(PathPlannerPath... paths) {
         addCommands(
             new ParallelCommandGroup(
                 new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
@@ -30,12 +31,12 @@ public class FourPieceHGF extends SequentialCommandGroup {
             new ConveyorShootRoutine(),
             new ShooterStop(),
 
-            new FollowPathAndIntake("Start To H (HGF)"),
-            new FollowPathAlignAndShoot("H To HShoot (HGF)", new SwerveDriveToShoot()),
-            new FollowPathAndIntake("HShoot To G (HGF)"),
-            new FollowPathAlignAndShoot("G To Shoot (HGF)", new SwerveDriveToShoot()),
-            new FollowPathAndIntake("GShoot To F (HGF)"),
-            new FollowPathAlignAndShoot("F To Shoot (HGF)", new SwerveDriveToShoot())
+            new FollowPathAndIntake(paths[0]),
+            new FollowPathAlignAndShoot(paths[1], new SwerveDriveToShoot()),
+            new FollowPathAndIntake(paths[2]),
+            new FollowPathAlignAndShoot(paths[3], new SwerveDriveToShoot()),
+            new FollowPathAndIntake(paths[4]),
+            new FollowPathAlignAndShoot(paths[5], new SwerveDriveToShoot())
         );
     }
 

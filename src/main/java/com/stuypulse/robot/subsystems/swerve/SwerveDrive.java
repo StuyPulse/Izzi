@@ -117,8 +117,10 @@ public class SwerveDrive extends SubsystemBase {
     /*** PATH FOLLOWING ***/
 
     public Command followPathCommand(String pathName) {
-        PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
+        return followPathCommand(PathPlannerPath.fromPathFile(pathName));
+    }
 
+    public Command followPathCommand(PathPlannerPath path) {
         return new FollowPathHolonomic(
             path,
             () -> Odometry.getInstance().getPose(),
@@ -132,11 +134,12 @@ public class SwerveDrive extends SubsystemBase {
                 new ReplanningConfig(false, false)
             ),
             () -> {
-                var alliance = DriverStation.getAlliance();
-                if (alliance.isPresent()) {
-                    return alliance.get() == DriverStation.Alliance.Red;
-                }
                 return false;
+                // var alliance = DriverStation.getAlliance();
+                // if (alliance.isPresent()) {
+                //     return alliance.get() == DriverStation.Alliance.Red;
+                // }
+                // return false;
             },
             this
         );

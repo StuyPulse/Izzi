@@ -23,23 +23,23 @@ public class FivePieceCBAD extends SequentialCommandGroup {
                 SwerveDriveToPose.speakerRelative(-45)
             ),
 
-            new ConveyorShootRoutine(),
+            new ConveyorShootRoutine()
 
-            new FollowPathAndIntake("First Piece To C"),
-            new SwerveDriveToShoot(2.9),
-            new ConveyorShootRoutine(),
+            // new FollowPathAndIntake("First Piece To C"),
+            // new SwerveDriveToShoot(2.9),
+            // new ConveyorShootRoutine(),
 
-            new FollowPathAndIntake("C to B"),
-            new SwerveDriveToShoot(),
-            new ConveyorShootRoutine(),
+            // new FollowPathAndIntake("C to B"),
+            // new SwerveDriveToShoot(),
+            // new ConveyorShootRoutine(),
 
-            new FollowPathAndIntake("B To A"),
-            new SwerveDriveToShoot(2.9)
-                .withTolerance(0.05, 3),
-            new ConveyorShootRoutine(),
+            // new FollowPathAndIntake("B To A"),
+            // new SwerveDriveToShoot(2.9)
+            //     .withTolerance(0.05, 3),
+            // new ConveyorShootRoutine(),
 
-            new FollowPathAndIntake("A To D"),
-            new FollowPathAlignAndShoot("D To Shoot", new SwerveDriveToShoot())
+            // new FollowPathAndIntake("A To D"),
+            // new FollowPathAlignAndShoot("D To Shoot", new SwerveDriveToShoot())
         );
     }
     

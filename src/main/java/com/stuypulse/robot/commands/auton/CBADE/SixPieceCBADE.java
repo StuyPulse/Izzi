@@ -23,26 +23,26 @@ public class SixPieceCBADE extends SequentialCommandGroup {
                 SwerveDriveToPose.speakerRelative(-45)
             ),
 
-            new ConveyorShootRoutine(),
+            new ConveyorShootRoutine()
 
-            new FollowPathAndIntake("First Piece To C"),
-            new SwerveDriveToShoot(2.9)
-                .withTolerance(0.1, 5),
-            new ConveyorShootRoutine(),
+            // new FollowPathAndIntake("First Piece To C"),
+            // new SwerveDriveToShoot(2.9)
+            //     .withTolerance(0.1, 5),
+            // new ConveyorShootRoutine(),
 
-            new FollowPathAndIntake("C to B"),
-            SwerveDriveToPose.speakerRelative(5),
-            new ConveyorShootRoutine(),
+            // new FollowPathAndIntake("C to B"),
+            // SwerveDriveToPose.speakerRelative(5),
+            // new ConveyorShootRoutine(),
 
-            new FollowPathAndIntake("B To A"),
-            SwerveDriveToPose.speakerRelative(35),
-            new ConveyorShootRoutine(),
+            // new FollowPathAndIntake("B To A"),
+            // SwerveDriveToPose.speakerRelative(35),
+            // new ConveyorShootRoutine(),
 
-            new FollowPathAndIntake("A To D"),
-            new FollowPathAlignAndShoot("D To Shoot", SwerveDriveToPose.speakerRelative(30)),
+            // new FollowPathAndIntake("A To D"),
+            // new FollowPathAlignAndShoot("D To Shoot", SwerveDriveToPose.speakerRelative(30)),
 
-            new FollowPathAndIntake("A To E"),
-            new FollowPathAlignAndShoot("E To Shoot", SwerveDriveToPose.speakerRelative(30))
+            // new FollowPathAndIntake("A To E"),
+            // new FollowPathAlignAndShoot("E To Shoot", SwerveDriveToPose.speakerRelative(30))
         );
     }
     
