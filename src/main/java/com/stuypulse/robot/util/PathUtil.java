@@ -43,7 +43,7 @@ public class PathUtil {
     }
 
     public static Rotation2d flipFieldRotation(Rotation2d rotation) {
-        return new Rotation2d(Math.PI).minus(rotation);
+        return rotation.times(-1);
     }
 
     public static Pose2d flipFieldPose(Pose2d pose) {
