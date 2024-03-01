@@ -20,18 +20,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkFlex;
 
 public class IntakeImpl extends Intake {
 
-    private final CANSparkMax motor;
+    private final CANSparkFlex motor;
     private final DigitalInput sensor;
 
     private final BStream triggered;
     private final BStream stalling;
 
     protected IntakeImpl() {
-        motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
+        motor = new CANSparkFlex(Ports.Intake.MOTOR, MotorType.kBrushless);
         sensor = new DigitalInput(Ports.Intake.IR_SENSOR);
 
         triggered = BStream.create(sensor).not()
