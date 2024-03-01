@@ -32,7 +32,7 @@ public interface Motors {
     }
 
     public static void disableStatusFrames(CANSparkBase motor, StatusFrame... ids) {
-        final int kDisableStatusFrame = 65535;
+        final int kDisableStatusFrame = 500;
 
         for (StatusFrame id : ids) {
             motor.setPeriodicFramePeriod(PeriodicFrame.fromId(id.ordinal()), kDisableStatusFrame);
