@@ -11,6 +11,7 @@ import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
 import com.stuypulse.stuylib.streams.numbers.IStream;
 import com.stuypulse.stuylib.streams.numbers.filters.HighPassFilter;
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Motors.StatusFrame;
 import com.stuypulse.robot.constants.Ports;
@@ -18,6 +19,7 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Feeder;
 import com.stuypulse.robot.constants.Settings.Shooter.Feedforward;
 import com.stuypulse.robot.constants.Settings.Shooter.PID;
+import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.util.StupidFilter;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -133,5 +135,7 @@ public class ShooterImpl extends Shooter {
 
         SmartDashboard.putNumber("Shooter/RPM Change", rpmChange.get());
         SmartDashboard.putBoolean("Shooter/Note Shot", noteShot());
+
+        SmartDashboard.putNumber("Shooter/Distance", Odometry.getInstance().getPose().getTranslation().minus(Field.getAllianceSpeakerPose().getTranslation()).getNorm());
     }
 }

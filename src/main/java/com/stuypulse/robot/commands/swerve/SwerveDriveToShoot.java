@@ -35,10 +35,10 @@ public class SwerveDriveToShoot extends Command {
     private double distanceTolerance;
     private double angleTolerance;
 
-    private final double targetDistance;
+    private double targetDistance;
 
     public SwerveDriveToShoot() {
-        this(Alignment.PODIUM_SHOT_DISTANCE);
+        this(Alignment.PODIUM_SHOT_DISTANCE.get());
     }
     
     public SwerveDriveToShoot(double targetDistance) {
@@ -54,8 +54,12 @@ public class SwerveDriveToShoot extends Command {
         isAligned = BStream.create(this::isAligned)
             .filtered(new BDebounceRC.Rising(Alignment.DEBOUNCE_TIME));
         
-        distanceTolerance = Alignment.X_TOLERANCE.get();
+        distanceTolerance = 0.02; //Alignment.X_TOLERANCE.get();
         angleTolerance = Alignment.ANGLE_TOLERANCE.get();
+    }
+
+    public void initialize() {
+        targetDistance = Alignment.PODIUM_SHOT_DISTANCE.get();
     }
 
     public SwerveDriveToShoot withTolerance(double distanceTolerance, double angleTolerance) {

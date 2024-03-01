@@ -302,9 +302,9 @@ public interface Settings {
         double TELEOP_SHOOTER_STARTUP_DELAY = 0.25;
 
         ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(
-            new SmartNumber("Shooter/Podium Shooter RPM", 5000),
+            new SmartNumber("Shooter/Podium Shooter RPM", 4600),
             500,
-            new SmartNumber("Shooter/Podium Feeder RPM", 2800));
+            new SmartNumber("Shooter/Podium Feeder RPM", 3000));
 
         ShooterSpeeds HANDOFF = new ShooterSpeeds(2000, 2000);
 
@@ -374,7 +374,7 @@ public interface Settings {
         SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
         SmartNumber ANGLE_TOLERANCE = new SmartNumber("Alignment/Angle Tolerance", 5);
 
-        double PODIUM_SHOT_DISTANCE = 3.0;
+        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Shooter/Podium Distance", 2.90);
         double PODIUM_SHOT_MAX_ANGLE = 80;
 
         SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(25.5));

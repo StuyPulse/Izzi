@@ -52,7 +52,7 @@ public class SwerveDriveToPose extends Command {
     }
 
     public static SwerveDriveToPose speakerRelative(double angleToSpeaker) {
-        return speakerRelative(angleToSpeaker, Alignment.PODIUM_SHOT_DISTANCE);
+        return speakerRelative(angleToSpeaker, Alignment.PODIUM_SHOT_DISTANCE.get());
     }
 
     public static SwerveDriveToPose toClimb() {
