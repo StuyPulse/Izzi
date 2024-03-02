@@ -25,6 +25,7 @@ import edu.wpi.first.networktables.IntegerSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.PubSubOption;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Optional;
 
@@ -55,6 +56,7 @@ public class TheiaCamera {
     private final IntegerArraySubscriber idSub;
     private final IntegerSubscriber counterSub;
     private final DoubleArraySubscriber areaSub;
+    private final DoubleArraySubscriber pixelSub;
 
     private final DoubleArrayPublisher layoutPub;
 
@@ -64,6 +66,7 @@ public class TheiaCamera {
     private long[] rawids;
     private long rawCounter;
     private double[] rawAreas;
+    private double[] rawPixelCoords;
     private long lastCounter;
 
     private final SmartBoolean enabled;
@@ -93,6 +96,7 @@ public class TheiaCamera {
         idSub = outputTable.getIntegerArrayTopic("tids").subscribe(new long[] {}, PubSubOption.periodic(0.02));
         counterSub = outputTable.getIntegerTopic("update_counter").subscribe(0, PubSubOption.periodic(0.02));
         areaSub = outputTable.getDoubleArrayTopic("areas").subscribe(new double[] {}, PubSubOption.periodic(0.02));
+        pixelSub = outputTable.getDoubleArrayTopic("pixel_coords").subscribe(new double[] {}, PubSubOption.periodic(0.02));
 
         enabled = new SmartBoolean(name + "Enabled", true);
         
@@ -135,6 +139,7 @@ public class TheiaCamera {
         rawids = idSub.get();
         rawCounter = counterSub.get();
         rawAreas = areaSub.get();
+        rawPixelCoords = pixelSub.get();
     }
 
     /**
@@ -201,6 +206,11 @@ public class TheiaCamera {
         if (!data.isValidData()) return Optional.empty();
 
         LogPose3d.logPose3d("Vision/" + getName() + "/Pose3d", data.getPose());
+
+        if (rawPixelCoords.length == 2) {
+            SmartDashboard.putNumber("Vision/" + getName() + "/Primary Tag X", rawPixelCoords[0]);
+            SmartDashboard.putNumber("Vision/" + getName() + "/Primary Tag Y", rawPixelCoords[1]);
+        }
 
         return Optional.of(data);
     }
