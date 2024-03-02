@@ -20,7 +20,7 @@ public class FourPieceGHF extends SequentialCommandGroup {
                 new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
                     .andThen(new ShooterPodiumShot()),
 
-                SwerveDriveToPose.speakerRelative(-50)
+                SwerveDriveToPose.speakerRelative(-45)
                     .withTolerance(0.1, 0.1, 2)
             ),
 
