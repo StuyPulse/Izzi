@@ -6,6 +6,8 @@
 
 package com.stuypulse.robot.commands.swerve;
 
+import java.util.function.DoubleSupplier;
+
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Alignment.Shoot;
@@ -34,17 +36,23 @@ public class SwerveDriveToShoot extends Command {
 
     private final BStream isAligned;
 
+    private final DoubleSupplier targetDistanceSupplier;
+
     private double distanceTolerance;
     private double angleTolerance;
 
     private double targetDistance;
 
     public SwerveDriveToShoot() {
-        this(Alignment.PODIUM_SHOT_DISTANCE.get());
+        this(() -> Alignment.PODIUM_SHOT_DISTANCE.get());
     }
     
     public SwerveDriveToShoot(double targetDistance) {
-        this.targetDistance = SLMath.clamp(targetDistance, 1, 5);
+        this(() -> targetDistance);
+    }
+    
+    public SwerveDriveToShoot(DoubleSupplier targetDistanceSupplier) {
+        this.targetDistanceSupplier = targetDistanceSupplier;
 
         swerve = SwerveDrive.getInstance();
         odometry = Odometry.getInstance();
@@ -61,7 +69,7 @@ public class SwerveDriveToShoot extends Command {
     }
 
     public void initialize() {
-        targetDistance = Alignment.PODIUM_SHOT_DISTANCE.get();
+        targetDistance = SLMath.clamp(targetDistanceSupplier.getAsDouble(), 1, 5);
     }
 
     public SwerveDriveToShoot withTolerance(double distanceTolerance, double angleTolerance) {
