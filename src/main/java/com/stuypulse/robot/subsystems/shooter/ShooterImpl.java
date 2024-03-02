@@ -124,6 +124,10 @@ public class ShooterImpl extends Shooter {
         SmartDashboard.putNumber("Shooter/Right RPM", getRightShooterRPM());
         SmartDashboard.putNumber("Shooter/Left RPM", getLeftShooterRPM());
         SmartDashboard.putNumber("Shooter/Feeder RPM", getFeederRPM());
+        
+        SmartDashboard.putNumber("Shooter/Right Error", rightController.getError());
+        SmartDashboard.putNumber("Shooter/Left Error", leftController.getError());
+        SmartDashboard.putNumber("Shooter/Feeder Error", feederController.getError());
 
         SmartDashboard.putNumber("Shooter/Left Voltage", leftMotor.getBusVoltage() * leftMotor.getAppliedOutput());
         SmartDashboard.putNumber("Shooter/Right Voltage", rightMotor.getBusVoltage() * rightMotor.getAppliedOutput());
