@@ -36,7 +36,7 @@ public class FivePieceCBAE extends SequentialCommandGroup {
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake(paths[2]),
-            new SwerveDriveToShoot(2.9)
+            new SwerveDriveToShoot()//2.9)
                 .withTolerance(0.05, 3),
             new ConveyorShootRoutine(),
 
