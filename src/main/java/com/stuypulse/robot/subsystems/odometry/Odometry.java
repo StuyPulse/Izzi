@@ -74,7 +74,7 @@ public class Odometry extends SubsystemBase {
             VecBuilder.fill(
                 0.9,
                 0.9,
-                5.0));
+                10.0));
 
         VISION_ACTIVE = new SmartBoolean("Odometry/VISION ACTIVE", true);
 

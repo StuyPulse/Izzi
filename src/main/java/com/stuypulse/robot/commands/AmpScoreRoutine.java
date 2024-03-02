@@ -56,8 +56,6 @@ public class AmpScoreRoutine extends SequentialCommandGroup {
 
     public AmpScoreRoutine() {
         addCommands(
-            new InstantCommand(() -> AprilTagVision.getInstance().setCameraEnabled("intake_camera", false)),
-
             new ConveyorToAmp()
                 .alongWith(new WaitCommand(Settings.Shooter.TELEOP_SHOOTER_STARTUP_DELAY)
                     .andThen(new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get()))
@@ -75,8 +73,6 @@ public class AmpScoreRoutine extends SequentialCommandGroup {
                     .deadlineWith(new LEDSet(LEDInstructions.GREEN))
             ),
             
-            new InstantCommand(() -> AprilTagVision.getInstance().setCameraEnabled("intake_camera", true)),
-
             AmperScore.untilDone(),
 
             new SwerveDriveDriveDirection(

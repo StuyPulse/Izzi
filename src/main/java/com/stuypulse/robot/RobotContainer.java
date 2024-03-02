@@ -47,7 +47,6 @@ import com.stuypulse.robot.util.ShooterSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -135,9 +134,7 @@ public class RobotContainer {
         driver.getLeftBumper()
             .whileTrue(new AmpScoreRoutine())
             .onFalse(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT))
-            .onFalse(new AmperStop())
-            .onFalse(new InstantCommand(
-                () -> AprilTagVision.getInstance().setCameraEnabled("intake_camera", true)));
+            .onFalse(new AmperStop());
 
         // score speaker no align
         driver.getRightMenuButton()
