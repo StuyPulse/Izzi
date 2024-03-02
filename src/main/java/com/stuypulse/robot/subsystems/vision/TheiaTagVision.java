@@ -58,6 +58,14 @@ public class TheiaTagVision extends AprilTagVision {
     }
 
     @Override
+    public void setCameraEnabled(String name, boolean enabled) {
+        for (TheiaCamera camera : cameras) {
+            if (camera.getName().equals(name))
+                camera.setEnabled(enabled);
+        }
+    }
+
+    @Override
     public void periodic() {
         super.periodic();
 

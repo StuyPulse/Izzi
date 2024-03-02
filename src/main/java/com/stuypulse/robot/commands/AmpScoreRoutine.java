@@ -22,12 +22,14 @@ import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.constants.Settings.Amper.Score;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
+import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.stuylib.math.Vector2D;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -54,6 +56,8 @@ public class AmpScoreRoutine extends SequentialCommandGroup {
 
     public AmpScoreRoutine() {
         addCommands(
+            new InstantCommand(() -> AprilTagVision.getInstance().setCameraEnabled("intake_camera", false)),
+
             new ConveyorToAmp()
                 .alongWith(new WaitCommand(Settings.Shooter.TELEOP_SHOOTER_STARTUP_DELAY)
                     .andThen(new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get()))
@@ -70,6 +74,8 @@ public class AmpScoreRoutine extends SequentialCommandGroup {
                         AMP_WALL_SCORE_ANGLE_TOLERANCE)
                     .deadlineWith(new LEDSet(LEDInstructions.GREEN))
             ),
+            
+            new InstantCommand(() -> AprilTagVision.getInstance().setCameraEnabled("intake_camera", true)),
 
             AmperScore.untilDone(),
 

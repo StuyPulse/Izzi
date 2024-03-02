@@ -98,7 +98,7 @@ public class TheiaCamera {
         areaSub = outputTable.getDoubleArrayTopic("areas").subscribe(new double[] {}, PubSubOption.periodic(0.02));
         pixelSub = outputTable.getDoubleArrayTopic("pixel_coords").subscribe(new double[] {}, PubSubOption.periodic(0.02));
 
-        enabled = new SmartBoolean(name + "Enabled", true);
+        enabled = new SmartBoolean(name + "/Enabled", true);
         
         PortForwarder.add(port, "10.6.94." + ip, 5802);
     }
@@ -175,6 +175,10 @@ public class TheiaCamera {
             ids[i] = (int) rawids[i];
         }
         return ids;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled.set(enabled);
     }
 
     /**

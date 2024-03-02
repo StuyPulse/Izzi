@@ -27,4 +27,6 @@ public abstract class AprilTagVision extends SubsystemBase {
     public abstract ArrayList<VisionData> getOutputs();
 
     public abstract void setTagWhitelist(int... ids);
+
+    public abstract void setCameraEnabled(String name, boolean enabled);
 }

@@ -47,6 +47,7 @@ import com.stuypulse.robot.util.ShooterSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -134,7 +135,9 @@ public class RobotContainer {
         driver.getLeftBumper()
             .whileTrue(new AmpScoreRoutine())
             .onFalse(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT))
-            .onFalse(new AmperStop());
+            .onFalse(new AmperStop())
+            .onFalse(new InstantCommand(
+                () -> AprilTagVision.getInstance().setCameraEnabled("intake_camera", true)));
 
         // score speaker no align
         driver.getRightMenuButton()
@@ -261,10 +264,10 @@ public class RobotContainer {
 
         autonChooser.addOption("Mobility", new Mobility());
 
-        autonChooser.setDefaultOption("Blue 5 Piece CBAE", new FivePieceCBAE(
+        autonChooser.addOption("Blue 5 Piece CBAE", new FivePieceCBAE(
             PathUtil.loadPaths("First Piece To C", "C to B", "B To A", "A To E", "E To Shoot")));
         
-        autonChooser.setDefaultOption("Red 5 Piece CBAE", new FivePieceCBAE(
+        autonChooser.addOption("Red 5 Piece CBAE", new FivePieceCBAE(
             PathUtil.loadPathsRed("First Piece To C", "C to B", "B To A", "A To E", "E To Shoot")));
         
         autonChooser.addOption("Blue Blay 5 Piece CBAE", new BlayFivePieceCBAE(
@@ -276,7 +279,7 @@ public class RobotContainer {
         autonChooser.addOption("Blue 4 Piece HGF", new FourPieceHGF(
             PathUtil.loadPaths("Start To H (HGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)", "F To Shoot (HGF)")));
         
-        autonChooser.addOption("Red 4 Piece HGF", new FourPieceHGF(
+        autonChooser.setDefaultOption("Red 4 Piece HGF", new FourPieceHGF(
             PathUtil.loadPathsRed("Start To H (HGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)", "F To Shoot (HGF)")));
 
         SmartDashboard.putData("Autonomous", autonChooser);
