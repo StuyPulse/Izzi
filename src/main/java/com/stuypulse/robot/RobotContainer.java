@@ -104,14 +104,22 @@ public class RobotContainer {
 
     private void configureDriverBindings() {
         // intaking with swerve pointing at note
+        // driver.getRightTriggerButton()
+        //     .whileTrue(new WaitCommand(Settings.Intake.TELEOP_DRIVE_STARTUP_DELAY)
+        //         .andThen(new IntakeAcquire()
+        //             .deadlineWith(new LEDSet(LEDInstructions.DARK_BLUE)))
+        //         .andThen(new BuzzController(driver)
+        //             .alongWith(new LEDSet(LEDInstructions.PICKUP)
+        //                 .withTimeout(3.0))))
+        //     .whileTrue(new SwerveDriveToNote());
+        
+        // intaking
         driver.getRightTriggerButton()
-            .whileTrue(//new WaitCommand(Settings.Intake.TELEOP_DRIVE_STARTUP_DELAY).andThen(
-                new IntakeAcquire()
+            .whileTrue(new IntakeAcquire()
                     .deadlineWith(new LEDSet(LEDInstructions.DARK_BLUE))
                 .andThen(new BuzzController(driver)
                     .alongWith(new LEDSet(LEDInstructions.PICKUP)
                         .withTimeout(3.0))));
-            // .whileTrue(new SwerveDriveToNote());
         
         driver.getLeftTriggerButton()
             .onTrue(new IntakeDeacquire())
@@ -155,11 +163,6 @@ public class RobotContainer {
             .onFalse(new AmperStop())
             .onFalse(new AmperToHeight(Lift.MIN_HEIGHT));
 
-        // driver.getDPadUp()
-        //     .onTrue(new ClimberToTop());
-        // driver.getDPadDown()
-        //     .onTrue(new ClimberToBottom());
-
         driver.getDPadUp()
             .onTrue(new SwerveDriveResetHeading(Rotation2d.fromDegrees(0)));
         driver.getDPadRight()
@@ -168,11 +171,6 @@ public class RobotContainer {
             .onTrue(new SwerveDriveResetHeading(Rotation2d.fromDegrees(180)));
         driver.getDPadLeft()
             .onTrue(new SwerveDriveResetHeading(Rotation2d.fromDegrees(270)));
-
-        // driver.getRightButton()
-        //     .whileTrue(new ClimberSetupRoutine());
-        // driver.getBottomButton()
-        //     .whileTrue(new ClimberScoreRoutine());
 
         driver.getTopButton()
             // on command start
@@ -231,11 +229,6 @@ public class RobotContainer {
         operator.getDPadDown()
             .whileTrue(new AmperLiftFineAdjust(operator));
 
-        // operator.getDPadRight()
-        //     .onTrue(new ClimberToTop());
-        // operator.getDPadLeft()
-        //     .onTrue(new ClimberToBottom());
-
         operator.getDPadRight()
             .onTrue(new GandalfToShoot())
             .onFalse(new ConveyorStop());
@@ -243,8 +236,6 @@ public class RobotContainer {
             .onTrue(new GandalfToAmp())
             .onFalse(new ConveyorStop());
 
-        // operator.getLeftButton()
-        //         .onTrue(new AmperToHeight(Settings.Amper.Lift.TRAP_SCORE_HEIGHT));
         operator.getRightButton()
                 .onTrue(new AmperToHeight(Settings.Amper.Lift.AMP_SCORE_HEIGHT));
         operator.getBottomButton()
