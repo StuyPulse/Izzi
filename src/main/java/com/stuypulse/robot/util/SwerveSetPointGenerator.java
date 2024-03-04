@@ -2,7 +2,6 @@ package com.stuypulse.robot.util;
 
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Swerve;
-import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -17,8 +16,17 @@ public class SwerveSetpointGenerator {
     }
 
     public ChassisSpeeds generateSetpoint(ChassisSpeeds prevSetpoint, ChassisSpeeds desiredState) {
-        if (Math.hypot(desiredState.vxMetersPerSecond, desiredState.vyMetersPerSecond) < Swerve.MODULE_VELOCITY_DEADBAND.get()) {
+        double prevSpeed = Math.hypot(prevSetpoint.vxMetersPerSecond, prevSetpoint.vyMetersPerSecond);
+        double desiredSpeed = Math.hypot(desiredState.vxMetersPerSecond, desiredState.vyMetersPerSecond);
+        double minSpeed = Swerve.MODULE_VELOCITY_DEADBAND.get();
+
+        if (desiredSpeed < minSpeed) {
             return new ChassisSpeeds();
+        }
+
+        boolean allModulesFlip = false; // TODO: determine when all modules flip
+        if (allModulesFlip && prevSpeed > minSpeed && desiredSpeed > minSpeed) {
+            return generateSetpoint(prevSetpoint, new ChassisSpeeds());
         }
 
         SwerveConstraints constraints = Swerve.CONSTRAINTS;
