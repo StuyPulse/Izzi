@@ -21,7 +21,6 @@ import com.stuypulse.robot.constants.Settings.Shooter.Feedforward;
 import com.stuypulse.robot.constants.Settings.Shooter.PID;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.util.FilteredRelativeEncoder;
-import com.stuypulse.robot.util.StupidFilter;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -119,7 +118,6 @@ public class ShooterImpl extends Shooter {
         SmartDashboard.putNumber("Shooter/Right RPM", getRightShooterRPM());
         SmartDashboard.putNumber("Shooter/Left RPM", getLeftShooterRPM());
         SmartDashboard.putNumber("Shooter/Feeder RPM", getFeederRPM());
-        
         SmartDashboard.putNumber("Shooter/Right Error", rightController.getError());
         SmartDashboard.putNumber("Shooter/Left Error", leftController.getError());
         SmartDashboard.putNumber("Shooter/Feeder Error", feederController.getError());
