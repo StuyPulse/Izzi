@@ -87,17 +87,6 @@ public class AmperImpl extends Amper {
 
     /*** LIFT CONTROL ***/
 
-    // @Override
-    // public boolean liftAtBottom() {
-    //     return !minSwitch.get();
-    // }
-
-    // @Override
-    // public boolean liftAtTop() {
-    //     return false;
-    //     // return !maxSwitch.get();
-    // }
-
     @Override
     public double getLiftHeight() {
         return liftHeight.get(liftEncoder.getPosition());
