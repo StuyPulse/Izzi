@@ -25,18 +25,26 @@ public class FilteredRelativeEncoder implements RelativeEncoder {
 
     @Override
     public double getPosition() {
+        double localPosition = encoder.getPosition();
         if (motor.getLastError() == REVLibError.kOk){
-            lastValidPosition = encoder.getPosition();
+            return localPosition;
         }
-        return lastValidPosition;
+        else {
+            lastValidPosition = localPosition;
+            return lastValidPosition;
+        }
     }
 
     @Override
     public double getVelocity() {
+        double localVelocity = encoder.getVelocity();
         if (motor.getLastError() == REVLibError.kOk){
-            lastValidVelocity = encoder.getVelocity();
+            return localVelocity;
         }
-        return lastValidVelocity;
+        else {
+            lastValidVelocity = localVelocity;
+            return lastValidVelocity;
+        }
     }
 
     @Override
@@ -98,5 +106,7 @@ public class FilteredRelativeEncoder implements RelativeEncoder {
     public boolean getInverted() {
         return encoder.getInverted();
     }
+
+   
     
 }    

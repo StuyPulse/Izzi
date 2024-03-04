@@ -20,6 +20,7 @@ import com.stuypulse.robot.constants.Settings.Feeder;
 import com.stuypulse.robot.constants.Settings.Shooter.Feedforward;
 import com.stuypulse.robot.constants.Settings.Shooter.PID;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
+import com.stuypulse.robot.util.FilteredRelativeEncoder;
 import com.stuypulse.robot.util.StupidFilter;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -44,18 +45,15 @@ public class ShooterImpl extends Shooter {
     private final Controller feederController;
     
     private final IStream rpmChange;
-    
-    private final StupidFilter leftVel;
-    private final StupidFilter rightVel;
 
     protected ShooterImpl() {
         leftMotor = new CANSparkFlex(Ports.Shooter.LEFT_MOTOR, MotorType.kBrushless);
         rightMotor = new CANSparkFlex(Ports.Shooter.RIGHT_MOTOR, MotorType.kBrushless);
         feederMotor = new CANSparkMax(Ports.Conveyor.FEEDER, MotorType.kBrushless);
 
-        leftEncoder = leftMotor.getEncoder();
-        rightEncoder = rightMotor.getEncoder();
-        feederEncoder = feederMotor.getEncoder();
+        leftEncoder = new FilteredRelativeEncoder(leftMotor);
+        rightEncoder = new FilteredRelativeEncoder(rightMotor);
+        feederEncoder = new FilteredRelativeEncoder(feederMotor);
 
         leftEncoder.setVelocityConversionFactor(1.0);
         rightEncoder.setVelocityConversionFactor(1.0);
@@ -70,9 +68,6 @@ public class ShooterImpl extends Shooter {
         
         rpmChange = IStream.create(this::getAverageShooterRPM)
             .filtered(new HighPassFilter(Settings.Shooter.RPM_CHANGE_RC));
-
-        leftVel = new StupidFilter("Left Shooter Velocity");
-        rightVel = new StupidFilter("Right Shooter Velocity");
         
         Motors.disableStatusFrames(leftMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
         Motors.disableStatusFrames(rightMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
@@ -85,12 +80,12 @@ public class ShooterImpl extends Shooter {
 
     @Override
     public double getLeftShooterRPM() {
-        return leftVel.get(leftEncoder.getVelocity());
+        return leftEncoder.getVelocity();
     }
 
     @Override
     public double getRightShooterRPM() {
-        return rightVel.get(rightEncoder.getVelocity());
+        return rightEncoder.getVelocity();
     }
 
     @Override

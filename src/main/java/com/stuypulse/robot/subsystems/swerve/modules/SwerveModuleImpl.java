@@ -19,7 +19,7 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Swerve.Drive;
 import com.stuypulse.robot.constants.Settings.Swerve.Encoder;
 import com.stuypulse.robot.constants.Settings.Swerve.Turn;
-import com.stuypulse.robot.util.StupidFilter;
+import com.stuypulse.robot.util.FilteredRelativeEncoder;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -30,7 +30,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 
 import com.ctre.phoenix6.hardware.CANcoder;
 
@@ -65,17 +64,11 @@ public class SwerveModuleImpl extends SwerveModule {
     private final CANSparkMax turnMotor;
     private final CANSparkFlex driveMotor;
 
-    private final RelativeEncoder driveEncoder;
+    private final FilteredRelativeEncoder driveEncoder;
     private final CANcoder turnEncoder;
 
     private final Controller driveController;
     private final AngleController angleController;
-
-    private final StupidFilter driveVel;
-    private final StupidFilter drivePos;
-
-    private final StupidFilter driveVoltage;
-    private final StupidFilter targetDriveSpeed;
 
     /**
      * Creates a new Swerve Module
@@ -100,7 +93,7 @@ public class SwerveModuleImpl extends SwerveModule {
         driveMotor = new CANSparkFlex(driveID, MotorType.kBrushless);
         turnMotor = new CANSparkMax(turnID, MotorType.kBrushless);
 
-        driveEncoder = driveMotor.getEncoder();
+        driveEncoder = new FilteredRelativeEncoder(driveMotor);
         driveEncoder.setPositionConversionFactor(Encoder.Drive.POSITION_CONVERSION);
         driveEncoder.setVelocityConversionFactor(Encoder.Drive.VELOCITY_CONVERSION);
         driveEncoder.setPosition(0);
@@ -113,11 +106,6 @@ public class SwerveModuleImpl extends SwerveModule {
         angleController = new AnglePIDController(Turn.kP, Turn.kI, Turn.kD)
             .setOutputFilter(x -> -x);
 
-        driveVel = new StupidFilter(getId() + " Drive Velocity");
-        drivePos = new StupidFilter(getId() + " Drive Position");
-        driveVoltage = new StupidFilter(getId() + " Drive Voltage");
-        targetDriveSpeed = new StupidFilter(getId() + " Drive Target Speed");
-
         Motors.disableStatusFrames(driveMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
         Motors.disableStatusFrames(turnMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
 
@@ -127,7 +115,7 @@ public class SwerveModuleImpl extends SwerveModule {
 
     @Override
     public double getVelocity() {
-        return driveVel.get(driveEncoder.getVelocity());
+        return driveEncoder.getVelocity();
     }
 
     @Override
@@ -138,7 +126,7 @@ public class SwerveModuleImpl extends SwerveModule {
 
     @Override
     public SwerveModulePosition getModulePosition() {
-        return new SwerveModulePosition(drivePos.get(driveEncoder.getPosition()), getAngle());
+        return new SwerveModulePosition(driveEncoder.getPosition(), getAngle());
     }
 
     @Override
@@ -146,7 +134,7 @@ public class SwerveModuleImpl extends SwerveModule {
         super.periodic();
 
         driveController.update(
-            targetDriveSpeed.get(getTargetState().speedMetersPerSecond),
+            getTargetState().speedMetersPerSecond,
             getVelocity());
 
         angleController.update(
@@ -155,10 +143,10 @@ public class SwerveModuleImpl extends SwerveModule {
 
         if (Math.abs(driveController.getSetpoint())
                 < Settings.Swerve.MODULE_VELOCITY_DEADBAND) {
-            driveMotor.setVoltage(driveVoltage.get(0));
+            driveMotor.setVoltage(0);
             turnMotor.setVoltage(0);
         } else {
-            driveMotor.setVoltage(driveVoltage.get(driveController.getOutput()));
+            driveMotor.setVoltage(driveController.getOutput());
             turnMotor.setVoltage(angleController.getOutput());
         }
         

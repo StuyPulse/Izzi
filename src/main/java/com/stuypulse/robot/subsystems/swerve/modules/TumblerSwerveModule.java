@@ -16,6 +16,7 @@ import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Swerve;
 import com.stuypulse.robot.constants.Settings.Swerve.Encoder;
+import com.stuypulse.robot.util.FilteredRelativeEncoder;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.angle.AngleController;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
@@ -67,7 +68,7 @@ public class TumblerSwerveModule extends SwerveModule {
         driveMotor.setIdleMode(IdleMode.kBrake);
 
         turnEncoder = new CANcoder(encoderID);
-        driveEncoder = driveMotor.getEncoder();
+        driveEncoder = new FilteredRelativeEncoder(driveMotor);
 
         driveEncoder.setPositionConversionFactor(Encoder.Drive.POSITION_CONVERSION);
         driveEncoder.setVelocityConversionFactor(Encoder.Drive.VELOCITY_CONVERSION);
