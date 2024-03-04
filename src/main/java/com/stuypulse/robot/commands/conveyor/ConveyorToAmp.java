@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class ConveyorToAmp extends Command {
     public static Command withCheckLift() {
-        return AmperToHeight.untilDone(Settings.Amper.Lift.MIN_HEIGHT)
+        return AmperToHeight.untilDone(Settings.Amper.Lift.HANDOFF_HEIGHT)
             .andThen(new ConveyorToAmp());
     }
 
@@ -39,12 +39,11 @@ public class ConveyorToAmp extends Command {
     @Override
     public void initialize() {
         shooter.setTargetSpeeds(Settings.Shooter.HANDOFF);
-        amper.setTargetHeight(Settings.Amper.Lift.HANDOFF_HEIGHT);
     }
 
     @Override
     public void execute() {
-        if (shooter.atTargetSpeeds() && amper.isAtTargetHeight(Settings.Amper.Lift.MAX_HEIGHT_ERROR)) {
+        if (shooter.atTargetSpeeds()) {
             conveyor.toAmp();
             intake.acquire();
             amper.fromConveyor();
