@@ -133,14 +133,7 @@ public class SwerveDrive extends SubsystemBase {
                 Math.hypot(Settings.Swerve.LENGTH, Settings.Swerve.WIDTH),
                 new ReplanningConfig(false, false)
             ),
-            () -> {
-                return false;
-                // var alliance = DriverStation.getAlliance();
-                // if (alliance.isPresent()) {
-                //     return alliance.get() == DriverStation.Alliance.Red;
-                // }
-                // return false;
-            },
+            () -> false,
             this
         );
     }
