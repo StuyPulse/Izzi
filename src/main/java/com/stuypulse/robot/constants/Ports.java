@@ -68,8 +68,6 @@ public interface Ports {
     public interface Shooter {
         int TOP_MOTOR = 21; //CHECK
         int BOTTOM_MOTOR = 20; 
-
-        int IR_SENSOR = 0;
     }
 
     public interface Conveyor {
