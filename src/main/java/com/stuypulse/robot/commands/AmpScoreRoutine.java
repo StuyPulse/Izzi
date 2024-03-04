@@ -36,6 +36,8 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class AmpScoreRoutine extends SequentialCommandGroup {
 
+    private static final double SCORE_ALIGN_TIMEOUT = 1.25;
+
     private static final double AMP_WALL_SETUP_X_TOLERANCE = Units.inchesToMeters(1.0);
     private static final double AMP_WALL_SETUP_Y_TOLERANCE = Units.inchesToMeters(4.0);
     private static final double AMP_WALL_SETUP_ANGLE_TOLERANCE = 5;
@@ -70,6 +72,7 @@ public class AmpScoreRoutine extends SequentialCommandGroup {
                         AMP_WALL_SCORE_X_TOLERANCE,
                         AMP_WALL_SCORE_Y_TOLERANCE,
                         AMP_WALL_SCORE_ANGLE_TOLERANCE)
+                    .withTimeout(SCORE_ALIGN_TIMEOUT)
                     .deadlineWith(new LEDSet(LEDInstructions.GREEN))
             ),
             
