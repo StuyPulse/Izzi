@@ -44,6 +44,7 @@ import com.stuypulse.robot.util.PathUtil;
 import com.stuypulse.robot.util.SLColor;
 import com.stuypulse.robot.util.ShooterSpeeds;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -159,8 +160,14 @@ public class RobotContainer {
         // driver.getDPadDown()
         //     .onTrue(new ClimberToBottom());
 
+        driver.getDPadUp()
+            .onTrue(new SwerveDriveResetHeading(Rotation2d.fromDegrees(0)));
         driver.getDPadRight()
-            .onTrue(new SwerveDriveResetHeading());
+            .onTrue(new SwerveDriveResetHeading(Rotation2d.fromDegrees(90)));
+        driver.getDPadDown()
+            .onTrue(new SwerveDriveResetHeading(Rotation2d.fromDegrees(180)));
+        driver.getDPadLeft()
+            .onTrue(new SwerveDriveResetHeading(Rotation2d.fromDegrees(270)));
 
         // driver.getRightButton()
         //     .whileTrue(new ClimberSetupRoutine());
@@ -273,10 +280,10 @@ public class RobotContainer {
         autonChooser.addOption("Red Blay 5 Piece CBAE", new BlayFivePieceCBAE(
             PathUtil.loadPathsRed("Blay First Piece To C", "C to B", "B To A", "A To E", "E To Shoot")));
 
-        autonChooser.addOption("Blue 4 Piece HGF", new FourPieceHGF(
+        autonChooser.setDefaultOption("Blue 4 Piece HGF", new FourPieceHGF(
             PathUtil.loadPaths("Start To H (HGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)", "F To Shoot (HGF)")));
         
-        autonChooser.setDefaultOption("Red 4 Piece HGF", new FourPieceHGF(
+        autonChooser.addOption("Red 4 Piece HGF", new FourPieceHGF(
             PathUtil.loadPathsRed("Start To H (HGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)", "F To Shoot (HGF)")));
 
         SmartDashboard.putData("Autonomous", autonChooser);
