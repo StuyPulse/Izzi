@@ -103,6 +103,9 @@ public class ShooterImpl extends Shooter {
 
         SmartDashboard.putNumber("Shooter/Bottom RPM", getBottomShooterRPM());
         SmartDashboard.putNumber("Shooter/Top RPM", getTopShooterRPM());
+        
+        SmartDashboard.putNumber("Shooter/Bottom Error", bottomController.getError());
+        SmartDashboard.putNumber("Shooter/Top Error", topController.getError());
 
         SmartDashboard.putNumber("Shooter/Bottom Target RPM", getBottomTargetRPM());
         SmartDashboard.putNumber("Shooter/Top Target RPM", getTopTargetRPM());
