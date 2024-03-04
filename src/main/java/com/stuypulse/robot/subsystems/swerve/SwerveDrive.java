@@ -22,6 +22,7 @@ import com.stuypulse.robot.subsystems.swerve.modules.SwerveModule;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleImpl;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleSim;
 import com.stuypulse.robot.subsystems.swerve.modules.TumblerSwerveModule;
+import com.stuypulse.robot.util.FollowPathCommand;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -31,8 +32,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
@@ -43,9 +42,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathHolonomic;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.ReplanningConfig;
 
@@ -136,6 +135,23 @@ public class SwerveDrive extends SubsystemBase {
             () -> false,
             this
         );
+    }
+
+    public Command followPathWithSpeakerAlignCommand(PathPlannerPath path) {
+        return new FollowPathCommand(
+            path, 
+            () -> Odometry.getInstance().getPose(), 
+            this::getChassisSpeeds, 
+            this::setChassisSpeeds, 
+            new PPHolonomicDriveController(
+                Motion.XY, 
+                Motion.THETA, 
+                0.02, 
+                Settings.Swerve.MAX_MODULE_SPEED, 
+                Math.hypot(Settings.Swerve.LENGTH, Settings.Swerve.WIDTH)),
+            new ReplanningConfig(false, false),
+            () -> false,
+            this);
     }
 
     private final SwerveModule[] modules;
