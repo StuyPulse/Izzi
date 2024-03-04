@@ -80,7 +80,7 @@ public class Robot extends TimedRobot {
         robot.intake.setIdleMode(IdleMode.kCoast);
         robot.conveyor.setIdleMode(IdleMode.kCoast);
 
-        // scheduler.schedule(new LEDSet(new LEDRainbow()));
+        scheduler.schedule(new LEDSet(new LEDRainbow()));
 
         SmartDashboard.putString("Robot State", "DISABLED");
     }
@@ -91,11 +91,11 @@ public class Robot extends TimedRobot {
             DriverStation.reportWarning("Amper IR sensor reporting note while disabled!", false);
         }
 
-        if (Settings.LED.LED_AUTON_TOGGLE.get()) {
-            scheduler.schedule(new LEDSet(new LEDAlign()));
-        } else {
-            scheduler.schedule(new LEDSet(new LEDAutonChooser()));
-        }
+        // if (Settings.LED.LED_AUTON_TOGGLE.get()) {
+        //     scheduler.schedule(new LEDSet(new LEDAlign()));
+        // } else {
+        //     scheduler.schedule(new LEDSet(new LEDAutonChooser()));
+        // }
 
         // reload whitelist in case of alliance change
         scheduler.schedule(new VisionReloadWhiteList());

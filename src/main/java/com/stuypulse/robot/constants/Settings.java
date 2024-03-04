@@ -150,7 +150,7 @@ public interface Settings {
         public interface Assist {
             SmartNumber ALIGN_MIN_SPEAKER_DIST = new SmartNumber("SwerveAssist/Minimum Distance to Speaker", 4); //change
             
-            double BUZZ_INTENSITY = 0.65;
+            double BUZZ_INTENSITY = 0.8;
 
             SmartNumber kP = new SmartNumber("SwerveAssist/kP", 2.0);
             SmartNumber kI = new SmartNumber("SwerveAssist/kI", 0.0);
@@ -216,7 +216,7 @@ public interface Settings {
 
         public interface FrontRight {
             String ID = "Front Right";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(153.720703);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(13.095703);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * +0.5, LENGTH * -0.5);
         }
 
@@ -301,7 +301,10 @@ public interface Settings {
 
         double TELEOP_SHOOTER_STARTUP_DELAY = 0.25;
 
-        ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(3600, 500, 2400);
+        ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(
+            new SmartNumber("Shooter/Podium Shooter RPM", 5000),
+            500,
+            new SmartNumber("Shooter/Podium Feeder RPM", 3000));
 
         ShooterSpeeds HANDOFF = new ShooterSpeeds(2000, 2000);
 
@@ -359,7 +362,7 @@ public interface Settings {
         SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.0);
         SmartNumber RECALL_DEBOUNCE = new SmartNumber("Conveyor/Recall Delay", 1.0);
 
-        SmartNumber SHOOT_WAIT_DELAY = new SmartNumber("Conveyor/Shoot Wait Delay", 0.35);
+        SmartNumber SHOOT_WAIT_DELAY = new SmartNumber("Conveyor/Shoot Wait Delay", 1.0 /*0.35*/);
 
         SmartNumber AT_FEEDER_WAIT_DELAY = new SmartNumber("Conveyor/At Feeder Wait Delay", 0.5);
     }
@@ -371,10 +374,10 @@ public interface Settings {
         SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
         SmartNumber ANGLE_TOLERANCE = new SmartNumber("Alignment/Angle Tolerance", 5);
 
-        double PODIUM_SHOT_DISTANCE = 3.0;
+        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Shooter/Podium Distance", 3.2);
         double PODIUM_SHOT_MAX_ANGLE = 80;
 
-        SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(23.0));
+        SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(25.5));
         SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(20.5));
 
         SmartNumber TRAP_SETUP_DISTANCE = new SmartNumber("Alignment/Trap/Setup Pose Distance", Units.inchesToMeters(22.0));

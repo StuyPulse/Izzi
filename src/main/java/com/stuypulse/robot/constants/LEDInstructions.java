@@ -59,6 +59,8 @@ public interface LEDInstructions {
     LEDInstruction PULSE_PURPLE = new LEDPulseColor(SLColor.PURPLE, .25);
     LEDInstruction RICHIE = new RichieMode(SLColor.RED);
 
+    LEDInstruction PICKUP = new LEDPulseColor(SLColor.WHITE, 0.5);
+
     /********************************************/
     /*** LED CONSTANTS TO BE USED IN COMMANDS ***/
     /********************************************/

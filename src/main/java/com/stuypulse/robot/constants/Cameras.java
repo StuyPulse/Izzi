@@ -40,18 +40,27 @@ public interface Cameras {
     public CameraConfig[] APRILTAG_CAMERAS = switch (Robot.ROBOT) {
         case IZZI -> 
             new CameraConfig[] {
-                // INTAKE
-                new CameraConfig("samera3", new Pose3d(
+                // 10.6.94.103
+                // 172.22.11.2:3003
+                new CameraConfig("intake_camera", new Pose3d(
                     new Translation3d(Units.inchesToMeters(16.5) + 0.1 , Units.inchesToMeters(1.0 / 8.0), Units.inchesToMeters(16.267379)),
-                    new Rotation3d(0, Units.degreesToRadians(-30), 0))),
-                // SHOOTER
-                new CameraConfig("samera0", new Pose3d(
+                    new Rotation3d(0, Units.degreesToRadians(-30), 0)),
+                    "103",
+                    3003),
+                // 10.6.94.100
+                // 172.22.11.2:3000
+                new CameraConfig("shooter_camera", new Pose3d(
                     new Translation3d(Units.inchesToMeters(-11.5) - 0.1, 0, Units.inchesToMeters(11.75)),
-                    new Rotation3d(0, Units.degreesToRadians(-9), Units.degreesToRadians(180)))),
-                // CLIMBER
-                new CameraConfig("samera2", new Pose3d(
+                    new Rotation3d(0, Units.degreesToRadians(-9), Units.degreesToRadians(180))),
+                    "100",
+                    3000),
+                // 10.6.94.102
+                // 172.22.11.2:3002
+                new CameraConfig("climber_camera", new Pose3d(
                     new Translation3d(Units.inchesToMeters(2.0) - 0.1, 0, Units.inchesToMeters(23.5)),
-                    new Rotation3d(0, Units.degreesToRadians(-34), Units.degreesToRadians(180)))),
+                    new Rotation3d(0, Units.degreesToRadians(-34), Units.degreesToRadians(180))), 
+                    "102",
+                    3002),
             };
         
         case TUMBLER ->
@@ -59,11 +68,13 @@ public interface Cameras {
                 new CameraConfig("samera1",
                     new Pose3d(
                         -Units.inchesToMeters(12), 0, +Units.inchesToMeters(5),
-                        new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(180))))
+                        new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(180))),
+                        "101",
+                        3001)
             };
             
         default -> new CameraConfig[] {
-            new CameraConfig("samera0", new Pose3d(new Translation3d(), new Rotation3d()))
+            new CameraConfig("samera0", new Pose3d(new Translation3d(), new Rotation3d()), "100", 3000)
         };
     };
 
@@ -98,10 +109,14 @@ public interface Cameras {
     public static class CameraConfig {
         private String name;
         private Pose3d location;
+        private String ip;
+        private int forwardedPort;
 
-        public CameraConfig(String name, Pose3d location) {
+        public CameraConfig(String name, Pose3d location, String ip, int port) {
             this.name = name;
             this.location = location;
+            this.ip = ip;
+            this.forwardedPort = port;
         }
 
         public String getName() {
@@ -110,6 +125,14 @@ public interface Cameras {
 
         public Pose3d getLocation() {
             return location;
+        }
+
+        public String getIP() {
+            return ip;
+        }
+
+        public int getForwardedPort() {
+            return forwardedPort;
         }
     }
 }

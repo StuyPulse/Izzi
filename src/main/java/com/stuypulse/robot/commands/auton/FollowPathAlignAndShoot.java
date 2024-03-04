@@ -20,13 +20,12 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class FollowPathAlignAndShoot extends SequentialCommandGroup {
 
-    public double getPathTime(String path) {
-        PathPlannerPath p = PathPlannerPath.fromPathFile(path);
-        return p.getTrajectory(new ChassisSpeeds(), p.getStartingDifferentialPose().getRotation())
+    public double getPathTime(PathPlannerPath path) {
+        return path.getTrajectory(new ChassisSpeeds(), path.getStartingDifferentialPose().getRotation())
             .getTotalTimeSeconds();
     }
 
-    public FollowPathAlignAndShoot(String path, Command alignCommand) {
+    public FollowPathAlignAndShoot(PathPlannerPath path, Command alignCommand) {
         addCommands(
             new ParallelCommandGroup(
                 SwerveDrive.getInstance().followPathCommand(path),
@@ -35,8 +34,10 @@ public class FollowPathAlignAndShoot extends SequentialCommandGroup {
             ),
             alignCommand,
             new ShooterWaitForTarget(),
-            ConveyorShoot.untilDone()
-                .withTimeout(Settings.Conveyor.SHOOT_WAIT_DELAY.get()),
+            new ConveyorShoot(),
+            new WaitCommand(Settings.Conveyor.SHOOT_WAIT_DELAY.get()),
+            // ConveyorShoot.untilDone()
+            //     .withTimeout(Settings.Conveyor.SHOOT_WAIT_DELAY.get()),
             new ConveyorStop(),
             new IntakeStop(),
             new ShooterStop()

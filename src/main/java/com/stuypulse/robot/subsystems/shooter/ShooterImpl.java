@@ -11,12 +11,15 @@ import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
 import com.stuypulse.stuylib.streams.numbers.IStream;
 import com.stuypulse.stuylib.streams.numbers.filters.HighPassFilter;
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Motors;
+import com.stuypulse.robot.constants.Motors.StatusFrame;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Feeder;
 import com.stuypulse.robot.constants.Settings.Shooter.Feedforward;
 import com.stuypulse.robot.constants.Settings.Shooter.PID;
+import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.util.StupidFilter;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -70,6 +73,10 @@ public class ShooterImpl extends Shooter {
 
         leftVel = new StupidFilter("Left Shooter Velocity");
         rightVel = new StupidFilter("Right Shooter Velocity");
+        
+        Motors.disableStatusFrames(leftMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
+        Motors.disableStatusFrames(rightMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
+        Motors.disableStatusFrames(feederMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
 
         Motors.Shooter.LEFT_SHOOTER.configure(leftMotor);
         Motors.Shooter.RIGHT_SHOOTER.configure(rightMotor);
@@ -117,6 +124,10 @@ public class ShooterImpl extends Shooter {
         SmartDashboard.putNumber("Shooter/Right RPM", getRightShooterRPM());
         SmartDashboard.putNumber("Shooter/Left RPM", getLeftShooterRPM());
         SmartDashboard.putNumber("Shooter/Feeder RPM", getFeederRPM());
+        
+        SmartDashboard.putNumber("Shooter/Right Error", rightController.getError());
+        SmartDashboard.putNumber("Shooter/Left Error", leftController.getError());
+        SmartDashboard.putNumber("Shooter/Feeder Error", feederController.getError());
 
         SmartDashboard.putNumber("Shooter/Left Voltage", leftMotor.getBusVoltage() * leftMotor.getAppliedOutput());
         SmartDashboard.putNumber("Shooter/Right Voltage", rightMotor.getBusVoltage() * rightMotor.getAppliedOutput());
@@ -128,5 +139,7 @@ public class ShooterImpl extends Shooter {
 
         SmartDashboard.putNumber("Shooter/RPM Change", rpmChange.get());
         SmartDashboard.putBoolean("Shooter/Note Shot", noteShot());
+
+        SmartDashboard.putNumber("Shooter/Distance", Odometry.getInstance().getPose().getTranslation().minus(Field.getAllianceSpeakerPose().getTranslation()).getNorm());
     }
 }

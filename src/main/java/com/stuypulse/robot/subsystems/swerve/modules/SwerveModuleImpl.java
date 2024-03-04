@@ -14,6 +14,7 @@ import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
 import com.stuypulse.stuylib.math.Angle;
 
 import com.stuypulse.robot.constants.Motors;
+import com.stuypulse.robot.constants.Motors.StatusFrame;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Swerve.Drive;
 import com.stuypulse.robot.constants.Settings.Swerve.Encoder;
@@ -117,6 +118,9 @@ public class SwerveModuleImpl extends SwerveModule {
         driveVoltage = new StupidFilter(getId() + " Drive Voltage");
         targetDriveSpeed = new StupidFilter(getId() + " Drive Target Speed");
 
+        Motors.disableStatusFrames(driveMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
+        Motors.disableStatusFrames(turnMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
+
         Motors.Swerve.DRIVE_CONFIG.configure(driveMotor);
         Motors.Swerve.TURN_CONFIG.configure(turnMotor);
     }
@@ -158,6 +162,7 @@ public class SwerveModuleImpl extends SwerveModule {
             turnMotor.setVoltage(angleController.getOutput());
         }
         
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Current", driveMotor.getOutputCurrent());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Position", driveEncoder.getPosition());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Voltage", driveController.getOutput());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Turn Voltage", angleController.getOutput());

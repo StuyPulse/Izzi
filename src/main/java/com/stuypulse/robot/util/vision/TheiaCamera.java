@@ -16,6 +16,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.networktables.DoubleArrayPublisher;
 import edu.wpi.first.networktables.DoubleArraySubscriber;
 import edu.wpi.first.networktables.DoubleSubscriber;
@@ -24,6 +25,7 @@ import edu.wpi.first.networktables.IntegerSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.PubSubOption;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Optional;
 
@@ -35,7 +37,7 @@ public class TheiaCamera {
 
     private final String name;
     private final Pose3d cameraLocation;
-
+    
     // Default Values
     private final int camera_id = 0;
     private final int camera_resolution_width = 1600;
@@ -54,6 +56,7 @@ public class TheiaCamera {
     private final IntegerArraySubscriber idSub;
     private final IntegerSubscriber counterSub;
     private final DoubleArraySubscriber areaSub;
+    private final DoubleArraySubscriber pixelSub;
 
     private final DoubleArrayPublisher layoutPub;
 
@@ -63,11 +66,12 @@ public class TheiaCamera {
     private long[] rawids;
     private long rawCounter;
     private double[] rawAreas;
+    private double[] rawPixelCoords;
     private long lastCounter;
 
     private final SmartBoolean enabled;
 
-    public TheiaCamera(String name, Pose3d cameraLocation) {
+    public TheiaCamera(String name, Pose3d cameraLocation, String ip, int port) {
         this.name = name;
         this.cameraLocation = cameraLocation;
 
@@ -92,12 +96,15 @@ public class TheiaCamera {
         idSub = outputTable.getIntegerArrayTopic("tids").subscribe(new long[] {}, PubSubOption.periodic(0.02));
         counterSub = outputTable.getIntegerTopic("update_counter").subscribe(0, PubSubOption.periodic(0.02));
         areaSub = outputTable.getDoubleArrayTopic("areas").subscribe(new double[] {}, PubSubOption.periodic(0.02));
+        pixelSub = outputTable.getDoubleArrayTopic("pixel_coords").subscribe(new double[] {}, PubSubOption.periodic(0.02));
 
-        enabled = new SmartBoolean(name + "Enabled", true);
+        enabled = new SmartBoolean(name + "/Enabled", true);
+        
+        PortForwarder.add(port, "10.6.94." + ip, 5802);
     }
 
     public TheiaCamera(CameraConfig config) {
-        this(config.getName(), config.getLocation());
+        this(config.getName(), config.getLocation(), config.getIP(), config.getForwardedPort());
     }
 
     /**
@@ -132,6 +139,7 @@ public class TheiaCamera {
         rawids = idSub.get();
         rawCounter = counterSub.get();
         rawAreas = areaSub.get();
+        rawPixelCoords = pixelSub.get();
     }
 
     /**
@@ -169,6 +177,10 @@ public class TheiaCamera {
         return ids;
     }
 
+    public void setEnabled(boolean enabled) {
+        this.enabled.set(enabled);
+    }
+
     /**
      * Returns an Optional holding the vision data from the camera.
      *
@@ -198,6 +210,11 @@ public class TheiaCamera {
         if (!data.isValidData()) return Optional.empty();
 
         LogPose3d.logPose3d("Vision/" + getName() + "/Pose3d", data.getPose());
+
+        if (rawPixelCoords.length == 2) {
+            SmartDashboard.putNumber("Vision/" + getName() + "/Primary Tag X", rawPixelCoords[0]);
+            SmartDashboard.putNumber("Vision/" + getName() + "/Primary Tag Y", rawPixelCoords[1]);
+        }
 
         return Optional.of(data);
     }
