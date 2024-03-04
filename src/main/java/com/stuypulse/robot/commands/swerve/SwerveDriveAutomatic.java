@@ -16,12 +16,7 @@ import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
-/*
- * shooter: remove shooter differential from ShooterSpeeds, 
- * remove feeder motor + controller + from ShooterSpeeds
- * rename stuff 
- * 
- */
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 

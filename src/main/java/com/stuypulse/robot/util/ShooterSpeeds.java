@@ -1,6 +1,5 @@
 package com.stuypulse.robot.util;
 
-import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -8,24 +7,17 @@ import edu.wpi.first.math.geometry.Pose2d;
 public class ShooterSpeeds {
 
     private final Number shooterRPM;
-    private final double shooterDifferential;
-    private final Number feederRPM;
 
-    private double leftRPM;
-    private double rightRPM;
+    private double topShooterRPM;
+    private double bottomShooterRPM;
 
     public ShooterSpeeds() {
-        this(0, 0);
+        this(0);
     }
 
-    public ShooterSpeeds(Number shooterRPM, Number feederRPM) {
-        this(shooterRPM.doubleValue(), 0, feederRPM.doubleValue());
-    }
 
-    public ShooterSpeeds(Number shooterRPM, double shooterDifferential, Number feederRPM) {
+    public ShooterSpeeds(Number shooterRPM) {
         this.shooterRPM = shooterRPM;
-        this.shooterDifferential = shooterDifferential;
-        this.feederRPM = feederRPM;
 
         update(Odometry.getInstance().getPose());
     }
@@ -42,21 +34,18 @@ public class ShooterSpeeds {
         //     leftRPM = higher;
         // }
         
-        leftRPM = shooterRPM.doubleValue() + shooterDifferential / 2.0;
-        rightRPM = shooterRPM.doubleValue() - shooterDifferential / 2.0;
+        topShooterRPM = shooterRPM.doubleValue();
+        bottomShooterRPM = shooterRPM.doubleValue();
 
         return this;
     }
 
-    public double getLeftRPM() {
-        return leftRPM;
+    public double getTopShooterRPM() {
+        return topShooterRPM;
     }
 
-    public double getRightRPM() {
-        return rightRPM;
+    public double getBottomShooterRPM() {
+        return bottomShooterRPM;
     }
 
-    public double getFeederRPM() {
-        return feederRPM.doubleValue();
-    }
 }
