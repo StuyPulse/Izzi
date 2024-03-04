@@ -6,11 +6,18 @@
 
 package com.stuypulse.robot.commands.shooter;
 
+import com.stuypulse.robot.commands.amper.AmperToHeight;
+import com.stuypulse.robot.constants.Settings.Amper;
 import com.stuypulse.robot.constants.Settings.Shooter;
 
-public class ShooterPodiumShot extends ShooterSetRPM {
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
+public class ShooterPodiumShot extends SequentialCommandGroup {
 
     public ShooterPodiumShot() {
-        super(Shooter.PODIUM_SHOT);
+        addCommands(
+            AmperToHeight.untilDone(Amper.Lift.SHOOTING_HEIGHT),
+            new ShooterSetRPM(Shooter.PODIUM_SHOT)
+        );
     }
 }

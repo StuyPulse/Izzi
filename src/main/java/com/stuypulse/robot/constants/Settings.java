@@ -112,6 +112,8 @@ public interface Settings {
 
             double AMP_SCORE_HEIGHT = 0.34;
             double TRAP_SCORE_HEIGHT = AMP_SCORE_HEIGHT;
+            double SHOOTING_HEIGHT = 0.15; // TODO: determine, should be just small enough for note to get by
+            double HANDOFF_HEIGHT = AMP_SCORE_HEIGHT; // TODO: determine if handoff and scoring work at same height
 
             public interface Encoder {
                 double GEARING = 1.0 / 9.0;

@@ -37,10 +37,14 @@ public class ConveyorToAmp extends Command {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         shooter.setTargetSpeeds(Settings.Shooter.HANDOFF);
+        amper.setTargetHeight(Settings.Amper.Lift.HANDOFF_HEIGHT);
+    }
 
-        if (shooter.atTargetSpeeds()) {
+    @Override
+    public void execute() {
+        if (shooter.atTargetSpeeds() && amper.isAtTargetHeight(Settings.Amper.Lift.MAX_HEIGHT_ERROR)) {
             conveyor.toAmp();
             intake.acquire();
             amper.fromConveyor();
