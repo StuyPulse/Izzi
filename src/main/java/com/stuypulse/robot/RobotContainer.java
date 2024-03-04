@@ -277,6 +277,9 @@ public class RobotContainer {
         autonChooser.addOption("Red 4 Piece HGF", new FourPieceHGF(
             PathUtil.loadPathsRed("Start To H (HGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)", "F To Shoot (HGF)")));
 
+        autonChooser.addOption("Blue Tracking 5 Piece CBAE", new FivePieceTrackingCBAE(
+            PathUtil.loadPaths("First Piece To C", "C to B", "B To A", "A To E", "E To Shoot")));
+        
         SmartDashboard.putData("Autonomous", autonChooser);
     }
 
