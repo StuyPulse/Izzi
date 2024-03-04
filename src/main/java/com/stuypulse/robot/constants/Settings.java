@@ -112,8 +112,8 @@ public interface Settings {
 
             double AMP_SCORE_HEIGHT = 0.34;
             double TRAP_SCORE_HEIGHT = AMP_SCORE_HEIGHT;
-            double SHOOTING_HEIGHT = MIN_HEIGHT;
-            double HANDOFF_HEIGHT = 0.2; // TODO: determine
+            double SHOOTING_HEIGHT = MAX_HEIGHT;
+            double HANDOFF_HEIGHT = MIN_HEIGHT;
 
             public interface Encoder {
                 double GEARING = 1.0 / 9.0;
