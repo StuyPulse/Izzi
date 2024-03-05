@@ -30,7 +30,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
-
+import com.revrobotics.RelativeEncoder;
 import com.ctre.phoenix6.hardware.CANcoder;
 
 /*
@@ -64,7 +64,7 @@ public class SwerveModuleImpl extends SwerveModule {
     private final CANSparkMax turnMotor;
     private final CANSparkFlex driveMotor;
 
-    private final FilteredRelativeEncoder driveEncoder;
+    private final RelativeEncoder driveEncoder;
     private final CANcoder turnEncoder;
 
     private final Controller driveController;
