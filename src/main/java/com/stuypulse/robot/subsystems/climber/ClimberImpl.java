@@ -8,6 +8,7 @@ package com.stuypulse.robot.subsystems.climber;
 
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Motors.StatusFrame;
+import com.stuypulse.robot.util.FilteredRelativeEncoder;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 
@@ -39,8 +40,8 @@ public class ClimberImpl extends Climber {
         rightMotor = new CANSparkMax(Ports.Climber.RIGHT_MOTOR, MotorType.kBrushless);
         leftMotor = new CANSparkMax(Ports.Climber.LEFT_MOTOR, MotorType.kBrushless);
 
-        rightEncoder = rightMotor.getEncoder();
-        leftEncoder = leftMotor.getEncoder();
+        rightEncoder = new FilteredRelativeEncoder(rightMotor);
+        leftEncoder = new FilteredRelativeEncoder(leftMotor);
 
         rightEncoder.setPositionConversionFactor(Settings.Climber.Encoder.POSITION_CONVERSION);
         leftEncoder.setPositionConversionFactor(Settings.Climber.Encoder.POSITION_CONVERSION);

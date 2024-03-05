@@ -4,50 +4,56 @@
 /* that can be found in the repository LICENSE file.           */
 /***************************************************************/
 
-package com.stuypulse.robot.commands.conveyor;
+package com.stuypulse.robot.commands.intake;
 
+import com.stuypulse.robot.commands.amper.AmperToHeight;
+import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.amper.Amper;
-import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.intake.Intake;
+import com.stuypulse.robot.subsystems.shooter.Shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class ConveyorScoreNote extends Command {
+public class IntakeToAmp extends Command {
+    public static Command withCheckLift() {
+        return AmperToHeight.untilDone(Settings.Amper.Lift.HANDOFF_HEIGHT)
+            .andThen(new IntakeToAmp());
+    }
 
-    private final Conveyor conveyor;
+    private final Shooter shooter;
     private final Intake intake;
     private final Amper amper;
 
-    private boolean noteAtShooter;
-    private boolean noteAtAmp;
-
-    public ConveyorScoreNote() {
-        conveyor = Conveyor.getInstance();
+    public IntakeToAmp() {
+        shooter = Shooter.getInstance();
         intake = Intake.getInstance();
         amper = Amper.getInstance();
 
-        addRequirements(conveyor, amper);
+        addRequirements(intake, shooter, amper);
     }
 
     @Override
     public void initialize() {
-        noteAtShooter = conveyor.isNoteAtShooter();
-        noteAtAmp = amper.hasNote();
+        shooter.setTargetSpeeds(Settings.Shooter.HANDOFF);
     }
 
     @Override
     public void execute() {
-        if (noteAtAmp) {
-            amper.score();
-        } else if (noteAtShooter) {
-            conveyor.toShooter();
+        if (shooter.atTargetSpeeds()) {
             intake.acquire();
+            amper.fromConveyor();
         }
     }
 
     @Override
+    public boolean isFinished() {
+        return amper.hasNote();
+    }
+
+    @Override
     public void end(boolean interrupted) {
+        shooter.stop();
+        intake.stop();
         amper.stopRoller();
-        conveyor.stop();
     }
 }

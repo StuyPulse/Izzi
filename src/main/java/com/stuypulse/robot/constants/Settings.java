@@ -304,11 +304,9 @@ public interface Settings {
         double TELEOP_SHOOTER_STARTUP_DELAY = 0.25;
 
         ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(
-            new SmartNumber("Shooter/Podium Shooter RPM", 5000),
-            500,
-            new SmartNumber("Shooter/Podium Feeder RPM", 3000));
+            new SmartNumber("Shooter/Podium Shooter RPM", 5000));
 
-        ShooterSpeeds HANDOFF = new ShooterSpeeds(2000, 2000);
+        ShooterSpeeds HANDOFF = new ShooterSpeeds(2000);
 
         double AT_RPM_EPSILON = 125;
 

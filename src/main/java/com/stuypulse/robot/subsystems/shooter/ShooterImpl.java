@@ -16,126 +16,102 @@ import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Motors.StatusFrame;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.constants.Settings.Feeder;
 import com.stuypulse.robot.constants.Settings.Shooter.Feedforward;
 import com.stuypulse.robot.constants.Settings.Shooter.PID;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
-import com.stuypulse.robot.util.StupidFilter;
+import com.stuypulse.robot.util.FilteredRelativeEncoder;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 
 public class ShooterImpl extends Shooter {
 
-    private final CANSparkFlex leftMotor;
-    private final CANSparkFlex rightMotor;
-    private final CANSparkMax feederMotor;
+    private final CANSparkFlex topMotor;
+    private final CANSparkFlex bottomMotor;
 
-    private final RelativeEncoder leftEncoder;
-    private final RelativeEncoder rightEncoder;
-    private final RelativeEncoder feederEncoder;
+    private final RelativeEncoder topEncoder;
+    private final RelativeEncoder bottomEncoder;
 
-    private final Controller leftController;
-    private final Controller rightController;
-    private final Controller feederController;
+    private final Controller topController;
+    private final Controller bottomController;
     
     private final IStream rpmChange;
-    
-    private final StupidFilter leftVel;
-    private final StupidFilter rightVel;
 
     protected ShooterImpl() {
-        leftMotor = new CANSparkFlex(Ports.Shooter.LEFT_MOTOR, MotorType.kBrushless);
-        rightMotor = new CANSparkFlex(Ports.Shooter.RIGHT_MOTOR, MotorType.kBrushless);
-        feederMotor = new CANSparkMax(Ports.Conveyor.FEEDER, MotorType.kBrushless);
+        topMotor = new CANSparkFlex(Ports.Shooter.TOP_MOTOR, MotorType.kBrushless);
+        bottomMotor = new CANSparkFlex(Ports.Shooter.BOTTOM_MOTOR, MotorType.kBrushless);
 
-        leftEncoder = leftMotor.getEncoder();
-        rightEncoder = rightMotor.getEncoder();
-        feederEncoder = feederMotor.getEncoder();
+        topEncoder = new FilteredRelativeEncoder(topMotor);
+        bottomEncoder = new FilteredRelativeEncoder(bottomMotor);
 
-        leftEncoder.setVelocityConversionFactor(1.0);
-        rightEncoder.setVelocityConversionFactor(1.0);
-        feederEncoder.setVelocityConversionFactor(Feeder.GEARING);
+        topEncoder.setVelocityConversionFactor(1.0);
+        bottomEncoder.setVelocityConversionFactor(1.0);
 
-        leftController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
+        topController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
             .add(new PIDController(PID.kP, PID.kI, PID.kD));
-        rightController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
+        bottomController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
             .add(new PIDController(PID.kP, PID.kI, PID.kD));
-        feederController = new MotorFeedforward(Feeder.Feedforward.kS, Feeder.Feedforward.kV, Feeder.Feedforward.kA).velocity()
-            .add(new PIDController(Feeder.PID.kP, Feeder.PID.kI, Feeder.PID.kD));
         
         rpmChange = IStream.create(this::getAverageShooterRPM)
             .filtered(new HighPassFilter(Settings.Shooter.RPM_CHANGE_RC));
-
-        leftVel = new StupidFilter("Left Shooter Velocity");
-        rightVel = new StupidFilter("Right Shooter Velocity");
         
-        Motors.disableStatusFrames(leftMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
-        Motors.disableStatusFrames(rightMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
-        Motors.disableStatusFrames(feederMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
+        Motors.disableStatusFrames(topMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
+        Motors.disableStatusFrames(bottomMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
 
-        Motors.Shooter.LEFT_SHOOTER.configure(leftMotor);
-        Motors.Shooter.RIGHT_SHOOTER.configure(rightMotor);
-        Motors.Conveyor.SHOOTER_FEEDER_MOTOR.configure(feederMotor);
+        Motors.Shooter.TOP_SHOOTER.configure(topMotor);
+        Motors.Shooter.BOTTOM_SHOOTER.configure(bottomMotor);
     }
 
     @Override
-    public double getLeftShooterRPM() {
-        return leftVel.get(leftEncoder.getVelocity());
+    public double getTopShooterRPM() {
+        return topEncoder.getVelocity();
     }
 
-    @Override
-    public double getRightShooterRPM() {
-        return rightVel.get(rightEncoder.getVelocity());
-    }
-
-    @Override
-    public double getFeederRPM() {
-        return feederEncoder.getVelocity();
+      @Override
+    public double getBottomShooterRPM() {
+        return bottomEncoder.getVelocity();
     }
 
     @Override
     public boolean noteShot() {
-        return getLeftTargetRPM() > 0 && getRightTargetRPM() > 0 && rpmChange.get() < -Settings.Shooter.RPM_CHANGE_DIP_THRESHOLD;
+        return getAverageShooterRPM() > 0 && rpmChange.get() < -Settings.Shooter.RPM_CHANGE_DIP_THRESHOLD;
     }
 
     @Override
     public void periodic() {
         super.periodic();
 
-        leftController.update(getLeftTargetRPM(), getLeftShooterRPM());
-        rightController.update(getRightTargetRPM(), getRightShooterRPM());
-        feederController.update(getFeederTargetRPM(), getFeederRPM());
+        topController.update(getTopTargetRPM(), getTopShooterRPM());
+        bottomController.update(getBottomTargetRPM(), getBottomShooterRPM());
 
-        if (getLeftTargetRPM() == 0 && getRightTargetRPM() == 0 && getFeederTargetRPM() == 0) {
-            leftMotor.stopMotor();
-            rightMotor.stopMotor();
-            feederMotor.stopMotor();
+        if (getTopTargetRPM() == 0 && getBottomTargetRPM() == 0) {
+            topMotor.stopMotor();
+            bottomMotor.stopMotor();
         } else {
-            leftMotor.setVoltage(leftController.getOutput());
-            rightMotor.setVoltage(rightController.getOutput());
-            feederMotor.setVoltage(feederController.getOutput());
+            topMotor.setVoltage(topController.getOutput());
+            bottomMotor.setVoltage(bottomController.getOutput());
         }
 
-        SmartDashboard.putNumber("Shooter/Right RPM", getRightShooterRPM());
-        SmartDashboard.putNumber("Shooter/Left RPM", getLeftShooterRPM());
-        SmartDashboard.putNumber("Shooter/Feeder RPM", getFeederRPM());
+        SmartDashboard.putNumber("Shooter/Bottom RPM", getBottomShooterRPM());
+        SmartDashboard.putNumber("Shooter/Top RPM", getTopShooterRPM());
         
-        SmartDashboard.putNumber("Shooter/Right Error", rightController.getError());
-        SmartDashboard.putNumber("Shooter/Left Error", leftController.getError());
-        SmartDashboard.putNumber("Shooter/Feeder Error", feederController.getError());
+        SmartDashboard.putNumber("Shooter/Bottom Error", bottomController.getError());
+        SmartDashboard.putNumber("Shooter/Top Error", topController.getError());
 
-        SmartDashboard.putNumber("Shooter/Left Voltage", leftMotor.getBusVoltage() * leftMotor.getAppliedOutput());
-        SmartDashboard.putNumber("Shooter/Right Voltage", rightMotor.getBusVoltage() * rightMotor.getAppliedOutput());
-        SmartDashboard.putNumber("Shooter/Feeder Voltage", feederMotor.getBusVoltage() * feederMotor.getAppliedOutput());
+        SmartDashboard.putNumber("Shooter/Bottom Target RPM", getBottomTargetRPM());
+        SmartDashboard.putNumber("Shooter/Top Target RPM", getTopTargetRPM());
+        
+        SmartDashboard.putNumber("Shooter/Bottom Error", bottomController.getError());
+        SmartDashboard.putNumber("Shooter/Top Error", topController.getError());
 
-        SmartDashboard.putNumber("Shooter/Left Current", leftMotor.getOutputCurrent());
-        SmartDashboard.putNumber("Shooter/Right Current", rightMotor.getOutputCurrent());
-        SmartDashboard.putNumber("Shooter/Feeder Current", feederMotor.getOutputCurrent());
+        SmartDashboard.putNumber("Shooter/Left Voltage", topMotor.getBusVoltage() * topMotor.getAppliedOutput());
+        SmartDashboard.putNumber("Shooter/Right Voltage", bottomMotor.getBusVoltage() * bottomMotor.getAppliedOutput());
+
+        SmartDashboard.putNumber("Shooter/Top Current", topMotor.getOutputCurrent());
+        SmartDashboard.putNumber("Shooter/Bottom Current", bottomMotor.getOutputCurrent());
 
         SmartDashboard.putNumber("Shooter/RPM Change", rpmChange.get());
         SmartDashboard.putBoolean("Shooter/Note Shot", noteShot());
