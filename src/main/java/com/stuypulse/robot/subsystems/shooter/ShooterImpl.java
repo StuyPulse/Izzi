@@ -19,7 +19,7 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Shooter.Feedforward;
 import com.stuypulse.robot.constants.Settings.Shooter.PID;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
-import com.stuypulse.robot.util.StupidFilter;
+import com.stuypulse.robot.util.FilteredRelativeEncoder;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -39,16 +39,13 @@ public class ShooterImpl extends Shooter {
     private final Controller bottomController;
     
     private final IStream rpmChange;
-    
-    private final StupidFilter topVel;
-    private final StupidFilter bottomVel;
 
     protected ShooterImpl() {
         topMotor = new CANSparkFlex(Ports.Shooter.TOP_MOTOR, MotorType.kBrushless);
         bottomMotor = new CANSparkFlex(Ports.Shooter.BOTTOM_MOTOR, MotorType.kBrushless);
 
-        topEncoder = topMotor.getEncoder();
-        bottomEncoder = bottomMotor.getEncoder();
+        topEncoder = new FilteredRelativeEncoder(topMotor);
+        bottomEncoder = new FilteredRelativeEncoder(bottomMotor);
 
         topEncoder.setVelocityConversionFactor(1.0);
         bottomEncoder.setVelocityConversionFactor(1.0);
@@ -60,9 +57,6 @@ public class ShooterImpl extends Shooter {
         
         rpmChange = IStream.create(this::getAverageShooterRPM)
             .filtered(new HighPassFilter(Settings.Shooter.RPM_CHANGE_RC));
-
-        topVel = new StupidFilter("Top Shooter Velocity");
-        bottomVel = new StupidFilter("Bottom Shooter Velocity");
         
         Motors.disableStatusFrames(topMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
         Motors.disableStatusFrames(bottomMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
@@ -73,12 +67,12 @@ public class ShooterImpl extends Shooter {
 
     @Override
     public double getTopShooterRPM() {
-        return topVel.get(topEncoder.getVelocity());
+        return topEncoder.getVelocity();
     }
 
       @Override
     public double getBottomShooterRPM() {
-        return bottomVel.get(bottomEncoder.getVelocity());
+        return bottomEncoder.getVelocity();
     }
 
     @Override
