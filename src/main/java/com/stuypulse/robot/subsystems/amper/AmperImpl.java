@@ -156,15 +156,24 @@ public class AmperImpl extends Amper {
     public void periodic() {
         super.periodic();
 
-        controller.update(getTargetHeight(), getLiftHeight());
-
         double voltage = voltageOverride.orElse(controller.getOutput());
+    
+        if (Field.robotUnderStage()) {
+            controller.update(Settings.Amper.Lift.MIN_HEIGHT, getLiftHeight());
+        }
+        else  {
+            controller.update(getTargetHeight(), getLiftHeight());
+        }
 
-        if (liftAtBottom() && voltage < 0 || liftAtTop() && voltage > 0) {
+        if ((liftAtBottom() && voltage < 0 || liftAtTop() && voltage > 0)) {
             voltage = 0;
         }
 
         if (getTargetHeight() == Settings.Amper.Lift.MIN_HEIGHT && voltage > 0) {
+            voltage = 0;
+        }
+
+        if (Field.robotUnderStage() && voltage > 0) {
             voltage = 0;
         }
 

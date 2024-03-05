@@ -10,9 +10,9 @@ import com.stuypulse.robot.commands.amper.AmperToHeight;
 import com.stuypulse.robot.constants.Settings.Amper;
 import com.stuypulse.robot.constants.Settings.Shooter;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
-public class ShooterPodiumShot extends SequentialCommandGroup {
+public class ShooterPodiumShot extends ParallelCommandGroup {
 
     public ShooterPodiumShot() {
         addCommands(

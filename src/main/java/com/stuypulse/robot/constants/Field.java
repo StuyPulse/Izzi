@@ -8,8 +8,10 @@ package com.stuypulse.robot.constants;
 
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
+import com.stuypulse.robot.util.Line;
 import com.stuypulse.robot.util.MirroredPose2d;
 import com.stuypulse.robot.util.vision.AprilTag;
+import com.stuypulse.stuylib.math.Vector2D;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -211,7 +213,7 @@ public interface Field {
     /*** STAGE ***/
 
     Translation2d[] CLOSE_STAGE_TRIANGLE = new Translation2d[] {
-        new Translation2d(Units.inchesToMeters(125.0), WIDTH / 2.0),                       // center 
+        new Translation2d(Units.inchesToMeters(125.0), WIDTH / 2.0),                // center 
         new Translation2d(Units.inchesToMeters(222.6), Units.inchesToMeters(105)),  // bottom
         new Translation2d(Units.inchesToMeters(222.6), Units.inchesToMeters(205.9)) // top
     };
@@ -228,6 +230,15 @@ public interface Field {
         return pointInTriangle(robot, CLOSE_STAGE_TRIANGLE) || pointInTriangle(robot, FAR_STAGE_TRIANGLE);
     }
 
+    // private static boolean pointInTriangle(Translation2d point, Translation2d[] triangle) {
+    //     Line centerToBottom = new Line(triangle[0], triangle[1]);
+    //     Line centerToTop = new Line(triangle[0], triangle[2]);
+    //     // Line topToBottom = new Line(triangle[1], triangle[2]);
+
+    //     return centerToBottom.above(point.getX(), point.getY()) 
+    //         && centerToTop.under(point.getX(), point.getY())
+    //         && point.getX() < triangle[1].getX();
+    // }
     private static boolean pointInTriangle(Translation2d point, Translation2d[] triangle) {
         double[] slopes = new double[3];
         double[] yIntercepts = new double[3];
