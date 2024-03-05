@@ -1,10 +1,7 @@
 package com.stuypulse.robot.commands.auton.CBADE;
 
-import com.stuypulse.robot.commands.auton.FollowPathAlignAndShoot;
-import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
-import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
+import com.stuypulse.robot.commands.intake.IntakeShootRoutine;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
-import com.stuypulse.robot.commands.shooter.ShooterStop;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToShoot;
 import com.stuypulse.robot.constants.Settings.Auton;
@@ -24,7 +21,7 @@ public class FourPieceCBA extends SequentialCommandGroup {
                 SwerveDriveToPose.speakerRelative(-45)
             ),
 
-            new ConveyorShootRoutine(),
+            new IntakeShootRoutine(),
 
             // new FollowPathAndIntake("First Piece To C"),
             // new SwerveDriveToShoot(2.9),
@@ -37,7 +34,7 @@ public class FourPieceCBA extends SequentialCommandGroup {
             // new FollowPathAndIntake("B To A"),
             new SwerveDriveToShoot(2.9)
                 .withTolerance(0.05, 3),
-            new ConveyorShootRoutine()
+            new IntakeShootRoutine()
         );
     }
     

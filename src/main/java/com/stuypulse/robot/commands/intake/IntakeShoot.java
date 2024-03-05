@@ -4,24 +4,23 @@
 /* that can be found in the repository LICENSE file.           */
 /***************************************************************/
 
-package com.stuypulse.robot.commands.conveyor;
+package com.stuypulse.robot.commands.intake;
 
-import com.stuypulse.robot.subsystems.conveyor.Conveyor;
+import com.stuypulse.robot.subsystems.intake.Intake;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class GandalfToAmp extends InstantCommand {
+public class IntakeShoot extends InstantCommand {
 
-    private final Conveyor conveyor;
+    private Intake intake;
 
-    public GandalfToAmp() {
-        conveyor = Conveyor.getInstance();
-
-        addRequirements(conveyor);
+    public IntakeShoot() {
+        intake = Intake.getInstance();
+        addRequirements(intake);
     }
 
     @Override
     public void initialize() {
-        conveyor.toAmp();
+        intake.acquire();
     }
 }

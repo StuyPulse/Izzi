@@ -29,7 +29,7 @@ import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 public class Robot extends TimedRobot {
-    
+
     public static final RobotType ROBOT;
 
     static {
@@ -78,7 +78,6 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledInit() {
         robot.intake.setIdleMode(IdleMode.kCoast);
-        robot.conveyor.setIdleMode(IdleMode.kCoast);
 
         scheduler.schedule(new LEDSet(new LEDRainbow()));
 
@@ -118,7 +117,6 @@ public class Robot extends TimedRobot {
         scheduler.schedule(new LEDReset());
 
         robot.intake.setIdleMode(IdleMode.kBrake);
-        robot.conveyor.setIdleMode(IdleMode.kBrake);
 
         SmartDashboard.putString("Robot State", "AUTON");
     }
@@ -145,7 +143,6 @@ public class Robot extends TimedRobot {
         scheduler.schedule(new ShooterStop());
 
         robot.intake.setIdleMode(IdleMode.kBrake);
-        robot.conveyor.setIdleMode(IdleMode.kBrake);
 
         SmartDashboard.putString("Robot State", "TELEOP");
     }
@@ -167,7 +164,6 @@ public class Robot extends TimedRobot {
         scheduler.schedule(new LEDReset());
 
         robot.intake.setIdleMode(IdleMode.kBrake);
-        robot.conveyor.setIdleMode(IdleMode.kBrake);
 
         SmartDashboard.putString("Robot State", "TEST");
     }
