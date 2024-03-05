@@ -40,6 +40,10 @@ public class LLNoteVision extends NoteVision {
 
         limelights = new Limelight[hostNames.length];
 
+        if (hostNames.length != POSITIONS.length) {
+            throw new IllegalArgumentException("Number of Limelights and Positions must be the same");
+        }
+
         for (int i = 0; i < hostNames.length; i++) {
             limelights[i] = new Limelight(hostNames[i], POSITIONS[i]);
 
