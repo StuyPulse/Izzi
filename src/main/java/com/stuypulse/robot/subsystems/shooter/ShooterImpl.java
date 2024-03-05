@@ -80,7 +80,6 @@ public class ShooterImpl extends Shooter {
 
         Motors.Shooter.LEFT_SHOOTER.configure(leftMotor);
         Motors.Shooter.RIGHT_SHOOTER.configure(rightMotor);
-        Motors.Conveyor.SHOOTER_FEEDER_MOTOR.configure(feederMotor);
     }
 
     @Override

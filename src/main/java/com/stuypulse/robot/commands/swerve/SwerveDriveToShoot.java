@@ -42,7 +42,7 @@ public class SwerveDriveToShoot extends Command {
     private double angleTolerance;
 
     public SwerveDriveToShoot() {
-        this(() -> Alignment.PODIUM_SHOT_DISTANCE.get());
+        this(Alignment.PODIUM_SHOT_DISTANCE);
     }
     
     public SwerveDriveToShoot(Number targetDistance) {
