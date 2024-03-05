@@ -26,9 +26,10 @@ public class FollowPathAlignAndShoot extends SequentialCommandGroup {
     public FollowPathAlignAndShoot(PathPlannerPath path, Command alignCommand) {
         addCommands(
             new ParallelCommandGroup(
-                    SwerveDrive.getInstance().followPathCommand(path),
-                    new WaitCommand(getPathTime(path) - Auton.SHOOTER_START_PRE)
-                            .andThen(new ShooterPodiumShot())),
+                SwerveDrive.getInstance().followPathCommand(path),
+                new WaitCommand(getPathTime(path) - Auton.SHOOTER_START_PRE)
+                    .andThen(new ShooterPodiumShot())
+            ),
             alignCommand,
             new ShooterWaitForTarget(),
             new IntakeShoot(),
