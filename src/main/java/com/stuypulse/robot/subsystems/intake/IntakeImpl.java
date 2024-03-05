@@ -48,8 +48,8 @@ public class IntakeImpl extends Intake {
         Motors.disableStatusFrames(conveyorMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER,
                 StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
 
-        Motors.Intake.FRONT_MOTOR_CONFIG.configure(intakeMotor);
-        Motors.Intake.BACK_MOTOR_CONFIG.configure(conveyorMotor);
+        Motors.Intake.INTAKE_CONFIG.configure(intakeMotor);
+        Motors.Intake.CONVEYOR_CONFIG.configure(conveyorMotor);
     }
 
     @Override

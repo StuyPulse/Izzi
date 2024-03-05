@@ -51,8 +51,8 @@ public interface Motors {
     }
 
     public interface Intake {
-        CANSparkConfig FRONT_MOTOR_CONFIG = new CANSparkConfig(true, IdleMode.kBrake, 500, 0.1);
-        CANSparkConfig BACK_MOTOR_CONFIG = new CANSparkConfig(true, IdleMode.kBrake, 500, 0.1);
+        CANSparkConfig INTAKE_CONFIG = new CANSparkConfig(true, IdleMode.kBrake, 500, 0.1);
+        CANSparkConfig CONVEYOR_CONFIG = new CANSparkConfig(true, IdleMode.kBrake, 500, 0.1);
     }
 
     public interface Shooter {
