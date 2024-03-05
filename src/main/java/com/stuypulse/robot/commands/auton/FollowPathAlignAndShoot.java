@@ -1,9 +1,7 @@
 package com.stuypulse.robot.commands.auton;
 
 import com.pathplanner.lib.path.PathPlannerPath;
-import com.stuypulse.robot.commands.conveyor.ConveyorShoot;
-import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
-import com.stuypulse.robot.commands.conveyor.ConveyorStop;
+import com.stuypulse.robot.commands.intake.IntakeShoot;
 import com.stuypulse.robot.commands.intake.IntakeStop;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
 import com.stuypulse.robot.commands.shooter.ShooterStop;
@@ -22,26 +20,23 @@ public class FollowPathAlignAndShoot extends SequentialCommandGroup {
 
     public double getPathTime(PathPlannerPath path) {
         return path.getTrajectory(new ChassisSpeeds(), path.getStartingDifferentialPose().getRotation())
-            .getTotalTimeSeconds();
+                .getTotalTimeSeconds();
     }
 
     public FollowPathAlignAndShoot(PathPlannerPath path, Command alignCommand) {
         addCommands(
-            new ParallelCommandGroup(
-                SwerveDrive.getInstance().followPathCommand(path),
-                new WaitCommand(getPathTime(path) - Auton.SHOOTER_START_PRE)
-                    .andThen(new ShooterPodiumShot())
-            ),
-            alignCommand,
-            new ShooterWaitForTarget(),
-            new ConveyorShoot(),
-            new WaitCommand(Settings.Conveyor.SHOOT_WAIT_DELAY.get()),
-            // ConveyorShoot.untilDone()
-            //     .withTimeout(Settings.Conveyor.SHOOT_WAIT_DELAY.get()),
-            new ConveyorStop(),
-            new IntakeStop(),
-            new ShooterStop()
-        );
+                new ParallelCommandGroup(
+                        SwerveDrive.getInstance().followPathCommand(path),
+                        new WaitCommand(getPathTime(path) - Auton.SHOOTER_START_PRE)
+                                .andThen(new ShooterPodiumShot())),
+                alignCommand,
+                new ShooterWaitForTarget(),
+                new IntakeShoot(),
+                new WaitCommand(Settings.Conveyor.SHOOT_WAIT_DELAY.get()),
+                // ConveyorShoot.untilDone()
+                // .withTimeout(Settings.Conveyor.SHOOT_WAIT_DELAY.get()),
+                new IntakeStop(),
+                new ShooterStop());
     }
 
 }
