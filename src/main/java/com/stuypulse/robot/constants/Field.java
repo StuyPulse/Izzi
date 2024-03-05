@@ -210,12 +210,24 @@ public interface Field {
         return robotPose.nearest(Arrays.asList(getAllianceTrapPoses()));
     }
 
+    public static Pose2d getAllianceStageMiddlePose(Pose2d robotPose) {
+        Pose2d redCenter = new Pose2d(
+            (NamedTags.BLUE_STAGE_FAR.getLocation().getTranslation().getX() + NamedTags.BLUE_STAGE_LEFT.getLocation().getTranslation().getX() + NamedTags.BLUE_STAGE_RIGHT.getLocation().getTranslation().getX()) / 3,
+            (NamedTags.BLUE_STAGE_FAR.getLocation().getTranslation().getY() + NamedTags.BLUE_STAGE_LEFT.getLocation().getTranslation().getY() + NamedTags.BLUE_STAGE_RIGHT.getLocation().getTranslation().getY()) / 3,
+            new Rotation2d());
+        Pose2d blueCenter = new Pose2d(
+            (NamedTags.RED_STAGE_FAR.getLocation().getTranslation().getX() + NamedTags.RED_STAGE_LEFT.getLocation().getTranslation().getX() + NamedTags.RED_STAGE_RIGHT.getLocation().getTranslation().getX()) / 3,
+            (NamedTags.RED_STAGE_FAR.getLocation().getTranslation().getY() + NamedTags.RED_STAGE_LEFT.getLocation().getTranslation().getY() + NamedTags.RED_STAGE_RIGHT.getLocation().getTranslation().getY()) / 3,
+            new Rotation2d());
+        return robotPose.nearest(Arrays.asList(redCenter, blueCenter));
+    }
+
     /*** STAGE ***/
 
     Translation2d[] CLOSE_STAGE_TRIANGLE = new Translation2d[] {
-        new Translation2d(Units.inchesToMeters(125.0), WIDTH / 2.0),                // center 
-        new Translation2d(Units.inchesToMeters(222.6), Units.inchesToMeters(105)),  // bottom
-        new Translation2d(Units.inchesToMeters(222.6), Units.inchesToMeters(205.9)) // top
+        new Translation2d(Units.inchesToMeters(127.0), WIDTH / 2.0),                // center 
+        new Translation2d(Units.inchesToMeters(228.6), Units.inchesToMeters(105)),  // bottom
+        new Translation2d(Units.inchesToMeters(228.6), Units.inchesToMeters(216)) // top
     };
 
     Translation2d[] FAR_STAGE_TRIANGLE = new Translation2d[] {
@@ -239,6 +251,7 @@ public interface Field {
     //         && centerToTop.under(point.getX(), point.getY())
     //         && point.getX() < triangle[1].getX();
     // }
+
     private static boolean pointInTriangle(Translation2d point, Translation2d[] triangle) {
         double[] slopes = new double[3];
         double[] yIntercepts = new double[3];
@@ -253,11 +266,15 @@ public interface Field {
 
         // Checking if the robot is under the stage by comparing the robot's position to the lines
         for (int i = 0; i < 3; i++) {
+
+            Odometry.getInstance().getField().getObject(triangle[i].toString()).setPose(new Pose2d(triangle[i], new Rotation2d()));
+
             if (point.getY() > slopes[i] * point.getX() + yIntercepts[i]
                     && point.getY() < Math.max(triangle[i].getY(), triangle[(i + 1) % 3].getY())
                     && point.getY() > Math.min(triangle[i].getY(), triangle[(i + 1) % 3].getY())
                     && point.getX() > Math.min(triangle[i].getX(), triangle[(i + 1) % 3].getX())
                     && point.getX() < Math.max(triangle[i].getX(), triangle[(i + 1) % 3].getX())) {
+                        System.out.println("Robot is between "+ triangle[i] + " and " + triangle[(i + 1) % 3]);
                 return true;
             }
         }

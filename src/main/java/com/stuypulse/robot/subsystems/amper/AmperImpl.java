@@ -188,7 +188,5 @@ public class AmperImpl extends Amper {
 
         SmartDashboard.putBoolean("Amper/Has Note", hasNote());
         SmartDashboard.putBoolean("Amper/At Bottom", liftAtBottom());
-        
-        SmartDashboard.putBoolean("Amper/Under Stage", Field.robotUnderStage());
     }
 }
