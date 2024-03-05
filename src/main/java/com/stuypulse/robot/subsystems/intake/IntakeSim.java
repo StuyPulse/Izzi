@@ -14,33 +14,38 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeSim extends Intake {
 
-    private double motor;
+    private double intake_motor;
+    private double conveyor_motor;
 
     private SmartBoolean intakeIR;
 
     public IntakeSim() {
-        motor = 0;
+        intake_motor = 0;
+        conveyor_motor = 0;
         intakeIR = new SmartBoolean("Intake/Sim IR Value", false);
     }
 
     @Override
     public void acquire() {
-        motor = +Settings.Intake.ACQUIRE_SPEED;
+        intake_motor = Settings.Intake.ACQUIRE_SPEED;
+        conveyor_motor = Settings.Intake.ACQUIRE_SPEED;
     }
 
     @Override
     public void deacquire() {
-        motor = -Settings.Intake.DEACQUIRE_SPEED;
+        intake_motor = -Settings.Intake.DEACQUIRE_SPEED;
+        conveyor_motor = -Settings.Intake.DEACQUIRE_SPEED;
     }
 
     @Override
     public void stop() {
-        motor = 0;
+        intake_motor = 0;
+        conveyor_motor = 0;
     }
 
     @Override
     public double getIntakeRollerSpeed() {
-        return motor;
+        return intake_motor; // both running at same speed :)
     }
 
     @Override
@@ -52,7 +57,8 @@ public class IntakeSim extends Intake {
     public void periodic() {
         super.periodic();
 
-        SmartDashboard.putNumber("Intake/Speed", motor);
+        SmartDashboard.putNumber("Intake/Intake Motor Speed", intake_motor);
+        SmartDashboard.putNumber("Intake/Conveyor Motor Speed", conveyor_motor);
     }
 
     @Override
