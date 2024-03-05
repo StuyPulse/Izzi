@@ -56,8 +56,8 @@ public interface Motors {
     }
 
     public interface Shooter {
-        CANSparkConfig LEFT_SHOOTER = new CANSparkConfig(false, IdleMode.kCoast, 500);
-        CANSparkConfig RIGHT_SHOOTER = new CANSparkConfig(true, IdleMode.kCoast, 500);
+        CANSparkConfig TOP_SHOOTER = new CANSparkConfig(false, IdleMode.kCoast, 500);
+        CANSparkConfig BOTTOM_SHOOTER = new CANSparkConfig(true, IdleMode.kCoast, 500);
     }
 
     public interface Climber {
