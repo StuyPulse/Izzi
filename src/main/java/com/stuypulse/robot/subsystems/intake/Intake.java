@@ -9,6 +9,7 @@ package com.stuypulse.robot.subsystems.intake;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Settings.RobotType;
+import com.stuypulse.robot.util.IntakeVisualizer;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -30,6 +31,12 @@ public abstract class Intake extends SubsystemBase {
         return instance;
     }
 
+    private final IntakeVisualizer intakeVisualizer;
+
+    protected Intake() {
+        intakeVisualizer = new IntakeVisualizer();
+    }
+
     public abstract void acquire();
 
     public abstract void deacquire();
@@ -48,6 +55,6 @@ public abstract class Intake extends SubsystemBase {
 
     @Override
     public void periodic() {
-
+       intakeVisualizer.update(hasNote(), Intake.getInstance().getIntakeRollerSpeed(), Intake.getInstance().getIntakeRollerSpeed(), Intake.getInstance().getIntakeRollerSpeed());
     }
 }
