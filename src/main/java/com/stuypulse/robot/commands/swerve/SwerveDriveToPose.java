@@ -171,6 +171,6 @@ public class SwerveDriveToPose extends Command {
     @Override
     public void end(boolean interrupted) {
         swerve.stop();
-        targetPose2d.setPose(Double.NaN, Double.NaN, new Rotation2d(Double.NaN));
+        Field.clearFieldObject(targetPose2d);
     }
 }

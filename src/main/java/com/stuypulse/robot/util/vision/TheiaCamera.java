@@ -7,7 +7,6 @@
 package com.stuypulse.robot.util.vision;
 
 import com.stuypulse.robot.constants.Cameras.CameraConfig;
-import com.stuypulse.robot.util.LogPose3d;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.robot.constants.Field;
 
@@ -25,6 +24,7 @@ import edu.wpi.first.networktables.IntegerSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.PubSubOption;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Optional;
@@ -59,6 +59,9 @@ public class TheiaCamera {
     private final DoubleArraySubscriber pixelSub;
 
     private final DoubleArrayPublisher layoutPub;
+
+    private final StructPublisher<Pose3d> posePub;
+
 
     private double rawLatency;
     private long rawFPS;
@@ -97,6 +100,8 @@ public class TheiaCamera {
         counterSub = outputTable.getIntegerTopic("update_counter").subscribe(0, PubSubOption.periodic(0.02));
         areaSub = outputTable.getDoubleArrayTopic("areas").subscribe(new double[] {}, PubSubOption.periodic(0.02));
         pixelSub = outputTable.getDoubleArrayTopic("pixel_coords").subscribe(new double[] {}, PubSubOption.periodic(0.02));
+
+        posePub = NetworkTableInstance.getDefault().getStructTopic("Vision/" + getName() + "/Pose3d", Pose3d.struct).publish();
 
         enabled = new SmartBoolean(name + "/Enabled", true);
         
@@ -189,7 +194,7 @@ public class TheiaCamera {
     public Optional<VisionData> getVisionData() {
         updateData();
 
-        LogPose3d.clearPose3d("Vision/" + getName() + "/Pose3d");
+        posePub.set(Field.EMPTY_FIELD_POSE3D);
 
         if (!hasData()) return Optional.empty();
         if (!enabled.get()) return Optional.empty();
@@ -209,7 +214,7 @@ public class TheiaCamera {
 
         if (!data.isValidData()) return Optional.empty();
 
-        LogPose3d.logPose3d("Vision/" + getName() + "/Pose3d", data.getPose());
+        posePub.set(data.getPose());
 
         if (rawPixelCoords.length == 2) {
             SmartDashboard.putNumber("Vision/" + getName() + "/Primary Tag X", rawPixelCoords[0]);
