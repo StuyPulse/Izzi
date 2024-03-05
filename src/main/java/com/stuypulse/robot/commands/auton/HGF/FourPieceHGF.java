@@ -24,11 +24,12 @@ public class FourPieceHGF extends SequentialCommandGroup {
                     .andThen(new ShooterPodiumShot()),
 
                 SwerveDriveToPose.speakerRelative(-45)
-                    .withTolerance(0.1, 0.1, 2)),
+                    .withTolerance(0.1, 0.1, 2)
+            ),
 
-                new ShooterWaitForTarget(),
-                new IntakeShootRoutine(),
-                new ShooterStop(),
+            new ShooterWaitForTarget(),
+            new IntakeShootRoutine(),
+            new ShooterStop(),
 
             new FollowPathAndIntake(paths[0]),
             new FollowPathAlignAndShoot(paths[1], new SwerveDriveToShoot()),

@@ -36,7 +36,7 @@ public class BlayFivePieceCBAE extends SequentialCommandGroup {
 
             new FollowPathAndIntake(paths[2]),
             new SwerveDriveToShoot(2.9)
-                    .withTolerance(0.05, 3),
+                .withTolerance(0.05, 3),
             new IntakeShootRoutine(),
 
             new FollowPathAndIntake(paths[3]),

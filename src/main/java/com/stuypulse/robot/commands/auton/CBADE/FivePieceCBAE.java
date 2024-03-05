@@ -17,18 +17,18 @@ public class FivePieceCBAE extends SequentialCommandGroup {
 
     public FivePieceCBAE(PathPlannerPath... paths) {
         addCommands(
-                new ParallelCommandGroup(
-                        new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
-                                .andThen(new ShooterPodiumShot()),
+            new ParallelCommandGroup(
+                new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
+                    .andThen(new ShooterPodiumShot()),
 
-                        SwerveDriveToPose.speakerRelative(-45)
+                SwerveDriveToPose.speakerRelative(-45)
             ),
 
-                new IntakeShootRoutine(),
+            new IntakeShootRoutine(),
 
             new FollowPathAndIntake(paths[0]),
             new SwerveDriveToShoot(2.9)
-                    .withTimeout(1.25),
+                .withTimeout(1.25),
             new IntakeShootRoutine(),
 
             new FollowPathAndIntake(paths[1]),
@@ -37,7 +37,7 @@ public class FivePieceCBAE extends SequentialCommandGroup {
 
             new FollowPathAndIntake(paths[2]),
             new SwerveDriveToShoot()//2.9)
-                    .withTolerance(0.05, 3),
+                .withTolerance(0.05, 3),
             new IntakeShootRoutine(),
 
             new FollowPathAndIntake(paths[3]),
