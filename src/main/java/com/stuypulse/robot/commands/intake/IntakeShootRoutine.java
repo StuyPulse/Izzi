@@ -13,9 +13,10 @@ public class IntakeShootRoutine extends SequentialCommandGroup {
 
     public IntakeShootRoutine(double delay) {
         addCommands(
-                new IntakeShoot(),
-                new WaitCommand(delay),
-                new IntakeStop());
+            new IntakeShoot(),
+            new WaitCommand(delay),
+            new IntakeStop()
+        );
     }
 
 }

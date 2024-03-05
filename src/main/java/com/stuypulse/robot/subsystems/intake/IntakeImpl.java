@@ -37,7 +37,7 @@ public class IntakeImpl extends Intake {
         sensor = new DigitalInput(Ports.Intake.IR_SENSOR);
 
         triggered = BStream.create(sensor).not()
-                .filtered(new BDebounce.Rising(Settings.Intake.Detection.TRIGGER_TIME));
+            .filtered(new BDebounce.Rising(Settings.Intake.Detection.TRIGGER_TIME));
 
         stalling = BStream.create(this::isMomentarilyStalling)
             .filtered(new BDebounceRC.Rising(Settings.Intake.Detection.STALL_TIME));

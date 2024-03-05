@@ -6,8 +6,6 @@
 
 package com.stuypulse.robot.commands.swerve;
 
-import java.util.function.DoubleSupplier;
-
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Alignment.Shoot;
