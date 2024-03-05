@@ -1,24 +1,22 @@
-package com.stuypulse.robot.commands.conveyor;
+package com.stuypulse.robot.commands.intake;
 
-import com.stuypulse.robot.commands.intake.IntakeStop;
 import com.stuypulse.robot.constants.Settings;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-public class ConveyorShootRoutine extends SequentialCommandGroup {
+public class IntakeShootRoutine extends SequentialCommandGroup {
 
-    public ConveyorShootRoutine() {
+    public IntakeShootRoutine() {
         this(Settings.Conveyor.SHOOT_WAIT_DELAY.get());
     }
 
-    public ConveyorShootRoutine(double delay) {
+    public IntakeShootRoutine(double delay) {
         addCommands(
-            new ConveyorShoot(),
+            new IntakeShoot(),
             new WaitCommand(delay),
-            new ConveyorStop(),
             new IntakeStop()
         );
     }
-    
+
 }
