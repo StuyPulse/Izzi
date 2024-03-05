@@ -36,23 +36,17 @@ public class SwerveDriveToShoot extends Command {
 
     private final BStream isAligned;
 
-    private final DoubleSupplier targetDistanceSupplier;
+    private final Number targetDistance;
 
     private double distanceTolerance;
     private double angleTolerance;
-
-    private double targetDistance;
 
     public SwerveDriveToShoot() {
         this(() -> Alignment.PODIUM_SHOT_DISTANCE.get());
     }
     
-    public SwerveDriveToShoot(double targetDistance) {
-        this(() -> targetDistance);
-    }
-    
-    public SwerveDriveToShoot(DoubleSupplier targetDistanceSupplier) {
-        this.targetDistanceSupplier = targetDistanceSupplier;
+    public SwerveDriveToShoot(Number targetDistance) {
+        this.targetDistance = targetDistance;
 
         swerve = SwerveDrive.getInstance();
         odometry = Odometry.getInstance();
@@ -68,8 +62,8 @@ public class SwerveDriveToShoot extends Command {
         angleTolerance = Alignment.ANGLE_TOLERANCE.get();
     }
 
-    public void initialize() {
-        targetDistance = SLMath.clamp(targetDistanceSupplier.getAsDouble(), 1, 5);
+    private double getTargetDistance() {
+        return SLMath.clamp(targetDistance.doubleValue(), 1, 5);
     }
 
     public SwerveDriveToShoot withTolerance(double distanceTolerance, double angleTolerance) {
@@ -98,7 +92,7 @@ public class SwerveDriveToShoot extends Command {
         Translation2d toSpeaker = Field.getAllianceSpeakerPose().getTranslation()
             .minus(odometry.getPose().getTranslation());
         
-        double speed = -distanceController.update(targetDistance, toSpeaker.getNorm());
+        double speed = -distanceController.update(getTargetDistance(), toSpeaker.getNorm());
         double rotation = angleController.update(
             Angle.fromRotation2d(toSpeaker.getAngle()).add(Angle.k180deg),
             Angle.fromRotation2d(odometry.getPose().getRotation()));

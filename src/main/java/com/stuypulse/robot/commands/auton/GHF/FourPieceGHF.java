@@ -11,25 +11,25 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class FourPieceGHF extends SequentialCommandGroup {
 
-        public FourPieceGHF() {
-                addCommands(
-                                new ParallelCommandGroup(
-                                                new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
-                                                                .andThen(new ShooterPodiumShot()),
+    public FourPieceGHF() {
+        addCommands(
+            new ParallelCommandGroup(
+                new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
+                    .andThen(new ShooterPodiumShot()),
 
-                                                SwerveDriveToPose.speakerRelative(-45)
-                                                                .withTolerance(0.1, 0.1, 2)
+                SwerveDriveToPose.speakerRelative(-45)
+                    .withTolerance(0.1, 0.1, 2)
             ),
 
-                                new IntakeShootRoutine()
+            new IntakeShootRoutine()
 
-                // new FollowPathAndIntake("Start To G (GHF)"),
-                // new FollowPathAlignAndShoot("G To GShoot (GHF)", SwerveDriveToPose.speakerRelative(-45)),
-                // new FollowPathAndIntake("GShoot To H (GHF)"),
-                // new FollowPathAlignAndShoot("H To HShoot (HGF)", SwerveDriveToPose.speakerRelative(-45)),
-                // new FollowPathAndIntake("HShoot To F (GHF)"),
-                // new FollowPathAlignAndShoot("F To Shoot (HGF)", SwerveDriveToPose.speakerRelative(-7))
-                );
-        }
+            // new FollowPathAndIntake("Start To G (GHF)"),
+            // new FollowPathAlignAndShoot("G To GShoot (GHF)", SwerveDriveToPose.speakerRelative(-45)),
+            // new FollowPathAndIntake("GShoot To H (GHF)"),
+            // new FollowPathAlignAndShoot("H To HShoot (HGF)", SwerveDriveToPose.speakerRelative(-45)),
+            // new FollowPathAndIntake("HShoot To F (GHF)"),
+            // new FollowPathAlignAndShoot("F To Shoot (HGF)", SwerveDriveToPose.speakerRelative(-7))
+        );
+    }
 
 }

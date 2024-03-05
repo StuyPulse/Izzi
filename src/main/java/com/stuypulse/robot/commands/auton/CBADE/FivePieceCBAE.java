@@ -26,22 +26,22 @@ public class FivePieceCBAE extends SequentialCommandGroup {
 
                 new IntakeShootRoutine(),
 
-                new FollowPathAndIntake(paths[0]),
-                new SwerveDriveToShoot(2.9)
-                        .withTimeout(1.25),
-                new IntakeShootRoutine(),
+            new FollowPathAndIntake(paths[0]),
+            new SwerveDriveToShoot(2.9)
+                    .withTimeout(1.25),
+            new IntakeShootRoutine(),
 
-                new FollowPathAndIntake(paths[1]),
-                new SwerveDriveToShoot(),
-                new IntakeShootRoutine(),
+            new FollowPathAndIntake(paths[1]),
+            new SwerveDriveToShoot(),
+            new IntakeShootRoutine(),
 
-                new FollowPathAndIntake(paths[2]),
-                new SwerveDriveToShoot()//2.9)
-                        .withTolerance(0.05, 3),
-                new IntakeShootRoutine(),
+            new FollowPathAndIntake(paths[2]),
+            new SwerveDriveToShoot()//2.9)
+                    .withTolerance(0.05, 3),
+            new IntakeShootRoutine(),
 
-                new FollowPathAndIntake(paths[3]),
-                new FollowPathAlignAndShoot(paths[4], new SwerveDriveToShoot())
+            new FollowPathAndIntake(paths[3]),
+            new FollowPathAlignAndShoot(paths[4], new SwerveDriveToShoot())
         );
     }
 

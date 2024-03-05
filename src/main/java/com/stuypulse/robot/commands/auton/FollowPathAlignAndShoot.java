@@ -20,23 +20,24 @@ public class FollowPathAlignAndShoot extends SequentialCommandGroup {
 
     public double getPathTime(PathPlannerPath path) {
         return path.getTrajectory(new ChassisSpeeds(), path.getStartingDifferentialPose().getRotation())
-                .getTotalTimeSeconds();
+            .getTotalTimeSeconds();
     }
 
     public FollowPathAlignAndShoot(PathPlannerPath path, Command alignCommand) {
         addCommands(
-                new ParallelCommandGroup(
-                        SwerveDrive.getInstance().followPathCommand(path),
-                        new WaitCommand(getPathTime(path) - Auton.SHOOTER_START_PRE)
-                                .andThen(new ShooterPodiumShot())),
-                alignCommand,
-                new ShooterWaitForTarget(),
-                new IntakeShoot(),
-                new WaitCommand(Settings.Conveyor.SHOOT_WAIT_DELAY.get()),
-                // ConveyorShoot.untilDone()
-                // .withTimeout(Settings.Conveyor.SHOOT_WAIT_DELAY.get()),
-                new IntakeStop(),
-                new ShooterStop());
+            new ParallelCommandGroup(
+                    SwerveDrive.getInstance().followPathCommand(path),
+                    new WaitCommand(getPathTime(path) - Auton.SHOOTER_START_PRE)
+                            .andThen(new ShooterPodiumShot())),
+            alignCommand,
+            new ShooterWaitForTarget(),
+            new IntakeShoot(),
+            new WaitCommand(Settings.Conveyor.SHOOT_WAIT_DELAY.get()),
+            // ConveyorShoot.untilDone()
+            // .withTimeout(Settings.Conveyor.SHOOT_WAIT_DELAY.get()),
+            new IntakeStop(),
+            new ShooterStop()
+        );
     }
 
 }

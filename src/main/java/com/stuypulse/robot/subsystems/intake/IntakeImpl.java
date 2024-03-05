@@ -40,7 +40,7 @@ public class IntakeImpl extends Intake {
                 .filtered(new BDebounce.Rising(Settings.Intake.Detection.TRIGGER_TIME));
 
         stalling = BStream.create(this::isMomentarilyStalling)
-                .filtered(new BDebounceRC.Rising(Settings.Intake.Detection.STALL_TIME));
+            .filtered(new BDebounceRC.Rising(Settings.Intake.Detection.STALL_TIME));
 
         Motors.disableStatusFrames(intakeMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER,
                 StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
