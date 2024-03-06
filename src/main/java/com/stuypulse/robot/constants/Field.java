@@ -241,6 +241,7 @@ public interface Field {
         double areaFromPoint = 0.0;
 
         for(int i = 0; i < triangle.length; i++) {
+            Odometry.getInstance().getField().getObject(triangle[i].toString()).setPose(new Pose2d(triangle[i], new Rotation2d()));
             Translation2d vertex1 = triangle[i];
             Translation2d vertex2 = triangle[(i + 1) % 3];
             areaFromPoint += triangleArea(point, vertex1, vertex2);
