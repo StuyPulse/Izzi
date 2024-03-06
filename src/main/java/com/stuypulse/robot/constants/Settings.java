@@ -100,7 +100,7 @@ public interface Settings {
             double CARRIAGE_MASS = 10; // kg
 
             double MIN_HEIGHT = 0;
-            double MAX_HEIGHT = Units.inchesToMeters(14.75);
+            double MAX_HEIGHT = Units.inchesToMeters(17.0); //TODO: Tune this value, was 14.75 
 
             double VISUALIZATION_MIN_LENGTH = 0.5;
             Rotation2d ANGLE_TO_GROUND = Rotation2d.fromDegrees(68.02);
@@ -111,7 +111,7 @@ public interface Settings {
             double ACCEL_LIMIT = 2.0;
 
             double AMP_SCORE_HEIGHT = 0.34;
-            double TRAP_SCORE_HEIGHT = AMP_SCORE_HEIGHT;
+            double TRAP_SCORE_HEIGHT = 0.60; //TODO: Tune this value
 
             public interface Encoder {
                 double GEARING = 1.0 / 9.0;
