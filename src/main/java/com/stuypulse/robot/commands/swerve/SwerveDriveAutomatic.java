@@ -12,6 +12,7 @@ import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings.Driver;
 import com.stuypulse.robot.constants.Settings.Swerve.*;
 import com.stuypulse.robot.subsystems.amper.Amper;
+import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
@@ -22,6 +23,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 public class SwerveDriveAutomatic extends SwerveDriveDriveAligned {
 
     private final Intake intake;
+    private final Conveyor conveyor;
     private final Amper amper;
     private final Odometry odometry;
     
@@ -36,6 +38,7 @@ public class SwerveDriveAutomatic extends SwerveDriveDriveAligned {
 
         odometry = Odometry.getInstance();
         intake = Intake.getInstance();
+        conveyor = Conveyor.getInstance();
         amper = Amper.getInstance();
         llNoteVision = NoteVision.getInstance();
     }
@@ -53,7 +56,7 @@ public class SwerveDriveAutomatic extends SwerveDriveDriveAligned {
 
         double distanceToSpeaker = speakerPose.getDistance(robotPose);
 
-        if ((intake.hasNote())
+        if ((intake.hasNote() || conveyor.isNoteAtShooter())
                 && (distanceToSpeaker < Assist.ALIGN_MIN_SPEAKER_DIST.get())) {
             return speakerPose.minus(robotPose).getAngle()
                 .plus(Rotation2d.fromDegrees(180));
@@ -76,7 +79,7 @@ public class SwerveDriveAutomatic extends SwerveDriveDriveAligned {
 
         double distanceToSpeaker = speakerPose.getDistance(robotPose);
 
-        if ((intake.hasNote())
+        if ((intake.hasNote() || conveyor.isNoteAtShooter())
                 && (distanceToSpeaker < Assist.ALIGN_MIN_SPEAKER_DIST.get())) {
             return speakerPose.getDistance(robotPose);
         }

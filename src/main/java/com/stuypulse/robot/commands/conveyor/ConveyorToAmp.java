@@ -4,32 +4,36 @@
 /* that can be found in the repository LICENSE file.           */
 /***************************************************************/
 
-package com.stuypulse.robot.commands.intake;
+package com.stuypulse.robot.commands.conveyor;
 
 import com.stuypulse.robot.commands.amper.AmperToHeight;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.amper.Amper;
+import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.shooter.Shooter;
+import com.stuypulse.robot.util.ShooterSpeeds;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class IntakeToAmp extends Command {
+public class ConveyorToAmp extends Command {
     public static Command withCheckLift() {
         return AmperToHeight.untilDone(Settings.Amper.Lift.MIN_HEIGHT)
-            .andThen(new IntakeToAmp());
+            .andThen(new ConveyorToAmp());
     }
 
+    private final Conveyor conveyor;
     private final Shooter shooter;
     private final Intake intake;
     private final Amper amper;
 
-    public IntakeToAmp() {
+    public ConveyorToAmp() {
+        conveyor = Conveyor.getInstance();
         shooter = Shooter.getInstance();
         intake = Intake.getInstance();
         amper = Amper.getInstance();
 
-        addRequirements(intake, shooter, amper);
+        addRequirements(conveyor, intake, amper);
     }
 
     @Override
@@ -37,6 +41,7 @@ public class IntakeToAmp extends Command {
         shooter.setTargetSpeeds(Settings.Shooter.HANDOFF);
 
         if (shooter.atTargetSpeeds()) {
+            conveyor.toAmp();
             intake.acquire();
             amper.fromConveyor();
         }
@@ -49,6 +54,7 @@ public class IntakeToAmp extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        conveyor.stop();
         shooter.stop();
         intake.stop();
         amper.stopRoller();

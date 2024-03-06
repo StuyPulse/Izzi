@@ -17,6 +17,7 @@ import com.stuypulse.robot.commands.auton.GHF.*;
 import com.stuypulse.robot.commands.auton.HGF.*;
 import com.stuypulse.robot.commands.auton.tests.*;
 import com.stuypulse.robot.commands.climber.*;
+import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.commands.intake.*;
 import com.stuypulse.robot.commands.leds.*;
 import com.stuypulse.robot.commands.notealignment.*;
@@ -30,6 +31,7 @@ import com.stuypulse.robot.constants.Settings.Driver;
 import com.stuypulse.robot.constants.Settings.Swerve.Assist;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.climber.*;
+import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.leds.LEDController;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDPulseColor;
@@ -62,6 +64,7 @@ public class RobotContainer {
     public final Climber climber = Climber.getInstance();
     public final Amper amper = Amper.getInstance();
     public final LEDController leds = LEDController.getInstance();
+    public final Conveyor conveyor = Conveyor.getInstance();
     public final Intake intake = Intake.getInstance();
     public final Shooter shooter = Shooter.getInstance();
     public final SwerveDrive swerve = SwerveDrive.getInstance();
@@ -131,7 +134,8 @@ public class RobotContainer {
                     .deadlineWith(new LEDSet(LEDInstructions.ASSIST_FLASH)))
                 .andThen(new ShooterWaitForTarget()
                     .withTimeout(1.5))
-                .andThen(new IntakeShoot()))
+                .andThen(new ConveyorShoot()))
+            .onFalse(new ConveyorStop())
             .onFalse(new IntakeStop())
             .onFalse(new ShooterStop());
 
@@ -146,13 +150,14 @@ public class RobotContainer {
             .onTrue(new ShooterPodiumShot())
             .onTrue(new ShooterWaitForTarget()
                     .withTimeout(1.5)
-                .andThen(new IntakeShoot()))
+                .andThen(new ConveyorShoot()))
+            .onFalse(new ConveyorStop())
             .onFalse(new IntakeStop())
             .onFalse(new ShooterStop());
             
         // score amp no align
         driver.getLeftMenuButton()
-            .whileTrue(IntakeToAmp.withCheckLift()
+            .whileTrue(ConveyorToAmp.withCheckLift()
                 .andThen(AmperToHeight.untilDone(Lift.AMP_SCORE_HEIGHT))
                 .andThen(new AmperScore()))
             .onFalse(new AmperStop())
@@ -207,20 +212,29 @@ public class RobotContainer {
                         .withTimeout(3.0))));
 
         operator.getLeftBumper()
-            .onTrue(new IntakeToAmp())
+            .onTrue(new ConveyorToAmp())
+            .onFalse(new ConveyorStop())
             .onFalse(new IntakeStop())
             .onFalse(new AmperStop());
 
         operator.getTopButton()
             .onTrue(new AmperScore())
-            .onTrue(new IntakeShoot())
+            .onTrue(new ConveyorShoot())
             .onFalse(new AmperStop())
+            .onFalse(new ConveyorStop())
             .onFalse(new IntakeStop());
 
         operator.getDPadUp()
             .whileTrue(new AmperLiftFineAdjust(operator));
         operator.getDPadDown()
             .whileTrue(new AmperLiftFineAdjust(operator));
+
+        operator.getDPadRight()
+            .onTrue(new GandalfToShoot())
+            .onFalse(new ConveyorStop());
+        operator.getDPadLeft()
+            .onTrue(new GandalfToAmp())
+            .onFalse(new ConveyorStop());
 
         operator.getRightButton()
                 .onTrue(new AmperToHeight(Settings.Amper.Lift.AMP_SCORE_HEIGHT));

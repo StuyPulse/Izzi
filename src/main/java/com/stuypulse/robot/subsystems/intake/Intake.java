@@ -9,6 +9,9 @@ package com.stuypulse.robot.subsystems.intake;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Settings.RobotType;
+import com.stuypulse.robot.subsystems.amper.Amper;
+import com.stuypulse.robot.subsystems.conveyor.Conveyor;
+import com.stuypulse.robot.util.IntakeVisualizer;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -30,6 +33,12 @@ public abstract class Intake extends SubsystemBase {
         return instance;
     }
 
+    private final IntakeVisualizer intakeVisualizer;
+
+    protected Intake() {
+        intakeVisualizer = new IntakeVisualizer();
+    }
+
     public abstract void acquire();
 
     public abstract void deacquire();
@@ -40,14 +49,19 @@ public abstract class Intake extends SubsystemBase {
 
     public abstract boolean hasNote();
 
-    public boolean hasNotePartially() {
-        return hasNote();
-    }
+    public boolean hasNotePartially() { return hasNote(); }
 
     public abstract double getIntakeRollerSpeed();
 
     @Override
     public void periodic() {
-
+        Conveyor conveyor = Conveyor.getInstance();
+        intakeVisualizer.update(
+            hasNote(),
+            conveyor.isNoteAtShooter(),
+            Amper.getInstance().hasNote(),
+            getIntakeRollerSpeed(),
+            conveyor.getGandalfSpeed(),
+            0);
     }
 }

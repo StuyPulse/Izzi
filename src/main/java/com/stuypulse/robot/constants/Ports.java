@@ -61,14 +61,20 @@ public interface Ports {
     }
 
     public interface Intake {
-        int INTAKE_MOTOR = 40;
-        int CONVEYOR_MOTOR = 41;
+        int MOTOR = 40;
         int IR_SENSOR = 1;
     }
 
     public interface Shooter {
-        int TOP_MOTOR = 21; //CHECK
-        int BOTTOM_MOTOR = 20; 
+        int LEFT_MOTOR = 21;
+        int RIGHT_MOTOR = 20;
+
+        int IR_SENSOR = 0;
+    }
+
+    public interface Conveyor {
+        int GANDALF = 50;
+        int FEEDER = 51;
     }
 
     public interface LEDController {

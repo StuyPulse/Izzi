@@ -24,16 +24,14 @@ import com.revrobotics.CANSparkFlex;
 
 public class IntakeImpl extends Intake {
 
-    private final CANSparkFlex intakeMotor;
-    private final CANSparkFlex conveyorMotor;
+    private final CANSparkFlex motor;
     private final DigitalInput sensor;
 
     private final BStream triggered;
     private final BStream stalling;
 
     protected IntakeImpl() {
-        intakeMotor = new CANSparkFlex(Ports.Intake.INTAKE_MOTOR, MotorType.kBrushless);
-        conveyorMotor = new CANSparkFlex(Ports.Intake.CONVEYOR_MOTOR, MotorType.kBrushless);
+        motor = new CANSparkFlex(Ports.Intake.MOTOR, MotorType.kBrushless);
         sensor = new DigitalInput(Ports.Intake.IR_SENSOR);
 
         triggered = BStream.create(sensor).not()
@@ -41,47 +39,37 @@ public class IntakeImpl extends Intake {
 
         stalling = BStream.create(this::isMomentarilyStalling)
             .filtered(new BDebounceRC.Rising(Settings.Intake.Detection.STALL_TIME));
+        
+        Motors.disableStatusFrames(motor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
 
-        Motors.disableStatusFrames(intakeMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER,
-                StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
-
-        Motors.disableStatusFrames(conveyorMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER,
-                StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
-
-        Motors.Intake.INTAKE_CONFIG.configure(intakeMotor);
-        Motors.Intake.CONVEYOR_CONFIG.configure(conveyorMotor);
+        Motors.Intake.MOTOR_CONFIG.configure(motor);
     }
 
     @Override
     public void acquire() {
-        intakeMotor.set(Settings.Intake.ACQUIRE_SPEED);
-        conveyorMotor.set(Settings.Intake.ACQUIRE_SPEED);
+        motor.set(+Settings.Intake.ACQUIRE_SPEED);
     }
 
     @Override
     public void deacquire() {
-        intakeMotor.set(-Settings.Intake.DEACQUIRE_SPEED);
-        conveyorMotor.set(-Settings.Intake.DEACQUIRE_SPEED);
+        motor.set(-Settings.Intake.DEACQUIRE_SPEED);
     }
 
     @Override
     public void stop() {
-        intakeMotor.stopMotor();
-        conveyorMotor.stopMotor();
+        motor.stopMotor();
     }
 
     @Override
     public void setIdleMode(IdleMode mode) {
-        intakeMotor.setIdleMode(mode);
-        conveyorMotor.setIdleMode(mode);
-        intakeMotor.burnFlash();
-        conveyorMotor.burnFlash();
+        motor.setIdleMode(mode);
+        motor.burnFlash();
     }
 
     // Detection
 
     private boolean isMomentarilyStalling() {
-        return intakeMotor.getOutputCurrent() > Settings.Intake.Detection.STALL_CURRENT;
+        return motor.getOutputCurrent() > Settings.Intake.Detection.STALL_CURRENT;
     }
 
     private boolean isStalling() {
@@ -105,20 +93,19 @@ public class IntakeImpl extends Intake {
 
     @Override
     public double getIntakeRollerSpeed() {
-        return intakeMotor.get(); // both motors are at the same anyways // subject to change
+        return motor.get();
     }
 
     @Override
     public void periodic() {
         super.periodic();
 
-        SmartDashboard.putNumber("Intake/Intake Motor Speed", conveyorMotor.get());
-        SmartDashboard.putNumber("Intake/Conveyor Motor Speed", conveyorMotor.get());
-        SmartDashboard.putNumber("Intake/Current Intake Motor", intakeMotor.getOutputCurrent());
-        SmartDashboard.putNumber("Intake/Current Conveyor Motor", intakeMotor.getOutputCurrent());
+        SmartDashboard.putNumber("Intake/Speed", motor.get());
+        SmartDashboard.putNumber("Intake/Current", motor.getOutputCurrent());
 
         SmartDashboard.putBoolean("Intake/Is Stalling", isStalling());
         SmartDashboard.putBoolean("Intake/Above Current Limit", isMomentarilyStalling());
         SmartDashboard.putBoolean("Intake/Has Note", isTriggered());
+        SmartDashboard.putBoolean("Intake/Has Note (Raw)", !sensor.get());
     }
 }

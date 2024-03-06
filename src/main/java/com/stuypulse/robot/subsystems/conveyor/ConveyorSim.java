@@ -4,55 +4,51 @@
 /* that can be found in the repository LICENSE file.           */
 /***************************************************************/
 
-package com.stuypulse.robot.subsystems.intake;
+package com.stuypulse.robot.subsystems.conveyor;
 
-import com.stuypulse.stuylib.network.SmartBoolean;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.stuypulse.robot.constants.Settings;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class IntakeSim extends Intake {
+public class ConveyorSim extends Conveyor {
 
-    private double motor;
+    private double gandalfMotorSpeed;
 
-    private SmartBoolean intakeIR;
-
-    public IntakeSim() {
-        motor = 0;
-        intakeIR = new SmartBoolean("Intake/Sim IR Value", false);
+    public ConveyorSim() {
+        gandalfMotorSpeed = 0;
     }
 
     @Override
-    public void acquire() {
-        motor = +Settings.Intake.ACQUIRE_SPEED;
+    public double getGandalfSpeed() {
+        return gandalfMotorSpeed;
     }
 
     @Override
-    public void deacquire() {
-        motor = -Settings.Intake.DEACQUIRE_SPEED;
+    public boolean isNoteAtShooter() {
+        return gandalfMotorSpeed > 0;
+    }
+
+    @Override
+    public void toShooter() {
+        gandalfMotorSpeed = +Settings.Conveyor.GANDALF_SHOOTER_SPEED.get();
+    }
+
+    @Override
+    public void toAmp() {
+        gandalfMotorSpeed = -Settings.Conveyor.GANDALF_AMP_SPEED;
     }
 
     @Override
     public void stop() {
-        motor = 0;
-    }
-
-    @Override
-    public double getIntakeRollerSpeed() {
-        return motor;
-    }
-
-    @Override
-    public boolean hasNote() {
-        return intakeIR.get();
+        gandalfMotorSpeed = 0;
     }
 
     @Override
     public void periodic() {
         super.periodic();
 
-        SmartDashboard.putNumber("Intake/Speed", motor);
+        SmartDashboard.putNumber("Conveyor/Gandalf Motor Speed", gandalfMotorSpeed);
     }
 
     @Override
