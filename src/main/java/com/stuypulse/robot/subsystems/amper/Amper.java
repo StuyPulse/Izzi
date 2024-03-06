@@ -10,9 +10,11 @@ import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.network.SmartNumber;
 
 import com.stuypulse.robot.Robot;
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.RobotType;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
+import com.stuypulse.robot.subsystems.odometry.Odometry;
 
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
@@ -139,5 +141,9 @@ public abstract class Amper extends SubsystemBase {
         
         if (targetHeight.get() < Settings.Amper.Lift.MIN_HEIGHT)
             targetHeight.set(Settings.Amper.Lift.MIN_HEIGHT);
+
+        SmartDashboard.putBoolean("Amper/Under Stage", Field.robotUnderStage());
+        
+        Odometry.getInstance().getField().getObject("Stage Center").setPose(Field.getAllianceStageMiddlePose(Odometry.getInstance().getPose()));
     }
 }

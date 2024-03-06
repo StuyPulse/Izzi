@@ -106,6 +106,7 @@ public interface Settings {
             Rotation2d ANGLE_TO_GROUND = Rotation2d.fromDegrees(68.02);
 
             double MAX_HEIGHT_ERROR = 0.03;
+            double MAX_SHOOTING_ERROR = 0.05;
 
             double VEL_LIMIT = 3.0;
             double ACCEL_LIMIT = 2.0;

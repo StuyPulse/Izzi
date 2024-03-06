@@ -209,12 +209,30 @@ public interface Field {
         return robotPose.nearest(Arrays.asList(getAllianceTrapPoses()));
     }
 
+    public static Pose2d getAllianceStageMiddlePose(Pose2d robotPose) {
+        Translation2d blueCenter = 
+            NamedTags.BLUE_STAGE_FAR.getLocation().toPose2d().getTranslation()
+                .plus(NamedTags.BLUE_STAGE_LEFT.getLocation().toPose2d().getTranslation())
+                .plus(NamedTags.BLUE_STAGE_RIGHT.getLocation().toPose2d().getTranslation())
+                .div(3.0);
+
+        Translation2d redCenter = 
+            NamedTags.RED_STAGE_FAR.getLocation().toPose2d().getTranslation()
+                .plus(NamedTags.RED_STAGE_LEFT.getLocation().toPose2d().getTranslation())
+                .plus(NamedTags.RED_STAGE_RIGHT.getLocation().toPose2d().getTranslation())
+                .div(3.0);
+
+        return new Pose2d(
+            robotPose.getTranslation().nearest(Arrays.asList(redCenter, blueCenter)),
+            new Rotation2d());
+    }
+
     /*** STAGE ***/
 
     Translation2d[] CLOSE_STAGE_TRIANGLE = new Translation2d[] {
-        new Translation2d(Units.inchesToMeters(125.0), WIDTH / 2.0),                // center 
-        new Translation2d(Units.inchesToMeters(222.6), Units.inchesToMeters(105)),  // bottom
-        new Translation2d(Units.inchesToMeters(222.6), Units.inchesToMeters(205.9)) // top
+        new Translation2d(Units.inchesToMeters(127.0), WIDTH / 2.0),                // center 
+        new Translation2d(Units.inchesToMeters(228.6), Units.inchesToMeters(105)),  // bottom
+        new Translation2d(Units.inchesToMeters(228.6), Units.inchesToMeters(216)) // top
     };
 
     Translation2d[] FAR_STAGE_TRIANGLE = new Translation2d[] {
