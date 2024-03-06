@@ -118,7 +118,7 @@ public interface Settings {
                 double DRUM_RADIUS = Units.inchesToMeters(1.0);
                 double DRUM_CIRCUMFERENCE = DRUM_RADIUS * Math.PI * 2;
 
-                double POSITION_CONVERSION = GEARING * DRUM_CIRCUMFERENCE;
+                double POSITION_CONVERSION = GEARING * DRUM_CIRCUMFERENCE * 2.0;
                 double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
             }
 
