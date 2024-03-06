@@ -211,15 +211,21 @@ public interface Field {
     }
 
     public static Pose2d getAllianceStageMiddlePose(Pose2d robotPose) {
-        Pose2d redCenter = new Pose2d(
-            (NamedTags.BLUE_STAGE_FAR.getLocation().getTranslation().getX() + NamedTags.BLUE_STAGE_LEFT.getLocation().getTranslation().getX() + NamedTags.BLUE_STAGE_RIGHT.getLocation().getTranslation().getX()) / 3,
-            (NamedTags.BLUE_STAGE_FAR.getLocation().getTranslation().getY() + NamedTags.BLUE_STAGE_LEFT.getLocation().getTranslation().getY() + NamedTags.BLUE_STAGE_RIGHT.getLocation().getTranslation().getY()) / 3,
+        Translation2d blueCenter = 
+            NamedTags.BLUE_STAGE_FAR.getLocation().toPose2d().getTranslation()
+                .plus(NamedTags.BLUE_STAGE_LEFT.getLocation().toPose2d().getTranslation())
+                .plus(NamedTags.BLUE_STAGE_RIGHT.getLocation().toPose2d().getTranslation())
+                .div(3.0);
+
+        Translation2d redCenter = 
+            NamedTags.RED_STAGE_FAR.getLocation().toPose2d().getTranslation()
+                .plus(NamedTags.RED_STAGE_LEFT.getLocation().toPose2d().getTranslation())
+                .plus(NamedTags.RED_STAGE_RIGHT.getLocation().toPose2d().getTranslation())
+                .div(3.0);
+
+        return new Pose2d(
+            robotPose.getTranslation().nearest(Arrays.asList(redCenter, blueCenter)),
             new Rotation2d());
-        Pose2d blueCenter = new Pose2d(
-            (NamedTags.RED_STAGE_FAR.getLocation().getTranslation().getX() + NamedTags.RED_STAGE_LEFT.getLocation().getTranslation().getX() + NamedTags.RED_STAGE_RIGHT.getLocation().getTranslation().getX()) / 3,
-            (NamedTags.RED_STAGE_FAR.getLocation().getTranslation().getY() + NamedTags.RED_STAGE_LEFT.getLocation().getTranslation().getY() + NamedTags.RED_STAGE_RIGHT.getLocation().getTranslation().getY()) / 3,
-            new Rotation2d());
-        return robotPose.nearest(Arrays.asList(redCenter, blueCenter));
     }
 
     /*** STAGE ***/
