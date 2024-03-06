@@ -56,7 +56,7 @@ public class SwerveDriveAutomatic extends SwerveDriveDriveAligned {
 
         double distanceToSpeaker = speakerPose.getDistance(robotPose);
 
-        if ((intake.hasNote() || conveyor.isNoteAtShooter())
+        if ((intake.hasNote())
                 && (distanceToSpeaker < Assist.ALIGN_MIN_SPEAKER_DIST.get())) {
             return speakerPose.minus(robotPose).getAngle()
                 .plus(Rotation2d.fromDegrees(180));
@@ -79,7 +79,7 @@ public class SwerveDriveAutomatic extends SwerveDriveDriveAligned {
 
         double distanceToSpeaker = speakerPose.getDistance(robotPose);
 
-        if ((intake.hasNote() || conveyor.isNoteAtShooter())
+        if ((intake.hasNote())
                 && (distanceToSpeaker < Assist.ALIGN_MIN_SPEAKER_DIST.get())) {
             return speakerPose.getDistance(robotPose);
         }

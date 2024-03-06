@@ -18,7 +18,6 @@ public class ConveyorScoreNote extends Command {
     private final Intake intake;
     private final Amper amper;
 
-    private boolean noteAtShooter;
     private boolean noteAtAmp;
 
     public ConveyorScoreNote() {
@@ -31,7 +30,6 @@ public class ConveyorScoreNote extends Command {
 
     @Override
     public void initialize() {
-        noteAtShooter = conveyor.isNoteAtShooter();
         noteAtAmp = amper.hasNote();
     }
 
@@ -39,7 +37,7 @@ public class ConveyorScoreNote extends Command {
     public void execute() {
         if (noteAtAmp) {
             amper.score();
-        } else if (noteAtShooter) {
+        } else { //note at shooter 
             conveyor.toShooter();
             intake.acquire();
         }

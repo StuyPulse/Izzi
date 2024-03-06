@@ -297,7 +297,7 @@ public interface Settings {
     }
 
     public interface Shooter {
-        double MOMENT_OF_INERTIA = 1;
+        double MOMENT_OF_INERTIA = 0.01;
 
         double TELEOP_SHOOTER_STARTUP_DELAY = 0.25;
 

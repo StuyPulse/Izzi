@@ -166,7 +166,6 @@ public class IntakeVisualizer {
 
     public void update(
             boolean intake_IR,
-            boolean conveyor_IR,
             boolean amp_IR,
             double intakeSpeed,
             double conveyorGandalfSpeed,
@@ -175,12 +174,6 @@ public class IntakeVisualizer {
             intakeIRSensor.setColor(green);
         } else {
             intakeIRSensor.setColor(red);
-        }
-
-        if (conveyor_IR) {
-            shooterIRSensor.setColor(green);
-        } else {
-            shooterIRSensor.setColor(red);
         }
 
         if (amp_IR) {
