@@ -31,9 +31,9 @@ public class ShooterSim extends Shooter {
         rightWheel = new FlywheelSim(DCMotor.getNEO(1), 1, Settings.Shooter.MOMENT_OF_INERTIA);
 
         leftController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
-            .add(new PIDController(PID.kP, PID.kI, PID.kD));
+            .add(new PIDController(PID.simkP, PID.simkI, PID.simkD));
         rightController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
-            .add(new PIDController(PID.kP, PID.kI, PID.kD));
+            .add(new PIDController(PID.simkP, PID.simkI, PID.simkD));
     }
 
     @Override

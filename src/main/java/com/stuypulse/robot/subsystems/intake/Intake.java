@@ -58,7 +58,6 @@ public abstract class Intake extends SubsystemBase {
         Conveyor conveyor = Conveyor.getInstance();
         intakeVisualizer.update(
             hasNote(),
-            conveyor.isNoteAtShooter(),
             Amper.getInstance().hasNote(),
             getIntakeRollerSpeed(),
             conveyor.getGandalfSpeed(),

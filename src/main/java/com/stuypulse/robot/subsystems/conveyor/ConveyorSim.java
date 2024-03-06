@@ -24,10 +24,10 @@ public class ConveyorSim extends Conveyor {
         return gandalfMotorSpeed;
     }
 
-    @Override
-    public boolean isNoteAtShooter() {
-        return gandalfMotorSpeed > 0;
-    }
+    // @Override
+    // public boolean isNoteAtShooter() {
+    //     return gandalfMotorSpeed > 0;
+    // }
 
     @Override
     public void toShooter() {

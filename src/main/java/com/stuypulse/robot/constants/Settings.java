@@ -297,7 +297,7 @@ public interface Settings {
     }
 
     public interface Shooter {
-        double MOMENT_OF_INERTIA = 1;
+        double MOMENT_OF_INERTIA = 0.01;
 
         double TELEOP_SHOOTER_STARTUP_DELAY = 0.25;
 
@@ -323,6 +323,10 @@ public interface Settings {
             double kP = 0.00034711;
             double kI = 0.0;
             double kD = 0.0;
+
+            double simkP = 0.481;
+            double simkI = 0.0;
+            double simkD = 0.0;
         }
     }
 
