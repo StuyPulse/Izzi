@@ -11,6 +11,7 @@ import com.stuypulse.stuylib.streams.booleans.filters.BDebounce;
 
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Motors.StatusFrame;
+import com.stuypulse.robot.util.FilteredRelativeEncoder;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 
@@ -36,7 +37,7 @@ public class ConveyorImpl extends Conveyor {
     protected ConveyorImpl() {
         gandalfMotor = new CANSparkMax(Ports.Conveyor.GANDALF, MotorType.kBrushless);
 
-        gandalfEncoder = gandalfMotor.getEncoder();
+        gandalfEncoder = new FilteredRelativeEncoder(gandalfMotor);
 
         gandalfEncoder.setVelocityConversionFactor(0.5);
 
