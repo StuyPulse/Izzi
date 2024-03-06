@@ -192,9 +192,6 @@ public class RobotContainer {
 
         driver.getBottomButton()
             .whileTrue(new SwerveDriveDriveToChain());
-
-        driver.getLeftButton()
-            .whileTrue(new ClimberScoreRoutine());
     }
 
     private void configureOperatorBindings() {
