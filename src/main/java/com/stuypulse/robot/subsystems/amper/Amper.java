@@ -143,8 +143,7 @@ public abstract class Amper extends SubsystemBase {
             targetHeight.set(Settings.Amper.Lift.MIN_HEIGHT);
 
         SmartDashboard.putBoolean("Amper/Under Stage", Field.robotUnderStage());
+        
         Odometry.getInstance().getField().getObject("Stage Center").setPose(Field.getAllianceStageMiddlePose(Odometry.getInstance().getPose()));
-        SmartDashboard.putNumber("Amper/Stage Center Pose X", Field.getAllianceStageMiddlePose(Odometry.getInstance().getPose()).getX());
-        SmartDashboard.putNumber("Amper/Stage Center Pose Y", Field.getAllianceStageMiddlePose(Odometry.getInstance().getPose()).getY());
     }
 }
