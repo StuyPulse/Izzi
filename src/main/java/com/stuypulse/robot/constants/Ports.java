@@ -31,7 +31,7 @@ public interface Ports {
         // int ALIGNED_BUMP_SWITCH = 3;
         int LIFT_BOTTOM_LIMIT = 6;
         // int LIFT_TOP_LIMIT = 5;
-        int AMP_IR = 2;
+        int AMP_IR = 0;
     }
 
     public interface Swerve {
