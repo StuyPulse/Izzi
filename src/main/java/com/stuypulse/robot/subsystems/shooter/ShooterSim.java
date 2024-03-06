@@ -20,30 +20,35 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ShooterSim extends Shooter {
 
-    private final FlywheelSim topWheel;
-    private final FlywheelSim bottomWheel;
+    private final FlywheelSim leftWheel;
+    private final FlywheelSim rightWheel;
 
-    private final Controller topController;
-    private final Controller bottomController;
+    private final Controller leftController;
+    private final Controller rightController;
 
     protected ShooterSim() {
-        topWheel = new FlywheelSim(DCMotor.getNEO(1), 1, Settings.Shooter.MOMENT_OF_INERTIA);
-        bottomWheel = new FlywheelSim(DCMotor.getNEO(1), 1, Settings.Shooter.MOMENT_OF_INERTIA);
+        leftWheel = new FlywheelSim(DCMotor.getNEO(1), 1, Settings.Shooter.MOMENT_OF_INERTIA);
+        rightWheel = new FlywheelSim(DCMotor.getNEO(1), 1, Settings.Shooter.MOMENT_OF_INERTIA);
 
-        topController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
+        leftController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
             .add(new PIDController(PID.kP, PID.kI, PID.kD));
-        bottomController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
+        rightController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
             .add(new PIDController(PID.kP, PID.kI, PID.kD));
     }
 
     @Override
-    public double getTopShooterRPM() {
-        return topWheel.getAngularVelocityRPM();
+    public double getLeftShooterRPM() {
+        return leftWheel.getAngularVelocityRPM();
     }
 
     @Override
-    public double getBottomShooterRPM() {
-        return bottomWheel.getAngularVelocityRPM();
+    public double getRightShooterRPM() {
+        return rightWheel.getAngularVelocityRPM();
+    }
+    
+    @Override
+    public double getFeederRPM() {
+        return 0;
     }
 
     @Override
@@ -55,27 +60,27 @@ public class ShooterSim extends Shooter {
     public void periodic() {
         super.periodic();
 
-        topController.update(getTopTargetRPM(), getTopShooterRPM());
-        bottomController.update(getBottomTargetRPM(), getBottomShooterRPM());
+        leftController.update(getLeftTargetRPM(), getLeftShooterRPM());
+        rightController.update(getRightTargetRPM(), getRightShooterRPM());
 
-        if (getTopTargetRPM() == 0 && getBottomTargetRPM() == 0) {
-            topWheel.setInputVoltage(0);
-            bottomWheel.setInputVoltage(0);
+        if (getLeftTargetRPM() == 0 && getRightTargetRPM() == 0) {
+            leftWheel.setInputVoltage(0);
+            rightWheel.setInputVoltage(0);
         } else {
-            topWheel.setInputVoltage(topController.getOutput());
-            bottomWheel.setInputVoltage(bottomController.getOutput());
+            leftWheel.setInputVoltage(leftController.getOutput());
+            rightWheel.setInputVoltage(rightController.getOutput());
         }
 
-        SmartDashboard.putNumber("Shooter/Top RPM", getTopShooterRPM());
-        SmartDashboard.putNumber("Shooter/Bottom RPM", getBottomShooterRPM());
+        SmartDashboard.putNumber("Shooter/Right RPM", getRightShooterRPM());
+        SmartDashboard.putNumber("Shooter/Left RPM", getLeftShooterRPM());
 
-        SmartDashboard.putNumber("Shooter/Top Voltage", topController.getOutput());
-        SmartDashboard.putNumber("Shooter/Bottom Voltage", bottomController.getOutput());
+        SmartDashboard.putNumber("Shooter/Left Voltage", leftController.getOutput());
+        SmartDashboard.putNumber("Shooter/Right Voltage", rightController.getOutput());
     }
 
     @Override
     public void simulationPeriodic() {
-        topWheel.update(Settings.DT);
-        bottomWheel.update(Settings.DT);
+        leftWheel.update(Settings.DT);
+        rightWheel.update(Settings.DT);
     }
 }

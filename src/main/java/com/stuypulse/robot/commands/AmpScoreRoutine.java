@@ -9,7 +9,7 @@ package com.stuypulse.robot.commands;
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.commands.amper.AmperScore;
 import com.stuypulse.robot.commands.amper.AmperToHeight;
-import com.stuypulse.robot.commands.intake.IntakeToAmp;
+import com.stuypulse.robot.commands.conveyor.ConveyorToAmp;
 import com.stuypulse.robot.commands.leds.LEDSet;
 import com.stuypulse.robot.commands.swerve.SwerveDriveDriveDirection;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
@@ -58,7 +58,7 @@ public class AmpScoreRoutine extends SequentialCommandGroup {
 
     public AmpScoreRoutine() {
         addCommands(
-            new IntakeToAmp()
+            new ConveyorToAmp()
                 .alongWith(new WaitCommand(Settings.Shooter.TELEOP_SHOOTER_STARTUP_DELAY)
                     .andThen(new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get()))
                         .withTolerance(AMP_WALL_SETUP_X_TOLERANCE, AMP_WALL_SETUP_Y_TOLERANCE, AMP_WALL_SETUP_ANGLE_TOLERANCE)
