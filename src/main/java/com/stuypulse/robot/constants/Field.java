@@ -273,14 +273,14 @@ public interface Field {
         // Checking if the robot is under the stage by comparing the robot's position to the lines
         for (int i = 0; i < 3; i++) {
 
-            Odometry.getInstance().getField().getObject(triangle[i].toString()).setPose(new Pose2d(triangle[i], new Rotation2d()));
+            // Odometry.getInstance().getField().getObject(triangle[i].toString()).setPose(new Pose2d(triangle[i], new Rotation2d()));
 
             if (point.getY() > slopes[i] * point.getX() + yIntercepts[i]
                     && point.getY() < Math.max(triangle[i].getY(), triangle[(i + 1) % 3].getY())
                     && point.getY() > Math.min(triangle[i].getY(), triangle[(i + 1) % 3].getY())
                     && point.getX() > Math.min(triangle[i].getX(), triangle[(i + 1) % 3].getX())
                     && point.getX() < Math.max(triangle[i].getX(), triangle[(i + 1) % 3].getX())) {
-                        System.out.println("Robot is between "+ triangle[i] + " and " + triangle[(i + 1) % 3]);
+                        // System.out.println("Robot is between "+ triangle[i] + " and " + triangle[(i + 1) % 3]);
                 return true;
             }
         }
