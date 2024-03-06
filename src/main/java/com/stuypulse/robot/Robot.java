@@ -20,10 +20,12 @@ import com.stuypulse.robot.subsystems.leds.instructions.LEDRainbow;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+import com.ctre.phoenix.time.StopWatch;
 import com.pathplanner.lib.pathfinding.LocalADStar;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -151,7 +153,11 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void teleopPeriodic() {}
+    public void teleopPeriodic() {
+        if (Timer.getMatchTime() < 0.5) {
+            robot.amper.score();
+        }
+    }
 
     @Override
     public void teleopExit() {}
