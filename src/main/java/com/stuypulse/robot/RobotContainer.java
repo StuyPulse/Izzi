@@ -129,7 +129,7 @@ public class RobotContainer {
             .whileTrue(new WaitCommand(Settings.Shooter.TELEOP_SHOOTER_STARTUP_DELAY)
                 .andThen(new SwerveDriveToShoot()
                     .deadlineWith(new LEDSet(LEDInstructions.ASSIST_FLASH)))
-                .andThen(new ShooterWaitForTarget()
+                .andThen(new ShooterWaitUntilReady()
                     .withTimeout(1.5))
                 .andThen(new IntakeShoot()))
             .onFalse(new IntakeStop())
@@ -144,7 +144,7 @@ public class RobotContainer {
         // score speaker no align
         driver.getRightMenuButton()
             .onTrue(new ShooterPodiumShot())
-            .onTrue(new ShooterWaitForTarget()
+            .onTrue(new ShooterWaitUntilReady()
                     .withTimeout(1.5)
                 .andThen(new IntakeShoot()))
             .onFalse(new IntakeStop())

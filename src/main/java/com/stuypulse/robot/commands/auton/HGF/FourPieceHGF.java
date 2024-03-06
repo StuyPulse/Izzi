@@ -6,7 +6,7 @@ import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
 import com.stuypulse.robot.commands.intake.IntakeShootRoutine;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
 import com.stuypulse.robot.commands.shooter.ShooterStop;
-import com.stuypulse.robot.commands.shooter.ShooterWaitForTarget;
+import com.stuypulse.robot.commands.shooter.ShooterWaitUntilReady;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToShoot;
 import com.stuypulse.robot.constants.Settings.Auton;
@@ -27,7 +27,7 @@ public class FourPieceHGF extends SequentialCommandGroup {
                     .withTolerance(0.1, 0.1, 2)
             ),
 
-            new ShooterWaitForTarget(),
+            new ShooterWaitUntilReady(),
             new IntakeShootRoutine(),
             new ShooterStop(),
 
