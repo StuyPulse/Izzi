@@ -8,7 +8,6 @@ package com.stuypulse.robot.constants;
 
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
-import com.stuypulse.robot.util.MirrorPose2d;
 import com.stuypulse.robot.util.vision.AprilTag;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -19,7 +18,6 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 
 import java.util.ArrayList;
@@ -258,12 +256,6 @@ public interface Field {
     /***** NOTE DETECTION *****/
 
     double NOTE_BOUNDARY = LENGTH / 2 + Units.inchesToMeters(Settings.LENGTH / 2);
-
-    /**** SHOOT POSES ****/
-
-    MirrorPose2d TOP_SHOOT_POSE = new MirrorPose2d(Alliance.Blue, new Pose2d(3.35, 6.80, new Rotation2d(23)));
-    MirrorPose2d ALTERNATE_TOP_SHOOT_POSE = new MirrorPose2d(Alliance.Blue, new Pose2d(3.40, 5.21, new Rotation2d(-6)));
-    MirrorPose2d BOTTOM_SHOOT_POSE = new MirrorPose2d(Alliance.Blue, new Pose2d(2.54, 3.23, new Rotation2d(-40)));
 
     /**** EMPTY FIELD POSES ****/
 
