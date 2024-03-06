@@ -18,6 +18,7 @@ import com.stuypulse.robot.constants.Motors.StatusFrame;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
+import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.util.FilteredRelativeEncoder;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -192,5 +193,8 @@ public class AmperImpl extends Amper {
         SmartDashboard.putBoolean("Amper/At Bottom", liftAtBottom());
         
         SmartDashboard.putBoolean("Amper/Under Stage", Field.robotUnderStage());
+        Odometry.getInstance().getField().getObject("Stage Center").setPose(Field.getAllianceStageMiddlePose(Odometry.getInstance().getPose()));
+        SmartDashboard.putNumber("Amper/Stage Center Pose X", Field.getAllianceStageMiddlePose(Odometry.getInstance().getPose()).getX());
+        SmartDashboard.putNumber("Amper/Stage Center Pose Y", Field.getAllianceStageMiddlePose(Odometry.getInstance().getPose()).getY());
     }
 }
