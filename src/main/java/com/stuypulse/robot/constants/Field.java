@@ -11,7 +11,6 @@ import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.util.Line;
 import com.stuypulse.robot.util.MirroredPose2d;
 import com.stuypulse.robot.util.vision.AprilTag;
-import com.stuypulse.stuylib.math.Vector2D;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -230,39 +229,25 @@ public interface Field {
         return pointInTriangle(robot, CLOSE_STAGE_TRIANGLE) || pointInTriangle(robot, FAR_STAGE_TRIANGLE);
     }
 
-    // private static boolean pointInTriangle(Translation2d point, Translation2d[] triangle) {
-    //     Line centerToBottom = new Line(triangle[0], triangle[1]);
-    //     Line centerToTop = new Line(triangle[0], triangle[2]);
-    //     // Line topToBottom = new Line(triangle[1], triangle[2]);
+    private static double triangleArea(Translation2d point1, Translation2d point2, Translation2d point3) {
+        double a = point1.getDistance(point2);
+        double b = point2.getDistance(point3);
+        double c = point3.getDistance(point1);
+        double s = (a + b + c) / 2.0;
+        return Math.sqrt(s * (s - a) * (s - b) * (s - c));
+    }
 
-    //     return centerToBottom.above(point.getX(), point.getY()) 
-    //         && centerToTop.under(point.getX(), point.getY())
-    //         && point.getX() < triangle[1].getX();
-    // }
     private static boolean pointInTriangle(Translation2d point, Translation2d[] triangle) {
-        double[] slopes = new double[3];
-        double[] yIntercepts = new double[3];
+        double area = triangleArea(triangle[0], triangle[1], triangle[2]);
+        double areaFromPoint = 0.0;
 
-        // Constructing lines from the triangles to check if the robot is under the stage
-        for (int i = 0; i < 3; i++) {
-            slopes[i] = (triangle[(i + 1) % 3].getY() - triangle[i].getY())
-                    / (triangle[(i + 1) % 3].getX() - triangle[i].getX());
-
-            yIntercepts[i] = triangle[i].getY() - slopes[i] * triangle[i].getX();
+        for(int i = 0; i < triangle.length; i++) {
+            Translation2d vertex1 = triangle[i];
+            Translation2d vertex2 = triangle[(i + 1) % 3];
+            areaFromPoint += triangleArea(point, vertex1, vertex2);
         }
 
-        // Checking if the robot is under the stage by comparing the robot's position to the lines
-        for (int i = 0; i < 3; i++) {
-            if (point.getY() > slopes[i] * point.getX() + yIntercepts[i]
-                    && point.getY() < Math.max(triangle[i].getY(), triangle[(i + 1) % 3].getY())
-                    && point.getY() > Math.min(triangle[i].getY(), triangle[(i + 1) % 3].getY())
-                    && point.getX() > Math.min(triangle[i].getX(), triangle[(i + 1) % 3].getX())
-                    && point.getX() < Math.max(triangle[i].getX(), triangle[(i + 1) % 3].getX())) {
-                return true;
-            }
-        }
-
-        return false;
+        return Math.abs(area - areaFromPoint) < 1e-2;
     }
 
     /***** NOTE DETECTION *****/
