@@ -323,10 +323,6 @@ public interface Settings {
             double kP = 0.00034711;
             double kI = 0.0;
             double kD = 0.0;
-
-            double simkP = 0.481;
-            double simkI = 0.0;
-            double simkD = 0.0;
         }
     }
 

@@ -49,6 +49,4 @@ public abstract class Conveyor extends SubsystemBase {
 
     public abstract void stop();
 
-    //delete
-    // public abstract boolean isNoteAtShooter();
 }

@@ -24,11 +24,6 @@ public class ConveyorSim extends Conveyor {
         return gandalfMotorSpeed;
     }
 
-    // @Override
-    // public boolean isNoteAtShooter() {
-    //     return gandalfMotorSpeed > 0;
-    // }
-
     @Override
     public void toShooter() {
         gandalfMotorSpeed = +Settings.Conveyor.GANDALF_SHOOTER_SPEED.get();
