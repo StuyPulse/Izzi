@@ -8,7 +8,7 @@ package com.stuypulse.robot.constants;
 
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
-import com.stuypulse.robot.util.MirroredPose2d;
+import com.stuypulse.robot.util.MirrorPose2d;
 import com.stuypulse.robot.util.vision.AprilTag;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -261,9 +261,9 @@ public interface Field {
 
     /**** SHOOT POSES ****/
 
-    MirroredPose2d TOP_SHOOT_POSE = new MirroredPose2d(Alliance.Blue, new Pose2d(3.35, 6.80, new Rotation2d(23)));
-    MirroredPose2d ALTERNATE_TOP_SHOOT_POSE = new MirroredPose2d(Alliance.Blue, new Pose2d(3.40, 5.21, new Rotation2d(-6)));
-    MirroredPose2d BOTTOM_SHOOT_POSE = new MirroredPose2d(Alliance.Blue, new Pose2d(2.54, 3.23, new Rotation2d(-40)));
+    MirrorPose2d TOP_SHOOT_POSE = new MirrorPose2d(Alliance.Blue, new Pose2d(3.35, 6.80, new Rotation2d(23)));
+    MirrorPose2d ALTERNATE_TOP_SHOOT_POSE = new MirrorPose2d(Alliance.Blue, new Pose2d(3.40, 5.21, new Rotation2d(-6)));
+    MirrorPose2d BOTTOM_SHOOT_POSE = new MirrorPose2d(Alliance.Blue, new Pose2d(2.54, 3.23, new Rotation2d(-40)));
 
     /**** EMPTY FIELD POSES ****/
 

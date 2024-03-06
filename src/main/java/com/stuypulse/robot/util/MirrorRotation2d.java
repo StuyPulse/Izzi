@@ -1,19 +1,19 @@
-package com.stuypulse.robot.util.vision;
+package com.stuypulse.robot.util;
 
 import com.stuypulse.robot.Robot;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
-public class MirrorRotation {
+public class MirrorRotation2d {
 
-    public static MirrorRotation fromBlue(Rotation2d blue) {
-        return new MirrorRotation(blue);
+    public static MirrorRotation2d fromBlue(Rotation2d blue) {
+        return new MirrorRotation2d(blue);
     }
 
     private final Rotation2d red;
     private final Rotation2d blue;
 
-    private MirrorRotation(Rotation2d blue) {
+    private MirrorRotation2d(Rotation2d blue) {
         this.blue = blue;
         this.red = blue.times(-1);
     }

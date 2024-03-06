@@ -6,13 +6,13 @@ import com.stuypulse.robot.constants.Field;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
-public class MirroredPose2d {
+public class MirrorPose2d {
 
     private final boolean isBlue;
     private final Pose2d pose;
     private final Pose2d opposite;
     
-    public MirroredPose2d(Alliance alliance, Pose2d pose) {
+    public MirrorPose2d(Alliance alliance, Pose2d pose) {
         this.pose = pose;
         
         isBlue = alliance == Alliance.Blue;
