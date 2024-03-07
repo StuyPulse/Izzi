@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
+/**
+ * Shoots no shots at podium
+ */
 public class FivePieceCBAE extends SequentialCommandGroup {
 
     public FivePieceCBAE(PathPlannerPath... paths) {
@@ -21,7 +24,7 @@ public class FivePieceCBAE extends SequentialCommandGroup {
                 new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
                     .andThen(new ShooterPodiumShot()),
                 
-                SwerveDriveToPose.speakerRelative(-45)
+                SwerveDriveToPose.speakerRelative(-18)
             ),
 
             new ConveyorShootRoutine(),

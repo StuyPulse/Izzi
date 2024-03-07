@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
+/**
+ * Shoots first and second shot in front of podium piece
+ */
 public class FivePiecePodiumForwardCBAE extends SequentialCommandGroup {
 
     public FivePiecePodiumForwardCBAE(PathPlannerPath... paths) {
@@ -21,13 +24,13 @@ public class FivePiecePodiumForwardCBAE extends SequentialCommandGroup {
                 new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
                     .andThen(new ShooterPodiumShot()),
                 
-                SwerveDriveToPose.speakerRelative(-18)
+                SwerveDriveToPose.speakerRelative(-30)
             ),
 
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake(paths[0]),
-            new SwerveDriveToShoot(2.9),
+            new SwerveDriveToShoot(),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake(paths[1]),
