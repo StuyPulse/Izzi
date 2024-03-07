@@ -40,7 +40,6 @@ import com.stuypulse.robot.subsystems.shooter.Shooter;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
-import com.stuypulse.robot.util.PathUtil;
 import com.stuypulse.robot.util.SLColor;
 import com.stuypulse.robot.util.ShooterSpeeds;
 import com.stuypulse.robot.util.PathUtil.AutonConfig;
@@ -277,6 +276,9 @@ public class RobotContainer {
         AutonConfig HGF = new AutonConfig("4 Piece HGF", FourPieceHGF::new,
         "Start To H (HGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)", "F To Shoot (HGF)");
         
+        AutonConfig TrackingCBAE = new AutonConfig("Tracking 5 Piece CBAE", FivePieceTrackingCBAE::new,
+            "First Piece To C", "C to B", "B To A", "A To E", "E To Shoot");   
+
         CBAE.registerDefaultBlue(autonChooser)
             .registerRed(autonChooser);
         
@@ -287,6 +289,10 @@ public class RobotContainer {
         HGF.registerBlue(autonChooser)
             .registerRed(autonChooser);
 
+        TrackingCBAE
+            .registerBlue(autonChooser)
+            .registerRed(autonChooser);
+        
         SmartDashboard.putData("Autonomous", autonChooser);
     }
 
