@@ -163,6 +163,11 @@ public class RobotContainer {
             .onFalse(new AmperStop())
             .onFalse(new AmperToHeight(Lift.MIN_HEIGHT));
 
+        // score trap
+        driver.getLeftButton()
+            .onTrue(new AmperScoreTrap())
+            .onFalse(new AmperStop());
+
         driver.getDPadUp()
             .onTrue(new SwerveDriveResetHeading(Rotation2d.fromDegrees(0)));
         driver.getDPadRight()
@@ -188,6 +193,7 @@ public class RobotContainer {
                     .deadlineWith(new LEDSet(LEDInstructions.GREEN))));
 
         driver.getRightButton()
+            .onTrue(new AmperToHeight(Lift.MIN_HEIGHT))
             .whileTrue(SwerveDriveToPose.toClimb());
 
         driver.getBottomButton()
@@ -238,6 +244,8 @@ public class RobotContainer {
 
         operator.getRightButton()
                 .onTrue(new AmperToHeight(Settings.Amper.Lift.AMP_SCORE_HEIGHT));
+        operator.getLeftButton()
+                .onTrue(new AmperToHeight(Settings.Amper.Lift.TRAP_SCORE_HEIGHT));
         operator.getBottomButton()
             .onTrue(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT));
 

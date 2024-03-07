@@ -6,9 +6,6 @@
 
 package com.stuypulse.robot.subsystems.conveyor;
 
-import com.stuypulse.stuylib.streams.booleans.BStream;
-import com.stuypulse.stuylib.streams.booleans.filters.BDebounce;
-
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Motors.StatusFrame;
 import com.stuypulse.robot.util.FilteredRelativeEncoder;
@@ -16,7 +13,6 @@ import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -30,21 +26,12 @@ public class ConveyorImpl extends Conveyor {
 
     private final RelativeEncoder gandalfEncoder;
 
-    private final DigitalInput irSensor;
-
-    private final BStream isAtShooter;
-
     protected ConveyorImpl() {
         gandalfMotor = new CANSparkMax(Ports.Conveyor.GANDALF, MotorType.kBrushless);
 
         gandalfEncoder = new FilteredRelativeEncoder(gandalfMotor);
 
         gandalfEncoder.setVelocityConversionFactor(0.5);
-
-        irSensor = new DigitalInput(Ports.Shooter.IR_SENSOR);
-
-        isAtShooter = BStream.create(irSensor).not()
-            .filtered(new BDebounce.Rising(Settings.Conveyor.DEBOUNCE_TIME));
 
         Motors.disableStatusFrames(gandalfMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
 
@@ -54,11 +41,6 @@ public class ConveyorImpl extends Conveyor {
     @Override
     public double getGandalfSpeed() {
         return gandalfMotor.get();
-    }
-
-    @Override
-    public boolean isNoteAtShooter() {
-        return isAtShooter.get();
     }
 
     @Override
@@ -93,8 +75,5 @@ public class ConveyorImpl extends Conveyor {
         SmartDashboard.putNumber("Conveyor/Gandalf RPM", gandalfEncoder.getVelocity());
 
         SmartDashboard.putNumber("Conveyor/Gandalf Linear Velocity", gandalfEncoder.getVelocity() * Units.inchesToMeters(1.0) * Math.PI);
-
-        SmartDashboard.putBoolean("Conveyor/Note At Shooter", isNoteAtShooter());
-        SmartDashboard.putBoolean("Conveyor/Note At Shooter (Raw)", !irSensor.get());
     }
 }

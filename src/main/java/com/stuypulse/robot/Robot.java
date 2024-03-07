@@ -13,6 +13,7 @@ import com.stuypulse.robot.commands.vision.VisionReloadWhiteList;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.RobotType;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
+import com.stuypulse.robot.constants.Settings.Amper.Score;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAlign;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAutonChooser;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDRainbow;
@@ -20,6 +21,7 @@ import com.stuypulse.robot.subsystems.leds.instructions.LEDRainbow;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -151,7 +153,11 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void teleopPeriodic() {}
+    public void teleopPeriodic() {
+        // if (Timer.getMatchTime() < Score.SCORE_TIME) {
+        //     robot.amper.score();
+        // }
+    }
 
     @Override
     public void teleopExit() {}

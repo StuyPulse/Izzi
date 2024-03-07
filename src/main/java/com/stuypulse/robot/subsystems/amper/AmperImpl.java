@@ -121,8 +121,13 @@ public class AmperImpl extends Amper {
     /*** SCORE ROLLERS ***/
 
     @Override
-    public void score() {
-        scoreMotor.set(Settings.Amper.Score.SCORE_SPEED);
+    public void amp() {
+        scoreMotor.set(Settings.Amper.Score.AMP_SPEED);
+    }
+    
+    @Override
+    public void trap() {
+        scoreMotor.set(Settings.Amper.Score.TRAP_SPEED);
     }
 
     @Override
@@ -132,7 +137,7 @@ public class AmperImpl extends Amper {
 
     @Override
     public void toConveyor() {
-        scoreMotor.set(-Settings.Amper.Score.TO_CONVEYOR_SPEED.get());
+        scoreMotor.set(-Settings.Amper.Score.TO_CONVEYOR_SPEED);
     }
 
     @Override

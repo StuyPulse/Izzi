@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-public class AmperScore extends InstantCommand {
+public class AmperScoreTrap extends InstantCommand {
 
     public static Command forSeconds(double seconds) {
         return new AmperScore()
@@ -27,13 +27,13 @@ public class AmperScore extends InstantCommand {
 
     private final Amper amper;
 
-    public AmperScore() {
+    public AmperScoreTrap() {
         amper = Amper.getInstance();
         addRequirements(amper);
     }
 
     @Override
     public void initialize() {
-        amper.amp();
+        amper.trap();
     }
 }
