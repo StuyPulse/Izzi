@@ -26,14 +26,14 @@ public interface Cameras {
                 new Translation3d(Units.inchesToMeters(16.156338), 0, Units.inchesToMeters(13.833919)),
                 new Rotation3d(0, Units.degreesToRadians(15), 0));
 
-        String[] LIMELIGHTS = {/* "limelight" */};
+        String[] LIMELIGHTS = { "limelight" };
 
         int[] PORTS = {5800, 5801, 5802, 5803, 5804, 5805};
 
         Pose3d[] POSITIONS = switch (Robot.ROBOT) {
-        case IZZI    -> new Pose3d[] {/* IZZI_POSE */};
-        case TUMBLER -> new Pose3d[] {/*  TUMBLER_POSE */};
-        default      -> new Pose3d[] {/*  IZZI_POSE */};
+            case IZZI    -> new Pose3d[] { IZZI_POSE };
+            case TUMBLER -> new Pose3d[] {/*  TUMBLER_POSE */};
+            default      -> new Pose3d[] {/*  IZZI_POSE */};
         };
     }
 
@@ -52,30 +52,34 @@ public interface Cameras {
                 new CameraConfig("shooter_camera", new Pose3d(
                     new Translation3d(Units.inchesToMeters(-11.5) - 0.1, 0, Units.inchesToMeters(11.75)),
                     new Rotation3d(0, Units.degreesToRadians(-9), Units.degreesToRadians(180))),
-                    "100",
-                    3000),
+                "100",
+                3000),
                 // 10.6.94.102
                 // 172.22.11.2:3002
                 new CameraConfig("climber_camera", new Pose3d(
                     new Translation3d(Units.inchesToMeters(2.0) - 0.1, 0, Units.inchesToMeters(23.5)),
                     new Rotation3d(0, Units.degreesToRadians(-34), Units.degreesToRadians(180))), 
-                    "102",
-                    3002),
+                "102",
+                3002),
             };
         
         case TUMBLER ->
             new CameraConfig[] {
-                new CameraConfig("samera1",
-                    new Pose3d(
-                        -Units.inchesToMeters(12), 0, +Units.inchesToMeters(5),
-                        new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(180))),
-                        "101",
-                        3001)
+                new CameraConfig("samera1", new Pose3d(
+                    -Units.inchesToMeters(12), 0, +Units.inchesToMeters(5),
+                    new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(180))),
+                    "101",
+                    3001)
             };
             
-        default -> new CameraConfig[] {
-            new CameraConfig("samera0", new Pose3d(new Translation3d(), new Rotation3d()), "100", 3000)
-        };
+        default ->
+            new CameraConfig[] {
+                new CameraConfig("samera0", new Pose3d(
+                    new Translation3d(),
+                    new Rotation3d()),
+                    "100",
+                    3000)
+            };
     };
 
     /*** LINEAR REGRESSION ***/
