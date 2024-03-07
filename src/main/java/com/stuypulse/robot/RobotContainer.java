@@ -163,6 +163,11 @@ public class RobotContainer {
             .onFalse(new AmperStop())
             .onFalse(new AmperToHeight(Lift.MIN_HEIGHT));
 
+        // score trap
+        driver.getLeftButton()
+            .onTrue(new AmperScoreTrap())
+            .onFalse(new AmperStop());
+
         driver.getDPadUp()
             .onTrue(new SwerveDriveResetHeading(Rotation2d.fromDegrees(0)));
         driver.getDPadRight()

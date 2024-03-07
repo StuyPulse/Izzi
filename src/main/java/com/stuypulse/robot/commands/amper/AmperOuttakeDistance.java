@@ -30,7 +30,7 @@ public class AmperOuttakeDistance extends Command {
 
     @Override
     public void execute() {
-        amper.score();
+        amper.amp();
     }
 
     @Override

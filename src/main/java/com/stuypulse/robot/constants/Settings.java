@@ -87,9 +87,10 @@ public interface Settings {
         double AMP_ROLLER_DIAMETER = Units.inchesToMeters(1.25);
 
         public interface Score {
-            double SCORE_SPEED = 1.0;
+            double AMP_SPEED = 1.0;
+            double TRAP_SPEED = 0.5;
             double FROM_CONVEYOR_SPEED = 0.35;
-            SmartNumber TO_CONVEYOR_SPEED = new SmartNumber("Amper/Score/To Conveyor Speed", 1.0);
+            double TO_CONVEYOR_SPEED = 1.0;
 
             double SCORE_MOTOR_CONVERSION = AMP_ROLLER_DIAMETER * Math.PI;
 
