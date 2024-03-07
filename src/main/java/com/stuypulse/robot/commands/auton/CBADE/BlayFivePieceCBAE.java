@@ -8,6 +8,7 @@ import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToShoot;
 import com.stuypulse.robot.constants.Settings.Auton;
+import com.stuypulse.robot.util.PathReroute;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -26,18 +27,28 @@ public class BlayFivePieceCBAE extends SequentialCommandGroup {
 
             new ConveyorShootRoutine(),
 
-            new FollowPathAndIntake(paths[0]),
-            new SwerveDriveToShoot(2.9),
-            new ConveyorShootRoutine(),
+            new PathReroute(
+                new FollowPathAndIntake(paths[0]),
+                new SequentialCommandGroup(
+                    new SwerveDriveToShoot(2.9),
+                    new ConveyorShootRoutine()
+                ), new FollowPathAndIntake(paths[1])).reroute(),
 
-            new FollowPathAndIntake(paths[1]),
-            new SwerveDriveToShoot(),
-            new ConveyorShootRoutine(),
+            new PathReroute(
+                new FollowPathAndIntake(paths[1]),
+                new SequentialCommandGroup(
+                    new SwerveDriveToShoot(2.9),
+                    new ConveyorShootRoutine()
+                ), new FollowPathAndIntake(paths[2])
+                ).reroute(),
 
-            new FollowPathAndIntake(paths[2]),
-            new SwerveDriveToShoot(2.9)
-                .withTolerance(0.05, 3),
-            new ConveyorShootRoutine(),
+            new PathReroute(
+                new FollowPathAndIntake(paths[2]),
+                new SequentialCommandGroup(
+                    new SwerveDriveToShoot(2.9),
+                    new ConveyorShootRoutine()
+                ), new FollowPathAndIntake(paths[3])
+                ).reroute(),
 
             new FollowPathAndIntake(paths[3]),
             new FollowPathAlignAndShoot(paths[4], new SwerveDriveToShoot())

@@ -78,7 +78,8 @@
       "Visualizers": {
         "Climber": {
           "open": true
-        }
+        },
+        "open": true
       },
       "open": true
     },
