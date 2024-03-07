@@ -22,7 +22,7 @@ import com.stuypulse.robot.subsystems.swerve.modules.SwerveModule;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleImpl;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleSim;
 import com.stuypulse.robot.subsystems.swerve.modules.TumblerSwerveModule;
-import com.stuypulse.robot.util.FollowPathCommand;
+import com.stuypulse.robot.util.FollowPathPointSpeakerCommand;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -142,7 +142,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public Command followPathWithSpeakerAlignCommand(PathPlannerPath path) {
-        return new FollowPathCommand(
+        return new FollowPathPointSpeakerCommand(
             path, 
             () -> Odometry.getInstance().getPose(), 
             this::getChassisSpeeds, 
@@ -155,7 +155,8 @@ public class SwerveDrive extends SubsystemBase {
                 Math.hypot(Settings.Swerve.LENGTH, Settings.Swerve.WIDTH)),
             new ReplanningConfig(false, false),
             () -> false,
-            this);
+            this
+        );
     }
 
     private final SwerveModule[] modules;

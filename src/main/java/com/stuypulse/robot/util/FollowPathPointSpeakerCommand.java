@@ -7,12 +7,8 @@ import com.pathplanner.lib.path.PathPlannerTrajectory;
 import com.pathplanner.lib.util.PPLibTelemetry;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.ReplanningConfig;
-import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings.Swerve.Assist;
-import com.stuypulse.robot.subsystems.amper.Amper;
-import com.stuypulse.robot.subsystems.intake.Intake;
-import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.stuylib.control.angle.AngleController;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.math.Angle;
@@ -34,7 +30,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /** Base command for following a path */
-public class FollowPathCommand extends Command {
+public class FollowPathPointSpeakerCommand extends Command {
   private final Timer timer = new Timer();
   private final PathPlannerPath originalPath;
   private final Supplier<Pose2d> poseSupplier;
@@ -70,7 +66,7 @@ public class FollowPathCommand extends Command {
    *     maintain a global blue alliance origin.
    * @param requirements Subsystems required by this command, usually just the drive subsystem
    */
-  public FollowPathCommand(
+  public FollowPathPointSpeakerCommand(
       PathPlannerPath path,
       Supplier<Pose2d> poseSupplier,
       Supplier<ChassisSpeeds> speedsSupplier,
