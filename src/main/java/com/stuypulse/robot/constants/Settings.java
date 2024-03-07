@@ -94,6 +94,8 @@ public interface Settings {
             double SCORE_MOTOR_CONVERSION = AMP_ROLLER_DIAMETER * Math.PI;
 
             double DRIVE_AWAY_SPEED = 0.5;
+
+            double SCORE_TIME = 0.75;
         }
 
         public interface Lift {
