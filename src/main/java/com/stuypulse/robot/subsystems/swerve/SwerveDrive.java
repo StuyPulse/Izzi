@@ -32,6 +32,10 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
@@ -159,6 +163,8 @@ public class SwerveDrive extends SubsystemBase {
     private final AHRS gyro;
     private final FieldObject2d[] modules2D;
 
+    private final StructArrayPublisher<SwerveModuleState> statesPub;
+
     /**
      * Creates a new Swerve Drive using the provided modules
      *
@@ -169,6 +175,9 @@ public class SwerveDrive extends SubsystemBase {
         kinematics = new SwerveDriveKinematics(getModuleOffsets());
         gyro = new AHRS(SPI.Port.kMXP);
         modules2D = new FieldObject2d[modules.length];
+
+        statesPub = NetworkTableInstance.getDefault()
+            .getStructArrayTopic("Swerve/States", SwerveModuleState.struct).publish();
     }
 
     public void configureAutoBuilder() {
@@ -322,6 +331,8 @@ public class SwerveDrive extends SubsystemBase {
                 modules[i].getAngle().plus(angle)
             ));
         }
+
+        statesPub.set(getModuleStates());
 
         SmartDashboard.putNumber("Swerve/Gyro/Angle (deg)", getGyroAngle().getDegrees());
         SmartDashboard.putNumber("Swerve/Gyro/Pitch (deg)", getGyroPitch().getDegrees());

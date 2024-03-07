@@ -104,7 +104,9 @@ public abstract class Amper extends SubsystemBase {
 
     /*** SCORE ROLLERS ***/
 
-    public abstract void score();
+    public abstract void amp();
+    
+    public abstract void trap();
 
     public abstract void fromConveyor();
 

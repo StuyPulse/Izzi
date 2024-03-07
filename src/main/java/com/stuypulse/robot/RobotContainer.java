@@ -40,9 +40,9 @@ import com.stuypulse.robot.subsystems.shooter.Shooter;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
-import com.stuypulse.robot.util.PathUtil;
 import com.stuypulse.robot.util.SLColor;
 import com.stuypulse.robot.util.ShooterSpeeds;
+import com.stuypulse.robot.util.PathUtil.AutonConfig;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -163,6 +163,11 @@ public class RobotContainer {
             .onFalse(new AmperStop())
             .onFalse(new AmperToHeight(Lift.MIN_HEIGHT));
 
+        // score trap
+        driver.getLeftButton()
+            .onTrue(new AmperScoreTrap())
+            .onFalse(new AmperStop());
+
         driver.getDPadUp()
             .onTrue(new SwerveDriveResetHeading(Rotation2d.fromDegrees(0)));
         driver.getDPadRight()
@@ -188,6 +193,7 @@ public class RobotContainer {
                     .deadlineWith(new LEDSet(LEDInstructions.GREEN))));
 
         driver.getRightButton()
+            .onTrue(new AmperToHeight(Lift.MIN_HEIGHT))
             .whileTrue(SwerveDriveToPose.toClimb());
 
         driver.getBottomButton()
@@ -238,6 +244,8 @@ public class RobotContainer {
 
         operator.getRightButton()
                 .onTrue(new AmperToHeight(Settings.Amper.Lift.AMP_SCORE_HEIGHT));
+        operator.getLeftButton()
+                .onTrue(new AmperToHeight(Settings.Amper.Lift.TRAP_SCORE_HEIGHT));
         operator.getBottomButton()
             .onTrue(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT));
 
@@ -259,26 +267,31 @@ public class RobotContainer {
 
         autonChooser.addOption("Mobility", new Mobility());
 
-        autonChooser.addOption("Blue 5 Piece CBAE", new FivePieceCBAE(
-            PathUtil.loadPaths("First Piece To C", "C to B", "B To A", "A To E", "E To Shoot")));
+        AutonConfig CBAE = new AutonConfig("5 Piece CBAE", FivePieceCBAE::new,
+        "First Piece To C", "C to B", "B To A", "A To E", "E To Shoot");
         
-        autonChooser.addOption("Red 5 Piece CBAE", new FivePieceCBAE(
-            PathUtil.loadPathsRed("First Piece To C", "C to B", "B To A", "A To E", "E To Shoot")));
-        
-        autonChooser.addOption("Blue Blay 5 Piece CBAE", new BlayFivePieceCBAE(
-            PathUtil.loadPaths("Blay First Piece To C", "C to B", "B To A", "A To E", "E To Shoot")));
-            
-        autonChooser.addOption("Red Blay 5 Piece CBAE", new BlayFivePieceCBAE(
-            PathUtil.loadPathsRed("Blay First Piece To C", "C to B", "B To A", "A To E", "E To Shoot")));
+        AutonConfig BLAY_CBAE = new AutonConfig("Blay 5 Piece CBAE", FivePieceCBAE::new,
+        "Blay First Piece To C", "C to B", "B To A", "A To E", "E To Shoot");
 
-        autonChooser.setDefaultOption("Blue 4 Piece HGF", new FourPieceHGF(
-            PathUtil.loadPaths("Start To H (HGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)", "F To Shoot (HGF)")));
+        AutonConfig HGF = new AutonConfig("4 Piece HGF", FourPieceHGF::new,
+        "Start To H (HGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)", "F To Shoot (HGF)");
         
-        autonChooser.addOption("Red 4 Piece HGF", new FourPieceHGF(
-            PathUtil.loadPathsRed("Start To H (HGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)", "F To Shoot (HGF)")));
+        AutonConfig TrackingCBAE = new AutonConfig("Tracking 5 Piece CBAE", FivePieceTrackingCBAE::new,
+            "First Piece To C", "C to B", "B To A", "A To E", "E To Shoot");   
 
-        autonChooser.addOption("Blue Tracking 5 Piece CBAE", new FivePieceTrackingCBAE(
-            PathUtil.loadPaths("First Piece To C", "C to B", "B To A", "A To E", "E To Shoot")));
+        CBAE.registerDefaultBlue(autonChooser)
+            .registerRed(autonChooser);
+        
+        BLAY_CBAE
+            .registerBlue(autonChooser)
+            .registerRed(autonChooser);
+        
+        HGF.registerBlue(autonChooser)
+            .registerRed(autonChooser);
+
+        TrackingCBAE
+            .registerBlue(autonChooser)
+            .registerRed(autonChooser);
         
         SmartDashboard.putData("Autonomous", autonChooser);
     }

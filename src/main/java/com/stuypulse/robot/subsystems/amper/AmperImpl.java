@@ -18,7 +18,7 @@ import com.stuypulse.robot.constants.Motors.StatusFrame;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
-import com.stuypulse.robot.util.StupidFilter;
+import com.stuypulse.robot.util.FilteredRelativeEncoder;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -48,13 +48,11 @@ public class AmperImpl extends Amper {
     private final SmartNumber maxVelocity;
     private final SmartNumber maxAcceleration;
 
-    private final StupidFilter liftHeight;
-
     protected AmperImpl() {
         scoreMotor = new CANSparkMax(Ports.Amper.SCORE, MotorType.kBrushless);
-        scoreEncoder = scoreMotor.getEncoder();
+        scoreEncoder = new FilteredRelativeEncoder(scoreMotor);
         liftMotor = new CANSparkMax(Ports.Amper.LIFT, MotorType.kBrushless);
-        liftEncoder = liftMotor.getEncoder();
+        liftEncoder = new FilteredRelativeEncoder(liftMotor);
 
         scoreEncoder.setPositionConversionFactor(Settings.Amper.Score.SCORE_MOTOR_CONVERSION);
 
@@ -75,8 +73,6 @@ public class AmperImpl extends Amper {
             .setSetpointFilter(new MotionProfile(maxVelocity, maxAcceleration));
 
         voltageOverride = Optional.empty();
-
-        liftHeight = new StupidFilter("Lift Height");
 
         Motors.disableStatusFrames(liftMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
         Motors.disableStatusFrames(scoreMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
@@ -100,7 +96,7 @@ public class AmperImpl extends Amper {
 
     @Override
     public double getLiftHeight() {
-        return liftHeight.get(liftEncoder.getPosition());
+        return liftEncoder.getPosition();
     }
 
     @Override
@@ -125,8 +121,13 @@ public class AmperImpl extends Amper {
     /*** SCORE ROLLERS ***/
 
     @Override
-    public void score() {
-        scoreMotor.set(Settings.Amper.Score.SCORE_SPEED);
+    public void amp() {
+        scoreMotor.set(Settings.Amper.Score.AMP_SPEED);
+    }
+    
+    @Override
+    public void trap() {
+        scoreMotor.set(Settings.Amper.Score.TRAP_SPEED);
     }
 
     @Override
@@ -136,7 +137,7 @@ public class AmperImpl extends Amper {
 
     @Override
     public void toConveyor() {
-        scoreMotor.set(-Settings.Amper.Score.TO_CONVEYOR_SPEED.get());
+        scoreMotor.set(-Settings.Amper.Score.TO_CONVEYOR_SPEED);
     }
 
     @Override
