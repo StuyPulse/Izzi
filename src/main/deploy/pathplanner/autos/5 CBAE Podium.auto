@@ -14,13 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "C To Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "C Shoot to B"
+            "pathName": "C to B"
           }
         },
         {
