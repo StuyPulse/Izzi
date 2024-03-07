@@ -188,6 +188,7 @@ public class RobotContainer {
                     .deadlineWith(new LEDSet(LEDInstructions.GREEN))));
 
         driver.getRightButton()
+            .onTrue(new AmperToHeight(Lift.MIN_HEIGHT))
             .whileTrue(SwerveDriveToPose.toClimb());
 
         driver.getBottomButton()
