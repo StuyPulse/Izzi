@@ -1,5 +1,6 @@
 package com.stuypulse.robot.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -17,16 +20,17 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.PathPoint;
 import com.pathplanner.lib.path.RotationTarget;
 import com.stuypulse.robot.constants.Field;
+import com.stuypulse.robot.constants.Settings.Driver.Drive;
 
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class PathUtil {
-
     public static class AutonConfig {
     
         private final String name;
@@ -36,6 +40,11 @@ public class PathUtil {
         public AutonConfig(String name, Function<PathPlannerPath[], Command> auton, String... paths) {
             this.name = name;
             this.auton = auton;
+            for (int i = 0; i < paths.length; i++) {
+                if (!PathUtil.findClosestMatch(PathUtil.getPathFileNames(), paths[i].toString()).equals(paths[i].toString())) {
+                    DriverStation.reportError("Path " + paths[i] + " not found. Using closest match: " + PathUtil.findClosestMatch(PathUtil.getPathFileNames(), paths[i].toString()), false);
+                }             
+            }
             this.paths = paths;
         }
         
@@ -143,13 +152,15 @@ public class PathUtil {
     }
     
     public static String findClosestMatch(List<String> paths, String input) {
-        HashMap<String, Integer> hm = new HashMap<>();
-        int minValue = Integer.MAX_VALUE;
+        HashMap<String, Double> hm = new HashMap<>();
+        double minValue = Double.MAX_VALUE;
         String minString = "";
 
         for (int i = 0; i < paths.size(); i++ ) {
-            String temp = paths.get(i);
-            if (temp.isEmpty()) {
+            String path = paths.get(i);
+            File file = new File(path);
+   
+            if (path.isEmpty()) {
                 System.out.println("Paths are empty");
             }
     
@@ -157,54 +168,67 @@ public class PathUtil {
                 System.out.println("Input is empty");
             } 
     
-            int substitution = calculate(temp.substring(1), input.substring(1)) 
-             + costOfSubstitution(temp.charAt(0), input.charAt(0));
-            int insertion = calculate(temp, input.substring(1)) + 1;
-            int deletion = calculate(temp.substring(1), input) + 1;
-                        
-            Pair<String, Integer> tempPair = new Pair<String,Integer>(temp, min(deletion, insertion, substitution));
+            Pair<String, Double> tempPair = new Pair<>(path, distance(file.getName(), input));
 
             for (int z = 0; z < paths.size(); z++){
-                hm.put(temp, min(deletion, insertion, substitution));
+                hm.put(path, tempPair.getSecond());
             }
 
             for (int j = 0; j < hm.size(); j++){
-                if (hm.get(tempPair.getFirst()) < minValue) {
+                if (Math.min(tempPair.getSecond(), minValue) == tempPair.getSecond()) {
                     minString = tempPair.getFirst();
                 }
             }  
         }
 
         return minString;
-        
     }
 
-    public static int costOfSubstitution(char a, char b) {
-        return a == b ? 0 : 1;
-    }
+    private static double distance(String string1, String string2) {
+        Map<Character, Double> frequencyOne = frequency(string1);
+        Map<Character, Double> frequencyTwo = frequency(string2);
 
-    public static int min(int... numbers) {
-        return Arrays.stream(numbers)
-          .min().orElse(Integer.MAX_VALUE);
-    }
-
-    static int calculate(String x, String y) {
-        if (x.isEmpty()) {
-            return y.length();
+        ArrayList<Double> list = new ArrayList<>();
+        for (char c = 'A'; c <= 'Z'; c++) {
+            list.add(Math.pow(frequencyOne.get(c) - frequencyTwo.get(c), 2));
         }
-
-        if (y.isEmpty()) {
-            return x.length();
-        } 
-
-        int substitution = calculate(x.substring(1), y.substring(1)) 
-         + costOfSubstitution(x.charAt(0), y.charAt(0));
-        int insertion = calculate(x, y.substring(1)) + 1;
-        int deletion = calculate(x.substring(1), y) + 1;
-
-        return min(substitution, insertion, deletion);
+        return Math.sqrt(list.stream().mapToDouble(Double::doubleValue).sum());
     }
-    // public static void main(String[] args) { why did you put that there
-        
-    // }
+
+    private static Map<Character, Double> frequency(String fileString) {
+        Scanner sc = new Scanner(fileString);
+
+        HashMap<Character, Integer> map = new HashMap<>();
+        int total = 0;
+
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            for (int i = 0; i < line.length(); i++) {
+                if (Character.isAlphabetic(line.charAt(i))) {
+                    total++;
+                    char c = Character.toUpperCase(line.charAt(i));
+                    if (map.containsKey(c)) {
+                        map.put(c, map.get(c) + 1);
+                    } else {
+                        map.put(c, 1);
+                    }
+                }
+            }
+        }
+        sc.close();
+
+        return listFrequency(map, total);
+    }
+
+    private static Map<Character, Double> listFrequency(HashMap<Character, Integer> map, int total) {
+        Map<Character, Double> frequency = new HashMap<>();
+        for (char c = 'A'; c <= 'Z'; c++) {
+            if (map.containsKey(c)) {
+                frequency.put(c, Math.round((double) map.get(c) / total * 100000) / 100000.0);
+            } else {
+                frequency.put(c, 0.0);
+            }
+        }
+        return frequency;
+    }
 }
