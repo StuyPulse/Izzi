@@ -265,6 +265,9 @@ public class RobotContainer {
         autonChooser.addOption("Red 5 Piece CBAE", new FivePieceCBAE(
             PathUtil.loadPathsRed("First Piece To C", "C to B", "B To A", "A To E", "E To Shoot")));
         
+        autonChooser.setDefaultOption("Blue 5 Piece CBAE (Richie)", new RichieFivePieceCBAE(
+            PathUtil.loadPaths("Blay First Piece To C", "C to B", "B To A", "A To E", "E To Shoot")));
+
         autonChooser.addOption("Blue Blay 5 Piece CBAE", new BlayFivePieceCBAE(
             PathUtil.loadPaths("Blay First Piece To C", "C to B", "B To A", "A To E", "E To Shoot")));
             

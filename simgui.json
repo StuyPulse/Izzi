@@ -72,6 +72,9 @@
       "open": true
     },
     "SmartDashboard": {
+      "Intake": {
+        "open": true
+      },
       "Swerve": {
         "open": true
       },
