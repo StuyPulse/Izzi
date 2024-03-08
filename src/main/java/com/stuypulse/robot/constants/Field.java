@@ -8,7 +8,6 @@ package com.stuypulse.robot.constants;
 
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
-import com.stuypulse.robot.util.MirroredPose2d;
 import com.stuypulse.robot.util.vision.AprilTag;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -19,7 +18,7 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -256,11 +255,14 @@ public interface Field {
 
     /***** NOTE DETECTION *****/
 
-    public double NOTE_BOUNDARY = LENGTH / 2 + Units.inchesToMeters(Settings.LENGTH / 2);
+    double NOTE_BOUNDARY = LENGTH / 2 + Units.inchesToMeters(Settings.LENGTH / 2);
 
-    /**** SHOOT POSES ****/
+    /**** EMPTY FIELD POSES ****/
 
-    public MirroredPose2d TOP_SHOOT_POSE = new MirroredPose2d(Alliance.Blue, new Pose2d(3.35, 6.80, new Rotation2d(23)));
-    public MirroredPose2d ALTERNATE_TOP_SHOOT_POSE = new MirroredPose2d(Alliance.Blue, new Pose2d(3.40, 5.21, new Rotation2d(-6)));
-    public MirroredPose2d BOTTOM_SHOOT_POSE = new MirroredPose2d(Alliance.Blue, new Pose2d(2.54, 3.23, new Rotation2d(-40)));
+    Pose2d EMPTY_FIELD_POSE2D = new Pose2d(new Translation2d(-1, -1), new Rotation2d());
+    Pose3d EMPTY_FIELD_POSE3D = new Pose3d(-1, -1, 0, new Rotation3d());
+
+    public static void clearFieldObject(FieldObject2d fieldObject)  {
+        fieldObject.setPose(EMPTY_FIELD_POSE2D);
+    }
 }

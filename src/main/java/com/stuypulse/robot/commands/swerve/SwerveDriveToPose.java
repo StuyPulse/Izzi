@@ -13,7 +13,6 @@ import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 import com.pathplanner.lib.util.PIDConstants;
-import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Swerve;
@@ -23,6 +22,7 @@ import com.stuypulse.robot.constants.Settings.Swerve.Motion;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.util.HolonomicController;
+import com.stuypulse.robot.util.MirrorRotation2d;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -36,17 +36,17 @@ import java.util.function.Supplier;
 public class SwerveDriveToPose extends Command {
 
     public static SwerveDriveToPose speakerRelative(double angleToSpeaker, double distanceToSpeaker) {
-        double angle = SLMath.clamp(
-            angleToSpeaker, Alignment.PODIUM_SHOT_MAX_ANGLE);
+        MirrorRotation2d angle = MirrorRotation2d.fromBlue(
+            Rotation2d.fromDegrees(SLMath.clamp(
+                angleToSpeaker, Alignment.PODIUM_SHOT_MAX_ANGLE)));
 
         double distance = SLMath.clamp(distanceToSpeaker, 1, 5);
 
         return new SwerveDriveToPose(() -> {
-            Rotation2d rot = Rotation2d.fromDegrees(Robot.isBlue() ? angle : -angle);
             return new Pose2d(
                 Field.getAllianceSpeakerPose().getTranslation()
-                    .plus(new Translation2d(distance, rot)),
-                rot);
+                    .plus(new Translation2d(distance, angle.get())),
+                angle.get());
             }
         );
     }
@@ -171,6 +171,6 @@ public class SwerveDriveToPose extends Command {
     @Override
     public void end(boolean interrupted) {
         swerve.stop();
-        targetPose2d.setPose(Double.NaN, Double.NaN, new Rotation2d(Double.NaN));
+        Field.clearFieldObject(targetPose2d);
     }
 }
