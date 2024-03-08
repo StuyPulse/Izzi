@@ -37,7 +37,7 @@ public class AmperImpl extends Amper {
     private final RelativeEncoder scoreEncoder;
 
     // private final DigitalInput alignedSwitch;
-    private final DigitalInput minSwitch;
+    // private final DigitalInput minSwitch;
     // private final DigitalInput maxSwitch;
     private final DigitalInput ampIRSensor;
 
@@ -60,7 +60,7 @@ public class AmperImpl extends Amper {
         liftEncoder.setVelocityConversionFactor(Settings.Amper.Lift.Encoder.VELOCITY_CONVERSION);
 
         // alignedSwitch = new DigitalInput(Ports.Amper.ALIGNED_BUMP_SWITCH);
-        minSwitch = new DigitalInput(Ports.Amper.LIFT_BOTTOM_LIMIT);
+        // minSwitch = new DigitalInput(Ports.Amper.LIFT_BOTTOM_LIMIT);
         // maxSwitch = new DigitalInput(Ports.Amper.LIFT_TOP_LIMIT);
         ampIRSensor = new DigitalInput(Ports.Amper.AMP_IR);
 
@@ -85,7 +85,7 @@ public class AmperImpl extends Amper {
 
     @Override
     public boolean liftAtBottom() {
-        return !minSwitch.get();
+        return false;
     }
 
     @Override
