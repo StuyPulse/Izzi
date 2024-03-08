@@ -1,5 +1,11 @@
 package com.stuypulse.robot.util;
 
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -117,4 +123,21 @@ public class PathUtil {
             newEndState
         );
     }
+
+    public static List<String> getPathFileNames() {
+        //  ../../../../../deploy/pathplanner/paths
+
+        Path path = Paths.get("").toAbsolutePath().resolve("src/main/deploy/pathplanner/paths");
+        ArrayList<String> fileList = new ArrayList<String>();
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(path, "*.path")) {
+            for (Path file: stream){
+                fileList.add(file.getFileName().toString().replaceFirst(".path",""));
+            }
+        } catch (IOException error) {
+            System.err.println(error);
+        }
+        return fileList;
+    }
+
+
 }
