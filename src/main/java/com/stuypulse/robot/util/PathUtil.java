@@ -1,6 +1,7 @@
 package com.stuypulse.robot.util;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.pathplanner.lib.path.GoalEndState;
@@ -12,8 +13,45 @@ import com.stuypulse.robot.constants.Field;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.Command;
 
 public class PathUtil {
+
+    public static class AutonConfig {
+    
+        private final String name;
+        private final Function<PathPlannerPath[], Command> auton;
+        private final String[] paths;
+
+        public AutonConfig(String name, Function<PathPlannerPath[], Command> auton, String... paths) {
+            this.name = name;
+            this.auton = auton;
+            this.paths = paths;
+        }
+        
+        public AutonConfig registerBlue(SendableChooser<Command> chooser) {
+            chooser.addOption("Blue " + name, auton.apply(loadPaths(paths)));
+            return this;
+        }
+
+        public AutonConfig registerRed(SendableChooser<Command> chooser) {
+            chooser.addOption("Red " + name, auton.apply(loadPathsRed(paths)));
+            return this;
+        }
+                
+        public AutonConfig registerDefaultBlue(SendableChooser<Command> chooser) {
+            chooser.setDefaultOption("Blue " + name, auton.apply(loadPaths(paths)));
+            return this;
+        }
+
+        public AutonConfig registerDefaultRed(SendableChooser<Command> chooser) {
+            chooser.setDefaultOption("Red " + name, auton.apply(loadPathsRed(paths)));
+            return this;
+        }
+
+    }
+
     public static PathPlannerPath[] loadPathsRed(String... names) {
         PathPlannerPath[] output = new PathPlannerPath[names.length];
         for (int i = 0; i < names.length; i++) {
