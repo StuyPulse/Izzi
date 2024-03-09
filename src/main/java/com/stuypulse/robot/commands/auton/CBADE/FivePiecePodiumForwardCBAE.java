@@ -14,35 +14,35 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /**
- * Shoots no shots at podium
+ * Shoots first and second shot in front of podium piece
  */
-public class FivePieceCBAE extends SequentialCommandGroup {
+public class FivePiecePodiumForwardCBAE extends SequentialCommandGroup {
 
-    public FivePieceCBAE(PathPlannerPath... paths) {
+    public FivePiecePodiumForwardCBAE(PathPlannerPath... paths) {
         addCommands(
             new ParallelCommandGroup(
                 new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
                     .andThen(new ShooterPodiumShot()),
                 
-                SwerveDriveToPose.speakerRelative(-18)
+                SwerveDriveToPose.speakerRelative(-30)
             ),
 
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake(paths[0]),
-
-            new FollowPathAlignAndShoot(paths[1], new SwerveDriveToShoot()),
-
-            new FollowPathAndIntake(paths[2]),
             new SwerveDriveToShoot(),
             new ConveyorShootRoutine(),
 
-            new FollowPathAndIntake(paths[3]),
-            new SwerveDriveToShoot()//2.9)
+            new FollowPathAndIntake(paths[1]),
+            new SwerveDriveToShoot(),
+            new ConveyorShootRoutine(),
+
+            new FollowPathAndIntake(paths[2]),
+            new SwerveDriveToShoot(2.9)
                 .withTolerance(0.05, 3),
             new ConveyorShootRoutine(),
 
-            new FollowPathAndIntake(paths[4]),
+            new FollowPathAndIntake(paths[3]),
             new FollowPathAlignAndShoot(paths[4], new SwerveDriveToShoot())
         );
     }
