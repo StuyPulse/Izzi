@@ -34,19 +34,31 @@ public class RichieFivePieceCBAE extends SequentialCommandGroup {
             new ConveyorShootRoutine(),
         
             new FollowPathAndIntake(paths[1]),
+
             new SwerveDriveToShoot(2.9),
             new ConveyorShootRoutine(),
 
             new PathReroute(
+                this,
                 new FollowPathAndIntake(paths[2]),
                 new SequentialCommandGroup(
                     new SwerveDriveToShoot(2.9),
                     new ConveyorShootRoutine()
                 ), new FollowPathAndIntake(paths[3])).reroute(),
 
+            /*
+                     new ChoosePathDirection(
+                new FollowPathAlignAndShoot(paths[4], new SwerveDriveToShoot()),
+                new SequentialCommandGroup(
+                    new FollowPathAndIntake
+                    new FollowPathAndShoot
+                )
+            ), */    
+
             //XXX: This is a reroute, use DoNothingCommand if no follow up path is needed
             new PathReroute(
-            new FollowPathAndIntake(paths[3]),
+                this,
+                new FollowPathAndIntake(paths[3]),
                 new SequentialCommandGroup(
                     new FollowPathAlignAndShoot(paths[4], new SwerveDriveToShoot())
                 ), new DoNothingCommand()).reroute()
