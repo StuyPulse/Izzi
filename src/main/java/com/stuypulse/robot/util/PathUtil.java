@@ -20,7 +20,6 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.PathPoint;
 import com.pathplanner.lib.path.RotationTarget;
 import com.stuypulse.robot.constants.Field;
-import com.stuypulse.robot.constants.Settings.Driver.Drive;
 
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -40,12 +39,17 @@ public class PathUtil {
         public AutonConfig(String name, Function<PathPlannerPath[], Command> auton, String... paths) {
             this.name = name;
             this.auton = auton;
-            for (int i = 0; i < paths.length; i++) {
-                if (!PathUtil.findClosestMatch(PathUtil.getPathFileNames(), paths[i].toString()).equals(paths[i].toString())) {
-                    DriverStation.reportError("Path " + paths[i] + " not found. Using closest match: " + PathUtil.findClosestMatch(PathUtil.getPathFileNames(), paths[i].toString()), false);
-                }             
-            }
             this.paths = paths;
+
+            for (String path : paths) {
+                try {
+                    PathPlannerPath.fromPathFile(path);
+                } catch (RuntimeException e) {
+                    DriverStation.reportError("Path \"" + path + "\" not found. Did you mean \"" + PathUtil.findClosestMatch(PathUtil.getPathFileNames(), path) + "\"", false);
+
+                    throw e;
+                }
+            }
         }
         
         public AutonConfig registerBlue(SendableChooser<Command> chooser) {
