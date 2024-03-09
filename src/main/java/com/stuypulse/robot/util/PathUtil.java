@@ -8,6 +8,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,87 +154,66 @@ public class PathUtil {
         } catch (IOException error) {
             System.err.println(error);
         }
+        Collections.sort(fileList);
         return fileList;
     }
-    
-    public static String findClosestMatch(List<String> paths, String input) {
-        HashMap<String, Double> hm = new HashMap<>();
-        double minValue = Double.MAX_VALUE;
-        String minString = "";
 
-        for (int i = 0; i < paths.size(); i++ ) {
-            String path = paths.get(i);
-            File file = new File(path);
-   
-            if (path.isEmpty()) {
-                System.out.println("Paths are empty");
-            }
-    
-            if (input.isEmpty()) {
-                System.out.println("Input is empty");
-            } 
-    
-            Pair<String, Double> tempPair = new Pair<>(path, distance(file.getName(), input));
+    public static String findClosestMatch(List<String> paths, String input){
+        double closestValue = 10.0;
+        String matching = "";
 
-            for (int z = 0; z < paths.size(); z++){
-                hm.put(path, tempPair.getSecond());
+        for (String fileName : paths){
+            HashMap<Character, Integer> fileChars = countChars(fileName.toCharArray());
+            HashMap<Character, Integer> inputChars = countChars(input.toCharArray());
+
+            double proximity = compare(fileChars, inputChars);
+            closestValue = Math.min(proximity, closestValue);
+
+            if (proximity == closestValue){
+                matching = fileName;
             }
 
-            for (int j = 0; j < hm.size(); j++){
-                if (Math.min(tempPair.getSecond(), minValue) == tempPair.getSecond()) {
-                    minString = tempPair.getFirst();
-                }
-            }  
         }
-
-        return minString;
+        return matching;
     }
-
-    private static double distance(String string1, String string2) {
-        Map<Character, Double> frequencyOne = frequency(string1);
-        Map<Character, Double> frequencyTwo = frequency(string2);
-
-        ArrayList<Double> list = new ArrayList<>();
-        for (char c = 'A'; c <= 'Z'; c++) {
-            list.add(Math.pow(frequencyOne.get(c) - frequencyTwo.get(c), 2));
-        }
-        return Math.sqrt(list.stream().mapToDouble(Double::doubleValue).sum());
-    }
-
-    private static Map<Character, Double> frequency(String fileString) {
-        Scanner sc = new Scanner(fileString);
-
-        HashMap<Character, Integer> map = new HashMap<>();
-        int total = 0;
-
-        while (sc.hasNextLine()) {
-            String line = sc.nextLine();
-            for (int i = 0; i < line.length(); i++) {
-                if (Character.isAlphabetic(line.charAt(i))) {
-                    total++;
-                    char c = Character.toUpperCase(line.charAt(i));
-                    if (map.containsKey(c)) {
-                        map.put(c, map.get(c) + 1);
-                    } else {
-                        map.put(c, 1);
-                    }
-                }
-            }
-        }
-        sc.close();
-
-        return listFrequency(map, total);
-    }
-
-    private static Map<Character, Double> listFrequency(HashMap<Character, Integer> map, int total) {
-        Map<Character, Double> frequency = new HashMap<>();
-        for (char c = 'A'; c <= 'Z'; c++) {
-            if (map.containsKey(c)) {
-                frequency.put(c, Math.round((double) map.get(c) / total * 100000) / 100000.0);
+    
+    public static HashMap<Character, Integer> countChars(char[] chars){
+        HashMap<Character, Integer> letterMap = new HashMap<>();
+        for (char i = 'a'; i <= 'z'; i++) letterMap.put(i, 0);
+        for (char i = 'a'; i <= 'z'; i++) letterMap.put(i, 0);
+        letterMap.put('(', 0);
+        letterMap.put(' ', 0);
+        letterMap.put(')', 0);
+        for (char letter: chars){
+            if (letterMap.containsKey(letter)){
+                letterMap.put(letter, letterMap.get(letter));
             } else {
-                frequency.put(c, 0.0);
+                letterMap.put(letter, 1);
             }
         }
-        return frequency;
+        return letterMap;
+    }
+
+    public static double compare(HashMap<Character, Integer> list1, HashMap<Character, Integer> list2){
+        double proximity = 0.0;
+        int list1sum = 0, list2sum = 0;
+        for (char key: list1.keySet()){
+            if (!list2.containsKey(key)){
+                proximity += 0.1;
+                continue;
+            }
+            proximity += 0.05 * Math.abs(list1.get(key) - list2.get(key));
+        }
+        for (char key: list2.keySet()){
+            if (!list1.containsKey(key)){
+                proximity += 0.1;
+                continue;
+            }
+            proximity += 0.05 * Math.abs(list1.get(key) - list2.get(key));
+        }
+        for (int count: list1.values()) list1sum += count;
+        for (int count: list2.values()) list2sum += count;
+        proximity += 0.4 * Math.abs(list2sum - list1sum);
+        return proximity;
     }
 }
