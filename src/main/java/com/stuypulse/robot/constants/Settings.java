@@ -103,7 +103,7 @@ public interface Settings {
             double CARRIAGE_MASS = 10; // kg
 
             double MIN_HEIGHT = 0;
-            double MAX_HEIGHT = Units.inchesToMeters(17.0); //TODO: Tune this value, was 14.75 
+            double MAX_HEIGHT = Units.inchesToMeters(14.75); // trap: 17.0 
 
             double VISUALIZATION_MIN_LENGTH = 0.5;
             Rotation2d ANGLE_TO_GROUND = Rotation2d.fromDegrees(68.02);
@@ -121,7 +121,7 @@ public interface Settings {
                 double DRUM_RADIUS = Units.inchesToMeters(1.0);
                 double DRUM_CIRCUMFERENCE = DRUM_RADIUS * Math.PI * 2;
 
-                double POSITION_CONVERSION = GEARING * DRUM_CIRCUMFERENCE * 2.0;
+                double POSITION_CONVERSION = GEARING * DRUM_CIRCUMFERENCE; // trap: * 2.0;
                 double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
             }
 
@@ -219,25 +219,25 @@ public interface Settings {
 
         public interface FrontRight {
             String ID = "Front Right";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(13.095703);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(42.714844);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * +0.5, LENGTH * -0.5);
         }
 
         public interface FrontLeft {
             String ID = "Front Left";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-50.273438);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(16.435547);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * +0.5, LENGTH * +0.5);
         }
 
         public interface BackLeft {
             String ID = "Back Left";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(99.052734);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-91.406250);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * +0.5);
         }
 
         public interface BackRight {
             String ID = "Back Right";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(177.714844);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(40.253906);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * -0.5);
         }
     }
