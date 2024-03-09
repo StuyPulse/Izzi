@@ -1,19 +1,14 @@
 package com.stuypulse.robot.util;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -23,7 +18,6 @@ import com.pathplanner.lib.path.PathPoint;
 import com.pathplanner.lib.path.RotationTarget;
 import com.stuypulse.robot.constants.Field;
 
-import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -47,7 +41,7 @@ public class PathUtil {
                 try {
                     PathPlannerPath.fromPathFile(path);
                 } catch (RuntimeException e) {
-                    DriverStation.reportError("Path \"" + path + "\" not found. Did you mean \"" + PathUtil.findClosestMatch(PathUtil.getPathFileNames(), path) + "\"", false);
+                    DriverStation.reportError("Path \"" + path + "\" not found. Did you mean \"" + PathUtil.findClosestMatch(PathUtil.getPathFileNames(), path) + "\"?", false);
 
                     throw e;
                 }
@@ -75,6 +69,8 @@ public class PathUtil {
         }
 
     }
+    
+    /*** PATH LOADING ***/
 
     public static PathPlannerPath[] loadPathsRed(String... names) {
         PathPlannerPath[] output = new PathPlannerPath[names.length];
@@ -99,6 +95,9 @@ public class PathUtil {
     public static PathPlannerPath loadRed(String name) {
         return flipPath(PathPlannerPath.fromPathFile(name));
     }
+    
+    
+    /*** PATH MIRRORING ***/
 
     public static Translation2d flipFieldTranslation(Translation2d pose) {
         return new Translation2d(pose.getX(), Field.WIDTH - pose.getY());
@@ -142,13 +141,15 @@ public class PathUtil {
         );
     }
 
+    /*** PATH FILENAME CORRECTION ***/
+
     public static List<String> getPathFileNames() {
         //  ../../../../../deploy/pathplanner/paths
 
         Path path = Paths.get("").toAbsolutePath().resolve("src/main/deploy/pathplanner/paths");
         ArrayList<String> fileList = new ArrayList<String>();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(path, "*.path")) {
-            for (Path file: stream){
+            for (Path file : stream) {
                 fileList.add(file.getFileName().toString().replaceFirst(".path",""));
             }
         } catch (IOException error) {
@@ -158,7 +159,7 @@ public class PathUtil {
         return fileList;
     }
 
-    public static String findClosestMatch(List<String> paths, String input){
+    public static String findClosestMatch(List<String> paths, String input) {
         double closestValue = 10.0;
         String matching = "";
 
@@ -169,23 +170,23 @@ public class PathUtil {
             double proximity = compare(fileChars, inputChars);
             closestValue = Math.min(proximity, closestValue);
 
-            if (proximity == closestValue){
+            if (proximity == closestValue) {
                 matching = fileName;
             }
-
         }
+
         return matching;
     }
     
-    public static HashMap<Character, Integer> countChars(char[] chars){
+    public static HashMap<Character, Integer> countChars(char[] chars) {
         HashMap<Character, Integer> letterMap = new HashMap<>();
         for (char i = 'a'; i <= 'z'; i++) letterMap.put(i, 0);
         for (char i = 'a'; i <= 'z'; i++) letterMap.put(i, 0);
         letterMap.put('(', 0);
         letterMap.put(' ', 0);
         letterMap.put(')', 0);
-        for (char letter: chars){
-            if (letterMap.containsKey(letter)){
+        for (char letter : chars) {
+            if (letterMap.containsKey(letter)) {
                 letterMap.put(letter, letterMap.get(letter));
             } else {
                 letterMap.put(letter, 1);
@@ -194,25 +195,25 @@ public class PathUtil {
         return letterMap;
     }
 
-    public static double compare(HashMap<Character, Integer> list1, HashMap<Character, Integer> list2){
+    public static double compare(HashMap<Character, Integer> list1, HashMap<Character, Integer> list2) {
         double proximity = 0.0;
         int list1sum = 0, list2sum = 0;
-        for (char key: list1.keySet()){
-            if (!list2.containsKey(key)){
+        for (char key : list1.keySet()) {
+            if (!list2.containsKey(key)) {
                 proximity += 0.1;
                 continue;
             }
             proximity += 0.05 * Math.abs(list1.get(key) - list2.get(key));
         }
-        for (char key: list2.keySet()){
-            if (!list1.containsKey(key)){
+        for (char key : list2.keySet()) {
+            if (!list1.containsKey(key)) {
                 proximity += 0.1;
                 continue;
             }
             proximity += 0.05 * Math.abs(list1.get(key) - list2.get(key));
         }
-        for (int count: list1.values()) list1sum += count;
-        for (int count: list2.values()) list2sum += count;
+        for (int count : list1.values()) list1sum += count;
+        for (int count : list2.values()) list2sum += count;
         proximity += 0.4 * Math.abs(list2sum - list1sum);
         return proximity;
     }
