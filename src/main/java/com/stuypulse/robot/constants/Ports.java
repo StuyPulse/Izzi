@@ -58,7 +58,7 @@ public interface Ports {
     }
 
     public interface Intake {
-        int MOTOR = 40;
+        int MOTOR = 50;
         int IR_SENSOR = 1;
     }
 
@@ -68,7 +68,7 @@ public interface Ports {
     }
 
     public interface Conveyor {
-        int GANDALF = 50;
+        int GANDALF = 40;
         int FEEDER = 51;
     }
 
