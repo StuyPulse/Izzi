@@ -153,7 +153,7 @@ public class PathUtil {
                 fileList.add(file.getFileName().toString().replaceFirst(".path",""));
             }
         } catch (IOException error) {
-            System.err.println(error);
+            DriverStation.reportError(error.getMessage(), false);
         }
         Collections.sort(fileList);
         return fileList;
@@ -167,7 +167,7 @@ public class PathUtil {
             HashMap<Character, Integer> fileChars = countChars(fileName.toCharArray());
             HashMap<Character, Integer> inputChars = countChars(input.toCharArray());
 
-            double proximity = compare(fileChars, inputChars);
+            double proximity = compareNameProximity(fileChars, inputChars);
             closestValue = Math.min(proximity, closestValue);
 
             if (proximity == closestValue) {
@@ -195,7 +195,7 @@ public class PathUtil {
         return letterMap;
     }
 
-    public static double compare(HashMap<Character, Integer> list1, HashMap<Character, Integer> list2) {
+    public static double compareNameProximity(HashMap<Character, Integer> list1, HashMap<Character, Integer> list2) {
         double proximity = 0.0;
         int list1sum = 0, list2sum = 0;
         for (char key : list1.keySet()) {
