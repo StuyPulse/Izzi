@@ -20,7 +20,6 @@ public class FollowPathAndIntake extends SequentialCommandGroup {
         addCommands(
             new ParallelRaceGroup(
                 new IntakeAcquire(),
-
                 SwerveDrive.getInstance().followPathCommand(path)
                     .andThen(new WaitCommand(intakeTimeout))
             ),
