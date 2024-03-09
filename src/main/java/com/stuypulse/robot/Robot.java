@@ -17,7 +17,6 @@ import com.stuypulse.robot.constants.Settings.Amper.Score;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAlign;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAutonChooser;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDRainbow;
-import com.stuypulse.robot.util.PathUtil;
 
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -62,7 +61,6 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putString("Robot State", "DISABLED");
         SmartDashboard.putString("Robot", ROBOT.name());
-
     }
 
     @Override
