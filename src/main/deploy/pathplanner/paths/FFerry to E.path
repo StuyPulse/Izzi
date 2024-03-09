@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.8676110546665539,
-        "y": 3.264181107065918
+        "x": 8.08,
+        "y": 3.9
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.658620903940146,
-        "y": 1.8329545447689473
+        "x": 7.852566816244744,
+        "y": 4.912181676215204
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.14162084164624,
-        "y": -0.14
+        "x": 8.07,
+        "y": 6.04
       },
       "prevControl": {
-        "x": 5.120084675408034,
-        "y": -0.14
+        "x": 6.3860117843692485,
+        "y": 6.155968855147586
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "H"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -39,11 +39,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -0.20199140081736477,
-    "rotateFast": false
+    "rotation": 0,
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": "HGF",
-  "previewStartingState": null,
+  "folder": "HGFED Ferry",
+  "previewStartingState": {
+    "rotation": -25.0,
+    "velocity": 0
+  },
   "useDefaultConstraints": true
 }

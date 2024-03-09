@@ -1,0 +1,61 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.8676110546665539,
+      "y": 3.264181107065918
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Start To H (HGF)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H to HFerry"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "HFerry to G"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "G To F"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F to FFerry"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FFerry to E"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E to D"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
