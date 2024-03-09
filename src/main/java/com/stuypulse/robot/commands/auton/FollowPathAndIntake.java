@@ -25,7 +25,7 @@ public class FollowPathAndIntake extends SequentialCommandGroup {
                     .andThen(new WaitCommand(intakeTimeout))
             ),
 
-            new InstantCommand(() -> SwerveDrive.getInstance().stop())
+            new InstantCommand(() -> SwerveDrive.getInstance().stop(), SwerveDrive.getInstance())
         );
     }
 
