@@ -103,7 +103,7 @@ public interface Settings {
             double CARRIAGE_MASS = 10; // kg
 
             double MIN_HEIGHT = 0;
-            double MAX_HEIGHT = Units.inchesToMeters(14.75); // trap: 17.0 
+            double MAX_HEIGHT = Units.inchesToMeters(14.75); // trap: 27.0 
 
             double VISUALIZATION_MIN_LENGTH = 0.5;
             Rotation2d ANGLE_TO_GROUND = Rotation2d.fromDegrees(68.02);
