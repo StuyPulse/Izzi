@@ -103,7 +103,7 @@ public interface Settings {
             double CARRIAGE_MASS = 10; // kg
 
             double MIN_HEIGHT = 0;
-            double MAX_HEIGHT = Units.inchesToMeters(14.75); // trap: 17.0 
+            double MAX_HEIGHT = Units.inchesToMeters(27.0); // amp 14.75
 
             double VISUALIZATION_MIN_LENGTH = 0.5;
             Rotation2d ANGLE_TO_GROUND = Rotation2d.fromDegrees(68.02);
@@ -121,7 +121,7 @@ public interface Settings {
                 double DRUM_RADIUS = Units.inchesToMeters(1.0);
                 double DRUM_CIRCUMFERENCE = DRUM_RADIUS * Math.PI * 2;
 
-                double POSITION_CONVERSION = GEARING * DRUM_CIRCUMFERENCE; // trap: * 2.0;
+                double POSITION_CONVERSION = GEARING * DRUM_CIRCUMFERENCE * 2.0;
                 double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
             }
 
