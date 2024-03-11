@@ -10,6 +10,7 @@ import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.streams.numbers.IStream;
 
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.climber.Climber;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -34,6 +35,10 @@ public class ClimberDrive extends Command {
         climber.setVoltageOverride(voltage.get());
 
         SmartDashboard.putNumber("Climber/Gamepad Voltage", voltage.get());
+
+        if (voltage.get() < 0){
+            Amper.getInstance().setTargetHeight(Settings.Amper.Lift.SAFE_CLIMB_HEIGHT);
+        }
     }
 
     @Override

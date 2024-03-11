@@ -246,8 +246,6 @@ public class RobotContainer {
                 .onTrue(new AmperToHeight(Settings.Amper.Lift.AMP_SCORE_HEIGHT));
         operator.getLeftButton()
                 .onTrue(new AmperToHeight(Settings.Amper.Lift.TRAP_SCORE_HEIGHT));
-        operator.getBottomButton()
-            .onTrue(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT));
 
         // human player attention button
         operator.getRightMenuButton()

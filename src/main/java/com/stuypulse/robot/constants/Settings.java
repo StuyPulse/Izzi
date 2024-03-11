@@ -103,6 +103,7 @@ public interface Settings {
             double CARRIAGE_MASS = 10; // kg
 
             double MIN_HEIGHT = 0;
+            double SAFE_CLIMB_HEIGHT = Units.inchesToMeters(2);
             double MAX_HEIGHT = Units.inchesToMeters(27.0); // amp 14.75
 
             double VISUALIZATION_MIN_LENGTH = 0.5;
