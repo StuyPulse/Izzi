@@ -288,6 +288,8 @@ public class RobotContainer {
         AutonConfig PodiumCloseCBAE = new AutonConfig("Podium Close 5 Piece CBAE", FivePiecePodiumForwardCBAE::new, 
         "Forward First Piece to C", "C to B 2", "B To A","A To E", "E To Shoot");
 
+        AutonConfig FerryAutons = new AutonConfig("Ferry Path", FerryPathsAuton::new, "Start To H (HGF)", "H to HFerry", "HFerry to G", "G To F", "F to FFerry", "FFerry to E", "E to D");
+
         CBAE.registerDefaultBlue(autonChooser)
             .registerRed(autonChooser);
         
@@ -311,6 +313,10 @@ public class RobotContainer {
             .registerRed(autonChooser);
         
         PodiumCloseCBAE
+            .registerBlue(autonChooser)
+            .registerRed(autonChooser);
+
+        FerryAutons
             .registerBlue(autonChooser)
             .registerRed(autonChooser);
         
