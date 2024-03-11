@@ -12,10 +12,8 @@ import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
 import com.stuypulse.stuylib.math.Angle;
-
+import com.ctre.phoenix.music.Orchestra;
 import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.constants.Settings.Swerve.Drive;
-import com.stuypulse.robot.constants.Settings.Swerve.Turn;
 import com.stuypulse.robot.util.PositionVelocitySystem;
 
 import edu.wpi.first.math.MathUtil;
@@ -95,12 +93,16 @@ public class SwerveModuleSim extends SwerveModule {
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Position", getPosition());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Angle Error", angleController.getError().toDegrees());
     }
+    
+    @Override
+    public void addInstrumentToOrchestra(Orchestra o) {}
 
     @Override
     public void simulationPeriodic() {
         RoboRioSim.setVInVoltage(BatterySim.calculateDefaultBatteryLoadedVoltage(
             turnSim.getCurrentDrawAmps() + driveSim.getCurrentDrawAmps()
         ));
+
 
         driveSim.update(Settings.DT);
         turnSim.update(Settings.DT);

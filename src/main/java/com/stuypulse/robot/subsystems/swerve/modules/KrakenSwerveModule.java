@@ -1,5 +1,7 @@
 package com.stuypulse.robot.subsystems.swerve.modules;
 
+import com.ctre.phoenix.music.Orchestra; /*Orchestra */
+
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -124,6 +126,11 @@ public class KrakenSwerveModule extends SwerveModule {
     }
 
     @Override
+    public void addInstrumentToOrchestra(Orchestra o) {
+        o.addInstrument(null);
+    }
+
+    @Override
     public void periodic() {
         super.periodic();
 
@@ -145,5 +152,4 @@ public class KrakenSwerveModule extends SwerveModule {
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Angle Error", pivotController.getError().toDegrees());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Raw Encoder Angle", Units.rotationsToDegrees(pivotEncoder.getAbsolutePosition().getValueAsDouble()));
     }
-    
 }

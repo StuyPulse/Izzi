@@ -6,6 +6,7 @@
 
 package com.stuypulse.robot.subsystems.swerve.modules;
 
+import com.ctre.phoenix.music.Orchestra;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
@@ -97,6 +98,9 @@ public class TumblerSwerveModule extends SwerveModule {
     public SwerveModulePosition getModulePosition() {
         return new SwerveModulePosition(driveEncoder.getPosition(), getAngle());
     }
+
+    @Override
+    public void addInstrumentToOrchestra(Orchestra o) {}
 
     @Override
     public void periodic() {

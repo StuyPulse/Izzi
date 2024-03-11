@@ -31,6 +31,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.ctre.phoenix.music.Orchestra;
 import com.ctre.phoenix6.hardware.CANcoder;
 
 /*
@@ -130,6 +131,9 @@ public class SwerveModuleImpl extends SwerveModule {
     }
 
     @Override
+    public void addInstrumentToOrchestra(Orchestra o) {}
+
+    @Override
     public void periodic() {
         super.periodic();
 
@@ -149,6 +153,8 @@ public class SwerveModuleImpl extends SwerveModule {
             driveMotor.setVoltage(driveController.getOutput());
             turnMotor.setVoltage(angleController.getOutput());
         }
+
+
         
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Current", driveMotor.getOutputCurrent());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Position", driveEncoder.getPosition());

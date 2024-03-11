@@ -6,6 +6,8 @@
 
 package com.stuypulse.robot.subsystems.swerve.modules;
 
+import com.ctre.phoenix.music.Orchestra;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -16,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public abstract class SwerveModule extends SubsystemBase {
 
     private final String id;
-    private final Translation2d offset;
+    protected final Translation2d offset;
 
     private SwerveModuleState targetState;
 
@@ -52,6 +54,8 @@ public abstract class SwerveModule extends SubsystemBase {
     public final SwerveModuleState getTargetState() {
         return targetState;
     }
+
+    public abstract void addInstrumentToOrchestra(Orchestra orchestra);
 
     @Override
     public void periodic() {

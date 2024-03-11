@@ -44,6 +44,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import com.ctre.phoenix.music.Orchestra;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathHolonomic;
@@ -171,6 +172,9 @@ public class SwerveDrive extends SubsystemBase {
 
     private final StructArrayPublisher<SwerveModuleState> statesPub;
 
+    Orchestra orchestra = new Orchestra();
+
+
     /**
      * Creates a new Swerve Drive using the provided modules
      *
@@ -184,6 +188,7 @@ public class SwerveDrive extends SubsystemBase {
 
         statesPub = NetworkTableInstance.getDefault()
             .getStructArrayTopic("Swerve/States", SwerveModuleState.struct).publish();
+
     }
 
     public void configureAutoBuilder() {
