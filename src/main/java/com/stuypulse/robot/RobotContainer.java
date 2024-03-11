@@ -241,11 +241,14 @@ public class RobotContainer {
         operator.getDPadLeft()
             .onTrue(new GandalfToAmp())
             .onFalse(new ConveyorStop());
+        
 
         operator.getRightButton()
                 .onTrue(new AmperToHeight(Settings.Amper.Lift.AMP_SCORE_HEIGHT));
         operator.getLeftButton()
                 .onTrue(new AmperToHeight(Settings.Amper.Lift.TRAP_SCORE_HEIGHT));
+        operator.getBottomButton()
+                .onTrue(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT));
 
         // human player attention button
         operator.getRightMenuButton()
