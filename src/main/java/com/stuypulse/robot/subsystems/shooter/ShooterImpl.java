@@ -74,11 +74,6 @@ public class ShooterImpl extends Shooter {
     public double getRightShooterRPM() {
         return rightEncoder.getVelocity();
     }
-    
-    @Override
-    public double getFeederRPM() {
-        return 0;
-    }
 
     @Override
     public boolean noteShot() {
