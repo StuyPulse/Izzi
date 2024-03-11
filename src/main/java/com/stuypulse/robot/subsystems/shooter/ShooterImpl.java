@@ -87,7 +87,7 @@ public class ShooterImpl extends Shooter {
         leftController.update(getLeftTargetRPM(), getLeftShooterRPM());
         rightController.update(getRightTargetRPM(), getRightShooterRPM());
 
-        if (getLeftTargetRPM() == 0 && getRightTargetRPM() == 0 && getFeederTargetRPM() == 0) {
+        if (getLeftTargetRPM() == 0 && getRightTargetRPM() == 0) {
             leftMotor.stopMotor();
             rightMotor.stopMotor();
         } else {
@@ -97,7 +97,6 @@ public class ShooterImpl extends Shooter {
 
         SmartDashboard.putNumber("Shooter/Right RPM", getRightShooterRPM());
         SmartDashboard.putNumber("Shooter/Left RPM", getLeftShooterRPM());
-        SmartDashboard.putNumber("Shooter/Feeder RPM", getFeederRPM());
         
         SmartDashboard.putNumber("Shooter/Right Error", rightController.getError());
         SmartDashboard.putNumber("Shooter/Left Error", leftController.getError());

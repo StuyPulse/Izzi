@@ -48,11 +48,6 @@ public class ShooterSim extends Shooter {
     public double getRightShooterRPM() {
         return rightWheel.getAngularVelocityRPM();
     }
-    
-    @Override
-    public double getFeederRPM() {
-        return 0;
-    }
 
     @Override
     public boolean noteShot() {
