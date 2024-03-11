@@ -360,9 +360,12 @@ public interface Settings {
 
     public interface Conveyor {
         SmartNumber GANDALF_SHOOTER_SPEED = new SmartNumber("Conveyor/Gandalf Shooter Speed", 1.0);
-        double GANDALF_AMP_SPEED = 1.0;
+        SmartNumber GANDALF_AMP_SPEED = new SmartNumber("Conveyor/Gandalf Amp Speed", 1.0);
+        SmartNumber FEEDER_SHOOTER_SPEED = new SmartNumber("Conveyor/Feeder Shooter Speed", 1.0);
+        SmartNumber FEEDER_AMP_SPEED = new SmartNumber("Conveyor/Feeder Amp Speed", 1.0);
 
-        SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.0);
+
+        SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.0); //TODO: Tune this value
         SmartNumber RECALL_DEBOUNCE = new SmartNumber("Conveyor/Recall Delay", 1.0);
 
         SmartNumber SHOOT_WAIT_DELAY = new SmartNumber("Conveyor/Shoot Wait Delay", 1.0 /*0.35*/);
