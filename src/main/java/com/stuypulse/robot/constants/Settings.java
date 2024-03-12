@@ -304,12 +304,15 @@ public interface Settings {
 
         double TELEOP_SHOOTER_STARTUP_DELAY = 0.25;
 
+        // MAX RPM
+        // LEFT/RIGHT: 5900
+        // FEEDER: 3100
         ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(
-            new SmartNumber("Shooter/Podium Shooter RPM", 5000),
+            new SmartNumber("Shooter/Podium Shooter RPM", 5500),
             500,
             new SmartNumber("Shooter/Podium Feeder RPM", 3000));
 
-        ShooterSpeeds HANDOFF = new ShooterSpeeds(2000, 2000);
+        ShooterSpeeds HANDOFF = new ShooterSpeeds(3000, 3000);
 
         double AT_RPM_EPSILON = 125;
 
@@ -360,7 +363,7 @@ public interface Settings {
 
     public interface Conveyor {
         SmartNumber GANDALF_SHOOTER_SPEED = new SmartNumber("Conveyor/Gandalf Shooter Speed", 1.0);
-        double GANDALF_AMP_SPEED = 1.0;
+        double GANDALF_AMP_SPEED = 0.5;
 
         SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.0);
         SmartNumber RECALL_DEBOUNCE = new SmartNumber("Conveyor/Recall Delay", 1.0);
