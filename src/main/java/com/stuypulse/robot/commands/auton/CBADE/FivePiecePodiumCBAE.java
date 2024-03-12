@@ -24,7 +24,8 @@ public class FivePiecePodiumCBAE extends SequentialCommandGroup {
                 new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
                     .andThen(new ShooterPodiumShot()),
                 
-                SwerveDriveToPose.speakerRelative(-30)
+                SwerveDriveToPose.speakerRelative(-15)
+                    .withTolerance(0.1, 0.1, 3)
             ),
 
             new ConveyorShootRoutine(),
@@ -38,8 +39,7 @@ public class FivePiecePodiumCBAE extends SequentialCommandGroup {
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake(paths[2]),
-            new SwerveDriveToShoot()
-                .withTolerance(0.05, 3),
+            new SwerveDriveToShoot(),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake(paths[3]),
