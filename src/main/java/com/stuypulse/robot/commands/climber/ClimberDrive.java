@@ -7,9 +7,11 @@
 package com.stuypulse.robot.commands.climber;
 
 import com.stuypulse.stuylib.input.Gamepad;
+import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.numbers.IStream;
 
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Operator;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.climber.Climber;
 
@@ -20,12 +22,20 @@ public class ClimberDrive extends Command {
 
     private final Climber climber;
     private final IStream voltage;
+    private final BStream shouldSafe;
 
     public ClimberDrive(Gamepad gamepad) {
         climber = Climber.getInstance();
 
         voltage = IStream.create(gamepad::getLeftY)
-            .filtered(x -> x * Settings.Operator.CLIMB_DRIVE_VOLTAGE.get());
+            .filtered(x -> {
+                if (x > 0)
+                    return +Operator.CLIMB_DRIVE_VOLTAGE_UP.get();
+                else
+                    return -Operator.CLIMB_DRIVE_VOLTAGE_DOWN.get();
+            });
+        
+        shouldSafe = BStream.create(() -> gamepad.getLeftY() < -0.25);
 
         addRequirements(climber);
     }
@@ -36,7 +46,7 @@ public class ClimberDrive extends Command {
 
         SmartDashboard.putNumber("Climber/Gamepad Voltage", voltage.get());
 
-        if (voltage.get() < 0){
+        if (shouldSafe.get()) {
             Amper.getInstance().setTargetHeight(Settings.Amper.Lift.SAFE_CLIMB_HEIGHT);
         }
     }

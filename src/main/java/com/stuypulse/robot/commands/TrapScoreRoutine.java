@@ -12,14 +12,18 @@ import com.stuypulse.robot.commands.conveyor.ConveyorToAmp;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class TrapScoreRoutine extends SequentialCommandGroup {
+
+    private final double SCORE_WAIT = 1.5;
 
     public TrapScoreRoutine() {
         addCommands(
             // NOTE: will not work if lift is at safe height, maybe this shouldn't run
             new ConveyorToAmp(),
             AmperToHeight.untilDone(Lift.TRAP_SCORE_HEIGHT),
+            new WaitCommand(SCORE_WAIT),
             new AmperScoreTrap()
         );
     }

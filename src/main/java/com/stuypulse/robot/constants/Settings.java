@@ -103,7 +103,7 @@ public interface Settings {
             double CARRIAGE_MASS = 10; // kg
 
             double MIN_HEIGHT = 0;
-            double SAFE_CLIMB_HEIGHT = Units.inchesToMeters(2);
+            double SAFE_CLIMB_HEIGHT = 0.20;
             double MAX_HEIGHT = Units.inchesToMeters(22.0); // amp 14.75
 
             double VISUALIZATION_MIN_LENGTH = 0.5;
@@ -115,7 +115,7 @@ public interface Settings {
             double ACCEL_LIMIT = 2.0;
 
             double AMP_SCORE_HEIGHT = 0.34;
-            double TRAP_SCORE_HEIGHT = MAX_HEIGHT; //TODO: Tune this value
+            double TRAP_SCORE_HEIGHT = MAX_HEIGHT + 0.05;
 
             public interface Encoder {
                 double GEARING = 1.0 / 9.0;
@@ -295,7 +295,8 @@ public interface Settings {
 
     public interface Operator {
         SmartNumber DEADBAND = new SmartNumber("Operator Settings/Manual Climb + Lift Deadband", 0.05);
-        SmartNumber CLIMB_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Climber Max Drive Voltage", 7.0);
+        SmartNumber CLIMB_DRIVE_VOLTAGE_UP = new SmartNumber("Operator Settings/Climber Up Drive Voltage", 3.0);
+        SmartNumber CLIMB_DRIVE_VOLTAGE_DOWN = new SmartNumber("Operator Settings/Climber Drive Drive Voltage", 7.0);
         SmartNumber LIFT_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Lift Max Drive Voltage", 6.0);
         SmartNumber LIFT_ADJUST_SPEED = new SmartNumber("Operator Settings/Lift Fine Adjust Speed", Units.inchesToMeters(1.0));
     }
