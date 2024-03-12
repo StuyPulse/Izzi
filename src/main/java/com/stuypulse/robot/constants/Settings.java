@@ -304,7 +304,7 @@ public interface Settings {
     public interface Shooter {
         double MOMENT_OF_INERTIA = 0.01;
 
-        double TELEOP_SHOOTER_STARTUP_DELAY = 0.25;
+        double TELEOP_SHOOTER_STARTUP_DELAY = 0.5;
 
         // MAX RPM
         // LEFT/RIGHT: 5900
@@ -433,7 +433,7 @@ public interface Settings {
     public interface Auton {
         double MAX_SHOT_DISTANCE = 3.1;
 
-        double SHOOTER_STARTUP_DELAY = 0.25;
+        double SHOOTER_STARTUP_DELAY = 0.5;
         double DEFAULT_INTAKE_TIMEOUT = 0.75;
         double SHOOTER_START_PRE = 1.0;
     }
