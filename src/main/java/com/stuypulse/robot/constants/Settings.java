@@ -126,10 +126,10 @@ public interface Settings {
             }
 
             public interface Feedforward {
-                double kS = 0.18665;
-                double kV = 6.6702;
-                double kA = 0.803;
-                double kG = 0.3;
+                double kS = 0.20506;
+                double kV = 3.7672;
+                double kA = 0.27;
+                double kG = 0.37;
             }
 
             public interface PID {
@@ -380,7 +380,7 @@ public interface Settings {
         SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
         SmartNumber ANGLE_TOLERANCE = new SmartNumber("Alignment/Angle Tolerance", 5);
 
-        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Shooter/Podium Distance", 3.2);
+        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Shooter/Podium Distance", 2.75);
         double PODIUM_SHOT_MAX_ANGLE = 80;
 
         SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(25.5));
