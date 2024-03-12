@@ -88,7 +88,7 @@ public interface Settings {
 
         public interface Score {
             double AMP_SPEED = 1.0;
-            double TRAP_SPEED = 0.5;
+            double TRAP_SPEED = 0.3;
             double FROM_CONVEYOR_SPEED = 0.35;
             double TO_CONVEYOR_SPEED = 1.0;
 
@@ -103,7 +103,7 @@ public interface Settings {
             double CARRIAGE_MASS = 10; // kg
 
             double MIN_HEIGHT = 0;
-            double MAX_HEIGHT = Units.inchesToMeters(27.0); // amp 14.75
+            double MAX_HEIGHT = Units.inchesToMeters(27.0 - 2.0); // amp 14.75
 
             double VISUALIZATION_MIN_LENGTH = 0.5;
             Rotation2d ANGLE_TO_GROUND = Rotation2d.fromDegrees(68.02);
@@ -114,7 +114,7 @@ public interface Settings {
             double ACCEL_LIMIT = 2.0;
 
             double AMP_SCORE_HEIGHT = 0.34;
-            double TRAP_SCORE_HEIGHT = 0.60; //TODO: Tune this value
+            double TRAP_SCORE_HEIGHT = MAX_HEIGHT; //TODO: Tune this value
 
             public interface Encoder {
                 double GEARING = 1.0 / 9.0;

@@ -1,0 +1,26 @@
+/************************ PROJECT IZZI *************************/
+/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
+/* Use of this source code is governed by an MIT-style license */
+/* that can be found in the repository LICENSE file.           */
+/***************************************************************/
+
+package com.stuypulse.robot.commands;
+
+import com.stuypulse.robot.commands.amper.AmperScoreTrap;
+import com.stuypulse.robot.commands.amper.AmperToHeight;
+import com.stuypulse.robot.commands.conveyor.ConveyorToAmp;
+import com.stuypulse.robot.constants.Settings.Amper.Lift;
+
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
+public class TrapScoreRoutine extends SequentialCommandGroup {
+
+    public TrapScoreRoutine() {
+        addCommands(
+            // NOTE: will not work if lift is at safe height, maybe this shouldn't run
+            new ConveyorToAmp(),
+            AmperToHeight.untilDone(Lift.TRAP_SCORE_HEIGHT),
+            new AmperScoreTrap()
+        );
+    }
+}
