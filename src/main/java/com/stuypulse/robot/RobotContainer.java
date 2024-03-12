@@ -288,29 +288,21 @@ public class RobotContainer {
         AutonConfig PodiumCloseCBAE = new AutonConfig("Podium Close 5 Piece CBAE", FivePiecePodiumForwardCBAE::new, 
         "Forward First Piece to C", "C to B 2", "B To A","A To E", "E To Shoot");
 
-        CBAE.registerDefaultBlue(autonChooser)
-            .registerRed(autonChooser);
+        // CBAE.registerBlue(autonChooser)
+        //     .registerRed(autonChooser);
         
-        BLAY_CBAE
-            .registerBlue(autonChooser)
-            .registerRed(autonChooser);
+        // BLAY_CBAE
+        //     .registerBlue(autonChooser)
+        //     .registerRed(autonChooser);
         
-        HGF.registerBlue(autonChooser)
+        HGF.registerDefaultBlue(autonChooser)
             .registerRed(autonChooser);
 
         TrackingCBAE
             .registerBlue(autonChooser)
             .registerRed(autonChooser);
         
-        SubwooferCBAE
-            .registerBlue(autonChooser)
-            .registerRed(autonChooser);
-
         PodiumCBAE
-            .registerBlue(autonChooser)
-            .registerRed(autonChooser);
-        
-        PodiumCloseCBAE
             .registerBlue(autonChooser)
             .registerRed(autonChooser);
         
