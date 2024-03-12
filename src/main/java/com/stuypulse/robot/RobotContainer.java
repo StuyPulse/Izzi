@@ -168,14 +168,13 @@ public class RobotContainer {
             .onTrue(new AmperScoreTrap())
             .onFalse(new AmperStop());
 
-        driver.getDPadUp()
-            .onTrue(new SwerveDriveResetHeading(Rotation2d.fromDegrees(0)));
         driver.getDPadRight()
-            .onTrue(new SwerveDriveResetHeading(Rotation2d.fromDegrees(90)));
-        driver.getDPadDown()
-            .onTrue(new SwerveDriveResetHeading(Rotation2d.fromDegrees(180)));
-        driver.getDPadLeft()
-            .onTrue(new SwerveDriveResetHeading(Rotation2d.fromDegrees(270)));
+            .whileTrue(new TrapScoreRoutine())
+            // .onFalse(new AmperToHeight(Lift.MIN_HEIGHT))
+            .onFalse(new AmperStop());
+
+        driver.getDPadUp()
+            .onTrue(new SwerveDriveResetHeading());
 
         driver.getTopButton()
             // on command start

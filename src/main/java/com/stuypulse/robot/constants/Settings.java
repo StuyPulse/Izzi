@@ -88,7 +88,7 @@ public interface Settings {
 
         public interface Score {
             double AMP_SPEED = 1.0;
-            double TRAP_SPEED = 0.5;
+            double TRAP_SPEED = 0.3;
             double FROM_CONVEYOR_SPEED = 0.35;
             double TO_CONVEYOR_SPEED = 1.0;
 
@@ -104,7 +104,7 @@ public interface Settings {
 
             double MIN_HEIGHT = 0;
             double SAFE_CLIMB_HEIGHT = Units.inchesToMeters(2);
-            double MAX_HEIGHT = Units.inchesToMeters(27.0); // amp 14.75
+            double MAX_HEIGHT = Units.inchesToMeters(22.0); // amp 14.75
 
             double VISUALIZATION_MIN_LENGTH = 0.5;
             Rotation2d ANGLE_TO_GROUND = Rotation2d.fromDegrees(68.02);
@@ -115,7 +115,7 @@ public interface Settings {
             double ACCEL_LIMIT = 2.0;
 
             double AMP_SCORE_HEIGHT = 0.34;
-            double TRAP_SCORE_HEIGHT = 0.60; //TODO: Tune this value
+            double TRAP_SCORE_HEIGHT = MAX_HEIGHT; //TODO: Tune this value
 
             public interface Encoder {
                 double GEARING = 1.0 / 9.0;
@@ -127,10 +127,10 @@ public interface Settings {
             }
 
             public interface Feedforward {
-                double kS = 0.18665;
-                double kV = 6.6702;
-                double kA = 0.803;
-                double kG = 0.3;
+                double kS = 0.20506;
+                double kV = 3.7672;
+                double kA = 0.27;
+                double kG = 0.37;
             }
 
             public interface PID {
@@ -305,12 +305,15 @@ public interface Settings {
 
         double TELEOP_SHOOTER_STARTUP_DELAY = 0.25;
 
+        // MAX RPM
+        // LEFT/RIGHT: 5900
+        // FEEDER: 3100
         ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(
-            new SmartNumber("Shooter/Podium Shooter RPM", 5000),
+            new SmartNumber("Shooter/Podium Shooter RPM", 5500),
             500,
             new SmartNumber("Shooter/Podium Feeder RPM", 3000));
 
-        ShooterSpeeds HANDOFF = new ShooterSpeeds(2000, 2000);
+        ShooterSpeeds HANDOFF = new ShooterSpeeds(3000, 3000);
 
         double AT_RPM_EPSILON = 125;
 
@@ -361,7 +364,7 @@ public interface Settings {
 
     public interface Conveyor {
         SmartNumber GANDALF_SHOOTER_SPEED = new SmartNumber("Conveyor/Gandalf Shooter Speed", 1.0);
-        double GANDALF_AMP_SPEED = 1.0;
+        double GANDALF_AMP_SPEED = 0.5;
 
         SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.0);
         SmartNumber RECALL_DEBOUNCE = new SmartNumber("Conveyor/Recall Delay", 1.0);
@@ -378,7 +381,7 @@ public interface Settings {
         SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
         SmartNumber ANGLE_TOLERANCE = new SmartNumber("Alignment/Angle Tolerance", 5);
 
-        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Shooter/Podium Distance", 3.2);
+        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Shooter/Podium Distance", 2.75);
         double PODIUM_SHOT_MAX_ANGLE = 80;
 
         SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(25.5));
