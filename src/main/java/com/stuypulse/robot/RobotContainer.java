@@ -298,9 +298,9 @@ public class RobotContainer {
         HGF.registerDefaultBlue(autonChooser)
             .registerRed(autonChooser);
 
-        TrackingCBAE
-            .registerBlue(autonChooser)
-            .registerRed(autonChooser);
+        // TrackingCBAE
+        //     .registerBlue(autonChooser)
+        //     .registerRed(autonChooser);
         
         PodiumCBAE
             .registerBlue(autonChooser)
