@@ -22,7 +22,7 @@ public class TrapScoreRoutine extends SequentialCommandGroup {
         addCommands(
             // NOTE: will not work if lift is at safe height, maybe this shouldn't run
             new ConveyorToAmp(),
-            AmperToHeight.untilDone(Lift.TRAP_SCORE_HEIGHT),
+            AmperToHeight.untilDone(Lift.TRAP_SCORE_HEIGHT, 0.15),
             new WaitCommand(SCORE_WAIT),
             new AmperScoreTrap()
         );

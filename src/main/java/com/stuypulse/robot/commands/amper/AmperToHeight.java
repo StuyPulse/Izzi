@@ -16,8 +16,12 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 public class AmperToHeight extends InstantCommand {
 
     public static Command untilDone(double height) {
+        return untilDone(height, Lift.MAX_HEIGHT_ERROR);
+    }
+
+    public static Command untilDone(double height, double epsilon) {
         return new AmperToHeight(height)
-            .andThen(new WaitUntilCommand(() -> Amper.getInstance().isAtTargetHeight(Lift.MAX_HEIGHT_ERROR)));
+            .andThen(new WaitUntilCommand(() -> Amper.getInstance().isAtTargetHeight(epsilon)));
     }
 
     private final Amper amper;
