@@ -12,6 +12,7 @@ import com.stuypulse.stuylib.streams.numbers.IStream;
 
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Operator;
+import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.climber.Climber;
 
@@ -35,7 +36,8 @@ public class ClimberDrive extends Command {
                     return -Operator.CLIMB_DRIVE_VOLTAGE_DOWN.get();
             });
         
-        shouldSafe = BStream.create(() -> gamepad.getLeftY() < -0.25);
+        shouldSafe = BStream.create(() -> gamepad.getLeftY() < -0.25)
+            .and(() -> Amper.getInstance().getTargetHeight() < Lift.SAFE_CLIMB_HEIGHT);
 
         addRequirements(climber);
     }
