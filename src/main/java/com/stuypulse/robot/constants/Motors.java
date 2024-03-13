@@ -55,13 +55,13 @@ public interface Motors {
     }
 
     public interface Shooter {
-        CANSparkConfig LEFT_SHOOTER = new CANSparkConfig(false, IdleMode.kCoast, 500);
-        CANSparkConfig RIGHT_SHOOTER = new CANSparkConfig(true, IdleMode.kCoast, 500);
+        CANSparkConfig LEFT_SHOOTER = new CANSparkConfig(false, IdleMode.kCoast, 500, 0.5);
+        CANSparkConfig RIGHT_SHOOTER = new CANSparkConfig(true, IdleMode.kCoast, 500, 0.5);
     }
 
     public interface Conveyor {
         CANSparkConfig GANDALF_MOTOR = new CANSparkConfig(true, IdleMode.kBrake,500, 0.1);
-        CANSparkConfig SHOOTER_FEEDER_MOTOR = new CANSparkConfig(false, IdleMode.kBrake, 500);
+        CANSparkConfig SHOOTER_FEEDER_MOTOR = new CANSparkConfig(false, IdleMode.kBrake, 500, 0.1);
     }
 
     public interface Climber {
