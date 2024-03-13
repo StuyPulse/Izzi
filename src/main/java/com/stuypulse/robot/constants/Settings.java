@@ -104,7 +104,7 @@ public interface Settings {
 
             double MIN_HEIGHT = 0;
             double SAFE_CLIMB_HEIGHT = 0.20;
-            double MAX_HEIGHT = Units.inchesToMeters(22.0); // amp 14.75
+            double MAX_HEIGHT = Units.inchesToMeters(24.5) + 0.1; // amp 14.75
 
             double VISUALIZATION_MIN_LENGTH = 0.5;
             Rotation2d ANGLE_TO_GROUND = Rotation2d.fromDegrees(68.02);
@@ -209,13 +209,13 @@ public interface Settings {
         }
 
         public interface Drive {
-            SmartNumber kP = new SmartNumber("Swerve/Drive/PID/kP", 0.2);
+            SmartNumber kP = new SmartNumber("Swerve/Drive/PID/kP", 0.31399);
             double kI = 0.0;
             double kD = 0.0;
 
-            double kS = 0.15297;
-            SmartNumber kV = new SmartNumber("Swerve/Drive/FF/kV", 1.6);
-            SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.2);
+            double kS = 0.27354;
+            SmartNumber kV = new SmartNumber("Swerve/Drive/FF/kV", 2.1022);
+            SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.41251);
         }
 
         public interface FrontRight {
