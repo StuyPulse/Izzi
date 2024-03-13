@@ -61,6 +61,8 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putString("Robot State", "DISABLED");
         SmartDashboard.putString("Robot", ROBOT.name());
+
+        SmartDashboard.putData(CommandScheduler.getInstance());
     }
 
     @Override
