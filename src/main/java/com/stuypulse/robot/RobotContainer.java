@@ -202,6 +202,9 @@ public class RobotContainer {
         new Trigger(() -> operator.getLeftStick().magnitude() > Settings.Operator.DEADBAND.get())
                 .whileTrue(new ClimberDrive(operator));
 
+        new Trigger(() -> operator.getLeftY() > 0.25)
+                .onTrue(new ConveyorToAmp());
+
         new Trigger(() -> operator.getRightStick().magnitude() > Settings.Operator.DEADBAND.get())
                 .whileTrue(new AmperLiftDrive(operator));
 
