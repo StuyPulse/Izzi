@@ -58,11 +58,13 @@ public class AmpScoreRoutine extends SequentialCommandGroup {
 
     public AmpScoreRoutine() {
         addCommands(
-            new ConveyorToAmp()
-                .alongWith(new WaitCommand(Settings.Shooter.TELEOP_SHOOTER_STARTUP_DELAY)
+            new ParallelCommandGroup(
+                new ConveyorToAmp(),
+                new WaitCommand(Settings.Shooter.TELEOP_SHOOTER_STARTUP_DELAY)
                     .andThen(new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get()))
                         .withTolerance(AMP_WALL_SETUP_X_TOLERANCE, AMP_WALL_SETUP_Y_TOLERANCE, AMP_WALL_SETUP_ANGLE_TOLERANCE)
-                            .deadlineWith(new LEDSet(LEDInstructions.GREEN)))),
+                        .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
+            ),
 
             new ParallelCommandGroup(
                 AmperToHeight.untilDone(Lift.AMP_SCORE_HEIGHT),
