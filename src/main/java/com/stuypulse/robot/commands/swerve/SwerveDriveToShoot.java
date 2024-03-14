@@ -60,7 +60,7 @@ public class SwerveDriveToShoot extends Command {
         isAligned = BStream.create(this::isAligned)
             .filtered(new BDebounceRC.Rising(debounce));
         
-        distanceTolerance = 0.05;
+        distanceTolerance = 0.033;
         angleTolerance = Alignment.ANGLE_TOLERANCE.get();
     }
 
