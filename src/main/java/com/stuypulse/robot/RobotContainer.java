@@ -266,11 +266,11 @@ public class RobotContainer {
 
         autonChooser.addOption("Mobility", new Mobility());
 
-        AutonConfig CBAE = new AutonConfig("5 Piece CBAE", FivePieceCBAE::new,
-        "First Piece To C", "C to B", "B To A", "A To E", "E To Shoot");
+        // AutonConfig CBAE = new AutonConfig("5 Piece CBAE", FivePieceCBAE::new,
+        // "First Piece To C", "C to B", "B To A", "A To E", "E To Shoot");
         
-        AutonConfig BLAY_CBAE = new AutonConfig("Blay 5 Piece CBAE", FivePieceCBAE::new,
-        "Blay First Piece To C", "C to B", "B To A", "A To E", "E To Shoot");
+        // AutonConfig BLAY_CBAE = new AutonConfig("Blay 5 Piece CBAE", FivePieceCBAE::new,
+        // "Blay First Piece To C", "C to B", "B To A", "A To E", "E To Shoot");
 
         AutonConfig HGF = new AutonConfig("4 Piece HGF", FourPieceHGF::new,
         "Start To H (HGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)", "F To Shoot (HGF)");
@@ -278,14 +278,11 @@ public class RobotContainer {
         AutonConfig TrackingCBAE = new AutonConfig("Tracking 5 Piece CBAE", FivePieceTrackingCBAE::new,
             "First Piece To C", "C to B", "B To A", "A To E", "E To Shoot");   
 
-        AutonConfig SubwooferCBAE = new AutonConfig("Subwoofer 5 Piece CBAE", FivePiecePodiumForwardCBAE::new, 
-        "Forward First Piece to C", "C to B 2", "B To A","A To E", "E To Shoot");
-
-        AutonConfig PodiumCBAE = new AutonConfig("Podium 5 Piece CBAE", FivePiecePodiumCBAE::new, 
+        AutonConfig PodiumCBAE = new AutonConfig("5 Piece CBAE", FivePiecePodiumCBAE::new, 
         "Blay First Piece To C", "C to B", "B To A","A To E", "E To Shoot");
 
-        AutonConfig PodiumCloseCBAE = new AutonConfig("Podium Close 5 Piece CBAE", FivePiecePodiumForwardCBAE::new, 
-        "Forward First Piece to C", "C to B 2", "B To A","A To E", "E To Shoot");
+        // AutonConfig PodiumCloseCBAE = new AutonConfig("Podium Close 5 Piece CBAE", FivePiecePodiumForwardCBAE::new, 
+        // "Forward First Piece to C", "C to B 2", "B To A","A To E", "E To Shoot");
 
         // CBAE.registerBlue(autonChooser)
         //     .registerRed(autonChooser);
