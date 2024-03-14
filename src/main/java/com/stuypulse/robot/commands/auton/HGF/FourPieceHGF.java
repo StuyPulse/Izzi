@@ -30,7 +30,7 @@ public class FourPieceHGF extends SequentialCommandGroup {
 
             new ShooterWaitForTarget(),
             new ConveyorShootRoutine(),
-            new ShooterStop(),
+            // new ShooterStop(),
 
             new FollowPathAndIntake(paths[0]),
             new FollowPathAlignAndShoot(paths[1], new SwerveDriveToShoot(Alignment.PODIUM_SHOT_DISTANCE, 1.5)),

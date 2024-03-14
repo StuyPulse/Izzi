@@ -146,7 +146,7 @@ public class Robot extends TimedRobot {
         robot.climber.stop();
         robot.amper.setTargetHeight(Lift.MIN_HEIGHT);
         scheduler.schedule(new LEDReset());
-        scheduler.schedule(new ShooterStop());
+        // scheduler.schedule(new ShooterStop());
 
         robot.intake.setIdleMode(IdleMode.kBrake);
         robot.conveyor.setIdleMode(IdleMode.kBrake);

@@ -39,8 +39,8 @@ public class FollowPathAlignAndShoot extends SequentialCommandGroup {
             // ConveyorShoot.untilDone()
             //     .withTimeout(Settings.Conveyor.SHOOT_WAIT_DELAY.get()),
             new ConveyorStop(),
-            new IntakeStop(),
-            new ShooterStop()
+            new IntakeStop()
+            // new ShooterStop()
         );
     }
 

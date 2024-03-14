@@ -136,8 +136,8 @@ public class RobotContainer {
                     .withTimeout(1.5))
                 .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop())
-            .onFalse(new IntakeStop())
-            .onFalse(new ShooterStop());
+            // .onFalse(new ShooterStop())
+            .onFalse(new IntakeStop());
 
         // note to amper and align then score
         driver.getLeftBumper()
@@ -152,8 +152,8 @@ public class RobotContainer {
                     .withTimeout(1.5)
                 .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop())
-            .onFalse(new IntakeStop())
-            .onFalse(new ShooterStop());
+            // .onFalse(new ShooterStop())
+            .onFalse(new IntakeStop());
             
         // score amp no align
         driver.getLeftMenuButton()
