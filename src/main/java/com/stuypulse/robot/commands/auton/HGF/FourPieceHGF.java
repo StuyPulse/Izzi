@@ -33,11 +33,11 @@ public class FourPieceHGF extends SequentialCommandGroup {
             // new ShooterStop(),
 
             new FollowPathAndIntake(paths[0]),
-            new FollowPathAlignAndShoot(paths[1], new SwerveDriveToShoot(Alignment.PODIUM_SHOT_DISTANCE, 1.5)),
+            new FollowPathAlignAndShoot(paths[1], new SwerveDriveToShoot(Alignment.PODIUM_SHOT_DISTANCE, 0.75)),
             new FollowPathAndIntake(paths[2]),
-            new FollowPathAlignAndShoot(paths[3], new SwerveDriveToShoot(Alignment.PODIUM_SHOT_DISTANCE, 1.5)),
+            new FollowPathAlignAndShoot(paths[3], new SwerveDriveToShoot(Alignment.PODIUM_SHOT_DISTANCE, 0.75)),
             new FollowPathAndIntake(paths[4]),
-            new FollowPathAlignAndShoot(paths[5], new SwerveDriveToShoot(Alignment.PODIUM_SHOT_DISTANCE, 1.5))
+            new FollowPathAlignAndShoot(paths[5], new SwerveDriveToShoot(Alignment.PODIUM_SHOT_DISTANCE, 0.75))
         );
     }
 
