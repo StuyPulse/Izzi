@@ -275,7 +275,7 @@ public class RobotContainer {
         // AutonConfig BLAY_CBAE = new AutonConfig("Blay 5 Piece CBAE", FivePieceCBAE::new,
         // "Blay First Piece To C", "C to B", "B To A", "A To E", "E To Shoot");
 
-        AutonConfig HGF = new AutonConfig("4 Piece HGF", FourPieceHGF::new,
+        AutonConfig HGF = new AutonConfig("3.5 Piece HGF", FourPieceHGF::new,
         "Start To H (HGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)", "F To Shoot (HGF)");
         
         AutonConfig TrackingCBAE = new AutonConfig("Tracking 5 Piece CBAE", FivePieceTrackingCBAE::new,
