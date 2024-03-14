@@ -104,7 +104,7 @@ public interface Settings {
 
             double MIN_HEIGHT = 0;
             double SAFE_CLIMB_HEIGHT = 0.20;
-            double MAX_HEIGHT = Units.inchesToMeters(24.5) + 0.1; // amp 14.75
+            double MAX_HEIGHT = Units.inchesToMeters(24.5) + 0.05; // amp 14.75
 
             double VISUALIZATION_MIN_LENGTH = 0.5;
             Rotation2d ANGLE_TO_GROUND = Rotation2d.fromDegrees(68.02);
@@ -295,7 +295,7 @@ public interface Settings {
 
     public interface Operator {
         SmartNumber DEADBAND = new SmartNumber("Operator Settings/Manual Climb + Lift Deadband", 0.05);
-        SmartNumber CLIMB_DRIVE_VOLTAGE_UP = new SmartNumber("Operator Settings/Climber Up Drive Voltage", 1.0);
+        SmartNumber CLIMB_DRIVE_VOLTAGE_UP = new SmartNumber("Operator Settings/Climber Up Drive Voltage", 2.0);
         SmartNumber CLIMB_DRIVE_VOLTAGE_DOWN = new SmartNumber("Operator Settings/Climber Drive Drive Voltage", 7.0);
         SmartNumber LIFT_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Lift Max Drive Voltage", 6.0);
         SmartNumber LIFT_ADJUST_SPEED = new SmartNumber("Operator Settings/Lift Fine Adjust Speed", Units.inchesToMeters(1.0));

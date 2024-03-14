@@ -185,6 +185,10 @@ public class AmperImpl extends Amper {
             voltage = 0;
         }
 
+        if (getTargetHeight() == Settings.Amper.Lift.TRAP_SCORE_HEIGHT && voltage < 0.75) {
+            voltage = 0.75;
+        }
+
         liftMotor.setVoltage(voltage);
 
         SmartDashboard.putNumber("Amper/Voltage", voltage);
