@@ -192,7 +192,7 @@ public class RobotContainer {
                     .deadlineWith(new LEDSet(LEDInstructions.GREEN))));
 
         driver.getRightButton()
-            .whileTrue(SwerveDriveToPose.toClimb());
+            .whileTrue(new SwerveDriveToClimb());
 
         driver.getBottomButton()
             .whileTrue(new SwerveDriveDriveToChain());

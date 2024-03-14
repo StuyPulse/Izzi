@@ -55,21 +55,6 @@ public class SwerveDriveToPose extends Command {
         return speakerRelative(angleToSpeaker, Alignment.PODIUM_SHOT_DISTANCE.get());
     }
 
-    public static SwerveDriveToPose toClimb() {
-        return toClimb(Alignment.TRAP_SETUP_DISTANCE.get());
-    }
-
-    public static SwerveDriveToPose toClimb(double distance) {
-        return new SwerveDriveToPose(
-            () -> {
-                Pose2d closestTrap = Field.getClosestAllianceTrapPose(Odometry.getInstance().getPose());
-                Translation2d offsetTranslation = new Translation2d(distance, closestTrap.getRotation());
-                
-                return new Pose2d(closestTrap.getTranslation().plus(offsetTranslation), closestTrap.getRotation());
-            }
-        ).withTolerance(3.0, 3.0, 3.0);
-    }
-    
     private final SwerveDrive swerve;
     private final Odometry odometry;
 
