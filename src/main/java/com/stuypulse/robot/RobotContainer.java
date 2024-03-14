@@ -129,9 +129,8 @@ public class RobotContainer {
         // then shoot
         driver.getRightBumper()
             .onTrue(new ShooterPodiumShot())
-            .whileTrue(new WaitCommand(Settings.Shooter.TELEOP_SHOOTER_STARTUP_DELAY)
-                .andThen(new SwerveDriveToShoot()
-                    .deadlineWith(new LEDSet(LEDInstructions.ASSIST_FLASH)))
+            .whileTrue(new SwerveDriveToShoot()
+                    .deadlineWith(new LEDSet(LEDInstructions.ASSIST_FLASH))
                 .andThen(new ShooterWaitForTarget()
                     .withTimeout(1.5))
                 .andThen(new ConveyorShoot()))
