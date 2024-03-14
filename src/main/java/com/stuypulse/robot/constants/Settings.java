@@ -103,7 +103,8 @@ public interface Settings {
             double CARRIAGE_MASS = 10; // kg
 
             double MIN_HEIGHT = 0;
-            double MAX_HEIGHT = Units.inchesToMeters(27.0 - 2.0); // amp 14.75
+            double SAFE_CLIMB_HEIGHT = 0.20;
+            double MAX_HEIGHT = Units.inchesToMeters(24.5) + 0.05; // amp 14.75
 
             double VISUALIZATION_MIN_LENGTH = 0.5;
             Rotation2d ANGLE_TO_GROUND = Rotation2d.fromDegrees(68.02);
@@ -114,7 +115,7 @@ public interface Settings {
             double ACCEL_LIMIT = 2.0;
 
             double AMP_SCORE_HEIGHT = 0.34;
-            double TRAP_SCORE_HEIGHT = MAX_HEIGHT; //TODO: Tune this value
+            double TRAP_SCORE_HEIGHT = MAX_HEIGHT;
 
             public interface Encoder {
                 double GEARING = 1.0 / 9.0;
@@ -126,10 +127,10 @@ public interface Settings {
             }
 
             public interface Feedforward {
-                double kS = 0.18665;
-                double kV = 6.6702;
-                double kA = 0.803;
-                double kG = 0.3;
+                double kS = 0.20506;
+                double kV = 3.7672;
+                double kA = 0.27;
+                double kG = 0.37;
             }
 
             public interface PID {
@@ -208,13 +209,13 @@ public interface Settings {
         }
 
         public interface Drive {
-            SmartNumber kP = new SmartNumber("Swerve/Drive/PID/kP", 0.2);
+            SmartNumber kP = new SmartNumber("Swerve/Drive/PID/kP", 0.31399);
             double kI = 0.0;
             double kD = 0.0;
 
-            double kS = 0.15297;
-            SmartNumber kV = new SmartNumber("Swerve/Drive/FF/kV", 1.6);
-            SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.2);
+            double kS = 0.27354;
+            SmartNumber kV = new SmartNumber("Swerve/Drive/FF/kV", 2.1022);
+            SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.41251);
         }
 
         public interface FrontRight {
@@ -294,7 +295,8 @@ public interface Settings {
 
     public interface Operator {
         SmartNumber DEADBAND = new SmartNumber("Operator Settings/Manual Climb + Lift Deadband", 0.05);
-        SmartNumber CLIMB_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Climber Max Drive Voltage", 7.0);
+        SmartNumber CLIMB_DRIVE_VOLTAGE_UP = new SmartNumber("Operator Settings/Climber Up Drive Voltage", 2.0);
+        SmartNumber CLIMB_DRIVE_VOLTAGE_DOWN = new SmartNumber("Operator Settings/Climber Drive Drive Voltage", 7.0);
         SmartNumber LIFT_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Lift Max Drive Voltage", 6.0);
         SmartNumber LIFT_ADJUST_SPEED = new SmartNumber("Operator Settings/Lift Fine Adjust Speed", Units.inchesToMeters(1.0));
     }
@@ -302,7 +304,7 @@ public interface Settings {
     public interface Shooter {
         double MOMENT_OF_INERTIA = 0.01;
 
-        double TELEOP_SHOOTER_STARTUP_DELAY = 0.25;
+        double TELEOP_SHOOTER_STARTUP_DELAY = 0.5;
 
         // MAX RPM
         // LEFT/RIGHT: 5900
@@ -368,7 +370,7 @@ public interface Settings {
         SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.0);
         SmartNumber RECALL_DEBOUNCE = new SmartNumber("Conveyor/Recall Delay", 1.0);
 
-        SmartNumber SHOOT_WAIT_DELAY = new SmartNumber("Conveyor/Shoot Wait Delay", 1.0 /*0.35*/);
+        SmartNumber SHOOT_WAIT_DELAY = new SmartNumber("Conveyor/Shoot Wait Delay", 0.35);
 
         SmartNumber AT_FEEDER_WAIT_DELAY = new SmartNumber("Conveyor/At Feeder Wait Delay", 0.5);
     }
@@ -380,7 +382,7 @@ public interface Settings {
         SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
         SmartNumber ANGLE_TOLERANCE = new SmartNumber("Alignment/Angle Tolerance", 5);
 
-        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Shooter/Podium Distance", 3.2);
+        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Shooter/Podium Distance", 2.75);
         double PODIUM_SHOT_MAX_ANGLE = 80;
 
         SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(25.5));
@@ -431,7 +433,7 @@ public interface Settings {
     public interface Auton {
         double MAX_SHOT_DISTANCE = 3.1;
 
-        double SHOOTER_STARTUP_DELAY = 0.25;
+        double SHOOTER_STARTUP_DELAY = 0.5;
         double DEFAULT_INTAKE_TIMEOUT = 0.75;
         double SHOOTER_START_PRE = 1.0;
     }

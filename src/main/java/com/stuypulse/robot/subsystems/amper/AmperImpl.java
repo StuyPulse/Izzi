@@ -185,6 +185,10 @@ public class AmperImpl extends Amper {
             voltage = 0;
         }
 
+        if (getTargetHeight() == Settings.Amper.Lift.TRAP_SCORE_HEIGHT && voltage < 0.75) {
+            voltage = 0.75;
+        }
+
         liftMotor.setVoltage(voltage);
 
         SmartDashboard.putNumber("Amper/Voltage", voltage);
@@ -193,7 +197,7 @@ public class AmperImpl extends Amper {
         SmartDashboard.putNumber("Amper/Intake Current", scoreMotor.getOutputCurrent());
         SmartDashboard.putNumber("Amper/Lift Current", liftMotor.getOutputCurrent());
         SmartDashboard.putNumber("Amper/Lift Height", getLiftHeight());
-        SmartDashboard.putNumber("Amper/Lift Height Inches", Units.metersToInches(getLiftHeight()));
+        SmartDashboard.putNumber("Amper/Lift Height Error", controller.getError());
 
         SmartDashboard.putBoolean("Amper/Has Note", hasNote());
         SmartDashboard.putBoolean("Amper/At Bottom", liftAtBottom());
