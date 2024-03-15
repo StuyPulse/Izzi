@@ -173,7 +173,7 @@ public class RobotContainer {
             .onFalse(new AmperStop());
 
         driver.getDPadRight()
-            .onTrue(new ConditionalCommand(new ConveyorToAmp(), new DoNothingCommand(), () -> Amper.getInstance().hasNote())
+            .onTrue(new ConditionalCommand(new ConveyorToAmp(), new DoNothingCommand(), () -> Intake.getInstance().hasNote())
                 .andThen(new AmperToHeight(Lift.TRAP_SCORE_HEIGHT)));
 
         driver.getDPadUp()
