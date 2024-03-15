@@ -409,7 +409,7 @@ public interface Settings {
             public interface Translation {
                 SmartNumber kP = new SmartNumber("ShootAlign/Translation/kP", 6.0);
                 SmartNumber kI = new SmartNumber("ShootAlign/Translation/kI", 0.0);
-                SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.2);
+                SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.0);
             }
     
             public interface Rotation {
