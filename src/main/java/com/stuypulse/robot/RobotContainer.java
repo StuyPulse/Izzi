@@ -207,14 +207,18 @@ public class RobotContainer {
 
     private void configureOperatorBindings() {
         new Trigger(() -> operator.getLeftStick().magnitude() > Settings.Operator.DEADBAND.get())
-                .whileTrue(new ClimberDrive(operator));
+            .whileTrue(new ClimberDrive(operator));
+
+        new Trigger(() -> operator.getLeftY() > Settings.Operator.DEADBAND.get())
+            .onTrue(new LEDSet(LEDInstructions.CLIMB_UP)
+                .withTimeout(1.0));
 
         new Trigger(() -> operator.getLeftY() > 0.25)
-                .onTrue(new ConveyorToAmp()
-                    .andThen(new ShooterStop()));
+            .onTrue(new ConveyorToAmp()
+                .andThen(new ShooterStop()));
 
         new Trigger(() -> operator.getRightStick().magnitude() > Settings.Operator.DEADBAND.get())
-                .whileTrue(new AmperLiftDrive(operator));
+            .whileTrue(new AmperLiftDrive(operator));
 
         operator.getLeftTriggerButton()
             .onTrue(new IntakeDeacquire())

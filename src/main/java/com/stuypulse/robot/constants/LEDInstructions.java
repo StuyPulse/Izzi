@@ -48,6 +48,8 @@ public interface LEDInstructions {
 
     LEDInstruction BANGLADESH = new LEDSection(new SLColor[] {SLColor.RED, SLColor.BLACK, SLColor.DARK_GREEN});
 
+    LEDInstruction CLIMB_UP = new LEDSection(new SLColor[] {SLColor.PURPLE, SLColor.GREEN});
+
     /******************/
     /*** NON-STATIC ***/
     /******************/
