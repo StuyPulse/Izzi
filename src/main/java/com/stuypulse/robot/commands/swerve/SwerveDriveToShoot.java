@@ -21,6 +21,7 @@ import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 import com.stuypulse.stuylib.streams.numbers.IStream;
 import com.stuypulse.stuylib.streams.numbers.filters.Derivative;
+import com.stuypulse.stuylib.streams.numbers.filters.LowPassFilter;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -66,6 +67,7 @@ public class SwerveDriveToShoot extends Command {
 
         velocityError = IStream.create(distanceController::getError)
             .filtered(new Derivative())
+            .filtered(new LowPassFilter(0.05))
             .filtered(x -> Math.abs(x));
 
         isAligned = BStream.create(this::isAligned)
@@ -73,7 +75,7 @@ public class SwerveDriveToShoot extends Command {
         
         distanceTolerance = 0.033;
         angleTolerance = Alignment.ANGLE_TOLERANCE.get();
-        velocityTolerance = 0.2;
+        velocityTolerance = 0.1;
     }
 
     private double getTargetDistance() {
@@ -122,6 +124,7 @@ public class SwerveDriveToShoot extends Command {
                 speeds.getY(),
                 rotation));
         
+        SmartDashboard.putNumber("Alignment/Velocity Error", velocityError.get());
         SmartDashboard.putNumber("Alignment/To Shoot Target Angle", toSpeaker.getAngle().plus(Rotation2d.fromDegrees(180)).getDegrees());
     }
 
