@@ -46,9 +46,11 @@ import com.stuypulse.robot.util.ShooterSpeeds;
 import com.stuypulse.robot.util.PathUtil.AutonConfig;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -80,6 +82,8 @@ public class RobotContainer {
         configureDefaultCommands();
         configureButtonBindings();
         configureAutons();
+
+        LiveWindow.disableAllTelemetry();
 
         SmartDashboard.putData("Gamepads/Driver", driver);
         SmartDashboard.putData("Gamepads/Operator", operator);
@@ -169,7 +173,7 @@ public class RobotContainer {
             .onFalse(new AmperStop());
 
         driver.getDPadRight()
-            .onTrue(new ConveyorToAmp()
+            .onTrue(new ConditionalCommand(new ConveyorToAmp(), new DoNothingCommand(), () -> Amper.getInstance().hasNote())
                 .andThen(new AmperToHeight(Lift.TRAP_SCORE_HEIGHT)));
 
         driver.getDPadUp()
@@ -206,7 +210,8 @@ public class RobotContainer {
                 .whileTrue(new ClimberDrive(operator));
 
         new Trigger(() -> operator.getLeftY() > 0.25)
-                .onTrue(new ConveyorToAmp());
+                .onTrue(new ConveyorToAmp()
+                    .andThen(new ShooterStop()));
 
         new Trigger(() -> operator.getRightStick().magnitude() > Settings.Operator.DEADBAND.get())
                 .whileTrue(new AmperLiftDrive(operator));
