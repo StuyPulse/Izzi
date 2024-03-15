@@ -294,7 +294,7 @@ public interface Settings {
     }
 
     public interface Operator {
-        SmartNumber DEADBAND = new SmartNumber("Operator Settings/Manual Climb + Lift Deadband", 0.05);
+        SmartNumber DEADBAND = new SmartNumber("Operator Settings/Manual Climb + Lift Deadband", 0.2);
         SmartNumber CLIMB_DRIVE_VOLTAGE_UP = new SmartNumber("Operator Settings/Climber Up Drive Voltage", 2.0);
         SmartNumber CLIMB_DRIVE_VOLTAGE_DOWN = new SmartNumber("Operator Settings/Climber Drive Drive Voltage", 7.0);
         SmartNumber LIFT_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Lift Max Drive Voltage", 6.0);
