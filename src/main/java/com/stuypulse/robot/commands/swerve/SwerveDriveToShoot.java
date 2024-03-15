@@ -19,6 +19,8 @@ import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
+import com.stuypulse.stuylib.streams.numbers.IStream;
+import com.stuypulse.stuylib.streams.numbers.filters.Derivative;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -34,6 +36,7 @@ public class SwerveDriveToShoot extends Command {
 
     private final PIDController distanceController;
     private final AnglePIDController angleController;
+    private final IStream velocityError;
 
     private final BStream isAligned;
 
@@ -41,6 +44,7 @@ public class SwerveDriveToShoot extends Command {
 
     private double distanceTolerance;
     private double angleTolerance;
+    private double velocityTolerance;
 
     public SwerveDriveToShoot() {
         this(Alignment.PODIUM_SHOT_DISTANCE);
@@ -60,11 +64,16 @@ public class SwerveDriveToShoot extends Command {
         
         angleController = new AnglePIDController(Shoot.Rotation.kP, Shoot.Rotation.kI, Shoot.Rotation.kD);
 
+        velocityError = IStream.create(distanceController::getError)
+            .filtered(new Derivative())
+            .filtered(x -> Math.abs(x));
+
         isAligned = BStream.create(this::isAligned)
             .filtered(new BDebounceRC.Rising(debounce));
         
         distanceTolerance = 0.033;
         angleTolerance = Alignment.ANGLE_TOLERANCE.get();
+        velocityTolerance = 0.2;
     }
 
     private double getTargetDistance() {
@@ -89,7 +98,8 @@ public class SwerveDriveToShoot extends Command {
 
     private boolean isAligned() {
         return distanceController.isDone(distanceTolerance)
-            && angleController.isDoneDegrees(angleTolerance);
+            && angleController.isDoneDegrees(angleTolerance)
+            && velocityError.get() < velocityTolerance;
     }
 
     @Override
