@@ -31,7 +31,6 @@ public class SwerveDriveToShoot extends Command {
 
     private final SwerveDrive swerve;
     private final Odometry odometry;
-    private final AprilTagVision vision;
 
     private final PIDController distanceController;
     private final AnglePIDController angleController;
@@ -56,7 +55,6 @@ public class SwerveDriveToShoot extends Command {
 
         swerve = SwerveDrive.getInstance();
         odometry = Odometry.getInstance();
-        vision = AprilTagVision.getInstance();
 
         distanceController = new PIDController(Shoot.Translation.kP, Shoot.Translation.kI, Shoot.Translation.kD);
         
@@ -95,17 +93,6 @@ public class SwerveDriveToShoot extends Command {
     }
 
     @Override
-    public void initialize() {
-        if (DriverStation.isTeleop()) {
-            vision.setTagWhitelist(
-                Robot.isBlue()
-                ? 7
-                : 4
-            );
-        }
-    }
-
-    @Override
     public void execute() {
         Translation2d toSpeaker = Field.getAllianceSpeakerPose().getTranslation()
             .minus(odometry.getPose().getTranslation());
@@ -136,6 +123,5 @@ public class SwerveDriveToShoot extends Command {
     @Override
     public void end(boolean interrupted) {
         swerve.stop();
-        vision.setTagWhitelist(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
     }
 }
