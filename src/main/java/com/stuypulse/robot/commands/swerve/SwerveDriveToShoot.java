@@ -6,11 +6,13 @@
 
 package com.stuypulse.robot.commands.swerve;
 
+import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Alignment.Shoot;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
+import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.math.Angle;
@@ -21,6 +23,7 @@ import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -28,6 +31,7 @@ public class SwerveDriveToShoot extends Command {
 
     private final SwerveDrive swerve;
     private final Odometry odometry;
+    private final AprilTagVision vision;
 
     private final PIDController distanceController;
     private final AnglePIDController angleController;
@@ -52,6 +56,7 @@ public class SwerveDriveToShoot extends Command {
 
         swerve = SwerveDrive.getInstance();
         odometry = Odometry.getInstance();
+        vision = AprilTagVision.getInstance();
 
         distanceController = new PIDController(Shoot.Translation.kP, Shoot.Translation.kI, Shoot.Translation.kD);
         
@@ -90,6 +95,17 @@ public class SwerveDriveToShoot extends Command {
     }
 
     @Override
+    public void initialize() {
+        if (DriverStation.isTeleop()) {
+            vision.setTagWhitelist(
+                Robot.isBlue()
+                ? 7
+                : 4
+            );
+        }
+    }
+
+    @Override
     public void execute() {
         Translation2d toSpeaker = Field.getAllianceSpeakerPose().getTranslation()
             .minus(odometry.getPose().getTranslation());
@@ -120,5 +136,6 @@ public class SwerveDriveToShoot extends Command {
     @Override
     public void end(boolean interrupted) {
         swerve.stop();
+        vision.setTagWhitelist(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
     }
 }
