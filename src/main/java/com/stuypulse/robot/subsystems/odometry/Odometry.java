@@ -167,7 +167,7 @@ public class Odometry extends SubsystemBase {
         }
 
         estimator.addVisionMeasurement(poseSum.div(areaSum), timestampSum / areaSum,
-            DriverStation.isAutonomous() ? VecBuilder.fill(0.9, 0.9, 10) : VecBuilder.fill(0.5, 0.5, 10));
+            DriverStation.isAutonomous() ? VecBuilder.fill(0.9, 0.9, 10) : VecBuilder.fill(0.7, 0.7, 10));
     }
 
     @Override
