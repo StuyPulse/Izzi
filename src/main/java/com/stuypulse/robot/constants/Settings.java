@@ -319,7 +319,7 @@ public interface Settings {
         double AT_RPM_EPSILON = 125;
 
         SmartNumber RPM_CHANGE_RC = new SmartNumber("Shooter/RPM Change RC", 0.2);
-        double RPM_CHANGE_DIP_THRESHOLD = 100;
+        double RPM_CHANGE_DIP_THRESHOLD = 350;
 
         public interface Feedforward {
             double kS = 0.11873;
@@ -376,13 +376,13 @@ public interface Settings {
     }
 
     public interface Alignment {
-        double DEBOUNCE_TIME = 0.25;
+        double DEBOUNCE_TIME = 0.2;
 
         SmartNumber X_TOLERANCE = new SmartNumber("Alignment/X Tolerance", 0.1);
         SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
         SmartNumber ANGLE_TOLERANCE = new SmartNumber("Alignment/Angle Tolerance", 5);
 
-        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Shooter/Podium Distance", 2.9); // 2.75 in lab
+        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Shooter/Podium Distance", 2.85); // 2.75 in lab
         double PODIUM_SHOT_MAX_ANGLE = 80;
 
         SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(25.5));
