@@ -27,6 +27,7 @@ import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
+import com.stuypulse.robot.constants.Settings.Amper.Score;
 import com.stuypulse.robot.constants.Settings.Driver;
 import com.stuypulse.robot.constants.Settings.Swerve.Assist;
 import com.stuypulse.robot.subsystems.amper.Amper;
@@ -174,6 +175,10 @@ public class RobotContainer {
 
         driver.getDPadUp()
             .onTrue(new SwerveDriveResetHeading());
+        
+        driver.getDPadDown()
+            .onTrue(new AmperScoreSpeed(-Score.TRAP_SPEED))
+            .onFalse(new AmperStop());
 
         driver.getTopButton()
             // on command start
@@ -293,7 +298,7 @@ public class RobotContainer {
         //     .registerBlue(autonChooser)
         //     .registerRed(autonChooser);
         
-        HGF.registerDefaultBlue(autonChooser)
+        HGF.registerBlue(autonChooser)
             .registerRed(autonChooser);
 
         // TrackingCBAE
@@ -302,7 +307,7 @@ public class RobotContainer {
         
         PodiumCBAE
             .registerBlue(autonChooser)
-            .registerRed(autonChooser);
+            .registerDefaultRed(autonChooser);
         
         SmartDashboard.putData("Autonomous", autonChooser);
     }

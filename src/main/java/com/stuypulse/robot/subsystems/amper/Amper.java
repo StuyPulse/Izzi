@@ -104,13 +104,23 @@ public abstract class Amper extends SubsystemBase {
 
     /*** SCORE ROLLERS ***/
 
-    public abstract void amp();
+    public abstract void run(double speed);
+
+    public final void amp() {
+        run(Settings.Amper.Score.AMP_SPEED);
+    }
     
-    public abstract void trap();
+    public final void trap() {
+        run(Settings.Amper.Score.TRAP_SPEED);
+    }
 
-    public abstract void fromConveyor();
+    public final void fromConveyor() {
+        run(Settings.Amper.Score.FROM_CONVEYOR_SPEED);
+    }
 
-    public abstract void toConveyor();
+    public final void toConveyor() {
+        run(-Settings.Amper.Score.TO_CONVEYOR_SPEED);
+    }
 
     public abstract void stopRoller();
 
