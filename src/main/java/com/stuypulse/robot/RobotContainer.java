@@ -169,9 +169,8 @@ public class RobotContainer {
             .onFalse(new AmperStop());
 
         driver.getDPadRight()
-            .whileTrue(new TrapScoreRoutine())
-            // .onFalse(new AmperToHeight(Lift.MIN_HEIGHT))
-            .onFalse(new AmperStop());
+            .onTrue(new ConveyorToAmp()
+                .andThen(new AmperToHeight(Lift.TRAP_SCORE_HEIGHT)));
 
         driver.getDPadUp()
             .onTrue(new SwerveDriveResetHeading());

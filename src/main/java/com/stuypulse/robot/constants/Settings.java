@@ -319,7 +319,7 @@ public interface Settings {
         double AT_RPM_EPSILON = 125;
 
         SmartNumber RPM_CHANGE_RC = new SmartNumber("Shooter/RPM Change RC", 0.2);
-        double RPM_CHANGE_DIP_THRESHOLD = 350;
+        double RPM_CHANGE_DIP_THRESHOLD = 250;
 
         public interface Feedforward {
             double kS = 0.11873;
@@ -339,7 +339,7 @@ public interface Settings {
 
         public interface Feedforward {
             double kS = 0.71611;
-            double kV = 0.003400;
+            double kV = 0.0032;
             double kA = 0.00040287;
         }
 
@@ -407,9 +407,9 @@ public interface Settings {
 
         public interface Shoot {
             public interface Translation {
-                SmartNumber kP = new SmartNumber("ShootAlign/Translation/kP", 12.0);
+                SmartNumber kP = new SmartNumber("ShootAlign/Translation/kP", 6.0);
                 SmartNumber kI = new SmartNumber("ShootAlign/Translation/kI", 0.0);
-                SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.0);
+                SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.2);
             }
     
             public interface Rotation {
