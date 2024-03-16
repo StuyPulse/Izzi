@@ -20,8 +20,8 @@
         "y": 3.4965521782895426
       },
       "prevControl": {
-        "x": 3.7009621173800755,
-        "y": 1.8481606129878942
+        "x": 3.4288766013429455,
+        "y": 1.4617693053049925
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.0,
-    "maxAcceleration": 4.0,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -45,5 +45,5 @@
   "reversed": false,
   "folder": "HGF",
   "previewStartingState": null,
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

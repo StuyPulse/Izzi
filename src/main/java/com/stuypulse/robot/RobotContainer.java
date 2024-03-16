@@ -293,7 +293,7 @@ public class RobotContainer {
         "Blay First Piece To C", "C to B", "B To A","A To E", "E To Shoot");
 
         AutonConfig ADE = new AutonConfig("3 Piece ADE", ThreePieceADE::new,
-            "First Piece to A", "A To D", "D to Ferry Shot", "Ferry Shot to E", "E To Shoot");
+            "First Piece To A", "A To D", "D to Ferry Shot", "Ferry Shot to E", "E To Shoot");
         
         AutonConfig DE = new AutonConfig("2 Piece DE", TwoPieceDE::new,
             "First Piece to D", "D to Ferry Shot", "Ferry Shot to E", "E To Shoot");
