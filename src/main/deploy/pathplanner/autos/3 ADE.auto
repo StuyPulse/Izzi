@@ -14,13 +14,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "C to B"
+            "pathName": "A To D"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B To A"
+            "pathName": "D to Ferry Shot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Ferry Shot to E"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E To Shoot"
           }
         }
       ]

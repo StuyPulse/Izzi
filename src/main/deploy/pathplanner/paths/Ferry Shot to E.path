@@ -3,45 +3,34 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.25,
-        "y": 3.58
+        "x": 5.135414608792181,
+        "y": 6.653128792368697
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7083421527954168,
-        "y": 3.802856800158045
+        "x": 5.815009430944788,
+        "y": 6.526818220303108
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Ferry Shot"
     },
     {
       "anchor": {
-        "x": 2.5635091726023904,
-        "y": 4.034483282641779
+        "x": 8.17,
+        "y": 6.042894923752811
       },
       "prevControl": {
-        "x": 1.56391230433458,
-        "y": 4.11293472216908
+        "x": 7.574271630024742,
+        "y": 6.131140109502442
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "C"
+      "linkedName": "E"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "IntakeToShooter",
-      "waypointRelativePos": 0.0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": []
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.0,
     "maxAcceleration": 4.0,
@@ -50,11 +39,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": -4.860211087167981,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "ABCDE",
-  "previewStartingState": null,
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
   "useDefaultConstraints": true
 }

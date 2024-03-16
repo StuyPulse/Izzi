@@ -12,7 +12,9 @@ import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.commands.amper.*;
 import com.stuypulse.robot.commands.auton.*;
+import com.stuypulse.robot.commands.auton.ADE.*;
 import com.stuypulse.robot.commands.auton.CBADE.*;
+import com.stuypulse.robot.commands.auton.DE.*;
 import com.stuypulse.robot.commands.auton.GHF.*;
 import com.stuypulse.robot.commands.auton.HGF.*;
 import com.stuypulse.robot.commands.auton.tests.*;
@@ -281,20 +283,20 @@ public class RobotContainer {
 
         autonChooser.addOption("Mobility", new Mobility());
 
-        // AutonConfig CBAE = new AutonConfig("5 Piece CBAE", FivePieceCBAE::new,
-        // "First Piece To C", "C to B", "B To A", "A To E", "E To Shoot");
-        
-        // AutonConfig BLAY_CBAE = new AutonConfig("Blay 5 Piece CBAE", FivePieceCBAE::new,
-        // "Blay First Piece To C", "C to B", "B To A", "A To E", "E To Shoot");
-
         AutonConfig HGF = new AutonConfig("3.5 Piece HGF", FourPieceHGF::new,
         "Start To H (HGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)", "F To Shoot (HGF)");
         
         AutonConfig TrackingCBAE = new AutonConfig("Tracking 5 Piece CBAE", FivePieceTrackingCBAE::new,
-            "First Piece To C", "C to B", "B To A", "A To E", "E To Shoot");   
+            "Blay First Piece To C", "C to B", "B To A", "A To E", "E To Shoot");   
 
         AutonConfig PodiumCBAE = new AutonConfig("5 Piece CBAE", FivePiecePodiumCBAE::new, 
         "Blay First Piece To C", "C to B", "B To A","A To E", "E To Shoot");
+
+        AutonConfig ADE = new AutonConfig("3 Piece ADE", ThreePieceADE::new,
+            "First Piece to A", "A To D", "D to Ferry Shot", "Ferry Shot to E", "E To Shoot");
+        
+        AutonConfig DE = new AutonConfig("2 Piece DE", TwoPieceDE::new,
+            "First Piece to D", "D to Ferry Shot", "Ferry Shot to E", "E To Shoot");
 
         // AutonConfig PodiumCloseCBAE = new AutonConfig("Podium Close 5 Piece CBAE", FivePiecePodiumForwardCBAE::new, 
         // "Forward First Piece to C", "C to B 2", "B To A","A To E", "E To Shoot");
@@ -316,6 +318,12 @@ public class RobotContainer {
         PodiumCBAE
             .registerBlue(autonChooser)
             .registerDefaultRed(autonChooser);
+        
+        ADE.registerBlue(autonChooser)
+            .registerRed(autonChooser);
+
+        DE.registerBlue(autonChooser)
+            .registerRed(autonChooser);
         
         SmartDashboard.putData("Autonomous", autonChooser);
     }

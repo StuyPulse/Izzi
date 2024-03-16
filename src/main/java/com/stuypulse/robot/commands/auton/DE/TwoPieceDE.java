@@ -1,43 +1,42 @@
-package com.stuypulse.robot.commands.auton.HGF;
+package com.stuypulse.robot.commands.auton.DE;
 
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.stuypulse.robot.commands.DoNothingCommand;
 import com.stuypulse.robot.commands.auton.FollowPathAlignAndShoot;
 import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
-import com.stuypulse.robot.commands.shooter.ShooterStop;
-import com.stuypulse.robot.commands.shooter.ShooterWaitForTarget;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToShoot;
-import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Auton;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-public class FourPieceHGF extends SequentialCommandGroup {
+public class TwoPieceDE extends SequentialCommandGroup {
 
-    public FourPieceHGF(PathPlannerPath... paths) {
+    public TwoPieceDE(PathPlannerPath... paths) {
         addCommands(
             new ParallelCommandGroup(
                 new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
                     .andThen(new ShooterPodiumShot()),
 
-                SwerveDriveToPose.speakerRelative(-45)
-                    .withTolerance(0.1, 0.1, 2)
+                SwerveDriveToPose.speakerRelative(18)
             ),
 
-            new ShooterWaitForTarget(),
+            // shoot preload
             new ConveyorShootRoutine(),
-            // new ShooterStop(),
 
+            // intake D
             new FollowPathAndIntake(paths[0]),
-            new FollowPathAlignAndShoot(paths[1], SwerveDriveToShoot.withHigherDebounce()),
+            // ferry D
+            new FollowPathAlignAndShoot(paths[1], new DoNothingCommand()),
+
+            // intake E
             new FollowPathAndIntake(paths[2]),
-            new FollowPathAlignAndShoot(paths[3], SwerveDriveToShoot.withHigherDebounce()),
-            new FollowPathAndIntake(paths[4]),
-            new FollowPathAlignAndShoot(paths[5], SwerveDriveToShoot.withHigherDebounce())
+            // shoot E
+            new FollowPathAlignAndShoot(paths[3], SwerveDriveToShoot.withHigherDebounce())
         );
     }
 

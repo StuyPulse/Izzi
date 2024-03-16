@@ -26,11 +26,14 @@ import com.stuypulse.stuylib.streams.numbers.filters.LowPassFilter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class SwerveDriveToShoot extends Command {
+
+    public static SwerveDriveToShoot withHigherDebounce() {
+        return new SwerveDriveToShoot(Alignment.PODIUM_SHOT_DISTANCE, 0.75);
+    }
 
     private final SwerveDrive swerve;
     private final Odometry odometry;
