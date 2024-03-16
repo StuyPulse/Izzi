@@ -316,14 +316,14 @@ public class RobotContainer {
         //     .registerRed(autonChooser);
         
         PodiumCBAE
-            .registerBlue(autonChooser)
+            .registerDefaultBlue(autonChooser)
             .registerDefaultRed(autonChooser);
         
-        ADE.registerBlue(autonChooser)
-            .registerRed(autonChooser);
+        // ADE.registerBlue(autonChooser)
+        //     .registerRed(autonChooser);
 
-        DE.registerBlue(autonChooser)
-            .registerRed(autonChooser);
+        // DE.registerBlue(autonChooser)
+        //     .registerRed(autonChooser);
         
         SmartDashboard.putData("Autonomous", autonChooser);
     }
