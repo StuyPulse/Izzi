@@ -2,6 +2,7 @@ package com.stuypulse.robot.commands.swerve;
 
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
+import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.shooter.Shooter;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
@@ -19,6 +20,7 @@ public class SwerveDriveAutoFerry extends SwerveDriveDriveAligned {
     private final Odometry odometry;
     private final Shooter shooter;
     private final Conveyor conveyor;
+    private final Intake intake;
 
     public SwerveDriveAutoFerry(Gamepad driver) {
         super(driver);
@@ -26,6 +28,7 @@ public class SwerveDriveAutoFerry extends SwerveDriveDriveAligned {
         odometry = Odometry.getInstance();
         swerve = SwerveDrive.getInstance();
         conveyor = Conveyor.getInstance();
+        intake = Intake.getInstance();
 
         addRequirements(shooter, odometry, swerve);
     }
@@ -45,8 +48,16 @@ public class SwerveDriveAutoFerry extends SwerveDriveDriveAligned {
         super.execute();
         Pose2d robotPose = odometry.getPose();
         if (robotPose.getX() > Field.getAllianceWingX() && robotPose.getX() < Field.getOpposingWingX()) {
+            intake.acquire();
             conveyor.toShooter();
             shooter.setTargetSpeeds(Settings.Shooter.FERRY);
         }
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        intake.stop();
+        conveyor.stop();
+        shooter.stop(); 
     }
 }
