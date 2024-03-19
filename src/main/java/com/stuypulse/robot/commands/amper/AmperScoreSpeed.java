@@ -38,6 +38,6 @@ public class AmperScoreSpeed extends InstantCommand {
 
     @Override
     public void initialize() {
-        amper.run(speed);
+        amper.runRoller(speed);
     }
 }

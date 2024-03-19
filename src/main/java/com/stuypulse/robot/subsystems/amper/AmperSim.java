@@ -103,7 +103,7 @@ public class AmperSim extends Amper {
     }
 
     @Override
-    public void run(double speed) {}
+    public void runRoller(double speed) {}
 
     @Override
     public void stopRoller() {}
