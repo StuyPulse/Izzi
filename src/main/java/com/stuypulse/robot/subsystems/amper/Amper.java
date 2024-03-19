@@ -48,15 +48,19 @@ public abstract class Amper extends SubsystemBase {
     public static Amper getInstance() {
         return instance;
     }
-
+    //
+    //getMINHEIGHT and setMINHEIGHt
+    // AmperIMpl - replace minheight with getminheight
     private final SmartNumber targetHeight;
+    private double minHeight;
 
     private final Mechanism2d mechanism2d;
     private final MechanismLigament2d lift2d;
 
     public Amper() {
         targetHeight = new SmartNumber("Amper/Target Height", 0); // TODO: determine the default value
-
+        minHeight = Settings.MIN_HEIGHT;
+        
         mechanism2d = new Mechanism2d(3, 3);
         mechanism2d.getRoot("Base Origin", 1, 1).append(new MechanismLigament2d(
             "Base",
@@ -88,6 +92,18 @@ public abstract class Amper extends SubsystemBase {
 
     public final boolean isAtTargetHeight(double epsilonMeters) {
         return Math.abs(getTargetHeight() - getLiftHeight()) < epsilonMeters;
+    }
+
+    public void setMinHeight(double height) {
+        minHeight.set(Math.max(Settings.Amper.Lift.MIN_HEIGHT, height));
+    }
+
+    public final double getMinHeight() {
+        return minHeight.get();
+    }
+
+    public void setSafeHeight() {
+        
     }
 
     public abstract boolean liftAtBottom();
