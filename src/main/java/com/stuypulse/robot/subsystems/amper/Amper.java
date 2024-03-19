@@ -48,9 +48,7 @@ public abstract class Amper extends SubsystemBase {
     public static Amper getInstance() {
         return instance;
     }
-    //
-    //getMINHEIGHT and setMINHEIGHt
-    // AmperIMpl - replace minheight with getminheight
+
     private final SmartNumber targetHeight;
     private double minHeight;
 
@@ -59,7 +57,7 @@ public abstract class Amper extends SubsystemBase {
 
     public Amper() {
         targetHeight = new SmartNumber("Amper/Target Height", 0); // TODO: determine the default value
-        minHeight = Settings.MIN_HEIGHT;
+        minHeight = Settings.Amper.Lift.MIN_HEIGHT;
         
         mechanism2d = new Mechanism2d(3, 3);
         mechanism2d.getRoot("Base Origin", 1, 1).append(new MechanismLigament2d(
@@ -83,7 +81,7 @@ public abstract class Amper extends SubsystemBase {
 
     public void setTargetHeight(double height) {
         targetHeight.set(SLMath.clamp(
-            height, Settings.Amper.Lift.MIN_HEIGHT, Settings.Amper.Lift.MAX_HEIGHT));
+            height, minHeight, Settings.Amper.Lift.MAX_HEIGHT));
     }
 
     public final double getTargetHeight() {
@@ -94,16 +92,18 @@ public abstract class Amper extends SubsystemBase {
         return Math.abs(getTargetHeight() - getLiftHeight()) < epsilonMeters;
     }
 
-    public void setMinHeight(double height) {
-        minHeight.set(Math.max(Settings.Amper.Lift.MIN_HEIGHT, height));
+    public final void setMinHeight(double height) {
+        minHeight = Math.max(Settings.Amper.Lift.MIN_HEIGHT, height);
     }
 
     public final double getMinHeight() {
-        return minHeight.get();
+        return minHeight;
     }
 
     public void setSafeHeight() {
-        
+        if(getLiftHeight() < Settings.Amper.Lift.UNSAFE_CLIMB_HEIGHT) {
+            setTargetHeight(Math.max(getMinHeight(), Settings.Amper.Lift.SAFE_CLIMB_HEIGHT));
+        }
     }
 
     public abstract boolean liftAtBottom();
@@ -161,7 +161,7 @@ public abstract class Amper extends SubsystemBase {
         if (targetHeight.get() > Settings.Amper.Lift.MAX_HEIGHT)
             targetHeight.set(Settings.Amper.Lift.MAX_HEIGHT);
         
-        if (targetHeight.get() < Settings.Amper.Lift.MIN_HEIGHT)
-            targetHeight.set(Settings.Amper.Lift.MIN_HEIGHT);
+        if (targetHeight.get() < getMinHeight())
+            targetHeight.set(getMinHeight());
     }
 }

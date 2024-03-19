@@ -49,7 +49,7 @@ public class AmperSim extends Amper {
             Encoder.GEARING,
             CARRIAGE_MASS,
             Encoder.DRUM_RADIUS,
-            MIN_HEIGHT,
+            getMinHeight(),
             MAX_HEIGHT,
             true,
             0);
