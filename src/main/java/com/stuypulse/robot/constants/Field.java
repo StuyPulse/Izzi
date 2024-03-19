@@ -9,6 +9,7 @@ package com.stuypulse.robot.constants;
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.util.vision.AprilTag;
+import com.stuypulse.stuylib.network.SmartNumber;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -183,6 +184,28 @@ public interface Field {
 
     public static AprilTag getAllianceAmpTag() {
         return (Robot.isBlue() ? NamedTags.BLUE_AMP : NamedTags.RED_AMP).tag;
+    }
+
+    /*** SOURCE ***/
+
+    public static Pose2d getAllianceSourcePose() {
+        return (Robot.isBlue() ? NamedTags.BLUE_SOURCE_RIGHT : NamedTags.RED_SOURCE_RIGHT)
+            .getLocation().toPose2d();
+    }
+
+    public static Pose2d getOpposingSourcePose() {
+        return (Robot.isBlue() ? NamedTags.RED_SOURCE_RIGHT : NamedTags.BLUE_SOURCE_RIGHT)
+            .getLocation().toPose2d();
+    }
+
+    /*** WING ***/
+
+    public static double getAllianceWingX() {
+        return 0.0; // xxx: determine this
+    }
+
+    public static double getOpposingWingX() {
+        return 0.0; // xxx: determine this
     }
 
     /*** TRAP ***/
