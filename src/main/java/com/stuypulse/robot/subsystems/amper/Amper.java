@@ -102,7 +102,8 @@ public abstract class Amper extends SubsystemBase {
 
     public void setSafeHeight() {
         if(getLiftHeight() < Settings.Amper.Lift.UNSAFE_CLIMB_HEIGHT) {
-            setTargetHeight(Math.max(getMinHeight(), Settings.Amper.Lift.SAFE_CLIMB_HEIGHT));
+            setTargetHeight(Settings.Amper.Lift.SAFE_CLIMB_HEIGHT);
+            setMinHeight(Settings.Amper.Lift.SAFE_CLIMB_HEIGHT);
         }
     }
 
