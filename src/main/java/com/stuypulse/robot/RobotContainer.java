@@ -283,20 +283,20 @@ public class RobotContainer {
 
         autonChooser.addOption("Mobility", new Mobility());
 
-        AutonConfig HGF = new AutonConfig("3.5 Piece HGF", FourPieceHGF::new,
+        AutonConfig HGF = new AutonConfig("4 HGF", FourPieceHGF::new,
         "Start To H (HGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)", "F To Shoot (HGF)");
         
-        AutonConfig TrackingCBAE = new AutonConfig("Tracking 5 Piece CBAE", FivePieceTrackingCBAE::new,
-            "Blay First Piece To C", "C to B", "B To A", "A To E", "E To Shoot");   
+        AutonConfig TrackingCBAE = new AutonConfig("Tracking 5 CBAE Podium", FivePieceTrackingCBAE::new,
+            "First Shot to C", "C to B", "B to A", "A to E", "E to Shoot");   
 
-        AutonConfig PodiumCBAE = new AutonConfig("5 Piece CBAE", FivePiecePodiumCBAE::new, 
-        "Blay First Piece To C", "C to B", "B To A","A To E", "E To Shoot");
+        AutonConfig PodiumCBAE = new AutonConfig("5 CBAE Podium", FivePiecePodiumCBAE::new, 
+        "First Shot to C", "C to B", "B to A","A to E", "E to Shoot");
 
-        AutonConfig ADE = new AutonConfig("3 Piece ADE", ThreePieceADE::new,
-            "First Piece To A", "A To D", "D to Ferry Shot", "Ferry Shot to E", "E To Shoot");
+        AutonConfig ADE = new AutonConfig("3 ADE", ThreePieceADE::new,
+            "Preload Shot to A", "A to D", "D to Ferry Shot", "Ferry Shot to E", "E to Shoot");
         
-        AutonConfig DE = new AutonConfig("2 Piece DE", TwoPieceDE::new,
-            "First Piece to D", "D to Ferry Shot", "Ferry Shot to E", "E To Shoot");
+        AutonConfig DE = new AutonConfig("2 DE", TwoPieceDE::new,
+            "Preload Shot to D", "D to Ferry Shot", "Ferry Shot to E", "E to Shoot");
 
         // AutonConfig PodiumCloseCBAE = new AutonConfig("Podium Close 5 Piece CBAE", FivePiecePodiumForwardCBAE::new, 
         // "Forward First Piece to C", "C to B 2", "B To A","A To E", "E To Shoot");
