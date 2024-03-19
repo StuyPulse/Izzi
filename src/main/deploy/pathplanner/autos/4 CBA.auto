@@ -8,7 +8,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "First Piece To A"
+            "pathName": "Preload Shot to A"
           }
         },
         {
@@ -20,7 +20,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B To A"
+            "pathName": "B to A"
           }
         }
       ]

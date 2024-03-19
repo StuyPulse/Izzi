@@ -284,7 +284,7 @@ public class RobotContainer {
         autonChooser.addOption("Mobility", new Mobility());
 
         AutonConfig HGF = new AutonConfig("4 HGF", FourPieceHGF::new,
-        "Start To H (HGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)", "F To Shoot (HGF)");
+        "Start to H (HGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)", "F to Shoot (HGF)");
         
         AutonConfig TrackingCBAE = new AutonConfig("Tracking 5 CBAE Podium", FivePieceTrackingCBAE::new,
             "First Shot to C", "C to B", "B to A", "A to E", "E to Shoot");   

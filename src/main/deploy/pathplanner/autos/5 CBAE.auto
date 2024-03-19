@@ -8,13 +8,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blay First Piece To C"
+            "pathName": "Preload to C"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C To Shoot"
+            "pathName": "C to Shoot"
           }
         },
         {
@@ -26,19 +26,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B To A"
+            "pathName": "B to A"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "A To E"
+            "pathName": "A to E"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "E To Shoot"
+            "pathName": "E to Shoot"
           }
         }
       ]
