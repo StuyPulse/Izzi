@@ -104,7 +104,7 @@ public interface Settings {
 
             double MIN_HEIGHT = 0;
             double SAFE_CLIMB_HEIGHT = 0.20;
-            double MAX_HEIGHT = Units.inchesToMeters(24.5) + 0.05; // amp 14.75
+            double MAX_HEIGHT = Units.inchesToMeters(25.0) + 0.05; // amp 14.75
 
             double VISUALIZATION_MIN_LENGTH = 0.5;
             Rotation2d ANGLE_TO_GROUND = Rotation2d.fromDegrees(68.02);
@@ -232,7 +232,7 @@ public interface Settings {
 
         public interface BackLeft {
             String ID = "Back Left";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-91.406250);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(22.939453);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * +0.5);
         }
 
@@ -294,7 +294,7 @@ public interface Settings {
     }
 
     public interface Operator {
-        SmartNumber DEADBAND = new SmartNumber("Operator Settings/Manual Climb + Lift Deadband", 0.05);
+        SmartNumber DEADBAND = new SmartNumber("Operator Settings/Manual Climb + Lift Deadband", 0.2);
         SmartNumber CLIMB_DRIVE_VOLTAGE_UP = new SmartNumber("Operator Settings/Climber Up Drive Voltage", 2.0);
         SmartNumber CLIMB_DRIVE_VOLTAGE_DOWN = new SmartNumber("Operator Settings/Climber Drive Drive Voltage", 7.0);
         SmartNumber LIFT_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Lift Max Drive Voltage", 6.0);
@@ -319,7 +319,7 @@ public interface Settings {
         double AT_RPM_EPSILON = 125;
 
         SmartNumber RPM_CHANGE_RC = new SmartNumber("Shooter/RPM Change RC", 0.2);
-        double RPM_CHANGE_DIP_THRESHOLD = 100;
+        double RPM_CHANGE_DIP_THRESHOLD = 250;
 
         public interface Feedforward {
             double kS = 0.11873;
@@ -339,7 +339,7 @@ public interface Settings {
 
         public interface Feedforward {
             double kS = 0.71611;
-            double kV = 0.003400;
+            double kV = 0.0032;
             double kA = 0.00040287;
         }
 
@@ -376,17 +376,17 @@ public interface Settings {
     }
 
     public interface Alignment {
-        double DEBOUNCE_TIME = 0.05;
+        double DEBOUNCE_TIME = 0.2;
 
         SmartNumber X_TOLERANCE = new SmartNumber("Alignment/X Tolerance", 0.1);
         SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
         SmartNumber ANGLE_TOLERANCE = new SmartNumber("Alignment/Angle Tolerance", 5);
 
-        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Shooter/Podium Distance", 2.75);
+        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Shooter/Podium Distance", 2.85); // 2.75 in lab
         double PODIUM_SHOT_MAX_ANGLE = 80;
 
         SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(25.5));
-        SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(20.5));
+        SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(23.5));
 
         SmartNumber TRAP_SETUP_DISTANCE = new SmartNumber("Alignment/Trap/Setup Pose Distance", Units.inchesToMeters(22.0));
         SmartNumber TRAP_CLIMB_DISTANCE = new SmartNumber("Alignment/Trap/Climb Distance", Units.inchesToMeters(18.0));
@@ -407,9 +407,9 @@ public interface Settings {
 
         public interface Shoot {
             public interface Translation {
-                SmartNumber kP = new SmartNumber("ShootAlign/Translation/kP", 12.0);
+                SmartNumber kP = new SmartNumber("ShootAlign/Translation/kP", 6.0);
                 SmartNumber kI = new SmartNumber("ShootAlign/Translation/kI", 0.0);
-                SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.0);
+                SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.06);
             }
     
             public interface Rotation {

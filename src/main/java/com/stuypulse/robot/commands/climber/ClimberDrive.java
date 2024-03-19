@@ -15,6 +15,8 @@ import com.stuypulse.robot.constants.Settings.Operator;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.climber.Climber;
+import com.stuypulse.robot.subsystems.shooter.Shooter;
+import com.stuypulse.robot.util.ShooterSpeeds;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -50,6 +52,7 @@ public class ClimberDrive extends Command {
 
         if (shouldSafe.get()) {
             Amper.getInstance().setTargetHeight(Settings.Amper.Lift.SAFE_CLIMB_HEIGHT);
+            Shooter.getInstance().setTargetSpeeds(new ShooterSpeeds());
         }
     }
 

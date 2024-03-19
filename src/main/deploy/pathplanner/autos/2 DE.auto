@@ -8,19 +8,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "First Piece To A"
+            "pathName": "A To D"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C to B"
+            "pathName": "D to Ferry Shot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B To A"
+            "pathName": "Ferry Shot to E"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E To Shoot"
           }
         }
       ]

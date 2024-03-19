@@ -8,6 +8,7 @@ package com.stuypulse.robot;
 
 import com.stuypulse.robot.commands.leds.LEDReset;
 import com.stuypulse.robot.commands.leds.LEDSet;
+import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
 import com.stuypulse.robot.commands.shooter.ShooterStop;
 import com.stuypulse.robot.commands.vision.VisionReloadWhiteList;
 import com.stuypulse.robot.constants.Settings;
@@ -25,6 +26,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import com.pathplanner.lib.pathfinding.LocalADStar;
 import com.pathplanner.lib.pathfinding.Pathfinding;
@@ -146,7 +148,9 @@ public class Robot extends TimedRobot {
         robot.climber.stop();
         robot.amper.setTargetHeight(Lift.MIN_HEIGHT);
         scheduler.schedule(new LEDReset());
-        scheduler.schedule(new ShooterStop());
+        scheduler.schedule(new ShooterStop()
+            .andThen(new WaitCommand(Settings.Shooter.TELEOP_SHOOTER_STARTUP_DELAY))
+            .andThen(new ShooterPodiumShot()));
 
         robot.intake.setIdleMode(IdleMode.kBrake);
         robot.conveyor.setIdleMode(IdleMode.kBrake);

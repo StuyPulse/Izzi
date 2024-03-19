@@ -29,6 +29,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import java.util.function.Supplier;
@@ -55,21 +56,6 @@ public class SwerveDriveToPose extends Command {
         return speakerRelative(angleToSpeaker, Alignment.PODIUM_SHOT_DISTANCE.get());
     }
 
-    public static SwerveDriveToPose toClimb() {
-        return toClimb(Alignment.TRAP_SETUP_DISTANCE.get());
-    }
-
-    public static SwerveDriveToPose toClimb(double distance) {
-        return new SwerveDriveToPose(
-            () -> {
-                Pose2d closestTrap = Field.getClosestAllianceTrapPose(Odometry.getInstance().getPose());
-                Translation2d offsetTranslation = new Translation2d(distance, closestTrap.getRotation());
-                
-                return new Pose2d(closestTrap.getTranslation().plus(offsetTranslation), closestTrap.getRotation());
-            }
-        ).withTolerance(3.0, 3.0, 3.0);
-    }
-    
     private final SwerveDrive swerve;
     private final Odometry odometry;
 
@@ -156,7 +142,9 @@ public class SwerveDriveToPose extends Command {
         Vector2D speed = new Vector2D(controller.getOutput().vxMetersPerSecond, controller.getOutput().vyMetersPerSecond)
             .clamp(Swerve.MAX_MODULE_SPEED);
         double rotation = SLMath.clamp(controller.getOutput().omegaRadiansPerSecond, Motion.MAX_ANGULAR_VELOCITY.get());
-            
+        
+        SmartDashboard.putNumber("Alignment/Translation Target Speed", speed.distance());
+
         ChassisSpeeds clamped = new ChassisSpeeds(
             speed.x, speed.y, rotation);
         
