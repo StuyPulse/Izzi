@@ -46,9 +46,9 @@ public interface LEDInstructions {
     LEDInstruction WHITE = new LEDSingleColor(new SLColor(255, 255, 255));
     LEDInstruction YELLOW = new LEDSingleColor(new SLColor(255, 255, 0));
 
-    LEDInstruction BANGLADESH = new LEDSection(new SLColor[] {SLColor.RED, SLColor.BLACK, SLColor.DARK_GREEN});
+    LEDInstruction BANGLADESH = new LEDSection(new SLColor[] {SLColor.RED, SLColor.BLACK, SLColor.DARK_GREEN}, false);
 
-    LEDInstruction CLIMB_UP = new LEDSection(new SLColor[] {SLColor.PURPLE, SLColor.GREEN});
+    
 
     /******************/
     /*** NON-STATIC ***/
@@ -58,10 +58,9 @@ public interface LEDInstructions {
 
     LEDInstruction PULSE_RED = new LEDPulseColor(SLColor.RED);
     LEDInstruction PULSE_RED_BLUE = new LEDPulseColor(SLColor.RED, SLColor.BLUE);
-    LEDInstruction PULSE_PURPLE = new LEDPulseColor(SLColor.PURPLE, .25);
     LEDInstruction RICHIE = new RichieMode(SLColor.RED);
 
-    LEDInstruction PICKUP = new LEDPulseColor(SLColor.WHITE, 0.5);
+
 
     /********************************************/
     /*** LED CONSTANTS TO BE USED IN COMMANDS ***/
@@ -69,7 +68,34 @@ public interface LEDInstructions {
 
     LEDInstruction DEFAULT = LEDInstructions.OFF;
 
-    LEDInstruction ASSIST_FLASH = LEDInstructions.GREEN;
+    LEDInstruction INTAKE = LEDInstructions.DARK_BLUE;
+
+    LEDInstruction PICKUP = new LEDPulseColor(SLColor.WHITE);
+
+    LEDInstruction SPEAKER_ALIGN = new LEDPulseColor(SLColor.ORANGE);
+
+    LEDInstruction AMP_ALIGN = new LEDPulseColor(SLColor.PURPLE);
+    
+    LEDInstruction AMP_SCORE = LEDInstructions.PURPLE;
+
+    LEDInstruction ASSIST_FLASH = new LEDPulseColor(SLColor.GREEN);
+
+    LEDInstruction AUTO_SWERVE = new LEDSection(new SLColor[] {SLColor.RED, SLColor.BLUE}, false);
+
+    LEDInstruction ATTENTION = new LEDPulseColor(SLColor.YELLOW);
+
+    LEDInstruction CLIMB_UP = new LEDSection(new SLColor[] {SLColor.PURPLE, SLColor.GREEN}, false);
+
+    LEDInstruction TRAP_ALIGN = new LEDSection(new SLColor[] {SLColor.PURPLE, SLColor.GREEN}, true);
+
+    LEDInstruction Ferry = LEDInstructions.ORANGE; // No Ferry command yet
+
+	LEDInstruction CONTAINS_NOTE = new LEDPulseColor(SLColor.RED);
+
+
+    
+
+
 
     // TO FUTURE USERS, DONT PUT LEDAlign and LEDAutonChooser (any disabled LEDInstructions) inside
     // the LEDInstructions interface

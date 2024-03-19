@@ -422,7 +422,7 @@ public interface Settings {
 
     public interface LED {
         int LED_LENGTH = 15;
-        SmartNumber BLINK_TIME = new SmartNumber("LED/LED Blink Time", .5);
+        SmartNumber BLINK_TIME = new SmartNumber("LED/LED Blink Time", .15);
 
         SmartNumber TRANSLATION_SPREAD = new SmartNumber("LED/LED Translation Spread (m)", 0.5);
         SmartNumber ROTATION_SPREAD = new SmartNumber("LED/LED Rotation Spread (deg)", 15);

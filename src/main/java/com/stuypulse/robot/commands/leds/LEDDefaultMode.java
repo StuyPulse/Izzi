@@ -45,7 +45,7 @@ public class LEDDefaultMode extends Command {
             return LEDInstructions.GREEN;
 
         if (intake.hasNote())
-            return LEDInstructions.RED;
+            return LEDInstructions.CONTAINS_NOTE;
 
         return LEDInstructions.DEFAULT;
     }

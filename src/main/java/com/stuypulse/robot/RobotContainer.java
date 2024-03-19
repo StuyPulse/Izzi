@@ -37,6 +37,7 @@ import com.stuypulse.robot.subsystems.climber.*;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.leds.LEDController;
+import com.stuypulse.robot.subsystems.leds.instructions.LEDInstruction;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDPulseColor;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.shooter.Shooter;
@@ -123,7 +124,7 @@ public class RobotContainer {
         // intaking
         driver.getRightTriggerButton()
             .whileTrue(new IntakeAcquire()
-                    .deadlineWith(new LEDSet(LEDInstructions.DARK_BLUE))
+                    .deadlineWith(new LEDSet(LEDInstructions.INTAKE))
                 .andThen(new BuzzController(driver)
                     .alongWith(new LEDSet(LEDInstructions.PICKUP)
                         .withTimeout(3.0))));
@@ -137,7 +138,7 @@ public class RobotContainer {
         driver.getRightBumper()
             .onTrue(new ShooterPodiumShot())
             .whileTrue(new SwerveDriveToShoot()
-                    .deadlineWith(new LEDSet(LEDInstructions.ASSIST_FLASH))
+                    .deadlineWith(new LEDSet(LEDInstructions.SPEAKER_ALIGN))
                 .andThen(new ShooterWaitForTarget()
                     .withTimeout(1.5))
                 .andThen(new ConveyorShoot()))
@@ -165,7 +166,8 @@ public class RobotContainer {
         driver.getLeftMenuButton()
             .whileTrue(ConveyorToAmp.withCheckLift()
                 .andThen(AmperToHeight.untilDone(Lift.AMP_SCORE_HEIGHT))
-                .andThen(new AmperScore()))
+                .andThen(new AmperScore()
+                    .deadlineWith(new LEDSet(LEDInstructions.AMP_SCORE))))
             .onFalse(new AmperStop())
             .onFalse(new AmperToHeight(Lift.MIN_HEIGHT));
 
@@ -174,51 +176,63 @@ public class RobotContainer {
             .onTrue(new AmperScoreTrap())
             .onFalse(new AmperStop());
 
+        // amp if note
         driver.getDPadRight()
             .onTrue(new ConditionalCommand(new ConveyorToAmp(), new DoNothingCommand(), () -> Intake.getInstance().hasNote())
                 .andThen(new AmperToHeight(Lift.TRAP_SCORE_HEIGHT)));
 
+        // reset heading
         driver.getDPadUp()
             .onTrue(new SwerveDriveResetHeading());
         
+        // stop amp
         driver.getDPadDown()
             .onTrue(new AmperScoreSpeed(-Score.TRAP_SPEED))
             .onFalse(new AmperStop());
 
+        //automatic swerve drive
         driver.getTopButton()
             // on command start
             .onTrue(new BuzzController(driver, Assist.BUZZ_INTENSITY)
-                .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
+                .deadlineWith(new LEDSet(LEDInstructions.AUTO_SWERVE)))
                 
             .onTrue(new SwerveDriveAutomatic(driver)
                 // after command end
                 .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
-                    .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
+                    .deadlineWith(new LEDSet(LEDInstructions.AUTO_SWERVE)))
 
                 .andThen(new WaitCommand(Driver.Drive.BUZZ_DURATION))
                 
                 .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
-                    .deadlineWith(new LEDSet(LEDInstructions.GREEN))));
+                    .deadlineWith(new LEDSet(LEDInstructions.AUTO_SWERVE))));
 
+        // climb
         driver.getRightButton()
-            .whileTrue(new SwerveDriveToClimb());
+            .whileTrue(new SwerveDriveToClimb()
+                .deadlineWith(new LEDSet(LEDInstructions.TRAP_ALIGN)));
 
+        // drive to chain
         driver.getBottomButton()
-            .whileTrue(new SwerveDriveDriveToChain());
+            .whileTrue(new SwerveDriveDriveToChain()
+                .deadlineWith(new LEDSet(LEDInstructions.TRAP_ALIGN)));
     }
 
     private void configureOperatorBindings() {
+        // climber
         new Trigger(() -> operator.getLeftStick().magnitude() > Settings.Operator.DEADBAND.get())
             .whileTrue(new ClimberDrive(operator));
 
+        // climber LED
         new Trigger(() -> operator.getLeftY() > Settings.Operator.DEADBAND.get())
             .onTrue(new LEDSet(LEDInstructions.CLIMB_UP)
                 .withTimeout(1.0));
 
+        // move note to amp
         new Trigger(() -> operator.getLeftY() > 0.25)
             .onTrue(new ConveyorToAmp()
                 .andThen(new ShooterStop()));
 
+        
         new Trigger(() -> operator.getRightStick().magnitude() > Settings.Operator.DEADBAND.get())
             .whileTrue(new AmperLiftDrive(operator));
 
@@ -227,7 +241,7 @@ public class RobotContainer {
             .onFalse(new IntakeStop());
         operator.getRightTriggerButton()
             .whileTrue(new IntakeAcquire()
-                .deadlineWith(new LEDSet(LEDInstructions.DARK_BLUE))
+                .deadlineWith(new LEDSet(LEDInstructions.INTAKE))
                 .andThen(new BuzzController(driver)
                     .alongWith(new LEDSet(LEDInstructions.PICKUP)
                         .withTimeout(3.0))));
@@ -267,7 +281,7 @@ public class RobotContainer {
 
         // human player attention button
         operator.getRightMenuButton()
-            .whileTrue(new LEDSet(LEDInstructions.PULSE_PURPLE));
+            .whileTrue(new LEDSet(LEDInstructions.ATTENTION));
         
         operator.getLeftMenuButton()
             .onTrue(new AmperToConveyor())
