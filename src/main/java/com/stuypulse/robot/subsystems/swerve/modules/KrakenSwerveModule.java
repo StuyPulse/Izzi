@@ -29,10 +29,10 @@ public class KrakenSwerveModule extends SwerveModule {
 
     public static SwerveModule[] getTumblerModules() {
         return new SwerveModule[] {
-            new KrakenSwerveModule("Front Right", Swerve.FrontRight.MODULE_OFFSET, Rotation2d.fromDegrees(-153.632812 + 180), 15, 14, 4),
-            new KrakenSwerveModule("Front Left",  Swerve.FrontLeft.MODULE_OFFSET,  Rotation2d.fromDegrees(147.919922 + 180),  17, 16, 2),
-            new KrakenSwerveModule("Back Left",   Swerve.BackLeft.MODULE_OFFSET,   Rotation2d.fromDegrees(73.125 + 180),      11, 10, 3),
-            new KrakenSwerveModule("Back Right",  Swerve.BackRight.MODULE_OFFSET,  Rotation2d.fromDegrees(-2.02184 + 180),    13, 12, 1)
+            new KrakenSwerveModule("Front Right", Swerve.FrontRight.MODULE_OFFSET, Rotation2d.fromDegrees(-153.632812 + 180), 14, 15, 4),
+            new KrakenSwerveModule("Front Left",  Swerve.FrontLeft.MODULE_OFFSET,  Rotation2d.fromDegrees(147.919922 + 180),  16, 17, 2),
+            new KrakenSwerveModule("Back Left",   Swerve.BackLeft.MODULE_OFFSET,   Rotation2d.fromDegrees(73.125 + 180),      10, 11, 3),
+            new KrakenSwerveModule("Back Right",  Swerve.BackRight.MODULE_OFFSET,  Rotation2d.fromDegrees(-2.02184 + 180),    12, 13, 1)
         };
     }
 
