@@ -17,17 +17,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 
 public class ConveyorImpl extends Conveyor {
 
-    private final CANSparkMax gandalfMotor;
+    private final CANSparkFlex gandalfMotor;
 
     private final RelativeEncoder gandalfEncoder;
 
     protected ConveyorImpl() {
-        gandalfMotor = new CANSparkMax(Ports.Conveyor.GANDALF, MotorType.kBrushless);
+        gandalfMotor = new CANSparkFlex(Ports.Conveyor.GANDALF, MotorType.kBrushless);
 
         gandalfEncoder = new FilteredRelativeEncoder(gandalfMotor);
 

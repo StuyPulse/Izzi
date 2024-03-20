@@ -12,7 +12,6 @@ import com.stuypulse.robot.util.FilteredRelativeEncoder;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -29,11 +28,6 @@ public class ClimberImpl extends Climber {
     private final RelativeEncoder rightEncoder;
     private final RelativeEncoder leftEncoder;
 
-    // private final DigitalInput topRightLimit;
-    // private final DigitalInput topLeftLimit;
-    private final DigitalInput bottomRightLimit;
-    private final DigitalInput bottomLeftLimit;
-
     private Optional<Double> voltageOverride;
 
     protected ClimberImpl() {
@@ -48,11 +42,6 @@ public class ClimberImpl extends Climber {
 
         rightEncoder.setVelocityConversionFactor(Settings.Climber.Encoder.VELOCITY_CONVERSION);
         leftEncoder.setVelocityConversionFactor(Settings.Climber.Encoder.VELOCITY_CONVERSION);
-
-        // topRightLimit = new DigitalInput(Ports.Climber.TOP_RIGHT_LIMIT);
-        // topLeftLimit = new DigitalInput(Ports.Climber.TOP_LEFT_LIMIT);
-        bottomRightLimit = new DigitalInput(Ports.Climber.BOTTOM_RIGHT_LIMIT);
-        bottomLeftLimit = new DigitalInput(Ports.Climber.BOTTOM_LEFT_LIMIT);
 
         voltageOverride = Optional.empty();
 
@@ -113,15 +102,7 @@ public class ClimberImpl extends Climber {
     // }
 
     private boolean atBottom() {
-        return leftAtBottom() || rightAtBottom();
-    }
-
-    private boolean leftAtBottom() {
-        return !bottomRightLimit.get();
-    }
-
-    private boolean rightAtBottom() {
-        return !bottomLeftLimit.get();
+        return false;
     }
 
     private boolean isLeftStalling() {
@@ -167,12 +148,6 @@ public class ClimberImpl extends Climber {
         SmartDashboard.putNumber("Climber/Left Current", leftMotor.getOutputCurrent());
         SmartDashboard.putNumber("Climber/Right Current", rightMotor.getOutputCurrent());
         SmartDashboard.putNumber("Climber/Velocity", getVelocity());
-
-        SmartDashboard.putBoolean("Climber/Left At Bottom", leftAtBottom());
-        SmartDashboard.putBoolean("Climber/Right At Bottom", rightAtBottom());
-
-        // SmartDashboard.putBoolean("Climber/Left At Top", leftAtTop());
-        // SmartDashboard.putBoolean("Climber/Right At Top", leftAtTop());
 
         SmartDashboard.putBoolean("Climber/Left Stalling", isLeftStalling());
         SmartDashboard.putBoolean("Climber/Right Stalling", isRightStalling());

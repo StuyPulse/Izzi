@@ -8,13 +8,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "First Piece To C"
+            "pathName": "Blay First Piece To C"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C to B"
+            "pathName": "C To Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C Shoot to B"
           }
         },
         {

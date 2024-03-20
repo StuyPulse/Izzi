@@ -103,16 +103,7 @@ public class AmperSim extends Amper {
     }
 
     @Override
-    public void fromConveyor() {}
-
-    @Override
-    public void toConveyor() {}
-
-    @Override
-    public void amp() {}
-
-    @Override
-    public void trap() {}
+    public void runRoller(double speed) {}
 
     @Override
     public void stopRoller() {}

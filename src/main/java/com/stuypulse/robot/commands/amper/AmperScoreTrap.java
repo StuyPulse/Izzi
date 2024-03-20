@@ -15,13 +15,13 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 public class AmperScoreTrap extends InstantCommand {
 
     public static Command forSeconds(double seconds) {
-        return new AmperScore()
+        return new AmperScoreTrap()
             .andThen(new WaitCommand(seconds))
             .andThen(new AmperStop());
     }
 
     public static Command untilDone() {
-        return new AmperScore()
+        return new AmperScoreTrap()
             .until(() -> !Amper.getInstance().hasNote());
     }
 

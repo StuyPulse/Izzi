@@ -33,7 +33,7 @@ public interface Cameras {
         Pose3d[] POSITIONS = switch (Robot.ROBOT) {
             case IZZI    -> new Pose3d[] { IZZI_POSE };
             case TUMBLER -> new Pose3d[] {/*  TUMBLER_POSE */};
-            default      -> new Pose3d[] {/*  IZZI_POSE */};
+            default      -> new Pose3d[] { IZZI_POSE };
         };
     }
 

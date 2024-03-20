@@ -41,7 +41,7 @@ public class LEDDefaultMode extends Command {
 
     private LEDInstruction getInstruction() {
         if (amper.getTargetHeight() == Lift.TRAP_SCORE_HEIGHT
-                && amper.isAtTargetHeight(Lift.MAX_HEIGHT_ERROR))
+                && amper.isAtTargetHeight(0.15))
             return LEDInstructions.GREEN;
 
         if (intake.hasNote())

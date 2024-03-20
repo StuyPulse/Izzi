@@ -17,20 +17,17 @@ public interface Ports {
     public interface Climber {
         int LEFT_MOTOR = 60;
         int RIGHT_MOTOR = 61;
-
         // int TOP_RIGHT_LIMIT = 9;
         // int TOP_LEFT_LIMIT = 3;
-        int BOTTOM_RIGHT_LIMIT = 9;
-        int BOTTOM_LEFT_LIMIT = 4;
+        // int BOTTOM_RIGHT_LIMIT = 9;
+        // int BOTTOM_LEFT_LIMIT = 4;
     }
 
     public interface Amper {
         int SCORE = 31;
         int LIFT = 30;
 
-        // int ALIGNED_BUMP_SWITCH = 3;
-        int LIFT_BOTTOM_LIMIT = 6;
-        // int LIFT_TOP_LIMIT = 5;
+        // int LIFT_BOTTOM_LIMIT = 6;
         int AMP_IR = 0;
     }
 
@@ -48,20 +45,20 @@ public interface Ports {
         }
 
         public interface BackLeft {
-            int DRIVE = 14;
-            int TURN = 17;
+            int DRIVE = 15;
+            int TURN = 14;
             int ENCODER = 3;
         }
 
         public interface BackRight {
             int DRIVE = 16;
-            int TURN = 15;
+            int TURN = 17;
             int ENCODER = 4;
         }
     }
 
     public interface Intake {
-        int MOTOR = 40;
+        int MOTOR = 50;
         int IR_SENSOR = 1;
     }
 
@@ -71,7 +68,7 @@ public interface Ports {
     }
 
     public interface Conveyor {
-        int GANDALF = 50;
+        int GANDALF = 40;
         int FEEDER = 51;
     }
 

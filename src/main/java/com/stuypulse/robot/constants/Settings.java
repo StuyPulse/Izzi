@@ -88,7 +88,7 @@ public interface Settings {
 
         public interface Score {
             double AMP_SPEED = 1.0;
-            double TRAP_SPEED = 0.5;
+            double TRAP_SPEED = 0.3;
             double FROM_CONVEYOR_SPEED = 0.35;
             double TO_CONVEYOR_SPEED = 1.0;
 
@@ -103,7 +103,8 @@ public interface Settings {
             double CARRIAGE_MASS = 10; // kg
 
             double MIN_HEIGHT = 0;
-            double MAX_HEIGHT = Units.inchesToMeters(17.0); //TODO: Tune this value, was 14.75 
+            double SAFE_CLIMB_HEIGHT = 0.20;
+            double MAX_HEIGHT = Units.inchesToMeters(25.0) + 0.05; // amp 14.75
 
             double VISUALIZATION_MIN_LENGTH = 0.5;
             Rotation2d ANGLE_TO_GROUND = Rotation2d.fromDegrees(68.02);
@@ -114,7 +115,7 @@ public interface Settings {
             double ACCEL_LIMIT = 2.0;
 
             double AMP_SCORE_HEIGHT = 0.34;
-            double TRAP_SCORE_HEIGHT = 0.60; //TODO: Tune this value
+            double TRAP_SCORE_HEIGHT = MAX_HEIGHT;
 
             public interface Encoder {
                 double GEARING = 1.0 / 9.0;
@@ -126,10 +127,10 @@ public interface Settings {
             }
 
             public interface Feedforward {
-                double kS = 0.18665;
-                double kV = 6.6702;
-                double kA = 0.803;
-                double kG = 0.3;
+                double kS = 0.20506;
+                double kV = 3.7672;
+                double kA = 0.27;
+                double kG = 0.37;
             }
 
             public interface PID {
@@ -208,36 +209,36 @@ public interface Settings {
         }
 
         public interface Drive {
-            SmartNumber kP = new SmartNumber("Swerve/Drive/PID/kP", 0.2);
+            SmartNumber kP = new SmartNumber("Swerve/Drive/PID/kP", 0.31399);
             double kI = 0.0;
             double kD = 0.0;
 
-            double kS = 0.15297;
-            SmartNumber kV = new SmartNumber("Swerve/Drive/FF/kV", 1.6);
-            SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.2);
+            double kS = 0.27354;
+            SmartNumber kV = new SmartNumber("Swerve/Drive/FF/kV", 2.1022);
+            SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.41251);
         }
 
         public interface FrontRight {
             String ID = "Front Right";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(13.095703);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(42.714844);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * +0.5, LENGTH * -0.5);
         }
 
         public interface FrontLeft {
             String ID = "Front Left";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-50.273438);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(16.435547);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * +0.5, LENGTH * +0.5);
         }
 
         public interface BackLeft {
             String ID = "Back Left";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(99.052734);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(22.939453);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * +0.5);
         }
 
         public interface BackRight {
             String ID = "Back Right";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(177.714844);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(40.253906);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * -0.5);
         }
     }
@@ -293,8 +294,9 @@ public interface Settings {
     }
 
     public interface Operator {
-        SmartNumber DEADBAND = new SmartNumber("Operator Settings/Manual Climb + Lift Deadband", 0.05);
-        SmartNumber CLIMB_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Climber Max Drive Voltage", 7.0);
+        SmartNumber DEADBAND = new SmartNumber("Operator Settings/Manual Climb + Lift Deadband", 0.2);
+        SmartNumber CLIMB_DRIVE_VOLTAGE_UP = new SmartNumber("Operator Settings/Climber Up Drive Voltage", 2.0);
+        SmartNumber CLIMB_DRIVE_VOLTAGE_DOWN = new SmartNumber("Operator Settings/Climber Drive Drive Voltage", 7.0);
         SmartNumber LIFT_DRIVE_VOLTAGE = new SmartNumber("Operator Settings/Lift Max Drive Voltage", 6.0);
         SmartNumber LIFT_ADJUST_SPEED = new SmartNumber("Operator Settings/Lift Fine Adjust Speed", Units.inchesToMeters(1.0));
     }
@@ -302,19 +304,22 @@ public interface Settings {
     public interface Shooter {
         double MOMENT_OF_INERTIA = 0.01;
 
-        double TELEOP_SHOOTER_STARTUP_DELAY = 0.25;
+        double TELEOP_SHOOTER_STARTUP_DELAY = 0.5;
 
+        // MAX RPM
+        // LEFT/RIGHT: 5900
+        // FEEDER: 3100
         ShooterSpeeds PODIUM_SHOT = new ShooterSpeeds(
-            new SmartNumber("Shooter/Podium Shooter RPM", 5000),
+            new SmartNumber("Shooter/Podium Shooter RPM", 5500),
             500,
             new SmartNumber("Shooter/Podium Feeder RPM", 3000));
 
-        ShooterSpeeds HANDOFF = new ShooterSpeeds(2000, 2000);
+        ShooterSpeeds HANDOFF = new ShooterSpeeds(3000, 3000);
 
         double AT_RPM_EPSILON = 125;
 
         SmartNumber RPM_CHANGE_RC = new SmartNumber("Shooter/RPM Change RC", 0.2);
-        double RPM_CHANGE_DIP_THRESHOLD = 100;
+        double RPM_CHANGE_DIP_THRESHOLD = 250;
 
         public interface Feedforward {
             double kS = 0.11873;
@@ -334,7 +339,7 @@ public interface Settings {
 
         public interface Feedforward {
             double kS = 0.71611;
-            double kV = 0.003400;
+            double kV = 0.0032;
             double kA = 0.00040287;
         }
 
@@ -360,28 +365,28 @@ public interface Settings {
 
     public interface Conveyor {
         SmartNumber GANDALF_SHOOTER_SPEED = new SmartNumber("Conveyor/Gandalf Shooter Speed", 1.0);
-        double GANDALF_AMP_SPEED = 1.0;
+        double GANDALF_AMP_SPEED = 0.5;
 
         SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.0);
         SmartNumber RECALL_DEBOUNCE = new SmartNumber("Conveyor/Recall Delay", 1.0);
 
-        SmartNumber SHOOT_WAIT_DELAY = new SmartNumber("Conveyor/Shoot Wait Delay", 1.0 /*0.35*/);
+        SmartNumber SHOOT_WAIT_DELAY = new SmartNumber("Conveyor/Shoot Wait Delay", 0.35);
 
         SmartNumber AT_FEEDER_WAIT_DELAY = new SmartNumber("Conveyor/At Feeder Wait Delay", 0.5);
     }
 
     public interface Alignment {
-        double DEBOUNCE_TIME = 0.05;
+        double DEBOUNCE_TIME = 0.2;
 
         SmartNumber X_TOLERANCE = new SmartNumber("Alignment/X Tolerance", 0.1);
         SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
         SmartNumber ANGLE_TOLERANCE = new SmartNumber("Alignment/Angle Tolerance", 5);
 
-        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Shooter/Podium Distance", 3.2);
+        SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Shooter/Podium Distance", 2.85); // 2.75 in lab
         double PODIUM_SHOT_MAX_ANGLE = 80;
 
         SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(25.5));
-        SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(20.5));
+        SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(23.5));
 
         SmartNumber TRAP_SETUP_DISTANCE = new SmartNumber("Alignment/Trap/Setup Pose Distance", Units.inchesToMeters(22.0));
         SmartNumber TRAP_CLIMB_DISTANCE = new SmartNumber("Alignment/Trap/Climb Distance", Units.inchesToMeters(18.0));
@@ -402,9 +407,9 @@ public interface Settings {
 
         public interface Shoot {
             public interface Translation {
-                SmartNumber kP = new SmartNumber("ShootAlign/Translation/kP", 12.0);
+                SmartNumber kP = new SmartNumber("ShootAlign/Translation/kP", 6.0);
                 SmartNumber kI = new SmartNumber("ShootAlign/Translation/kI", 0.0);
-                SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.0);
+                SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.06);
             }
     
             public interface Rotation {
@@ -428,7 +433,7 @@ public interface Settings {
     public interface Auton {
         double MAX_SHOT_DISTANCE = 3.1;
 
-        double SHOOTER_STARTUP_DELAY = 0.25;
+        double SHOOTER_STARTUP_DELAY = 0.5;
         double DEFAULT_INTAKE_TIMEOUT = 0.75;
         double SHOOTER_START_PRE = 1.0;
     }

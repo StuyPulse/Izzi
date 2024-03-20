@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "First Piece To A"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A To D"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "D to Ferry Shot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Ferry Shot to E"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E To Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
