@@ -70,17 +70,15 @@ public interface LEDInstructions {
 
     LEDInstruction INTAKE = LEDInstructions.DARK_BLUE;
 
-    LEDInstruction PICKUP = new LEDPulseColor(SLColor.WHITE);
+    LEDInstruction PICKUP = new LEDPulseColor(SLColor.RED);
 
-    LEDInstruction SPEAKER_ALIGN = new LEDPulseColor(SLColor.ORANGE);
+    LEDInstruction SPEAKER_ALIGN = new LEDPulseColor(SLColor.GREEN);
 
-    LEDInstruction AMP_ALIGN = new LEDPulseColor(SLColor.PURPLE);
+    LEDInstruction AMP_ALIGN = new LEDPulseColor(SLColor.GREEN);
     
     LEDInstruction AMP_SCORE = LEDInstructions.PURPLE;
 
-    LEDInstruction ASSIST_FLASH = new LEDPulseColor(SLColor.GREEN);
-
-    LEDInstruction AUTO_SWERVE = new LEDSection(new SLColor[] {SLColor.RED, SLColor.BLUE}, false);
+    LEDInstruction AUTO_SWERVE =  new LEDPulseColor(SLColor.GREEN);
 
     LEDInstruction ATTENTION = new LEDPulseColor(SLColor.YELLOW);
 
@@ -90,7 +88,7 @@ public interface LEDInstructions {
 
     LEDInstruction Ferry = LEDInstructions.ORANGE; // No Ferry command yet
 
-	LEDInstruction CONTAINS_NOTE = new LEDPulseColor(SLColor.RED);
+	LEDInstruction CONTAINS_NOTE = new LEDSingleColor(SLColor.WHITE);
 
 
     

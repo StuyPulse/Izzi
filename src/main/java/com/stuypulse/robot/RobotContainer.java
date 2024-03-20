@@ -37,15 +37,11 @@ import com.stuypulse.robot.subsystems.climber.*;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.leds.LEDController;
-import com.stuypulse.robot.subsystems.leds.instructions.LEDInstruction;
-import com.stuypulse.robot.subsystems.leds.instructions.LEDPulseColor;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.shooter.Shooter;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
-import com.stuypulse.robot.util.SLColor;
-import com.stuypulse.robot.util.ShooterSpeeds;
 import com.stuypulse.robot.util.PathUtil.AutonConfig;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -125,8 +121,8 @@ public class RobotContainer {
         driver.getRightTriggerButton()
             .whileTrue(new IntakeAcquire()
                     .deadlineWith(new LEDSet(LEDInstructions.INTAKE))
-                .andThen(new BuzzController(driver)
-                    .alongWith(new LEDSet(LEDInstructions.PICKUP)
+                .andThen(new LEDSet(LEDInstructions.PICKUP) 
+                    .alongWith(new BuzzController(driver)
                         .withTimeout(3.0))));
         
         driver.getLeftTriggerButton()

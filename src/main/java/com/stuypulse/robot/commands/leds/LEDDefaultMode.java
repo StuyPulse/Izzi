@@ -13,6 +13,7 @@ import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.leds.LEDController;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDInstruction;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -44,9 +45,10 @@ public class LEDDefaultMode extends Command {
                 && amper.isAtTargetHeight(0.15))
             return LEDInstructions.GREEN;
 
-        if (intake.hasNote())
+        if (intake.hasNote()) {
             return LEDInstructions.CONTAINS_NOTE;
-
+        }
+        
         return LEDInstructions.DEFAULT;
     }
 
