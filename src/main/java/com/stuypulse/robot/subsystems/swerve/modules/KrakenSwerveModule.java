@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Motors.StatusFrame;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Swerve;
 import com.stuypulse.robot.constants.Settings.Swerve.Turn;
 import com.stuypulse.stuylib.control.angle.AngleController;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
@@ -25,6 +26,15 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class KrakenSwerveModule extends SwerveModule {
+
+    public static SwerveModule[] getTumblerModules() {
+        return new SwerveModule[] {
+            new KrakenSwerveModule("Front Right", Swerve.FrontRight.MODULE_OFFSET, Rotation2d.fromDegrees(-153.632812 + 180), 15, 14, 4),
+            new KrakenSwerveModule("Front Left",  Swerve.FrontLeft.MODULE_OFFSET,  Rotation2d.fromDegrees(147.919922 + 180),  17, 16, 2),
+            new KrakenSwerveModule("Back Left",   Swerve.BackLeft.MODULE_OFFSET,   Rotation2d.fromDegrees(73.125 + 180),      11, 10, 3),
+            new KrakenSwerveModule("Back Right",  Swerve.BackRight.MODULE_OFFSET,  Rotation2d.fromDegrees(-2.02184 + 180),    13, 12, 1)
+        };
+    }
 
     private final Rotation2d angleOffset;
 

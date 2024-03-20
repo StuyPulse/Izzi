@@ -107,7 +107,7 @@ public class SwerveDrive extends SubsystemBase {
                 new KrakenSwerveModule(BackRight.ID, BackRight.MODULE_OFFSET, BackRight.ABSOLUTE_OFFSET, Ports.Swerve.BackRight.DRIVE, Ports.Swerve.BackRight.TURN, Ports.Swerve.BackRight.ENCODER)
             );
         } else if (Robot.ROBOT == RobotType.TUMBLER) {
-            instance = new SwerveDrive(TumblerSwerveModule.getModules());
+            instance = new SwerveDrive(KrakenSwerveModule.getTumblerModules());
         } else {
             instance = new SwerveDrive(
                 new SwerveModuleSim(FrontRight.ID, FrontRight.MODULE_OFFSET),
