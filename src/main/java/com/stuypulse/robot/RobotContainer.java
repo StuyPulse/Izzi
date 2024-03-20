@@ -280,6 +280,9 @@ public class RobotContainer {
         autonChooser.addOption("Red 4 Piece HGF", new FourPieceHGF(
             PathUtil.loadPathsRed("Start To H (HGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)", "F To Shoot (HGF)")));
 
+        autonChooser.addOption("Bottom Ferry", new FerryBottomAuton(
+            PathUtil.loadPaths("Start To H (HGF)", "H to G", "G to F", "F to E", "E to D")));
+
         SmartDashboard.putData("Autonomous", autonChooser);
     }
 
