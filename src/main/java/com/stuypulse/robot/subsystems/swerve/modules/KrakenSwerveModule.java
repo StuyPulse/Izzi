@@ -4,6 +4,8 @@ import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVelocityTorqueCurrentFOC;
+import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -14,6 +16,7 @@ import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Motors.StatusFrame;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Swerve;
+import com.stuypulse.robot.constants.Settings.Swerve.Encoder;
 import com.stuypulse.robot.constants.Settings.Swerve.Turn;
 import com.stuypulse.stuylib.control.angle.AngleController;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
@@ -29,10 +32,10 @@ public class KrakenSwerveModule extends SwerveModule {
 
     public static SwerveModule[] getTumblerModules() {
         return new SwerveModule[] {
-            new KrakenSwerveModule("Front Right", Swerve.FrontRight.MODULE_OFFSET, Rotation2d.fromDegrees(-153.632812 + 180), 14, 15, 4),
-            new KrakenSwerveModule("Front Left",  Swerve.FrontLeft.MODULE_OFFSET,  Rotation2d.fromDegrees(147.919922 + 180),  16, 17, 2),
-            new KrakenSwerveModule("Back Left",   Swerve.BackLeft.MODULE_OFFSET,   Rotation2d.fromDegrees(73.125 + 180),      10, 11, 3),
-            new KrakenSwerveModule("Back Right",  Swerve.BackRight.MODULE_OFFSET,  Rotation2d.fromDegrees(-2.02184 + 180),    12, 13, 1)
+            new KrakenSwerveModule("Front Right", Swerve.FrontRight.MODULE_OFFSET, Rotation2d.fromDegrees(-153.632812 + 180), 12, 15, 4),
+            new KrakenSwerveModule("Front Left",  Swerve.FrontLeft.MODULE_OFFSET,  Rotation2d.fromDegrees(147.919922 + 180),  10, 17, 2),
+            new KrakenSwerveModule("Back Left",   Swerve.BackLeft.MODULE_OFFSET,   Rotation2d.fromDegrees(73.125 + 180),      14, 11, 3),
+            new KrakenSwerveModule("Back Right",  Swerve.BackRight.MODULE_OFFSET,  Rotation2d.fromDegrees(-2.02184 + 180),    16, 13, 1)
         };
     }
 
@@ -63,7 +66,7 @@ public class KrakenSwerveModule extends SwerveModule {
         TalonFXConfiguration driveConfig = new TalonFXConfiguration();
 
         // PIDF values
-        Slot0Configs slot0 = driveConfig.Slot0;
+        Slot0Configs slot0 = new Slot0Configs();
 
         slot0.kS = 0.25; 
         slot0.kV = 0.12; 
@@ -72,35 +75,50 @@ public class KrakenSwerveModule extends SwerveModule {
         slot0.kI = 0; 
         slot0.kD = 0; 
 
+        // slot0.kV = 0;
+        // slot0.kA = 0;
+        // slot0.kP = 2.1;
+        // slot0.kI = 0.1;
+        // slot0.kD = 0;
+
+        driveConfig.Slot0 = slot0;
+
         // Direction and neutral mode
-        driveConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        driveConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         driveConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
         // Ramp rates
-        driveConfig.ClosedLoopRamps.TorqueClosedLoopRampPeriod = 0.1; // 100ms
+        driveConfig.ClosedLoopRamps.TorqueClosedLoopRampPeriod = 0.0; // 100ms
 
         // Motion magic
-        MotionMagicConfigs motionMagicConfigs = driveConfig.MotionMagic;
-        motionMagicConfigs.MotionMagicCruiseVelocity = 0; // Unlimited cruise velocity
-        motionMagicConfigs.MotionMagicExpo_kV = 0.12; // kV is around 0.12 V/rps
-        motionMagicConfigs.MotionMagicExpo_kA = 0.1; // Use a slower kA of 0.1 V/(rps/s)
-        driveConfig.MotionMagic.MotionMagicJerk = 0.0; // 0 jerk
+        // MotionMagicConfigs motionMagicConfigs = driveConfig.MotionMagic;
+        // motionMagicConfigs.MotionMagicCruiseVelocity = 0; // Unlimited cruise velocity
+        // motionMagicConfigs.MotionMagicExpo_kV = 0.12; // kV is around 0.12 V/rps
+        // motionMagicConfigs.MotionMagicExpo_kA = 0.1; // Use a slower kA of 0.1 V/(rps/s)
+        // driveConfig.MotionMagic.MotionMagicAcceleration = 400.0;
+        // driveConfig.MotionMagic.MotionMagicJerk = 4000.0;
 
         // Gear ratio
         driveConfig.Feedback.SensorToMechanismRatio = 1.0; // 1:1 sensor to mechanism ratio
 
         // Current limits
-        driveConfig.CurrentLimits.StatorCurrentLimit = 40; // 40A stator current limit
-        driveConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Enable stator current limiting
+        // driveConfig.CurrentLimits.StatorCurrentLimit = 65; // 65A stator current limit
+        // driveConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Enable stator current limiting
 
-        driveConfig.CurrentLimits.SupplyCurrentLimit = 40; // 40A supply current limit
-        driveConfig.CurrentLimits.SupplyCurrentThreshold = 40; // 40A supply current threshold
-        driveConfig.CurrentLimits.SupplyCurrentLimitEnable = true; // Enable supply current limiting
-        driveConfig.CurrentLimits.SupplyTimeThreshold = 0.2; // 200ms supply time threshold
+        // driveConfig.CurrentLimits.SupplyCurrentLimit = 40; // 40A supply current limit
+        // driveConfig.CurrentLimits.SupplyCurrentThreshold = 40; // 40A supply current threshold
+        // driveConfig.CurrentLimits.SupplyCurrentLimitEnable = false; // Enable supply current limiting
+        // driveConfig.CurrentLimits.SupplyTimeThreshold = 0.2; // 200ms supply time threshold
 
-        driveConfig.TorqueCurrent.PeakForwardTorqueCurrent = 40; // 40A peak forward torque current
-        driveConfig.TorqueCurrent.PeakReverseTorqueCurrent = 40; // 40A peak reverse torque current
+        driveConfig.TorqueCurrent.PeakForwardTorqueCurrent = +400; // 40A peak forward torque current
+        driveConfig.TorqueCurrent.PeakReverseTorqueCurrent = -400; // 40A peak reverse torque current
         driveConfig.TorqueCurrent.TorqueNeutralDeadband = 0.05; // 5% torque neutral deadband
+
+        // driveConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
+        // driveConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
+
+        // driveConfig.HardwareLimitSwitch.ForwardLimitEnable = false;
+        // driveConfig.HardwareLimitSwitch.ReverseLimitEnable = false;
 
         driveMotor.getConfigurator().apply(driveConfig);
         driveMotor.setPosition(0);
@@ -114,12 +132,12 @@ public class KrakenSwerveModule extends SwerveModule {
     }
 
     public double getPosition() {
-        return driveMotor.getPosition().getValueAsDouble();
+        return driveMotor.getPosition().getValueAsDouble() * Encoder.Drive.POSITION_CONVERSION;
     }
 
     @Override
     public double getVelocity() {
-        return driveMotor.getVelocity().getValueAsDouble();
+        return driveMotor.getVelocity().getValueAsDouble() * Encoder.Drive.POSITION_CONVERSION;
     }
 
     @Override
@@ -133,15 +151,20 @@ public class KrakenSwerveModule extends SwerveModule {
         return new SwerveModulePosition(getPosition(), getAngle());
     }
 
+    private double convertDriveVel(double speedMetersPerSecond) {
+        return speedMetersPerSecond / Encoder.Drive.POSITION_CONVERSION;
+    }
+
     @Override
     public void periodic() {
         super.periodic();
 
-        MotionMagicVelocityTorqueCurrentFOC driveOutput = new MotionMagicVelocityTorqueCurrentFOC(getTargetState().speedMetersPerSecond);
+        VelocityVoltage driveOutput = new VelocityVoltage(convertDriveVel(getTargetState().speedMetersPerSecond));
+
         pivotController.update(Angle.fromRotation2d(getTargetState().angle), Angle.fromRotation2d(getAngle()));
 
         if (Math.abs(getTargetState().speedMetersPerSecond) < Settings.Swerve.MODULE_VELOCITY_DEADBAND) {
-            driveMotor.setControl(new MotionMagicVelocityTorqueCurrentFOC(0));
+            driveMotor.setControl(new VelocityVoltage(0));
             pivotMotor.setVoltage(0);
         } else {
             driveMotor.setControl(driveOutput);
@@ -150,6 +173,7 @@ public class KrakenSwerveModule extends SwerveModule {
 
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Current", driveMotor.getTorqueCurrent().getValueAsDouble());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Position", getPosition());
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Velocity", getVelocity());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Voltage", driveMotor.getMotorVoltage().getValueAsDouble());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Turn Voltage", pivotController.getOutput());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Angle Error", pivotController.getError().toDegrees());
