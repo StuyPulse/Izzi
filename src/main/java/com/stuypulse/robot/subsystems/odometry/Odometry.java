@@ -143,11 +143,14 @@ public class Odometry extends SubsystemBase {
                 thetaStdDev);
     }
 
-    // private void updateEstimatorWithVisionData(ArrayList<VisionData> outputs) {
-    //     for (VisionData data : outputs) {
-    //         estimator.addVisionMeasurement(data.getPose().toPose2d(), data.getTimestamp());
-    //     }
-    // }
+    private void updateEstimatorWithVisionData(ArrayList<VisionData> outputs) {
+        for (VisionData data : outputs) {
+            estimator.addVisionMeasurement(data.getPose().toPose2d(), data.getTimestamp(), 
+                DriverStation.isAutonomous()
+                ? VecBuilder.fill(0.9, 0.9, 10)
+                : VecBuilder.fill(0.7, 0.7, 10));
+        }
+    }
 
     // private void updateEstimatorWithVisionData(ArrayList<VisionData> outputs) {
     //     Pose2d poseSum = new Pose2d();
@@ -170,27 +173,6 @@ public class Odometry extends SubsystemBase {
     //     estimator.addVisionMeasurement(poseSum.div(areaSum), timestampSum / areaSum,
     //         DriverStation.isAutonomous() ? VecBuilder.fill(0.9, 0.9, 10) : VecBuilder.fill(0.7, 0.7, 10));
     // }
-    
-    private void updateEstimatorWithVisionData(ArrayList<VisionData> outputs) {
-        Translation2d poseSum = new Translation2d();
-        double rotationSum = 0;
-        double timestampSum = 0;
-
-        for (VisionData data : outputs) {
-            poseSum = poseSum.plus(data.getPose().toPose2d().getTranslation());
-            rotationSum += data.getPose().toPose2d().getRotation().getRadians();
-
-            timestampSum += data.getTimestamp();
-        }
-
-        estimator.addVisionMeasurement(
-            new Pose2d(
-                poseSum.div(outputs.size()),
-                new Rotation2d(rotationSum / outputs.size())
-            ),
-            timestampSum / outputs.size()
-        );
-    }
 
     @Override
     public void periodic() {

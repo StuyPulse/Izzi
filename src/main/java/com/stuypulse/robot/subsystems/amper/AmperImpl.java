@@ -122,7 +122,7 @@ public class AmperImpl extends Amper {
     /*** SCORE ROLLERS ***/
 
     @Override
-    public void run(double speed) {
+    public void runRoller(double speed) {
         scoreMotor.set(speed);
     }
 
