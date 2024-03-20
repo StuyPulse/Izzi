@@ -283,47 +283,20 @@ public class RobotContainer {
 
         autonChooser.addOption("Mobility", new Mobility());
 
+        autonChooser.addOption("Square", new Square());
+
         AutonConfig HGF = new AutonConfig("3.5 Piece HGF", FourPieceHGF::new,
         "Start To H (HGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)", "F To Shoot (HGF)");
-        
-        AutonConfig TrackingCBAE = new AutonConfig("Tracking 5 Piece CBAE", FivePieceTrackingCBAE::new,
-            "Blay First Piece To C", "C to B", "B To A", "A To E", "E To Shoot");   
 
         AutonConfig PodiumCBAE = new AutonConfig("5 Piece CBAE", FivePiecePodiumCBAE::new, 
         "Blay First Piece To C", "C to B", "B To A","A To E", "E To Shoot");
 
-        AutonConfig ADE = new AutonConfig("3 Piece ADE", ThreePieceADE::new,
-            "First Piece To A", "A To D", "D to Ferry Shot", "Ferry Shot to E", "E To Shoot");
-        
-        AutonConfig DE = new AutonConfig("2 Piece DE", TwoPieceDE::new,
-            "First Piece to D", "D to Ferry Shot", "Ferry Shot to E", "E To Shoot");
-
-        // AutonConfig PodiumCloseCBAE = new AutonConfig("Podium Close 5 Piece CBAE", FivePiecePodiumForwardCBAE::new, 
-        // "Forward First Piece to C", "C to B 2", "B To A","A To E", "E To Shoot");
-
-        // CBAE.registerBlue(autonChooser)
-        //     .registerRed(autonChooser);
-        
-        // BLAY_CBAE
-        //     .registerBlue(autonChooser)
-        //     .registerRed(autonChooser);
-        
         HGF.registerBlue(autonChooser)
             .registerRed(autonChooser);
-
-        // TrackingCBAE
-        //     .registerBlue(autonChooser)
-        //     .registerRed(autonChooser);
         
         PodiumCBAE
             .registerDefaultBlue(autonChooser)
             .registerDefaultRed(autonChooser);
-        
-        // ADE.registerBlue(autonChooser)
-        //     .registerRed(autonChooser);
-
-        // DE.registerBlue(autonChooser)
-        //     .registerRed(autonChooser);
         
         SmartDashboard.putData("Autonomous", autonChooser);
     }

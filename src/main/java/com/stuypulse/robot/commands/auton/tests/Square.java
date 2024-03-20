@@ -1,6 +1,7 @@
 package com.stuypulse.robot.commands.auton.tests;
 
-import com.stuypulse.robot.commands.swerve.SwerveDriveResetHeading;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.stuypulse.robot.commands.swerve.SwerveDriveResetOdometry;
 import com.stuypulse.robot.commands.vision.VisionDisable;
 import com.stuypulse.robot.commands.vision.VisionEnable;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
@@ -11,7 +12,7 @@ public class Square extends SequentialCommandGroup {
     
     public Square() {
         addCommands(
-            new SwerveDriveResetHeading(),
+            new SwerveDriveResetOdometry(PathPlannerPath.fromPathFile("SquareA").getPreviewStartingHolonomicPose()),
             new VisionDisable(),
             SwerveDrive.getInstance().followPathCommand("SquareA"),
             SwerveDrive.getInstance().followPathCommand("SquareB"),
