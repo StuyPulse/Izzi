@@ -12,8 +12,8 @@ import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.leds.LEDController;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDInstruction;
+import com.stuypulse.stuylib.util.StopWatch;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -31,11 +31,13 @@ public class LEDDefaultMode extends Command {
 
     private final Intake intake;
     private final Amper amper;
+    private final StopWatch stopWatch;
 
     public LEDDefaultMode() {
         leds = LEDController.getInstance();
         intake = Intake.getInstance();
         amper = Amper.getInstance();
+        stopWatch = new StopWatch();
 
         addRequirements(leds);
     }
@@ -46,7 +48,10 @@ public class LEDDefaultMode extends Command {
             return LEDInstructions.GREEN;
 
         if (intake.hasNote()) {
-            return LEDInstructions.CONTAINS_NOTE;
+            stopWatch.reset();
+            if (stopWatch.getTime() < 1) {
+                return LEDInstructions.CONTAINS_NOTE;
+            }
         }
         
         return LEDInstructions.DEFAULT;
