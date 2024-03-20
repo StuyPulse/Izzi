@@ -148,7 +148,6 @@ public class RobotContainer {
         // note to amper and align then score
         driver.getLeftBumper()
             .whileTrue(new AmpScoreRoutine())
-            .onFalse(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT))
             .onFalse(new AmperStop());
 
         // score speaker no align

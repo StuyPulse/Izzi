@@ -6,31 +6,33 @@
 
 package com.stuypulse.robot.commands.amper;
 
+import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.amper.Amper;
+import com.stuypulse.robot.subsystems.shooter.Shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class AmperToConveyor extends Command {
 
     private final Amper amper;
+    private final Shooter shooter;
 
     public AmperToConveyor() {
         amper = Amper.getInstance();
+        shooter = Shooter.getInstance();
+
         addRequirements(amper);
     }
 
     @Override
     public void initialize() {
         amper.toConveyor();
+        shooter.setTargetSpeeds(Settings.Shooter.REVERSE);
     }
 
-    // @Override
-    // public boolean isFinished() {
-    //     return amper.hasNote();
-    // }
+    @Override
+    public void end(boolean interrupted) {
+        shooter.setTargetSpeeds(Settings.Shooter.PODIUM_SHOT);
+    }
 
-    // @Override
-    // public void end(boolean interrupted) {
-    //     amper.stopRoller();
-    // }
 }

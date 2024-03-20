@@ -79,6 +79,10 @@ public class AmpScoreRoutine extends SequentialCommandGroup {
             
             AmperScore.untilDone(),
 
+            new WaitCommand(0.25),
+
+            new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT),
+
             new SwerveDriveDriveDirection(
                 new Vector2D(new Translation2d(
                     Score.DRIVE_AWAY_SPEED, 
