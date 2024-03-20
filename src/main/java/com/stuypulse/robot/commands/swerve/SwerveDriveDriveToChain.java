@@ -50,7 +50,8 @@ public class SwerveDriveDriveToChain extends Command {
 
     @Override
     public boolean isFinished() {
-        return getDistanceToTrap() <= Alignment.TRAP_CLIMB_DISTANCE.get();
+        return false;
+        // return getDistanceToTrap() <= Alignment.TRAP_CLIMB_DISTANCE.get();
     }
 
     @Override

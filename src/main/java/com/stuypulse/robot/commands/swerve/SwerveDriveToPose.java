@@ -8,24 +8,53 @@ package com.stuypulse.robot.commands.swerve;
 
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.control.feedback.PIDController;
+import com.stuypulse.stuylib.math.SLMath;
+import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
-
+import com.pathplanner.lib.util.PIDConstants;
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings.Alignment;
+import com.stuypulse.robot.constants.Settings.Swerve;
 import com.stuypulse.robot.constants.Settings.Alignment.Rotation;
 import com.stuypulse.robot.constants.Settings.Alignment.Translation;
+import com.stuypulse.robot.constants.Settings.Swerve.Motion;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.util.HolonomicController;
+import com.stuypulse.robot.util.MirrorRotation2d;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import java.util.function.Supplier;
 
 public class SwerveDriveToPose extends Command {
+
+    public static SwerveDriveToPose speakerRelative(double angleToSpeaker, double distanceToSpeaker) {
+        MirrorRotation2d angle = MirrorRotation2d.fromBlue(
+            Rotation2d.fromDegrees(SLMath.clamp(
+                angleToSpeaker, Alignment.PODIUM_SHOT_MAX_ANGLE)));
+
+        double distance = SLMath.clamp(distanceToSpeaker, 1, 5);
+
+        return new SwerveDriveToPose(() -> {
+            return new Pose2d(
+                Field.getAllianceSpeakerPose().getTranslation()
+                    .plus(new Translation2d(distance, angle.get())),
+                angle.get());
+            }
+        );
+    }
+
+    public static SwerveDriveToPose speakerRelative(double angleToSpeaker) {
+        return speakerRelative(angleToSpeaker, Alignment.PODIUM_SHOT_DISTANCE.get());
+    }
 
     private final SwerveDrive swerve;
     private final Odometry odometry;
@@ -68,6 +97,26 @@ public class SwerveDriveToPose extends Command {
 
         addRequirements(swerve);
     }
+    
+    public SwerveDriveToPose withTranslationConstants(PIDConstants pid) {
+        controller.setTranslationConstants(pid.kP, pid.kI, pid.kD);
+        return this;
+    }
+    
+    public SwerveDriveToPose withRotationConstants(PIDConstants pid) {
+        controller.setRotationConstants(pid.kP, pid.kI, pid.kD);
+        return this;
+    }
+
+    public SwerveDriveToPose withTranslationConstants(double p, double i, double d) {
+        controller.setTranslationConstants(p, i, d);
+        return this;
+    }
+    
+    public SwerveDriveToPose withRotationConstants(double p, double i, double d) {
+        controller.setRotationConstants(p, i, d);
+        return this;
+    }
 
     public SwerveDriveToPose withTolerance(Number x, Number y, Number theta) {
         xTolerance = x.doubleValue();
@@ -89,7 +138,17 @@ public class SwerveDriveToPose extends Command {
     public void execute() {
         targetPose2d.setPose(targetPose);
         controller.update(targetPose, odometry.getPose());
-        swerve.setChassisSpeeds(controller.getOutput());
+
+        Vector2D speed = new Vector2D(controller.getOutput().vxMetersPerSecond, controller.getOutput().vyMetersPerSecond)
+            .clamp(Swerve.MAX_MODULE_SPEED);
+        double rotation = SLMath.clamp(controller.getOutput().omegaRadiansPerSecond, Motion.MAX_ANGULAR_VELOCITY.get());
+        
+        SmartDashboard.putNumber("Alignment/Translation Target Speed", speed.distance());
+
+        ChassisSpeeds clamped = new ChassisSpeeds(
+            speed.x, speed.y, rotation);
+        
+        swerve.setChassisSpeeds(clamped);
     }
 
     @Override
@@ -100,6 +159,6 @@ public class SwerveDriveToPose extends Command {
     @Override
     public void end(boolean interrupted) {
         swerve.stop();
-        targetPose2d.setPose(Double.NaN, Double.NaN, new Rotation2d(Double.NaN));
+        Field.clearFieldObject(targetPose2d);
     }
 }

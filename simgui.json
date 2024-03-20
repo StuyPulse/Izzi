@@ -1,5 +1,13 @@
 {
   "HALProvider": {
+    "Addressable LEDs": {
+      "0": {
+        "columns": 15
+      },
+      "window": {
+        "visible": true
+      }
+    },
     "Other Devices": {
       "window": {
         "visible": false
@@ -60,15 +68,23 @@
     }
   },
   "NetworkTables": {
+    "FMSInfo": {
+      "open": true
+    },
     "SmartDashboard": {
-      "Intake": {
+      "Amper": {
+        "open": true
+      },
+      "Climber": {
+        "open": true
+      },
+      "Shooter": {
         "open": true
       },
       "Visualizers": {
         "Climber": {
           "open": true
-        },
-        "open": true
+        }
       },
       "open": true
     },
@@ -80,6 +96,7 @@
     },
     "Server": {
       "open": true
-    }
+    },
+    "visible": true
   }
 }

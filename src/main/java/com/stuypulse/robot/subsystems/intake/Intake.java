@@ -6,6 +6,7 @@
 
 package com.stuypulse.robot.subsystems.intake;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Settings.RobotType;
 import com.stuypulse.robot.subsystems.amper.Amper;
@@ -44,7 +45,11 @@ public abstract class Intake extends SubsystemBase {
 
     public abstract void stop();
 
+    public abstract void setIdleMode(IdleMode mode);
+
     public abstract boolean hasNote();
+
+    public boolean hasNotePartially() { return hasNote(); }
 
     public abstract double getIntakeRollerSpeed();
 
@@ -53,10 +58,9 @@ public abstract class Intake extends SubsystemBase {
         Conveyor conveyor = Conveyor.getInstance();
         intakeVisualizer.update(
             hasNote(),
-            conveyor.isNoteAtShooter(),
             Amper.getInstance().hasNote(),
             getIntakeRollerSpeed(),
             conveyor.getGandalfSpeed(),
-            conveyor.getFeederSpeed());
+            0);
     }
 }

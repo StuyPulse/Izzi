@@ -11,6 +11,8 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.intake.Intake;
+import com.stuypulse.robot.subsystems.shooter.Shooter;
+import com.stuypulse.robot.util.ShooterSpeeds;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -21,11 +23,13 @@ public class ConveyorToAmp extends Command {
     }
 
     private final Conveyor conveyor;
+    private final Shooter shooter;
     private final Intake intake;
     private final Amper amper;
 
     public ConveyorToAmp() {
         conveyor = Conveyor.getInstance();
+        shooter = Shooter.getInstance();
         intake = Intake.getInstance();
         amper = Amper.getInstance();
 
@@ -34,9 +38,13 @@ public class ConveyorToAmp extends Command {
 
     @Override
     public void execute() {
-        conveyor.toAmp();
-        intake.acquire();
-        amper.fromConveyor();
+        shooter.setTargetSpeeds(Settings.Shooter.HANDOFF);
+
+        if (shooter.atTargetSpeeds()) {
+            conveyor.toAmp();
+            intake.acquire();
+            amper.fromConveyor();
+        }
     }
 
     @Override
@@ -47,6 +55,7 @@ public class ConveyorToAmp extends Command {
     @Override
     public void end(boolean interrupted) {
         conveyor.stop();
+        // shooter.stop();
         intake.stop();
         amper.stopRoller();
     }

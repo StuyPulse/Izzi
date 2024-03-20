@@ -7,7 +7,7 @@
 package com.stuypulse.robot.subsystems.intake;
 
 import com.stuypulse.stuylib.network.SmartBoolean;
-
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.stuypulse.robot.constants.Settings;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -53,5 +53,9 @@ public class IntakeSim extends Intake {
         super.periodic();
 
         SmartDashboard.putNumber("Intake/Speed", motor);
+    }
+
+    @Override
+    public void setIdleMode(IdleMode mode) {
     }
 }

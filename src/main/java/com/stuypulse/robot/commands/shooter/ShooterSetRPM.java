@@ -6,26 +6,28 @@
 
 package com.stuypulse.robot.commands.shooter;
 
+import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.shooter.Shooter;
+import com.stuypulse.robot.util.ShooterSpeeds;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class ShooterSetRPM extends InstantCommand {
+    
     private final Shooter shooter;
-    private final Number leftTargetRPM;
-    private final Number rightTargetRPM;
 
-    public ShooterSetRPM(Number leftTargetRPM, Number rightTargetRPM) {
+    private final ShooterSpeeds speeds;
+
+    public ShooterSetRPM(ShooterSpeeds speeds) {
         shooter = Shooter.getInstance();
-        this.leftTargetRPM = leftTargetRPM;
-        this.rightTargetRPM = rightTargetRPM;
+
+        this.speeds = speeds;
 
         addRequirements(shooter);
     }
 
     @Override
     public void initialize() {
-        shooter.setLeftTargetRPM(leftTargetRPM);
-        shooter.setRightTargetRPM(rightTargetRPM);
+        shooter.setTargetSpeeds(speeds.update(Odometry.getInstance().getPose()));
     }
 }

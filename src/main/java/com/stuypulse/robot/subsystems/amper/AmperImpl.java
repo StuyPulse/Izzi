@@ -12,12 +12,15 @@ import com.stuypulse.stuylib.control.feedforward.ElevatorFeedforward;
 import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
 import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.numbers.filters.MotionProfile;
-
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Motors;
+import com.stuypulse.robot.constants.Motors.StatusFrame;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
+import com.stuypulse.robot.util.FilteredRelativeEncoder;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -35,7 +38,7 @@ public class AmperImpl extends Amper {
     private final RelativeEncoder scoreEncoder;
 
     // private final DigitalInput alignedSwitch;
-    private final DigitalInput minSwitch;
+    // private final DigitalInput minSwitch;
     // private final DigitalInput maxSwitch;
     private final DigitalInput ampIRSensor;
 
@@ -48,9 +51,9 @@ public class AmperImpl extends Amper {
 
     protected AmperImpl() {
         scoreMotor = new CANSparkMax(Ports.Amper.SCORE, MotorType.kBrushless);
-        scoreEncoder = scoreMotor.getEncoder();
+        scoreEncoder = new FilteredRelativeEncoder(scoreMotor);
         liftMotor = new CANSparkMax(Ports.Amper.LIFT, MotorType.kBrushless);
-        liftEncoder = liftMotor.getEncoder();
+        liftEncoder = new FilteredRelativeEncoder(liftMotor);
 
         scoreEncoder.setPositionConversionFactor(Settings.Amper.Score.SCORE_MOTOR_CONVERSION);
 
@@ -58,7 +61,7 @@ public class AmperImpl extends Amper {
         liftEncoder.setVelocityConversionFactor(Settings.Amper.Lift.Encoder.VELOCITY_CONVERSION);
 
         // alignedSwitch = new DigitalInput(Ports.Amper.ALIGNED_BUMP_SWITCH);
-        minSwitch = new DigitalInput(Ports.Amper.LIFT_BOTTOM_LIMIT);
+        // minSwitch = new DigitalInput(Ports.Amper.LIFT_BOTTOM_LIMIT);
         // maxSwitch = new DigitalInput(Ports.Amper.LIFT_TOP_LIMIT);
         ampIRSensor = new DigitalInput(Ports.Amper.AMP_IR);
 
@@ -72,6 +75,9 @@ public class AmperImpl extends Amper {
 
         voltageOverride = Optional.empty();
 
+        Motors.disableStatusFrames(liftMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
+        Motors.disableStatusFrames(scoreMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
+
         Motors.Amper.LIFT_MOTOR.configure(liftMotor);
         Motors.Amper.SCORE_MOTOR.configure(scoreMotor);
     }
@@ -80,7 +86,7 @@ public class AmperImpl extends Amper {
 
     @Override
     public boolean liftAtBottom() {
-        return !minSwitch.get();
+        return false;
     }
 
     @Override
@@ -116,18 +122,8 @@ public class AmperImpl extends Amper {
     /*** SCORE ROLLERS ***/
 
     @Override
-    public void score() {
-        scoreMotor.set(Settings.Amper.Score.SCORE_SPEED);
-    }
-
-    @Override
-    public void fromConveyor() {
-        scoreMotor.set(Settings.Amper.Score.FROM_CONVEYOR_SPEED);
-    }
-
-    @Override
-    public void toConveyor() {
-        scoreMotor.set(-Settings.Amper.Score.TO_CONVEYOR_SPEED.get());
+    public void runRoller(double speed) {
+        scoreMotor.set(speed);
     }
 
     @Override
@@ -167,18 +163,30 @@ public class AmperImpl extends Amper {
         double voltage = voltageOverride.orElse(controller.getOutput());
 
         if (liftAtBottom() && voltage < 0 || liftAtTop() && voltage > 0) {
-            stopLift();
-        } else {
-            liftMotor.setVoltage(voltage);
+            voltage = 0;
         }
 
+        if (getTargetHeight() == Settings.Amper.Lift.MIN_HEIGHT && voltage > 0) {
+            voltage = 0;
+        }
+
+        if (getTargetHeight() == Settings.Amper.Lift.TRAP_SCORE_HEIGHT && voltage < 0.75) {
+            voltage = 0.75;
+        }
+
+        liftMotor.setVoltage(voltage);
+
+        SmartDashboard.putNumber("Amper/Voltage", voltage);
         SmartDashboard.putNumber("Amper/Intake Speed", scoreMotor.get());
         SmartDashboard.putNumber("Amper/Lift Speed", liftMotor.get());
         SmartDashboard.putNumber("Amper/Intake Current", scoreMotor.getOutputCurrent());
         SmartDashboard.putNumber("Amper/Lift Current", liftMotor.getOutputCurrent());
         SmartDashboard.putNumber("Amper/Lift Height", getLiftHeight());
+        SmartDashboard.putNumber("Amper/Lift Height Error", controller.getError());
 
         SmartDashboard.putBoolean("Amper/Has Note", hasNote());
         SmartDashboard.putBoolean("Amper/At Bottom", liftAtBottom());
+        
+        SmartDashboard.putBoolean("Amper/Under Stage", Field.robotUnderStage());
     }
 }

@@ -6,53 +6,36 @@
 
 package com.stuypulse.robot.subsystems.conveyor;
 
-import com.stuypulse.stuylib.streams.booleans.BStream;
-import com.stuypulse.stuylib.streams.booleans.filters.BDebounce;
-
 import com.stuypulse.robot.constants.Motors;
+import com.stuypulse.robot.constants.Motors.StatusFrame;
+import com.stuypulse.robot.util.FilteredRelativeEncoder;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 
 public class ConveyorImpl extends Conveyor {
 
-    private final CANSparkMax gandalfMotor;
-    private final CANSparkMax shooterFeederMotor;
+    private final CANSparkFlex gandalfMotor;
 
     private final RelativeEncoder gandalfEncoder;
-    private final RelativeEncoder feederEncoder;
-
-    private final DigitalInput irSensor;
-
-    private final BStream isAtShooter;
 
     protected ConveyorImpl() {
-        gandalfMotor = new CANSparkMax(Ports.Conveyor.GANDALF, MotorType.kBrushless);
-        shooterFeederMotor = new CANSparkMax(Ports.Conveyor.FEEDER, MotorType.kBrushless);
+        gandalfMotor = new CANSparkFlex(Ports.Conveyor.GANDALF, MotorType.kBrushless);
 
-        gandalfEncoder = gandalfMotor.getEncoder();
-        feederEncoder = shooterFeederMotor.getEncoder();
+        gandalfEncoder = new FilteredRelativeEncoder(gandalfMotor);
 
-        gandalfEncoder.setPositionConversionFactor(0.5);
-        gandalfEncoder.setVelocityConversionFactor(0.5);
+        gandalfEncoder.setVelocityConversionFactor(1.0 / 2.0);
 
-        feederEncoder.setPositionConversionFactor(1.0);
-        feederEncoder.setVelocityConversionFactor(1.0);
-
-        irSensor = new DigitalInput(Ports.Conveyor.IR_SENSOR);
-
-        isAtShooter = BStream.create(irSensor).not()
-            .filtered(new BDebounce.Rising(Settings.Conveyor.DEBOUNCE_TIME));
+        Motors.disableStatusFrames(gandalfMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
 
         Motors.Conveyor.GANDALF_MOTOR.configure(gandalfMotor);
-        Motors.Conveyor.SHOOTER_FEEDER_MOTOR.configure(shooterFeederMotor);
     }
 
     @Override
@@ -61,30 +44,24 @@ public class ConveyorImpl extends Conveyor {
     }
 
     @Override
-    public double getFeederSpeed() {
-        return shooterFeederMotor.get();
-    }
-
-    @Override
-    public boolean isNoteAtShooter() {
-        return isAtShooter.get();
-    }
-
-    @Override
     public void toShooter() {
         gandalfMotor.set(+Settings.Conveyor.GANDALF_SHOOTER_SPEED.get());
-        shooterFeederMotor.set(+Settings.Conveyor.FEEDER_SHOOTER_SPEED.get());
     }
 
     @Override
     public void toAmp() {
         gandalfMotor.set(-Settings.Conveyor.GANDALF_AMP_SPEED);
-        shooterFeederMotor.set(+Settings.Conveyor.FEEDER_AMP_SPEED.get());
     }
 
+    @Override
     public void stop() {
-        gandalfMotor.set(0);
-        shooterFeederMotor.set(0);
+        gandalfMotor.stopMotor();
+    }
+
+    @Override
+    public void setIdleMode(IdleMode mode) {
+        gandalfMotor.setIdleMode(mode);
+        gandalfMotor.burnFlash();
     }
 
     @Override
@@ -92,18 +69,11 @@ public class ConveyorImpl extends Conveyor {
         super.periodic();
 
         SmartDashboard.putNumber("Conveyor/Gandalf Motor Current", gandalfMotor.getOutputCurrent());
-        SmartDashboard.putNumber("Conveyor/Shooter Feeder Motor Current", shooterFeederMotor.getOutputCurrent());
 
         SmartDashboard.putNumber("Conveyor/Gandalf Motor Speed", gandalfMotor.get());
-        SmartDashboard.putNumber("Conveyor/Shooter Feeder Motor Spped", shooterFeederMotor.get());
 
-        SmartDashboard.putNumber("Conveyor/Feeder RPM", feederEncoder.getVelocity());
         SmartDashboard.putNumber("Conveyor/Gandalf RPM", gandalfEncoder.getVelocity());
 
-        SmartDashboard.putNumber("Conveyor/Feeder Linear Velocity", feederEncoder.getVelocity() * Units.inchesToMeters(2.25) * Math.PI);
         SmartDashboard.putNumber("Conveyor/Gandalf Linear Velocity", gandalfEncoder.getVelocity() * Units.inchesToMeters(1.0) * Math.PI);
-
-        SmartDashboard.putBoolean("Conveyor/Note At Shooter", isNoteAtShooter());
-        SmartDashboard.putBoolean("Conveyor/Note At Shooter (Raw)", !irSensor.get());
     }
 }

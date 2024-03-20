@@ -6,10 +6,21 @@
 
 package com.stuypulse.robot.commands.climber;
 
-import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.subsystems.climber.Climber;
 
-public class ClimberToTop extends ClimberToHeight {
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+
+public class ClimberToTop extends InstantCommand {
+
+    private final Climber climber;
+
     public ClimberToTop() {
-        super(Settings.Climber.MAX_HEIGHT);
+        climber = Climber.getInstance();
     }
+
+    @Override
+    public void initialize() {
+        climber.toTop();
+    }
+
 }

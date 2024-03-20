@@ -12,7 +12,6 @@ import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
 
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Shooter.Feedforward;
-import com.stuypulse.robot.constants.Settings.Shooter.PID;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
@@ -30,16 +29,14 @@ public class ShooterSim extends Shooter {
         leftWheel = new FlywheelSim(DCMotor.getNEO(1), 1, Settings.Shooter.MOMENT_OF_INERTIA);
         rightWheel = new FlywheelSim(DCMotor.getNEO(1), 1, Settings.Shooter.MOMENT_OF_INERTIA);
 
-        leftController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
-            .add(new PIDController(PID.kP, PID.kI, PID.kD));
-        rightController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
-            .add(new PIDController(PID.kP, PID.kI, PID.kD));
-    }
+        double simkP = 0.481;
+        double simkI = 0.0;
+        double simkD = 0.0;
 
-    @Override
-    public void stop() {
-        leftWheel.setInputVoltage(0);
-        rightWheel.setInputVoltage(0);
+        leftController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
+            .add(new PIDController(simkP, simkI, simkD));
+        rightController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
+            .add(new PIDController(simkP, simkI, simkD));
     }
 
     @Override
@@ -51,6 +48,16 @@ public class ShooterSim extends Shooter {
     public double getRightShooterRPM() {
         return rightWheel.getAngularVelocityRPM();
     }
+    
+    @Override
+    public double getFeederRPM() {
+        return 0;
+    }
+
+    @Override
+    public boolean noteShot() {
+        return atTargetSpeeds();
+    }
 
     @Override
     public void periodic() {
@@ -59,8 +66,13 @@ public class ShooterSim extends Shooter {
         leftController.update(getLeftTargetRPM(), getLeftShooterRPM());
         rightController.update(getRightTargetRPM(), getRightShooterRPM());
 
-        leftWheel.setInputVoltage(leftController.getOutput());
-        rightWheel.setInputVoltage(rightController.getOutput());
+        if (getLeftTargetRPM() == 0 && getRightTargetRPM() == 0) {
+            leftWheel.setInputVoltage(0);
+            rightWheel.setInputVoltage(0);
+        } else {
+            leftWheel.setInputVoltage(leftController.getOutput());
+            rightWheel.setInputVoltage(rightController.getOutput());
+        }
 
         SmartDashboard.putNumber("Shooter/Right RPM", getRightShooterRPM());
         SmartDashboard.putNumber("Shooter/Left RPM", getLeftShooterRPM());

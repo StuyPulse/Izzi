@@ -8,6 +8,7 @@ package com.stuypulse.robot.util.vision;
 
 import static com.stuypulse.robot.constants.Cameras.Limelight.*;
 
+import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 import com.stuypulse.stuylib.streams.numbers.IStream;
@@ -91,13 +92,27 @@ public class Limelight {
         return robotRelativePose;
     }
 
+    private double getRawXAngle() {
+        return SLMath.clamp(-(xAngle.get() - Units.radiansToDegrees(POSITIONS[limelightID].getRotation().getZ())), 30);
+    }
+
     /**
      * Returns the x angle of the note relative to the robot.
      *
      * @return the x angle of the note relative to the robot
      */
     public double getXAngle() {
-        return -(xAngle.get() - Units.radiansToDegrees(POSITIONS[limelightID].getRotation().getZ()));
+        double deg = getRawXAngle();
+
+        if (Math.abs(deg) < NoteDetection.MAX_FULLY_IN_VIEW_ANGLE)
+            return deg;
+
+        if (deg < 0)
+            deg = -Math.pow(deg + NoteDetection.MAX_FULLY_IN_VIEW_ANGLE, 1.3) - NoteDetection.MAX_FULLY_IN_VIEW_ANGLE;
+        else
+            deg = +Math.pow(deg - NoteDetection.MAX_FULLY_IN_VIEW_ANGLE, 1.3) + NoteDetection.MAX_FULLY_IN_VIEW_ANGLE;
+        
+        return deg;
     }
 
     /**

@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Start To H (HGF)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H To HShoot (HGF)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "HShoot To G (HGF)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "G To Shoot (HGF)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GShoot To F (HGF)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F To Shoot (HGF)"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

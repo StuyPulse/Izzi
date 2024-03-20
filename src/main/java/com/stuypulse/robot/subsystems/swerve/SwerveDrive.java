@@ -16,11 +16,13 @@ import com.stuypulse.robot.constants.Settings.Swerve.BackLeft;
 import com.stuypulse.robot.constants.Settings.Swerve.BackRight;
 import com.stuypulse.robot.constants.Settings.Swerve.FrontLeft;
 import com.stuypulse.robot.constants.Settings.Swerve.FrontRight;
+import com.stuypulse.robot.constants.Settings.Swerve.Motion;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModule;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleImpl;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleSim;
 import com.stuypulse.robot.subsystems.swerve.modules.TumblerSwerveModule;
+import com.stuypulse.robot.util.FollowPathPointSpeakerCommand;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -30,16 +32,22 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.FollowPathHolonomic;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -109,10 +117,54 @@ public class SwerveDrive extends SubsystemBase {
         return instance;
     }
 
+    /*** PATH FOLLOWING ***/
+
+    public Command followPathCommand(String pathName) {
+        return followPathCommand(PathPlannerPath.fromPathFile(pathName));
+    }
+
+    public Command followPathCommand(PathPlannerPath path) {
+        return new FollowPathHolonomic(
+            path,
+            () -> Odometry.getInstance().getPose(),
+            this::getChassisSpeeds,
+            this::setChassisSpeeds,
+            new HolonomicPathFollowerConfig(
+                Motion.XY,
+                Motion.THETA,
+                Settings.Swerve.MAX_MODULE_SPEED,
+                Math.hypot(Settings.Swerve.LENGTH, Settings.Swerve.WIDTH),
+                new ReplanningConfig(false, false)
+            ),
+            () -> false,
+            this
+        );
+    }
+
+    public Command followPathWithSpeakerAlignCommand(PathPlannerPath path) {
+        return new FollowPathPointSpeakerCommand(
+            path, 
+            () -> Odometry.getInstance().getPose(), 
+            this::getChassisSpeeds, 
+            this::setChassisSpeeds, 
+            new PPHolonomicDriveController(
+                Motion.XY, 
+                Motion.THETA, 
+                0.02, 
+                Settings.Swerve.MAX_MODULE_SPEED, 
+                Math.hypot(Settings.Swerve.LENGTH, Settings.Swerve.WIDTH)),
+            new ReplanningConfig(false, false),
+            () -> false,
+            this
+        );
+    }
+
     private final SwerveModule[] modules;
     private final SwerveDriveKinematics kinematics;
     private final AHRS gyro;
     private final FieldObject2d[] modules2D;
+
+    private final StructArrayPublisher<SwerveModuleState> statesPub;
 
     /**
      * Creates a new Swerve Drive using the provided modules
@@ -124,6 +176,9 @@ public class SwerveDrive extends SubsystemBase {
         kinematics = new SwerveDriveKinematics(getModuleOffsets());
         gyro = new AHRS(SPI.Port.kMXP);
         modules2D = new FieldObject2d[modules.length];
+
+        statesPub = NetworkTableInstance.getDefault()
+            .getStructArrayTopic("Swerve/States", SwerveModuleState.struct).publish();
     }
 
     public void configureAutoBuilder() {
@@ -140,13 +195,7 @@ public class SwerveDrive extends SubsystemBase {
                 Swerve.MAX_MODULE_SPEED,
                 Swerve.WIDTH,
                 new ReplanningConfig(true, true)),
-            () -> {
-                var alliance = DriverStation.getAlliance();
-                if (alliance.isPresent()) {
-                    return alliance.get() == DriverStation.Alliance.Red;
-                }
-                return false;
-            },
+            () -> false,
             instance
         );
 
@@ -212,6 +261,10 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void setChassisSpeeds(ChassisSpeeds robotSpeeds) {
+        SmartDashboard.putNumber("Swerve/Chassis Target X", robotSpeeds.vxMetersPerSecond);
+        SmartDashboard.putNumber("Swerve/Chassis Target Y", robotSpeeds.vyMetersPerSecond);
+        SmartDashboard.putNumber("Swerve/Chassis Target Omega", robotSpeeds.omegaRadiansPerSecond);
+
         setModuleStates(kinematics.toSwerveModuleStates(robotSpeeds));
     }
 
@@ -279,6 +332,8 @@ public class SwerveDrive extends SubsystemBase {
                 modules[i].getAngle().plus(angle)
             ));
         }
+
+        statesPub.set(getModuleStates());
 
         SmartDashboard.putNumber("Swerve/Gyro/Angle (deg)", getGyroAngle().getDegrees());
         SmartDashboard.putNumber("Swerve/Gyro/Pitch (deg)", getGyroPitch().getDegrees());

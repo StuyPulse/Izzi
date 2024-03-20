@@ -18,6 +18,7 @@ import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.numbers.filters.MotionProfile;
 
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.constants.Settings.Amper.Lift.Encoder;
@@ -102,13 +103,7 @@ public class AmperSim extends Amper {
     }
 
     @Override
-    public void fromConveyor() {}
-
-    @Override
-    public void toConveyor() {}
-
-    @Override
-    public void score() {}
+    public void runRoller(double speed) {}
 
     @Override
     public void stopRoller() {}
@@ -152,6 +147,8 @@ public class AmperSim extends Amper {
 
         SmartDashboard.putNumber("Amper/Lift Current", sim.getCurrentDrawAmps());
         SmartDashboard.putNumber("Amper/Lift Height", getLiftHeight());
+        SmartDashboard.putBoolean("Amper/Under Stage", Field.robotUnderStage());
+        
     }
 
     @Override

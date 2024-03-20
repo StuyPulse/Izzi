@@ -92,6 +92,9 @@ public class LEDAlign implements LEDInstruction {
 
             ledsBuffer.setLED(index, Color.kWhite);
         }
+
+        // if (RobotBase.isReal() && AprilTagVision.getInstance().getOutputs().isEmpty())
+        //     LEDInstructions.WHITE.setLED(ledsBuffer);
     }
 
     private int linearInterp(double robotMeasurement, double targetPos, double spread) {

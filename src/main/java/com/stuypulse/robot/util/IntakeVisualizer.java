@@ -37,7 +37,6 @@ public class IntakeVisualizer {
 
     // irSensor
     private MechanismLigament2d intakeIRSensor;
-    private MechanismLigament2d shooterIRSensor;
     private MechanismLigament2d ampIRSensor;
 
     // far Right Ligaments
@@ -62,7 +61,6 @@ public class IntakeVisualizer {
     private MechanismRoot2d root_lower2;
     private MechanismRoot2d root_lower3;
     private MechanismRoot2d rootIntakeIR;
-    private MechanismRoot2d rootShooterIR;
     private MechanismRoot2d rootAmpIR;
     private MechanismRoot2d rightRootTop;
     private MechanismRoot2d rightRootBottom;
@@ -74,10 +72,10 @@ public class IntakeVisualizer {
     private MechanismRoot2d rollingRootGandalf;
 
     // colors
-    private Color8Bit white = new Color8Bit(255, 255, 255);
-    private Color8Bit blue = new Color8Bit(0, 0, 255);
-    private Color8Bit red = new Color8Bit(255, 0, 0);
-    private Color8Bit green = new Color8Bit(0, 255, 0);
+    private final Color8Bit WHITE = SLColor.WHITE.getColor8Bit();
+    private final Color8Bit BLUE = SLColor.BLUE.getColor8Bit();
+    private final Color8Bit RED = SLColor.RED.getColor8Bit();
+    private final Color8Bit GREEN = SLColor.GREEN.getColor8Bit();
 
     
     private MechanismLigament2d getLigament(String name, double length, double angle, Color8Bit color) {
@@ -99,7 +97,6 @@ public class IntakeVisualizer {
 
         rootIntakeIR = intake.getRoot("Intake Sensor", 1.5, 4.6);
         rootAmpIR = intake.getRoot("Shooter Sensor", 7, 7.2);
-        rootShooterIR = intake.getRoot("Amp Sensor", 7, 4.6);
 
         rollingRootMidLeft = intake.getRoot("Rolling Root Middle Left", 2, 6.2); //find accurate values later
         rollingRootMidRight = intake.getRoot("Rolling Root Middle Right", 3.3, 4.5); //find accurate values later
@@ -115,31 +112,30 @@ public class IntakeVisualizer {
         rightRootBottom = intake.getRoot("Right Root Bottom", 7, 5.7);
 
         // ligaments
-        upper1 = getLigament("Upper Ligament 1", 4, 90, blue);
-        upper2 = getLigament("Upper Ligament 2", 3, 45, red);
-        upper3 = getLigament("Upper Ligament 3", 7, 20, white);
-        lower1 = getLigament("Lower Ligament 1", 3, 90, blue);
-        lower2 = getLigament("Lower Ligament 2", 2, 45, red);
-        lower3 = getLigament("Lower Ligament 3", 5, -10, white);
+        upper1 = getLigament("Upper Ligament 1", 4, 90, BLUE);
+        upper2 = getLigament("Upper Ligament 2", 3, 45, RED);
+        upper3 = getLigament("Upper Ligament 3", 7, 20, WHITE);
+        lower1 = getLigament("Lower Ligament 1", 3, 90, BLUE);
+        lower2 = getLigament("Lower Ligament 2", 2, 45, RED);
+        lower3 = getLigament("Lower Ligament 3", 5, -10, WHITE);
 
-        rollingMidLeft = getLigament("Rolling Ligament Middle Left", .5, 0, green);
-        rollingMidRight = getLigament("Rolling Ligament Middle Right", .5, 0, green);
+        rollingMidLeft = getLigament("Rolling Ligament Middle Left", .5, 0, GREEN);
+        rollingMidRight = getLigament("Rolling Ligament Middle Right", .5, 0, GREEN);
 
-        rollingLeft = getLigament("Left Roller", .5, 0, green);
-        rollingRight = getLigament("Right Roller", .5, 0, green);
+        rollingLeft = getLigament("Left Roller", .5, 0, GREEN);
+        rollingRight = getLigament("Right Roller", .5, 0, GREEN);
 
-        rollingShooterTop = getLigament("Top Shooter Roller", .5, 0, green);
-        rollingShooterMid = getLigament("Middle Shooter Roller", .5, 0, green);
-        rollingConveyorBot = getLigament("Bottom Conveyor Roller", .5, 0, green);
+        rollingShooterTop = getLigament("Top Shooter Roller", .5, 0, GREEN);
+        rollingShooterMid = getLigament("Middle Shooter Roller", .5, 0, GREEN);
+        rollingConveyorBot = getLigament("Bottom Conveyor Roller", .5, 0, GREEN);
 
-        rollingGandalf = getLigament("rolling Gandalf", .5, 0, green);
+        rollingGandalf = getLigament("rolling Gandalf", .5, 0, GREEN);
 
-        intakeIRSensor = getLigament("Intake Sensor", 1, 0, red);
-        shooterIRSensor = getLigament("Shooter Sensor", 1, 0, red);
-        ampIRSensor = getLigament("Amp Sensor", 1, 0, red);
+        intakeIRSensor = getLigament("Intake Sensor", 1, 0, RED);
+        ampIRSensor = getLigament("Amp Sensor", 1, 0, RED);
 
-        rightLigamentTop = getLigament("Right Top Ligament", 3, 15, blue);
-        rightLigamentBottom = getLigament("Right Bottom Ligament", 3, -15, blue);
+        rightLigamentTop = getLigament("Right Top Ligament", 3, 15, BLUE);
+        rightLigamentBottom = getLigament("Right Bottom Ligament", 3, -15, BLUE);
 
         root_upper1.append(upper1);
         root_lower1.append(lower1);
@@ -148,7 +144,6 @@ public class IntakeVisualizer {
         root_upper3.append(upper3);
         root_lower3.append(lower3);
         rootIntakeIR.append(intakeIRSensor);
-        rootShooterIR.append(shooterIRSensor);
         rootAmpIR.append(ampIRSensor);
         rightRootTop.append(rightLigamentTop);
         rightRootBottom.append(rightLigamentBottom);
@@ -166,27 +161,20 @@ public class IntakeVisualizer {
 
     public void update(
             boolean intake_IR,
-            boolean conveyor_IR,
             boolean amp_IR,
             double intakeSpeed,
             double conveyorGandalfSpeed,
             double shooterFeederSpeed) {
         if (intake_IR) {
-            intakeIRSensor.setColor(green);
+            intakeIRSensor.setColor(GREEN);
         } else {
-            intakeIRSensor.setColor(red);
-        }
-
-        if (conveyor_IR) {
-            shooterIRSensor.setColor(green);
-        } else {
-            shooterIRSensor.setColor(red);
+            intakeIRSensor.setColor(RED);
         }
 
         if (amp_IR) {
-            ampIRSensor.setColor(green);
+            ampIRSensor.setColor(GREEN);
         } else {
-            ampIRSensor.setColor(red);
+            ampIRSensor.setColor(RED);
         }
 
         intakeAngle += 39 * intakeSpeed;

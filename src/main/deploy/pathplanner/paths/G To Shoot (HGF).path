@@ -3,47 +3,47 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.986512293282833,
-        "y": 2.4439784667872297
+        "x": 8.23517407718576,
+        "y": 2.71
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.0520328729188275,
-        "y": 3.4682233196389145
+        "x": 4.917428261138573,
+        "y": 1.0335790082691276
       },
       "isLocked": false,
       "linkedName": "G"
     },
     {
       "anchor": {
-        "x": 3.4,
-        "y": 5.21
+        "x": 1.943718987153074,
+        "y": 3.4965521782895426
       },
       "prevControl": {
-        "x": 4.524927668353058,
-        "y": 4.997546496479711
+        "x": 3.4288766013429455,
+        "y": 1.4617693053049925
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Alt Top Side Shoot"
+      "linkedName": "HShoot"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 5.0,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": -7.742166844819546,
+    "rotation": -52.06624772942949,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "HGF",
   "previewStartingState": null,
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

@@ -12,40 +12,49 @@ import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.commands.amper.*;
 import com.stuypulse.robot.commands.auton.*;
+import com.stuypulse.robot.commands.auton.ADE.*;
+import com.stuypulse.robot.commands.auton.CBADE.*;
+import com.stuypulse.robot.commands.auton.DE.*;
+import com.stuypulse.robot.commands.auton.GHF.*;
+import com.stuypulse.robot.commands.auton.HGF.*;
+import com.stuypulse.robot.commands.auton.tests.*;
 import com.stuypulse.robot.commands.climber.*;
 import com.stuypulse.robot.commands.conveyor.*;
 import com.stuypulse.robot.commands.intake.*;
 import com.stuypulse.robot.commands.leds.*;
-import com.stuypulse.robot.commands.notealignment.SwerveDriveNoteAlignedDrive;
-import com.stuypulse.robot.commands.notealignment.SwerveDriveTranslateToNote;
+import com.stuypulse.robot.commands.notealignment.*;
 import com.stuypulse.robot.commands.shooter.*;
 import com.stuypulse.robot.commands.swerve.*;
-import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.constants.Settings.Driver;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
+import com.stuypulse.robot.constants.Settings.Amper.Score;
+import com.stuypulse.robot.constants.Settings.Driver;
 import com.stuypulse.robot.constants.Settings.Swerve.Assist;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.climber.*;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.leds.LEDController;
+import com.stuypulse.robot.subsystems.leds.instructions.LEDPulseColor;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.shooter.Shooter;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
+import com.stuypulse.robot.util.SLColor;
+import com.stuypulse.robot.util.ShooterSpeeds;
+import com.stuypulse.robot.util.PathUtil.AutonConfig;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
 
 public class RobotContainer {
 
@@ -70,12 +79,13 @@ public class RobotContainer {
 
     // RobotContainer
     public RobotContainer() {
-        swerve.configureAutoBuilder();
+        autonChooser = new SendableChooser<Command>();
 
         configureDefaultCommands();
-        configureNamedCommands();
         configureButtonBindings();
         configureAutons();
+
+        LiveWindow.disableAllTelemetry();
 
         SmartDashboard.putData("Gamepads/Driver", driver);
         SmartDashboard.putData("Gamepads/Operator", operator);
@@ -90,27 +100,6 @@ public class RobotContainer {
         leds.setDefaultCommand(new LEDDefaultMode());
     }
 
-    /**********************/
-    /*** NAMED COMMANDS ***/
-    /**********************/
-
-    private void configureNamedCommands() {
-        NamedCommands.registerCommand("IntakeAcquire", new IntakeAcquireForever());
-        NamedCommands.registerCommand("IntakeStop", new IntakeStop());
-        NamedCommands.registerCommand(
-            "DriveToNote",
-            new DoNothingCommand());
-            // new SwerveDriveDriveToNote()
-            //     .alongWith(new IntakeAcquire())
-            //     .andThen(new IntakeStop()));
-        NamedCommands.registerCommand("DriveToShoot", new SwerveDriveToShoot());
-        NamedCommands.registerCommand("SetPodiumRangeShot", new ShooterPodiumShot());
-        NamedCommands.registerCommand("ConveyorShoot", new ConveyorShootRoutine());
-        NamedCommands.registerCommand("TranslateToNote", new SwerveDriveTranslateToNote());
-        // NOTE: this command will not change the pose if the alliance changes after deploy (I think)
-        NamedCommands.registerCommand("PathFindToShoot", new SwerveDrivePathFindTo(Field.TOP_SHOOT_POSE.get()).get());
-    }
-
     /***************/
     /*** BUTTONS ***/
     /***************/
@@ -122,53 +111,78 @@ public class RobotContainer {
 
     private void configureDriverBindings() {
         // intaking with swerve pointing at note
+        // driver.getRightTriggerButton()
+        //     .whileTrue(new WaitCommand(Settings.Intake.TELEOP_DRIVE_STARTUP_DELAY)
+        //         .andThen(new IntakeAcquire()
+        //             .deadlineWith(new LEDSet(LEDInstructions.DARK_BLUE)))
+        //         .andThen(new BuzzController(driver)
+        //             .alongWith(new LEDSet(LEDInstructions.PICKUP)
+        //                 .withTimeout(3.0))))
+        //     .whileTrue(new SwerveDriveToNote());
+        
+        // intaking
         driver.getRightTriggerButton()
-            .whileTrue(new IntakeAcquire().andThen(new BuzzController(driver)))
-            .whileTrue(new SwerveDriveNoteAlignedDrive(driver))
-            .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));
+            .whileTrue(new IntakeAcquire()
+                    .deadlineWith(new LEDSet(LEDInstructions.DARK_BLUE))
+                .andThen(new BuzzController(driver)
+                    .alongWith(new LEDSet(LEDInstructions.PICKUP)
+                        .withTimeout(3.0))));
+        
+        driver.getLeftTriggerButton()
+            .onTrue(new IntakeDeacquire())
+            .onFalse(new IntakeStop());
 
         // note to shooter and align
         // then shoot
         driver.getRightBumper()
-            .whileTrue(new ConveyorToShooter()
-                    .alongWith(new SwerveDriveToShoot()
-                        .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
-                    // .alongWith(new SwerveDrivePathFindTo(Field.getSpeakerPathFindPose()).get())
-                    // .andThen(new SwerveDriveToShoot()
-                    //    .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
-                    .andThen(new ConveyorShoot()))
-            .onFalse(new ConveyorStop());
+            .onTrue(new ShooterPodiumShot())
+            .whileTrue(new SwerveDriveToShoot()
+                    .deadlineWith(new LEDSet(LEDInstructions.ASSIST_FLASH))
+                .andThen(new ShooterWaitForTarget()
+                    .withTimeout(1.5))
+                .andThen(new ConveyorShoot()))
+            .onFalse(new ConveyorStop())
+            // .onFalse(new ShooterStop())
+            .onFalse(new IntakeStop());
 
         // note to amper and align then score
         driver.getLeftBumper()
-            .whileTrue(new SwerveDriveAmpAlign())
-            .onFalse(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT))
+            .whileTrue(new AmpScoreRoutine())
             .onFalse(new AmperStop());
 
         // score speaker no align
         driver.getRightMenuButton()
-            .whileTrue(new ConveyorToShooter()
+            .onTrue(new ShooterPodiumShot())
+            .onTrue(new ShooterWaitForTarget()
+                    .withTimeout(1.5)
                 .andThen(new ConveyorShoot()))
-            .onFalse(new ConveyorStop());
+            .onFalse(new ConveyorStop())
+            // .onFalse(new ShooterStop())
+            .onFalse(new IntakeStop());
             
         // score amp no align
         driver.getLeftMenuButton()
-            .whileTrue(new ConveyorToAmp()
+            .whileTrue(ConveyorToAmp.withCheckLift()
+                .andThen(AmperToHeight.untilDone(Lift.AMP_SCORE_HEIGHT))
                 .andThen(new AmperScore()))
+            .onFalse(new AmperStop())
+            .onFalse(new AmperToHeight(Lift.MIN_HEIGHT));
+
+        // score trap
+        driver.getLeftButton()
+            .onTrue(new AmperScoreTrap())
             .onFalse(new AmperStop());
 
-        driver.getDPadUp()
-            .onTrue(new ClimberToTop());
-        driver.getDPadDown()
-            .onTrue(new ClimberToBottom());
-
         driver.getDPadRight()
-            .onTrue(new SwerveDriveResetHeading());
+            .onTrue(new ConditionalCommand(new ConveyorToAmp(), new DoNothingCommand(), () -> Intake.getInstance().hasNote())
+                .andThen(new AmperToHeight(Lift.TRAP_SCORE_HEIGHT)));
 
-        driver.getRightButton()
-            .whileTrue(new ClimberSetupRoutine());
-        driver.getBottomButton()
-            .whileTrue(new ClimberScoreRoutine());
+        driver.getDPadUp()
+            .onTrue(new SwerveDriveResetHeading());
+        
+        driver.getDPadDown()
+            .onTrue(new AmperScoreSpeed(-Score.TRAP_SPEED))
+            .onFalse(new AmperStop());
 
         driver.getTopButton()
             // on command start
@@ -184,36 +198,51 @@ public class RobotContainer {
                 
                 .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
                     .deadlineWith(new LEDSet(LEDInstructions.GREEN))));
+
+        driver.getRightButton()
+            .whileTrue(new SwerveDriveToClimb());
+
+        driver.getBottomButton()
+            .whileTrue(new SwerveDriveDriveToChain());
     }
 
     private void configureOperatorBindings() {
         new Trigger(() -> operator.getLeftStick().magnitude() > Settings.Operator.DEADBAND.get())
-                .whileTrue(new ClimberDrive(operator));
+            .whileTrue(new ClimberDrive(operator));
+
+        new Trigger(() -> operator.getLeftY() > Settings.Operator.DEADBAND.get())
+            .onTrue(new LEDSet(LEDInstructions.CLIMB_UP)
+                .withTimeout(1.0));
+
+        new Trigger(() -> operator.getLeftY() > 0.25)
+            .onTrue(new ConveyorToAmp()
+                .andThen(new ShooterStop()));
 
         new Trigger(() -> operator.getRightStick().magnitude() > Settings.Operator.DEADBAND.get())
-                .whileTrue(new AmperLiftDrive(operator));
+            .whileTrue(new AmperLiftDrive(operator));
 
         operator.getLeftTriggerButton()
-            .whileTrue(new ConveyorOuttake());
+            .onTrue(new IntakeDeacquire())
+            .onFalse(new IntakeStop());
         operator.getRightTriggerButton()
-                .whileTrue(new IntakeAcquire().andThen(new BuzzController(driver)))
-                .whileTrue(new LEDSet(LEDInstructions.DARK_BLUE));
+            .whileTrue(new IntakeAcquire()
+                .deadlineWith(new LEDSet(LEDInstructions.DARK_BLUE))
+                .andThen(new BuzzController(driver)
+                    .alongWith(new LEDSet(LEDInstructions.PICKUP)
+                        .withTimeout(3.0))));
 
         operator.getLeftBumper()
-            .onTrue(ConveyorToAmp.withCheckLift())
+            .onTrue(new ConveyorToAmp())
             .onFalse(new ConveyorStop())
             .onFalse(new IntakeStop())
             .onFalse(new AmperStop());
-        operator.getRightBumper()
-            .onTrue(new ConveyorToShooter())
-            .onFalse(new ConveyorStop())
-            .onFalse(new IntakeStop());
 
         operator.getTopButton()
             .onTrue(new AmperScore())
             .onTrue(new ConveyorShoot())
             .onFalse(new AmperStop())
-            .onFalse(new ConveyorStop());
+            .onFalse(new ConveyorStop())
+            .onFalse(new IntakeStop());
 
         operator.getDPadUp()
             .whileTrue(new AmperLiftFineAdjust(operator));
@@ -221,23 +250,26 @@ public class RobotContainer {
             .whileTrue(new AmperLiftFineAdjust(operator));
 
         operator.getDPadRight()
-            .onTrue(new ClimberToTop());
+            .onTrue(new GandalfToShoot())
+            .onFalse(new ConveyorStop());
         operator.getDPadLeft()
-            .onTrue(new ClimberToBottom());
+            .onTrue(new GandalfToAmp())
+            .onFalse(new ConveyorStop());
+        
 
-        operator.getLeftButton()
-                .onTrue(new AmperToHeight(Settings.Amper.Lift.TRAP_SCORE_HEIGHT));
         operator.getRightButton()
                 .onTrue(new AmperToHeight(Settings.Amper.Lift.AMP_SCORE_HEIGHT));
+        operator.getLeftButton()
+                .onTrue(new AmperToHeight(Settings.Amper.Lift.TRAP_SCORE_HEIGHT));
         operator.getBottomButton()
-            .onTrue(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT));
+                .onTrue(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT));
 
         // human player attention button
         operator.getRightMenuButton()
             .whileTrue(new LEDSet(LEDInstructions.PULSE_PURPLE));
         
         operator.getLeftMenuButton()
-            .onTrue(new AmperIntake())
+            .onTrue(new AmperToConveyor())
             .onFalse(new AmperStop());
     }
 
@@ -246,11 +278,52 @@ public class RobotContainer {
     /**************/
 
     public void configureAutons() {
-        autonChooser = AutoBuilder.buildAutoChooser();
+        autonChooser.addOption("Do Nothing", new DoNothingAuton());
 
-        // need auton for testing leds
-        autonChooser.setDefaultOption("DoNothingAuton", new DoNothingAuton());
+        autonChooser.addOption("Mobility", new Mobility());
 
+        AutonConfig HGF = new AutonConfig("3.5 Piece HGF", FourPieceHGF::new,
+        "Start To H (HGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)", "F To Shoot (HGF)");
+        
+        AutonConfig TrackingCBAE = new AutonConfig("Tracking 5 Piece CBAE", FivePieceTrackingCBAE::new,
+            "Blay First Piece To C", "C to B", "B To A", "A To E", "E To Shoot");   
+
+        AutonConfig PodiumCBAE = new AutonConfig("5 Piece CBAE", FivePiecePodiumCBAE::new, 
+        "Blay First Piece To C", "C to B", "B To A","A To E", "E To Shoot");
+
+        AutonConfig ADE = new AutonConfig("3 Piece ADE", ThreePieceADE::new,
+            "First Piece To A", "A To D", "D to Ferry Shot", "Ferry Shot to E", "E To Shoot");
+        
+        AutonConfig DE = new AutonConfig("2 Piece DE", TwoPieceDE::new,
+            "First Piece to D", "D to Ferry Shot", "Ferry Shot to E", "E To Shoot");
+
+        // AutonConfig PodiumCloseCBAE = new AutonConfig("Podium Close 5 Piece CBAE", FivePiecePodiumForwardCBAE::new, 
+        // "Forward First Piece to C", "C to B 2", "B To A","A To E", "E To Shoot");
+
+        // CBAE.registerBlue(autonChooser)
+        //     .registerRed(autonChooser);
+        
+        // BLAY_CBAE
+        //     .registerBlue(autonChooser)
+        //     .registerRed(autonChooser);
+        
+        HGF.registerBlue(autonChooser)
+            .registerRed(autonChooser);
+
+        // TrackingCBAE
+        //     .registerBlue(autonChooser)
+        //     .registerRed(autonChooser);
+        
+        PodiumCBAE
+            .registerDefaultBlue(autonChooser)
+            .registerDefaultRed(autonChooser);
+        
+        // ADE.registerBlue(autonChooser)
+        //     .registerRed(autonChooser);
+
+        // DE.registerBlue(autonChooser)
+        //     .registerRed(autonChooser);
+        
         SmartDashboard.putData("Autonomous", autonChooser);
     }
 
@@ -260,7 +333,7 @@ public class RobotContainer {
 
     public static String getAutonomousCommandNameStatic() {
         if (autonChooser.getSelected() == null) {
-            return "DoNothingAuton";
+            return "Do Nothing";
         }
         
         return autonChooser.getSelected().getName();

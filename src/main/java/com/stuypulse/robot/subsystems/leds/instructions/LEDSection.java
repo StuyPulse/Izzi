@@ -38,7 +38,7 @@ public class LEDSection implements LEDInstruction {
         for (int i = 0; i < sections.length; i++) {
             int offset = Math.min(extraLEDS, i);
             int extraLEDForCurrentSection = (i < extraLEDS ? 1 : 0);
-            this.separatorIndexes[i] = (i + 1) * sectionLength + offset + extraLEDForCurrentSection;
+            this.separatorIndexes[i] = (i + 1) * sectionLength + offset + extraLEDForCurrentSection - 1;
         }
     }
 
@@ -47,11 +47,11 @@ public class LEDSection implements LEDInstruction {
         int sectionIndex = 0;
 
         for (int ledIndex = 0; ledIndex < ledBuffer.getLength(); ledIndex++) {
-            if (ledIndex > separatorIndexes[sectionIndex]) {
+            ledBuffer.setLED(ledIndex, sections[sectionIndex].getColor8Bit());
+
+            if (ledIndex == separatorIndexes[sectionIndex]) {
                 sectionIndex++;
             }
-
-            ledBuffer.setLED(ledIndex, sections[sectionIndex].getColor8Bit());
         }
     }
 }

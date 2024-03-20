@@ -6,6 +6,7 @@
 
 package com.stuypulse.robot.subsystems.conveyor;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Settings.RobotType;
 
@@ -40,13 +41,12 @@ public abstract class Conveyor extends SubsystemBase {
 
     public abstract double getGandalfSpeed();
 
-    public abstract double getFeederSpeed();
-
     public abstract void toShooter();
 
     public abstract void toAmp();
 
+    public abstract void setIdleMode(IdleMode mode);
+
     public abstract void stop();
 
-    public abstract boolean isNoteAtShooter();
 }

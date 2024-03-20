@@ -9,21 +9,28 @@ package com.stuypulse.robot;
 import com.stuypulse.robot.commands.leds.LEDReset;
 import com.stuypulse.robot.commands.leds.LEDSet;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
+import com.stuypulse.robot.commands.shooter.ShooterStop;
 import com.stuypulse.robot.commands.vision.VisionReloadWhiteList;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.RobotType;
+import com.stuypulse.robot.constants.Settings.Amper.Lift;
+import com.stuypulse.robot.constants.Settings.Amper.Score;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAlign;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAutonChooser;
+import com.stuypulse.robot.subsystems.leds.instructions.LEDRainbow;
 
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import com.pathplanner.lib.pathfinding.LocalADStar;
 import com.pathplanner.lib.pathfinding.Pathfinding;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 public class Robot extends TimedRobot {
     
@@ -56,6 +63,8 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putString("Robot State", "DISABLED");
         SmartDashboard.putString("Robot", ROBOT.name());
+
+        SmartDashboard.putData(CommandScheduler.getInstance());
     }
 
     @Override
@@ -74,28 +83,25 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
+        robot.intake.setIdleMode(IdleMode.kCoast);
+        robot.conveyor.setIdleMode(IdleMode.kCoast);
+
+        scheduler.schedule(new LEDSet(new LEDRainbow()));
+
         SmartDashboard.putString("Robot State", "DISABLED");
     }
 
     @Override
     public void disabledPeriodic() {
-        if (robot.intake.hasNote()) {
-            DriverStation.reportWarning("Intake IR sensor reporting note while disabled!", false);
-        }
-
         if (robot.amper.hasNote()) {
             DriverStation.reportWarning("Amper IR sensor reporting note while disabled!", false);
         }
 
-        if (robot.conveyor.isNoteAtShooter()) {
-            DriverStation.reportWarning("Shooter IR sensor reporting note while disabled!", false);
-        }
-
-        if (Settings.LED.LED_AUTON_TOGGLE.get()) {
-            scheduler.schedule(new LEDSet(new LEDAlign()));
-        } else {
-            scheduler.schedule(new LEDSet(new LEDAutonChooser()));
-        }
+        // if (Settings.LED.LED_AUTON_TOGGLE.get()) {
+        //     scheduler.schedule(new LEDSet(new LEDAlign()));
+        // } else {
+        //     scheduler.schedule(new LEDSet(new LEDAutonChooser()));
+        // }
 
         // reload whitelist in case of alliance change
         scheduler.schedule(new VisionReloadWhiteList());
@@ -113,7 +119,12 @@ public class Robot extends TimedRobot {
             auto.schedule();
         }
 
+        robot.climber.stop();
+        robot.amper.setTargetHeight(Lift.MIN_HEIGHT);
         scheduler.schedule(new LEDReset());
+
+        robot.intake.setIdleMode(IdleMode.kBrake);
+        robot.conveyor.setIdleMode(IdleMode.kBrake);
 
         SmartDashboard.putString("Robot State", "AUTON");
     }
@@ -134,15 +145,25 @@ public class Robot extends TimedRobot {
             auto.cancel();
         }
 
-        robot.climber.setTargetHeight(robot.climber.getHeight());
+        robot.climber.stop();
+        robot.amper.setTargetHeight(Lift.MIN_HEIGHT);
         scheduler.schedule(new LEDReset());
-        scheduler.schedule(new ShooterPodiumShot());
+        scheduler.schedule(new ShooterStop()
+            .andThen(new WaitCommand(Settings.Shooter.TELEOP_SHOOTER_STARTUP_DELAY))
+            .andThen(new ShooterPodiumShot()));
+
+        robot.intake.setIdleMode(IdleMode.kBrake);
+        robot.conveyor.setIdleMode(IdleMode.kBrake);
 
         SmartDashboard.putString("Robot State", "TELEOP");
     }
 
     @Override
-    public void teleopPeriodic() {}
+    public void teleopPeriodic() {
+        // if (Timer.getMatchTime() < Score.SCORE_TIME) {
+        //     robot.amper.score();
+        // }
+    }
 
     @Override
     public void teleopExit() {}
@@ -156,6 +177,9 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().cancelAll();
 
         scheduler.schedule(new LEDReset());
+
+        robot.intake.setIdleMode(IdleMode.kBrake);
+        robot.conveyor.setIdleMode(IdleMode.kBrake);
 
         SmartDashboard.putString("Robot State", "TEST");
     }

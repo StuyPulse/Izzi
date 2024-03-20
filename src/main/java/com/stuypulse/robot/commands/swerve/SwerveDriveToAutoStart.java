@@ -14,6 +14,7 @@ import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 
 import com.stuypulse.robot.RobotContainer;
+import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.util.HolonomicController;
@@ -86,6 +87,6 @@ public class SwerveDriveToAutoStart extends Command {
 
     public void end(boolean interupted) {
         swerve.stop();
-        targetPose2d.setPose(Double.NaN, Double.NaN, new Rotation2d(Double.NaN));
+        Field.clearFieldObject(targetPose2d);
     }
 }

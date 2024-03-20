@@ -48,6 +48,8 @@ public interface LEDInstructions {
 
     LEDInstruction BANGLADESH = new LEDSection(new SLColor[] {SLColor.RED, SLColor.BLACK, SLColor.DARK_GREEN});
 
+    LEDInstruction CLIMB_UP = new LEDSection(new SLColor[] {SLColor.PURPLE, SLColor.GREEN});
+
     /******************/
     /*** NON-STATIC ***/
     /******************/
@@ -59,15 +61,13 @@ public interface LEDInstructions {
     LEDInstruction PULSE_PURPLE = new LEDPulseColor(SLColor.PURPLE, .25);
     LEDInstruction RICHIE = new RichieMode(SLColor.RED);
 
+    LEDInstruction PICKUP = new LEDPulseColor(SLColor.WHITE, 0.5);
+
     /********************************************/
     /*** LED CONSTANTS TO BE USED IN COMMANDS ***/
     /********************************************/
 
     LEDInstruction DEFAULT = LEDInstructions.OFF;
-
-    LEDInstruction SPEAKER = LEDInstructions.ORANGE;
-    LEDInstruction AMP = LEDInstructions.PINK;
-    LEDInstruction TRAP = LEDInstructions.GOLD;
 
     LEDInstruction ASSIST_FLASH = LEDInstructions.GREEN;
 

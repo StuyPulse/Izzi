@@ -11,25 +11,27 @@ import com.stuypulse.stuylib.streams.booleans.filters.BDebounce;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 
 import com.stuypulse.robot.constants.Motors;
+import com.stuypulse.robot.constants.Motors.StatusFrame;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkFlex;
 
 public class IntakeImpl extends Intake {
 
-    private final CANSparkMax motor;
+    private final CANSparkFlex motor;
     private final DigitalInput sensor;
 
     private final BStream triggered;
     private final BStream stalling;
 
     protected IntakeImpl() {
-        motor = new CANSparkMax(Ports.Intake.MOTOR, MotorType.kBrushless);
+        motor = new CANSparkFlex(Ports.Intake.MOTOR, MotorType.kBrushless);
         sensor = new DigitalInput(Ports.Intake.IR_SENSOR);
 
         triggered = BStream.create(sensor).not()
@@ -37,6 +39,8 @@ public class IntakeImpl extends Intake {
 
         stalling = BStream.create(this::isMomentarilyStalling)
             .filtered(new BDebounceRC.Rising(Settings.Intake.Detection.STALL_TIME));
+        
+        Motors.disableStatusFrames(motor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
 
         Motors.Intake.MOTOR_CONFIG.configure(motor);
     }
@@ -54,6 +58,12 @@ public class IntakeImpl extends Intake {
     @Override
     public void stop() {
         motor.stopMotor();
+    }
+
+    @Override
+    public void setIdleMode(IdleMode mode) {
+        motor.setIdleMode(mode);
+        motor.burnFlash();
     }
 
     // Detection
@@ -77,6 +87,11 @@ public class IntakeImpl extends Intake {
     }
 
     @Override
+    public boolean hasNotePartially() {
+        return hasNote() || isStalling();
+    }
+
+    @Override
     public double getIntakeRollerSpeed() {
         return motor.get();
     }
@@ -89,6 +104,7 @@ public class IntakeImpl extends Intake {
         SmartDashboard.putNumber("Intake/Current", motor.getOutputCurrent());
 
         SmartDashboard.putBoolean("Intake/Is Stalling", isStalling());
+        SmartDashboard.putBoolean("Intake/Above Current Limit", isMomentarilyStalling());
         SmartDashboard.putBoolean("Intake/Has Note", isTriggered());
         SmartDashboard.putBoolean("Intake/Has Note (Raw)", !sensor.get());
     }

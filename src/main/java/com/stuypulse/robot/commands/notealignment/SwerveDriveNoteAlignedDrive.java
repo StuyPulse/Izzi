@@ -10,6 +10,8 @@ import com.stuypulse.stuylib.control.angle.AngleController;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.math.Angle;
+import com.stuypulse.stuylib.streams.angles.AStream;
+import com.stuypulse.stuylib.streams.angles.filters.ARateLimit;
 import com.stuypulse.stuylib.streams.numbers.IStream;
 import com.stuypulse.stuylib.streams.numbers.filters.LowPassFilter;
 import com.stuypulse.stuylib.streams.vectors.VStream;
@@ -39,6 +41,8 @@ public class SwerveDriveNoteAlignedDrive extends Command {
     private final AngleController controller;
     private final IStream angleVelocity;
 
+    private final AStream targetAngle;
+
     public SwerveDriveNoteAlignedDrive(Gamepad driver) {
 		noteVision = NoteVision.getInstance();
 		odometry = Odometry.getInstance();
@@ -66,6 +70,9 @@ public class SwerveDriveNoteAlignedDrive extends Command {
             .filtered(x -> x * Math.min(1, noteVision.getEstimatedNotePose().getDistance(getRobotTranslation()) / Assist.REDUCED_FF_DIST))
             .filtered(x -> -x);
         
+        targetAngle = AStream.create(() -> Angle.fromRotation2d(getTargetAngle()))
+            .filtered(new ARateLimit(1.0));
+        
         addRequirements(swerve);
     }
 
@@ -85,10 +92,10 @@ public class SwerveDriveNoteAlignedDrive extends Command {
     @Override
     public void execute() {
         double omega = angleVelocity.get() + controller.update(
-            Angle.fromRotation2d(getTargetAngle()),
+            targetAngle.get(),
             Angle.fromRotation2d(odometry.getPose().getRotation()));
 
-        if (NoteVision.getInstance().withinIntakePath() || !NoteVision.getInstance().hasNoteData())
+        if (!NoteVision.getInstance().hasNoteData())
             omega = 0;
 
         swerve.drive(drive.get(), omega);

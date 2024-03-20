@@ -10,14 +10,15 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.stuypulse.robot.constants.Motors.CANSparkMaxConfig;
+import com.stuypulse.robot.constants.Motors.CANSparkConfig;
+import com.stuypulse.robot.util.FilteredRelativeEncoder;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TumblerIntake extends Intake {
 
-    private static final CANSparkMaxConfig TOP_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake);
-    private static final CANSparkMaxConfig BOTTOM_CONFIG = new CANSparkMaxConfig(true, IdleMode.kBrake);
+    private static final CANSparkConfig TOP_CONFIG = new CANSparkConfig(false, IdleMode.kBrake);
+    private static final CANSparkConfig BOTTOM_CONFIG = new CANSparkConfig(true, IdleMode.kBrake);
 
     private final CANSparkMax topMotor;
     private final RelativeEncoder topEncoder;
@@ -27,10 +28,10 @@ public class TumblerIntake extends Intake {
 
     protected TumblerIntake() {
         topMotor = new CANSparkMax(20, MotorType.kBrushless);
-        topEncoder = topMotor.getEncoder();
+        topEncoder = new FilteredRelativeEncoder(topMotor);
 
         bottomMotor = new CANSparkMax(21, MotorType.kBrushless);
-        bottomEncoder = bottomMotor.getEncoder();
+        bottomEncoder = new FilteredRelativeEncoder(bottomMotor);
 
         TOP_CONFIG.configure(topMotor);
         BOTTOM_CONFIG.configure(bottomMotor);
@@ -76,6 +77,10 @@ public class TumblerIntake extends Intake {
 
         SmartDashboard.putNumber("Intake/Top Motor Current", topMotor.getOutputCurrent());
         SmartDashboard.putNumber("Intake/Bottom Motor Current", bottomMotor.getOutputCurrent());
+    }
+
+    @Override
+    public void setIdleMode(IdleMode mode) {
     }
     
 }

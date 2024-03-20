@@ -7,7 +7,7 @@
 package com.stuypulse.robot.constants;
 
 import com.stuypulse.robot.Robot;
-import com.stuypulse.robot.util.MirroredPose2d;
+import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.util.vision.AprilTag;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -18,7 +18,7 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -181,6 +181,10 @@ public interface Field {
             new Transform2d(0, Units.inchesToMeters(56), new Rotation2d()));
     }
 
+    public static AprilTag getAllianceAmpTag() {
+        return (Robot.isBlue() ? NamedTags.BLUE_AMP : NamedTags.RED_AMP).tag;
+    }
+
     /*** TRAP ***/
 
     public static Pose2d[] getAllianceTrapPoses() {
@@ -203,13 +207,62 @@ public interface Field {
         return robotPose.nearest(Arrays.asList(getAllianceTrapPoses()));
     }
 
+    /*** STAGE ***/
+
+    Translation2d[] CLOSE_STAGE_TRIANGLE = new Translation2d[] {
+        new Translation2d(Units.inchesToMeters(125.0), WIDTH / 2.0),                       // center 
+        new Translation2d(Units.inchesToMeters(222.6), Units.inchesToMeters(105)),  // bottom
+        new Translation2d(Units.inchesToMeters(222.6), Units.inchesToMeters(205.9)) // top
+    };
+
+    Translation2d[] FAR_STAGE_TRIANGLE = new Translation2d[] {
+        new Translation2d(Field.LENGTH - CLOSE_STAGE_TRIANGLE[0].getX(), CLOSE_STAGE_TRIANGLE[0].getY()), // center 
+        new Translation2d(Field.LENGTH - CLOSE_STAGE_TRIANGLE[1].getX(), CLOSE_STAGE_TRIANGLE[1].getY()), // bottom
+        new Translation2d(Field.LENGTH - CLOSE_STAGE_TRIANGLE[2].getX(), CLOSE_STAGE_TRIANGLE[2].getY()), // top
+    };
+
+    public static boolean robotUnderStage() {
+        Translation2d robot = Odometry.getInstance().getPose().getTranslation();
+        
+        return pointInTriangle(robot, CLOSE_STAGE_TRIANGLE) || pointInTriangle(robot, FAR_STAGE_TRIANGLE);
+    }
+
+    private static boolean pointInTriangle(Translation2d point, Translation2d[] triangle) {
+        double[] slopes = new double[3];
+        double[] yIntercepts = new double[3];
+
+        // Constructing lines from the triangles to check if the robot is under the stage
+        for (int i = 0; i < 3; i++) {
+            slopes[i] = (triangle[(i + 1) % 3].getY() - triangle[i].getY())
+                    / (triangle[(i + 1) % 3].getX() - triangle[i].getX());
+
+            yIntercepts[i] = triangle[i].getY() - slopes[i] * triangle[i].getX();
+        }
+
+        // Checking if the robot is under the stage by comparing the robot's position to the lines
+        for (int i = 0; i < 3; i++) {
+            if (point.getY() > slopes[i] * point.getX() + yIntercepts[i]
+                    && point.getY() < Math.max(triangle[i].getY(), triangle[(i + 1) % 3].getY())
+                    && point.getY() > Math.min(triangle[i].getY(), triangle[(i + 1) % 3].getY())
+                    && point.getX() > Math.min(triangle[i].getX(), triangle[(i + 1) % 3].getX())
+                    && point.getX() < Math.max(triangle[i].getX(), triangle[(i + 1) % 3].getX())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /***** NOTE DETECTION *****/
 
-    public double NOTE_BOUNDARY = LENGTH / 2 + Units.inchesToMeters(Settings.LENGTH / 2);
+    double NOTE_BOUNDARY = LENGTH / 2 + Units.inchesToMeters(Settings.LENGTH / 2);
 
-    /**** SHOOT POSES ****/
+    /**** EMPTY FIELD POSES ****/
 
-    public MirroredPose2d TOP_SHOOT_POSE = new MirroredPose2d(Alliance.Blue, new Pose2d(3.35, 6.80, new Rotation2d(23)));
-    public MirroredPose2d ALTERNATE_TOP_SHOOT_POSE = new MirroredPose2d(Alliance.Blue, new Pose2d(3.40, 5.21, new Rotation2d(-6)));
-    public MirroredPose2d BOTTOM_SHOOT_POSE = new MirroredPose2d(Alliance.Blue, new Pose2d(2.54, 3.23, new Rotation2d(-40)));
+    Pose2d EMPTY_FIELD_POSE2D = new Pose2d(new Translation2d(-1, -1), new Rotation2d());
+    Pose3d EMPTY_FIELD_POSE3D = new Pose3d(-1, -1, 0, new Rotation3d());
+
+    public static void clearFieldObject(FieldObject2d fieldObject)  {
+        fieldObject.setPose(EMPTY_FIELD_POSE2D);
+    }
 }

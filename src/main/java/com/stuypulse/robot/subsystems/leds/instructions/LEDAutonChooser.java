@@ -8,31 +8,30 @@ package com.stuypulse.robot.subsystems.leds.instructions;
 
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.RobotContainer;
+import com.stuypulse.robot.constants.Settings.LED;
 import com.stuypulse.robot.util.SLColor;
 
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 
 import java.util.Arrays;
-
+        
 public class LEDAutonChooser extends LEDSection {
     public enum AutonLEDColors {
         X("DoNothingAuton"),
-        OM("1 Note + Mobility.auto"),
-        OC("2 Note C.auto"),
-        OF("2 Note Center F.auto"),
-        OG("2 Note Center G.auto"),
-        OH("2 Note Center H.auto"),
-        ODA("3 Note (D, A).auto"),
-        OEA("3 Note (E, A).auto"),
-        OGF("3 Note Center (G, F).auto"),
-        OHG("3 Note Center (H, G).auto"),
-        // ("3 Note.auto"),
-        OEDA("4 Note (E, D, A).auto"),
-        // ("4 Note End D.auto"),
-        // OES("4 Note End Speaker.auto"),
-        // ("5 Note.auto"),
-        // ("6 Note.auto"),
-        M("Mobility.auto");
+        OC("TwoPieceC"),
+        OH("TwoPieceH"),
+        OG("TwoPieceG"),
+        OCB("ThreePieceCB"),
+        OHG("ThreePieceHG"),
+        OGH("ThreePieceGH"),
+        OGHF("FourPieceGHF"),
+        OHGF("FourPieceHGF"),
+        OCBA("FourPieceCBA"),
+        OCBAD("FivePieceCBAD"),
+        OCBAE("FivePieceCBAE"),
+        OCBADE("SixPieceCBADE"),
+        M("Mobility");
 
         public final String autonName;
         public SLColor[] ledColors;
@@ -43,12 +42,11 @@ public class LEDAutonChooser extends LEDSection {
         }
 
         private static SLColor[] autonToLEDSection(char[] pieces) {
-            SLColor[] colorArray = new SLColor[10];
+            SLColor[] colorArray = new SLColor[15];
             Arrays.fill(colorArray, new SLColor());
 
             SLColor[] rainbow = new SLColor[] {
                 SLColor.RED,
-                SLColor.RED_ORANGE,
                 SLColor.ORANGE,
                 SLColor.YELLOW,
                 SLColor.LIME,
@@ -70,23 +68,31 @@ public class LEDAutonChooser extends LEDSection {
                 }
             }
 
-            colorArray[9] = Robot.isBlue() ? SLColor.BLUE : SLColor.RED;
+            colorArray[9] = SLColor.WHITE; 
+            for (int i = 10; i < LED.LED_LENGTH; i++) {
+                colorArray[i] = (Robot.isBlue() ? SLColor.BLUE : SLColor.RED);
+            }
+            
             return colorArray;
         }
 
         public static AutonLEDColors fromName(String name) {
             return Arrays.stream(values())
-                .filter((autonLedColor) -> autonLedColor.autonName.matches(name))
+                .filter((autonLedColor) -> autonLedColor.autonName.equals(name))
                 .findFirst()
-                .orElseThrow(
-                    () -> new IllegalArgumentException(
-                        "No LED configuration for auton with name: "
-                            + name
-                            + " found"));
+                .orElseGet(() -> {
+                    DriverStation.reportWarning("AutonLEDColors.fromName: " + name + " not found", false);
+                    return X;
+                });
         }
     }
 
     public LEDAutonChooser() {
         super(AutonLEDColors.fromName(RobotContainer.getAutonomousCommandNameStatic()).ledColors);
+    }
+
+    @Override
+    public void setLED(AddressableLEDBuffer ledBuffer) {
+        super.setLED(ledBuffer);
     }
 }

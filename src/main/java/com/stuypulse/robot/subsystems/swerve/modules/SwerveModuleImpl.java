@@ -14,11 +14,12 @@ import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
 import com.stuypulse.stuylib.math.Angle;
 
 import com.stuypulse.robot.constants.Motors;
+import com.stuypulse.robot.constants.Motors.StatusFrame;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Swerve.Drive;
 import com.stuypulse.robot.constants.Settings.Swerve.Encoder;
 import com.stuypulse.robot.constants.Settings.Swerve.Turn;
-import com.stuypulse.robot.util.StupidFilter;
+import com.stuypulse.robot.util.FilteredRelativeEncoder;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -30,7 +31,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-
 import com.ctre.phoenix6.hardware.CANcoder;
 
 /*
@@ -70,9 +70,6 @@ public class SwerveModuleImpl extends SwerveModule {
     private final Controller driveController;
     private final AngleController angleController;
 
-    private final StupidFilter driveVel;
-    private final StupidFilter drivePos;
-
     /**
      * Creates a new Swerve Module
      *
@@ -96,7 +93,7 @@ public class SwerveModuleImpl extends SwerveModule {
         driveMotor = new CANSparkFlex(driveID, MotorType.kBrushless);
         turnMotor = new CANSparkMax(turnID, MotorType.kBrushless);
 
-        driveEncoder = driveMotor.getEncoder();
+        driveEncoder = new FilteredRelativeEncoder(driveMotor);
         driveEncoder.setPositionConversionFactor(Encoder.Drive.POSITION_CONVERSION);
         driveEncoder.setVelocityConversionFactor(Encoder.Drive.VELOCITY_CONVERSION);
         driveEncoder.setPosition(0);
@@ -109,8 +106,8 @@ public class SwerveModuleImpl extends SwerveModule {
         angleController = new AnglePIDController(Turn.kP, Turn.kI, Turn.kD)
             .setOutputFilter(x -> -x);
 
-        driveVel = new StupidFilter();
-        drivePos = new StupidFilter();
+        Motors.disableStatusFrames(driveMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
+        Motors.disableStatusFrames(turnMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
 
         Motors.Swerve.DRIVE_CONFIG.configure(driveMotor);
         Motors.Swerve.TURN_CONFIG.configure(turnMotor);
@@ -118,7 +115,7 @@ public class SwerveModuleImpl extends SwerveModule {
 
     @Override
     public double getVelocity() {
-        return driveVel.get(driveEncoder.getVelocity());
+        return driveEncoder.getVelocity();
     }
 
     @Override
@@ -129,7 +126,7 @@ public class SwerveModuleImpl extends SwerveModule {
 
     @Override
     public SwerveModulePosition getModulePosition() {
-        return new SwerveModulePosition(drivePos.get(driveEncoder.getPosition()), getAngle());
+        return new SwerveModulePosition(driveEncoder.getPosition(), getAngle());
     }
 
     @Override
@@ -152,9 +149,12 @@ public class SwerveModuleImpl extends SwerveModule {
             driveMotor.setVoltage(driveController.getOutput());
             turnMotor.setVoltage(angleController.getOutput());
         }
-
+        
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Current", driveMotor.getOutputCurrent());
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Position", driveEncoder.getPosition());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Voltage", driveController.getOutput());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Turn Voltage", angleController.getOutput());
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Turn Current", turnMotor.getOutputCurrent());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Angle Error", angleController.getError().toDegrees());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Raw Encoder Angle", Units.rotationsToDegrees(turnEncoder.getAbsolutePosition().getValueAsDouble()));
     }

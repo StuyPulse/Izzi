@@ -7,8 +7,8 @@
 package com.stuypulse.robot.constants;
 
 import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkFlex;
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
+import com.revrobotics.CANSparkBase;
 
 /*-
  * File containing all of the configurations that different motors require.
@@ -21,43 +21,61 @@ import com.revrobotics.CANSparkMax;
  */
 public interface Motors {
 
+    public enum StatusFrame {
+        APPLIED_OUTPUT_FAULTS,
+        MOTOR_VEL_VOLTS_AMPS,
+        MOTOR_POSITION,
+        ANALOG_SENSOR,
+        ALTERNATE_ENCODER,
+        ABS_ENCODER_POSIITION,
+        ABS_ENCODER_VELOCITY
+    }
+
+    public static void disableStatusFrames(CANSparkBase motor, StatusFrame... ids) {
+        final int kDisableStatusFrame = 500;
+
+        for (StatusFrame id : ids) {
+            motor.setPeriodicFramePeriod(PeriodicFrame.fromId(id.ordinal()), kDisableStatusFrame);
+        }
+    }
+
     /** Classes to store all of the values a motor needs */
     public interface Amper {
-        CANSparkMaxConfig LIFT_MOTOR = new CANSparkMaxConfig(true, IdleMode.kBrake);
-        CANSparkMaxConfig SCORE_MOTOR = new CANSparkMaxConfig(true, IdleMode.kBrake, 80, 0.1);
+        CANSparkConfig LIFT_MOTOR = new CANSparkConfig(true, IdleMode.kBrake, 80);
+        CANSparkConfig SCORE_MOTOR = new CANSparkConfig(true, IdleMode.kBrake, 500, 0.1);
     }
 
     public interface Swerve {
-        CANSparkFlexConfig DRIVE_CONFIG = new CANSparkFlexConfig(true, IdleMode.kBrake);
-        CANSparkMaxConfig TURN_CONFIG = new CANSparkMaxConfig(false, IdleMode.kBrake);
+        CANSparkConfig DRIVE_CONFIG = new CANSparkConfig(true, IdleMode.kBrake, 60);
+        CANSparkConfig TURN_CONFIG = new CANSparkConfig(false, IdleMode.kBrake, 80);
     }
 
     public interface Intake {
-        CANSparkMaxConfig MOTOR_CONFIG = new CANSparkMaxConfig(true, IdleMode.kBrake, 80, 0.1);
+        CANSparkConfig MOTOR_CONFIG = new CANSparkConfig(false, IdleMode.kBrake, 500, 0.25);
     }
 
     public interface Shooter {
-        CANSparkFlexConfig LEFT_SHOOTER = new CANSparkFlexConfig(false, IdleMode.kCoast);
-        CANSparkFlexConfig RIGHT_SHOOTER = new CANSparkFlexConfig(true, IdleMode.kCoast);
+        CANSparkConfig LEFT_SHOOTER = new CANSparkConfig(false, IdleMode.kCoast, 500, 0.5);
+        CANSparkConfig RIGHT_SHOOTER = new CANSparkConfig(true, IdleMode.kCoast, 500, 0.5);
     }
 
     public interface Conveyor {
-        CANSparkMaxConfig GANDALF_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
-        CANSparkMaxConfig SHOOTER_FEEDER_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake);
+        CANSparkConfig GANDALF_MOTOR = new CANSparkConfig(true, IdleMode.kBrake,500, 0.25);
+        CANSparkConfig SHOOTER_FEEDER_MOTOR = new CANSparkConfig(false, IdleMode.kBrake, 500, 0.1);
     }
 
     public interface Climber {
-        CANSparkMaxConfig LEFT_MOTOR = new CANSparkMaxConfig(true, IdleMode.kBrake, 80, 0.1);
-        CANSparkMaxConfig RIGHT_MOTOR = new CANSparkMaxConfig(false, IdleMode.kBrake, 80, 0.1);
+        CANSparkConfig LEFT_MOTOR = new CANSparkConfig(true, IdleMode.kBrake, 80, 0.1);
+        CANSparkConfig RIGHT_MOTOR = new CANSparkConfig(false, IdleMode.kBrake, 80, 0.1);
     }
 
-    public static class CANSparkMaxConfig {
+    public static class CANSparkConfig {
         public final boolean INVERTED;
         public final IdleMode IDLE_MODE;
         public final int CURRENT_LIMIT_AMPS;
         public final double OPEN_LOOP_RAMP_RATE;
 
-        public CANSparkMaxConfig(
+        public CANSparkConfig(
                 boolean inverted,
                 IdleMode idleMode,
                 int currentLimitAmps,
@@ -68,49 +86,15 @@ public interface Motors {
             this.OPEN_LOOP_RAMP_RATE = openLoopRampRate;
         }
 
-        public CANSparkMaxConfig(boolean inverted, IdleMode idleMode, int currentLimitAmps) {
-            this(inverted, idleMode, currentLimitAmps, 0.05);
+        public CANSparkConfig(boolean inverted, IdleMode idleMode, int currentLimitAmps) {
+            this(inverted, idleMode, currentLimitAmps, 0.0);
         }
 
-        public CANSparkMaxConfig(boolean inverted, IdleMode idleMode) {
-            this(inverted, idleMode, 80);
+        public CANSparkConfig(boolean inverted, IdleMode idleMode) {
+            this(inverted, idleMode, 500);
         }
 
-        public void configure(CANSparkMax motor) {
-            motor.setInverted(INVERTED);
-            motor.setIdleMode(IDLE_MODE);
-            motor.setSmartCurrentLimit(CURRENT_LIMIT_AMPS);
-            motor.setOpenLoopRampRate(OPEN_LOOP_RAMP_RATE);
-            motor.burnFlash();
-        }
-    }
-
-    public static class CANSparkFlexConfig {
-        public final boolean INVERTED;
-        public final IdleMode IDLE_MODE;
-        public final int CURRENT_LIMIT_AMPS;
-        public final double OPEN_LOOP_RAMP_RATE;
-
-        public CANSparkFlexConfig(
-                boolean inverted,
-                IdleMode idleMode,
-                int currentLimitAmps,
-                double openLoopRampRate) {
-            this.INVERTED = inverted;
-            this.IDLE_MODE = idleMode;
-            this.CURRENT_LIMIT_AMPS = currentLimitAmps;
-            this.OPEN_LOOP_RAMP_RATE = openLoopRampRate;
-        }
-
-        public CANSparkFlexConfig(boolean inverted, IdleMode idleMode, int currentLimitAmps) {
-            this(inverted, idleMode, currentLimitAmps, 0.05);
-        }
-
-        public CANSparkFlexConfig(boolean inverted, IdleMode idleMode) {
-            this(inverted, idleMode, 80);
-        }
-
-        public void configure(CANSparkFlex motor) {
+        public void configure(CANSparkBase motor) {
             motor.setInverted(INVERTED);
             motor.setIdleMode(IDLE_MODE);
             motor.setSmartCurrentLimit(CURRENT_LIMIT_AMPS);
