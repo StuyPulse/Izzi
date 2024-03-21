@@ -121,8 +121,8 @@ public class RobotContainer {
         driver.getRightTriggerButton()
             .whileTrue(new IntakeAcquire()
                     .deadlineWith(new LEDSet(LEDInstructions.INTAKE))
-                .andThen(new LEDSet(LEDInstructions.PICKUP) 
-                    .alongWith(new BuzzController(driver)
+                .andThen(new BuzzController(driver) 
+                    .alongWith(new LEDSet(LEDInstructions.PICKUP)
                         .withTimeout(3.0))));
         
         driver.getLeftTriggerButton()

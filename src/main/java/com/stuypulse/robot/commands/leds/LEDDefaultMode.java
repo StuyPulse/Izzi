@@ -28,16 +28,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class LEDDefaultMode extends Command {
 
     private final LEDController leds;
-
     private final Intake intake;
     private final Amper amper;
-    private final StopWatch stopWatch;
 
     public LEDDefaultMode() {
         leds = LEDController.getInstance();
         intake = Intake.getInstance();
         amper = Amper.getInstance();
-        stopWatch = new StopWatch();
 
         addRequirements(leds);
     }
@@ -48,10 +45,7 @@ public class LEDDefaultMode extends Command {
             return LEDInstructions.GREEN;
 
         if (intake.hasNote()) {
-            stopWatch.reset();
-            if (stopWatch.getTime() < 1) {
-                return LEDInstructions.CONTAINS_NOTE;
-            }
+            return LEDInstructions.CONTAINS_NOTE;
         }
         
         return LEDInstructions.DEFAULT;

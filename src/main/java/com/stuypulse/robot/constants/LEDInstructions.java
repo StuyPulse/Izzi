@@ -68,7 +68,7 @@ public interface LEDInstructions {
 
     LEDInstruction DEFAULT = LEDInstructions.OFF;
 
-    LEDInstruction INTAKE = LEDInstructions.DARK_BLUE;
+    LEDInstruction INTAKE = new LEDPulseColor(SLColor.RED);
 
     LEDInstruction PICKUP = new LEDPulseColor(SLColor.RED);
 
@@ -86,14 +86,9 @@ public interface LEDInstructions {
 
     LEDInstruction TRAP_ALIGN = new LEDSection(new SLColor[] {SLColor.PURPLE, SLColor.GREEN}, true);
 
-    LEDInstruction Ferry = LEDInstructions.ORANGE; // No Ferry command yet
+    LEDInstruction FERRY = new LEDPulseColor(SLColor.ORANGE); // No Ferry command yet
 
-	LEDInstruction CONTAINS_NOTE = new LEDSingleColor(SLColor.WHITE);
-
-
-    
-
-
+	LEDInstruction CONTAINS_NOTE = new LEDSingleColor(SLColor.RED);
 
     // TO FUTURE USERS, DONT PUT LEDAlign and LEDAutonChooser (any disabled LEDInstructions) inside
     // the LEDInstructions interface
