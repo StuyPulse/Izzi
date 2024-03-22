@@ -28,46 +28,38 @@ public class CHGFEDJerk extends SequentialCommandGroup {
             new FollowPathAndIntake(paths[0]),
             new FollowPathAndIntake(paths[1]),
 
-            new ParallelCommandGroup(
-                //shooting 
-                new ConveyorShootRoutine(),
+            //shooting 
+            new ConveyorShootRoutine(),
 
-                //HFerry to G
-                new FollowPathAndIntake(paths[2])
-            ),
-           
+            //HFerry to G
+            new FollowPathAndIntake(paths[2]),
+    
             //G to GFerry
             new FollowPathAndIntake(paths[3]),
 
-            new ParallelCommandGroup(
-                //shooting
-                new ConveyorShootRoutine(),
+            //shooting
+            new ConveyorShootRoutine(),
 
-                //GFerry to F
-                new FollowPathAndIntake(paths[4])
-            ),
+            //GFerry to F
+            new FollowPathAndIntake(paths[4]),
 
             //F to FFerry
             new FollowPathAndIntake(paths[5]),
 
-            new ParallelCommandGroup(
-                //shooting
-                new ConveyorShootRoutine(),
+            //shooting
+            new ConveyorShootRoutine(),
 
-                //FFerry to E
-                new FollowPathAndIntake(paths[6])
-            ),
-            
+            //FFerry to E
+            new FollowPathAndIntake(paths[6]),
+
             //E to EFerry
             new FollowPathAndIntake(paths[7]),
 
-            new ParallelCommandGroup(
-                //shooting
-                new ConveyorShootRoutine(),
+            //shooting
+            new ConveyorShootRoutine(),
 
-                //EFerry to D
-                new FollowPathAndIntake(paths[8])
-            )
+            //EFerry to D
+            new FollowPathAndIntake(paths[8])
         );
     }
     
