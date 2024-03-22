@@ -305,6 +305,9 @@ public class RobotContainer {
         AutonConfig DE = new AutonConfig("2 Piece DE", TwoPieceDE::new,
             "First Piece to D", "D to Ferry Shot", "Ferry Shot to E", "E To Shoot");
 
+        AutonConfig SixPieceCBAED = new AutonConfig("6 CBAED", SixPieceCBAED::new, 
+        "Start to C (CBAED)", "C to B (CBAED)", "B to A (CBAED)", "A to E (CBAED)", "E to Shoot (CBAED)", "Shoot to D (CBAED)", "D to Shoot (CBAED)");
+
         // AutonConfig PodiumCloseCBAE = new AutonConfig("Podium Close 5 Piece CBAE", FivePiecePodiumForwardCBAE::new, 
         // "Forward First Piece to C", "C to B 2", "B To A","A To E", "E To Shoot");
 
@@ -331,6 +334,10 @@ public class RobotContainer {
 
         // DE.registerBlue(autonChooser)
         //     .registerRed(autonChooser);
+
+        SixPieceCBAED
+            .registerBlue(autonChooser)
+            .registerRed(autonChooser);
         
         SmartDashboard.putData("Autonomous", autonChooser);
     }
