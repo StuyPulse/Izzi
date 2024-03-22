@@ -14,7 +14,6 @@ import com.stuypulse.robot.commands.leds.LEDSet;
 import com.stuypulse.robot.commands.swerve.SwerveDriveDriveDirection;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
 import com.stuypulse.robot.commands.vision.VisionChangeWhiteList;
-import com.stuypulse.robot.commands.vision.VisionReloadWhiteList;
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.constants.Settings;
@@ -24,7 +23,6 @@ import com.stuypulse.robot.constants.Settings.Amper.Score;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.stuylib.math.Vector2D;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;

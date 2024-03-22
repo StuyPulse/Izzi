@@ -37,13 +37,11 @@ import com.stuypulse.robot.subsystems.climber.*;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.leds.LEDController;
-import com.stuypulse.robot.subsystems.leds.instructions.LEDPulseColor;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.shooter.Shooter;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
-import com.stuypulse.robot.util.SLColor;
 import com.stuypulse.robot.util.ShooterSpeeds;
 import com.stuypulse.robot.util.PathUtil.AutonConfig;
 
@@ -142,7 +140,6 @@ public class RobotContainer {
                     .withTimeout(1.5))
                 .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop())
-            // .onFalse(new ShooterStop())
             .onFalse(new IntakeStop());
 
         // note to amper and align then score
@@ -157,7 +154,6 @@ public class RobotContainer {
                     .withTimeout(1.5)
                 .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop())
-            // .onFalse(new ShooterStop())
             .onFalse(new IntakeStop());
             
         // score amp no align
