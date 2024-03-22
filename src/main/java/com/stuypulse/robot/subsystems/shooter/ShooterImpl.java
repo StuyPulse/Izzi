@@ -23,6 +23,8 @@ import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.util.FilteredRelativeEncoder;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Power;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -46,6 +48,8 @@ public class ShooterImpl extends Shooter {
     
     private final IStream rpmChange;
 
+    private final PowerDistribution powerDistribution;
+
     protected ShooterImpl() {
         leftMotor = new CANSparkFlex(Ports.Shooter.LEFT_MOTOR, MotorType.kBrushless);
         rightMotor = new CANSparkFlex(Ports.Shooter.RIGHT_MOTOR, MotorType.kBrushless);
@@ -58,6 +62,8 @@ public class ShooterImpl extends Shooter {
         leftEncoder.setVelocityConversionFactor(1.0);
         rightEncoder.setVelocityConversionFactor(1.0);
         feederEncoder.setVelocityConversionFactor(Feeder.GEARING);
+
+        powerDistribution = new PowerDistribution();
 
         leftController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
             .add(new PIDController(PID.kP, PID.kI, PID.kD));
@@ -138,5 +144,9 @@ public class ShooterImpl extends Shooter {
         SmartDashboard.putBoolean("Shooter/Note Shot", noteShot());
 
         SmartDashboard.putNumber("Shooter/Distance", Odometry.getInstance().getPose().getTranslation().minus(Field.getAllianceSpeakerPose().getTranslation()).getNorm());
+
+        SmartDashboard.putNumber("Shooter/Total Power", powerDistribution.getTotalPower());
+        SmartDashboard.putNumber("Shooter/Total Current", powerDistribution.getTotalCurrent());
+        SmartDashboard.putNumber("Shooter/Input Voltage", powerDistribution.getVoltage());
     }
 }

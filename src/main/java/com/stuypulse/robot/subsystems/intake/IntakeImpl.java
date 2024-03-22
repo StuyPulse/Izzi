@@ -16,6 +16,7 @@ import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -30,6 +31,8 @@ public class IntakeImpl extends Intake {
     private final BStream triggered;
     private final BStream stalling;
 
+    private final PowerDistribution powerDistribution;
+
     protected IntakeImpl() {
         motor = new CANSparkFlex(Ports.Intake.MOTOR, MotorType.kBrushless);
         sensor = new DigitalInput(Ports.Intake.IR_SENSOR);
@@ -43,6 +46,8 @@ public class IntakeImpl extends Intake {
         Motors.disableStatusFrames(motor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
 
         Motors.Intake.MOTOR_CONFIG.configure(motor);
+
+        powerDistribution = new PowerDistribution();
     }
 
     @Override
@@ -107,5 +112,9 @@ public class IntakeImpl extends Intake {
         SmartDashboard.putBoolean("Intake/Above Current Limit", isMomentarilyStalling());
         SmartDashboard.putBoolean("Intake/Has Note", isTriggered());
         SmartDashboard.putBoolean("Intake/Has Note (Raw)", !sensor.get());
+
+        SmartDashboard.putNumber("Intake/Total Power", powerDistribution.getTotalPower());
+        SmartDashboard.putNumber("Intake/Total Current", powerDistribution.getTotalCurrent());
+        SmartDashboard.putNumber("Intake/Input Voltage", powerDistribution.getVoltage());
     }
 }

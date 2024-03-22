@@ -13,6 +13,7 @@ import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -26,12 +27,16 @@ public class ConveyorImpl extends Conveyor {
 
     private final RelativeEncoder gandalfEncoder;
 
+    private final PowerDistribution powerDistribution;
+
     protected ConveyorImpl() {
         gandalfMotor = new CANSparkFlex(Ports.Conveyor.GANDALF, MotorType.kBrushless);
 
         gandalfEncoder = new FilteredRelativeEncoder(gandalfMotor);
 
         gandalfEncoder.setVelocityConversionFactor(1.0 / 2.0);
+        
+        powerDistribution = new PowerDistribution();
 
         Motors.disableStatusFrames(gandalfMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
 
@@ -75,5 +80,10 @@ public class ConveyorImpl extends Conveyor {
         SmartDashboard.putNumber("Conveyor/Gandalf RPM", gandalfEncoder.getVelocity());
 
         SmartDashboard.putNumber("Conveyor/Gandalf Linear Velocity", gandalfEncoder.getVelocity() * Units.inchesToMeters(1.0) * Math.PI);
+        
+        SmartDashboard.putNumber("Conveyor/Total Power", powerDistribution.getTotalPower());
+        SmartDashboard.putNumber("Conveyor/Total Current", powerDistribution.getTotalCurrent());
+        SmartDashboard.putNumber("Conveyor/Input Voltage", powerDistribution.getVoltage());
+ 
     }
 }

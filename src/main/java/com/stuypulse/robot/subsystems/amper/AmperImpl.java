@@ -22,6 +22,7 @@ import com.stuypulse.robot.util.FilteredRelativeEncoder;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -49,6 +50,8 @@ public class AmperImpl extends Amper {
     private final SmartNumber maxVelocity;
     private final SmartNumber maxAcceleration;
 
+    private final PowerDistribution powerDistribution;
+
     protected AmperImpl() {
         scoreMotor = new CANSparkMax(Ports.Amper.SCORE, MotorType.kBrushless);
         scoreEncoder = new FilteredRelativeEncoder(scoreMotor);
@@ -67,6 +70,8 @@ public class AmperImpl extends Amper {
 
         maxVelocity = new SmartNumber("Amper/Lift/Max Velocity", Lift.VEL_LIMIT);
         maxAcceleration = new SmartNumber("Amper/Lift/Max Acceleration", Lift.ACCEL_LIMIT);
+
+        powerDistribution = new PowerDistribution();
 
         controller = new MotorFeedforward(Lift.Feedforward.kS, Lift.Feedforward.kV, Lift.Feedforward.kA).position()
             .add(new ElevatorFeedforward(Lift.Feedforward.kG))
@@ -188,5 +193,9 @@ public class AmperImpl extends Amper {
         SmartDashboard.putBoolean("Amper/At Bottom", liftAtBottom());
         
         SmartDashboard.putBoolean("Amper/Under Stage", Field.robotUnderStage());
+
+        SmartDashboard.putNumber("Amper/Total Power", powerDistribution.getTotalPower());
+        SmartDashboard.putNumber("Amper/Total Current", powerDistribution.getTotalCurrent());
+        SmartDashboard.putNumber("Amper/Input Voltage", powerDistribution.getVoltage());
     }
 }

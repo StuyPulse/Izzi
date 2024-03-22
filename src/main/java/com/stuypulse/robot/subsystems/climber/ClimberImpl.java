@@ -12,6 +12,7 @@ import com.stuypulse.robot.util.FilteredRelativeEncoder;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -30,12 +31,16 @@ public class ClimberImpl extends Climber {
 
     private Optional<Double> voltageOverride;
 
+    private PowerDistribution powerDistribution;
+
     protected ClimberImpl() {
         rightMotor = new CANSparkMax(Ports.Climber.RIGHT_MOTOR, MotorType.kBrushless);
         leftMotor = new CANSparkMax(Ports.Climber.LEFT_MOTOR, MotorType.kBrushless);
 
         rightEncoder = new FilteredRelativeEncoder(rightMotor);
         leftEncoder = new FilteredRelativeEncoder(leftMotor);
+
+        powerDistribution = new PowerDistribution();
 
         rightEncoder.setPositionConversionFactor(Settings.Climber.Encoder.POSITION_CONVERSION);
         leftEncoder.setPositionConversionFactor(Settings.Climber.Encoder.POSITION_CONVERSION);
@@ -151,6 +156,10 @@ public class ClimberImpl extends Climber {
 
         SmartDashboard.putBoolean("Climber/Left Stalling", isLeftStalling());
         SmartDashboard.putBoolean("Climber/Right Stalling", isRightStalling());
+
+        SmartDashboard.putNumber("Climber/Total Power", powerDistribution.getTotalPower());
+        SmartDashboard.putNumber("Climber/Total Current", powerDistribution.getTotalCurrent());
+        SmartDashboard.putNumber("Climber/Input Voltage", powerDistribution.getVoltage());
 
         if (atBottom()) {
             leftEncoder.setPosition(Settings.Climber.MIN_HEIGHT);
