@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.14,
-        "y": -0.14
+        "x": 7.91,
+        "y": 0.78
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.171533790371566,
-        "y": -0.10119767964667337
+        "x": 7.941533790371565,
+        "y": 0.8188023203533267
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.14162084164624,
-        "y": -0.14
+        "x": 7.91,
+        "y": 0.78
       },
       "prevControl": {
-        "x": 8.065939744754486,
-        "y": -0.23312556884798535
+        "x": 7.834318903108246,
+        "y": 0.6868744311520147
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "HGFED Ferry",
+  "folder": null,
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

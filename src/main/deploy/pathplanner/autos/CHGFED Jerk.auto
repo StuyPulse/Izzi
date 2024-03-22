@@ -1,12 +1,6 @@
 {
   "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 1.8676110546665539,
-      "y": 3.264181107065918
-    },
-    "rotation": 0
-  },
+  "startingPose": null,
   "command": {
     "type": "sequential",
     "data": {
@@ -32,6 +26,12 @@
         {
           "type": "path",
           "data": {
+            "pathName": "G to GFerry"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
             "pathName": "G to F"
           }
         },
@@ -45,6 +45,12 @@
           "type": "path",
           "data": {
             "pathName": "FFerry to E"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E to EFerry"
           }
         },
         {

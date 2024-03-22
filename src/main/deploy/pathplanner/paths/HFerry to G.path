@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.14,
-        "y": -0.14
+        "x": 7.91,
+        "y": 0.78
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.028924699825557,
-        "y": 0.447542623476584
+        "x": 7.798878124276788,
+        "y": 1.3675338164279096
       },
       "isLocked": false,
       "linkedName": null
@@ -43,7 +43,7 @@
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "HGFED Ferry",
+  "folder": null,
   "previewStartingState": {
     "rotation": -45.0,
     "velocity": 0
