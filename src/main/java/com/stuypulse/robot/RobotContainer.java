@@ -172,7 +172,7 @@ public class RobotContainer {
             .onTrue(new AmperScoreTrap())
             .onFalse(new AmperStop());
 
-        // amp if note
+        // lift to trap
         driver.getDPadRight()
             .onTrue(new ConditionalCommand(new ConveyorToAmp(), new DoNothingCommand(), () -> Intake.getInstance().hasNote())
                 .andThen(new AmperToHeight(Lift.TRAP_SCORE_HEIGHT)));
@@ -181,12 +181,12 @@ public class RobotContainer {
         driver.getDPadUp()
             .onTrue(new SwerveDriveResetHeading());
         
-        // stop amp
+        // trap outtake
         driver.getDPadDown()
             .onTrue(new AmperScoreSpeed(-Score.TRAP_SPEED))
             .onFalse(new AmperStop());
 
-        //automatic swerve drive
+        // automatic swerve drive
         driver.getTopButton()
             // on command start
             .onTrue(new BuzzController(driver, Assist.BUZZ_INTENSITY)
