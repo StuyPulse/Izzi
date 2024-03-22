@@ -9,6 +9,7 @@ package com.stuypulse.robot.commands.swerve;
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings.Alignment;
+import com.stuypulse.robot.constants.Settings.Swerve;
 import com.stuypulse.robot.constants.Settings.Alignment.Shoot;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
@@ -125,7 +126,7 @@ public class SwerveDriveToShoot extends Command {
             new ChassisSpeeds(
                 speeds.getX(),
                 speeds.getY(),
-                rotation));
+                SwerveDrive.rotationDeadband(rotation)));
         
         SmartDashboard.putNumber("Alignment/Velocity Error", velocityError.get());
         SmartDashboard.putNumber("Alignment/To Shoot Target Angle", toSpeaker.getAngle().plus(Rotation2d.fromDegrees(180)).getDegrees());

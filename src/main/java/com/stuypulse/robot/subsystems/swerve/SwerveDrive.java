@@ -319,7 +319,7 @@ public class SwerveDrive extends SubsystemBase {
     public double getForwardAccelerationGs() {
         return gyro.getWorldLinearAccelY();
     }
-
+    
     @Override
     public void periodic() {
         Odometry odometry = Odometry.getInstance();
@@ -353,5 +353,10 @@ public class SwerveDrive extends SubsystemBase {
     public void simulationPeriodic() {
         // show gyro angle in simulation
         gyro.setAngleAdjustment(gyro.getAngle() - Math.toDegrees(getChassisSpeeds().omegaRadiansPerSecond * Settings.DT));
+    }
+
+    public static double rotationDeadband(double rotation) {
+        if (Math.abs(rotation) - Swerve.ROTATION_DEADBAND.get() > 0) return rotation;
+        return 0;
     }
 }
