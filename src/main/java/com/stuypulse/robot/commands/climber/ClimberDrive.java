@@ -52,6 +52,7 @@ public class ClimberDrive extends Command {
 
         if (shouldSafe.get()) {
             Amper.getInstance().setTargetHeight(Settings.Amper.Lift.SAFE_CLIMB_HEIGHT);
+            Amper.getInstance().setMinHeight(Settings.Amper.Lift.SAFE_CLIMB_HEIGHT);
             Shooter.getInstance().setTargetSpeeds(new ShooterSpeeds());
         }
     }
