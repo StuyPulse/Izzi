@@ -8,33 +8,27 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.830636315415787,
-        "y": 1.7040596470877543
+        "x": 4.75499368967488,
+        "y": 0.6161385076676416
       },
       "isLocked": false,
       "linkedName": "G"
     },
     {
       "anchor": {
-        "x": 1.6618155275766389,
-        "y": 3.5882249859660313
+        "x": 1.95,
+        "y": 4.38
       },
       "prevControl": {
-        "x": 3.9014631637458272,
-        "y": 2.1707778889581224
+        "x": 2.37749684483744,
+        "y": 3.4094028474515286
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "HShoot"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.0,
-      "rotationDegrees": 0.8290217277682228,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -44,8 +38,8 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": -38.01026976540658,
+    "velocity": 0.0,
+    "rotation": -52.06624772942949,
     "rotateFast": false
   },
   "reversed": false,

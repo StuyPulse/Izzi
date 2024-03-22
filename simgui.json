@@ -3,12 +3,14 @@
     "Addressable LEDs": {
       "0": {
         "columns": 15
-      },
-      "window": {
-        "visible": true
       }
     },
     "Other Devices": {
+      "window": {
+        "visible": false
+      }
+    },
+    "Timing": {
       "window": {
         "visible": false
       }
@@ -19,16 +21,12 @@
       "/FMSInfo": "FMSInfo",
       "/SmartDashboard/Autonomous": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Scheduler": "Scheduler",
       "/SmartDashboard/Visualizers/Climber": "Mechanism2d",
       "/SmartDashboard/Visualizers/Intake": "Mechanism2d",
       "/SmartDashboard/Visualizers/Lift": "Mechanism2d"
     },
     "windows": {
-      "/FMSInfo": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/Autonomous": {
         "window": {
           "visible": true
@@ -56,11 +54,6 @@
         }
       },
       "/SmartDashboard/Visualizers/Intake": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Visualizers/Lift": {
         "window": {
           "visible": true
         }
@@ -98,5 +91,8 @@
       "open": true
     },
     "visible": true
+  },
+  "NetworkTables View": {
+    "visible": false
   }
 }
