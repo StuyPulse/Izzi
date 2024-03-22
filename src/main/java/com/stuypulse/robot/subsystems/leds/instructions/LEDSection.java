@@ -22,40 +22,28 @@ public class LEDSection implements LEDInstruction {
     private final int[] separatorIndexes;
     private final StopWatch stopWatch;
 
-    public LEDSection(SLColor[] sections, SLColor[] altSections){
-        this.sections = sections;
-        this.altSections = altSections;
-        this.separatorIndexes = genSeparators(sections);
-        this.isBlinking = true;
-        this.stopWatch = new StopWatch();
-    }
-
-    public LEDSection(SLColor[] sections, int[] separatorIndexes) {
-        if (sections.length != separatorIndexes.length) {
-            throw new IllegalArgumentException("Mismatching section and seperating indexes");
-        }
-
-        this.sections = sections;
-        this.altSections = new SLColor[sections.length];
-        this.isBlinking = false;
-
-        this.separatorIndexes = separatorIndexes;
-        this.stopWatch = new StopWatch();
-    }
-
-    public LEDSection(SLColor[] sections, boolean isBlinking) {
-        this.separatorIndexes = genSeparators(sections);
+    public LEDSection(SLColor[] sections, SLColor[] altSections, int[] separatorIndexes, boolean isBlinking) {
         if (sections.length != separatorIndexes.length) {
             throw new IllegalArgumentException("Mismatching section and seperating indexes: \n Section Length (" + sections.length +") \n SeparatorIndexes ("+ separatorIndexes.length +")" );
         }
+
         this.sections = sections;
-        this.altSections = new SLColor[sections.length];
-        
+        this.altSections = altSections;
+        this.separatorIndexes = separatorIndexes;
         this.isBlinking = isBlinking;
-        if (this.isBlinking) {
-            Arrays.fill(this.altSections, SLColor.BLACK);
-        }
         this.stopWatch = new StopWatch();
+    }
+
+    public LEDSection(SLColor[] sections, SLColor[] altSections){
+        this(sections, altSections, genSeparators(sections), true);
+    }
+
+    public LEDSection(SLColor[] sections, int[] separatorIndexes) {
+        this(sections, genEmptyArray(sections.length), separatorIndexes, false);
+    }
+
+    public LEDSection(SLColor[] sections, boolean isBlinking) {
+        this(sections, genEmptyArray(sections.length), genSeparators(sections), isBlinking);
     }
 
     @Override
@@ -76,9 +64,13 @@ public class LEDSection implements LEDInstruction {
         }
     }
 
+    private static SLColor[] genEmptyArray(int length) {
+        SLColor[] array = new SLColor[length];
+        Arrays.fill(array, SLColor.BLACK);
+        return array;
+    }
 
-    private int[] genSeparators(SLColor[] sections){
-
+    private static int[] genSeparators(SLColor[] sections){
         int totalLEDLength = Settings.LED.LED_LENGTH;
         int sectionLength = totalLEDLength / sections.length;
         int extraLEDS = totalLEDLength % sections.length;
