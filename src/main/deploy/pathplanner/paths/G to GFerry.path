@@ -43,7 +43,7 @@
     "rotateFast": true
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Ferry",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
