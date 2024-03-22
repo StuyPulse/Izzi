@@ -60,7 +60,7 @@ public class AmpScoreRoutine extends SequentialCommandGroup {
                 new ConveyorToAmp(),
                 new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get()))
                     .withTolerance(AMP_WALL_SETUP_X_TOLERANCE, AMP_WALL_SETUP_Y_TOLERANCE, AMP_WALL_SETUP_ANGLE_TOLERANCE)
-                    .deadlineWith(new LEDSet(LEDInstructions.GREEN))
+                    .deadlineWith(new LEDSet(LEDInstructions.AMP_ALIGN))
             ),
 
             new ParallelCommandGroup(
@@ -72,7 +72,7 @@ public class AmpScoreRoutine extends SequentialCommandGroup {
                         AMP_WALL_SCORE_Y_TOLERANCE,
                         AMP_WALL_SCORE_ANGLE_TOLERANCE)
                     .withTimeout(SCORE_ALIGN_TIMEOUT)
-                    .deadlineWith(new LEDSet(LEDInstructions.GREEN))
+                    .deadlineWith(new LEDSet(LEDInstructions.AMP_SCORE))
             ),
             
             AmperScore.untilDone(),
