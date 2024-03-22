@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "C to Shoot"
+            "pathName": "C To Shoot"
           }
         },
         {
@@ -26,19 +26,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B to A"
+            "pathName": "B To A"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "A to E"
+            "pathName": "A To E"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "E to Shoot"
+            "pathName": "E To Shoot"
           }
         }
       ]

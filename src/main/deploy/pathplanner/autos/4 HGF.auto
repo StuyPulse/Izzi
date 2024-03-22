@@ -8,37 +8,37 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start to H (HGF)"
+            "pathName": "Start To H (HGF)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "H to HShoot (HGF)"
+            "pathName": "H To HShoot (HGF)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "HShoot to G (HGF)"
+            "pathName": "HShoot To G (HGF)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "G to Shoot (HGF)"
+            "pathName": "G To Shoot (HGF)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "GShoot to F (HGF)"
+            "pathName": "GShoot To F (HGF)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "F to Shoot (HGF)"
+            "pathName": "F To Shoot (HGF)"
           }
         }
       ]

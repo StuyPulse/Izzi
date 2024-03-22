@@ -8,7 +8,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Podium Preload Shot to C"
+            "pathName": "Preload to C"
           }
         },
         {
@@ -20,19 +20,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B to A"
+            "pathName": "B To A"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "A to E"
+            "pathName": "A To E"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "E to Shoot"
+            "pathName": "E To Shoot"
           }
         }
       ]
