@@ -8,7 +8,11 @@
     "HGF",
     "Tests"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "New Folder",
+    "New New Folder",
+    "New New New Folder"
+  ],
   "defaultMaxVel": 5.0,
   "defaultMaxAccel": 4.0,
   "defaultMaxAngVel": 540.0,
