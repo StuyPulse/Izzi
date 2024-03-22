@@ -46,12 +46,12 @@ public interface Motors {
     }
 
     public interface Swerve {
-        CANSparkConfig DRIVE_CONFIG = new CANSparkConfig(true, IdleMode.kBrake, 60);
+        CANSparkConfig DRIVE_CONFIG = new CANSparkConfig(true, IdleMode.kBrake, 60, 0.1);
         CANSparkConfig TURN_CONFIG = new CANSparkConfig(false, IdleMode.kBrake, 80);
     }
 
     public interface Intake {
-        CANSparkConfig MOTOR_CONFIG = new CANSparkConfig(false, IdleMode.kBrake, 500, 0.1);
+        CANSparkConfig MOTOR_CONFIG = new CANSparkConfig(false, IdleMode.kBrake, 500, 0.25);
     }
 
     public interface Shooter {
@@ -60,7 +60,7 @@ public interface Motors {
     }
 
     public interface Conveyor {
-        CANSparkConfig GANDALF_MOTOR = new CANSparkConfig(true, IdleMode.kBrake,500, 0.1);
+        CANSparkConfig GANDALF_MOTOR = new CANSparkConfig(true, IdleMode.kBrake,500, 0.25);
         CANSparkConfig SHOOTER_FEEDER_MOTOR = new CANSparkConfig(false, IdleMode.kBrake, 500, 0.1);
     }
 

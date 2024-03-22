@@ -315,6 +315,8 @@ public interface Settings {
             new SmartNumber("Shooter/Podium Feeder RPM", 3000));
 
         ShooterSpeeds HANDOFF = new ShooterSpeeds(3000, 3000);
+        
+        ShooterSpeeds REVERSE = new ShooterSpeeds(-3000, -3000);
 
         double AT_RPM_EPSILON = 125;
 
@@ -365,7 +367,7 @@ public interface Settings {
 
     public interface Conveyor {
         SmartNumber GANDALF_SHOOTER_SPEED = new SmartNumber("Conveyor/Gandalf Shooter Speed", 1.0);
-        double GANDALF_AMP_SPEED = 0.5;
+        double GANDALF_AMP_SPEED = 0.75;
 
         SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.0);
         SmartNumber RECALL_DEBOUNCE = new SmartNumber("Conveyor/Recall Delay", 1.0);
@@ -386,7 +388,7 @@ public interface Settings {
         double PODIUM_SHOT_MAX_ANGLE = 80;
 
         SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(25.5));
-        SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(23.5));
+        SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(21.5)); // was 23.5 at comp
 
         SmartNumber TRAP_SETUP_DISTANCE = new SmartNumber("Alignment/Trap/Setup Pose Distance", Units.inchesToMeters(22.0));
         SmartNumber TRAP_CLIMB_DISTANCE = new SmartNumber("Alignment/Trap/Climb Distance", Units.inchesToMeters(18.0));
@@ -409,7 +411,7 @@ public interface Settings {
             public interface Translation {
                 SmartNumber kP = new SmartNumber("ShootAlign/Translation/kP", 6.0);
                 SmartNumber kI = new SmartNumber("ShootAlign/Translation/kI", 0.0);
-                SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.06);
+                SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.02);
             }
     
             public interface Rotation {

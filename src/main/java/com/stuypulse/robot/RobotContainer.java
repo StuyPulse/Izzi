@@ -139,13 +139,11 @@ public class RobotContainer {
                     .withTimeout(1.5))
                 .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop())
-            // .onFalse(new ShooterStop())
             .onFalse(new IntakeStop());
 
         // note to amper and align then score
         driver.getLeftBumper()
             .whileTrue(new AmpScoreRoutine())
-            .onFalse(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT))
             .onFalse(new AmperStop());
 
         // score speaker no align
@@ -155,7 +153,6 @@ public class RobotContainer {
                     .withTimeout(1.5)
                 .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop())
-            // .onFalse(new ShooterStop())
             .onFalse(new IntakeStop());
             
         // score amp no align
