@@ -354,9 +354,4 @@ public class SwerveDrive extends SubsystemBase {
         // show gyro angle in simulation
         gyro.setAngleAdjustment(gyro.getAngle() - Math.toDegrees(getChassisSpeeds().omegaRadiansPerSecond * Settings.DT));
     }
-
-    public static double rotationDeadband(double rotation) {
-        if (Math.abs(rotation) - Swerve.ROTATION_DEADBAND.get() > 0) return rotation;
-        return 0;
-    }
 }

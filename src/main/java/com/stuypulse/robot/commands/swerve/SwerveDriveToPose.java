@@ -145,8 +145,11 @@ public class SwerveDriveToPose extends Command {
         
         SmartDashboard.putNumber("Alignment/Translation Target Speed", speed.distance());
 
+        if (Math.abs(rotation) < Swerve.ROTATION_DEADBAND.get())
+            rotation = 0;
+
         ChassisSpeeds clamped = new ChassisSpeeds(
-            speed.x, speed.y, SwerveDrive.rotationDeadband(rotation));
+            speed.x, speed.y, rotation);
         
         swerve.setChassisSpeeds(clamped);
 

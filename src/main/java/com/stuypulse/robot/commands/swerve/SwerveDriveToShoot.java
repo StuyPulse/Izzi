@@ -122,11 +122,14 @@ public class SwerveDriveToShoot extends Command {
             speed,
             toSpeaker.getAngle());
 
+        if (Math.abs(rotation) < Swerve.ROTATION_DEADBAND.get())
+            rotation = 0;
+
         swerve.setFieldRelativeSpeeds(
             new ChassisSpeeds(
                 speeds.getX(),
                 speeds.getY(),
-                SwerveDrive.rotationDeadband(rotation)));
+                rotation));
         
         SmartDashboard.putNumber("Alignment/Velocity Error", velocityError.get());
         SmartDashboard.putNumber("Alignment/To Shoot Target Angle", toSpeaker.getAngle().plus(Rotation2d.fromDegrees(180)).getDegrees());
