@@ -11,14 +11,14 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 public class ConveyorShootRoutine extends SequentialCommandGroup {
 
     public ConveyorShootRoutine() {
-       // this(Settings.Conveyor.SHOOT_WAIT_DELAY.get());
+        this(Settings.Conveyor.SHOOT_WAIT_DELAY.get());
     }
 
     public ConveyorShootRoutine(double delay) {
         addCommands(
             new InstantCommand(() -> SwerveDrive.getInstance().stop(), SwerveDrive.getInstance()),
             new ConveyorShoot(),
-          //  new WaitCommand(delay),
+            new WaitCommand(delay),
             new ConveyorStop(),
             new IntakeStop()
         );

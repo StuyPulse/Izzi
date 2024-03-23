@@ -314,7 +314,7 @@ public class RobotContainer {
         "Forward First Piece to C", "CShoot To H (CHGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)");
 
         AutonConfig ADEF = new AutonConfig("4.5 Piece ADEF", FourPieceADEF::new, 
-        "Forward First Piece to A", "A to D", "D To Shoot", "Shoot To E", "E To Shoot", "Shoot To F (ADEF)", "F To Shoot (ADEF)");
+        "First Piece To A", "A to D", "D To Shoot", "Shoot To E", "E To Shoot", "Shoot To F (ADEF)", "F To Shoot (ADEF)");
 
         // AutonConfig PodiumCloseCBAE = new AutonConfig("Podium Close 5 Piece CBAE", FivePiecePodiumForwardCBAE::new, 
         // "Forward First Piece to C", "C to B 2", "B To A","A To E", "E To Shoot");
