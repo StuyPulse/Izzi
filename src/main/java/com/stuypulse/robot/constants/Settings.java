@@ -151,7 +151,7 @@ public interface Settings {
 
         double MODULE_VELOCITY_DEADBAND = 0.05;
 
-        SmartNumber ROTATION_DEADBAND = new SmartNumber("Swerve/Turn/Deadband", .25);
+        SmartNumber ALIGN_OMEGA_DEADBAND = new SmartNumber("Swerve/Align Omega Deadband", 0.05); // TODO: make 0.25 and test
 
         public interface Assist {
             SmartNumber ALIGN_MIN_SPEAKER_DIST = new SmartNumber("SwerveAssist/Minimum Distance to Speaker", 4); //change
