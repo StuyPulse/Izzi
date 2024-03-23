@@ -17,6 +17,7 @@ public class ConveyorShootRoutine extends SequentialCommandGroup {
     public ConveyorShootRoutine(double delay) {
         addCommands(
             new InstantCommand(SwerveDrive.getInstance()::stop, SwerveDrive.getInstance()),
+            new ConveyorToShooter(),
             new ConveyorShoot(),
             new WaitCommand(delay),
             new ConveyorStop(),
