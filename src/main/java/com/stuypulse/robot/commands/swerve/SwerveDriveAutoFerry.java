@@ -1,5 +1,6 @@
 package com.stuypulse.robot.commands.swerve;
 
+import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.intake.Intake;
@@ -10,13 +11,12 @@ import com.stuypulse.stuylib.input.Gamepad;
 
 import com.stuypulse.robot.constants.Settings;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 
 
 public class SwerveDriveAutoFerry extends SwerveDriveDriveAligned {
 
-    private final SwerveDrive swerve;
     private final Odometry odometry;
     private final Shooter shooter;
     private final Conveyor conveyor;
@@ -24,33 +24,43 @@ public class SwerveDriveAutoFerry extends SwerveDriveDriveAligned {
 
     public SwerveDriveAutoFerry(Gamepad driver) {
         super(driver);
+
         shooter = Shooter.getInstance();
         odometry = Odometry.getInstance();
-        swerve = SwerveDrive.getInstance();
         conveyor = Conveyor.getInstance();
         intake = Intake.getInstance();
 
-        addRequirements(shooter, odometry, swerve);
+        addRequirements(shooter, odometry);
+    }
+
+    // returns pose of close amp corner
+    private Translation2d getTargetPose() {
+        return Robot.isBlue()
+            ? new Translation2d(0, Field.WIDTH)
+            : new Translation2d(0, 0);
     }
 
     @Override
     public Rotation2d getTargetAngle() {
-        return odometry.getPose().getRotation().minus(Field.getOpposingSourcePose().getRotation());
+        return getTargetPose().minus(odometry.getPose().getTranslation()).getAngle();
     }
 
     @Override
     public double getDistanceToTarget() {
-        return odometry.getPose().getTranslation().getDistance(Field.getOpposingSourcePose().getTranslation());
+        return getTargetPose().getDistance(odometry.getPose().getTranslation());
     }
 
     @Override
     public void execute() {
         super.execute();
-        Pose2d robotPose = odometry.getPose();
-        if (robotPose.getX() > Field.getAllianceWingX() && robotPose.getX() < Field.getOpposingWingX()) {
+
+        if (odometry.getPose().getX() < Field.FERRY_SHOT_THRESHOLD_X) {
             intake.acquire();
             conveyor.toShooter();
             shooter.setTargetSpeeds(Settings.Shooter.FERRY);
+        } else {
+            intake.stop();
+            conveyor.stop();
         }
     }
 
@@ -58,6 +68,6 @@ public class SwerveDriveAutoFerry extends SwerveDriveDriveAligned {
     public void end(boolean interrupted) {
         intake.stop();
         conveyor.stop();
-        shooter.stop(); 
+        shooter.setTargetSpeeds(Settings.Shooter.PODIUM_SHOT);
     }
 }

@@ -185,20 +185,23 @@ public class RobotContainer {
             .onTrue(new AmperScoreSpeed(-Score.TRAP_SPEED))
             .onFalse(new AmperStop());
 
-        driver.getTopButton()
-            // on command start
-            .onTrue(new BuzzController(driver, Assist.BUZZ_INTENSITY)
-                .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
+        // driver.getTopButton()
+        //     // on command start
+        //     .onTrue(new BuzzController(driver, Assist.BUZZ_INTENSITY)
+        //         .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
                 
-            .onTrue(new SwerveDriveAutomatic(driver)
-                // after command end
-                .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
-                    .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
+        //     .onTrue(new SwerveDriveAutomatic(driver)
+        //         // after command end
+        //         .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
+        //             .deadlineWith(new LEDSet(LEDInstructions.GREEN)))
 
-                .andThen(new WaitCommand(Driver.Drive.BUZZ_DURATION))
+        //         .andThen(new WaitCommand(Driver.Drive.BUZZ_DURATION))
                 
-                .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
-                    .deadlineWith(new LEDSet(LEDInstructions.GREEN))));
+        //         .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
+        //             .deadlineWith(new LEDSet(LEDInstructions.GREEN))));
+
+        driver.getTopButton()
+            .whileTrue(new SwerveDriveAutoFerry(driver));
 
         driver.getRightButton()
             .whileTrue(new SwerveDriveToClimb());

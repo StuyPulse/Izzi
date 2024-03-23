@@ -198,16 +198,6 @@ public interface Field {
             .getLocation().toPose2d();
     }
 
-    /*** WING ***/
-
-    public static double getAllianceWingX() {
-        return 0.0; // xxx: determine this
-    }
-
-    public static double getOpposingWingX() {
-        return 0.0; // xxx: determine this
-    }
-
     /*** TRAP ***/
 
     public static Pose2d[] getAllianceTrapPoses() {
@@ -279,6 +269,10 @@ public interface Field {
     /***** NOTE DETECTION *****/
 
     double NOTE_BOUNDARY = LENGTH / 2 + Units.inchesToMeters(Settings.LENGTH / 2);
+
+    /*** FERRYING ***/
+
+    double FERRY_SHOT_THRESHOLD_X = 9.0;
 
     /**** EMPTY FIELD POSES ****/
 
