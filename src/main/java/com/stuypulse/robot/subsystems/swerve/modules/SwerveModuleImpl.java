@@ -25,7 +25,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -71,8 +70,6 @@ public class SwerveModuleImpl extends SwerveModule {
     private final Controller driveController;
     private final AngleController angleController;
 
-    private final PowerDistribution powerDistribution;
-
     /**
      * Creates a new Swerve Module
      *
@@ -95,8 +92,6 @@ public class SwerveModuleImpl extends SwerveModule {
 
         driveMotor = new CANSparkMax(driveID, MotorType.kBrushless);
         turnMotor = new CANSparkMax(turnID, MotorType.kBrushless);
-
-        powerDistribution = new PowerDistribution();
 
         driveEncoder = new FilteredRelativeEncoder(driveMotor);
         driveEncoder.setPositionConversionFactor(Encoder.Drive.POSITION_CONVERSION);
@@ -162,9 +157,5 @@ public class SwerveModuleImpl extends SwerveModule {
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Turn Current", turnMotor.getOutputCurrent());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Angle Error", angleController.getError().toDegrees());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Raw Encoder Angle", Units.rotationsToDegrees(turnEncoder.getAbsolutePosition().getValueAsDouble()));
-    
-        SmartDashboard.putNumber("Swerve/" + getId() + "/Total Power", powerDistribution.getTotalPower());
-        SmartDashboard.putNumber("Swerve/" + getId() + "/Total Current", powerDistribution.getTotalCurrent());
-        SmartDashboard.putNumber("Swerve/" + getId() + "/Input Voltage", powerDistribution.getVoltage());    
     }
 }
