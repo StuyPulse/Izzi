@@ -187,20 +187,23 @@ public class RobotContainer {
             .onFalse(new AmperStop());
 
         // automatic swerve drive
-        driver.getTopButton()
-            // on command start
-            .onTrue(new BuzzController(driver, Assist.BUZZ_INTENSITY)
-                .deadlineWith(new LEDSet(LEDInstructions.AUTO_SWERVE)))
+        // driver.getTopButton()
+        //     // on command start
+        //     .onTrue(new BuzzController(driver, Assist.BUZZ_INTENSITY)
+        //         .deadlineWith(new LEDSet(LEDInstructions.AUTO_SWERVE)))
                 
-            .onTrue(new SwerveDriveAutomatic(driver)
-                // after command end
-                .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
-                    .deadlineWith(new LEDSet(LEDInstructions.AUTO_SWERVE)))
+        //     .onTrue(new SwerveDriveAutomatic(driver)
+        //         // after command end
+        //         .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
+        //             .deadlineWith(new LEDSet(LEDInstructions.AUTO_SWERVE)))
 
-                .andThen(new WaitCommand(Driver.Drive.BUZZ_DURATION))
-                
-                .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
-                    .deadlineWith(new LEDSet(LEDInstructions.AUTO_SWERVE))));
+        //         .andThen(new WaitCommand(Driver.Drive.BUZZ_DURATION))
+
+        //         .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
+        //             .deadlineWith(new LEDSet(LEDInstructions.AUTO_SWERVE))));
+
+        driver.getTopButton()
+            .whileTrue(new SwerveDriveAutoFerry(driver));
 
         // climb
         driver.getRightButton()

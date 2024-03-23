@@ -319,6 +319,12 @@ public interface Settings {
         
         ShooterSpeeds REVERSE = new ShooterSpeeds(-3000, -3000);
 
+        // xxx: determine
+        ShooterSpeeds FERRY = new ShooterSpeeds(
+            new SmartNumber("Shooter/Ferry Shooter RPM", 5500),
+            500,
+            new SmartNumber("Shooter/Ferry Feeder RPM", 3000));
+
         double AT_RPM_EPSILON = 125;
 
         SmartNumber RPM_CHANGE_RC = new SmartNumber("Shooter/RPM Change RC", 0.2);
