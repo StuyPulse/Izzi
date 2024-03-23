@@ -22,13 +22,12 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import com.revrobotics.CANSparkFlex;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
 public class ConveyorImpl extends Conveyor {
 
     private final CANSparkFlex gandalfMotor;
-    private final CANSparkMax feederMotor;
+    private final CANSparkFlex feederMotor;
 
     private final RelativeEncoder gandalfEncoder;
     
@@ -37,7 +36,7 @@ public class ConveyorImpl extends Conveyor {
 
     protected ConveyorImpl() {
         gandalfMotor = new CANSparkFlex(Ports.Conveyor.GANDALF, MotorType.kBrushless);
-        feederMotor = new CANSparkMax(Ports.Conveyor.FEEDER, MotorType.kBrushless);
+        feederMotor = new CANSparkFlex(Ports.Conveyor.FEEDER, MotorType.kBrushless);
 
         gandalfEncoder = new FilteredRelativeEncoder(gandalfMotor);
     
