@@ -148,7 +148,7 @@ public interface Settings {
         double LENGTH = Units.inchesToMeters(20.75);
         double CENTER_TO_INTAKE_FRONT = Units.inchesToMeters(13.0);
 
-        double MAX_MODULE_SPEED = 5.55;
+        double MAX_MODULE_SPEED = 4.9;
 
         double MODULE_VELOCITY_DEADBAND = 0.05;
 
