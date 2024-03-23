@@ -1,6 +1,12 @@
 {
   "version": 1.0,
-  "startingPose": null,
+  "startingPose": {
+    "position": {
+      "x": 1.3103352321354325,
+      "y": 5.375733057397644
+    },
+    "rotation": 0
+  },
   "command": {
     "type": "sequential",
     "data": {
@@ -8,31 +14,43 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Forward First Piece to C"
+            "pathName": "Start to C (CBAED)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C to B 2"
+            "pathName": "C to B (CBAED)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B To A"
+            "pathName": "B to A (CBAED)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "A To E"
+            "pathName": "A to E (CBAED)"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "E To Shoot (CBAED)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Shoot to D (CBAED)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "D To Shoot (CBAED)"
           }
         }
       ]
