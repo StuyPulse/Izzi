@@ -103,9 +103,9 @@ public class ConveyorImpl extends Conveyor {
 
         SmartDashboard.putNumber("Conveyor/Gandalf Linear Velocity", gandalfEncoder.getVelocity() * Units.inchesToMeters(1.0) * Math.PI);
 
-        SmartDashboard.putNumber("Shooter/Feeder Voltage", feederMotor.getBusVoltage() * feederMotor.getAppliedOutput());
-        SmartDashboard.putNumber("Shooter/Feeder Current", feederMotor.getOutputCurrent());
+        SmartDashboard.putNumber("Conveyor/Feeder Voltage", feederMotor.getBusVoltage() * feederMotor.getAppliedOutput());
+        SmartDashboard.putNumber("Conveyor/Feeder Current", feederMotor.getOutputCurrent());
 
-
+        SmartDashboard.putBoolean("Conveyor/Note At Shooter", isNoteAtShooter());
     }
 }
