@@ -42,7 +42,7 @@ public class FivePieceCBAE extends SequentialCommandGroup {
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake(paths[4]),
-            new FollowPathAlignAndShoot(paths[4], new SwerveDriveToShoot())
+            new FollowPathAlignAndShoot(paths[5], new SwerveDriveToShoot())
         );
     }
     

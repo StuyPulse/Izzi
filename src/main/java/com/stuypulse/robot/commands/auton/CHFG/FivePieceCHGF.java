@@ -14,16 +14,16 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-public class FivePieceCHFG extends SequentialCommandGroup {
+public class FivePieceCHGF extends SequentialCommandGroup {
 
-     public FivePieceCHFG(PathPlannerPath... paths) {
+     public FivePieceCHGF(PathPlannerPath... paths) {
         addCommands(
             new ParallelCommandGroup(
                 new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
                     .andThen(new ShooterPodiumShot()),
                 
-                SwerveDriveToPose.speakerRelative(-45)
-        ),
+                SwerveDriveToPose.speakerRelative(-18)
+            ),
 
             //shoot preload
             new ConveyorShootRoutine(),
@@ -38,9 +38,7 @@ public class FivePieceCHFG extends SequentialCommandGroup {
             new FollowPathAndIntake(paths[3]),
             new FollowPathAlignAndShoot(paths[4], new SwerveDriveToShoot()),
 
-            new FollowPathAndIntake(paths[5]),
-            new FollowPathAlignAndShoot(paths[6], new SwerveDriveToShoot())
-        
+            new FollowPathAndIntake(paths[5])
         );
     }
 

@@ -8,13 +8,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "First Piece To C (CHGF)"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "CTo Shoot (CHGF)"
+            "pathName": "Forward First Piece to C"
           }
         },
         {
@@ -26,25 +20,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "H To Shoot (CHGF)"
+            "pathName": "H To HShoot (HGF)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "HShoot To G (CHGF)"
+            "pathName": "HShoot To G (HGF)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "GTo Shoot (CHGF)"
+            "pathName": "G To Shoot (HGF)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "GShoot To F (CHGF)"
+            "pathName": "GShoot To F (HGF)"
           }
         }
       ]

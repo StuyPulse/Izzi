@@ -26,7 +26,6 @@ public class FourPieceADEF extends SequentialCommandGroup{
 
             new ConveyorShootRoutine(),
 
-
             new FollowPathAndIntake(paths[0]),
             new SwerveDriveToShoot(),
             new ConveyorShootRoutine(),

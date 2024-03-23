@@ -8,37 +8,37 @@
         {
           "type": "path",
           "data": {
-            "pathName": "A To Shoot (ADEF)"
+            "pathName": "Forward First Piece to A"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "AShoot To D (ADEF)"
+            "pathName": "A To D"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "D To Shoot (ADEF)"
+            "pathName": "D To Shoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "DShoot To E (ADEF)"
+            "pathName": "Shoot To E"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "E To Shoot (ADEF)"
+            "pathName": "E To Shoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "EShoot To F (ADEF)"
+            "pathName": "Shoot To F (ADEF)"
           }
         },
         {

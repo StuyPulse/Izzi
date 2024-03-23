@@ -14,31 +14,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start to C (CBAED)"
+            "pathName": "Forward First Piece to C"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C to B (CBAED)"
+            "pathName": "C to B 2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B to A (CBAED)"
+            "pathName": "B To A"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "A to E (CBAED)"
+            "pathName": "A To E"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "E To Shoot (CBAED)"
+            "pathName": "E To Shoot"
           }
         },
         {
@@ -50,7 +50,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "D To Shoot (CBAED)"
+            "pathName": "D To Shoot"
           }
         }
       ]

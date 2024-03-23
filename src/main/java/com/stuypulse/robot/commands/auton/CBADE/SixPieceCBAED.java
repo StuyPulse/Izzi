@@ -1,10 +1,12 @@
 package com.stuypulse.robot.commands.auton.CBADE;
 
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.stuypulse.robot.commands.auton.FollowPathAlignAndShoot;
 import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
+import com.stuypulse.robot.commands.swerve.SwerveDriveToShoot;
 import com.stuypulse.robot.constants.Settings.Auton;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 
@@ -21,34 +23,28 @@ public class SixPieceCBAED extends SequentialCommandGroup {
                 new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
                 .andThen(new ShooterPodiumShot()),
 
-                SwerveDriveToPose.speakerRelative(-45)
+                SwerveDriveToPose.speakerRelative(-18)
             ),
+
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake(paths[0]),
-            new ShooterPodiumShot(),
+            new SwerveDriveToShoot(),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake(paths[1]),
-            new ShooterPodiumShot(),
+            new SwerveDriveToShoot(),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake(paths[2]),
-            new ShooterPodiumShot(),
+            new SwerveDriveToShoot(),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake(paths[3]),
-
-            SwerveDrive.getInstance().followPathCommand(paths[4]),
-            new ShooterPodiumShot(),
-            new ConveyorShootRoutine(),
+            new FollowPathAlignAndShoot(paths[4], new SwerveDriveToShoot()),
 
             new FollowPathAndIntake(paths[5]),
-
-            SwerveDrive.getInstance().followPathCommand(paths[6]),
-            new ShooterPodiumShot(),
-            new ConveyorShootRoutine()
-
+            new FollowPathAlignAndShoot(paths[6], new SwerveDriveToShoot())
         );
     }
 

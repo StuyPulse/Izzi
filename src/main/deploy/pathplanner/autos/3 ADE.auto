@@ -8,13 +8,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "First Piece To A"
+            "pathName": "Forward First Piece to A"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "A To D (CBAED)"
+            "pathName": "A To D"
           }
         },
         {
@@ -32,7 +32,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "E To Shoot (CBAED)"
+            "pathName": "E To Shoot"
           }
         }
       ]
