@@ -19,9 +19,11 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -143,7 +145,10 @@ public class Odometry extends SubsystemBase {
 
     // private void updateEstimatorWithVisionData(ArrayList<VisionData> outputs) {
     //     for (VisionData data : outputs) {
-    //         estimator.addVisionMeasurement(data.getPose().toPose2d(), data.getTimestamp(), getStandardDeviation(data));
+    //         estimator.addVisionMeasurement(data.getPose().toPose2d(), data.getTimestamp(), 
+    //             DriverStation.isAutonomous()
+    //             ? VecBuilder.fill(0.9, 0.9, 10)
+    //             : VecBuilder.fill(0.7, 0.7, 10));
     //     }
     // }
 
@@ -165,7 +170,8 @@ public class Odometry extends SubsystemBase {
             timestampSum += data.getTimestamp() * data.getArea();
         }
 
-        estimator.addVisionMeasurement(poseSum.div(areaSum), timestampSum / areaSum);
+        estimator.addVisionMeasurement(poseSum.div(areaSum), timestampSum / areaSum,
+            DriverStation.isAutonomous() ? VecBuilder.fill(0.9, 0.9, 10) : VecBuilder.fill(0.7, 0.7, 10));
     }
 
     @Override

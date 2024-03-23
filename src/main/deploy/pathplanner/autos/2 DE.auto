@@ -1,0 +1,37 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Preload Shot to D"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "D to Ferry Shot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Ferry Shot to E"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E to Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

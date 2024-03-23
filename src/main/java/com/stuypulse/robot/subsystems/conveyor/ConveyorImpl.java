@@ -46,7 +46,7 @@ public class ConveyorImpl extends Conveyor {
         isAtShooter = BStream.create(shooterIR).not().
             filtered(new BDebounce.Rising(Settings.Conveyor.DEBOUNCE_TIME.get()));
         
-        gandalfEncoder.setVelocityConversionFactor(0.5);
+        gandalfEncoder.setVelocityConversionFactor(1.0 / 2.0);
 
         Motors.disableStatusFrames(gandalfMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
 

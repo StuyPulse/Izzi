@@ -122,23 +122,8 @@ public class AmperImpl extends Amper {
     /*** SCORE ROLLERS ***/
 
     @Override
-    public void amp() {
-        scoreMotor.set(Settings.Amper.Score.AMP_SPEED);
-    }
-    
-    @Override
-    public void trap() {
-        scoreMotor.set(Settings.Amper.Score.TRAP_SPEED);
-    }
-
-    @Override
-    public void fromConveyor() {
-        scoreMotor.set(Settings.Amper.Score.FROM_CONVEYOR_SPEED);
-    }
-
-    @Override
-    public void toConveyor() {
-        scoreMotor.set(-Settings.Amper.Score.TO_CONVEYOR_SPEED);
+    public void runRoller(double speed) {
+        scoreMotor.set(speed);
     }
 
     @Override
@@ -181,8 +166,12 @@ public class AmperImpl extends Amper {
             voltage = 0;
         }
 
-        if (getTargetHeight() == Settings.Amper.Lift.MIN_HEIGHT && voltage > 0) {
+        if (getTargetHeight() == getMinHeight() && voltage > 0) {
             voltage = 0;
+        }
+
+        if (getTargetHeight() == Settings.Amper.Lift.TRAP_SCORE_HEIGHT && voltage < 0.75) {
+            voltage = 0.75;
         }
 
         liftMotor.setVoltage(voltage);
@@ -193,7 +182,7 @@ public class AmperImpl extends Amper {
         SmartDashboard.putNumber("Amper/Intake Current", scoreMotor.getOutputCurrent());
         SmartDashboard.putNumber("Amper/Lift Current", liftMotor.getOutputCurrent());
         SmartDashboard.putNumber("Amper/Lift Height", getLiftHeight());
-        SmartDashboard.putNumber("Amper/Lift Height Inches", Units.metersToInches(getLiftHeight()));
+        SmartDashboard.putNumber("Amper/Lift Height Error", controller.getError());
 
         SmartDashboard.putBoolean("Amper/Has Note", hasNote());
         SmartDashboard.putBoolean("Amper/At Bottom", liftAtBottom());

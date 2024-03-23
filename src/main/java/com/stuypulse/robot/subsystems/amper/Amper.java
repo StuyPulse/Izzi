@@ -50,13 +50,15 @@ public abstract class Amper extends SubsystemBase {
     }
 
     private final SmartNumber targetHeight;
+    private double minHeight;
 
     private final Mechanism2d mechanism2d;
     private final MechanismLigament2d lift2d;
 
     public Amper() {
         targetHeight = new SmartNumber("Amper/Target Height", 0); // TODO: determine the default value
-
+        minHeight = Settings.Amper.Lift.MIN_HEIGHT;
+        
         mechanism2d = new Mechanism2d(3, 3);
         mechanism2d.getRoot("Base Origin", 1, 1).append(new MechanismLigament2d(
             "Base",
@@ -79,7 +81,7 @@ public abstract class Amper extends SubsystemBase {
 
     public void setTargetHeight(double height) {
         targetHeight.set(SLMath.clamp(
-            height, Settings.Amper.Lift.MIN_HEIGHT, Settings.Amper.Lift.MAX_HEIGHT));
+            height, minHeight, Lift.MAX_HEIGHT));
     }
 
     public final double getTargetHeight() {
@@ -88,6 +90,14 @@ public abstract class Amper extends SubsystemBase {
 
     public final boolean isAtTargetHeight(double epsilonMeters) {
         return Math.abs(getTargetHeight() - getLiftHeight()) < epsilonMeters;
+    }
+
+    public final void setMinHeight(double height) {
+        minHeight = SLMath.clamp(height, Lift.MIN_HEIGHT, Lift.MAX_HEIGHT);
+    }
+
+    public final double getMinHeight() {
+        return minHeight;
     }
 
     public abstract boolean liftAtBottom();
@@ -104,13 +114,23 @@ public abstract class Amper extends SubsystemBase {
 
     /*** SCORE ROLLERS ***/
 
-    public abstract void amp();
+    public abstract void runRoller(double speed);
+
+    public final void amp() {
+        runRoller(Settings.Amper.Score.AMP_SPEED);
+    }
     
-    public abstract void trap();
+    public final void trap() {
+        runRoller(Settings.Amper.Score.TRAP_SPEED);
+    }
 
-    public abstract void fromConveyor();
+    public final void fromConveyor() {
+        runRoller(Settings.Amper.Score.FROM_CONVEYOR_SPEED);
+    }
 
-    public abstract void toConveyor();
+    public final void toConveyor() {
+        runRoller(-Settings.Amper.Score.TO_CONVEYOR_SPEED);
+    }
 
     public abstract void stopRoller();
 
@@ -135,7 +155,7 @@ public abstract class Amper extends SubsystemBase {
         if (targetHeight.get() > Settings.Amper.Lift.MAX_HEIGHT)
             targetHeight.set(Settings.Amper.Lift.MAX_HEIGHT);
         
-        if (targetHeight.get() < Settings.Amper.Lift.MIN_HEIGHT)
-            targetHeight.set(Settings.Amper.Lift.MIN_HEIGHT);
+        if (targetHeight.get() < getMinHeight())
+            targetHeight.set(getMinHeight());
     }
 }
