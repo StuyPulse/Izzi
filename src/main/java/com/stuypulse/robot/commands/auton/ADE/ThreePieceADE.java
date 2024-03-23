@@ -5,6 +5,7 @@ import com.stuypulse.robot.commands.DoNothingCommand;
 import com.stuypulse.robot.commands.auton.FollowPathAlignAndShoot;
 import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
+import com.stuypulse.robot.commands.conveyor.ConveyorToShooter;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToShoot;
@@ -32,7 +33,8 @@ public class ThreePieceADE extends SequentialCommandGroup {
             // intake A
             new FollowPathAndIntake(paths[0]),
             // shoot A
-            new SwerveDriveToShoot(),
+            new SwerveDriveToShoot()
+                .alongWith(new ConveyorToShooter()),
             new ConveyorShootRoutine(),
 
             // intake D
