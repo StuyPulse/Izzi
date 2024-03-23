@@ -81,7 +81,7 @@ public abstract class Amper extends SubsystemBase {
 
     public void setTargetHeight(double height) {
         targetHeight.set(SLMath.clamp(
-            height, minHeight, Settings.Amper.Lift.MAX_HEIGHT));
+            height, minHeight, Lift.MAX_HEIGHT));
     }
 
     public final double getTargetHeight() {
@@ -93,18 +93,11 @@ public abstract class Amper extends SubsystemBase {
     }
 
     public final void setMinHeight(double height) {
-        minHeight = Math.max(Settings.Amper.Lift.MIN_HEIGHT, height);
+        minHeight = SLMath.clamp(height, Lift.MIN_HEIGHT, Lift.MAX_HEIGHT);
     }
 
     public final double getMinHeight() {
         return minHeight;
-    }
-
-    public void setSafeHeight() {
-        if(getLiftHeight() < Settings.Amper.Lift.UNSAFE_CLIMB_HEIGHT) {
-            setTargetHeight(Settings.Amper.Lift.SAFE_CLIMB_HEIGHT);
-            setMinHeight(Settings.Amper.Lift.SAFE_CLIMB_HEIGHT);
-        }
     }
 
     public abstract boolean liftAtBottom();
