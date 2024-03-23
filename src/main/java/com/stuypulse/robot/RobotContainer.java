@@ -307,7 +307,7 @@ public class RobotContainer {
         AutonConfig DE = new AutonConfig("2 Piece DE", TwoPieceDE::new,
         "First Piece to D", "D to Ferry Shot", "Ferry Shot to E", "E To Shoot");
 
-        AutonConfig SixPieceCBAED = new AutonConfig("6 CBAED", SixPieceCBAED::new,
+        AutonConfig CBAED = new AutonConfig("6 CBAED", SixPieceCBAED::new,
         "Forward First Piece to C", "C to B 2", "B To A","A To E", "E To Shoot", "Shoot to D (CBAED)", "D To Shoot");
 
         AutonConfig CHGF = new AutonConfig("4.5 Piece CHGF", FivePieceCHGF::new,
@@ -343,7 +343,7 @@ public class RobotContainer {
         // DE.registerBlue(autonChooser)
         //     .registerRed(autonChooser);
 
-        SixPieceCBAED
+        CBAED
             .registerBlue(autonChooser)
             .registerRed(autonChooser);
 
