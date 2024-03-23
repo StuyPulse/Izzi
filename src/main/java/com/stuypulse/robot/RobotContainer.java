@@ -296,8 +296,6 @@ public class RobotContainer {
 
         autonChooser.addOption("Mobility", new Mobility());
 
-        autonChooser.addOption("Square", new Square());
-
         AutonConfig HGF = new AutonConfig("3.5 HGF", FourPieceHGF::new,
         "Start to H (HGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)", "F to Shoot (HGF)");
         
@@ -325,10 +323,20 @@ public class RobotContainer {
         
         HGF.registerBlue(autonChooser)
             .registerRed(autonChooser);
+
+        // TrackingCBAE
+        //     .registerBlue(autonChooser)
+        //     .registerRed(autonChooser);
         
         PodiumCBAE
             .registerDefaultBlue(autonChooser)
             .registerDefaultRed(autonChooser);
+        
+        // ADE.registerBlue(autonChooser)
+        //     .registerRed(autonChooser);
+
+        // DE.registerBlue(autonChooser)
+        //     .registerRed(autonChooser);
         
         SmartDashboard.putData("Autonomous", autonChooser);
     }

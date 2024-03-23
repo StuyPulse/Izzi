@@ -26,7 +26,7 @@ public interface Cameras {
                 new Translation3d(Units.inchesToMeters(16.156338), 0, Units.inchesToMeters(13.833919)),
                 new Rotation3d(0, Units.degreesToRadians(15), 0));
 
-        String[] LIMELIGHTS = {}; //{ "limelight" };
+        String[] LIMELIGHTS = { "limelight" };
 
         int[] PORTS = {5800, 5801, 5802, 5803, 5804, 5805};
 
