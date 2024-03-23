@@ -8,13 +8,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "First Piece To A"
+            "pathName": "Preload Shot to A"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "A To D"
+            "pathName": "A to D"
           }
         },
         {
@@ -32,7 +32,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "E To Shoot"
+            "pathName": "E to Shoot"
           }
         }
       ]

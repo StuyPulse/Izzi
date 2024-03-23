@@ -62,7 +62,7 @@ public class SwerveModuleImpl extends SwerveModule {
     private final Rotation2d angleOffset;
 
     private final CANSparkMax turnMotor;
-    private final CANSparkFlex driveMotor;
+    private final CANSparkMax driveMotor;
 
     private final RelativeEncoder driveEncoder;
     private final CANcoder turnEncoder;
@@ -90,7 +90,7 @@ public class SwerveModuleImpl extends SwerveModule {
 
         this.angleOffset = angleOffset;
 
-        driveMotor = new CANSparkFlex(driveID, MotorType.kBrushless);
+        driveMotor = new CANSparkMax(driveID, MotorType.kBrushless);
         turnMotor = new CANSparkMax(turnID, MotorType.kBrushless);
 
         driveEncoder = new FilteredRelativeEncoder(driveMotor);

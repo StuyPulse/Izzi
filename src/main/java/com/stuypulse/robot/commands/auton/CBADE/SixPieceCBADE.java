@@ -25,7 +25,7 @@ public class SixPieceCBADE extends SequentialCommandGroup {
 
             new ConveyorShootRoutine()
 
-            // new FollowPathAndIntake("First Piece To C"),
+            // new FollowPathAndIntake("First Piece to C"),
             // new SwerveDriveToShoot(2.9)
             //     .withTolerance(0.1, 5),
             // new ConveyorShootRoutine(),
@@ -34,15 +34,15 @@ public class SixPieceCBADE extends SequentialCommandGroup {
             // SwerveDriveToPose.speakerRelative(5),
             // new ConveyorShootRoutine(),
 
-            // new FollowPathAndIntake("B To A"),
+            // new FollowPathAndIntake("B to A"),
             // SwerveDriveToPose.speakerRelative(35),
             // new ConveyorShootRoutine(),
 
-            // new FollowPathAndIntake("A To D"),
-            // new FollowPathAlignAndShoot("D To Shoot", SwerveDriveToPose.speakerRelative(30)),
+            // new FollowPathAndIntake("A to D"),
+            // new FollowPathAlignAndShoot("D to Shoot", SwerveDriveToPose.speakerRelative(30)),
 
-            // new FollowPathAndIntake("A To E"),
-            // new FollowPathAlignAndShoot("E To Shoot", SwerveDriveToPose.speakerRelative(30))
+            // new FollowPathAndIntake("A to E"),
+            // new FollowPathAlignAndShoot("E to Shoot", SwerveDriveToPose.speakerRelative(30))
         );
     }
     

@@ -6,7 +6,6 @@ import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
 import com.stuypulse.robot.commands.conveyor.ConveyorStop;
 import com.stuypulse.robot.commands.intake.IntakeStop;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
-import com.stuypulse.robot.commands.shooter.ShooterStop;
 import com.stuypulse.robot.commands.shooter.ShooterWaitForTarget;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Auton;
@@ -40,7 +39,6 @@ public class FollowPathAlignAndShoot extends SequentialCommandGroup {
             //     .withTimeout(Settings.Conveyor.SHOOT_WAIT_DELAY.get()),
             new ConveyorStop(),
             new IntakeStop()
-            // new ShooterStop()
         );
     }
 

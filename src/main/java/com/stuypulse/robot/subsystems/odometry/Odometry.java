@@ -19,6 +19,7 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.numbers.N3;
@@ -142,36 +143,36 @@ public class Odometry extends SubsystemBase {
                 thetaStdDev);
     }
 
-    private void updateEstimatorWithVisionData(ArrayList<VisionData> outputs) {
-        for (VisionData data : outputs) {
-            estimator.addVisionMeasurement(data.getPose().toPose2d(), data.getTimestamp(), 
-                DriverStation.isAutonomous()
-                ? VecBuilder.fill(0.9, 0.9, 10)
-                : VecBuilder.fill(0.7, 0.7, 10));
-        }
-    }
-
     // private void updateEstimatorWithVisionData(ArrayList<VisionData> outputs) {
-    //     Pose2d poseSum = new Pose2d();
-    //     double timestampSum = 0;
-    //     double areaSum = 0;
-
     //     for (VisionData data : outputs) {
-    //         Pose2d weighted = data.getPose().toPose2d().times(data.getArea());
-
-    //         poseSum = new Pose2d(
-    //             poseSum.getTranslation().plus(weighted.getTranslation()),
-    //             poseSum.getRotation().plus(weighted.getRotation())
-    //         );
-
-    //         areaSum += data.getArea();
-
-    //         timestampSum += data.getTimestamp() * data.getArea();
+    //         estimator.addVisionMeasurement(data.getPose().toPose2d(), data.getTimestamp(), 
+    //             DriverStation.isAutonomous()
+    //             ? VecBuilder.fill(0.9, 0.9, 10)
+    //             : VecBuilder.fill(0.7, 0.7, 10));
     //     }
-
-    //     estimator.addVisionMeasurement(poseSum.div(areaSum), timestampSum / areaSum,
-    //         DriverStation.isAutonomous() ? VecBuilder.fill(0.9, 0.9, 10) : VecBuilder.fill(0.7, 0.7, 10));
     // }
+
+    private void updateEstimatorWithVisionData(ArrayList<VisionData> outputs) {
+        Pose2d poseSum = new Pose2d();
+        double timestampSum = 0;
+        double areaSum = 0;
+
+        for (VisionData data : outputs) {
+            Pose2d weighted = data.getPose().toPose2d().times(data.getArea());
+
+            poseSum = new Pose2d(
+                poseSum.getTranslation().plus(weighted.getTranslation()),
+                poseSum.getRotation().plus(weighted.getRotation())
+            );
+
+            areaSum += data.getArea();
+
+            timestampSum += data.getTimestamp() * data.getArea();
+        }
+
+        estimator.addVisionMeasurement(poseSum.div(areaSum), timestampSum / areaSum,
+            DriverStation.isAutonomous() ? VecBuilder.fill(0.9, 0.9, 10) : VecBuilder.fill(0.7, 0.7, 10));
+    }
 
     @Override
     public void periodic() {

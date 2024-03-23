@@ -22,7 +22,6 @@ import com.stuypulse.robot.subsystems.leds.instructions.LEDRainbow;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -70,6 +69,11 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         scheduler.run();
+
+        SmartDashboard.putNumber("Total Power (W)", robot.pdp.getTotalPower());
+        SmartDashboard.putNumber("Total Current (A)", robot.pdp.getTotalCurrent());
+        SmartDashboard.putNumber("Battery Voltage (V)", robot.pdp.getVoltage());
+        SmartDashboard.putNumber("Calculated Resistance (R)", robot.pdp.getVoltage() / robot.pdp.getTotalCurrent());
     }
 
     public static boolean isBlue() {

@@ -22,6 +22,7 @@ import com.stuypulse.robot.constants.Settings.Shooter.PID;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.util.FilteredRelativeEncoder;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -118,6 +119,8 @@ public class ShooterImpl extends Shooter {
         SmartDashboard.putNumber("Shooter/Right RPM", getRightShooterRPM());
         SmartDashboard.putNumber("Shooter/Left RPM", getLeftShooterRPM());
         SmartDashboard.putNumber("Shooter/Feeder RPM", getFeederRPM());
+        
+        SmartDashboard.putNumber("Shooter/Feeder Linear Velocity", getFeederRPM() * Units.inchesToMeters(1.0) * Math.PI);
         
         SmartDashboard.putNumber("Shooter/Right Error", rightController.getError());
         SmartDashboard.putNumber("Shooter/Left Error", leftController.getError());
