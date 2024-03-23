@@ -84,7 +84,7 @@ public class KrakenSwerveModule extends SwerveModule {
         driveConfig.Slot0 = slot0;
 
         // Direction and neutral mode
-        driveConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        driveConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         driveConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
         // Ramp rates
