@@ -65,7 +65,7 @@ public interface Ports {
     public interface Shooter {
         int LEFT_MOTOR = 21;
         int RIGHT_MOTOR = 20;
-        int INTAKE_IR = 0;
+        int INTAKE_IR = 3;
     }
 
     public interface Conveyor {
