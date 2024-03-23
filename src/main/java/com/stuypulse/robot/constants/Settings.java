@@ -105,6 +105,7 @@ public interface Settings {
             double MIN_HEIGHT = 0;
             double SAFE_CLIMB_HEIGHT = 0.20;
             double MAX_HEIGHT = Units.inchesToMeters(25.0) + 0.05; // amp 14.75
+            double UNSAFE_CLIMB_HEIGHT = -0.10; // constant to check if climber height is lower than this
 
             double VISUALIZATION_MIN_LENGTH = 0.5;
             Rotation2d ANGLE_TO_GROUND = Rotation2d.fromDegrees(68.02);
@@ -154,7 +155,7 @@ public interface Settings {
         public interface Assist {
             SmartNumber ALIGN_MIN_SPEAKER_DIST = new SmartNumber("SwerveAssist/Minimum Distance to Speaker", 4); //change
             
-            double BUZZ_INTENSITY = 0.8;
+            double BUZZ_INTENSITY = 1;
 
             SmartNumber kP = new SmartNumber("SwerveAssist/kP", 2.0);
             SmartNumber kI = new SmartNumber("SwerveAssist/kI", 0.0);
@@ -315,6 +316,14 @@ public interface Settings {
             new SmartNumber("Shooter/Podium Feeder RPM", 3000));
 
         ShooterSpeeds HANDOFF = new ShooterSpeeds(3000, 3000);
+        
+        ShooterSpeeds REVERSE = new ShooterSpeeds(-3000, -3000);
+
+        // xxx: determine
+        ShooterSpeeds FERRY = new ShooterSpeeds(
+            new SmartNumber("Shooter/Ferry Shooter RPM", 5500),
+            500,
+            new SmartNumber("Shooter/Ferry Feeder RPM", 3000));
 
         double AT_RPM_EPSILON = 125;
 
@@ -365,7 +374,7 @@ public interface Settings {
 
     public interface Conveyor {
         SmartNumber GANDALF_SHOOTER_SPEED = new SmartNumber("Conveyor/Gandalf Shooter Speed", 1.0);
-        double GANDALF_AMP_SPEED = 0.5;
+        double GANDALF_AMP_SPEED = 0.75;
 
         SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.0);
         SmartNumber RECALL_DEBOUNCE = new SmartNumber("Conveyor/Recall Delay", 1.0);
@@ -386,7 +395,7 @@ public interface Settings {
         double PODIUM_SHOT_MAX_ANGLE = 80;
 
         SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(25.5));
-        SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(23.5));
+        SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(21.5)); // was 23.5 at comp
 
         SmartNumber TRAP_SETUP_DISTANCE = new SmartNumber("Alignment/Trap/Setup Pose Distance", Units.inchesToMeters(22.0));
         SmartNumber TRAP_CLIMB_DISTANCE = new SmartNumber("Alignment/Trap/Climb Distance", Units.inchesToMeters(18.0));
@@ -409,7 +418,7 @@ public interface Settings {
             public interface Translation {
                 SmartNumber kP = new SmartNumber("ShootAlign/Translation/kP", 6.0);
                 SmartNumber kI = new SmartNumber("ShootAlign/Translation/kI", 0.0);
-                SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.06);
+                SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.02);
             }
     
             public interface Rotation {
@@ -422,7 +431,7 @@ public interface Settings {
 
     public interface LED {
         int LED_LENGTH = 15;
-        SmartNumber BLINK_TIME = new SmartNumber("LED/LED Blink Time", .5);
+        SmartNumber BLINK_TIME = new SmartNumber("LED/LED Blink Time", .15);
 
         SmartNumber TRANSLATION_SPREAD = new SmartNumber("LED/LED Translation Spread (m)", 0.5);
         SmartNumber ROTATION_SPREAD = new SmartNumber("LED/LED Rotation Spread (deg)", 15);

@@ -9,6 +9,7 @@ package com.stuypulse.robot.constants;
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.util.vision.AprilTag;
+import com.stuypulse.stuylib.network.SmartNumber;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -185,6 +186,18 @@ public interface Field {
         return (Robot.isBlue() ? NamedTags.BLUE_AMP : NamedTags.RED_AMP).tag;
     }
 
+    /*** SOURCE ***/
+
+    public static Pose2d getAllianceSourcePose() {
+        return (Robot.isBlue() ? NamedTags.BLUE_SOURCE_RIGHT : NamedTags.RED_SOURCE_RIGHT)
+            .getLocation().toPose2d();
+    }
+
+    public static Pose2d getOpposingSourcePose() {
+        return (Robot.isBlue() ? NamedTags.RED_SOURCE_RIGHT : NamedTags.BLUE_SOURCE_RIGHT)
+            .getLocation().toPose2d();
+    }
+
     /*** TRAP ***/
 
     public static Pose2d[] getAllianceTrapPoses() {
@@ -256,6 +269,10 @@ public interface Field {
     /***** NOTE DETECTION *****/
 
     double NOTE_BOUNDARY = LENGTH / 2 + Units.inchesToMeters(Settings.LENGTH / 2);
+
+    /*** FERRYING ***/
+
+    double FERRY_SHOT_THRESHOLD_X = 9.0;
 
     /**** EMPTY FIELD POSES ****/
 

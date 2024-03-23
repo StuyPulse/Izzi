@@ -26,12 +26,12 @@ public class FourPieceGHF extends SequentialCommandGroup {
 
             new ConveyorShootRoutine()
 
-            // new FollowPathAndIntake("Start To G (GHF)"),
-            // new FollowPathAlignAndShoot("G To GShoot (GHF)", SwerveDriveToPose.speakerRelative(-45)),
-            // new FollowPathAndIntake("GShoot To H (GHF)"),
-            // new FollowPathAlignAndShoot("H To HShoot (HGF)", SwerveDriveToPose.speakerRelative(-45)),
-            // new FollowPathAndIntake("HShoot To F (GHF)"),
-            // new FollowPathAlignAndShoot("F To Shoot (HGF)", SwerveDriveToPose.speakerRelative(-7))
+            // new FollowPathAndIntake("Start to G (GHF)"),
+            // new FollowPathAlignAndShoot("G to GShoot (GHF)", SwerveDriveToPose.speakerRelative(-45)),
+            // new FollowPathAndIntake("GShoot to H (GHF)"),
+            // new FollowPathAlignAndShoot("H to HShoot (HGF)", SwerveDriveToPose.speakerRelative(-45)),
+            // new FollowPathAndIntake("HShoot to F (GHF)"),
+            // new FollowPathAlignAndShoot("F to Shoot (HGF)", SwerveDriveToPose.speakerRelative(-7))
         );
     }
 

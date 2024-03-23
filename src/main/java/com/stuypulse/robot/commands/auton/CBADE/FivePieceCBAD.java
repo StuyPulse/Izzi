@@ -25,7 +25,7 @@ public class FivePieceCBAD extends SequentialCommandGroup {
 
             new ConveyorShootRoutine()
 
-            // new FollowPathAndIntake("First Piece To C"),
+            // new FollowPathAndIntake("First Piece to C"),
             // new SwerveDriveToShoot(2.9),
             // new ConveyorShootRoutine(),
 
@@ -33,13 +33,13 @@ public class FivePieceCBAD extends SequentialCommandGroup {
             // new SwerveDriveToShoot(),
             // new ConveyorShootRoutine(),
 
-            // new FollowPathAndIntake("B To A"),
+            // new FollowPathAndIntake("B to A"),
             // new SwerveDriveToShoot(2.9)
             //     .withTolerance(0.05, 3),
             // new ConveyorShootRoutine(),
 
-            // new FollowPathAndIntake("A To D"),
-            // new FollowPathAlignAndShoot("D To Shoot", new SwerveDriveToShoot())
+            // new FollowPathAndIntake("A to D"),
+            // new FollowPathAlignAndShoot("D to Shoot", new SwerveDriveToShoot())
         );
     }
     
