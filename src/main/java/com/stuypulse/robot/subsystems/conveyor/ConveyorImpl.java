@@ -40,7 +40,7 @@ public class ConveyorImpl extends Conveyor {
 
         gandalfEncoder = new FilteredRelativeEncoder(gandalfMotor);
     
-        shooterIR = new DigitalInput(Ports.Shooter.INTAKE_IR);
+        shooterIR = new DigitalInput(Ports.Shooter.IR_SENSOR);
 
         isAtShooter = BStream.create(shooterIR).not().
             filtered(new BDebounce.Rising(Settings.Conveyor.DEBOUNCE_TIME.get()));
