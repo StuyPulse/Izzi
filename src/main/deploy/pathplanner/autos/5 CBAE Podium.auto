@@ -20,19 +20,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "B to A"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "A to E"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "E to Shoot"
           }
         }
       ]
