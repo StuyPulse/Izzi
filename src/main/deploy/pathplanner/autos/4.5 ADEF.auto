@@ -8,37 +8,43 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blay First Piece To C"
+            "pathName": "A To Shoot (ADEF)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C To Shoot"
+            "pathName": "AShoot To D (ADEF)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C Shoot to B"
+            "pathName": "D To Shoot (ADEF)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B To A"
+            "pathName": "DShoot To E (ADEF)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "A To E"
+            "pathName": "E To Shoot (ADEF)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "E To Shoot"
+            "pathName": "EShoot To F (ADEF)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F To Shoot (ADEF)"
           }
         }
       ]
