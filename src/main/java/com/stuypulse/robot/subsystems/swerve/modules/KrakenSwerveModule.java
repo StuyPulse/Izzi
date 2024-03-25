@@ -3,7 +3,6 @@ package com.stuypulse.robot.subsystems.swerve.modules;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.MotionMagicVelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -84,7 +83,7 @@ public class KrakenSwerveModule extends SwerveModule {
         driveConfig.Slot0 = slot0;
 
         // Direction and neutral mode
-        driveConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        driveConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         driveConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
         // Ramp rates
@@ -159,12 +158,12 @@ public class KrakenSwerveModule extends SwerveModule {
     public void periodic() {
         super.periodic();
 
-        VelocityVoltage driveOutput = new VelocityVoltage(convertDriveVel(getTargetState().speedMetersPerSecond));
+        VelocityTorqueCurrentFOC driveOutput = new VelocityTorqueCurrentFOC(convertDriveVel(getTargetState().speedMetersPerSecond));
 
         pivotController.update(Angle.fromRotation2d(getTargetState().angle), Angle.fromRotation2d(getAngle()));
 
         if (Math.abs(getTargetState().speedMetersPerSecond) < Settings.Swerve.MODULE_VELOCITY_DEADBAND) {
-            driveMotor.setControl(new VelocityVoltage(0));
+            driveMotor.setControl(new VelocityTorqueCurrentFOC(0));
             pivotMotor.setVoltage(0);
         } else {
             driveMotor.setControl(driveOutput);
