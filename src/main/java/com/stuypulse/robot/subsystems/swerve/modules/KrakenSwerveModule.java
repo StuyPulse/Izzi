@@ -101,8 +101,8 @@ public class KrakenSwerveModule extends SwerveModule {
         driveConfig.Feedback.SensorToMechanismRatio = 1.0; // 1:1 sensor to mechanism ratio
 
         // Current limits
-        // driveConfig.CurrentLimits.StatorCurrentLimit = 65; // 65A stator current limit
-        // driveConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Enable stator current limiting
+        driveConfig.CurrentLimits.StatorCurrentLimit = 65; // 65A stator current limit
+        driveConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Enable stator current limiting
 
         // driveConfig.CurrentLimits.SupplyCurrentLimit = 40; // 40A supply current limit
         // driveConfig.CurrentLimits.SupplyCurrentThreshold = 40; // 40A supply current threshold
