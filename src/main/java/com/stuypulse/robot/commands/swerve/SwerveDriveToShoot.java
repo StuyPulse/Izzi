@@ -9,6 +9,7 @@ package com.stuypulse.robot.commands.swerve;
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings.Alignment;
+import com.stuypulse.robot.constants.Settings.Swerve;
 import com.stuypulse.robot.constants.Settings.Alignment.Shoot;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
@@ -120,6 +121,9 @@ public class SwerveDriveToShoot extends Command {
         Translation2d speeds = new Translation2d(
             speed,
             toSpeaker.getAngle());
+
+        if (Math.abs(rotation) < Swerve.ALIGN_OMEGA_DEADBAND.get())
+            rotation = 0;
 
         swerve.setFieldRelativeSpeeds(
             new ChassisSpeeds(
