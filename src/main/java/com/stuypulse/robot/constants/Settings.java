@@ -159,7 +159,7 @@ public interface Settings {
 
             double BUZZ_INTENSITY = 1;
 
-            SmartNumber kP = new SmartNumber("SwerveAssist/kP", 2.0);
+            SmartNumber kP = new SmartNumber("SwerveAssist/kP", 6.0);
             SmartNumber kI = new SmartNumber("SwerveAssist/kI", 0.0);
             SmartNumber kD = new SmartNumber("SwerveAssist/kD", 0.0);
 
