@@ -25,7 +25,7 @@ public class FourPieceCBA extends SequentialCommandGroup {
 
             new ConveyorShootRoutine(),
 
-            // new FollowPathAndIntake("First Piece To C"),
+            // new FollowPathAndIntake("First Piece to C"),
             // new SwerveDriveToShoot(2.9),
             // new ConveyorShootRoutine(),
 
@@ -33,7 +33,7 @@ public class FourPieceCBA extends SequentialCommandGroup {
             // new SwerveDriveToShoot(),
             // new ConveyorShootRoutine(),
 
-            // new FollowPathAndIntake("B To A"),
+            // new FollowPathAndIntake("B to A"),
             new SwerveDriveToShoot(2.9)
                 .withTolerance(0.05, 3),
             new ConveyorShootRoutine()

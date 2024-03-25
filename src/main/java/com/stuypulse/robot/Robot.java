@@ -69,6 +69,11 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         scheduler.run();
+
+        SmartDashboard.putNumber("Total Power (W)", robot.pdp.getTotalPower());
+        SmartDashboard.putNumber("Total Current (A)", robot.pdp.getTotalCurrent());
+        SmartDashboard.putNumber("Battery Voltage (V)", robot.pdp.getVoltage());
+        SmartDashboard.putNumber("Calculated Resistance (R)", robot.pdp.getVoltage() / robot.pdp.getTotalCurrent());
     }
 
     public static boolean isBlue() {

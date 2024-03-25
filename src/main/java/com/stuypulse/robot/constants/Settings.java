@@ -105,6 +105,7 @@ public interface Settings {
             double MIN_HEIGHT = 0;
             double SAFE_CLIMB_HEIGHT = 0.20;
             double MAX_HEIGHT = Units.inchesToMeters(25.0) + 0.05; // amp 14.75
+            double UNSAFE_CLIMB_HEIGHT = -0.10; // constant to check if climber height is lower than this
 
             double VISUALIZATION_MIN_LENGTH = 0.5;
             Rotation2d ANGLE_TO_GROUND = Rotation2d.fromDegrees(68.02);
@@ -317,6 +318,12 @@ public interface Settings {
         ShooterSpeeds HANDOFF = new ShooterSpeeds(3000, 3000);
         
         ShooterSpeeds REVERSE = new ShooterSpeeds(-3000, -3000);
+
+        // xxx: determine
+        ShooterSpeeds FERRY = new ShooterSpeeds(
+            new SmartNumber("Shooter/Ferry Shooter RPM", 5500),
+            500,
+            new SmartNumber("Shooter/Ferry Feeder RPM", 3000));
 
         double AT_RPM_EPSILON = 125;
 

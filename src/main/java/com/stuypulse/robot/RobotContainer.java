@@ -47,6 +47,7 @@ import com.stuypulse.robot.subsystems.vision.NoteVision;
 import com.stuypulse.robot.util.PathUtil.AutonConfig;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -72,6 +73,8 @@ public class RobotContainer {
     public final Intake intake = Intake.getInstance();
     public final Shooter shooter = Shooter.getInstance();
     public final SwerveDrive swerve = SwerveDrive.getInstance();
+
+    public final PowerDistribution pdp = new PowerDistribution();
 
     // Autons
     private static SendableChooser<Command> autonChooser;
@@ -186,20 +189,23 @@ public class RobotContainer {
             .onFalse(new AmperStop());
 
         // automatic swerve drive
-        driver.getTopButton()
-            // on command start
-            .onTrue(new BuzzController(driver, Assist.BUZZ_INTENSITY)
-                .deadlineWith(new LEDSet(LEDInstructions.AUTO_SWERVE)))
+        // driver.getTopButton()
+        //     // on command start
+        //     .onTrue(new BuzzController(driver, Assist.BUZZ_INTENSITY)
+        //         .deadlineWith(new LEDSet(LEDInstructions.AUTO_SWERVE)))
                 
-            .onTrue(new SwerveDriveAutomatic(driver)
-                // after command end
-                .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
-                    .deadlineWith(new LEDSet(LEDInstructions.AUTO_SWERVE)))
+        //     .onTrue(new SwerveDriveAutomatic(driver)
+        //         // after command end
+        //         .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
+        //             .deadlineWith(new LEDSet(LEDInstructions.AUTO_SWERVE)))
 
-                .andThen(new WaitCommand(Driver.Drive.BUZZ_DURATION))
-                
-                .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
-                    .deadlineWith(new LEDSet(LEDInstructions.AUTO_SWERVE))));
+        //         .andThen(new WaitCommand(Driver.Drive.BUZZ_DURATION))
+
+        //         .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
+        //             .deadlineWith(new LEDSet(LEDInstructions.AUTO_SWERVE))));
+
+        driver.getTopButton()
+            .whileTrue(new SwerveDriveAutoFerry(driver));
 
         // climb
         driver.getRightButton()
@@ -292,32 +298,32 @@ public class RobotContainer {
 
         autonChooser.addOption("Mobility", new Mobility());
 
-        AutonConfig HGF = new AutonConfig("3.5 Piece HGF", FourPieceHGF::new,
-        "Start To H (HGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)", "F To Shoot (HGF)");
+        AutonConfig HGF = new AutonConfig("3.5 HGF", FourPieceHGF::new,
+        "Start to H (HGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)", "F to Shoot (HGF)");
         
-        AutonConfig TrackingCBAE = new AutonConfig("Tracking 5 Piece CBAE", FivePieceTrackingCBAE::new,
-        "Blay First Piece To C", "C to B", "B To A", "A To E", "E To Shoot");   
+        AutonConfig TrackingCBAE = new AutonConfig("Tracking 5 CBAE Podium", FivePieceTrackingCBAE::new,
+            "Preload to C", "C to B", "B to A", "A to E", "E to Shoot");   
 
-        AutonConfig PodiumCBAE = new AutonConfig("5 Piece CBAE", FivePiecePodiumCBAE::new, 
-        "Blay First Piece To C", "C to B", "B To A","A To E", "E To Shoot");
-
-        // AutonConfig ADE = new AutonConfig("3 Piece ADE", ThreePieceADE::new,
-        // "First Piece To A", "A To D", "D to Ferry Shot", "Ferry Shot to E", "E To Shoot");
-        
-        AutonConfig DE = new AutonConfig("2 Piece DE", TwoPieceDE::new,
-        "First Piece to D", "D to Ferry Shot", "Ferry Shot to E", "E To Shoot");
+        AutonConfig PodiumCBAE = new AutonConfig("5 CBAE", FivePiecePodiumCBAE::new, 
+        "Preload to C", "C to B", "B to A","A to E", "E to Shoot");
 
         AutonConfig CBAED = new AutonConfig("6 CBAED", SixPieceCBAED::new,
-        "Forward First Piece to C", "C to B 2", "B To A","A To E", "E To Shoot", "Shoot to D (CBAED)", "D To Shoot");
+        "Close Preload to C", "C to B Close", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
 
         AutonConfig CHGF = new AutonConfig("4.5 Piece CHGF", FivePieceCHGF::new,
-        "Forward First Piece to C", "CShoot To H (CHGF)", "H To HShoot (HGF)", "HShoot To G (HGF)", "G To Shoot (HGF)", "GShoot To F (HGF)");
+        "Close Preload to C", "CShoot To H (CHGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)");
 
         AutonConfig ADEF = new AutonConfig("4.5 Piece ADEF", FourPieceADEF::new, 
-        "First Piece To A", "A to D", "D To Shoot", "Shoot To E", "E To Shoot", "Shoot To F (ADEF)", "F To Shoot (ADEF)");
+        "First Piece To A", "A to D", "D to Shoot", "Shoot to E", "E to Shoot", "Shoot To F (ADEF)", "F To Shoot (ADEF)");
+
+        AutonConfig ADE = new AutonConfig("3 ADE", ThreePieceADE::new,
+            "Preload Shot to A", "A to D", "D to Ferry Shot", "Ferry Shot to E", "E to Shoot");
+        
+        AutonConfig DE = new AutonConfig("2 DE", TwoPieceDE::new,
+            "Preload Shot to D", "D to Ferry Shot", "Ferry Shot to E", "E to Shoot");
 
         // AutonConfig PodiumCloseCBAE = new AutonConfig("Podium Close 5 Piece CBAE", FivePiecePodiumForwardCBAE::new, 
-        // "Forward First Piece to C", "C to B 2", "B To A","A To E", "E To Shoot");
+        // "Forward First Piece to C", "C to B 2", "B to A","A to E", "E to Shoot");
 
         // CBAE.registerBlue(autonChooser)
         //     .registerRed(autonChooser);
