@@ -72,6 +72,12 @@
       "open": true
     },
     "SmartDashboard": {
+      "Amper": {
+        "open": true
+      },
+      "Climber": {
+        "open": true
+      },
       "Shooter": {
         "open": true
       },

@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class IntakeAcquire extends Command {
 
-    private Intake intake;
+    private final Intake intake;
 
     public IntakeAcquire() {
         intake = Intake.getInstance();

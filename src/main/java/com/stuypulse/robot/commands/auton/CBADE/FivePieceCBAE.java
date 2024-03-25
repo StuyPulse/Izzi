@@ -4,6 +4,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.stuypulse.robot.commands.auton.FollowPathAlignAndShoot;
 import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
+import com.stuypulse.robot.commands.conveyor.ConveyorToShooter;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToShoot;
@@ -34,16 +35,17 @@ public class FivePieceCBAE extends SequentialCommandGroup {
             new FollowPathAlignAndShoot(paths[1], new SwerveDriveToShoot()),
 
             new FollowPathAndIntake(paths[2]),
-            new SwerveDriveToShoot(),
+            new SwerveDriveToShoot()
+                .alongWith(new ConveyorToShooter()),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake(paths[3]),
-            new SwerveDriveToShoot()//2.9)
-                .withTolerance(0.05, 3),
+            new SwerveDriveToShoot()
+                .alongWith(new ConveyorToShooter()),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake(paths[4]),
-            new FollowPathAlignAndShoot(paths[4], new SwerveDriveToShoot())
+            new FollowPathAlignAndShoot(paths[5], new SwerveDriveToShoot())
         );
     }
     

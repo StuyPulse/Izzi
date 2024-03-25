@@ -58,17 +58,18 @@ public interface Ports {
     }
 
     public interface Intake {
-        int MOTOR = 40;
+        int MOTOR = 50;
         int IR_SENSOR = 1;
     }
 
     public interface Shooter {
         int LEFT_MOTOR = 21;
         int RIGHT_MOTOR = 20;
+        int INTAKE_IR = 3;
     }
 
     public interface Conveyor {
-        int GANDALF = 50;
+        int GANDALF = 40;
         int FEEDER = 51;
     }
 

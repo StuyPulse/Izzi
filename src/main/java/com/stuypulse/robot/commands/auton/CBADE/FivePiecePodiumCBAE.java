@@ -4,6 +4,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.stuypulse.robot.commands.auton.FollowPathAlignAndShoot;
 import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
+import com.stuypulse.robot.commands.conveyor.ConveyorToShooter;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToShoot;
@@ -24,22 +25,25 @@ public class FivePiecePodiumCBAE extends SequentialCommandGroup {
                 new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
                     .andThen(new ShooterPodiumShot()),
                 
-                SwerveDriveToPose.speakerRelative(-30)
+                SwerveDriveToPose.speakerRelative(-15)
+                    .withTolerance(0.1, 0.1, 3)
             ),
 
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake(paths[0]),
-            new SwerveDriveToShoot(),
+            new SwerveDriveToShoot()
+                .alongWith(new ConveyorToShooter()),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake(paths[1]),
-            new SwerveDriveToShoot(),
+            new SwerveDriveToShoot()
+            .alongWith(new ConveyorToShooter()),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake(paths[2]),
             new SwerveDriveToShoot()
-                .withTolerance(0.05, 3),
+            .alongWith(new ConveyorToShooter()),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake(paths[3]),

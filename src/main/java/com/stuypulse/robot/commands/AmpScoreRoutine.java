@@ -14,7 +14,6 @@ import com.stuypulse.robot.commands.leds.LEDSet;
 import com.stuypulse.robot.commands.swerve.SwerveDriveDriveDirection;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
 import com.stuypulse.robot.commands.vision.VisionChangeWhiteList;
-import com.stuypulse.robot.commands.vision.VisionReloadWhiteList;
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.constants.Settings;
@@ -24,7 +23,6 @@ import com.stuypulse.robot.constants.Settings.Amper.Score;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.stuylib.math.Vector2D;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -58,11 +56,12 @@ public class AmpScoreRoutine extends SequentialCommandGroup {
 
     public AmpScoreRoutine() {
         addCommands(
-            new ConveyorToAmp()
-                .alongWith(new WaitCommand(Settings.Shooter.TELEOP_SHOOTER_STARTUP_DELAY)
-                    .andThen(new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get()))
-                        .withTolerance(AMP_WALL_SETUP_X_TOLERANCE, AMP_WALL_SETUP_Y_TOLERANCE, AMP_WALL_SETUP_ANGLE_TOLERANCE)
-                            .deadlineWith(new LEDSet(LEDInstructions.GREEN)))),
+            new ParallelCommandGroup(
+                new ConveyorToAmp(),
+                new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get()))
+                    .withTolerance(AMP_WALL_SETUP_X_TOLERANCE, AMP_WALL_SETUP_Y_TOLERANCE, AMP_WALL_SETUP_ANGLE_TOLERANCE)
+                    .deadlineWith(new LEDSet(LEDInstructions.AMP_ALIGN))
+            ),
 
             new ParallelCommandGroup(
                 AmperToHeight.untilDone(Lift.AMP_SCORE_HEIGHT),
@@ -73,10 +72,14 @@ public class AmpScoreRoutine extends SequentialCommandGroup {
                         AMP_WALL_SCORE_Y_TOLERANCE,
                         AMP_WALL_SCORE_ANGLE_TOLERANCE)
                     .withTimeout(SCORE_ALIGN_TIMEOUT)
-                    .deadlineWith(new LEDSet(LEDInstructions.GREEN))
+                    .deadlineWith(new LEDSet(LEDInstructions.AMP_SCORE))
             ),
             
             AmperScore.untilDone(),
+
+            new WaitCommand(0.25),
+
+            new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT),
 
             new SwerveDriveDriveDirection(
                 new Vector2D(new Translation2d(
