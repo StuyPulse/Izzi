@@ -67,10 +67,10 @@ public class KrakenSwerveModule extends SwerveModule {
         // PIDF values
         Slot0Configs slot0 = new Slot0Configs();
 
-        slot0.kS = 0.25; 
-        slot0.kV = 0.12; 
-        slot0.kA = 0.01; 
-        slot0.kP = 0.11; 
+        slot0.kS = 0.14304; 
+        slot0.kV = 0.10884; 
+        slot0.kA = 0.023145; 
+        slot0.kP = 0.07; 
         slot0.kI = 0; 
         slot0.kD = 0; 
 
@@ -158,19 +158,19 @@ public class KrakenSwerveModule extends SwerveModule {
     public void periodic() {
         super.periodic();
 
-        VelocityTorqueCurrentFOC driveOutput = new VelocityTorqueCurrentFOC(convertDriveVel(getTargetState().speedMetersPerSecond));
+        VelocityVoltage driveOutput = new VelocityVoltage(convertDriveVel(getTargetState().speedMetersPerSecond));
 
         pivotController.update(Angle.fromRotation2d(getTargetState().angle), Angle.fromRotation2d(getAngle()));
 
         if (Math.abs(getTargetState().speedMetersPerSecond) < Settings.Swerve.MODULE_VELOCITY_DEADBAND) {
-            driveMotor.setControl(new VelocityTorqueCurrentFOC(0));
+            driveMotor.setControl(new VelocityVoltage(0));
             pivotMotor.setVoltage(0);
         } else {
             driveMotor.setControl(driveOutput);
             pivotMotor.setVoltage(pivotController.getOutput());
         }
 
-        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Current", driveMotor.getTorqueCurrent().getValueAsDouble());
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Current", driveMotor.getSupplyCurrent().getValueAsDouble());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Position", getPosition());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Velocity", getVelocity());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Voltage", driveMotor.getMotorVoltage().getValueAsDouble());
