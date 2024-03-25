@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Forward First Piece to C"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CShoot To H (CHGF)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H To HShoot (HGF)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "HShoot To G (HGF)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "G To Shoot (HGF)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GShoot To F (HGF)"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
