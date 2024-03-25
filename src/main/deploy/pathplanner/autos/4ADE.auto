@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.3235291280709125,
+      "y": 6.988799251934787
+    },
+    "rotation": 42.3
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Preload to A"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Ampside Shoot to D"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Ampside D to Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Ampside Shoot to E"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Ampside E to Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
