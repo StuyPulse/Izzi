@@ -229,7 +229,7 @@ public interface Settings {
 
         public interface FrontLeft {
             String ID = "Front Left";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(16.435547);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-172.880859);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * +0.5, LENGTH * +0.5);
         }
 
