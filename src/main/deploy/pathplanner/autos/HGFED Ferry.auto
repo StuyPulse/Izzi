@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start To H (HGF)"
+            "pathName": "Start to H (HGF)"
           }
         },
         {
@@ -27,6 +27,12 @@
           "type": "path",
           "data": {
             "pathName": "HFerry to G"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "G to GFerry"
           }
         },
         {
@@ -45,6 +51,12 @@
           "type": "path",
           "data": {
             "pathName": "FFerry to E"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E to EFerry"
           }
         },
         {

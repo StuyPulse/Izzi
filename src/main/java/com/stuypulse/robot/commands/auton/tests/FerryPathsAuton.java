@@ -2,7 +2,6 @@ package com.stuypulse.robot.commands.auton.tests;
 
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
-import com.stuypulse.robot.commands.conveyor.ConveyorShoot;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
@@ -32,30 +31,29 @@ public class FerryPathsAuton extends SequentialCommandGroup {
             new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
             new ShooterPodiumShot(),
 
-            new FollowPathAndIntake(paths[1]),
-            new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
-            new ShooterPodiumShot(),
-
+            SwerveDrive.getInstance().followPathCommand(paths[1]),
+            
             new FollowPathAndIntake(paths[2]),
             new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
-            new ShooterPodiumShot(),
+            new ShooterPodiumShot(), 
 
-            new FollowPathAndIntake(paths[3]),
-            new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
-            new ShooterPodiumShot(),
+            SwerveDrive.getInstance().followPathCommand(paths[3]),
 
             new FollowPathAndIntake(paths[4]),
             new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
-            new ShooterPodiumShot(),
+            new ShooterPodiumShot(), 
 
-            new FollowPathAndIntake(paths[5]),
-            new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
-            new ShooterPodiumShot(),
+            SwerveDrive.getInstance().followPathCommand(paths[5]),
 
             new FollowPathAndIntake(paths[6]),
             new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
-            new ShooterPodiumShot()
+            new ShooterPodiumShot(), 
 
-        );
+            SwerveDrive.getInstance().followPathCommand(paths[7]),
+            
+            new FollowPathAndIntake(paths[8]),
+            new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
+            new ShooterPodiumShot()
+        ); 
     }
 }
