@@ -304,8 +304,8 @@ public class RobotContainer {
 
         autonChooser.addOption("Mobility", new Mobility());
 
-        AutonConfig TrackingCBAE = new AutonConfig("Tracking 5 CBAE Podium", FivePieceTrackingCBAE::new,
-            "Preload to C", "C to B", "B to A", "A to E", "E to Shoot");   
+        //AutonConfig TrackingCBAE = new AutonConfig("Tracking 5 CBAE Podium", FivePieceTrackingCBAE::new,
+        //    "Preload to C", "C to B", "B to A", "A to E", "E to Shoot");   
 
         AutonConfig PodiumCBAE = new AutonConfig("5 CBAE", FivePiecePodiumCBAE::new, 
         "Preload to C", "C to B", "B to A","A to E", "E to Shoot");
@@ -313,8 +313,32 @@ public class RobotContainer {
         AutonConfig CBAED = new AutonConfig("6 CBAED", SixPieceCBAED::new,
         "Close Preload to C", "C to B Close", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
 
-          SmartDashboard.putData("Autonomous", autonChooser);
+        AutonConfig RichieCBAE = new AutonConfig("Richie 5 CBAE", RichieFivePieceCBAE::new,
+        "Preload to C", "C to B", "B to A", "A to E", "E to Shoot");
 
+        //TrackingCBAE
+        //   .registerBlue(autonChooser)
+        //    .registerRed(autonChooser);
+        
+        PodiumCBAE
+            .registerDefaultBlue(autonChooser)
+            .registerDefaultRed(autonChooser);
+        
+        // ADE.registerBlue(autonChooser)
+        //     .registerRed(autonChooser);
+
+        // DE.registerBlue(autonChooser)
+        //     .registerRed(autonChooser);
+
+        CBAED
+            .registerBlue(autonChooser)
+            .registerRed(autonChooser);
+
+        RichieCBAE
+            .registerBlue(autonChooser)
+            .registerRed(autonChooser);
+
+        SmartDashboard.putData("Autonomous", autonChooser);
     }
 
     public Command getAutonomousCommand() {
