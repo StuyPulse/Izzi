@@ -4,9 +4,9 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.stuypulse.robot.commands.conveyor.ConveyorShoot;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
 import com.stuypulse.robot.commands.conveyor.ConveyorStop;
+import com.stuypulse.robot.commands.conveyor.ConveyorToShooter;
 import com.stuypulse.robot.commands.intake.IntakeStop;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
-import com.stuypulse.robot.commands.shooter.ShooterStop;
 import com.stuypulse.robot.commands.shooter.ShooterWaitForTarget;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Auton;
@@ -28,6 +28,8 @@ public class FollowPathAlignAndShoot extends SequentialCommandGroup {
     public FollowPathAlignAndShoot(PathPlannerPath path, Command alignCommand) {
         addCommands(
             new ParallelCommandGroup(
+                new ConveyorToShooter()
+                    .withTimeout(3.0),
                 SwerveDrive.getInstance().followPathCommand(path),
                 new WaitCommand(getPathTime(path) - Auton.SHOOTER_START_PRE)
                     .andThen(new ShooterPodiumShot())
@@ -36,11 +38,10 @@ public class FollowPathAlignAndShoot extends SequentialCommandGroup {
             new ShooterWaitForTarget(),
             new ConveyorShoot(),
             new WaitCommand(Settings.Conveyor.SHOOT_WAIT_DELAY.get()),
-            // ConveyorShoot.untilDone()
+            //  ConveyorShoot.untilDone()
             //     .withTimeout(Settings.Conveyor.SHOOT_WAIT_DELAY.get()),
             new ConveyorStop(),
-            new IntakeStop(),
-            new ShooterStop()
+            new IntakeStop()
         );
     }
 

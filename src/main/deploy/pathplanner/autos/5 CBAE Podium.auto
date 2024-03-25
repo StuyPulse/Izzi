@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Preload to C"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C to B"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B to A"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A to E"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E to Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

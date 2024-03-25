@@ -7,10 +7,12 @@
 package com.stuypulse.robot.commands.leds;
 
 import com.stuypulse.robot.constants.LEDInstructions;
+import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.leds.LEDController;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDInstruction;
+import com.stuypulse.stuylib.util.StopWatch;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -26,7 +28,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class LEDDefaultMode extends Command {
 
     private final LEDController leds;
-
     private final Intake intake;
     private final Amper amper;
 
@@ -39,9 +40,14 @@ public class LEDDefaultMode extends Command {
     }
 
     private LEDInstruction getInstruction() {
-        // if (amper.hasNote())  return LEDInstructions.AMP;
-        if (intake.hasNote()) return LEDInstructions.RED;
+        if (amper.getTargetHeight() == Lift.TRAP_SCORE_HEIGHT
+                && amper.isAtTargetHeight(0.15))
+            return LEDInstructions.GREEN;
 
+        if (intake.hasNote()) {
+            return LEDInstructions.CONTAINS_NOTE;
+        }
+        
         return LEDInstructions.DEFAULT;
     }
 

@@ -13,7 +13,6 @@ import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 import com.pathplanner.lib.util.PIDConstants;
-import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Swerve;
@@ -23,12 +22,14 @@ import com.stuypulse.robot.constants.Settings.Swerve.Motion;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.util.HolonomicController;
+import com.stuypulse.robot.util.MirrorRotation2d;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import java.util.function.Supplier;
@@ -36,17 +37,17 @@ import java.util.function.Supplier;
 public class SwerveDriveToPose extends Command {
 
     public static SwerveDriveToPose speakerRelative(double angleToSpeaker, double distanceToSpeaker) {
-        double angle = SLMath.clamp(
-            angleToSpeaker, Alignment.PODIUM_SHOT_MAX_ANGLE);
+        MirrorRotation2d angle = MirrorRotation2d.fromBlue(
+            Rotation2d.fromDegrees(SLMath.clamp(
+                angleToSpeaker, Alignment.PODIUM_SHOT_MAX_ANGLE)));
 
         double distance = SLMath.clamp(distanceToSpeaker, 1, 5);
 
         return new SwerveDriveToPose(() -> {
-            Rotation2d rot = Rotation2d.fromDegrees(Robot.isBlue() ? angle : -angle);
             return new Pose2d(
                 Field.getAllianceSpeakerPose().getTranslation()
-                    .plus(new Translation2d(distance, rot)),
-                rot);
+                    .plus(new Translation2d(distance, angle.get())),
+                angle.get());
             }
         );
     }
@@ -55,21 +56,6 @@ public class SwerveDriveToPose extends Command {
         return speakerRelative(angleToSpeaker, Alignment.PODIUM_SHOT_DISTANCE.get());
     }
 
-    public static SwerveDriveToPose toClimb() {
-        return toClimb(Alignment.TRAP_SETUP_DISTANCE.get());
-    }
-
-    public static SwerveDriveToPose toClimb(double distance) {
-        return new SwerveDriveToPose(
-            () -> {
-                Pose2d closestTrap = Field.getClosestAllianceTrapPose(Odometry.getInstance().getPose());
-                Translation2d offsetTranslation = new Translation2d(distance, closestTrap.getRotation());
-                
-                return new Pose2d(closestTrap.getTranslation().plus(offsetTranslation), closestTrap.getRotation());
-            }
-        ).withTolerance(3.0, 3.0, 3.0);
-    }
-    
     private final SwerveDrive swerve;
     private final Odometry odometry;
 
@@ -156,11 +142,17 @@ public class SwerveDriveToPose extends Command {
         Vector2D speed = new Vector2D(controller.getOutput().vxMetersPerSecond, controller.getOutput().vyMetersPerSecond)
             .clamp(Swerve.MAX_MODULE_SPEED);
         double rotation = SLMath.clamp(controller.getOutput().omegaRadiansPerSecond, Motion.MAX_ANGULAR_VELOCITY.get());
-            
+        
+        SmartDashboard.putNumber("Alignment/Translation Target Speed", speed.distance());
+
+        if (Math.abs(rotation) < Swerve.ALIGN_OMEGA_DEADBAND.get())
+            rotation = 0;
+
         ChassisSpeeds clamped = new ChassisSpeeds(
             speed.x, speed.y, rotation);
         
         swerve.setChassisSpeeds(clamped);
+
     }
 
     @Override
@@ -171,6 +163,6 @@ public class SwerveDriveToPose extends Command {
     @Override
     public void end(boolean interrupted) {
         swerve.stop();
-        targetPose2d.setPose(Double.NaN, Double.NaN, new Rotation2d(Double.NaN));
+        Field.clearFieldObject(targetPose2d);
     }
 }

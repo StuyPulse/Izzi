@@ -20,6 +20,7 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.util.FilteredRelativeEncoder;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -37,7 +38,7 @@ public class AmperImpl extends Amper {
     private final RelativeEncoder scoreEncoder;
 
     // private final DigitalInput alignedSwitch;
-    private final DigitalInput minSwitch;
+    // private final DigitalInput minSwitch;
     // private final DigitalInput maxSwitch;
     private final DigitalInput ampIRSensor;
 
@@ -60,7 +61,7 @@ public class AmperImpl extends Amper {
         liftEncoder.setVelocityConversionFactor(Settings.Amper.Lift.Encoder.VELOCITY_CONVERSION);
 
         // alignedSwitch = new DigitalInput(Ports.Amper.ALIGNED_BUMP_SWITCH);
-        minSwitch = new DigitalInput(Ports.Amper.LIFT_BOTTOM_LIMIT);
+        // minSwitch = new DigitalInput(Ports.Amper.LIFT_BOTTOM_LIMIT);
         // maxSwitch = new DigitalInput(Ports.Amper.LIFT_TOP_LIMIT);
         ampIRSensor = new DigitalInput(Ports.Amper.AMP_IR);
 
@@ -85,7 +86,7 @@ public class AmperImpl extends Amper {
 
     @Override
     public boolean liftAtBottom() {
-        return !minSwitch.get();
+        return false;
     }
 
     @Override
@@ -121,18 +122,8 @@ public class AmperImpl extends Amper {
     /*** SCORE ROLLERS ***/
 
     @Override
-    public void score() {
-        scoreMotor.set(Settings.Amper.Score.SCORE_SPEED);
-    }
-
-    @Override
-    public void fromConveyor() {
-        scoreMotor.set(Settings.Amper.Score.FROM_CONVEYOR_SPEED);
-    }
-
-    @Override
-    public void toConveyor() {
-        scoreMotor.set(-Settings.Amper.Score.TO_CONVEYOR_SPEED.get());
+    public void runRoller(double speed) {
+        scoreMotor.set(speed);
     }
 
     @Override
@@ -175,8 +166,12 @@ public class AmperImpl extends Amper {
             voltage = 0;
         }
 
-        if (getTargetHeight() == Settings.Amper.Lift.MIN_HEIGHT && voltage > 0) {
+        if (getTargetHeight() == getMinHeight() && voltage > 0) {
             voltage = 0;
+        }
+
+        if (getTargetHeight() == Settings.Amper.Lift.TRAP_SCORE_HEIGHT && voltage < 0.75) {
+            voltage = 0.75;
         }
 
         liftMotor.setVoltage(voltage);
@@ -187,6 +182,7 @@ public class AmperImpl extends Amper {
         SmartDashboard.putNumber("Amper/Intake Current", scoreMotor.getOutputCurrent());
         SmartDashboard.putNumber("Amper/Lift Current", liftMotor.getOutputCurrent());
         SmartDashboard.putNumber("Amper/Lift Height", getLiftHeight());
+        SmartDashboard.putNumber("Amper/Lift Height Error", controller.getError());
 
         SmartDashboard.putBoolean("Amper/Has Note", hasNote());
         SmartDashboard.putBoolean("Amper/At Bottom", liftAtBottom());

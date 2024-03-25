@@ -18,7 +18,7 @@ public class ConveyorShoot extends InstantCommand {
 
     public static Command untilDone() {
         return new ConveyorShoot()
-            .andThen(new WaitUntilCommand(() -> Shooter.getInstance().noteShot()));
+            .andThen(new WaitUntilCommand(Shooter.getInstance()::noteShot));
     }
 
     private final Conveyor conveyor;

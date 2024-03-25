@@ -18,10 +18,12 @@ import com.stuypulse.robot.constants.Settings.Swerve.FrontLeft;
 import com.stuypulse.robot.constants.Settings.Swerve.FrontRight;
 import com.stuypulse.robot.constants.Settings.Swerve.Motion;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
+import com.stuypulse.robot.subsystems.swerve.modules.KrakenSwerveModule;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModule;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleImpl;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleSim;
 import com.stuypulse.robot.subsystems.swerve.modules.TumblerSwerveModule;
+import com.stuypulse.robot.util.FollowPathPointSpeakerCommand;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -31,6 +33,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI;
@@ -43,9 +47,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathHolonomic;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.ReplanningConfig;
 
@@ -93,13 +97,17 @@ public class SwerveDrive extends SubsystemBase {
     static {
         if (Robot.ROBOT == RobotType.IZZI) {
             instance = new SwerveDrive(
-                new SwerveModuleImpl(FrontRight.ID, FrontRight.MODULE_OFFSET, Ports.Swerve.FrontRight.DRIVE, FrontRight.ABSOLUTE_OFFSET, Ports.Swerve.FrontRight.TURN, Ports.Swerve.FrontRight.ENCODER),
-                new SwerveModuleImpl(FrontLeft.ID, FrontLeft.MODULE_OFFSET, Ports.Swerve.FrontLeft.DRIVE, FrontLeft.ABSOLUTE_OFFSET, Ports.Swerve.FrontLeft.TURN, Ports.Swerve.FrontLeft.ENCODER),
-                new SwerveModuleImpl(BackLeft.ID, BackLeft.MODULE_OFFSET, Ports.Swerve.BackLeft.DRIVE, BackLeft.ABSOLUTE_OFFSET, Ports.Swerve.BackLeft.TURN, Ports.Swerve.BackLeft.ENCODER),
-                new SwerveModuleImpl(BackRight.ID, BackRight.MODULE_OFFSET, Ports.Swerve.BackRight.DRIVE, BackRight.ABSOLUTE_OFFSET, Ports.Swerve.BackRight.TURN, Ports.Swerve.BackRight.ENCODER)
+                // new SwerveModuleImpl(FrontRight.ID, FrontRight.MODULE_OFFSET, Ports.Swerve.FrontRight.DRIVE, FrontRight.ABSOLUTE_OFFSET, Ports.Swerve.FrontRight.TURN, Ports.Swerve.FrontRight.ENCODER),
+                // new SwerveModuleImpl(FrontLeft.ID, FrontLeft.MODULE_OFFSET, Ports.Swerve.FrontLeft.DRIVE, FrontLeft.ABSOLUTE_OFFSET, Ports.Swerve.FrontLeft.TURN, Ports.Swerve.FrontLeft.ENCODER),
+                // new SwerveModuleImpl(BackLeft.ID, BackLeft.MODULE_OFFSET, Ports.Swerve.BackLeft.DRIVE, BackLeft.ABSOLUTE_OFFSET, Ports.Swerve.BackLeft.TURN, Ports.Swerve.BackLeft.ENCODER),
+                // new SwerveModuleImpl(BackRight.ID, BackRight.MODULE_OFFSET, Ports.Swerve.BackRight.DRIVE, BackRight.ABSOLUTE_OFFSET, Ports.Swerve.BackRight.TURN, Ports.Swerve.BackRight.ENCODER)
+                new KrakenSwerveModule(FrontRight.ID, FrontRight.MODULE_OFFSET, FrontRight.ABSOLUTE_OFFSET, Ports.Swerve.FrontRight.DRIVE, Ports.Swerve.FrontRight.TURN, Ports.Swerve.FrontRight.ENCODER),
+                new KrakenSwerveModule(FrontLeft.ID, FrontLeft.MODULE_OFFSET, FrontLeft.ABSOLUTE_OFFSET, Ports.Swerve.FrontLeft.DRIVE, Ports.Swerve.FrontLeft.TURN, Ports.Swerve.FrontLeft.ENCODER),
+                new KrakenSwerveModule(BackLeft.ID, BackLeft.MODULE_OFFSET, BackLeft.ABSOLUTE_OFFSET, Ports.Swerve.BackLeft.DRIVE, Ports.Swerve.BackLeft.TURN, Ports.Swerve.BackLeft.ENCODER),
+                new KrakenSwerveModule(BackRight.ID, BackRight.MODULE_OFFSET, BackRight.ABSOLUTE_OFFSET, Ports.Swerve.BackRight.DRIVE, Ports.Swerve.BackRight.TURN, Ports.Swerve.BackRight.ENCODER)
             );
         } else if (Robot.ROBOT == RobotType.TUMBLER) {
-            instance = new SwerveDrive(TumblerSwerveModule.getModules());
+            instance = new SwerveDrive(KrakenSwerveModule.getTumblerModules());
         } else {
             instance = new SwerveDrive(
                 new SwerveModuleSim(FrontRight.ID, FrontRight.MODULE_OFFSET),
@@ -138,10 +146,30 @@ public class SwerveDrive extends SubsystemBase {
         );
     }
 
+    public Command followPathWithSpeakerAlignCommand(PathPlannerPath path) {
+        return new FollowPathPointSpeakerCommand(
+            path, 
+            () -> Odometry.getInstance().getPose(), 
+            this::getChassisSpeeds, 
+            this::setChassisSpeeds, 
+            new PPHolonomicDriveController(
+                Motion.XY, 
+                Motion.THETA, 
+                0.02, 
+                Settings.Swerve.MAX_MODULE_SPEED, 
+                Math.hypot(Settings.Swerve.LENGTH, Settings.Swerve.WIDTH)),
+            new ReplanningConfig(false, false),
+            () -> false,
+            this
+        );
+    }
+
     private final SwerveModule[] modules;
     private final SwerveDriveKinematics kinematics;
     private final AHRS gyro;
     private final FieldObject2d[] modules2D;
+
+    private final StructArrayPublisher<SwerveModuleState> statesPub;
 
     /**
      * Creates a new Swerve Drive using the provided modules
@@ -153,6 +181,9 @@ public class SwerveDrive extends SubsystemBase {
         kinematics = new SwerveDriveKinematics(getModuleOffsets());
         gyro = new AHRS(SPI.Port.kMXP);
         modules2D = new FieldObject2d[modules.length];
+
+        statesPub = NetworkTableInstance.getDefault()
+            .getStructArrayTopic("Swerve/States", SwerveModuleState.struct).publish();
     }
 
     public void configureAutoBuilder() {
@@ -293,7 +324,7 @@ public class SwerveDrive extends SubsystemBase {
     public double getForwardAccelerationGs() {
         return gyro.getWorldLinearAccelY();
     }
-
+    
     @Override
     public void periodic() {
         Odometry odometry = Odometry.getInstance();
@@ -306,6 +337,8 @@ public class SwerveDrive extends SubsystemBase {
                 modules[i].getAngle().plus(angle)
             ));
         }
+
+        statesPub.set(getModuleStates());
 
         SmartDashboard.putNumber("Swerve/Gyro/Angle (deg)", getGyroAngle().getDegrees());
         SmartDashboard.putNumber("Swerve/Gyro/Pitch (deg)", getGyroPitch().getDegrees());

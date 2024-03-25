@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.2,
+        "y": 7.431149973519566
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.199170502030238,
+        "y": 7.120181822214049
+      },
+      "isLocked": false,
+      "linkedName": "D"
+    },
+    {
+      "anchor": {
+        "x": 2.729397148609112,
+        "y": 6.342607879660204
+      },
+      "prevControl": {
+        "x": 4.549234196920361,
+        "y": 6.569001819528524
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Top Side Shoot"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 18.112497005913305,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "ABCDE",
+  "previewStartingState": null,
+  "useDefaultConstraints": true
+}

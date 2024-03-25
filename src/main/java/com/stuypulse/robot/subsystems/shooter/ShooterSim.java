@@ -12,7 +12,6 @@ import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
 
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Shooter.Feedforward;
-import com.stuypulse.robot.constants.Settings.Shooter.PID;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
@@ -30,10 +29,14 @@ public class ShooterSim extends Shooter {
         leftWheel = new FlywheelSim(DCMotor.getNEO(1), 1, Settings.Shooter.MOMENT_OF_INERTIA);
         rightWheel = new FlywheelSim(DCMotor.getNEO(1), 1, Settings.Shooter.MOMENT_OF_INERTIA);
 
+        double simkP = 0.481;
+        double simkI = 0.0;
+        double simkD = 0.0;
+
         leftController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
-            .add(new PIDController(PID.kP, PID.kI, PID.kD));
+            .add(new PIDController(simkP, simkI, simkD));
         rightController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
-            .add(new PIDController(PID.kP, PID.kI, PID.kD));
+            .add(new PIDController(simkP, simkI, simkD));
     }
 
     @Override
@@ -44,11 +47,6 @@ public class ShooterSim extends Shooter {
     @Override
     public double getRightShooterRPM() {
         return rightWheel.getAngularVelocityRPM();
-    }
-    
-    @Override
-    public double getFeederRPM() {
-        return 0;
     }
 
     @Override

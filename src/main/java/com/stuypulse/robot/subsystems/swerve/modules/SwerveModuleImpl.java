@@ -62,7 +62,7 @@ public class SwerveModuleImpl extends SwerveModule {
     private final Rotation2d angleOffset;
 
     private final CANSparkMax turnMotor;
-    private final CANSparkFlex driveMotor;
+    private final CANSparkMax driveMotor;
 
     private final RelativeEncoder driveEncoder;
     private final CANcoder turnEncoder;
@@ -90,7 +90,7 @@ public class SwerveModuleImpl extends SwerveModule {
 
         this.angleOffset = angleOffset;
 
-        driveMotor = new CANSparkFlex(driveID, MotorType.kBrushless);
+        driveMotor = new CANSparkMax(driveID, MotorType.kBrushless);
         turnMotor = new CANSparkMax(turnID, MotorType.kBrushless);
 
         driveEncoder = new FilteredRelativeEncoder(driveMotor);
@@ -154,6 +154,7 @@ public class SwerveModuleImpl extends SwerveModule {
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Position", driveEncoder.getPosition());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Voltage", driveController.getOutput());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Turn Voltage", angleController.getOutput());
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Turn Current", turnMotor.getOutputCurrent());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Angle Error", angleController.getError().toDegrees());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Raw Encoder Angle", Units.rotationsToDegrees(turnEncoder.getAbsolutePosition().getValueAsDouble()));
     }

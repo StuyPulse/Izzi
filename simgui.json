@@ -72,10 +72,13 @@
       "open": true
     },
     "SmartDashboard": {
-      "Intake": {
+      "Amper": {
         "open": true
       },
-      "Swerve": {
+      "Climber": {
+        "open": true
+      },
+      "Shooter": {
         "open": true
       },
       "Visualizers": {

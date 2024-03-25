@@ -34,6 +34,6 @@ public class AmperScore extends InstantCommand {
 
     @Override
     public void initialize() {
-        amper.score();
+        amper.amp();
     }
 }
