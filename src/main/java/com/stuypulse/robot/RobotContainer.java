@@ -318,10 +318,10 @@ public class RobotContainer {
         "Close Preload to C", "C to B Close", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
 
         AutonConfig CHGF = new AutonConfig("4.5 Piece CHGF", FivePieceCHGF::new,
-        "Close Preload to C", "CShoot To H (CHGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)");
+        "Close Preload to C", "CShoot to H (CHGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)");
 
         AutonConfig ADEF = new AutonConfig("4.5 Piece ADEF", FourPieceADEF::new, 
-        "Preload Shot to A", "A to D", "D to Shoot", "Shoot to E", "E to Shoot", "Shoot To F (ADEF)", "F To Shoot (ADEF)");
+        "Preload Shot to A", "A to D", "D to Shoot", "Shoot to E", "E to Shoot", "Shoot to F (ADEF)", "F to Shoot (ADEF)");
 
         AutonConfig ADE = new AutonConfig("3 ADE", ThreePieceADE::new,
             "Preload Shot to A", "A to D", "D to Ferry Shot", "Ferry Shot to E", "E to Shoot");
