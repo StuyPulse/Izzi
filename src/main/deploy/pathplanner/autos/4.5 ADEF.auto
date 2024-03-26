@@ -8,31 +8,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "First Piece To A"
+            "pathName": "Preload to A"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "A To D"
+            "pathName": "A to D"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "D To Shoot"
+            "pathName": "D to Shoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Shoot To E"
+            "pathName": "Shoot to E"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "E To Shoot"
+            "pathName": "E to Shoot"
           }
         },
         {

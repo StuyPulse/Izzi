@@ -8,7 +8,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Forward First Piece to C"
+            "pathName": "Close Preload to C"
           }
         },
         {
@@ -20,25 +20,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "H To HShoot (HGF)"
+            "pathName": "H to HShoot (HGF)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "HShoot To G (HGF)"
+            "pathName": "HShoot to G (HGF)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "G To Shoot (HGF)"
+            "pathName": "G to Shoot (HGF)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "GShoot To F (HGF)"
+            "pathName": "GShoot to F (HGF)"
           }
         }
       ]

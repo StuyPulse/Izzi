@@ -14,31 +14,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Forward First Piece to C"
+            "pathName": "Close Preload to C"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C to B 2"
+            "pathName": "C to B Close"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B To A"
+            "pathName": "B to A"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "A To E"
+            "pathName": "A to E"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "E To Shoot"
+            "pathName": "E to Shoot"
           }
         },
         {
@@ -50,7 +50,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "D To Shoot"
+            "pathName": "D to Shoot"
           }
         }
       ]

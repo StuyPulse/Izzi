@@ -18,13 +18,10 @@ public class FivePieceCHGF extends SequentialCommandGroup {
 
      public FivePieceCHGF(PathPlannerPath... paths) {
         addCommands(
-            new ParallelCommandGroup(
-                new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
-                    .andThen(new ShooterPodiumShot()),
-                
-                SwerveDriveToPose.speakerRelative(-18)
-            ),
-
+         
+            new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
+                .andThen(new ShooterPodiumShot()),
+        
             //shoot preload
             new ConveyorShootRoutine(),
 

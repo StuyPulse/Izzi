@@ -321,11 +321,11 @@ public class RobotContainer {
         AutonConfig ADEF = new AutonConfig("4.5 Piece ADEF", FourPieceADEF::new, 
         "Preload Shot to A", "A to D", "D to Shoot", "Shoot to E", "E to Shoot", "Shoot To F (ADEF)", "F To Shoot (ADEF)");
 
-        AutonConfig ADE = new AutonConfig("3 ADE", ThreePieceADE::new,
-            "Preload Shot to A", "A to D", "D to Ferry Shot", "Ferry Shot to E", "E to Shoot");
+        // AutonConfig ADE = new AutonConfig("3 ADE", ThreePieceADE::new,
+        //     "Preload Shot to A", "A to D", "D to Ferry Shot", "Ferry Shot to E", "E to Shoot");
         
-        AutonConfig DE = new AutonConfig("2 DE", TwoPieceDE::new,
-            "Preload Shot to D", "D to Ferry Shot", "Ferry Shot to E", "E to Shoot");
+        // AutonConfig DE = new AutonConfig("2 DE", TwoPieceDE::new,
+        //     "Preload Shot to D", "D to Ferry Shot", "Ferry Shot to E", "E to Shoot");
 
         // AutonConfig PodiumCloseCBAE = new AutonConfig("Podium Close 5 Piece CBAE", FivePiecePodiumForwardCBAE::new, 
         // "Forward First Piece to C", "C to B 2", "B to A","A to E", "E to Shoot");
