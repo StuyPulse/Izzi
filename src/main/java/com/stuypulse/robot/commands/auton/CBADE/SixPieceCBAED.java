@@ -21,9 +21,10 @@ public class SixPieceCBAED extends SequentialCommandGroup {
         addCommands(
             new ParallelCommandGroup(
                 new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
-                .andThen(new ShooterPodiumShot()),
+                    .andThen(new ShooterPodiumShot()),
 
-                SwerveDriveToPose.speakerRelative(-18)
+                SwerveDriveToPose.speakerRelative(-15)
+                    .withTolerance(0.1, 0.1, 3)
             ),
 
             new ConveyorShootRoutine(),

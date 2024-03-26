@@ -8,12 +8,10 @@ package com.stuypulse.robot;
 
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
-import com.fasterxml.jackson.databind.introspect.AnnotatedField;
 import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.commands.amper.*;
 import com.stuypulse.robot.commands.auton.*;
 import com.stuypulse.robot.commands.auton.ADE.*;
-import com.stuypulse.robot.commands.auton.ADEF.FourPieceADEF;
 import com.stuypulse.robot.commands.auton.CBADE.*;
 import com.stuypulse.robot.commands.auton.CHFG.FivePieceCHGF;
 import com.stuypulse.robot.commands.auton.DE.*;
@@ -297,23 +295,20 @@ public class RobotContainer {
 
         autonChooser.addOption("Mobility", new Mobility());
 
-        AutonConfig HGF = new AutonConfig("3.5 HGF", FourPieceHGF::new,
+        AutonConfig HGF = new AutonConfig("4 HGF", FourPieceHGF::new,
         "Start to H (HGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)", "F to Shoot (HGF)");
         
         AutonConfig TrackingCBAE = new AutonConfig("Tracking 5 CBAE Podium", FivePieceTrackingCBAE::new,
             "Preload to C", "C to B", "B to A", "A to E", "E to Shoot");   
 
-        AutonConfig PodiumCBAE = new AutonConfig("5 CBAE", FivePiecePodiumCBAE::new, 
-        "Preload to C", "C to B", "B to A","A to E", "E to Shoot");
-
         AutonConfig CBAED = new AutonConfig("6 CBAED", SixPieceCBAED::new,
-        "Close Preload to C", "C to B Close", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
+        "Preload to C", "C to B", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
 
         AutonConfig CHGF = new AutonConfig("4.5 Piece CHGF", FivePieceCHGF::new,
-        "Close Preload to C", "CShoot To H (CHGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)");
+        "Preload to C", "CShoot To H (CHGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)");
 
-        AutonConfig ADEF = new AutonConfig("4.5 Piece ADEF", FourPieceADEF::new, 
-        "Preload to A", "A to D", "D to Shoot", "Shoot to E", "E to Shoot", "Shoot To F (ADEF)", "F To Shoot (ADEF)");
+        // AutonConfig ADEF = new AutonConfig("4.5 Piece ADEF", FourPieceADEF::new, 
+        // "Preload to A", "A to D", "D to Shoot", "Shoot to E", "E to Shoot", "Shoot To F (ADEF)", "F To Shoot (ADEF)");
 
         // AutonConfig ADE = new AutonConfig("3 ADE", ThreePieceADE::new,
         //     "Preload to A", "A to D", "D to Ferry Shot", "Ferry Shot to E", "E to Shoot");
@@ -323,41 +318,15 @@ public class RobotContainer {
 
         // AutonConfig PodiumCloseCBAE = new AutonConfig("Podium Close 5 Piece CBAE", FivePiecePodiumForwardCBAE::new, 
         // "Forward First Piece to C", "C to B 2", "B to A","A to E", "E to Shoot");
-
-        // CBAE.registerBlue(autonChooser)
-        //     .registerRed(autonChooser);
-        
-        // BLAY_CBAE
-        //     .registerBlue(autonChooser)
-        //     .registerRed(autonChooser);
         
         HGF.registerBlue(autonChooser)
             .registerRed(autonChooser);
 
-        // TrackingCBAE
-        //     .registerBlue(autonChooser)
-        //     .registerRed(autonChooser);
-        
-        PodiumCBAE
-            .registerDefaultBlue(autonChooser)
-            .registerDefaultRed(autonChooser);
-        
-        // ADE.registerBlue(autonChooser)
-        //     .registerRed(autonChooser);
-
-        // DE.registerBlue(autonChooser)
-        //     .registerRed(autonChooser);
-
         CBAED
-            .registerBlue(autonChooser)
+            .registerDefaultBlue(autonChooser)
             .registerRed(autonChooser);
 
         CHGF
-            .registerBlue(autonChooser)
-            .registerRed(autonChooser);
-
-
-        ADEF 
             .registerBlue(autonChooser)
             .registerRed(autonChooser);
         
