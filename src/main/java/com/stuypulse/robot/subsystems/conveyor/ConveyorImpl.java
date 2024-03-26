@@ -9,42 +9,28 @@ package com.stuypulse.robot.subsystems.conveyor;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Motors.StatusFrame;
 import com.stuypulse.robot.util.FilteredRelativeEncoder;
-import com.stuypulse.stuylib.streams.booleans.BStream;
-import com.stuypulse.stuylib.streams.booleans.filters.BDebounce;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 
 public class ConveyorImpl extends Conveyor {
 
     private final CANSparkFlex gandalfMotor;
-    private final CANSparkFlex feederMotor;
 
     private final RelativeEncoder gandalfEncoder;
-    
-    private final DigitalInput shooterIR;
-    private final BStream isAtShooter;
 
     protected ConveyorImpl() {
         gandalfMotor = new CANSparkFlex(Ports.Conveyor.GANDALF, MotorType.kBrushless);
-        feederMotor = new CANSparkFlex(Ports.Conveyor.FEEDER, MotorType.kBrushless);
 
         gandalfEncoder = new FilteredRelativeEncoder(gandalfMotor);
-    
-        shooterIR = new DigitalInput(Ports.Shooter.INTAKE_IR);
 
-        isAtShooter = BStream.create(shooterIR).not().
-            filtered(new BDebounce.Rising(Settings.Conveyor.DEBOUNCE_TIME.get()));
-        
         gandalfEncoder.setVelocityConversionFactor(1.0 / 2.0);
 
         Motors.disableStatusFrames(gandalfMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
@@ -58,31 +44,18 @@ public class ConveyorImpl extends Conveyor {
     }
 
     @Override
-    public double getFeederSpeed() {
-        return feederMotor.get();
-    }
-
-    @Override
-    public boolean isNoteAtShooter() {
-        return isAtShooter.get();
-    }
-
-    @Override
     public void toShooter() {
         gandalfMotor.set(+Settings.Conveyor.GANDALF_SHOOTER_SPEED.get());
-        feederMotor.set(+Settings.Conveyor.FEEDER_SHOOTER_SPEED.get());
     }
 
     @Override
     public void toAmp() {
-        gandalfMotor.set(-Settings.Conveyor.GANDALF_AMP_SPEED.get());
-        feederMotor.set(+Settings.Conveyor.FEEDER_AMP_SPEED.get());
+        gandalfMotor.set(-Settings.Conveyor.GANDALF_AMP_SPEED);
     }
 
     @Override
     public void stop() {
         gandalfMotor.stopMotor();
-        feederMotor.stopMotor();
     }
 
     @Override
@@ -102,10 +75,5 @@ public class ConveyorImpl extends Conveyor {
         SmartDashboard.putNumber("Conveyor/Gandalf RPM", gandalfEncoder.getVelocity());
 
         SmartDashboard.putNumber("Conveyor/Gandalf Linear Velocity", gandalfEncoder.getVelocity() * Units.inchesToMeters(1.0) * Math.PI);
-
-        SmartDashboard.putNumber("Shooter/Feeder Voltage", feederMotor.getBusVoltage() * feederMotor.getAppliedOutput());
-        SmartDashboard.putNumber("Shooter/Feeder Current", feederMotor.getOutputCurrent());
-
-
     }
 }

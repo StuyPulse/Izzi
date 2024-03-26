@@ -159,9 +159,11 @@ public interface Settings {
 
             double BUZZ_INTENSITY = 1;
 
-            SmartNumber kP = new SmartNumber("SwerveAssist/kP", 2.0);
+            SmartNumber kP = new SmartNumber("SwerveAssist/kP", 6.0);
             SmartNumber kI = new SmartNumber("SwerveAssist/kI", 0.0);
             SmartNumber kD = new SmartNumber("SwerveAssist/kD", 0.0);
+
+            double FERRY_ALIGN_THRESHOLD_DEG = 5.0;
 
             double ANGLE_DERIV_RC = 0.05;
             double REDUCED_FF_DIST = 0.75;
@@ -229,7 +231,7 @@ public interface Settings {
 
         public interface FrontLeft {
             String ID = "Front Left";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(16.435547);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-172.880859);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * +0.5, LENGTH * +0.5);
         }
 
@@ -376,12 +378,9 @@ public interface Settings {
 
     public interface Conveyor {
         SmartNumber GANDALF_SHOOTER_SPEED = new SmartNumber("Conveyor/Gandalf Shooter Speed", 1.0);
-        SmartNumber GANDALF_AMP_SPEED = new SmartNumber("Conveyor/Gandalf Amp Speed", 0.75);
-        SmartNumber FEEDER_SHOOTER_SPEED = new SmartNumber("Conveyor/Feeder Shooter Speed", 1.0);
-        SmartNumber FEEDER_AMP_SPEED = new SmartNumber("Conveyor/Feeder Amp Speed", 1.0);
+        double GANDALF_AMP_SPEED = 0.75;
 
-
-        SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.0); //TODO: Tune this value
+        SmartNumber DEBOUNCE_TIME = new SmartNumber("Conveyor/Debounce Time", 0.0);
         SmartNumber RECALL_DEBOUNCE = new SmartNumber("Conveyor/Recall Delay", 1.0);
 
         SmartNumber SHOOT_WAIT_DELAY = new SmartNumber("Conveyor/Shoot Wait Delay", 0.35);
