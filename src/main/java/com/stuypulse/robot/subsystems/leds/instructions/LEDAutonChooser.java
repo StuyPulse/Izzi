@@ -25,7 +25,6 @@ public class LEDAutonChooser extends LEDSection {
         OCB("ThreePieceCB"),
         OHG("ThreePieceHG"),
         OGH("ThreePieceGH"),
-        OGHF("FourPieceGHF"),
         OHGF("FourPieceHGF"),
         OCBA("FourPieceCBA"),
         OCBAD("FivePieceCBAD"),
