@@ -8,40 +8,35 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7584394907817105,
-        "y": 5.842915600421949
+        "x": 2.6183483616967234,
+        "y": 5.861535033255252
       },
       "isLocked": false,
       "linkedName": "B"
     },
     {
       "anchor": {
-        "x": 2.661057564108011,
-        "y": 6.680400169815762
+        "x": 2.8,
+        "y": 6.94
       },
       "prevControl": {
-        "x": 2.7194867201122306,
-        "y": 6.183752343779896
+        "x": 2.646912247528199,
+        "y": 6.50431154103049
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "A"
     }
   ],
-  "rotationTargets": [],
-  "constraintZones": [],
-  "eventMarkers": [
+  "rotationTargets": [
     {
-      "name": "IntakeToShooter",
-      "waypointRelativePos": 0.3,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": []
-        }
-      }
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 60.0,
+      "rotateFast": true
     }
   ],
+  "constraintZones": [],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.0,
     "maxAcceleration": 4.0,
