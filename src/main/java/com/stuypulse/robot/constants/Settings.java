@@ -90,7 +90,7 @@ public interface Settings {
             double AMP_SPEED = 1.0;
             double TRAP_SPEED = 0.3;
             double FROM_CONVEYOR_SPEED = 0.35;
-            double TO_CONVEYOR_SPEED = 1.0;
+            double TO_CONVEYOR_SPEED = 0.3;
 
             double SCORE_MOTOR_CONVERSION = AMP_ROLLER_DIAMETER * Math.PI;
 
