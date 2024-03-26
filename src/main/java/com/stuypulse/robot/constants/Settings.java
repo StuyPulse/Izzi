@@ -163,6 +163,8 @@ public interface Settings {
             SmartNumber kI = new SmartNumber("SwerveAssist/kI", 0.0);
             SmartNumber kD = new SmartNumber("SwerveAssist/kD", 0.0);
 
+            double FERRY_ALIGN_THRESHOLD_DEG = 5.0;
+
             double ANGLE_DERIV_RC = 0.05;
             double REDUCED_FF_DIST = 0.75;
         }

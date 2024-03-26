@@ -21,11 +21,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public abstract class SwerveDriveDriveAligned extends Command {
 
-    protected final SwerveDrive swerve;
+    private final SwerveDrive swerve;
     private final Odometry odometry;
     private final VStream drive;
 
-    public final AngleController controller;
+    private final AngleController controller;
     private final IStream angleVelocity;
 
     public SwerveDriveDriveAligned(Gamepad driver) {
