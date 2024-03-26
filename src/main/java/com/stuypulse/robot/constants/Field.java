@@ -272,7 +272,8 @@ public interface Field {
 
     /*** FERRYING ***/
 
-    double FERRY_SHOT_THRESHOLD_X = 9.0;
+    double FERRY_SHOT_MAX_X = 9.0;
+    double FERRY_SHOT_MIN_FAR_X = 8.25;
 
     /**** EMPTY FIELD POSES ****/
 

@@ -154,10 +154,8 @@ public class RobotContainer {
         // score speaker no align
         driver.getRightMenuButton()
             .onTrue(new ShooterPodiumShot())
-            .whileTrue(new ConveyorToShooter()
-                .andThen(new WaitCommand(Settings.Conveyor.AT_FEEDER_WAIT_DELAY.get()))
-                .andThen(new ShooterWaitForTarget()
-                    .withTimeout(1.5))
+            .onTrue(new ShooterWaitForTarget()
+                    .withTimeout(1.5)
                 .andThen(new ConveyorShoot()))
             .onFalse(new ConveyorStop())
             .onFalse(new IntakeStop());
@@ -254,10 +252,6 @@ public class RobotContainer {
             .onFalse(new ConveyorStop())
             .onFalse(new IntakeStop())
             .onFalse(new AmperStop());
-        operator.getRightBumper()
-            .onTrue(new ConveyorToShooter())
-            .onFalse(new ConveyorStop())
-            .onFalse(new IntakeStop());
 
         operator.getTopButton()
             .onTrue(new AmperScore())
