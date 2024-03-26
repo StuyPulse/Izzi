@@ -1,6 +1,12 @@
 {
   "version": 1.0,
-  "startingPose": null,
+  "startingPose": {
+    "position": {
+      "x": 1.8676110546665539,
+      "y": 3.264181107065918
+    },
+    "rotation": 0
+  },
   "command": {
     "type": "sequential",
     "data": {
@@ -14,43 +20,43 @@
         {
           "type": "path",
           "data": {
-            "pathName": "H to HFerry"
+            "pathName": "H to HJerk"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "HFerry to G"
+            "pathName": "HJerk to G"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "G to GFerry"
+            "pathName": "G to GJerk"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "GFerry to F"
+            "pathName": "GJerk to F"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "F to FFerry"
+            "pathName": "F to FJerk"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "FFerry to E"
+            "pathName": "FJerk to E"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "E to EFerry"
+            "pathName": "E to EJerk"
           }
         },
         {

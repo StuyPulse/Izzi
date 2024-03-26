@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.07,
-        "y": 6.04
+        "x": 8.23,
+        "y": 2.49
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.04506584941718,
-        "y": 5.943158437978763
+        "x": 7.1935452512880325,
+        "y": 3.0836288833071497
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.07,
-        "y": 6.04
+        "x": 8.08,
+        "y": 3.9
       },
       "prevControl": {
-        "x": 8.02016386769298,
-        "y": 6.044044739383104
+        "x": 6.701599576038658,
+        "y": 4.011828270570121
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -25.0,
-    "rotateFast": true
+    "rotation": 0.0,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "Ferry",
+  "folder": "Jerk",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 0.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

@@ -293,10 +293,7 @@ public class RobotContainer {
     public void configureAutons() {
         autonChooser.addOption("Do Nothing", new DoNothingAuton());
         autonChooser.addOption("Mobility", new Mobility());
-
-        AutonConfig CHGFEDJerk = new AutonConfig("CHGFEDJerk", CHGFEDJerk::new,
-            "Start To H (HGF)", "H To HFerry", "HFerry to G", "G to GFerry", "GFerry to F", "F to FFerry", "FFerry to E", "E to EFerry", "E to D");
-
+        
         AutonConfig HGF = new AutonConfig("4 HGF", FourPieceHGF::new,
         "Start to H (HGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)", "F to Shoot (HGF)");
         
@@ -321,8 +318,13 @@ public class RobotContainer {
         // AutonConfig PodiumCloseCBAE = new AutonConfig("Podium Close 5 Piece CBAE", FivePiecePodiumForwardCBAE::new, 
         // "Forward First Piece to C", "C to B 2", "B to A","A to E", "E to Shoot");
         
-        AutonConfig FerryAutons = new AutonConfig("Ferry Path", FerryPathsAuton::new, "Start to H (HGF)", "H to HFerry", "HFerry to G", "G to GFerry", "GFerry To F", "F to FFerry", "FFerry to E", "E to EFerry", "E to D");
+        //TODO: auton for ferry path needs to be finished
+        AutonConfig FerryAutons = new AutonConfig("Ferry Path", FerryPathsAuton::new, 
+                "Start to H (HGF)", "H to Bot Ferry Shot", "Bot Ferry Shot to G", "G to Bot Ferry Shot", "Bot Ferry Shot to F", "F to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to D", "D to Ferry Shot");
         
+        AutonConfig CHGFEDJerk = new AutonConfig("CHGFEDJerk", CHGFEDJerk::new,
+        "Start To H (HGF)", "H To HJerk", "HJerk to G", "G to GJerk", "GJerk to F", "F to FJerk", "FJerk to E", "E to EJerk", "E to D");
+
         HGF.registerBlue(autonChooser)
             .registerRed(autonChooser);
 
@@ -334,9 +336,9 @@ public class RobotContainer {
             .registerBlue(autonChooser)
             .registerRed(autonChooser);
 
-        FerryAutons
-            .registerBlue(autonChooser)
-            .registerRed(autonChooser);
+        // FerryAutons
+        //     .registerBlue(autonChooser)
+        //     .registerRed(autonChooser);
 
         CHGFEDJerk
             .registerBlue(autonChooser)

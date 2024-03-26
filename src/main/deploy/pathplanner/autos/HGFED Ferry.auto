@@ -1,12 +1,6 @@
 {
   "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 1.8676110546665539,
-      "y": 3.264181107065918
-    },
-    "rotation": 0
-  },
+  "startingPose": null,
   "command": {
     "type": "sequential",
     "data": {
@@ -20,49 +14,55 @@
         {
           "type": "path",
           "data": {
-            "pathName": "H to HFerry"
+            "pathName": "H to Bot Ferry Shot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "HFerry to G"
+            "pathName": "Bot Ferry Shot to G"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "G to GFerry"
+            "pathName": "G to Bot Ferry Shot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "GFerry to F"
+            "pathName": "Bot Ferry Shot to F"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "F to FFerry"
+            "pathName": "F to Ferry Shot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "FFerry to E"
+            "pathName": "Ferry Shot to E"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "E to EFerry"
+            "pathName": "E to Ferry Shot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "E to D"
+            "pathName": "Ferry Shot to D"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "D to Ferry Shot"
           }
         }
       ]

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.91,
-        "y": 0.78
+        "x": 8.23,
+        "y": 2.48
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.941533790371565,
-        "y": 0.8188023203533267
+        "x": 8.261533790371566,
+        "y": 2.5188023203533265
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.91,
-        "y": 0.78
+        "x": 8.23,
+        "y": 2.48
       },
       "prevControl": {
-        "x": 7.834318903108246,
-        "y": 0.6868744311520147
+        "x": 8.154318903108246,
+        "y": 2.3868744311520147
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "Ferry",
+  "folder": "Jerk",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
