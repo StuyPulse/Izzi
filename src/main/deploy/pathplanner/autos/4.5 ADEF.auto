@@ -38,13 +38,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Shoot To F (ADEF)"
+            "pathName": "Shoot to F (ADEF)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "F To Shoot (ADEF)"
+            "pathName": "F to Shoot (ADEF)"
           }
         }
       ]
