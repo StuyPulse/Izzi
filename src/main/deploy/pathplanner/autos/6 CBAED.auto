@@ -1,12 +1,6 @@
 {
   "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 1.3103352321354325,
-      "y": 5.375733057397644
-    },
-    "rotation": 0
-  },
+  "startingPose": null,
   "command": {
     "type": "sequential",
     "data": {
@@ -14,31 +8,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Forward First Piece to C"
+            "pathName": "Preload to C"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C to B 2"
+            "pathName": "C to B"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B To A"
+            "pathName": "B to A"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "A To E"
+            "pathName": "A to E"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "E To Shoot"
+            "pathName": "E to Shoot"
           }
         },
         {
@@ -50,7 +44,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "D To Shoot"
+            "pathName": "D to Shoot"
           }
         }
       ]
