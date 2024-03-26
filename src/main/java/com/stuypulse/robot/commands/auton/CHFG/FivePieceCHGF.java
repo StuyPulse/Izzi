@@ -6,23 +6,19 @@ import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
 import com.stuypulse.robot.commands.shooter.ShooterWaitForTarget;
-import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToShoot;
-import com.stuypulse.robot.constants.Settings.Auton;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class FivePieceCHGF extends SequentialCommandGroup {
 
      public FivePieceCHGF(PathPlannerPath... paths) {
         addCommands(
-         
-            new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
-                .andThen(new ShooterPodiumShot()),
-        
+            new ShooterPodiumShot(),
+            
             //shoot preload
+            new ShooterWaitForTarget()
+                .withTimeout(1.0),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake(paths[0]),

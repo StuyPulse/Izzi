@@ -1,6 +1,7 @@
 package com.stuypulse.robot.commands.conveyor;
 
 import com.stuypulse.robot.commands.intake.IntakeStop;
+import com.stuypulse.robot.commands.shooter.ShooterWaitForTarget;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 
@@ -18,6 +19,8 @@ public class ConveyorShootRoutine extends SequentialCommandGroup {
         addCommands(
             new InstantCommand(SwerveDrive.getInstance()::stop, SwerveDrive.getInstance()),
             new ConveyorToShooter(),
+            new ShooterWaitForTarget()
+                .withTimeout(0.5),
             new ConveyorShoot(),
             new WaitCommand(delay),
             new ConveyorStop(),
