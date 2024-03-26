@@ -43,6 +43,8 @@ public class SwerveDriveToNote extends Command {
 
                 return x;
             });
+        
+        addRequirements(swerve);
     }
 
     @Override

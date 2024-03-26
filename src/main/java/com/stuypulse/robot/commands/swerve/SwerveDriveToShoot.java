@@ -80,6 +80,8 @@ public class SwerveDriveToShoot extends Command {
         distanceTolerance = 0.033;
         angleTolerance = Alignment.ANGLE_TOLERANCE.get();
         velocityTolerance = 0.1;
+
+        addRequirements(swerve);
     }
 
     private double getTargetDistance() {

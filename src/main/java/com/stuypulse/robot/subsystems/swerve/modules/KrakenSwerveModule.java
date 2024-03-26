@@ -3,7 +3,6 @@ package com.stuypulse.robot.subsystems.swerve.modules;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.MotionMagicVelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -68,10 +67,10 @@ public class KrakenSwerveModule extends SwerveModule {
         // PIDF values
         Slot0Configs slot0 = new Slot0Configs();
 
-        slot0.kS = 0.25; 
-        slot0.kV = 0.12; 
-        slot0.kA = 0.01; 
-        slot0.kP = 0.11; 
+        slot0.kS = 0.14304; 
+        slot0.kV = 0.10884; 
+        slot0.kA = 0.023145; 
+        slot0.kP = 0.07; 
         slot0.kI = 0; 
         slot0.kD = 0; 
 
@@ -84,7 +83,7 @@ public class KrakenSwerveModule extends SwerveModule {
         driveConfig.Slot0 = slot0;
 
         // Direction and neutral mode
-        driveConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        driveConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         driveConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
         // Ramp rates
@@ -102,8 +101,8 @@ public class KrakenSwerveModule extends SwerveModule {
         driveConfig.Feedback.SensorToMechanismRatio = 1.0; // 1:1 sensor to mechanism ratio
 
         // Current limits
-        // driveConfig.CurrentLimits.StatorCurrentLimit = 65; // 65A stator current limit
-        // driveConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Enable stator current limiting
+        driveConfig.CurrentLimits.StatorCurrentLimit = 65; // 65A stator current limit
+        driveConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Enable stator current limiting
 
         // driveConfig.CurrentLimits.SupplyCurrentLimit = 40; // 40A supply current limit
         // driveConfig.CurrentLimits.SupplyCurrentThreshold = 40; // 40A supply current threshold
@@ -171,7 +170,7 @@ public class KrakenSwerveModule extends SwerveModule {
             pivotMotor.setVoltage(pivotController.getOutput());
         }
 
-        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Current", driveMotor.getTorqueCurrent().getValueAsDouble());
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Current", driveMotor.getSupplyCurrent().getValueAsDouble());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Position", getPosition());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Velocity", getVelocity());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Voltage", driveMotor.getMotorVoltage().getValueAsDouble());
