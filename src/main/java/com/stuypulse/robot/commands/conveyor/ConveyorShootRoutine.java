@@ -1,6 +1,7 @@
 package com.stuypulse.robot.commands.conveyor;
 
 import com.stuypulse.robot.commands.intake.IntakeStop;
+import com.stuypulse.robot.commands.shooter.ShooterWaitForTarget;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 

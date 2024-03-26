@@ -1,12 +1,6 @@
 {
   "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 1.3103352321354325,
-      "y": 5.375733057397644
-    },
-    "rotation": 0
-  },
+  "startingPose": null,
   "command": {
     "type": "sequential",
     "data": {
@@ -14,13 +8,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Close Preload to C"
+            "pathName": "Preload to C"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C to B Close"
+            "pathName": "C to B"
           }
         },
         {
