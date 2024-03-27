@@ -10,6 +10,8 @@ import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Swerve;
 import com.stuypulse.robot.constants.Settings.Alignment.Shoot;
+import com.stuypulse.robot.subsystems.conveyor.Conveyor;
+import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
@@ -37,6 +39,8 @@ public class SwerveDriveToShootMoving extends Command {
 
     private final SwerveDrive swerve;
     private final Odometry odometry;
+    private final Conveyor conveyor;
+    private final Intake intake;
 
     private final PIDController distanceController;
     private final AnglePIDController angleController;
@@ -65,6 +69,8 @@ public class SwerveDriveToShootMoving extends Command {
 
         swerve = SwerveDrive.getInstance();
         odometry = Odometry.getInstance();
+        conveyor = Conveyor.getInstance();
+        intake = Intake.getInstance();
 
         distanceController = new PIDController(Shoot.Translation.kP, Shoot.Translation.kI, Shoot.Translation.kD);
         
@@ -137,16 +143,21 @@ public class SwerveDriveToShootMoving extends Command {
                 speeds.getY(),
                 rotation));
         
-        SmartDashboard.putNumber("Alignment/To Shoot Target Angle", toSpeaker.getAngle().plus(Rotation2d.fromDegrees(180)).getDegrees());
-    }
+        if (isAligned.get()) {
+            conveyor.toShooter();
+            intake.acquire();
+        } else {
+            conveyor.stop();
+            intake.stop();
+        }
 
-    @Override
-    public boolean isFinished() {
-        return isAligned.get();
+        SmartDashboard.putNumber("Alignment/To Shoot Target Angle", toSpeaker.getAngle().plus(Rotation2d.fromDegrees(180)).getDegrees());
     }
 
     @Override
     public void end(boolean interrupted) {
         swerve.stop();
+        intake.stop();
+        conveyor.stop();
     }
 }
