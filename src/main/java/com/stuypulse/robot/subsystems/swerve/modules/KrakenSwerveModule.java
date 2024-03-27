@@ -9,6 +9,7 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.Orchestra;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.stuypulse.robot.constants.Motors;
@@ -129,7 +130,7 @@ public class KrakenSwerveModule extends SwerveModule {
 
         Motors.Swerve.TURN_CONFIG.configure(pivotMotor);
     }
-
+    
     public double getPosition() {
         return driveMotor.getPosition().getValueAsDouble() * Encoder.Drive.POSITION_CONVERSION;
     }
@@ -152,6 +153,10 @@ public class KrakenSwerveModule extends SwerveModule {
 
     private double convertDriveVel(double speedMetersPerSecond) {
         return speedMetersPerSecond / Encoder.Drive.POSITION_CONVERSION;
+    }
+
+    public void addIntruments(Orchestra orchestra) {
+        orchestra.addInstrument(driveMotor);
     }
 
     @Override

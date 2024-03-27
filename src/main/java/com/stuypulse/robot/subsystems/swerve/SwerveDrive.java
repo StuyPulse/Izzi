@@ -45,6 +45,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.ctre.phoenix6.Orchestra;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathHolonomic;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -171,13 +172,25 @@ public class SwerveDrive extends SubsystemBase {
 
     private final StructArrayPublisher<SwerveModuleState> statesPub;
 
+    private final Orchestra music;
+
     /**
      * Creates a new Swerve Drive using the provided modules
      *
      * @param modules the modules to use
      */
     protected SwerveDrive(SwerveModule... modules) {
+
+        music = new Orchestra();
+        
         this.modules = modules;
+
+        for (KrakenSwerveModule module: (KrakenSwerveModule[]) this.modules){
+            module.addIntruments(music);
+        }
+
+        music.loadMusic("Never_Gonna_Give_You_Up.chrp");
+        
         kinematics = new SwerveDriveKinematics(getModuleOffsets());
         gyro = new AHRS(SPI.Port.kMXP);
         modules2D = new FieldObject2d[modules.length];
@@ -324,7 +337,20 @@ public class SwerveDrive extends SubsystemBase {
     public double getForwardAccelerationGs() {
         return gyro.getWorldLinearAccelY();
     }
-    
+
+    /** Music Functions **/
+    public void startMusic() {
+		music.play();
+	}
+
+    public void stopMusic() {
+        music.stop();
+    }
+
+    public void pauseMusic(){
+        music.pause();
+    }
+
     @Override
     public void periodic() {
         Odometry odometry = Odometry.getInstance();
@@ -359,4 +385,5 @@ public class SwerveDrive extends SubsystemBase {
         // show gyro angle in simulation
         gyro.setAngleAdjustment(gyro.getAngle() - Math.toDegrees(getChassisSpeeds().omegaRadiansPerSecond * Settings.DT));
     }
+
 }

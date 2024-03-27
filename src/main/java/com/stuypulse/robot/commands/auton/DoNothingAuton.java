@@ -8,6 +8,8 @@ package com.stuypulse.robot.commands.auton;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
+import com.stuypulse.robot.commands.swerve.SwerveDriveStartMusic;
+
 /*-
  * This auton does nothing... it is used as a placeholder
  *
@@ -18,6 +20,7 @@ public class DoNothingAuton extends SequentialCommandGroup {
     public DoNothingAuton() {
         addCommands(
                 /** Do a whole lot of nothing */
+                new SwerveDriveStartMusic()
                 );
     }
 }

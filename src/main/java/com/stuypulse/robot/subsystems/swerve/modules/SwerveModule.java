@@ -20,6 +20,8 @@ public abstract class SwerveModule extends SubsystemBase {
 
     private SwerveModuleState targetState;
 
+    
+
     public SwerveModule(String id, Translation2d offset) {
         this.id = id;
         this.offset = offset;
