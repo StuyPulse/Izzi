@@ -15,6 +15,7 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.RobotType;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.constants.Settings.Amper.Score;
+import com.stuypulse.robot.subsystems.leds.instructions.LED694;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAlign;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAutonChooser;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDRainbow;
@@ -90,7 +91,7 @@ public class Robot extends TimedRobot {
         robot.intake.setIdleMode(IdleMode.kCoast);
         robot.conveyor.setIdleMode(IdleMode.kCoast);
 
-        scheduler.schedule(new LEDSet(new LEDRainbow()));
+        scheduler.schedule(new LEDSet(new LED694()));
 
         SmartDashboard.putString("Robot State", "DISABLED");
     }
