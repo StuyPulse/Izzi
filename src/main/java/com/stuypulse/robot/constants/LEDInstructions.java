@@ -68,7 +68,7 @@ public interface LEDInstructions {
 
     LEDInstruction DEFAULT = LEDInstructions.OFF;
 
-    LEDInstruction INTAKE = new LEDPulseColor(SLColor.RED);
+    LEDInstruction INTAKE = new LEDPulseColor(SLColor.DARK_BLUE);
 
     LEDInstruction PICKUP = new LEDPulseColor(SLColor.RED);
 

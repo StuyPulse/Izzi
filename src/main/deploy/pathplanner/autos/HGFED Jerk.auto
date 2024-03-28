@@ -1,0 +1,73 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.8676110546665539,
+      "y": 3.264181107065918
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Start to H (HGF)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H to HJerk"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "HJerk to G"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "G to GJerk"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GJerk to F"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F to FJerk"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FJerk to E"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E to EJerk"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E to D"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

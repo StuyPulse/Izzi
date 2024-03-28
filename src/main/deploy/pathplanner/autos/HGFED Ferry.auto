@@ -1,0 +1,73 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Start to H (HGF)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H to Bot Ferry Shot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Bot Ferry Shot to G"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "G to Bot Ferry Shot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Bot Ferry Shot to F"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F to Ferry Shot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Ferry Shot to E"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E to Ferry Shot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Ferry Shot to D"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "D to Ferry Shot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

@@ -3,50 +3,47 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.135414608792181,
-        "y": 6.653128792368697
+        "x": 2.35,
+        "y": 3.58
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.815009430944788,
-        "y": 6.526818220303108
+        "x": 3.2022891174842094,
+        "y": 2.8533616716563954
       },
       "isLocked": false,
-      "linkedName": "Ferry Shot"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.17,
-        "y": 6.042894923752811
+        "x": 7.91,
+        "y": 0.78
       },
       "prevControl": {
-        "x": 7.574271630024742,
-        "y": 6.131140109502442
+        "x": 6.389309367425445,
+        "y": 0.78
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "E"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 5.55,
+    "maxAcceleration": 5.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -4.860211087167981,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Ferry",
-  "previewStartingState": {
-    "rotation": 0,
-    "velocity": 0
-  },
-  "useDefaultConstraints": true
+  "folder": "Jerk",
+  "previewStartingState": null,
+  "useDefaultConstraints": false
 }
