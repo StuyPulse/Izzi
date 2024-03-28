@@ -353,13 +353,13 @@ public interface Settings {
         double VELOCITY_CONVERSION = POSITION_CONVERSION / 60;
 
         public interface Feedforward {
-            double kS = 0.225;
-            double kV = 0.003;
-            double kA = 0.000300;
+            double kS = 0.71611;
+            double kV = 0.0032;
+            double kA = 0.076981;
         }
 
         public interface PID {
-            double kP = 0.000400;
+            double kP = 0.00020863;
             double kI = 0.0;
             double kD = 0.0;
         }
@@ -422,9 +422,9 @@ public interface Settings {
 
         public interface Shoot {
             public interface Translation {
-                SmartNumber kP = new SmartNumber("ShootAlign/Translation/kP", 6.0);
+                SmartNumber kP = new SmartNumber("ShootAlign/Translation/kP", 4.0);
                 SmartNumber kI = new SmartNumber("ShootAlign/Translation/kI", 0.0);
-                SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.02);
+                SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.05);
             }
     
             public interface Rotation {
