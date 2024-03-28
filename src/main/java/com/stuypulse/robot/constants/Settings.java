@@ -353,13 +353,13 @@ public interface Settings {
         double VELOCITY_CONVERSION = POSITION_CONVERSION / 60;
 
         public interface Feedforward {
-            double kS = 0.225;
-            double kV = 1.7319;
-            double kA = 0.076981;
+            double kS = 0.22482;
+            double kV = 1.732;
+            double kA = 0.077009;
         }
 
         public interface PID {
-            double kP = 0.017052;
+            double kP = 0.01708;
             double kI = 0.0;
             double kD = 0.0;
         }
