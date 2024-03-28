@@ -22,7 +22,7 @@ public class LED694 implements LEDInstruction {
 
     @Override
     public void setLED(AddressableLEDBuffer ledBuffer) {
-        double pulseTime = 0.01;
+        double pulseTime = 0.03;
 
 
         for (int i = 0; i < ledBuffer.getLength(); i++) {
