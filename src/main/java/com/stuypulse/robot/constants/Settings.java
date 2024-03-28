@@ -354,12 +354,12 @@ public interface Settings {
 
         public interface Feedforward {
             double kS = 0.225;
-            double kV = 1.7319;
-            double kA = 0.076981;
+            double kV = 0.003;
+            double kA = 0.000300;
         }
 
         public interface PID {
-            double kP = 0.017052;
+            double kP = 0.000400;
             double kI = 0.0;
             double kD = 0.0;
         }
