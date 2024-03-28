@@ -68,6 +68,9 @@ public class ShooterImpl extends Shooter {
         
         rpmChange = IStream.create(this::getAverageShooterRPM)
             .filtered(new HighPassFilter(Settings.Shooter.RPM_CHANGE_RC));
+
+        feederEncoder.setPositionConversionFactor(Feeder.POSITION_CONVERSION);
+        feederEncoder.setPositionConversionFactor(Feeder.VELOCITY_CONVERSION);
         
         Motors.disableStatusFrames(leftMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
         Motors.disableStatusFrames(rightMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);

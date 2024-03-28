@@ -349,15 +349,17 @@ public interface Settings {
 
     public interface Feeder {
         double GEARING = 18.0 / 30.0;
+        double POSITION_CONVERSION = GEARING;
+        double VELOCITY_CONVERSION = POSITION_CONVERSION / 60;
 
         public interface Feedforward {
-            double kS = 0.71611;
-            double kV = 0.0032;
-            double kA = 0.00040287;
+            double kS = 0.225;
+            double kV = 1.7319;
+            double kA = 0.076981;
         }
 
         public interface PID {
-            double kP = 0.00020863;
+            double kP = 0.017052;
             double kI = 0.0;
             double kD = 0.0;
         }
