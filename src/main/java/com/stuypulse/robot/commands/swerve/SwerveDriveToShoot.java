@@ -43,6 +43,7 @@ public class SwerveDriveToShoot extends Command {
     private final AnglePIDController angleController;
     private final IStream velocityError;
 
+    private final IStream distanceToSpeaker;
     private final BStream isAligned;
 
     private final Number targetDistance;
@@ -73,6 +74,9 @@ public class SwerveDriveToShoot extends Command {
             .filtered(new Derivative())
             .filtered(new LowPassFilter(0.05))
             .filtered(x -> Math.abs(x));
+
+        distanceToSpeaker = IStream.create(() -> getTranslationToSpeaker().getNorm())
+            .filtered(new LowPassFilter(0.05));
 
         isAligned = BStream.create(this::isAligned)
             .filtered(new BDebounceRC.Rising(debounce));
@@ -110,12 +114,15 @@ public class SwerveDriveToShoot extends Command {
             && velocityError.get() < velocityTolerance;
     }
 
+    private Translation2d getTranslationToSpeaker() {
+        return Field.getAllianceSpeakerPose().getTranslation().minus(odometry.getPose().getTranslation());
+    }
+
     @Override
     public void execute() {
-        Translation2d toSpeaker = Field.getAllianceSpeakerPose().getTranslation()
-            .minus(odometry.getPose().getTranslation());
+        Translation2d toSpeaker = getTranslationToSpeaker();
         
-        double speed = -distanceController.update(getTargetDistance(), toSpeaker.getNorm());
+        double speed = -distanceController.update(getTargetDistance(), distanceToSpeaker.get());
         double rotation = angleController.update(
             Angle.fromRotation2d(toSpeaker.getAngle()).add(Angle.k180deg),
             Angle.fromRotation2d(odometry.getPose().getRotation()));

@@ -98,7 +98,9 @@ public class ShooterImpl extends Shooter {
 
     @Override
     public boolean noteShot() {
-        return getLeftTargetRPM() > 0 && getRightTargetRPM() > 0 && rpmChange.get() < -Settings.Shooter.RPM_CHANGE_DIP_THRESHOLD;
+        return getLeftTargetRPM() > 0 && 
+               getRightTargetRPM() > 0 && 
+               rpmChange.get() < -Settings.Shooter.RPM_CHANGE_DIP_THRESHOLD;
     }
 
     @Override
