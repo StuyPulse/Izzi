@@ -322,7 +322,7 @@ public class RobotContainer {
         AutonConfig FerryAutons = new AutonConfig("Ferry Path", FerryPathsAuton::new, 
                 "Start to H (HGF)", "H to Bot Ferry Shot", "Bot Ferry Shot to G", "G to Bot Ferry Shot", "Bot Ferry Shot to F", "F to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to D", "D to Ferry Shot");
         
-        AutonConfig CHGFEDJerk = new AutonConfig("CHGFEDJerk", CHGFEDJerk::new,
+        AutonConfig HGFEDJerk = new AutonConfig("HGFEDJerk", HGFEDJerk::new,
         "Start To H (HGF)", "H To HJerk", "HJerk to G", "G to GJerk", "GJerk to F", "F to FJerk", "FJerk to E", "E to EJerk", "E to D");
 
         HGF.registerBlue(autonChooser)
@@ -340,7 +340,7 @@ public class RobotContainer {
         //     .registerBlue(autonChooser)
         //     .registerRed(autonChooser);
 
-        CHGFEDJerk
+        HGFEDJerk
             .registerBlue(autonChooser)
             .registerRed(autonChooser);
         
