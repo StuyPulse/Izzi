@@ -115,10 +115,18 @@ public class ShooterImpl extends Shooter {
             leftMotor.stopMotor();
             rightMotor.stopMotor();
             feederMotor.stopMotor();
+
+            SmartDashboard.putNumber("Shooter/Left Requested Voltage", 0);
+            SmartDashboard.putNumber("Shooter/Right Requested Voltage", 0);
+            SmartDashboard.putNumber("Shooter/Feeder Requested Voltage", 0);
         } else {
             leftMotor.setVoltage(leftController.getOutput());
             rightMotor.setVoltage(rightController.getOutput());
             feederMotor.setVoltage(feederController.getOutput());
+            
+            SmartDashboard.putNumber("Shooter/Left Requested Voltage", leftController.getOutput());
+            SmartDashboard.putNumber("Shooter/Right Requested Voltage", rightController.getOutput());
+            SmartDashboard.putNumber("Shooter/Feeder Requested Voltage", feederController.getOutput());
         }
 
         SmartDashboard.putNumber("Shooter/Right RPM", getRightShooterRPM());
