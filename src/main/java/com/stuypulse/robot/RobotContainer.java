@@ -319,7 +319,7 @@ public class RobotContainer {
         // "Forward First Piece to C", "C to B 2", "B to A","A to E", "E to Shoot");
         
         //TODO: auton for ferry path needs to be finished
-        AutonConfig FerryAutons = new AutonConfig("Ferry Path", FerryPathsAuton::new, 
+        AutonConfig BottomFerry = new AutonConfig("Bottom Ferry", BottomFerry::new, 
                 "Start to H (HGF)", "H to Bot Ferry Shot", "Bot Ferry Shot to G", "G to Bot Ferry Shot", "Bot Ferry Shot to F", "F to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to D", "D to Ferry Shot");
         
         AutonConfig HGFEDJerk = new AutonConfig("HGFEDJerk", HGFEDJerk::new,
@@ -336,9 +336,9 @@ public class RobotContainer {
             .registerBlue(autonChooser)
             .registerRed(autonChooser);
 
-        // FerryAutons
-        //     .registerBlue(autonChooser)
-        //     .registerRed(autonChooser);
+        BottomFerry
+            .registerBlue(autonChooser)
+            .registerRed(autonChooser);
 
         HGFEDJerk
             .registerBlue(autonChooser)

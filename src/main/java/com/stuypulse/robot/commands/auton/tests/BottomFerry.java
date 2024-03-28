@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-public class FerryPathsAuton extends SequentialCommandGroup {
+public class BottomFerry extends SequentialCommandGroup {
     
-    public FerryPathsAuton(PathPlannerPath... paths) {
+    public BottomFerry(PathPlannerPath... paths) {
         addCommands(
 
             new ParallelCommandGroup(
@@ -28,30 +28,33 @@ public class FerryPathsAuton extends SequentialCommandGroup {
             new WaitCommand(Auton.SHOOTER_STARTUP_DELAY),
 
             new FollowPathAndIntake(paths[0]),
+            SwerveDrive.getInstance().followPathCommand(paths[1]),
+
             new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
             new ShooterPodiumShot(),
 
-            SwerveDrive.getInstance().followPathCommand(paths[1]),
-            
             new FollowPathAndIntake(paths[2]),
-            new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
-            new ShooterPodiumShot(), 
-
             SwerveDrive.getInstance().followPathCommand(paths[3]),
 
-            new FollowPathAndIntake(paths[4]),
             new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
             new ShooterPodiumShot(), 
 
+
+            new FollowPathAndIntake(paths[4]),
             SwerveDrive.getInstance().followPathCommand(paths[5]),
 
-            new FollowPathAndIntake(paths[6]),
             new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
             new ShooterPodiumShot(), 
 
+            new FollowPathAndIntake(paths[6]),
             SwerveDrive.getInstance().followPathCommand(paths[7]),
-            
+
+            new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
+            new ShooterPodiumShot(), 
+
             new FollowPathAndIntake(paths[8]),
+            SwerveDrive.getInstance().followPathCommand(paths[9]),
+            
             new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
             new ShooterPodiumShot()
         ); 
