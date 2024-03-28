@@ -1,7 +1,9 @@
 package com.stuypulse.robot.commands.auton.tests;
 
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.stuypulse.robot.commands.auton.FollowPathAlignAndShoot;
 import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
+import com.stuypulse.robot.commands.auton.FollowPathTrackingAlignAndShoot;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
@@ -28,33 +30,32 @@ public class BottomFerry extends SequentialCommandGroup {
             new WaitCommand(Auton.SHOOTER_STARTUP_DELAY),
 
             new FollowPathAndIntake(paths[0]),
-            SwerveDrive.getInstance().followPathCommand(paths[1]),
 
+            SwerveDrive.getInstance().followPathWithAmpZoneAlignCommand(paths[1]),
             new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
             new ShooterPodiumShot(),
 
             new FollowPathAndIntake(paths[2]),
-            SwerveDrive.getInstance().followPathCommand(paths[3]),
 
+            SwerveDrive.getInstance().followPathWithAmpZoneAlignCommand(paths[3]),
             new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
             new ShooterPodiumShot(), 
 
-
             new FollowPathAndIntake(paths[4]),
-            SwerveDrive.getInstance().followPathCommand(paths[5]),
 
+            SwerveDrive.getInstance().followPathWithAmpZoneAlignCommand(paths[5]), 
             new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
             new ShooterPodiumShot(), 
 
             new FollowPathAndIntake(paths[6]),
-            SwerveDrive.getInstance().followPathCommand(paths[7]),
 
+            SwerveDrive.getInstance().followPathWithAmpZoneAlignCommand(paths[7]),
             new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
             new ShooterPodiumShot(), 
 
             new FollowPathAndIntake(paths[8]),
-            SwerveDrive.getInstance().followPathCommand(paths[9]),
-            
+
+            SwerveDrive.getInstance().followPathWithAmpZoneAlignCommand(paths[9]),
             new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
             new ShooterPodiumShot()
         ); 
