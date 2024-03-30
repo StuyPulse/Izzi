@@ -6,22 +6,12 @@
 
 package com.stuypulse.robot.commands.conveyor;
 
-import com.stuypulse.robot.subsystems.conveyor.Conveyor;
+import com.stuypulse.robot.subsystems.conveyor.ConveyorMode;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-
-public class ConveyorStop extends InstantCommand {
-
-    private final Conveyor conveyor;
+public class ConveyorStop extends ConveyorSetMode {
 
     public ConveyorStop() {
-        conveyor = Conveyor.getInstance();
-
-        addRequirements(conveyor);
+        super(ConveyorMode.STOP);
     }
 
-    @Override
-    public void initialize() {
-        conveyor.stop();
-    }
 }

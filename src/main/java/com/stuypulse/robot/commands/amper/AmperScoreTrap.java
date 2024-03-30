@@ -6,13 +6,15 @@
 
 package com.stuypulse.robot.commands.amper;
 
+import com.stuypulse.robot.commands.conveyor.ConveyorSetMode;
 import com.stuypulse.robot.subsystems.amper.Amper;
+import com.stuypulse.robot.subsystems.conveyor.ConveyorMode;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
-public class AmperScoreTrap extends InstantCommand {
+public class AmperScoreTrap extends ConveyorSetMode {
 
     public static Command forSeconds(double seconds) {
         return new AmperScoreTrap()
@@ -22,18 +24,11 @@ public class AmperScoreTrap extends InstantCommand {
 
     public static Command untilDone() {
         return new AmperScoreTrap()
-            .until(() -> !Amper.getInstance().hasNote());
+            .andThen(new WaitUntilCommand(() -> !Amper.getInstance().hasNote()))
+            .andThen(new AmperStop());
     }
-
-    private final Amper amper;
 
     public AmperScoreTrap() {
-        amper = Amper.getInstance();
-        addRequirements(amper);
-    }
-
-    @Override
-    public void initialize() {
-        amper.trap();
+        super(ConveyorMode.SCORE_TRAP);
     }
 }

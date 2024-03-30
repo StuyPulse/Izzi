@@ -6,22 +6,12 @@
 
 package com.stuypulse.robot.commands.conveyor;
 
-import com.stuypulse.robot.subsystems.conveyor.Conveyor;
+import com.stuypulse.robot.subsystems.conveyor.ConveyorMode;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-
-public class GandalfToShoot extends InstantCommand {
-
-    private final Conveyor conveyor;
+public class GandalfToShoot extends ConveyorSetMode {
 
     public GandalfToShoot() {
-        conveyor = Conveyor.getInstance();
-
-        addRequirements(conveyor);
+        super(ConveyorMode.GANDALF_SHOOT);
     }
 
-    @Override
-    public void initialize() {
-        conveyor.toShooter();
-    }
 }

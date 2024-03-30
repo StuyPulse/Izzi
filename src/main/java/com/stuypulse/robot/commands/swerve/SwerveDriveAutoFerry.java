@@ -3,6 +3,7 @@ package com.stuypulse.robot.commands.swerve;
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
+import com.stuypulse.robot.subsystems.conveyor.ConveyorMode;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.shooter.Shooter;
@@ -121,15 +122,12 @@ public class SwerveDriveAutoFerry extends Command {
         if (shouldMoveBack()) {
             swerve.setFieldRelativeSpeeds(new ChassisSpeeds(1, 0, 0));
 
-            intake.stop();
-            conveyor.stop();
+            conveyor.setMode(ConveyorMode.STOP);
         } else {
             if (canShoot() && Math.abs(controller.getError().toDegrees()) < Assist.FERRY_ALIGN_THRESHOLD_DEG) {
-                intake.acquire();
-                conveyor.toShooter();
+                conveyor.setMode(ConveyorMode.SHOOT);
             } else {
-                intake.stop();
-                conveyor.stop();
+                conveyor.setMode(ConveyorMode.STOP);
             }
 
             swerve.drive(drive.get(), omega);
@@ -138,8 +136,6 @@ public class SwerveDriveAutoFerry extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        intake.stop();
-        conveyor.stop();
         shooter.setTargetSpeeds(Settings.Shooter.PODIUM_SHOT);
     }
 }

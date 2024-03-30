@@ -114,7 +114,7 @@ public abstract class Amper extends SubsystemBase {
 
     /*** SCORE ROLLERS ***/
 
-    public abstract void runRoller(double speed);
+    protected abstract void runRoller(double speed);
 
     public final void amp() {
         runRoller(Settings.Amper.Score.AMP_SPEED);
@@ -122,6 +122,10 @@ public abstract class Amper extends SubsystemBase {
     
     public final void trap() {
         runRoller(Settings.Amper.Score.TRAP_SPEED);
+    }
+
+    public final void reverseTrap() {
+        runRoller(-Settings.Amper.Score.TRAP_SPEED);
     }
 
     public final void fromConveyor() {

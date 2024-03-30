@@ -34,6 +34,7 @@ import com.stuypulse.robot.constants.Settings.Swerve.Assist;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.climber.*;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
+import com.stuypulse.robot.subsystems.conveyor.ConveyorMode;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.leds.LEDController;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
@@ -186,7 +187,7 @@ public class RobotContainer {
         
         // trap outtake
         driver.getDPadDown()
-            .onTrue(new AmperScoreSpeed(-Score.TRAP_SPEED))
+            .onTrue(new ConveyorSetMode(ConveyorMode.REVERSE_TRAP))
             .onFalse(new AmperStop());
 
         // automatic swerve drive
@@ -206,7 +207,8 @@ public class RobotContainer {
         //             .deadlineWith(new LEDSet(LEDInstructions.AUTO_SWERVE))));
 
         driver.getTopButton()
-            .whileTrue(new SwerveDriveAutoFerry(driver));
+            .whileTrue(new SwerveDriveAutoFerry(driver))
+            .onFalse(new ConveyorSetMode(ConveyorMode.STOP));
 
         // climb
         driver.getRightButton()
@@ -287,7 +289,9 @@ public class RobotContainer {
         
         operator.getLeftMenuButton()
             .onTrue(new AmperToConveyor())
-            .onFalse(new AmperStop());
+            .onTrue(new ShooterSetRPM(Settings.Shooter.REVERSE))
+            .onFalse(new AmperStop())
+            .onFalse(new ShooterPodiumShot());
     }
 
     /**************/

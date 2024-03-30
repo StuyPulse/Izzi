@@ -39,6 +39,21 @@ public abstract class Conveyor extends SubsystemBase {
         return instance;
     }
 
+    private ConveyorMode mode;
+
+    public Conveyor() {
+        mode = ConveyorMode.STOP;
+    }
+
+    public final void setMode(ConveyorMode mode) {
+        // prevent mode switches:
+        // TO_AMP -> STOP
+        if (this.mode == ConveyorMode.TO_AMP && mode == ConveyorMode.STOP)
+            return;
+
+        this.mode = mode;
+    }
+
     public abstract double getGandalfSpeed();
 
     public abstract void toShooter();
@@ -48,5 +63,14 @@ public abstract class Conveyor extends SubsystemBase {
     public abstract void setIdleMode(IdleMode mode);
 
     public abstract void stop();
+
+    @Override
+    public void periodic() {
+        mode.run();
+
+        if (mode.shouldStop()) {
+            mode = ConveyorMode.STOP;
+        }
+    }
 
 }

@@ -63,9 +63,13 @@ public abstract class Shooter extends SubsystemBase {
     }
 
     public final boolean atTargetSpeeds() {
-        return Math.abs(getFeederRPM() - getFeederTargetRPM()) < Settings.Shooter.AT_RPM_EPSILON
-            && Math.abs(getLeftShooterRPM() - getLeftTargetRPM()) < Settings.Shooter.AT_RPM_EPSILON
-            && Math.abs(getRightShooterRPM() - getRightTargetRPM()) < Settings.Shooter.AT_RPM_EPSILON;
+        return atTargetSpeeds(Settings.Shooter.AT_RPM_EPSILON);
+    }
+
+    public final boolean atTargetSpeeds(double epsilon) {
+        return Math.abs(getFeederRPM() - getFeederTargetRPM()) < epsilon
+            && Math.abs(getLeftShooterRPM() - getLeftTargetRPM()) < epsilon
+            && Math.abs(getRightShooterRPM() - getRightTargetRPM()) < epsilon;
     }
 
     public abstract double getLeftShooterRPM();

@@ -6,33 +6,13 @@
 
 package com.stuypulse.robot.commands.amper;
 
-import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.subsystems.amper.Amper;
-import com.stuypulse.robot.subsystems.shooter.Shooter;
+import com.stuypulse.robot.commands.conveyor.ConveyorSetMode;
+import com.stuypulse.robot.subsystems.conveyor.ConveyorMode;
 
-import edu.wpi.first.wpilibj2.command.Command;
-
-public class AmperToConveyor extends Command {
-
-    private final Amper amper;
-    private final Shooter shooter;
+public class AmperToConveyor extends ConveyorSetMode {
 
     public AmperToConveyor() {
-        amper = Amper.getInstance();
-        shooter = Shooter.getInstance();
-
-        addRequirements(amper);
-    }
-
-    @Override
-    public void initialize() {
-        amper.toConveyor();
-        shooter.setTargetSpeeds(Settings.Shooter.REVERSE);
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        shooter.setTargetSpeeds(Settings.Shooter.PODIUM_SHOT);
+        super(ConveyorMode.AMP_REVERSE);
     }
 
 }

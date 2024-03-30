@@ -6,21 +6,13 @@
 
 package com.stuypulse.robot.commands.amper;
 
-import com.stuypulse.robot.subsystems.amper.Amper;
+import com.stuypulse.robot.commands.conveyor.ConveyorSetMode;
+import com.stuypulse.robot.subsystems.conveyor.ConveyorMode;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-
-public class AmperStop extends InstantCommand {
-
-    private final Amper amper;
+public class AmperStop extends ConveyorSetMode {
 
     public AmperStop() {
-        amper = Amper.getInstance();
-        addRequirements(amper);
+        super(ConveyorMode.STOP);
     }
 
-    @Override
-    public void initialize() {
-        amper.stopRoller();
-    }
 }
