@@ -27,7 +27,7 @@ public class SixPieceCBAED extends SequentialCommandGroup {
                     .withTolerance(0.1, 0.1, 3)
             ),
 
-            new ConveyorShootRoutine(),
+            new ConveyorShootRoutine(0.35),
 
             new FollowPathAndIntake(paths[0]),
             new SwerveDriveToShoot(),

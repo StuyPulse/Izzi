@@ -111,6 +111,11 @@ public class SwerveDriveToShoot extends Command {
     }
 
     @Override
+    public void initialize() {
+        SmartDashboard.putBoolean("A", true);
+    }
+
+    @Override
     public void execute() {
         Translation2d toSpeaker = Field.getAllianceSpeakerPose().getTranslation()
             .minus(odometry.getPose().getTranslation());
@@ -145,5 +150,6 @@ public class SwerveDriveToShoot extends Command {
     @Override
     public void end(boolean interrupted) {
         swerve.stop();
+        SmartDashboard.putBoolean("A", false);
     }
 }

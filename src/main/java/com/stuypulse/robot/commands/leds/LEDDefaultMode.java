@@ -14,6 +14,8 @@ import com.stuypulse.robot.subsystems.leds.LEDController;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDInstruction;
 import com.stuypulse.stuylib.util.StopWatch;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -43,6 +45,10 @@ public class LEDDefaultMode extends Command {
         if (amper.getTargetHeight() == Lift.TRAP_SCORE_HEIGHT
                 && amper.isAtTargetHeight(0.15))
             return LEDInstructions.GREEN;
+
+        if (DriverStation.isAutonomousEnabled() && SmartDashboard.getBoolean("A", false)) {
+            return LEDInstructions.GREEN;
+        }
 
         if (intake.hasNote()) {
             return LEDInstructions.CONTAINS_NOTE;
