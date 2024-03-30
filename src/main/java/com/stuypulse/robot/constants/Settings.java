@@ -329,7 +329,7 @@ public interface Settings {
             500,
             new SmartNumber("Shooter/Ferry Feeder RPM", 3000));
 
-        double AT_RPM_EPSILON = 125;
+        double AT_RPM_EPSILON = 200;
 
         SmartNumber RPM_CHANGE_RC = new SmartNumber("Shooter/RPM Change RC", 0.2);
         double RPM_CHANGE_DIP_THRESHOLD = 300;
@@ -342,7 +342,7 @@ public interface Settings {
 
         public interface PID {
             double kP = 0.00034711;
-            double kI = 0.0;
+            double kI = kP * 20;
             double kD = 0.0;
         }
     }
@@ -354,13 +354,13 @@ public interface Settings {
 
         public interface Feedforward {
             double kS = 0.71611;
-            double kV = 0.0035;
+            double kV = 0.0032;
             double kA = 0.076981;
         }
 
         public interface PID {
             double kP = 0.00020863;
-            double kI = 0.0;
+            double kI = kP * 20;
             double kD = 0.0;
         }
     }
@@ -408,8 +408,9 @@ public interface Settings {
 
         SmartNumber INTO_CHAIN_SPEED = new SmartNumber("Alignment/Trap/Into Chain Speed", 0.25);
 
-        double PROJECTED_POSE_RC = 0.05;
-		double NOTE_TO_GOAL_TIME = 0.5;
+		double NOTE_TO_GOAL_TIME = 0.4;
+
+        double MAX_ALIGNMENT_SPEED = 1.5;
 
         public interface Translation {
             SmartNumber kP = new SmartNumber("Alignment/Translation/kP", 5.0);
@@ -427,7 +428,7 @@ public interface Settings {
             public interface Translation {
                 SmartNumber kP = new SmartNumber("ShootAlign/Translation/kP", 5.0);
                 SmartNumber kI = new SmartNumber("ShootAlign/Translation/kI", 0.0);
-                SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.05);
+                SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.1); // try 0.1
             }
     
             public interface Rotation {

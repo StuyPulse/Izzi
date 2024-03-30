@@ -50,8 +50,7 @@ public class FollowPathTrackingShoot extends SequentialCommandGroup {
         robotPose = VStream.create(() -> new Vector2D(odometry.getPose().getTranslation()));
 
         robotVelocity = robotPose
-            .filtered(new VDerivative())
-            .filtered(new VLowPassFilter(Alignment.PROJECTED_POSE_RC));
+            .filtered(new VDerivative());
 
         projectedRobotPose = robotVelocity
             .filtered(v -> v.mul(Alignment.NOTE_TO_GOAL_TIME))

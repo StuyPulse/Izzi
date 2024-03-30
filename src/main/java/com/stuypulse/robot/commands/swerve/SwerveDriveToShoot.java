@@ -14,6 +14,7 @@ import com.stuypulse.robot.constants.Settings.Alignment.Shoot;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
+import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.math.Angle;
@@ -24,6 +25,7 @@ import com.stuypulse.stuylib.streams.numbers.IStream;
 import com.stuypulse.stuylib.streams.numbers.filters.Derivative;
 import com.stuypulse.stuylib.streams.numbers.filters.LowPassFilter;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -39,7 +41,7 @@ public class SwerveDriveToShoot extends Command {
     private final SwerveDrive swerve;
     private final Odometry odometry;
 
-    private final PIDController distanceController;
+    private final Controller distanceController;
     private final AnglePIDController angleController;
     private final IStream velocityError;
 
@@ -66,7 +68,11 @@ public class SwerveDriveToShoot extends Command {
         swerve = SwerveDrive.getInstance();
         odometry = Odometry.getInstance();
 
-        distanceController = new PIDController(Shoot.Translation.kP, Shoot.Translation.kI, Shoot.Translation.kD);
+        distanceController = new PIDController(Shoot.Translation.kP, Shoot.Translation.kI, Shoot.Translation.kD)
+            .setOutputFilter(
+                x -> -x,
+                x -> MathUtil.clamp(x, -Alignment.MAX_ALIGNMENT_SPEED, +Alignment.MAX_ALIGNMENT_SPEED)
+            );
         
         angleController = new AnglePIDController(Shoot.Rotation.kP, Shoot.Rotation.kI, Shoot.Rotation.kD);
 
@@ -98,11 +104,6 @@ public class SwerveDriveToShoot extends Command {
         return this;
     }
     
-    public SwerveDriveToShoot withDistanceConstants(double p, double i, double d) {
-        distanceController.setPID(p, i, d);
-        return this;
-    }
-    
     public SwerveDriveToShoot withRotationConstants(double p, double i, double d) {
         angleController.setPID(p, i, d);
         return this;
@@ -127,7 +128,7 @@ public class SwerveDriveToShoot extends Command {
     public void execute() {
         Rotation2d toSpeaker = getTranslationToSpeaker().getAngle();
         
-        double speed = -distanceController.update(getTargetDistance(), distanceToSpeaker.get());
+        double speed = distanceController.update(getTargetDistance(), distanceToSpeaker.get());
         double rotation = angleController.update(
             Angle.fromRotation2d(toSpeaker).add(Angle.k180deg),
             Angle.fromRotation2d(odometry.getPose().getRotation()));

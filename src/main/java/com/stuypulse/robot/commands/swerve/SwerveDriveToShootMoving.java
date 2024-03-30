@@ -14,6 +14,7 @@ import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
+import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.math.Angle;
@@ -24,9 +25,11 @@ import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 import com.stuypulse.stuylib.streams.numbers.IStream;
 import com.stuypulse.stuylib.streams.numbers.filters.LowPassFilter;
 import com.stuypulse.stuylib.streams.vectors.VStream;
-import com.stuypulse.stuylib.streams.vectors.filters.VDerivative;
 import com.stuypulse.stuylib.streams.vectors.filters.VLowPassFilter;
+import com.stuypulse.stuylib.streams.vectors.filters.VTimedMovingAverage;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -44,14 +47,13 @@ public class SwerveDriveToShootMoving extends Command {
     private final Conveyor conveyor;
     private final Intake intake;
 
-    private final PIDController distanceController;
+    private final Controller distanceController;
     private final AnglePIDController angleController;
 
     private final IStream distanceToSpeaker;
     private final BStream isAligned;
 
     private final VStream robotPose;
-    private final VStream robotVelocity;
     private final VStream projectedRobotPose;
 
     private final Number targetDistance;
@@ -64,7 +66,7 @@ public class SwerveDriveToShootMoving extends Command {
     }
 
     public SwerveDriveToShootMoving(Number targetDistance) {
-        this(targetDistance, Alignment.DEBOUNCE_TIME);
+        this(targetDistance, 0.1);
     }
 
     public SwerveDriveToShootMoving(Number targetDistance, double debounce) {
@@ -75,28 +77,30 @@ public class SwerveDriveToShootMoving extends Command {
         conveyor = Conveyor.getInstance();
         intake = Intake.getInstance();
 
-        distanceController = new PIDController(Shoot.Translation.kP, Shoot.Translation.kI, Shoot.Translation.kD);
+        distanceController = new PIDController(Shoot.Translation.kP, Shoot.Translation.kI, Shoot.Translation.kD)
+            .setOutputFilter(
+                x -> -x,
+                x -> MathUtil.clamp(x, -Alignment.MAX_ALIGNMENT_SPEED, +Alignment.MAX_ALIGNMENT_SPEED)
+            );
         
         angleController = new AnglePIDController(Shoot.Rotation.kP, Shoot.Rotation.kI, Shoot.Rotation.kD);
 
         robotPose = VStream.create(() -> new Vector2D(odometry.getPose().getTranslation()));
 
-        robotVelocity = robotPose
-            .filtered(new VDerivative())
-            .filtered(new VLowPassFilter(Alignment.PROJECTED_POSE_RC))
-            .polling(0.02);
-
-        projectedRobotPose = robotVelocity
+        projectedRobotPose = VStream.create(() -> new Vector2D(odometry.getRobotVelocity()))
             .filtered(v -> v.mul(Alignment.NOTE_TO_GOAL_TIME))
-            .add(robotPose);
+            .add(robotPose)
+            .filtered(
+                new VTimedMovingAverage(0.1),
+                new VLowPassFilter(0.1)
+            );
 
-        distanceToSpeaker = IStream.create(() -> Field.getAllianceSpeakerPose().getTranslation().minus(projectedRobotPose.get().getTranslation2d()).getNorm())
-            .filtered(new LowPassFilter(0.05));
+        distanceToSpeaker = IStream.create(() -> Field.getAllianceSpeakerPose().getTranslation().minus(projectedRobotPose.get().getTranslation2d()).getNorm());
 
         isAligned = BStream.create(this::isAligned)
-            .filtered(new BDebounceRC.Rising(debounce));
+            .filtered(new BDebounceRC.Both(debounce));
         
-        distanceTolerance = 0.033;
+        distanceTolerance = 0.08;
         angleTolerance = Alignment.ANGLE_TOLERANCE.get();
 
         addRequirements(swerve);
@@ -112,11 +116,6 @@ public class SwerveDriveToShootMoving extends Command {
         return this;
     }
     
-    public SwerveDriveToShootMoving withDistanceConstants(double p, double i, double d) {
-        distanceController.setPID(p, i, d);
-        return this;
-    }
-    
     public SwerveDriveToShootMoving withRotationConstants(double p, double i, double d) {
         angleController.setPID(p, i, d);
         return this;
@@ -129,11 +128,14 @@ public class SwerveDriveToShootMoving extends Command {
 
     @Override
     public void execute() {
+        Odometry.getInstance().getField().getObject("Projected Pose")
+            .setPose(new Pose2d(projectedRobotPose.get().getTranslation2d(), odometry.getPose().getRotation()));
+
         Rotation2d toSpeaker = Field.getAllianceSpeakerPose().getTranslation()
             .minus(projectedRobotPose.get().getTranslation2d())
             .getAngle();
         
-        double speed = -distanceController.update(getTargetDistance(), distanceToSpeaker.get());
+        double speed = distanceController.update(getTargetDistance(), distanceToSpeaker.get());
         double rotation = angleController.update(
             Angle.fromRotation2d(toSpeaker).add(Angle.k180deg),
             Angle.fromRotation2d(odometry.getPose().getRotation()));
@@ -160,8 +162,8 @@ public class SwerveDriveToShootMoving extends Command {
         }
 
         SmartDashboard.putNumber("Alignment/To Shoot Target Angle", toSpeaker.plus(Rotation2d.fromDegrees(180)).getDegrees());
-        SmartDashboard.putNumber("Alignment/Velocity X", robotVelocity.get().x);
-        SmartDashboard.putNumber("Alignment/Velocity Y", robotVelocity.get().y);
+        SmartDashboard.putNumber("Alignment/Distance Error", distanceController.getError());
+        SmartDashboard.putNumber("Alignment/Distance Output", distanceController.getOutput());
     }
 
     @Override
