@@ -83,7 +83,8 @@ public class SwerveDriveToShootMoving extends Command {
 
         robotVelocity = robotPose
             .filtered(new VDerivative())
-            .filtered(new VLowPassFilter(Alignment.PROJECTED_POSE_RC));
+            .filtered(new VLowPassFilter(Alignment.PROJECTED_POSE_RC))
+            .polling(0.02);
 
         projectedRobotPose = robotVelocity
             .filtered(v -> v.mul(Alignment.NOTE_TO_GOAL_TIME))
