@@ -4,6 +4,8 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.stuypulse.robot.commands.conveyor.ConveyorShoot;
 import com.stuypulse.robot.commands.conveyor.ConveyorStop;
 import com.stuypulse.robot.commands.intake.IntakeStop;
+import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
+import com.stuypulse.robot.commands.shooter.ShooterWaitForTarget;
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Alignment;
@@ -14,12 +16,13 @@ import com.stuypulse.stuylib.streams.vectors.VStream;
 import com.stuypulse.stuylib.streams.vectors.filters.VDerivative;
 import com.stuypulse.stuylib.streams.vectors.filters.VLowPassFilter;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
-public class FollowPathTrackingShoot extends ParallelCommandGroup {
+public class FollowPathTrackingShoot extends SequentialCommandGroup {
 
     private final Odometry odometry;
 
@@ -30,12 +33,15 @@ public class FollowPathTrackingShoot extends ParallelCommandGroup {
     private double targetDistance;
     private double distanceTolerance;
 
-    private boolean shouldShoot() {
-        double distance =  Field.getAllianceSpeakerPose().getTranslation()
-            .minus(projectedRobotPose.get().getTranslation2d())
+    public static boolean shouldShoot() {
+        Translation2d speaker = Field.getAllianceSpeakerPose().getTranslation();
+        double distance = speaker
+            // .minus(projectedRobotPose.get().getTranslation2d())
+            .minus(Odometry.getInstance().getPose().getTranslation())
             .getNorm();
 
-        return Math.abs(targetDistance - distance) < distanceTolerance;
+        // return Math.abs(targetDistance - distance) < distanceTolerance;
+        return distance > 2.25;
     }
     
     public FollowPathTrackingShoot(PathPlannerPath path) {
@@ -55,13 +61,17 @@ public class FollowPathTrackingShoot extends ParallelCommandGroup {
         targetDistance = Alignment.PODIUM_SHOT_DISTANCE.get();
         
         addCommands(
-            SwerveDrive.getInstance().followPathWithSpeakerAlignCommand(path),
-            new SequentialCommandGroup(
-                new WaitUntilCommand(this::shouldShoot),
-                new ConveyorShoot(),
-                new WaitCommand(Settings.Conveyor.SHOOT_WAIT_DELAY.get()),
-                new ConveyorStop(),
-                new IntakeStop()
+            new ShooterPodiumShot(),
+            new ShooterWaitForTarget(),
+            new ParallelCommandGroup(
+                SwerveDrive.getInstance().followPathWithSpeakerAlignCommand(path),
+                new SequentialCommandGroup(
+                    new WaitUntilCommand(FollowPathTrackingShoot::shouldShoot),
+                    new ConveyorShoot(),
+                    new WaitCommand(Settings.Conveyor.SHOOT_WAIT_DELAY.get()),
+                    new ConveyorStop(),
+                    new IntakeStop()
+                )
             )
         );
     }

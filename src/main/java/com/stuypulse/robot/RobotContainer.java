@@ -305,8 +305,8 @@ public class RobotContainer {
         AutonConfig TrackingCBAE = new AutonConfig("Tracking 5 CBAE Podium", FivePieceTrackingCBAE::new,
             "Preload to C", "C to B", "B to A", "A to E", "E to Shoot");   
 
-        AutonConfig CBAED = new AutonConfig("6 CBAED", SixPieceCBAED::new,
-        "Preload to C", "C to B", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
+        AutonConfig CBAED = new AutonConfig("5 CBAE", SixPieceCBAED::new,
+        "Preload to C Close", "Close Preload to C", "C to B", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
 
         AutonConfig CHGF = new AutonConfig("4.5 Piece CHGF", FivePieceCHGF::new,
         "Preload to C", "CShoot To H (CHGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)");

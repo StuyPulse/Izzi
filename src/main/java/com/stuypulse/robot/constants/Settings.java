@@ -354,7 +354,7 @@ public interface Settings {
 
         public interface Feedforward {
             double kS = 0.71611;
-            double kV = 0.0032;
+            double kV = 0.0035;
             double kA = 0.076981;
         }
 
@@ -425,13 +425,13 @@ public interface Settings {
 
         public interface Shoot {
             public interface Translation {
-                SmartNumber kP = new SmartNumber("ShootAlign/Translation/kP", 4.0);
+                SmartNumber kP = new SmartNumber("ShootAlign/Translation/kP", 5.0);
                 SmartNumber kI = new SmartNumber("ShootAlign/Translation/kI", 0.0);
                 SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.05);
             }
     
             public interface Rotation {
-                SmartNumber kP = new SmartNumber("ShootAlign/Rotation/kP", 8.0);
+                SmartNumber kP = new SmartNumber("ShootAlign/Rotation/kP", 5.0);
                 SmartNumber kI = new SmartNumber("ShootAlign/Rotation/kI", 0.0);
                 SmartNumber kD = new SmartNumber("ShootAlign/Rotation/kD", 0.0);
             }

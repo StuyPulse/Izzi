@@ -21,6 +21,8 @@ import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
+import com.stuypulse.stuylib.streams.numbers.IStream;
+import com.stuypulse.stuylib.streams.numbers.filters.LowPassFilter;
 import com.stuypulse.stuylib.streams.vectors.VStream;
 import com.stuypulse.stuylib.streams.vectors.filters.VDerivative;
 import com.stuypulse.stuylib.streams.vectors.filters.VLowPassFilter;
@@ -45,6 +47,7 @@ public class SwerveDriveToShootMoving extends Command {
     private final PIDController distanceController;
     private final AnglePIDController angleController;
 
+    private final IStream distanceToSpeaker;
     private final BStream isAligned;
 
     private final VStream robotPose;
@@ -86,6 +89,9 @@ public class SwerveDriveToShootMoving extends Command {
             .filtered(v -> v.mul(Alignment.NOTE_TO_GOAL_TIME))
             .add(robotPose);
 
+        distanceToSpeaker = IStream.create(() -> Field.getAllianceSpeakerPose().getTranslation().minus(projectedRobotPose.get().getTranslation2d()).getNorm())
+            .filtered(new LowPassFilter(0.05));
+
         isAligned = BStream.create(this::isAligned)
             .filtered(new BDebounceRC.Rising(debounce));
         
@@ -122,17 +128,18 @@ public class SwerveDriveToShootMoving extends Command {
 
     @Override
     public void execute() {
-        Translation2d toSpeaker = Field.getAllianceSpeakerPose().getTranslation()
-            .minus(projectedRobotPose.get().getTranslation2d());
+        Rotation2d toSpeaker = Field.getAllianceSpeakerPose().getTranslation()
+            .minus(projectedRobotPose.get().getTranslation2d())
+            .getAngle();
         
-        double speed = -distanceController.update(getTargetDistance(), toSpeaker.getNorm());
+        double speed = -distanceController.update(getTargetDistance(), distanceToSpeaker.get());
         double rotation = angleController.update(
-            Angle.fromRotation2d(toSpeaker.getAngle()).add(Angle.k180deg),
+            Angle.fromRotation2d(toSpeaker).add(Angle.k180deg),
             Angle.fromRotation2d(odometry.getPose().getRotation()));
 
         Translation2d speeds = new Translation2d(
             speed,
-            toSpeaker.getAngle());
+            toSpeaker);
 
         if (Math.abs(rotation) < Swerve.ALIGN_OMEGA_DEADBAND.get())
             rotation = 0;
@@ -151,7 +158,9 @@ public class SwerveDriveToShootMoving extends Command {
             intake.stop();
         }
 
-        SmartDashboard.putNumber("Alignment/To Shoot Target Angle", toSpeaker.getAngle().plus(Rotation2d.fromDegrees(180)).getDegrees());
+        SmartDashboard.putNumber("Alignment/To Shoot Target Angle", toSpeaker.plus(Rotation2d.fromDegrees(180)).getDegrees());
+        SmartDashboard.putNumber("Alignment/Velocity X", robotVelocity.get().x);
+        SmartDashboard.putNumber("Alignment/Velocity Y", robotVelocity.get().y);
     }
 
     @Override
