@@ -406,6 +406,9 @@ public interface Settings {
 
         SmartNumber INTO_CHAIN_SPEED = new SmartNumber("Alignment/Trap/Into Chain Speed", 0.25);
 
+        double PROJECTED_POSE_RC = 0.05;
+		double NOTE_TO_GOAL_TIME = 0.5;
+
         public interface Translation {
             SmartNumber kP = new SmartNumber("Alignment/Translation/kP", 5.0);
             SmartNumber kI = new SmartNumber("Alignment/Translation/kI", 0.0);
