@@ -342,7 +342,7 @@ public interface Settings {
 
         public interface PID {
             double kP = 0.00034711;
-            double kI = kP * 20;
+            double kI = 0;
             double kD = 0.0;
         }
     }
@@ -354,13 +354,13 @@ public interface Settings {
 
         public interface Feedforward {
             double kS = 0.71611;
-            double kV = 0.0032;
+            double kV = 0.00335;
             double kA = 0.076981;
         }
 
         public interface PID {
             double kP = 0.00020863;
-            double kI = kP * 20;
+            double kI = 0.0;
             double kD = 0.0;
         }
     }
@@ -391,7 +391,7 @@ public interface Settings {
     }
 
     public interface Alignment {
-        double DEBOUNCE_TIME = 0.2;
+        double DEBOUNCE_TIME = 0.05;
 
         SmartNumber X_TOLERANCE = new SmartNumber("Alignment/X Tolerance", 0.1);
         SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
@@ -410,7 +410,7 @@ public interface Settings {
 
 		double NOTE_TO_GOAL_TIME = 0.4;
 
-        double MAX_ALIGNMENT_SPEED = 1.5;
+        double MAX_ALIGNMENT_SPEED = 2.5;
 
         public interface Translation {
             SmartNumber kP = new SmartNumber("Alignment/Translation/kP", 5.0);
@@ -426,15 +426,15 @@ public interface Settings {
 
         public interface Shoot {
             public interface Translation {
-                SmartNumber kP = new SmartNumber("ShootAlign/Translation/kP", 5.0);
+                SmartNumber kP = new SmartNumber("ShootAlign/Translation/kP", 7.5);
                 SmartNumber kI = new SmartNumber("ShootAlign/Translation/kI", 0.0);
-                SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.1); // try 0.1
+                SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.8);
             }
     
             public interface Rotation {
-                SmartNumber kP = new SmartNumber("ShootAlign/Rotation/kP", 5.0);
+                SmartNumber kP = new SmartNumber("ShootAlign/Rotation/kP", 6.0);
                 SmartNumber kI = new SmartNumber("ShootAlign/Rotation/kI", 0.0);
-                SmartNumber kD = new SmartNumber("ShootAlign/Rotation/kD", 0.0);
+                SmartNumber kD = new SmartNumber("ShootAlign/Rotation/kD", 0.4);
             }
         }
     }

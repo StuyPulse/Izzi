@@ -61,13 +61,13 @@ public class ShooterImpl extends Shooter {
 
         leftController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
             .add(new PIDController(PID.kP, PID.kI, PID.kD)
-                .setIntegratorFilter(600, 5.0 / PID.kI));
+                .setIntegratorFilter(1000, 0.5 / PID.kI));
         rightController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
             .add(new PIDController(PID.kP, PID.kI, PID.kD)
-                .setIntegratorFilter(600, 5.0 / PID.kI));
+                .setIntegratorFilter(1000, 0.5 / PID.kI));
         feederController = new MotorFeedforward(Feeder.Feedforward.kS, Feeder.Feedforward.kV, Feeder.Feedforward.kA).velocity()
             .add(new PIDController(Feeder.PID.kP, Feeder.PID.kI, Feeder.PID.kD)
-                .setIntegratorFilter(600, 5.0 / PID.kI));
+                .setIntegratorFilter(1000, 1.0 / PID.kI));
         
         rpmChange = IStream.create(this::getAverageShooterRPM)
             .filtered(new HighPassFilter(Settings.Shooter.RPM_CHANGE_RC));

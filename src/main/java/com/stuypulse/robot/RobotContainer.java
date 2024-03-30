@@ -207,6 +207,7 @@ public class RobotContainer {
 
         driver.getTopButton()
             .whileTrue(new SwerveDriveAutoFerry(driver));
+            // .whileTrue(new SwerveDriveToShootMoving());
 
         // climb
         driver.getRightButton()
@@ -323,11 +324,11 @@ public class RobotContainer {
         // AutonConfig PodiumCloseCBAE = new AutonConfig("Podium Close 5 Piece CBAE", FivePiecePodiumForwardCBAE::new, 
         // "Forward First Piece to C", "C to B 2", "B to A","A to E", "E to Shoot");
         
-        HGF.registerBlue(autonChooser)
+        HGF.registerDefaultBlue(autonChooser)
             .registerRed(autonChooser);
 
         CBAED
-            .registerDefaultBlue(autonChooser)
+            .registerBlue(autonChooser)
             .registerRed(autonChooser);
 
         CHGF
