@@ -43,6 +43,7 @@ public class SwerveDriveToShoot extends Command {
     private final AnglePIDController angleController;
     private final IStream velocityError;
 
+    private final IStream distanceToSpeaker;
     private final BStream isAligned;
 
     private final Number targetDistance;
@@ -73,6 +74,9 @@ public class SwerveDriveToShoot extends Command {
             .filtered(new Derivative())
             .filtered(new LowPassFilter(0.05))
             .filtered(x -> Math.abs(x));
+
+        distanceToSpeaker = IStream.create(() -> getTranslationToSpeaker().getNorm())
+            .filtered(new LowPassFilter(0.05));
 
         isAligned = BStream.create(this::isAligned)
             .filtered(new BDebounceRC.Rising(debounce));
@@ -110,19 +114,22 @@ public class SwerveDriveToShoot extends Command {
             && velocityError.get() < velocityTolerance;
     }
 
+    private Translation2d getTranslationToSpeaker() {
+        return Field.getAllianceSpeakerPose().getTranslation().minus(odometry.getPose().getTranslation());
+    }
+
     @Override
     public void execute() {
-        Translation2d toSpeaker = Field.getAllianceSpeakerPose().getTranslation()
-            .minus(odometry.getPose().getTranslation());
+        Rotation2d toSpeaker = getTranslationToSpeaker().getAngle();
         
-        double speed = -distanceController.update(getTargetDistance(), toSpeaker.getNorm());
+        double speed = -distanceController.update(getTargetDistance(), distanceToSpeaker.get());
         double rotation = angleController.update(
-            Angle.fromRotation2d(toSpeaker.getAngle()).add(Angle.k180deg),
+            Angle.fromRotation2d(toSpeaker).add(Angle.k180deg),
             Angle.fromRotation2d(odometry.getPose().getRotation()));
 
         Translation2d speeds = new Translation2d(
             speed,
-            toSpeaker.getAngle());
+            toSpeaker);
 
         if (Math.abs(rotation) < Swerve.ALIGN_OMEGA_DEADBAND.get())
             rotation = 0;
@@ -134,7 +141,7 @@ public class SwerveDriveToShoot extends Command {
                 rotation));
         
         SmartDashboard.putNumber("Alignment/Velocity Error", velocityError.get());
-        SmartDashboard.putNumber("Alignment/To Shoot Target Angle", toSpeaker.getAngle().plus(Rotation2d.fromDegrees(180)).getDegrees());
+        SmartDashboard.putNumber("Alignment/To Shoot Target Angle", toSpeaker.plus(Rotation2d.fromDegrees(180)).getDegrees());
     }
 
     @Override
