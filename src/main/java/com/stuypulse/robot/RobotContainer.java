@@ -175,6 +175,9 @@ public class RobotContainer {
             .onTrue(new AmperScoreTrap())
             .onFalse(new AmperStop());
 
+        driver.getDPadLeft()
+            .whileTrue(SwerveDriveToPose.speakerRelative(-45));
+
         // lift to trap
         driver.getDPadRight()
             .onTrue(new ConditionalCommand(new ConveyorToAmp(), new DoNothingCommand(), () -> Intake.getInstance().hasNote())

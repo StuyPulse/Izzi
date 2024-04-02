@@ -29,17 +29,17 @@ public class FourPieceHGF extends SequentialCommandGroup {
             ),
 
             new ShooterWaitForTarget(),
-            new ConveyorShootRoutine(),
+            ConveyorShootRoutine.untilNoteShot(0.75),
             // new ShooterStop(),
 
             new FollowPathAndIntake(paths[0]),
-            new FollowPathAlignAndShoot(paths[1], new SwerveDriveToShoot()
-                .withTolerance(0.06, 5)),
+            new FollowPathAlignAndShoot(paths[1], SwerveDriveToPose.speakerRelative(-45)
+                .withTolerance(0.06, 0.06, 5), true),
             new FollowPathAndIntake(paths[2]),
-            new FollowPathAlignAndShoot(paths[3], new SwerveDriveToShoot()
-                .withTolerance(0.05, 5)),
+            new FollowPathAlignAndShoot(paths[3], SwerveDriveToPose.speakerRelative(-45)
+                .withTolerance(0.05, 0.05, 5), true),
             new FollowPathAndIntake(paths[4]),
-            new FollowPathAlignAndShoot(paths[5], new SwerveDriveToShoot())
+            new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45), true)
         );
     }
 

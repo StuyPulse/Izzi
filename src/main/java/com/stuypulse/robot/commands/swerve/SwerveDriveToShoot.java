@@ -121,7 +121,7 @@ public class SwerveDriveToShoot extends Command {
 
     @Override
     public void initialize() {
-        SmartDashboard.putBoolean("A", true);
+        SmartDashboard.putBoolean("AutonAlignment", true);
     }
 
     @Override
@@ -158,6 +158,6 @@ public class SwerveDriveToShoot extends Command {
     @Override
     public void end(boolean interrupted) {
         swerve.stop();
-        SmartDashboard.putBoolean("A", false);
+        SmartDashboard.putBoolean("AutonAlignment", false);
     }
 }

@@ -184,7 +184,7 @@ public interface Settings {
                     MAX_ANGULAR_ACCELERATION.get());
 
             PIDConstants XY = new PIDConstants(2.5, 0, 0.02);
-            PIDConstants THETA = new PIDConstants(10, 0, 0.1);
+            PIDConstants THETA = new PIDConstants(4, 0, 0.1);
         }
 
         public interface Encoder {
@@ -413,15 +413,15 @@ public interface Settings {
         double MAX_ALIGNMENT_SPEED = 2.5;
 
         public interface Translation {
-            SmartNumber kP = new SmartNumber("Alignment/Translation/kP", 5.0);
+            SmartNumber kP = new SmartNumber("Alignment/Translation/kP", 6.0);
             SmartNumber kI = new SmartNumber("Alignment/Translation/kI", 0.0);
-            SmartNumber kD = new SmartNumber("Alignment/Translation/kD", 0.0);
+            SmartNumber kD = new SmartNumber("Alignment/Translation/kD", 0.6);
         }
 
         public interface Rotation {
-            SmartNumber kP = new SmartNumber("Alignment/Rotation/kP", 4.0);
+            SmartNumber kP = new SmartNumber("Alignment/Rotation/kP", 6.0);
             SmartNumber kI = new SmartNumber("Alignment/Rotation/kI", 0.0);
-            SmartNumber kD = new SmartNumber("Alignment/Rotation/kD", 0.0);
+            SmartNumber kD = new SmartNumber("Alignment/Rotation/kD", 0.4);
         }
 
         public interface Shoot {

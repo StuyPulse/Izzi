@@ -9,6 +9,7 @@ package com.stuypulse.robot.commands.leds;
 import com.stuypulse.robot.constants.LEDInstructions;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.subsystems.amper.Amper;
+import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.leds.LEDController;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDInstruction;
@@ -45,8 +46,12 @@ public class LEDDefaultMode extends Command {
         if (amper.getTargetHeight() == Lift.TRAP_SCORE_HEIGHT
                 && amper.isAtTargetHeight(0.15))
             return LEDInstructions.GREEN;
+        
+        if (DriverStation.isAutonomousEnabled() && Math.abs(Conveyor.getInstance().getGandalfSpeed()) > 0) {
+            return LEDInstructions.PURPLE;
+        }
 
-        if (DriverStation.isAutonomousEnabled() && SmartDashboard.getBoolean("A", false)) {
+        if (DriverStation.isAutonomousEnabled() && SmartDashboard.getBoolean("AutonAlignment", false)) {
             return LEDInstructions.GREEN;
         }
 
