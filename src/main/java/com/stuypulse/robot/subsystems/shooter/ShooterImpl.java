@@ -60,14 +60,20 @@ public class ShooterImpl extends Shooter {
         feederEncoder.setVelocityConversionFactor(Feeder.GEARING);
 
         leftController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
-            .add(new PIDController(PID.kP, PID.kI, PID.kD));
+            .add(new PIDController(PID.kP, PID.kI, PID.kD)
+                .setIntegratorFilter(1000, 0.5 / PID.kI));
         rightController = new MotorFeedforward(Feedforward.kS, Feedforward.kV, Feedforward.kA).velocity()
-            .add(new PIDController(PID.kP, PID.kI, PID.kD));
+            .add(new PIDController(PID.kP, PID.kI, PID.kD)
+                .setIntegratorFilter(1000, 0.5 / PID.kI));
         feederController = new MotorFeedforward(Feeder.Feedforward.kS, Feeder.Feedforward.kV, Feeder.Feedforward.kA).velocity()
-            .add(new PIDController(Feeder.PID.kP, Feeder.PID.kI, Feeder.PID.kD));
+            .add(new PIDController(Feeder.PID.kP, Feeder.PID.kI, Feeder.PID.kD)
+                .setIntegratorFilter(1000, 1.0 / PID.kI));
         
         rpmChange = IStream.create(this::getAverageShooterRPM)
             .filtered(new HighPassFilter(Settings.Shooter.RPM_CHANGE_RC));
+
+        feederEncoder.setPositionConversionFactor(Feeder.POSITION_CONVERSION);
+        feederEncoder.setPositionConversionFactor(Feeder.VELOCITY_CONVERSION);
         
         Motors.disableStatusFrames(leftMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
         Motors.disableStatusFrames(rightMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
@@ -95,7 +101,9 @@ public class ShooterImpl extends Shooter {
 
     @Override
     public boolean noteShot() {
-        return getLeftTargetRPM() > 0 && getRightTargetRPM() > 0 && rpmChange.get() < -Settings.Shooter.RPM_CHANGE_DIP_THRESHOLD;
+        return getLeftTargetRPM() > 0 && 
+               getRightTargetRPM() > 0 && 
+               rpmChange.get() < -Settings.Shooter.RPM_CHANGE_DIP_THRESHOLD;
     }
 
     @Override
@@ -110,10 +118,18 @@ public class ShooterImpl extends Shooter {
             leftMotor.stopMotor();
             rightMotor.stopMotor();
             feederMotor.stopMotor();
+
+            SmartDashboard.putNumber("Shooter/Left Requested Voltage", 0);
+            SmartDashboard.putNumber("Shooter/Right Requested Voltage", 0);
+            SmartDashboard.putNumber("Shooter/Feeder Requested Voltage", 0);
         } else {
             leftMotor.setVoltage(leftController.getOutput());
             rightMotor.setVoltage(rightController.getOutput());
             feederMotor.setVoltage(feederController.getOutput());
+            
+            SmartDashboard.putNumber("Shooter/Left Requested Voltage", leftController.getOutput());
+            SmartDashboard.putNumber("Shooter/Right Requested Voltage", rightController.getOutput());
+            SmartDashboard.putNumber("Shooter/Feeder Requested Voltage", feederController.getOutput());
         }
 
         SmartDashboard.putNumber("Shooter/Right RPM", getRightShooterRPM());

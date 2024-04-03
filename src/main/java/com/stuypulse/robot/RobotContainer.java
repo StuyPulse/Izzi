@@ -43,7 +43,9 @@ import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
 import com.stuypulse.robot.util.PathUtil.AutonConfig;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.util.PixelFormat;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -85,6 +87,8 @@ public class RobotContainer {
         configureAutons();
 
         LiveWindow.disableAllTelemetry();
+
+        if (Robot.isReal()) CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 80, 60, 30);
 
         SmartDashboard.putData("Gamepads/Driver", driver);
         SmartDashboard.putData("Gamepads/Operator", operator);
@@ -171,6 +175,9 @@ public class RobotContainer {
             .onTrue(new AmperScoreTrap())
             .onFalse(new AmperStop());
 
+        driver.getDPadLeft()
+            .whileTrue(SwerveDriveToPose.speakerRelative(-45));
+
         // lift to trap
         driver.getDPadRight()
             .onTrue(new ConditionalCommand(new ConveyorToAmp(), new DoNothingCommand(), () -> Intake.getInstance().hasNote())
@@ -203,6 +210,7 @@ public class RobotContainer {
 
         driver.getTopButton()
             .whileTrue(new SwerveDriveAutoFerry(driver));
+            // .whileTrue(new SwerveDriveToShootMoving());
 
         // climb
         driver.getRightButton()
@@ -300,8 +308,8 @@ public class RobotContainer {
         AutonConfig TrackingCBAE = new AutonConfig("Tracking 5 CBAE Podium", FivePieceTrackingCBAE::new,
             "Preload to C", "C to B", "B to A", "A to E", "E to Shoot");   
 
-        AutonConfig CBAED = new AutonConfig("6 CBAED", SixPieceCBAED::new,
-        "Preload to C", "C to B", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
+        AutonConfig CBAED = new AutonConfig("5 CBAE", SixPieceCBAED::new,
+        "Preload to C Close", "Close Preload to C", "C to B", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
 
         AutonConfig CHGF = new AutonConfig("4.5 Piece CHGF", FivePieceCHGF::new,
         "Preload to C", "CShoot To H (CHGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)");
@@ -325,11 +333,11 @@ public class RobotContainer {
         AutonConfig HGFEDJerk = new AutonConfig("HGFEDJerk", HGFEDJerk::new,
         "Start To H (HGF)", "H To HJerk", "HJerk to G", "G to GJerk", "GJerk to F", "F to FJerk", "FJerk to E", "E to EJerk", "E to D");
 
-        HGF.registerBlue(autonChooser)
+        HGF.registerDefaultBlue(autonChooser)
             .registerRed(autonChooser);
 
         CBAED
-            .registerDefaultBlue(autonChooser)
+            .registerBlue(autonChooser)
             .registerRed(autonChooser);
 
         CHGF

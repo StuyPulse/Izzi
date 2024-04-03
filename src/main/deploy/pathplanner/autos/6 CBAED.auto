@@ -8,7 +8,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Preload to C"
+            "pathName": "Preload to C Close"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Close Preload to C"
           }
         },
         {

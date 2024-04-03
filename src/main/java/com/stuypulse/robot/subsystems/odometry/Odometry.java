@@ -9,6 +9,7 @@ package com.stuypulse.robot.subsystems.odometry;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.robot.constants.Cameras;
 import com.stuypulse.robot.constants.Field;
+import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.robot.util.LinearRegression;
@@ -57,6 +58,9 @@ public class Odometry extends SubsystemBase {
 
     private Pose2d lastGoodPose;
 
+    private Translation2d robotVelocity;
+    private Translation2d lastPose;
+
     protected Odometry() {
         SwerveDrive swerve = SwerveDrive.getInstance();
         odometry = new SwerveDriveOdometry(
@@ -89,6 +93,9 @@ public class Odometry extends SubsystemBase {
         thetaRegression = new LinearRegression(Cameras.thetaStdDevs);
 
         lastGoodPose = new Pose2d();
+        
+        robotVelocity = new Translation2d();
+        lastPose = new Translation2d();
 
         SmartDashboard.putData("Field", field);
     }
@@ -194,7 +201,14 @@ public class Odometry extends SubsystemBase {
             lastGoodPose = getPose();
         }
 
+        robotVelocity = getPose().getTranslation().minus(lastPose).div(Settings.DT);
+        lastPose = getPose().getTranslation();
+
         updateTelemetry();
+    }
+
+    public Translation2d getRobotVelocity() {
+        return robotVelocity;
     }
 
     private void updateTelemetry() {
@@ -204,6 +218,8 @@ public class Odometry extends SubsystemBase {
 
         SmartDashboard.putNumber("Odometry/Estimator/X", estimator.getEstimatedPosition().getTranslation().getX());
         SmartDashboard.putNumber("Odometry/Estimator/Y", estimator.getEstimatedPosition().getTranslation().getY());
+        SmartDashboard.putNumber("Odometry/Estimator/VX", robotVelocity.getX());
+        SmartDashboard.putNumber("Odometry/Estimator/VY", robotVelocity.getY());
         SmartDashboard.putNumber("Odometry/Estimator/Rotation", estimator.getEstimatedPosition().getRotation().getDegrees());
 
         odometryPose2D.setPose(odometry.getPoseMeters());
