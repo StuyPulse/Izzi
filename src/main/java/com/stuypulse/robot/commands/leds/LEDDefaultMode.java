@@ -12,8 +12,6 @@ import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.leds.LEDController;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDInstruction;
-import com.stuypulse.stuylib.util.StopWatch;
-
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
