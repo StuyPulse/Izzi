@@ -2,8 +2,6 @@ package com.stuypulse.robot.commands;
 
 import java.util.function.Supplier;
 
-import com.pathplanner.lib.util.PIDConstants;
-import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Alignment.Rotation;
@@ -13,6 +11,7 @@ import com.stuypulse.robot.constants.Settings.Swerve.Motion;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
+import com.stuypulse.robot.subsystems.shooter.Shooter;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.util.HolonomicController;
 import com.stuypulse.robot.util.MirrorRotation2d;
@@ -21,9 +20,11 @@ import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.streams.booleans.BStream;
+import com.stuypulse.stuylib.streams.booleans.filters.BDebounce;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 import com.stuypulse.stuylib.streams.numbers.IStream;
 import com.stuypulse.stuylib.streams.numbers.filters.Derivative;
+import com.stuypulse.stuylib.streams.numbers.filters.TimedMovingAverage;
 import com.stuypulse.stuylib.streams.numbers.filters.LowPassFilter;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -46,7 +47,7 @@ public class FastAlignShootSpeakerRelative extends Command {
     private final HolonomicController controller;
     private final Supplier<Pose2d> poseSupplier;
     private final BStream isAligned;
-    private final BStream shouldStartShot;
+    private final BStream isFinished;
     private final IStream velocityError;
 
     private final FieldObject2d targetPose2d;
@@ -56,11 +57,6 @@ public class FastAlignShootSpeakerRelative extends Command {
     private double thetaTolerance;
     private double velocityTolerance;
     
-    private double shootXTolerance;
-    private double shootYTolerance;
-    private double shootThetaTolerance;
-    private double shootVelocityTolerance;
-
     private Pose2d targetPose;
 
     public FastAlignShootSpeakerRelative(double angleToSpeaker) {
@@ -92,10 +88,12 @@ public class FastAlignShootSpeakerRelative extends Command {
             new AnglePIDController(Rotation.kP, Rotation.kI, Rotation.kD));
 
         isAligned = BStream.create(this::isAligned)
-            .filtered(new BDebounceRC.Both(Alignment.DEBOUNCE_TIME));
+            .filtered(new BDebounceRC.Both(Alignment.DEBOUNCE_TIME))
+            .filtered(new BDebounce.Falling(2.0));
 
-        shouldStartShot = BStream.create(this::shouldStartShot)
-            .filtered(new BDebounceRC.Both(Alignment.DEBOUNCE_TIME));
+        isFinished = isAligned
+            .filtered(new BDebounce.Rising(0.75))
+            .or(Shooter.getInstance()::noteShot);
 
         velocityError = IStream.create(() -> {
             ChassisSpeeds speeds = controller.getError();
@@ -103,18 +101,14 @@ public class FastAlignShootSpeakerRelative extends Command {
             return new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond).getNorm();
         })
             .filtered(new Derivative())
+            .filtered(new TimedMovingAverage(0.05))
             .filtered(new LowPassFilter(0.05))
             .filtered(x -> Math.abs(x));
 
-        xTolerance = Alignment.X_TOLERANCE.get();
-        yTolerance = Alignment.Y_TOLERANCE.get();
-        thetaTolerance = Alignment.ANGLE_TOLERANCE.get();
-        velocityTolerance = 0.15;
-
-        shootXTolerance = Alignment.X_TOLERANCE.get() * 2;
-        shootYTolerance = Alignment.Y_TOLERANCE.get() * 2;
-        shootThetaTolerance = Alignment.ANGLE_TOLERANCE.get();
-        shootVelocityTolerance = 0.3;
+        xTolerance = 0.2;
+        yTolerance = 0.2;
+        thetaTolerance = 10;
+        velocityTolerance = 0.2;
 
         addRequirements(swerve);
     }
@@ -125,11 +119,6 @@ public class FastAlignShootSpeakerRelative extends Command {
         SmartDashboard.putBoolean("AutonAlignment", true);
     }
     
-    private boolean shouldStartShot() {
-        return controller.isDone(shootXTolerance, shootYTolerance, shootThetaTolerance)
-            && velocityError.get() < shootVelocityTolerance;
-    }
-
     private boolean isAligned() {
         return controller.isDone(xTolerance, yTolerance, thetaTolerance)
             && velocityError.get() < velocityTolerance;
@@ -154,7 +143,7 @@ public class FastAlignShootSpeakerRelative extends Command {
         
         swerve.setChassisSpeeds(clamped);
 
-        if (shouldStartShot.get()) {
+        if (isAligned.get()) {
             conveyor.toShooter();
             intake.acquire();
         }
@@ -162,7 +151,7 @@ public class FastAlignShootSpeakerRelative extends Command {
 
     @Override
     public boolean isFinished() {
-        return isAligned.get();
+        return isFinished.get() && isAligned.get();
     }
 
     @Override
