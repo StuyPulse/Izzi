@@ -275,7 +275,9 @@ public class RobotContainer {
 
         operator.getDPadRight()
             .onTrue(new GandalfToShoot())
-            .onFalse(new ConveyorStop());
+            .onTrue(new AmperScore().until(Amper.getInstance()::hasNote))
+            .onFalse(new ConveyorStop())
+            .onFalse(new AmperStop());
         operator.getDPadLeft()
             .onTrue(new GandalfToAmp())
             .onFalse(new ConveyorStop());
