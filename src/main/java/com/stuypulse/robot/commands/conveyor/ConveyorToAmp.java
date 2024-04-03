@@ -37,9 +37,12 @@ public class ConveyorToAmp extends Command {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         shooter.setTargetSpeeds(Settings.Shooter.HANDOFF);
+    }
 
+    @Override
+    public void execute() {
         if (shooter.atTargetSpeeds()) {
             conveyor.toAmp();
             intake.acquire();

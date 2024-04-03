@@ -71,6 +71,8 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         scheduler.run();
 
+        SmartDashboard.putBoolean("Is DS Attached", DriverStation.isDSAttached());
+
         SmartDashboard.putNumber("PDP/Total Power (watts)", robot.pdp.getTotalPower());
         SmartDashboard.putNumber("PDP/Total Current (amps)", robot.pdp.getTotalCurrent());
         SmartDashboard.putNumber("PDP/Battery Voltage (volts)", robot.pdp.getVoltage());
