@@ -100,7 +100,6 @@ public class FastAlignShootSpeakerRelative extends Command {
 
             return new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond).getNorm();
         })
-            .filtered(new Derivative())
             .filtered(new TimedMovingAverage(0.05))
             .filtered(new LowPassFilter(0.05))
             .filtered(x -> Math.abs(x));
