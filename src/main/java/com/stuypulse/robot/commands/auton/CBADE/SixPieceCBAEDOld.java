@@ -46,7 +46,7 @@ public class SixPieceCBAEDOld extends SequentialCommandGroup {
             new FollowPathAlignAndShoot(paths[4], new SwerveDriveToShoot()),
             
             new FollowPathAndIntake(paths[5]),
-            new FollowPathAlignAndShoot(paths[4], new SwerveDriveToShoot())
+            new FollowPathAlignAndShoot(paths[6], new SwerveDriveToShoot())
         );
     }
     
