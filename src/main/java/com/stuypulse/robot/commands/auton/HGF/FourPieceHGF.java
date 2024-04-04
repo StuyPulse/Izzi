@@ -1,15 +1,13 @@
 package com.stuypulse.robot.commands.auton.HGF;
 
 import com.pathplanner.lib.path.PathPlannerPath;
-import com.stuypulse.robot.commands.auton.FollowPathAlignAndShoot;
+import com.stuypulse.robot.commands.FastAlignShootSpeakerRelative;
+import com.stuypulse.robot.commands.auton.FollowPathAlignAndShootFast;
 import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
-import com.stuypulse.robot.commands.shooter.ShooterStop;
 import com.stuypulse.robot.commands.shooter.ShooterWaitForTarget;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
-import com.stuypulse.robot.commands.swerve.SwerveDriveToShoot;
-import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Auton;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -21,7 +19,7 @@ public class FourPieceHGF extends SequentialCommandGroup {
     public FourPieceHGF(PathPlannerPath... paths) {
         addCommands(
             new ParallelCommandGroup(
-                new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
+                new WaitCommand(0.25)
                     .andThen(new ShooterPodiumShot()),
 
                 SwerveDriveToPose.speakerRelative(-45)
@@ -30,16 +28,13 @@ public class FourPieceHGF extends SequentialCommandGroup {
 
             new ShooterWaitForTarget(),
             ConveyorShootRoutine.untilNoteShot(0.75),
-            // new ShooterStop(),
 
             new FollowPathAndIntake(paths[0]),
-            new FollowPathAlignAndShoot(paths[1], SwerveDriveToPose.speakerRelative(-45)
-                .withTolerance(0.06, 0.06, 5), true),
+            new FollowPathAlignAndShootFast(paths[1], new FastAlignShootSpeakerRelative(-45)),
             new FollowPathAndIntake(paths[2]),
-            new FollowPathAlignAndShoot(paths[3], SwerveDriveToPose.speakerRelative(-45)
-                .withTolerance(0.05, 0.05, 5), true),
+            new FollowPathAlignAndShootFast(paths[3], new FastAlignShootSpeakerRelative(-45)),
             new FollowPathAndIntake(paths[4]),
-            new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45), true)
+            new FollowPathAlignAndShootFast(paths[5], SwerveDriveToPose.speakerRelative(-45))
         );
     }
 
