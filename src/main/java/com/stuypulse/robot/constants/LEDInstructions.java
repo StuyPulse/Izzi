@@ -6,6 +6,7 @@
 
 package com.stuypulse.robot.constants;
 
+import com.stuypulse.robot.subsystems.leds.instructions.LED694;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDInstruction;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDPulseColor;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDRainbow;
@@ -80,7 +81,7 @@ public interface LEDInstructions {
 
     LEDInstruction AUTO_SWERVE =  new LEDPulseColor(SLColor.GREEN);
 
-    LEDInstruction ATTENTION = new LEDPulseColor(SLColor.YELLOW);
+    LEDInstruction ATTENTION = new LED694(0.01);
 
     LEDInstruction CLIMB_UP = new LEDSection(new SLColor[] {SLColor.PURPLE, SLColor.GREEN}, false);
 
