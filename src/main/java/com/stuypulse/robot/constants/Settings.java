@@ -413,7 +413,7 @@ public interface Settings {
         public interface Translation {
             SmartNumber kP = new SmartNumber("Alignment/Translation/kP", 6.0);
             SmartNumber kI = new SmartNumber("Alignment/Translation/kI", 0.0);
-            SmartNumber kD = new SmartNumber("Alignment/Translation/kD", 0.6);
+            SmartNumber kD = new SmartNumber("Alignment/Translation/kD", 0.6); // 0.0 with kA term
         }
 
         public interface Rotation {
@@ -426,7 +426,7 @@ public interface Settings {
             public interface Translation {
                 SmartNumber kP = new SmartNumber("ShootAlign/Translation/kP", 7.5);
                 SmartNumber kI = new SmartNumber("ShootAlign/Translation/kI", 0.0);
-                SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.8);
+                SmartNumber kD = new SmartNumber("ShootAlign/Translation/kD", 0.8); // 0.2 with kA term
             }
     
             public interface Rotation {
