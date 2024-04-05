@@ -14,12 +14,16 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.RobotType;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.stuypulse.robot.constants.Field;
+import com.stuypulse.robot.subsystems.odometry.Odometry;
 
 /*
 AMP:
@@ -150,6 +154,8 @@ public abstract class Amper extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("Amper/Amp Distance", Units.metersToInches(Field.WIDTH - Odometry.getInstance().getPose().getY()));
+        
         lift2d.setLength(Settings.Amper.Lift.VISUALIZATION_MIN_LENGTH + getLiftHeight());
 
         if (targetHeight.get() > Settings.Amper.Lift.MAX_HEIGHT)
