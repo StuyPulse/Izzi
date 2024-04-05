@@ -16,20 +16,28 @@ import com.stuypulse.stuylib.util.StopWatch;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 
 public class LED694 implements LEDInstruction {
+
+    private final double pulsingTime;
+
+    public LED694(double pulsingTime) {
+        this.pulsingTime = pulsingTime;
+    }
+
+    public LED694() {
+        this(0.03);
+    }
+
     private SLColor[] colorMap = {SLColor.RED, SLColor.WHITE};
     private ArrayList<Integer> colorArray = initColors();
     private StopWatch stopWatch = new StopWatch();
 
     @Override
     public void setLED(AddressableLEDBuffer ledBuffer) {
-        double pulseTime = 0.03;
-
-
         for (int i = 0; i < ledBuffer.getLength(); i++) {
             ledBuffer.setLED(i, colorMap[colorArray.get(i)]);
         }
 
-        if (pulseTime < stopWatch.getTime()){
+        if (pulsingTime < stopWatch.getTime()){
             int firstColor = colorArray.get(0);
             for (int i = 1; i < colorArray.size(); i++){
                 colorArray.set(i - 1, colorArray.get(i));

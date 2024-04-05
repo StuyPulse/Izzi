@@ -101,7 +101,6 @@ public class SwerveDriveToPose extends Command {
 
             return new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond).getNorm();
         })
-            .filtered(new Derivative())
             .filtered(new LowPassFilter(0.05))
             .filtered(x -> Math.abs(x));
 
