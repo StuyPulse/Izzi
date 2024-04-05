@@ -314,19 +314,23 @@ public class RobotContainer {
         autonChooser.addOption("Mobility", new Mobility());
 
         AutonConfig HGF = new AutonConfig("4 HGF", FourPieceHGF::new,
-        "Start to H (HGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)", "F to Shoot (HGF)");
+            "Start to H (HGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)", "F to Shoot (HGF)");
+        AutonConfig HGF_RED = new AutonConfig("4 HGF", FourPieceHGF::new,
+            "Start to H (HGF) Red", "H to HShoot (HGF) Red", "HShoot to G (HGF) Red", "G to Shoot (HGF) Red", "GShoot to F (HGF)", "F to Shoot (HGF)");
         
         AutonConfig TrackingCBAE = new AutonConfig("Tracking 5 CBAE Podium", FivePieceTrackingCBAE::new,
             "Preload to C", "C to B", "B to A", "A to E", "E to Shoot");   
 
         AutonConfig CBAED = new AutonConfig("5 CBAE", SixPieceCBAED::new,
-        "Preload to C Close", "Close Preload to C", "C to B", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
+            "Preload to C Close", "Close Preload to C", "C to B", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
+        AutonConfig CBAED_RED = new AutonConfig("5 CBAE", SixPieceCBAED::new,
+            "Preload to C Close", "Close Preload to C", "C to B Red", "B to A Red_","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
 
         AutonConfig CBAED_OLD = new AutonConfig("5 CBAE Old", SixPieceCBAEDOld::new,
-        "Preload to C", "C to B", "B to A", "A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
+            "Preload to C", "C to B", "B to A", "A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
 
         AutonConfig CHGF = new AutonConfig("4.5 Piece CHGF", FivePieceCHGF::new,
-        "Preload to C", "CShoot To H (CHGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)");
+            "Preload to C", "CShoot To H (CHGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)");
 
         // AutonConfig ADEF = new AutonConfig("4.5 Piece ADEF", FourPieceADEF::new, 
         // "Preload to A", "A to D", "D to Shoot", "Shoot to E", "E to Shoot", "Shoot To F (ADEF)", "F To Shoot (ADEF)");
@@ -341,12 +345,11 @@ public class RobotContainer {
         // "Forward First Piece to C", "C to B 2", "B to A","A to E", "E to Shoot");
         
         // TODO: automatically choose red/blue
-        HGF.registerDefaultBlue(autonChooser)
-            .registerRed(autonChooser);
+        HGF.registerDefaultBlue(autonChooser);
+        HGF_RED.registerRed(autonChooser);
 
-        CBAED
-            .registerBlue(autonChooser)
-            .registerRed(autonChooser);
+        CBAED.registerBlue(autonChooser);
+        CBAED_RED.registerRed(autonChooser);
         
         SmartDashboard.putData("Autonomous", autonChooser);
 

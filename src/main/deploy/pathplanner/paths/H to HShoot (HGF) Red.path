@@ -3,36 +3,36 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5,
-        "y": 4.265328388308022
+        "x": 8.07,
+        "y": 0.8800000000000001
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5401208637175103,
-        "y": 4.864768248055015
+        "x": 5.860497457486886,
+        "y": 1.268665081258114
       },
       "isLocked": false,
-      "linkedName": "C"
+      "linkedName": "H Red"
     },
     {
       "anchor": {
-        "x": 2.9,
-        "y": 5.27
+        "x": 2.5050384003901907,
+        "y": 3.180810008343664
       },
       "prevControl": {
-        "x": 2.576402701523351,
-        "y": 4.817991630285256
+        "x": 3.7500926544825335,
+        "y": 1.924076107885846
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "B"
+      "linkedName": "HShoot"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 49.9380466176507,
-      "rotateFast": true
+      "waypointRelativePos": 0.35,
+      "rotationDegrees": -54.90055879498553,
+      "rotateFast": false
     }
   ],
   "constraintZones": [],
@@ -44,15 +44,12 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 43.876697285924436,
+    "velocity": 1.0,
+    "rotation": -47.64254529406478,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "ABCDE",
-  "previewStartingState": {
-    "rotation": -20.0,
-    "velocity": 0
-  },
+  "folder": "HGF",
+  "previewStartingState": null,
   "useDefaultConstraints": true
 }
