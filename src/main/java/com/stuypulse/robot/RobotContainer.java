@@ -131,6 +131,14 @@ public class RobotContainer {
                     .alongWith(new LEDSet(LEDInstructions.PICKUP)
                         .withTimeout(3.0))));
         
+        // intaking (also robot relative swerve)
+        driver.getLeftTriggerButton()
+            .whileTrue(new IntakeAcquire()
+                    .deadlineWith(new LEDSet(LEDInstructions.INTAKE))
+                .andThen(new BuzzController(driver) 
+                    .alongWith(new LEDSet(LEDInstructions.PICKUP)
+                        .withTimeout(3.0))));
+
         driver.getDPadLeft()
             .onTrue(new IntakeDeacquire())
             .onFalse(new IntakeStop());
