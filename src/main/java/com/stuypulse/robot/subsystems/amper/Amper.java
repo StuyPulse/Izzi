@@ -8,7 +8,7 @@ package com.stuypulse.robot.subsystems.amper;
 
 import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.network.SmartNumber;
-
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.RobotType;
@@ -115,6 +115,8 @@ public abstract class Amper extends SubsystemBase {
     public abstract double getLiftHeight();
 
     public abstract void stopLift();
+    
+    public abstract void setLiftIdleMode(IdleMode mode);
 
     /*** IR SENSOR ***/
 
