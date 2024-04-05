@@ -78,9 +78,18 @@ public class SwerveDriveAutoFerry extends Command {
 
     // returns pose of close amp corner
     private Translation2d getTargetPose() {
-        return Robot.isBlue()
-            ? new Translation2d(0, Field.WIDTH - 0.75)
-            : new Translation2d(0, 0.5);
+        final double NOTE_TRAVEL_TIME = 2.5;
+
+        Translation2d pose = Robot.isBlue()
+            ? new Translation2d(0, Field.WIDTH - 1.5)
+            : new Translation2d(0, 1.5);
+        
+        return pose;
+
+        // Translation2d offset = odometry.getRobotVelocity()
+        //     .times(NOTE_TRAVEL_TIME);
+        
+        // return pose.minus(offset);
     }
 
     private Rotation2d getTargetAngle() {
