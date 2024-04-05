@@ -11,6 +11,7 @@ import com.stuypulse.stuylib.control.angle.AngleController;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.math.Angle;
+import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.streams.numbers.IStream;
 import com.stuypulse.stuylib.streams.numbers.filters.LowPassFilter;
 import com.stuypulse.stuylib.streams.vectors.VStream;
@@ -22,6 +23,7 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Driver.Drive;
 import com.stuypulse.robot.constants.Settings.Swerve.Assist;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -137,12 +139,18 @@ public class SwerveDriveAutoFerry extends Command {
             if (canShoot() && Math.abs(controller.getError().toDegrees()) < getAngleTolerance()) {
                 intake.acquire();
                 conveyor.toShooter();
+
+                Vector2D vel = drive.get();
+                double mag = MathUtil.clamp(vel.magnitude(), 0.0, 2.0); 
+
+                swerve.drive(vel.normalize().mul(mag), omega);
             } else {
                 intake.stop();
                 conveyor.stop();
+
+                swerve.drive(drive.get(), omega);
             }
 
-            swerve.drive(drive.get(), omega);
         }
     }
 
