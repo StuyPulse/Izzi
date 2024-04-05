@@ -96,6 +96,7 @@ public class Robot extends TimedRobot {
     public void disabledInit() {
         robot.intake.setIdleMode(IdleMode.kCoast);
         robot.conveyor.setIdleMode(IdleMode.kCoast);
+        robot.amper.setLiftIdleMode(IdleMode.kCoast);
 
         scheduler.schedule(new LEDSet(new LED694()));
 
@@ -136,6 +137,7 @@ public class Robot extends TimedRobot {
 
         robot.intake.setIdleMode(IdleMode.kBrake);
         robot.conveyor.setIdleMode(IdleMode.kBrake);
+        robot.amper.setLiftIdleMode(IdleMode.kBrake);
 
         SmartDashboard.putString("Robot State", "AUTON");
     }
@@ -165,6 +167,7 @@ public class Robot extends TimedRobot {
 
         robot.intake.setIdleMode(IdleMode.kBrake);
         robot.conveyor.setIdleMode(IdleMode.kBrake);
+        robot.amper.setLiftIdleMode(IdleMode.kBrake);
 
         SmartDashboard.putString("Robot State", "TELEOP");
     }
@@ -191,6 +194,7 @@ public class Robot extends TimedRobot {
 
         robot.intake.setIdleMode(IdleMode.kBrake);
         robot.conveyor.setIdleMode(IdleMode.kBrake);
+        robot.amper.setLiftIdleMode(IdleMode.kBrake);
 
         SmartDashboard.putString("Robot State", "TEST");
     }
