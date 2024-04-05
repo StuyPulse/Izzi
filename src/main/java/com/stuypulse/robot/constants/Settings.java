@@ -88,7 +88,7 @@ public interface Settings {
 
         public interface Score {
             double AMP_SPEED = 1.0;
-            double TRAP_SPEED = 0.3;
+            double TRAP_SPEED = 0.15;
             double FROM_CONVEYOR_SPEED = 0.35;
             double TO_CONVEYOR_SPEED = 0.3;
 
