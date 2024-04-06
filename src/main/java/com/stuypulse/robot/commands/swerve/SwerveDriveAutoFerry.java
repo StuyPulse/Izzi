@@ -12,6 +12,8 @@ import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Vector2D;
+import com.stuypulse.stuylib.streams.booleans.BStream;
+import com.stuypulse.stuylib.streams.booleans.filters.BDebounce;
 import com.stuypulse.stuylib.streams.numbers.IStream;
 import com.stuypulse.stuylib.streams.numbers.filters.LowPassFilter;
 import com.stuypulse.stuylib.streams.vectors.VStream;
@@ -44,6 +46,8 @@ public class SwerveDriveAutoFerry extends Command {
     private final AngleController controller;
     private final IStream angleVelocity;
 
+    private final BStream shoot;
+
     public SwerveDriveAutoFerry(Gamepad driver) {
         swerve = SwerveDrive.getInstance();
         shooter = Shooter.getInstance();
@@ -72,6 +76,9 @@ public class SwerveDriveAutoFerry extends Command {
             .filtered(x -> x * Math.min(1, getDistanceToTarget() / Assist.REDUCED_FF_DIST))
             .filtered(x -> -x);
 
+        shoot = BStream.create(this::canShoot)
+            .and(() -> Math.abs(controller.getError().toDegrees()) < getAngleTolerance())
+            .filtered(new BDebounce.Falling(0.4));
 
         addRequirements(swerve, shooter, odometry, conveyor, intake);
     }
@@ -145,7 +152,7 @@ public class SwerveDriveAutoFerry extends Command {
             conveyor.stop();
         } else {
             SmartDashboard.putNumber("Ferry/Angle Tolerance", getAngleTolerance());
-            if (canShoot() && Math.abs(controller.getError().toDegrees()) < getAngleTolerance()) {
+            if (shoot.get()) {
                 intake.acquire();
                 conveyor.toShooter();
 
