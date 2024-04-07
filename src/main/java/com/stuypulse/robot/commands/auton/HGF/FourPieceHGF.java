@@ -30,7 +30,7 @@ public class FourPieceHGF extends SequentialCommandGroup {
             ConveyorShootRoutine.untilNoteShot(0.75),
 
             new FollowPathAndIntake(paths[0]),
-            new FollowPathAlignAndShootFast(paths[1], new FastAlignShootSpeakerRelative(-45)),
+            new FollowPathAlignAndShootFast(paths[1], new FastAlignShootSpeakerRelative(-45, 0.9)),
             new FollowPathAndIntake(paths[2]),
             new FollowPathAlignAndShootFast(paths[3], new FastAlignShootSpeakerRelative(-45)),
             new FollowPathAndIntake(paths[4]),
