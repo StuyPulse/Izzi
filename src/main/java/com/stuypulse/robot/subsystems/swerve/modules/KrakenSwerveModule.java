@@ -208,6 +208,7 @@ public class KrakenSwerveModule extends SwerveModule {
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Velocity", getVelocity());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Voltage", driveMotor.getMotorVoltage().getValueAsDouble());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Turn Voltage", pivotController.getOutput());
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Turn Current", pivotMotor.getOutputCurrent());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Angle Error", pivotController.getError().toDegrees());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Raw Encoder Angle", Units.rotationsToDegrees(pivotEncoder.getAbsolutePosition().getValueAsDouble()));
     }
