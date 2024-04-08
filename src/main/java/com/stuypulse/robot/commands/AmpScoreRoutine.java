@@ -82,7 +82,7 @@ public class AmpScoreRoutine extends SequentialCommandGroup {
             new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT),
 
             new SwerveDriveDriveDirection(
-                new Vector2D(new Translation2d(
+                () -> new Vector2D(new Translation2d(
                     Score.DRIVE_AWAY_SPEED, 
                     Field.getAllianceAmpTag().getLocation().toPose2d().getRotation())))
         );

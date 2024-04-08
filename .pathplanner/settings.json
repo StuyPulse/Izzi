@@ -5,10 +5,11 @@
   "pathFolders": [
     "ABCDE",
     "HGF",
+    "Ferry",
     "Tests"
   ],
   "autoFolders": [],
-  "defaultMaxVel": 5.0,
+  "defaultMaxVel": 4.5,
   "defaultMaxAccel": 4.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,

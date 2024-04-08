@@ -15,6 +15,7 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.RobotType;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.constants.Settings.Amper.Score;
+import com.stuypulse.robot.subsystems.leds.instructions.LED694;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAlign;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDAutonChooser;
 import com.stuypulse.robot.subsystems.leds.instructions.LEDRainbow;
@@ -70,10 +71,16 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         scheduler.run();
 
-        SmartDashboard.putNumber("Total Power (W)", robot.pdp.getTotalPower());
-        SmartDashboard.putNumber("Total Current (A)", robot.pdp.getTotalCurrent());
-        SmartDashboard.putNumber("Battery Voltage (V)", robot.pdp.getVoltage());
-        SmartDashboard.putNumber("Calculated Resistance (R)", robot.pdp.getVoltage() / robot.pdp.getTotalCurrent());
+        SmartDashboard.putBoolean("Is DS Attached", DriverStation.isDSAttached());
+
+        SmartDashboard.putNumber("PDP/Total Power (watts)", robot.pdp.getTotalPower());
+        SmartDashboard.putNumber("PDP/Total Current (amps)", robot.pdp.getTotalCurrent());
+        SmartDashboard.putNumber("PDP/Battery Voltage (volts)", robot.pdp.getVoltage());
+        SmartDashboard.putNumber("PDP/Calculated Resistance (ohms)", robot.pdp.getVoltage() / robot.pdp.getTotalCurrent());
+        
+        for (int i = 0; i < robot.pdp.getNumChannels(); i++) {
+            SmartDashboard.putNumber("PDP/Currents/" + i, robot.pdp.getCurrent(i));
+        }
     }
 
     public static boolean isBlue() {
@@ -90,7 +97,7 @@ public class Robot extends TimedRobot {
         robot.intake.setIdleMode(IdleMode.kCoast);
         robot.conveyor.setIdleMode(IdleMode.kCoast);
 
-        scheduler.schedule(new LEDSet(new LEDRainbow()));
+        scheduler.schedule(new LEDSet(new LED694()));
 
         SmartDashboard.putString("Robot State", "DISABLED");
     }

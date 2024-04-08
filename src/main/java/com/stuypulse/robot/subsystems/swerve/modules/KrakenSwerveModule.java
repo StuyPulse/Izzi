@@ -3,7 +3,6 @@ package com.stuypulse.robot.subsystems.swerve.modules;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -20,11 +19,15 @@ import com.stuypulse.robot.constants.Settings.Swerve.Turn;
 import com.stuypulse.stuylib.control.angle.AngleController;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.math.Angle;
+import com.stuypulse.stuylib.streams.numbers.filters.Derivative;
+import com.stuypulse.stuylib.streams.numbers.filters.IFilter;
+import com.stuypulse.stuylib.streams.numbers.filters.TimedMovingAverage;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class KrakenSwerveModule extends SwerveModule {
@@ -45,6 +48,8 @@ public class KrakenSwerveModule extends SwerveModule {
     private final CANcoder pivotEncoder;
 
     private final AngleController pivotController;
+
+    private final IFilter targetAcceleration;
 
     public KrakenSwerveModule(
         String id, 
@@ -125,6 +130,9 @@ public class KrakenSwerveModule extends SwerveModule {
         pivotController = new AnglePIDController(Turn.kP, Turn.kI, Turn.kD)
             .setOutputFilter(x -> -x);
 
+        targetAcceleration = new Derivative()
+            .then(new TimedMovingAverage(0.1));
+
         Motors.disableStatusFrames(pivotMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
 
         Motors.Swerve.TURN_CONFIG.configure(pivotMotor);
@@ -158,7 +166,31 @@ public class KrakenSwerveModule extends SwerveModule {
     public void periodic() {
         super.periodic();
 
-        VelocityVoltage driveOutput = new VelocityVoltage(convertDriveVel(getTargetState().speedMetersPerSecond));
+        final boolean USE_ACCEL = true;
+        final boolean USE_ACCEL_IN_AUTON = false;
+        final boolean USE_FOC_IN_AUTON = false;
+
+        double velocity = convertDriveVel(getTargetState().speedMetersPerSecond);
+        double acceleration = targetAcceleration.get(velocity);
+        boolean useFOC = true;
+
+        if (!USE_ACCEL) {
+            acceleration = 0;
+        }
+
+        if (DriverStation.isAutonomousEnabled()) {
+            if (!USE_ACCEL_IN_AUTON) {
+                acceleration = 0;
+            }
+
+            if (!USE_FOC_IN_AUTON) {
+                useFOC = false;
+            }
+        }
+
+        VelocityVoltage driveOutput = new VelocityVoltage(velocity)
+            .withAcceleration(acceleration)
+            .withEnableFOC(useFOC);
 
         pivotController.update(Angle.fromRotation2d(getTargetState().angle), Angle.fromRotation2d(getAngle()));
 

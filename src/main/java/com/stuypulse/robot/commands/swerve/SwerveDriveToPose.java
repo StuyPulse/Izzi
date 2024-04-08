@@ -12,6 +12,9 @@ import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
+import com.stuypulse.stuylib.streams.numbers.IStream;
+import com.stuypulse.stuylib.streams.numbers.filters.Derivative;
+import com.stuypulse.stuylib.streams.numbers.filters.LowPassFilter;
 import com.pathplanner.lib.util.PIDConstants;
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings.Alignment;
@@ -62,12 +65,14 @@ public class SwerveDriveToPose extends Command {
     private final HolonomicController controller;
     private final Supplier<Pose2d> poseSupplier;
     private final BStream isAligned;
+    private final IStream velocityError;
 
     private final FieldObject2d targetPose2d;
 
     private double xTolerance;
     private double yTolerance;
     private double thetaTolerance;
+    private double velocityTolerance;
 
     private Pose2d targetPose;
 
@@ -91,9 +96,18 @@ public class SwerveDriveToPose extends Command {
         isAligned = BStream.create(this::isAligned)
             .filtered(new BDebounceRC.Both(Alignment.DEBOUNCE_TIME));
 
+        velocityError = IStream.create(() -> {
+            ChassisSpeeds speeds = controller.getError();
+
+            return new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond).getNorm();
+        })
+            .filtered(new LowPassFilter(0.05))
+            .filtered(x -> Math.abs(x));
+
         xTolerance = Alignment.X_TOLERANCE.get();
         yTolerance = Alignment.Y_TOLERANCE.get();
         thetaTolerance = Alignment.ANGLE_TOLERANCE.get();
+        velocityTolerance = 0.15;
 
         addRequirements(swerve);
     }
@@ -128,10 +142,12 @@ public class SwerveDriveToPose extends Command {
     @Override
     public void initialize() {
         targetPose = poseSupplier.get();
+        SmartDashboard.putBoolean("AutonAlignment", true);
     }
 
     private boolean isAligned() {
-        return controller.isDone(xTolerance, yTolerance, thetaTolerance);
+        return controller.isDone(xTolerance, yTolerance, thetaTolerance)
+            && velocityError.get() < velocityTolerance;
     }
 
     @Override
@@ -152,7 +168,6 @@ public class SwerveDriveToPose extends Command {
             speed.x, speed.y, rotation);
         
         swerve.setChassisSpeeds(clamped);
-
     }
 
     @Override
@@ -164,5 +179,6 @@ public class SwerveDriveToPose extends Command {
     public void end(boolean interrupted) {
         swerve.stop();
         Field.clearFieldObject(targetPose2d);
+        SmartDashboard.putBoolean("AutonAlignment", false);
     }
 }

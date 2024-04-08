@@ -23,6 +23,7 @@ import com.stuypulse.robot.subsystems.swerve.modules.SwerveModule;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleImpl;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleSim;
 import com.stuypulse.robot.subsystems.swerve.modules.TumblerSwerveModule;
+import com.stuypulse.robot.util.FollowPathPointAmpZoneCommand;
 import com.stuypulse.robot.util.FollowPathPointSpeakerCommand;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -157,6 +158,24 @@ public class SwerveDrive extends SubsystemBase {
                 Motion.THETA, 
                 0.02, 
                 Settings.Swerve.MAX_MODULE_SPEED, 
+                Math.hypot(Settings.Swerve.LENGTH, Settings.Swerve.WIDTH)),
+            new ReplanningConfig(false, false),
+            () -> false,
+            this
+        );
+    }
+
+    public Command followPathWithAmpZoneAlignCommand(PathPlannerPath path) {
+        return new FollowPathPointAmpZoneCommand(
+            path, 
+            () -> Odometry.getInstance().getPose(),
+            this::getChassisSpeeds,
+            this::setChassisSpeeds,
+            new PPHolonomicDriveController(
+                Motion.XY,
+                Motion.THETA,
+                Settings.DT,
+                Settings.Swerve.MAX_MODULE_SPEED,
                 Math.hypot(Settings.Swerve.LENGTH, Settings.Swerve.WIDTH)),
             new ReplanningConfig(false, false),
             () -> false,

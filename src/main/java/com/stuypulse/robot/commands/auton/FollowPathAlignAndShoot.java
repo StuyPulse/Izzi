@@ -23,8 +23,12 @@ public class FollowPathAlignAndShoot extends SequentialCommandGroup {
         return path.getTrajectory(new ChassisSpeeds(), path.getStartingDifferentialPose().getRotation())
             .getTotalTimeSeconds();
     }
-
+    
     public FollowPathAlignAndShoot(PathPlannerPath path, Command alignCommand) {
+        this(path, alignCommand, false);
+    }
+
+    public FollowPathAlignAndShoot(PathPlannerPath path, Command alignCommand, boolean noteShot) {
         addCommands(
             new ParallelCommandGroup(
                 SwerveDrive.getInstance().followPathCommand(path),
@@ -33,9 +37,13 @@ public class FollowPathAlignAndShoot extends SequentialCommandGroup {
             ),
             alignCommand,
             new ShooterWaitForTarget()
-                .withTimeout(0.5),
-            new ConveyorShootRoutine()
+                .withTimeout(0.5)
         );
+
+        if (noteShot)
+            addCommands(ConveyorShootRoutine.untilNoteShot(0.75));
+        else
+            addCommands(new ConveyorShootRoutine());
     }
 
 }
