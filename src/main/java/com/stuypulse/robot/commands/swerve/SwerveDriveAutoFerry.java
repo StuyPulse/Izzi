@@ -25,6 +25,7 @@ import com.stuypulse.robot.constants.Settings.Swerve.Assist;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
@@ -76,7 +77,7 @@ public class SwerveDriveAutoFerry extends Command {
     // returns pose of close amp corner
     private Translation2d getTargetPose() {
         return Robot.isBlue()
-            ? new Translation2d(0, Field.WIDTH - 0.5)
+            ? new Translation2d(0, Field.WIDTH - 0.75)
             : new Translation2d(0, 0.5);
     }
 
@@ -88,11 +89,19 @@ public class SwerveDriveAutoFerry extends Command {
         return odometry.getPose().getTranslation().getDistance(getTargetPose());
     }
 
+    private double getAngleTolerance() {
+        double distance = getDistanceToTarget();
+        final double SHOT_LANDING_TOLERANCE = 1.0;
+
+        return Math.toDegrees(Math.atan(SHOT_LANDING_TOLERANCE / distance));
+    }
+
     private boolean shouldMoveBack() {
         Translation2d robot = odometry.getPose().getTranslation();
 
-        return robot.getX() < Field.FERRY_SHOT_MIN_FAR_X
-            && robot.getY() < Field.WIDTH / 2.0 + 1;
+        return robot.getX() < Field.FERRY_SHOT_MIN_X ||
+            (robot.getX() < Field.FERRY_SHOT_MIN_FAR_X
+            && robot.getY() < Field.WIDTH / 2.0 + 1);
     }
 
     private boolean canShoot() {
@@ -119,12 +128,13 @@ public class SwerveDriveAutoFerry extends Command {
             Angle.fromRotation2d(odometry.getPose().getRotation()));
 
         if (shouldMoveBack()) {
-            swerve.setFieldRelativeSpeeds(new ChassisSpeeds(1, 0, 0));
+            swerve.setFieldRelativeSpeeds(new ChassisSpeeds(2.0, 0, -omega));
 
             intake.stop();
             conveyor.stop();
         } else {
-            if (canShoot() && Math.abs(controller.getError().toDegrees()) < Assist.FERRY_ALIGN_THRESHOLD_DEG) {
+            SmartDashboard.putNumber("Ferry/Angle Tolerance", getAngleTolerance());
+            if (canShoot() && Math.abs(controller.getError().toDegrees()) < getAngleTolerance()) {
                 intake.acquire();
                 conveyor.toShooter();
             } else {

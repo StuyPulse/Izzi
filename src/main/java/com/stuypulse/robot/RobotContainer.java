@@ -150,7 +150,8 @@ public class RobotContainer {
         // note to amper and align then score
         driver.getLeftBumper()
             .whileTrue(new AmpScoreRoutine())
-            .onFalse(new AmperStop());
+            .onFalse(new AmperStop())
+            .onFalse(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT));
 
         // score speaker no align
         driver.getRightMenuButton()
@@ -174,9 +175,6 @@ public class RobotContainer {
         driver.getLeftButton()
             .onTrue(new AmperScoreTrap())
             .onFalse(new AmperStop());
-
-        driver.getDPadLeft()
-            .whileTrue(SwerveDriveToPose.speakerRelative(-45));
 
         // lift to trap
         driver.getDPadRight()
@@ -272,7 +270,9 @@ public class RobotContainer {
 
         operator.getDPadRight()
             .onTrue(new GandalfToShoot())
-            .onFalse(new ConveyorStop());
+            .onTrue(new AmperScore().until(Amper.getInstance()::hasNote))
+            .onFalse(new ConveyorStop())
+            .onFalse(new AmperStop());
         operator.getDPadLeft()
             .onTrue(new GandalfToAmp())
             .onFalse(new ConveyorStop());
@@ -310,6 +310,9 @@ public class RobotContainer {
 
         AutonConfig CBAED = new AutonConfig("5 CBAE", SixPieceCBAED::new,
         "Preload to C Close", "Close Preload to C", "C to B", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
+
+        AutonConfig CBAED_OLD = new AutonConfig("5 CBAE Old", SixPieceCBAEDOld::new,
+        "Preload to C", "C to B", "B to A", "A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
 
         AutonConfig CHGF = new AutonConfig("4.5 Piece CHGF", FivePieceCHGF::new,
         "Preload to C", "CShoot To H (CHGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)");

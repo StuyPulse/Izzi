@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.7916949793952195,
-        "y": 3.5901054138230815
+        "x": 2.5050384003901907,
+        "y": 3.180810008343664
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.4990415279914497,
-        "y": 0.16371816218817875
+        "x": 4.8555634433206185,
+        "y": 0.7133434209888375
       },
       "isLocked": false,
       "linkedName": "HShoot"
     },
     {
       "anchor": {
-        "x": 8.223479922743321,
-        "y": 2.5844081317792273
+        "x": 8.1299266872038,
+        "y": 2.1166419540816297
       },
       "prevControl": {
-        "x": 6.761710617438328,
-        "y": 0.0
+        "x": 6.63307491857149,
+        "y": 0.5964018765644371
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,14 +32,14 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.5,
-    "maxAcceleration": 4.5,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": 52.883139316729775,
+    "rotation": 42.79740183823393,
     "rotateFast": false
   },
   "reversed": false,

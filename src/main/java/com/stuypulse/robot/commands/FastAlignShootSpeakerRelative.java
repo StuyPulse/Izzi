@@ -1,31 +1,31 @@
-/************************ PROJECT IZZI *************************/
-/* Copyright (c) 2024 StuyPulse Robotics. All rights reserved. */
-/* Use of this source code is governed by an MIT-style license */
-/* that can be found in the repository LICENSE file.           */
-/***************************************************************/
+package com.stuypulse.robot.commands;
 
-package com.stuypulse.robot.commands.swerve;
+import java.util.function.Supplier;
 
+import com.stuypulse.robot.constants.Field;
+import com.stuypulse.robot.constants.Settings.Alignment;
+import com.stuypulse.robot.constants.Settings.Alignment.Rotation;
+import com.stuypulse.robot.constants.Settings.Alignment.Translation;
+import com.stuypulse.robot.constants.Settings.Swerve;
+import com.stuypulse.robot.constants.Settings.Swerve.Motion;
+import com.stuypulse.robot.subsystems.conveyor.Conveyor;
+import com.stuypulse.robot.subsystems.intake.Intake;
+import com.stuypulse.robot.subsystems.odometry.Odometry;
+import com.stuypulse.robot.subsystems.shooter.Shooter;
+import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
+import com.stuypulse.robot.util.HolonomicController;
+import com.stuypulse.robot.util.MirrorRotation2d;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.streams.booleans.BStream;
+import com.stuypulse.stuylib.streams.booleans.filters.BDebounce;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 import com.stuypulse.stuylib.streams.numbers.IStream;
 import com.stuypulse.stuylib.streams.numbers.filters.Derivative;
+import com.stuypulse.stuylib.streams.numbers.filters.TimedMovingAverage;
 import com.stuypulse.stuylib.streams.numbers.filters.LowPassFilter;
-import com.pathplanner.lib.util.PIDConstants;
-import com.stuypulse.robot.constants.Field;
-import com.stuypulse.robot.constants.Settings.Alignment;
-import com.stuypulse.robot.constants.Settings.Swerve;
-import com.stuypulse.robot.constants.Settings.Alignment.Rotation;
-import com.stuypulse.robot.constants.Settings.Alignment.Translation;
-import com.stuypulse.robot.constants.Settings.Swerve.Motion;
-import com.stuypulse.robot.subsystems.odometry.Odometry;
-import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
-import com.stuypulse.robot.util.HolonomicController;
-import com.stuypulse.robot.util.MirrorRotation2d;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -35,36 +35,19 @@ import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
-import java.util.function.Supplier;
-
-public class SwerveDriveToPose extends Command {
-
-    public static SwerveDriveToPose speakerRelative(double angleToSpeaker, double distanceToSpeaker) {
-        MirrorRotation2d angle = MirrorRotation2d.fromBlue(
-            Rotation2d.fromDegrees(SLMath.clamp(
-                angleToSpeaker, Alignment.PODIUM_SHOT_MAX_ANGLE)));
-
-        double distance = SLMath.clamp(distanceToSpeaker, 1, 5);
-
-        return new SwerveDriveToPose(() -> {
-            return new Pose2d(
-                Field.getAllianceSpeakerPose().getTranslation()
-                    .plus(new Translation2d(distance, angle.get())),
-                angle.get());
-            }
-        );
-    }
-
-    public static SwerveDriveToPose speakerRelative(double angleToSpeaker) {
-        return speakerRelative(angleToSpeaker, Alignment.PODIUM_SHOT_DISTANCE.get());
-    }
+// needs secondary 
+public class FastAlignShootSpeakerRelative extends Command {
 
     private final SwerveDrive swerve;
     private final Odometry odometry;
 
+    private final Conveyor conveyor;
+    private final Intake intake;
+
     private final HolonomicController controller;
     private final Supplier<Pose2d> poseSupplier;
     private final BStream isAligned;
+    private final BStream isFinished;
     private final IStream velocityError;
 
     private final FieldObject2d targetPose2d;
@@ -73,18 +56,29 @@ public class SwerveDriveToPose extends Command {
     private double yTolerance;
     private double thetaTolerance;
     private double velocityTolerance;
-
+    
     private Pose2d targetPose;
 
-    public SwerveDriveToPose(Pose2d targetPose) {
-        this(() -> targetPose);
+    public FastAlignShootSpeakerRelative(double angleToSpeaker) {
+        this(angleToSpeaker, Alignment.PODIUM_SHOT_DISTANCE.get());
     }
 
-    public SwerveDriveToPose(Supplier<Pose2d> poseSupplier) {
+    public FastAlignShootSpeakerRelative(double angleToSpeaker, double distanceToSpeaker) {
         swerve = SwerveDrive.getInstance();
         odometry = Odometry.getInstance();
+        conveyor = Conveyor.getInstance();
+        intake = Intake.getInstance();
 
-        this.poseSupplier = poseSupplier;
+        MirrorRotation2d angle = MirrorRotation2d.fromBlue(
+            Rotation2d.fromDegrees(SLMath.clamp(
+                angleToSpeaker, Alignment.PODIUM_SHOT_MAX_ANGLE)));
+
+        double distance = SLMath.clamp(distanceToSpeaker, 1, 5);
+
+        poseSupplier = () -> new Pose2d(
+            Field.getAllianceSpeakerPose().getTranslation()
+                .plus(new Translation2d(distance, angle.get())),
+            angle.get());
 
         targetPose2d = odometry.getField().getObject("Target Pose");
 
@@ -94,49 +88,28 @@ public class SwerveDriveToPose extends Command {
             new AnglePIDController(Rotation.kP, Rotation.kI, Rotation.kD));
 
         isAligned = BStream.create(this::isAligned)
-            .filtered(new BDebounceRC.Both(Alignment.DEBOUNCE_TIME));
+            .filtered(new BDebounceRC.Both(Alignment.DEBOUNCE_TIME))
+            .filtered(new BDebounce.Falling(2.0));
+
+        isFinished = isAligned
+            .filtered(new BDebounce.Rising(0.75))
+            .or(Shooter.getInstance()::noteShot);
 
         velocityError = IStream.create(() -> {
             ChassisSpeeds speeds = controller.getError();
 
             return new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond).getNorm();
         })
+            .filtered(new TimedMovingAverage(0.05))
             .filtered(new LowPassFilter(0.05))
             .filtered(x -> Math.abs(x));
 
-        xTolerance = Alignment.X_TOLERANCE.get();
-        yTolerance = Alignment.Y_TOLERANCE.get();
-        thetaTolerance = Alignment.ANGLE_TOLERANCE.get();
-        velocityTolerance = 0.15;
+        xTolerance = 0.2;
+        yTolerance = 0.2;
+        thetaTolerance = 10;
+        velocityTolerance = 0.2;
 
         addRequirements(swerve);
-    }
-    
-    public SwerveDriveToPose withTranslationConstants(PIDConstants pid) {
-        controller.setTranslationConstants(pid.kP, pid.kI, pid.kD);
-        return this;
-    }
-    
-    public SwerveDriveToPose withRotationConstants(PIDConstants pid) {
-        controller.setRotationConstants(pid.kP, pid.kI, pid.kD);
-        return this;
-    }
-
-    public SwerveDriveToPose withTranslationConstants(double p, double i, double d) {
-        controller.setTranslationConstants(p, i, d);
-        return this;
-    }
-    
-    public SwerveDriveToPose withRotationConstants(double p, double i, double d) {
-        controller.setRotationConstants(p, i, d);
-        return this;
-    }
-
-    public SwerveDriveToPose withTolerance(Number x, Number y, Number theta) {
-        xTolerance = x.doubleValue();
-        yTolerance = y.doubleValue();
-        thetaTolerance = theta.doubleValue();
-        return this;
     }
 
     @Override
@@ -144,7 +117,7 @@ public class SwerveDriveToPose extends Command {
         targetPose = poseSupplier.get();
         SmartDashboard.putBoolean("AutonAlignment", true);
     }
-
+    
     private boolean isAligned() {
         return controller.isDone(xTolerance, yTolerance, thetaTolerance)
             && velocityError.get() < velocityTolerance;
@@ -168,11 +141,16 @@ public class SwerveDriveToPose extends Command {
             speed.x, speed.y, rotation);
         
         swerve.setChassisSpeeds(clamped);
+
+        if (isAligned.get()) {
+            conveyor.toShooter();
+            intake.acquire();
+        }
     }
 
     @Override
     public boolean isFinished() {
-        return isAligned.get();
+        return isFinished.get() && isAligned.get();
     }
 
     @Override
@@ -181,4 +159,6 @@ public class SwerveDriveToPose extends Command {
         Field.clearFieldObject(targetPose2d);
         SmartDashboard.putBoolean("AutonAlignment", false);
     }
+
+
 }
