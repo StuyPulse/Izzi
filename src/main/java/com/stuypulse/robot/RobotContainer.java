@@ -306,9 +306,6 @@ public class RobotContainer {
         AutonConfig HGF = new AutonConfig("4 HGF", FourPieceHGF::new,
         "Start to H (HGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)", "F to Shoot (HGF)");
         
-        AutonConfig TrackingCBAE = new AutonConfig("Tracking 5 CBAE Podium", FivePieceTrackingCBAE::new,
-            "Preload to C", "C to B", "B to A", "A to E", "E to Shoot");   
-
         AutonConfig CBAED = new AutonConfig("5 CBAE", SixPieceCBAED::new,
         "Preload to C Close", "Close Preload to C", "C to B", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
 
@@ -327,9 +324,6 @@ public class RobotContainer {
         // AutonConfig DE = new AutonConfig("2 DE", TwoPieceDE::new,
         //     "Preload Shot to D", "D to Ferry Shot", "Ferry Shot to E", "E to Shoot");
 
-        // AutonConfig PodiumCloseCBAE = new AutonConfig("Podium Close 5 Piece CBAE", FivePiecePodiumForwardCBAE::new, 
-        // "Forward First Piece to C", "C to B 2", "B to A","A to E", "E to Shoot");
-        
         HGF.registerDefaultBlue(autonChooser)
             .registerRed(autonChooser);
 
