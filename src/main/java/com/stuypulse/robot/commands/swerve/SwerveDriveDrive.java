@@ -19,14 +19,17 @@ import com.stuypulse.robot.constants.Settings.Driver.Drive;
 import com.stuypulse.robot.constants.Settings.Driver.Turn;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class SwerveDriveDrive extends Command {
 
-    private SwerveDrive swerve;
+    private final SwerveDrive swerve;
 
-    private VStream speed;
-    private IStream turn;
+    private final Gamepad driver;
+
+    private final VStream speed;
+    private final IStream turn;
 
     public SwerveDriveDrive(Gamepad driver) {
         swerve = SwerveDrive.getInstance();
@@ -47,11 +50,17 @@ public class SwerveDriveDrive extends Command {
                 x -> x * Turn.MAX_TELEOP_TURNING.get(),
                 new LowPassFilter(Turn.RC.get()));
 
+        this.driver = driver;
+
         addRequirements(swerve);
     }
 
     @Override
     public void execute() {
-        swerve.drive(speed.get(), turn.get());
+        if (driver.getLeftTriggerPressed()) {
+            swerve.setChassisSpeeds(new ChassisSpeeds(speed.get().y, -speed.get().x, -turn.get()));
+        } else {
+            swerve.drive(speed.get(), turn.get());
+        }
     }
 }

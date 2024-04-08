@@ -8,18 +8,22 @@ package com.stuypulse.robot.subsystems.amper;
 
 import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.network.SmartNumber;
-
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.RobotType;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.stuypulse.robot.constants.Field;
+import com.stuypulse.robot.subsystems.odometry.Odometry;
 
 /*
 AMP:
@@ -87,6 +91,10 @@ public abstract class Amper extends SubsystemBase {
     public final double getTargetHeight() {
         return targetHeight.get();
     }
+    
+    public final boolean isAtBelowTargetHeight(double epsilonMeters) {
+        return getLiftHeight() <= getTargetHeight() + epsilonMeters;
+    }
 
     public final boolean isAtTargetHeight(double epsilonMeters) {
         return Math.abs(getTargetHeight() - getLiftHeight()) < epsilonMeters;
@@ -107,6 +115,8 @@ public abstract class Amper extends SubsystemBase {
     public abstract double getLiftHeight();
 
     public abstract void stopLift();
+    
+    public abstract void setLiftIdleMode(IdleMode mode);
 
     /*** IR SENSOR ***/
 
@@ -150,6 +160,8 @@ public abstract class Amper extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("Amper/Amp Distance", Units.metersToInches(Field.WIDTH - Odometry.getInstance().getPose().getY()));
+        
         lift2d.setLength(Settings.Amper.Lift.VISUALIZATION_MIN_LENGTH + getLiftHeight());
 
         if (targetHeight.get() > Settings.Amper.Lift.MAX_HEIGHT)

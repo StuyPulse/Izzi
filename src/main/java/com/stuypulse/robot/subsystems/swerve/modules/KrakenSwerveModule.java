@@ -166,7 +166,7 @@ public class KrakenSwerveModule extends SwerveModule {
     public void periodic() {
         super.periodic();
 
-        final boolean USE_ACCEL = true;
+        final boolean USE_ACCEL = false;
         final boolean USE_ACCEL_IN_AUTON = false;
         final boolean USE_FOC_IN_AUTON = false;
 
@@ -202,11 +202,13 @@ public class KrakenSwerveModule extends SwerveModule {
             pivotMotor.setVoltage(pivotController.getOutput());
         }
 
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Target Acceleration", acceleration * Encoder.Drive.POSITION_CONVERSION);
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Current", driveMotor.getSupplyCurrent().getValueAsDouble());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Position", getPosition());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Velocity", getVelocity());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Drive Voltage", driveMotor.getMotorVoltage().getValueAsDouble());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Turn Voltage", pivotController.getOutput());
+        SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Turn Current", pivotMotor.getOutputCurrent());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Angle Error", pivotController.getError().toDegrees());
         SmartDashboard.putNumber("Swerve/Modules/" + getId() + "/Raw Encoder Angle", Units.rotationsToDegrees(pivotEncoder.getAbsolutePosition().getValueAsDouble()));
     }
