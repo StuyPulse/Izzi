@@ -336,6 +336,9 @@ public class RobotContainer {
         AutonConfig HGFEDJerk = new AutonConfig("HGFEDJerk", HGFEDJerk::new,
         "Start To H (HGF)", "H To HJerk", "HJerk to G", "G to GJerk", "GJerk to F", "F to FJerk", "FJerk to E", "E to EJerk", "E to D");
 
+        AutonConfig PRHGF = new AutonConfig("4 PRHGF", PRFourPieceHGF::new,
+        "Start to H (HGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)", "F to Shoot (HGF)");
+        
         HGF.registerDefaultBlue(autonChooser)
             .registerRed(autonChooser);
 
@@ -352,6 +355,10 @@ public class RobotContainer {
             .registerRed(autonChooser);
 
         HGFEDJerk
+            .registerBlue(autonChooser)
+            .registerRed(autonChooser);
+
+        PRHGF
             .registerBlue(autonChooser)
             .registerRed(autonChooser);
         
