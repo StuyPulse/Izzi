@@ -11,6 +11,9 @@ import com.stuypulse.stuylib.control.angle.AngleController;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.math.Angle;
+import com.stuypulse.stuylib.math.Vector2D;
+import com.stuypulse.stuylib.streams.booleans.BStream;
+import com.stuypulse.stuylib.streams.booleans.filters.BDebounce;
 import com.stuypulse.stuylib.streams.numbers.IStream;
 import com.stuypulse.stuylib.streams.numbers.filters.LowPassFilter;
 import com.stuypulse.stuylib.streams.vectors.VStream;
@@ -22,6 +25,7 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Driver.Drive;
 import com.stuypulse.robot.constants.Settings.Swerve.Assist;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -41,6 +45,8 @@ public class SwerveDriveAutoFerry extends Command {
 
     private final AngleController controller;
     private final IStream angleVelocity;
+
+    private final BStream shoot;
 
     public SwerveDriveAutoFerry(Gamepad driver) {
         swerve = SwerveDrive.getInstance();
@@ -70,15 +76,27 @@ public class SwerveDriveAutoFerry extends Command {
             .filtered(x -> x * Math.min(1, getDistanceToTarget() / Assist.REDUCED_FF_DIST))
             .filtered(x -> -x);
 
+        shoot = BStream.create(this::canShoot)
+            .and(() -> Math.abs(controller.getError().toDegrees()) < getAngleTolerance())
+            .filtered(new BDebounce.Falling(0.4));
 
         addRequirements(swerve, shooter, odometry, conveyor, intake);
     }
 
     // returns pose of close amp corner
     private Translation2d getTargetPose() {
-        return Robot.isBlue()
-            ? new Translation2d(0, Field.WIDTH - 0.75)
-            : new Translation2d(0, 0.5);
+        final double NOTE_TRAVEL_TIME = 2.5;
+
+        Translation2d pose = Robot.isBlue()
+            ? new Translation2d(0, Field.WIDTH - 1.5)
+            : new Translation2d(0, 1.5);
+        
+        return pose;
+
+        // Translation2d offset = odometry.getRobotVelocity()
+        //     .times(NOTE_TRAVEL_TIME);
+        
+        // return pose.minus(offset);
     }
 
     private Rotation2d getTargetAngle() {
@@ -134,15 +152,21 @@ public class SwerveDriveAutoFerry extends Command {
             conveyor.stop();
         } else {
             SmartDashboard.putNumber("Ferry/Angle Tolerance", getAngleTolerance());
-            if (canShoot() && Math.abs(controller.getError().toDegrees()) < getAngleTolerance()) {
+            if (shoot.get()) {
                 intake.acquire();
                 conveyor.toShooter();
+
+                Vector2D vel = drive.get();
+                double mag = MathUtil.clamp(vel.magnitude(), 0.0, 2.0); 
+
+                swerve.drive(vel.normalize().mul(mag), omega);
             } else {
                 intake.stop();
                 conveyor.stop();
+
+                swerve.drive(drive.get(), omega);
             }
 
-            swerve.drive(drive.get(), omega);
         }
     }
 

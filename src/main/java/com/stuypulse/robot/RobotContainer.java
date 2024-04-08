@@ -44,7 +44,6 @@ import com.stuypulse.robot.subsystems.vision.NoteVision;
 import com.stuypulse.robot.util.PathUtil.AutonConfig;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.util.PixelFormat;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -53,6 +52,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
@@ -131,7 +131,15 @@ public class RobotContainer {
                     .alongWith(new LEDSet(LEDInstructions.PICKUP)
                         .withTimeout(3.0))));
         
+        // intaking (also robot relative swerve)
         driver.getLeftTriggerButton()
+            .whileTrue(new IntakeAcquire()
+                    .deadlineWith(new LEDSet(LEDInstructions.INTAKE))
+                .andThen(new BuzzController(driver) 
+                    .alongWith(new LEDSet(LEDInstructions.PICKUP)
+                        .withTimeout(3.0))));
+
+        driver.getDPadLeft()
             .onTrue(new IntakeDeacquire())
             .onFalse(new IntakeStop());
 
@@ -244,11 +252,13 @@ public class RobotContainer {
             .onTrue(new IntakeDeacquire())
             .onFalse(new IntakeStop());
         operator.getRightTriggerButton()
-            .whileTrue(new IntakeAcquire()
-                .deadlineWith(new LEDSet(LEDInstructions.INTAKE))
-                .andThen(new BuzzController(driver)
+            .onTrue(new IntakeAcquireForever())
+            .whileTrue(new WaitUntilCommand(Intake.getInstance()::hasNote)
+                    .deadlineWith(new LEDSet(LEDInstructions.INTAKE))
+                .andThen(new BuzzController(driver) 
                     .alongWith(new LEDSet(LEDInstructions.PICKUP)
-                        .withTimeout(3.0))));
+                        .withTimeout(3.0))))
+            .onFalse(new IntakeStop());
 
         operator.getLeftBumper()
             .onTrue(new ConveyorToAmp())
@@ -304,16 +314,20 @@ public class RobotContainer {
         autonChooser.addOption("Mobility", new Mobility());
 
         AutonConfig HGF = new AutonConfig("4 HGF", FourPieceHGF::new,
-        "Start to H (HGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)", "F to Shoot (HGF)");
+            "Start to H (HGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)", "F to Shoot (HGF)");
+        AutonConfig HGF_RED = new AutonConfig("4 HGF", FourPieceHGF::new,
+            "Start to H (HGF) Red", "H to HShoot (HGF) Red", "HShoot to G (HGF) Red", "G to Shoot (HGF) Red", "GShoot to F (HGF)", "F to Shoot (HGF)");
         
         AutonConfig CBAED = new AutonConfig("5 CBAE", SixPieceCBAED::new,
-        "Preload to C Close", "Close Preload to C", "C to B", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
+            "Preload to C Close", "Close Preload to C", "C to B", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
+        AutonConfig CBAED_RED = new AutonConfig("5 CBAE", SixPieceCBAED::new,
+            "Preload to C Close Red", "Close Preload to C", "C to B Red", "B to A Red","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
 
         AutonConfig CBA = new AutonConfig("4 CBA", FourPieceCBA::new,
         "Preload to C", "C to B", "B to A");
 
         AutonConfig CHGF = new AutonConfig("4.5 Piece CHGF", FivePieceCHGF::new,
-        "Preload to C", "CShoot To H (CHGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)");
+            "Preload to C", "CShoot To H (CHGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)");
 
         // AutonConfig ADEF = new AutonConfig("4.5 Piece ADEF", FourPieceADEF::new, 
         // "Preload to A", "A to D", "D to Shoot", "Shoot to E", "E to Shoot", "Shoot To F (ADEF)", "F To Shoot (ADEF)");
@@ -323,16 +337,17 @@ public class RobotContainer {
         
         // AutonConfig DE = new AutonConfig("2 DE", TwoPieceDE::new,
         //     "Preload Shot to D", "D to Ferry Shot", "Ferry Shot to E", "E to Shoot");
-
-        HGF.registerDefaultBlue(autonChooser)
-            .registerRed(autonChooser);
-
-        CBAED.registerBlue(autonChooser)
-            .registerRed(autonChooser);
+        
+        // TODO: automatically choose red/blue
+        HGF.registerDefaultBlue(autonChooser);
+        HGF_RED.registerRed(autonChooser);
+        
+        CBAED.registerBlue(autonChooser);
+        CBAED_RED.registerRed(autonChooser);
 
         CBA.registerBlue(autonChooser)
             .registerRed(autonChooser);
-
+        
         SmartDashboard.putData("Autonomous", autonChooser);
 
     }

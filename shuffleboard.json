@@ -91,21 +91,6 @@
               "_showGlyph": false
             }
           },
-          "6,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Boolean Box",
-              "_source0": "network_table:///SmartDashboard/Note Detection/Has Note Data",
-              "_title": "Sees Note",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Colors/Color when true": "#7CFC00FF",
-              "Colors/Color when false": "#8B0000FF"
-            }
-          },
           "6,0": {
             "size": [
               1,
@@ -168,7 +153,7 @@
             "content": {
               "_type": "Camera Stream",
               "_source0": "camera_server://USB Camera 0",
-              "_title": "USB Camera 0",
+              "_title": "Driver Camera",
               "_glyph": 148,
               "_showGlyph": false,
               "Crosshair/Show crosshair": true,

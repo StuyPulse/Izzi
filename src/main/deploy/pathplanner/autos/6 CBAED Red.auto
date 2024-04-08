@@ -1,0 +1,61 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Preload to C Close Red"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Close Preload to C"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C to B Red"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B to A Red"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A to E"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E to Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Shoot to D (CBAED)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "D to Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

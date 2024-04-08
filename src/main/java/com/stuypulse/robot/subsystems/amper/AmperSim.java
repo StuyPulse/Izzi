@@ -17,7 +17,7 @@ import com.stuypulse.stuylib.control.feedforward.MotorFeedforward;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.numbers.filters.MotionProfile;
-
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
@@ -94,6 +94,9 @@ public class AmperSim extends Amper {
     public void stopLift() {
         sim.setInputVoltage(0.0);
     }
+
+    @Override
+    public void setLiftIdleMode(IdleMode mode) {}
 
     /*** IR SENSOR ***/
 

@@ -60,10 +60,14 @@ public class FastAlignShootSpeakerRelative extends Command {
     private Pose2d targetPose;
 
     public FastAlignShootSpeakerRelative(double angleToSpeaker) {
-        this(angleToSpeaker, Alignment.PODIUM_SHOT_DISTANCE.get());
+        this(angleToSpeaker, Alignment.PODIUM_SHOT_DISTANCE.get(), 0.75);
     }
 
-    public FastAlignShootSpeakerRelative(double angleToSpeaker, double distanceToSpeaker) {
+    public FastAlignShootSpeakerRelative(double angleToSpeaker, double shootTimeout) {
+        this(angleToSpeaker, Alignment.PODIUM_SHOT_DISTANCE.get(), shootTimeout);
+    }
+
+    public FastAlignShootSpeakerRelative(double angleToSpeaker, double distanceToSpeaker, double shootTimeout) {
         swerve = SwerveDrive.getInstance();
         odometry = Odometry.getInstance();
         conveyor = Conveyor.getInstance();
@@ -92,7 +96,7 @@ public class FastAlignShootSpeakerRelative extends Command {
             .filtered(new BDebounce.Falling(2.0));
 
         isFinished = isAligned
-            .filtered(new BDebounce.Rising(0.75))
+            .filtered(new BDebounce.Rising(shootTimeout))
             .or(Shooter.getInstance()::noteShot);
 
         velocityError = IStream.create(() -> {
