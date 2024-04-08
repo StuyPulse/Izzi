@@ -313,9 +313,9 @@ public class RobotContainer {
             "Start to H (HGF) Red", "H to HShoot (HGF) Red", "HShoot to G (HGF) Red", "G to Shoot (HGF) Red", "GShoot to F (HGF)", "F to Shoot (HGF)");
         
         AutonConfig CBAED = new AutonConfig("5 CBAE", SixPieceCBAED::new,
-            "Preload to C Close", "Close Preload to C", "C to B", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
+            "Preload to C", "C to B", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
         AutonConfig CBAED_RED = new AutonConfig("5 CBAE", SixPieceCBAED::new,
-            "Preload to C Close Red", "Close Preload to C", "C to B Red", "B to A Red","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
+            "Preload to C", "C to B Red", "B to A Red","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
 
         AutonConfig CBA = new AutonConfig("4 CBA", FourPieceCBA::new,
         "Preload to C", "C to B", "B to A");
