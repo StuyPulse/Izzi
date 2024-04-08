@@ -111,7 +111,7 @@ public class FastAlignShootSpeakerRelative extends Command {
         xTolerance = 0.2;
         yTolerance = 0.2;
         thetaTolerance = 10;
-        velocityTolerance = 0.2;
+        velocityTolerance = 0.1;
 
         addRequirements(swerve);
     }
@@ -150,6 +150,8 @@ public class FastAlignShootSpeakerRelative extends Command {
             conveyor.toShooter();
             intake.acquire();
         }
+
+        SmartDashboard.putNumber("Alignment/Output Speed", speed.magnitude());
     }
 
     @Override
