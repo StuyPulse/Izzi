@@ -147,13 +147,8 @@ public class RobotContainer {
         // then shoot
         driver.getRightBumper()
             .onTrue(new ShooterPodiumShot())
-            .whileTrue(new SwerveDriveToShoot()
-                    .deadlineWith(new LEDSet(LEDInstructions.SPEAKER_ALIGN))
-                .andThen(new ShooterWaitForTarget()
-                    .withTimeout(1.5))
-                .andThen(new ConveyorShoot()))
-            .onFalse(new ConveyorStop())
-            .onFalse(new IntakeStop());
+            .whileTrue(new SwerveDriveToShootWithoutStopping()
+                .deadlineWith(new LEDSet(LEDInstructions.SPEAKER_ALIGN)));
 
         // note to amper and align then score
         driver.getLeftBumper()
@@ -216,7 +211,6 @@ public class RobotContainer {
 
         driver.getTopButton()
             .whileTrue(new SwerveDriveAutoFerry(driver));
-            // .whileTrue(new SwerveDriveToShootMoving());
 
         // climb
         driver.getRightButton()
