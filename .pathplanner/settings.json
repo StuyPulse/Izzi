@@ -4,8 +4,9 @@
   "holonomicMode": true,
   "pathFolders": [
     "ABCDE",
-    "HGF",
     "Ferry",
+    "HGF",
+    "Top Ferry",
     "Tests"
   ],
   "autoFolders": [],

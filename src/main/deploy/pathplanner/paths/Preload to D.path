@@ -1,0 +1,65 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.32,
+        "y": 6.99
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.852755732218979,
+        "y": 7.522755732218979
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.340662401954256,
+        "y": 7.810480236918903
+      },
+      "prevControl": {
+        "x": 3.770934244698892,
+        "y": 7.852210442412396
+      },
+      "nextControl": {
+        "x": 5.723976041325577,
+        "y": 7.800290092297052
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.2,
+        "y": 7.431149973519566
+      },
+      "prevControl": {
+        "x": 8.101360607616785,
+        "y": 8.022986327818852
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "D"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Top Ferry",
+  "previewStartingState": null,
+  "useDefaultConstraints": false
+}
