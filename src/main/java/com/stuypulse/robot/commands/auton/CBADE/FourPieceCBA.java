@@ -24,21 +24,24 @@ public class FourPieceCBA extends SequentialCommandGroup {
                     .andThen(new ShooterPodiumShot()),
                 
                 SwerveDriveToPose.speakerRelative(-15)
-                    .withTolerance(0.1, 0.1, 3)
+                    .withTolerance(0.03, 0.03, 3)
             ),
 
-            new ConveyorShootRoutine(),
+            new ConveyorShootRoutine(0.8),
 
             new FollowPathAndIntake(paths[0]),
-            new SwerveDriveToShoot(),
+            new SwerveDriveToShoot()
+                .withTolerance(0.03, 3),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake(paths[1]),
-            new SwerveDriveToShoot(),
+            new SwerveDriveToShoot()
+                .withTolerance(0.03, 3),
             new ConveyorShootRoutine(),
 
             new FollowPathAndIntake(paths[2]),
-            new SwerveDriveToShoot(),
+            new SwerveDriveToShoot()
+                .withTolerance(0.03, 3),
             new ConveyorShootRoutine()
         );
     }
