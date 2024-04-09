@@ -183,7 +183,7 @@ public class SwerveDrive extends SubsystemBase {
         modules2D = new FieldObject2d[modules.length];
 
         statesPub = NetworkTableInstance.getDefault()
-            .getStructArrayTopic("Swerve/States", SwerveModuleState.struct).publish();
+            .getStructArrayTopic("SmartDashboard/Swerve/States", SwerveModuleState.struct).publish();
     }
 
     public void configureAutoBuilder() {
