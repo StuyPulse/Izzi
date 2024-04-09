@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import java.util.Optional;
 
@@ -110,6 +111,12 @@ public class AmperImpl extends Amper {
         super.setTargetHeight(height);
 
         voltageOverride = Optional.empty();
+    }
+
+    @Override
+    public void setLiftIdleMode(IdleMode mode) {
+        liftMotor.setIdleMode(mode);
+        liftMotor.burnFlash();
     }
 
     /*** IR SENSOR ***/

@@ -154,5 +154,6 @@ public class ShooterImpl extends Shooter {
         SmartDashboard.putBoolean("Shooter/Note Shot", noteShot());
 
         SmartDashboard.putNumber("Shooter/Distance", Odometry.getInstance().getPose().getTranslation().minus(Field.getAllianceSpeakerPose().getTranslation()).getNorm());
+        SmartDashboard.putNumber("Shooter/Angle", Odometry.getInstance().getPose().getTranslation().minus(Field.getAllianceSpeakerPose().getTranslation()).getAngle().getDegrees());
     }
 }

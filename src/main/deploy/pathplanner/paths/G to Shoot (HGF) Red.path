@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.430000000000001,
-        "y": 2.12
+        "x": 8.13,
+        "y": 2.32
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.032698339299814,
-        "y": 0.2723235980944895
+        "x": 6.305711906979371,
+        "y": 0.9634780846769682
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "G Red"
     },
     {
       "anchor": {
@@ -39,7 +39,7 @@
     {
       "name": "Slow Zone",
       "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.4,
+      "maxWaypointRelativePos": 0.25,
       "constraints": {
         "maxVelocity": 3.0,
         "maxAcceleration": 2.5,

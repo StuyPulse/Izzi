@@ -3,32 +3,38 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.135414608792181,
-        "y": 6.653128792368697
+        "x": 2.7,
+        "y": 5.27
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.815009430944788,
-        "y": 6.526818220303108
+        "x": 2.5306942929129037,
+        "y": 5.892387378210238
       },
       "isLocked": false,
-      "linkedName": "Ferry Shot"
+      "linkedName": "B Red"
     },
     {
       "anchor": {
-        "x": 8.17,
-        "y": 5.84
+        "x": 2.70383902591167,
+        "y": 6.887856966597124
       },
       "prevControl": {
-        "x": 7.574271630024742,
-        "y": 5.928245185749631
+        "x": 2.5507512734398694,
+        "y": 6.452168507627614
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "E"
+      "linkedName": "A Red"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 52.37639263407269,
+      "rotateFast": true
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -39,14 +45,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -4.860211087167981,
+    "rotation": 50.90614111377048,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Ferry",
-  "previewStartingState": {
-    "rotation": 0,
-    "velocity": 0
-  },
+  "folder": "ABCDE",
+  "previewStartingState": null,
   "useDefaultConstraints": true
 }

@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.135414608792181,
-        "y": 6.653128792368697
+        "x": 2.5050384003901907,
+        "y": 3.180810008343664
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.815009430944788,
-        "y": 6.526818220303108
+        "x": 4.8555634433206185,
+        "y": 0.7133434209888375
       },
       "isLocked": false,
-      "linkedName": "Ferry Shot"
+      "linkedName": "HShoot"
     },
     {
       "anchor": {
-        "x": 8.17,
-        "y": 5.84
+        "x": 8.13,
+        "y": 2.32
       },
       "prevControl": {
-        "x": 7.574271630024742,
-        "y": 5.928245185749631
+        "x": 6.63314823136769,
+        "y": 0.7997599224828073
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "E"
+      "linkedName": "G Red"
     }
   ],
   "rotationTargets": [],
@@ -38,15 +38,12 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": -4.860211087167981,
+    "velocity": 0.0,
+    "rotation": 42.79740183823393,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Ferry",
-  "previewStartingState": {
-    "rotation": 0,
-    "velocity": 0
-  },
+  "folder": "HGF",
+  "previewStartingState": null,
   "useDefaultConstraints": true
 }
