@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 5.135414608792181,
-        "y": 6.653128792368697
+        "x": 5.499492913428859,
+        "y": 6.563657142562062
       },
       "prevControl": {
-        "x": 5.5734337811268215,
-        "y": 6.740245674935794
+        "x": 5.937512085763499,
+        "y": 6.650774025129159
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Ferry",
+  "folder": null,
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

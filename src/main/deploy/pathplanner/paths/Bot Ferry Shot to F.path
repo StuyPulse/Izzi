@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.184698146585559,
-        "y": 1.7317770555385747
+        "x": 5.631554120251098,
+        "y": 1.3340106680213368
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.542075882112337,
-        "y": 1.4070669922462469
+        "x": 4.988931855777876,
+        "y": 1.009300604729009
       },
       "isLocked": false,
       "linkedName": "Bottom Ferry Shot"
     },
     {
       "anchor": {
-        "x": 8.153314996088682,
-        "y": 3.8006001937929805
+        "x": 8.08,
+        "y": 3.9
       },
       "prevControl": {
-        "x": 8.622401730400966,
-        "y": 3.6275174514636674
+        "x": 8.549086734312286,
+        "y": 3.726917257670687
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Ferry",
+  "folder": null,
   "previewStartingState": null,
   "useDefaultConstraints": false
 }

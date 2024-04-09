@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.702242576971627,
-        "y": 0.8899594927550574
+        "x": 6.173954062193839,
+        "y": 1.0994593417758272
       },
       "isLocked": false,
       "linkedName": "G"
     },
     {
       "anchor": {
-        "x": 5.184698146585559,
-        "y": 1.7317770555385747
+        "x": 5.631554120251098,
+        "y": 1.3340106680213368
       },
       "prevControl": {
-        "x": 6.021041345578454,
-        "y": 1.4231847125417423
+        "x": 6.100656772742117,
+        "y": 1.3340106680213368
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Ferry",
+  "folder": null,
   "previewStartingState": null,
   "useDefaultConstraints": false
 }
