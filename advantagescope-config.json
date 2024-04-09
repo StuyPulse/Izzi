@@ -4,13 +4,12 @@
       "x": -8,
       "y": -8,
       "width": 1552,
-      "height": 840,
+      "height": 832,
       "state": {
         "sidebar": {
-          "width": 364,
+          "width": 290,
           "expanded": [
             "/SmartDashboard",
-            "/SmartDashboard/Amper/Lift",
             "/Vision/shooter_camera",
             "/Vision/climber_camera",
             "/SmartDashboard/Odometry/Estimator",
@@ -21,7 +20,7 @@
           ]
         },
         "tabs": {
-          "selected": 2,
+          "selected": 5,
           "tabs": [
             {
               "type": 0,
@@ -55,27 +54,27 @@
                     },
                     {
                       "key": "NT:/SmartDashboard/Swerve/Modules/Back Right/Velocity",
-                      "color": "#aacaee",
+                      "color": "#80588e",
                       "show": false
                     },
                     {
                       "key": "NT:/SmartDashboard/Swerve/Modules/Front Left/Target Velocity",
-                      "color": "#c0b487",
+                      "color": "#e48b32",
                       "show": false
                     },
                     {
                       "key": "NT:/SmartDashboard/Swerve/Modules/Front Left/Velocity",
-                      "color": "#858584",
+                      "color": "#aacaee",
                       "show": false
                     },
                     {
                       "key": "NT:/SmartDashboard/Swerve/Modules/Front Right/Target Velocity",
-                      "color": "#3b875a",
+                      "color": "#c0b487",
                       "show": false
                     },
                     {
                       "key": "NT:/SmartDashboard/Swerve/Modules/Front Right/Velocity",
-                      "color": "#d993aa",
+                      "color": "#858584",
                       "show": false
                     }
                   ]
@@ -84,7 +83,7 @@
                   "fields": [
                     {
                       "key": "NT:/SmartDashboard/Robot State",
-                      "color": "#eb987e",
+                      "color": "#3b875a",
                       "show": true
                     }
                   ]
@@ -98,12 +97,12 @@
                   "fields": [
                     {
                       "key": "NT:/SmartDashboard/Swerve/Modules/Back Left/Drive Current",
-                      "color": "#80588e",
+                      "color": "#d993aa",
                       "show": false
                     },
                     {
                       "key": "NT:/SmartDashboard/Swerve/Modules/Back Left/Drive Voltage",
-                      "color": "#e48b32",
+                      "color": "#eb987e",
                       "show": false
                     }
                   ]
@@ -158,17 +157,17 @@
                   "fields": [
                     {
                       "key": "NT:/SmartDashboard/Robot State",
-                      "color": "#a64b6b",
+                      "color": "#c0b487",
                       "show": true
                     },
                     {
                       "key": "NT:/SmartDashboard/Shooter/Note Shot",
-                      "color": "#dbd345",
+                      "color": "#858584",
                       "show": true
                     },
                     {
                       "key": "NT:/SmartDashboard/Is DS Attached",
-                      "color": "#7e331f",
+                      "color": "#3b875a",
                       "show": false
                     }
                   ]
@@ -182,32 +181,32 @@
                   "fields": [
                     {
                       "key": "NT:/SmartDashboard/Shooter/Feeder Current",
-                      "color": "#c0b487",
-                      "show": true
-                    },
-                    {
-                      "key": "NT:/SmartDashboard/Shooter/Right Current",
-                      "color": "#858584",
-                      "show": true
-                    },
-                    {
-                      "key": "NT:/SmartDashboard/Shooter/Left Current",
-                      "color": "#3b875a",
-                      "show": true
-                    },
-                    {
-                      "key": "NT:/SmartDashboard/Shooter/Feeder Requested Voltage",
                       "color": "#d993aa",
                       "show": true
                     },
                     {
-                      "key": "NT:/SmartDashboard/Shooter/Left Requested Voltage",
+                      "key": "NT:/SmartDashboard/Shooter/Right Current",
                       "color": "#eb987e",
                       "show": true
                     },
                     {
-                      "key": "NT:/SmartDashboard/Shooter/Right Requested Voltage",
+                      "key": "NT:/SmartDashboard/Shooter/Left Current",
                       "color": "#5d4f92",
+                      "show": true
+                    },
+                    {
+                      "key": "NT:/SmartDashboard/Shooter/Feeder Requested Voltage",
+                      "color": "#a64b6b",
+                      "show": true
+                    },
+                    {
+                      "key": "NT:/SmartDashboard/Shooter/Left Requested Voltage",
+                      "color": "#dbd345",
+                      "show": true
+                    },
+                    {
+                      "key": "NT:/SmartDashboard/Shooter/Right Requested Voltage",
+                      "color": "#7e331f",
                       "show": true
                     }
                   ]
@@ -228,12 +227,12 @@
                   "fields": [
                     {
                       "key": "NT:/SmartDashboard/Conveyor/Gandalf Motor Current",
-                      "color": "#e48b32",
+                      "color": "#2b66a2",
                       "show": true
                     },
                     {
                       "key": "NT:/SmartDashboard/Intake/Current",
-                      "color": "#2b66a2",
+                      "color": "#e5b31b",
                       "show": true
                     },
                     {
@@ -248,32 +247,32 @@
                     },
                     {
                       "key": "NT:/SmartDashboard/Shooter/Left Current",
-                      "color": "#aacaee",
+                      "color": "#e48b32",
                       "show": true
                     },
                     {
                       "key": "NT:/SmartDashboard/Shooter/Right Current",
-                      "color": "#c0b487",
+                      "color": "#aacaee",
                       "show": true
                     },
                     {
                       "key": "NT:/SmartDashboard/Swerve/Modules/Back Left/Drive Current",
-                      "color": "#858584",
+                      "color": "#c0b487",
                       "show": true
                     },
                     {
                       "key": "NT:/SmartDashboard/Swerve/Modules/Back Right/Drive Current",
-                      "color": "#3b875a",
+                      "color": "#858584",
                       "show": true
                     },
                     {
                       "key": "NT:/SmartDashboard/Swerve/Modules/Front Left/Drive Current",
-                      "color": "#d993aa",
+                      "color": "#3b875a",
                       "show": true
                     },
                     {
                       "key": "NT:/SmartDashboard/Swerve/Modules/Front Right/Drive Current",
-                      "color": "#eb987e",
+                      "color": "#d993aa",
                       "show": true
                     }
                   ]
@@ -282,7 +281,7 @@
                   "fields": [
                     {
                       "key": "NT:/SmartDashboard/Robot State",
-                      "color": "#5d4f92",
+                      "color": "#eb987e",
                       "show": true
                     }
                   ]
@@ -296,7 +295,7 @@
                   "fields": [
                     {
                       "key": "NT:/SmartDashboard/PDP/Battery Voltage (volts)",
-                      "color": "#e5b31b",
+                      "color": "#5d4f92",
                       "show": true
                     }
                   ]
@@ -331,7 +330,7 @@
                   "fields": [
                     {
                       "key": "NT:/SmartDashboard/Robot State",
-                      "color": "#80588e",
+                      "color": "#af2437",
                       "show": true
                     }
                   ]
@@ -345,13 +344,66 @@
                   "fields": [
                     {
                       "key": "NT:/SmartDashboard/Amper/Voltage",
-                      "color": "#af2437",
+                      "color": "#80588e",
                       "show": true
                     }
                   ]
                 }
               },
               "title": "Lift"
+            },
+            {
+              "type": 1,
+              "legendHeight": 0.3,
+              "legends": {
+                "left": {
+                  "lockedRange": null,
+                  "unitConversion": {
+                    "type": null,
+                    "factor": 1
+                  },
+                  "fields": [
+                    {
+                      "key": "NT:/SmartDashboard/Amper/Intake Speed",
+                      "color": "#af2437",
+                      "show": true
+                    },
+                    {
+                      "key": "NT:/SmartDashboard/Conveyor/Gandalf Motor Speed",
+                      "color": "#80588e",
+                      "show": true
+                    },
+                    {
+                      "key": "NT:/SmartDashboard/Intake/Speed",
+                      "color": "#e48b32",
+                      "show": true
+                    }
+                  ]
+                },
+                "discrete": {
+                  "fields": [
+                    {
+                      "key": "NT:/SmartDashboard/Intake/Has Note",
+                      "color": "#2b66a2",
+                      "show": true
+                    },
+                    {
+                      "key": "NT:/SmartDashboard/Amper/Has Note",
+                      "color": "#e5b31b",
+                      "show": true
+                    }
+                  ]
+                },
+                "right": {
+                  "lockedRange": null,
+                  "unitConversion": {
+                    "type": null,
+                    "factor": 1
+                  },
+                  "fields": []
+                }
+              },
+              "title": "Conveyor"
             },
             {
               "type": 5,
@@ -412,6 +464,18 @@
                     "key": "NT:/SmartDashboard/Field/Estimator Pose",
                     "sourceTypeIndex": 0,
                     "sourceType": 5
+                  },
+                  {
+                    "type": "Trajectory",
+                    "key": "NT:/PathPlanner/activePath",
+                    "sourceTypeIndex": 0,
+                    "sourceType": 5
+                  },
+                  {
+                    "type": "Red Ghost",
+                    "key": "NT:/PathPlanner/targetPose",
+                    "sourceTypeIndex": 0,
+                    "sourceType": 5
                   }
                 ]
               ],
@@ -427,14 +491,14 @@
                 "cameraIndex": -1,
                 "orbitFov": 50,
                 "cameraPosition": [
-                  -6.732997560240504,
-                  10.099499096206074,
-                  0.43926360402853587
+                  4.454861703087695,
+                  11.248239601448542,
+                  0.05242092605150896
                 ],
                 "cameraTarget": [
-                  -5.5755802131592755,
-                  -0.5897574748872353,
-                  0.4047789098522105
+                  4.454850952010099,
+                  0.4964485807859034,
+                  0.05242080219404849
                 ]
               },
               "title": "3D Field"
@@ -445,5 +509,5 @@
     }
   ],
   "satellites": [],
-  "version": "3.2.0"
+  "version": "3.2.1"
 }
