@@ -88,7 +88,7 @@ public interface Settings {
 
         public interface Score {
             double AMP_SPEED = 1.0;
-            double TRAP_SPEED = 0.6;
+            double TRAP_SPEED = 0.225;
             double FROM_CONVEYOR_SPEED = 0.35;
             double TO_CONVEYOR_SPEED = 0.3;
 
@@ -406,7 +406,7 @@ public interface Settings {
         SmartNumber AMP_WALL_SETUP_DISTANCE = new SmartNumber("Alignment/Amp/Setup Pose Distance to Wall", Units.inchesToMeters(25.5));
         SmartNumber AMP_WALL_SCORE_DISTANCE = new SmartNumber("Alignment/Amp/Score Pose Distance to Wall", Units.inchesToMeters(22.5));
 
-        SmartNumber TRAP_SETUP_DISTANCE = new SmartNumber("Alignment/Trap/Setup Pose Distance", Units.inchesToMeters(22.0));
+        SmartNumber TRAP_SETUP_DISTANCE = new SmartNumber("Alignment/Trap/Setup Pose Distance", Units.inchesToMeters(21.0));
         SmartNumber TRAP_CLIMB_DISTANCE = new SmartNumber("Alignment/Trap/Climb Distance", Units.inchesToMeters(18.0));
 
         SmartNumber INTO_CHAIN_SPEED = new SmartNumber("Alignment/Trap/Into Chain Speed", 0.25);

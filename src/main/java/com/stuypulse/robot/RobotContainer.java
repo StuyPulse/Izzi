@@ -175,8 +175,8 @@ public class RobotContainer {
 
         // score trap
         driver.getLeftButton()
-            .onTrue(new AmperScoreTrap()
-                .until(() -> !Amper.getInstance().hasNote())
+            .onTrue(new AmperScoreTrap())
+            .whileTrue(new WaitUntilCommand(() -> !Amper.getInstance().hasNote())
                 .andThen(new AmperStop()))
             .onFalse(new AmperStop());
 
