@@ -25,10 +25,10 @@ public class TopFerry extends SequentialCommandGroup {
             ),
 
             new FollowPathAndIntake(paths[0]),
-            SwerveDrive.getInstance().followPathWithAmpZoneAlignCommand(paths[1]),
+            new FollowPathAlignAndShoot(paths[1], SwerveDrive.getInstance().followPathWithAmpZoneAlignCommand(paths[1])),
 
             new FollowPathAndIntake(paths[2]),
-            SwerveDrive.getInstance().followPathWithAmpZoneAlignCommand(paths[3]),
+            new FollowPathAlignAndShoot(paths[3], SwerveDrive.getInstance().followPathWithAmpZoneAlignCommand(paths[3])),
 
             new FollowPathAndIntake(paths[4]),
             new FollowPathAlignAndShoot(paths[5], new SwerveDriveToShoot()
