@@ -322,24 +322,9 @@ public class RobotContainer {
         AutonConfig CHGF = new AutonConfig("4.5 Piece CHGF", FivePieceCHGF::new,
             "Preload to C", "CShoot To H (CHGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)");
 
-        //TODO: auton for ferry path needs to be finished
-        AutonConfig BottomFerry = new AutonConfig("Bottom Ferry", BottomFerry::new, 
-            "Start to H (HGF)", "H to Bot Ferry Shot", "Bot Ferry Shot to G", "G to Bot Ferry Shot", "Bot Ferry Shot to F", "F to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to D", "D to Ferry Shot");
-        
-        AutonConfig HGFEDJerk = new AutonConfig("HGFEDJerk", HGFEDJerk::new,
-            "Start To H (HGF)", "H To HJerk", "HJerk to G", "G to GJerk", "GJerk to F", "F to FJerk", "FJerk to E", "E to EJerk", "E to D");
-
         AutonConfig TopFerryMovingShot = new AutonConfig("Top Ferry", TopFerry::new,
             "NTF Start To D", "NTF D To E", "NTF E To F", "NTF F To Shoot");
 
-        BottomFerry
-            .registerBlue(autonChooser)
-            .registerRed(autonChooser);
-
-        HGFEDJerk
-            .registerBlue(autonChooser)
-            .registerRed(autonChooser);
-        
         TopFerryMovingShot
             .registerBlue(autonChooser)
             .registerRed(autonChooser);
