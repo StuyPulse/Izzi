@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.173954062193839,
-        "y": 1.0994593417758272
+        "x": 7.3262230830017225,
+        "y": 1.3854969237716253
       },
       "isLocked": false,
       "linkedName": "G"
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Ferry",
   "previewStartingState": null,
   "useDefaultConstraints": false
 }

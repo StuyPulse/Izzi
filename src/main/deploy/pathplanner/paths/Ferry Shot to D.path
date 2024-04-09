@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.581890325445905,
-        "y": 6.286958880723698
+        "x": 5.821304175015757,
+        "y": 6.661501989670646
       },
       "isLocked": false,
       "linkedName": "Ferry Shot"
@@ -20,8 +20,8 @@
         "y": 7.431149973519566
       },
       "prevControl": {
-        "x": 8.63801917233464,
-        "y": 7.5182668560866635
+        "x": 7.809849457661878,
+        "y": 7.299408978447587
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Ferry",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
