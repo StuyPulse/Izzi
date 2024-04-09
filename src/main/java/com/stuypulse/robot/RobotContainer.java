@@ -334,11 +334,11 @@ public class RobotContainer {
         AutonConfig TopFerry = new AutonConfig("Top Ferry", TopFerry::new,
             "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to F", "F to Shoot (TopFerry)");
 
+        // TODO: automatically choose red/blue
         TopFerry
             .registerBlue(autonChooser)
             .registerRed(autonChooser);
 
-        // TODO: automatically choose red/blue
         HGF.registerDefaultBlue(autonChooser);
         HGF_RED.registerRed(autonChooser);
 

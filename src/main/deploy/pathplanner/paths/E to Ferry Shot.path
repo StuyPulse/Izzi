@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.17,
-        "y": 5.84
+        "x": 8.37,
+        "y": 5.34
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.901123246690937,
-        "y": 5.852924298441191
+        "x": 8.101123246690936,
+        "y": 5.352924298441191
       },
       "isLocked": false,
-      "linkedName": "E"
+      "linkedName": "E Top Ferry"
     },
     {
       "anchor": {
-        "x": 5.499492913428859,
+        "x": 5.3,
         "y": 6.563657142562062
       },
       "prevControl": {
-        "x": 5.767026853498151,
+        "x": 5.567533940069292,
         "y": 6.480854711709423
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Ferry Shot"
+      "linkedName": "Ferry Shot E"
     }
   ],
   "rotationTargets": [],

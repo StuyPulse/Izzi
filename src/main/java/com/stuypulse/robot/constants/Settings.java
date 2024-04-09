@@ -330,7 +330,7 @@ public interface Settings {
             500,
             new SmartNumber("Shooter/Ferry Feeder RPM", 3000));
 
-        ShooterSpeeds WING_FERRY = new ShooterSpeeds(4000, 3000);
+        ShooterSpeeds WING_FERRY = new ShooterSpeeds(2000, 2500);
 
         double AT_RPM_EPSILON = 200;
 
