@@ -13,6 +13,7 @@ import com.stuypulse.robot.commands.amper.*;
 import com.stuypulse.robot.commands.auton.*;
 import com.stuypulse.robot.commands.auton.CBADE.*;
 import com.stuypulse.robot.commands.auton.CHFG.FivePieceCHGF;
+import com.stuypulse.robot.commands.auton.Ferry.*;
 import com.stuypulse.robot.commands.auton.HGF.*;
 import com.stuypulse.robot.commands.auton.tests.*;
 import com.stuypulse.robot.commands.climber.*;
@@ -322,8 +323,11 @@ public class RobotContainer {
         AutonConfig CHGF = new AutonConfig("4.5 Piece CHGF", FivePieceCHGF::new,
             "Preload to C", "CShoot To H (CHGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)");
 
-        AutonConfig TopFerryMovingShot = new AutonConfig("Top Ferry", TopFerry::new,
+        AutonConfig TopFerryMovingShot = new AutonConfig("Top Ferry", TopFerryMovingShot::new,
             "NTF Start To D", "NTF D To E", "NTF E To F", "NTF F To Shoot");
+
+        AutonConfig TopFerry = new AutonConfig("Top Ferry", TopFerry::new,
+            "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to F", "F to Shoot (TopFerry)");
 
         TopFerryMovingShot
             .registerBlue(autonChooser)
