@@ -27,36 +27,34 @@ public class BottomFerry extends SequentialCommandGroup {
                 SwerveDriveToPose.speakerRelative(-45)
             ),
 
-            new WaitCommand(Auton.SHOOTER_STARTUP_DELAY),
-
             new FollowPathAndIntake(paths[0]),
 
             SwerveDrive.getInstance().followPathWithAmpZoneAlignCommand(paths[1]),
-            new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
+            new ConveyorShootRoutine(),
             new ShooterPodiumShot(),
 
             new FollowPathAndIntake(paths[2]),
 
             SwerveDrive.getInstance().followPathWithAmpZoneAlignCommand(paths[3]),
-            new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
+            new ConveyorShootRoutine(),
             new ShooterPodiumShot(), 
 
             new FollowPathAndIntake(paths[4]),
 
             SwerveDrive.getInstance().followPathWithAmpZoneAlignCommand(paths[5]), 
-            new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
+            new ConveyorShootRoutine(),
             new ShooterPodiumShot(), 
 
             new FollowPathAndIntake(paths[6]),
 
             SwerveDrive.getInstance().followPathWithAmpZoneAlignCommand(paths[7]),
-            new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
+            new ConveyorShootRoutine(),
             new ShooterPodiumShot(), 
 
             new FollowPathAndIntake(paths[8]),
 
             SwerveDrive.getInstance().followPathWithAmpZoneAlignCommand(paths[9]),
-            new ConveyorShootRoutine(Settings.Conveyor.SHOOT_WAIT_DELAY.getAsDouble()),
+            new ConveyorShootRoutine(),
             new ShooterPodiumShot()
         ); 
     }
