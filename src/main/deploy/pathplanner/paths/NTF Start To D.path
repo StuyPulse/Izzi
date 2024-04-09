@@ -1,0 +1,86 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.311027159306109,
+        "y": 7.003995261110097
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.8767125842553467,
+        "y": 7.5696806860593355
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.9137793866543675,
+        "y": 7.625205316905046
+      },
+      "prevControl": {
+        "x": 2.1137793866543673,
+        "y": 7.625205316905046
+      },
+      "nextControl": {
+        "x": 4.913779386654367,
+        "y": 7.625205316905046
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.2,
+        "y": 7.431149973519566
+      },
+      "prevControl": {
+        "x": 6.422230165687514,
+        "y": 7.5866846803802686
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "D"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": 0.0,
+      "rotateFast": true
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Speed Up",
+      "minWaypointRelativePos": 1.0,
+      "maxWaypointRelativePos": 2.0,
+      "constraints": {
+        "maxVelocity": 4.5,
+        "maxAcceleration": 9.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "New Ferry",
+  "previewStartingState": {
+    "rotation": 50.90406611076947,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

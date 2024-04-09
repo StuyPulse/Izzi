@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.311027159306109,
+      "y": 7.003995261110097
+    },
+    "rotation": 50.302779689086464
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NTF Start To D"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NTF D To E"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NTF E To F"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NTF F To Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
