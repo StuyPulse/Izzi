@@ -16,18 +16,21 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 public class LED694 implements LEDInstruction {
 
     private final double pulsingTime;
+    private final SLColor[] colorMap;
+    private final ArrayList<Integer> colorArray;
+    private final StopWatch stopWatch;
 
-    public LED694(double pulsingTime) {
+    public LED694(double pulsingTime, SLColor secondaryColor) {
         this.pulsingTime = pulsingTime;
+        colorMap = new SLColor[] {SLColor.RED, secondaryColor};
+        colorArray = initColors();
+        stopWatch = new StopWatch();
     }
 
     public LED694() {
-        this(0.03);
+        this(0.03, SLColor.WHITE);
     }
 
-    private SLColor[] colorMap = {SLColor.RED, SLColor.WHITE};
-    private ArrayList<Integer> colorArray = initColors();
-    private StopWatch stopWatch = new StopWatch();
 
     @Override
     public void setLED(AddressableLEDBuffer ledBuffer) {
