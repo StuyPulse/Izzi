@@ -1,13 +1,10 @@
 package com.stuypulse.robot.commands.auton.tests;
 
 import com.pathplanner.lib.path.PathPlannerPath;
-import com.stuypulse.robot.commands.auton.FollowPathAlignAndShoot;
 import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
-import com.stuypulse.robot.commands.auton.FollowPathTrackingAlignAndShoot;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
-import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Auton;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 
@@ -31,31 +28,26 @@ public class BottomFerry extends SequentialCommandGroup {
 
             SwerveDrive.getInstance().followPathWithAmpZoneAlignCommand(paths[1]),
             new ConveyorShootRoutine(),
-            new ShooterPodiumShot(),
 
             new FollowPathAndIntake(paths[2]),
 
             SwerveDrive.getInstance().followPathWithAmpZoneAlignCommand(paths[3]),
             new ConveyorShootRoutine(),
-            new ShooterPodiumShot(), 
 
             new FollowPathAndIntake(paths[4]),
 
             SwerveDrive.getInstance().followPathWithAmpZoneAlignCommand(paths[5]), 
             new ConveyorShootRoutine(),
-            new ShooterPodiumShot(), 
 
             new FollowPathAndIntake(paths[6]),
 
             SwerveDrive.getInstance().followPathWithAmpZoneAlignCommand(paths[7]),
             new ConveyorShootRoutine(),
-            new ShooterPodiumShot(), 
 
             new FollowPathAndIntake(paths[8]),
 
             SwerveDrive.getInstance().followPathWithAmpZoneAlignCommand(paths[9]),
-            new ConveyorShootRoutine(),
-            new ShooterPodiumShot()
+            new ConveyorShootRoutine()
         ); 
     }
 }
