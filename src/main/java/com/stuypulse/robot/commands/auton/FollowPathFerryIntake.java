@@ -1,7 +1,8 @@
 package com.stuypulse.robot.commands.auton;
 
 import com.pathplanner.lib.path.PathPlannerPath;
-import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
+import com.stuypulse.robot.commands.conveyor.ConveyorShoot;
+import com.stuypulse.robot.commands.conveyor.ConveyorStop;
 import com.stuypulse.robot.commands.intake.IntakeAcquire;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 
@@ -29,8 +30,10 @@ public class FollowPathFerryIntake extends SequentialCommandGroup {
             
             new SequentialCommandGroup(
                 new WaitCommand(shootTime),
+                new ConveyorShoot(),
                 // longer b/c current draw from driving?
-                new ConveyorShootRoutine(0.6),
+                new WaitCommand(0.6),
+                new ConveyorStop(),
                 new IntakeAcquire()
             )
         );
