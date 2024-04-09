@@ -175,7 +175,7 @@ public class RobotContainer {
 
         // score trap
         driver.getLeftButton()
-            .onTrue(new AmperScoreTrap())
+            .onTrue(new AmperScoreTrap()
             .onFalse(new AmperStop());
 
         // lift to trap
