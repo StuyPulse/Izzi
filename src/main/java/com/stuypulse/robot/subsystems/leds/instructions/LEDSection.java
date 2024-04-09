@@ -38,11 +38,11 @@ public class LEDSection implements LEDInstruction {
         this(sections, altSections, genSeparators(sections), true);
     }
 
-    public LEDSection(SLColor[] sections, int[] separatorIndexes) {
+    public LEDSection(int[] separatorIndexes, SLColor... sections) {
         this(sections, genEmptyArray(sections.length), separatorIndexes, false);
     }
 
-    public LEDSection(SLColor[] sections, boolean isBlinking) {
+    public LEDSection(boolean isBlinking, SLColor... sections) {
         this(sections, genEmptyArray(sections.length), genSeparators(sections), isBlinking);
     }
 

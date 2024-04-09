@@ -87,7 +87,7 @@ public class LEDAutonChooser extends LEDSection {
     }
 
     public LEDAutonChooser() {
-        super(AutonLEDColors.fromName(RobotContainer.getAutonomousCommandNameStatic()).ledColors, true);
+        super(true, AutonLEDColors.fromName(RobotContainer.getAutonomousCommandNameStatic()).ledColors);
     }
 
     @Override
