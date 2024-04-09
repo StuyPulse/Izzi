@@ -340,7 +340,7 @@ public class RobotContainer {
         AutonConfig HGFEDJerk = new AutonConfig("HGFEDJerk", HGFEDJerk::new,
             "Start To H (HGF)", "H To HJerk", "HJerk to G", "G to GJerk", "GJerk to F", "F to FJerk", "FJerk to E", "E to EJerk", "E to D");
 
-        AutonConfig TopFerry = new AutonConfig("Top Ferry", TopFerry::new,
+        AutonConfig TopFerryMovingShot = new AutonConfig("Top Ferry", TopFerry::new,
             "NTF Start To D", "NTF D To E", "NTF E To F", "NTF F To Shoot");
 
         BottomFerry
@@ -351,7 +351,7 @@ public class RobotContainer {
             .registerBlue(autonChooser)
             .registerRed(autonChooser);
         
-        TopFerry
+        TopFerryMovingShot
             .registerBlue(autonChooser)
             .registerRed(autonChooser);
 
