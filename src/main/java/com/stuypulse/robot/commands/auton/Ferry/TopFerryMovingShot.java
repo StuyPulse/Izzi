@@ -6,8 +6,10 @@ import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
 import com.stuypulse.robot.commands.auton.FollowPathFerryIntake;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
+import com.stuypulse.robot.commands.shooter.ShooterSetRPM;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToShoot;
+import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Auton;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -26,6 +28,8 @@ public class TopFerryMovingShot extends SequentialCommandGroup {
 
             new ConveyorShootRoutine(),
 
+            new ShooterSetRPM(Settings.Shooter.WING_FERRY),
+
             // intake D
             new FollowPathAndIntake(paths[0]),
 
@@ -34,6 +38,8 @@ public class TopFerryMovingShot extends SequentialCommandGroup {
 
             // shoot E, intake F
             new FollowPathFerryIntake(paths[2], 0.25),
+
+            new ShooterPodiumShot(),
 
             // shoot F
             new FollowPathAlignAndShoot(paths[3], new SwerveDriveToShoot())
