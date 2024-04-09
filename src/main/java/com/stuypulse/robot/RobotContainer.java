@@ -331,7 +331,7 @@ public class RobotContainer {
         AutonConfig TopFerry = new AutonConfig("Top Ferry", TopFerry::new,
             "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to F", "F to Shoot (TopFerry)");
 
-        TopFerryMovingShot
+        TopFerry
             .registerBlue(autonChooser)
             .registerRed(autonChooser);
 
