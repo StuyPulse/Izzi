@@ -24,6 +24,11 @@ public class AmperToHeight extends InstantCommand {
             .andThen(new WaitUntilCommand(() -> Amper.getInstance().isAtTargetHeight(epsilon)));
     }
 
+    public static Command untilBelow(double height, double epsilon) {
+        return new AmperToHeight(height)
+            .andThen(new WaitUntilCommand(() -> Amper.getInstance().isAtBelowTargetHeight(epsilon)));
+    }
+
     private final Amper amper;
     private final double height;
 

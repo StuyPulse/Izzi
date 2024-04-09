@@ -3,53 +3,53 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.17,
-        "y": 5.84
+        "x": 8.07,
+        "y": 0.8800000000000001
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.661102338686158,
-        "y": 6.648577691229455
+        "x": 5.860497457486886,
+        "y": 1.268665081258114
       },
       "isLocked": false,
-      "linkedName": "E"
+      "linkedName": "H Red"
     },
     {
       "anchor": {
-        "x": 2.729397148609112,
-        "y": 6.342607879660204
+        "x": 2.5050384003901907,
+        "y": 3.180810008343664
       },
       "prevControl": {
-        "x": 4.529397031016284,
-        "y": 6.91246037121704
+        "x": 3.7500926544825335,
+        "y": 1.924076107885846
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Top Side Shoot"
+      "linkedName": "HShoot"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.45,
-      "rotationDegrees": 15.0,
+      "waypointRelativePos": 0.35,
+      "rotationDegrees": -54.90055879498553,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 6.0,
-    "maxAcceleration": 6.0,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 17.26590929136535,
+    "velocity": 1.0,
+    "rotation": -47.64254529406478,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "ABCDE",
+  "folder": "HGF",
   "previewStartingState": null,
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

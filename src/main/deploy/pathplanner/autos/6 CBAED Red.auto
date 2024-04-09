@@ -8,19 +8,25 @@
         {
           "type": "path",
           "data": {
+            "pathName": "Preload to C Close Red"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
             "pathName": "Close Preload to C"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C to B Close"
+            "pathName": "C to B Red"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B to A"
+            "pathName": "B to A Red"
           }
         },
         {
@@ -33,6 +39,18 @@
           "type": "path",
           "data": {
             "pathName": "E to Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Shoot to D (CBAED)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "D to Shoot"
           }
         }
       ]

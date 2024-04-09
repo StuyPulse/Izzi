@@ -8,17 +8,17 @@ package com.stuypulse.robot.commands.conveyor;
 
 import com.stuypulse.robot.commands.amper.AmperToHeight;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.shooter.Shooter;
-import com.stuypulse.robot.util.ShooterSpeeds;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class ConveyorToAmp extends Command {
     public static Command withCheckLift() {
-        return AmperToHeight.untilDone(Settings.Amper.Lift.MIN_HEIGHT)
+        return AmperToHeight.untilBelow(Lift.MIN_HEIGHT, Lift.MAX_HEIGHT_ERROR)
             .andThen(new ConveyorToAmp());
     }
 
