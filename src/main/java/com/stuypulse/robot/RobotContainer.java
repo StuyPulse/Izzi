@@ -11,10 +11,8 @@ import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.commands.amper.*;
 import com.stuypulse.robot.commands.auton.*;
-import com.stuypulse.robot.commands.auton.ADE.*;
 import com.stuypulse.robot.commands.auton.CBADE.*;
 import com.stuypulse.robot.commands.auton.CHFG.FivePieceCHGF;
-import com.stuypulse.robot.commands.auton.DE.*;
 import com.stuypulse.robot.commands.auton.HGF.*;
 import com.stuypulse.robot.commands.auton.tests.*;
 import com.stuypulse.robot.commands.climber.*;
@@ -324,15 +322,6 @@ public class RobotContainer {
         AutonConfig CHGF = new AutonConfig("4.5 Piece CHGF", FivePieceCHGF::new,
             "Preload to C", "CShoot To H (CHGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)");
 
-        // AutonConfig ADEF = new AutonConfig("4.5 Piece ADEF", FourPieceADEF::new, 
-        // "Preload to A", "A to D", "D to Shoot", "Shoot to E", "E to Shoot", "Shoot To F (ADEF)", "F To Shoot (ADEF)");
-
-        // AutonConfig ADE = new AutonConfig("3 ADE", ThreePieceADE::new,
-        //     "Preload to A", "A to D", "D to Ferry Shot", "Ferry Shot to E", "E to Shoot");
-        
-        // AutonConfig DE = new AutonConfig("2 DE", TwoPieceDE::new,
-        //     "Preload Shot to D", "D to Ferry Shot", "Ferry Shot to E", "E to Shoot");
-        
         //TODO: auton for ferry path needs to be finished
         AutonConfig BottomFerry = new AutonConfig("Bottom Ferry", BottomFerry::new, 
             "Start to H (HGF)", "H to Bot Ferry Shot", "Bot Ferry Shot to G", "G to Bot Ferry Shot", "Bot Ferry Shot to F", "F to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to D", "D to Ferry Shot");
