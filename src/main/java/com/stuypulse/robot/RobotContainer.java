@@ -304,6 +304,9 @@ public class RobotContainer {
     public void configureAutons() {
         autonChooser.addOption("Do Nothing", new DoNothingAuton());
         autonChooser.addOption("Mobility", new Mobility());
+
+        AutonConfig ReroutableHGF = new AutonConfig("4 R HGF", ReroutableFourPieceHGF::new, 
+            "Start to H (HGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)", "F to Shoot (HGF)", "Rerouted H To G", "Rerouted G To F");
         
         AutonConfig HGF = new AutonConfig("4 HGF", FourPieceHGF::new,
             "Start to H (HGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)", "F to Shoot (HGF)");
@@ -336,6 +339,8 @@ public class RobotContainer {
         // TODO: automatically choose red/blue
         HGF.registerDefaultBlue(autonChooser);
         HGF_RED.registerRed(autonChooser);
+
+        ReroutableHGF.registerBlue(autonChooser).registerRed(autonChooser);
         
         CBAED.registerBlue(autonChooser);
         CBAED_RED.registerRed(autonChooser);
