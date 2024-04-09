@@ -23,6 +23,7 @@ import com.stuypulse.stuylib.streams.numbers.filters.Derivative;
 import com.stuypulse.stuylib.streams.numbers.filters.IFilter;
 import com.stuypulse.stuylib.streams.numbers.filters.TimedMovingAverage;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -131,7 +132,8 @@ public class KrakenSwerveModule extends SwerveModule {
             .setOutputFilter(x -> -x);
 
         targetAcceleration = new Derivative()
-            .then(new TimedMovingAverage(0.1));
+            .then(new TimedMovingAverage(0.1))
+            .then(x -> MathUtil.clamp(x, 0, Settings.Swerve.MAX_MODULE_ACCEL));
 
         Motors.disableStatusFrames(pivotMotor, StatusFrame.ANALOG_SENSOR, StatusFrame.ALTERNATE_ENCODER, StatusFrame.ABS_ENCODER_POSIITION, StatusFrame.ABS_ENCODER_VELOCITY);
 
@@ -166,9 +168,9 @@ public class KrakenSwerveModule extends SwerveModule {
     public void periodic() {
         super.periodic();
 
-        final boolean USE_ACCEL = false;
-        final boolean USE_ACCEL_IN_AUTON = false;
-        final boolean USE_FOC_IN_AUTON = false;
+        final boolean USE_ACCEL = true;
+        final boolean USE_ACCEL_IN_AUTON = true;
+        final boolean USE_FOC_IN_AUTON = true;
 
         double velocity = convertDriveVel(getTargetState().speedMetersPerSecond);
         double acceleration = targetAcceleration.get(velocity);

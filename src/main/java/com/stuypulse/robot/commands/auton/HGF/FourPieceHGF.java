@@ -8,7 +8,6 @@ import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
 import com.stuypulse.robot.commands.shooter.ShooterWaitForTarget;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
-import com.stuypulse.robot.constants.Settings.Auton;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -22,7 +21,7 @@ public class FourPieceHGF extends SequentialCommandGroup {
                 new WaitCommand(0.25)
                     .andThen(new ShooterPodiumShot()),
 
-                SwerveDriveToPose.speakerRelative(-45)
+                SwerveDriveToPose.speakerRelative(-55)
                     .withTolerance(0.1, 0.1, 2)
             ),
 
