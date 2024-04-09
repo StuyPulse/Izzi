@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.311027159306109,
-        "y": 7.003995261110097
+        "x": 2.157525588199325,
+        "y": 7.431149973519566
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8767125842553467,
-        "y": 7.5696806860593355
+        "x": 2.454150556449261,
+        "y": 7.669611191074234
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.9137793866543675,
-        "y": 7.625205316905046
+        "x": 3.2894512177913247,
+        "y": 7.63772178007319
       },
       "prevControl": {
-        "x": 2.1137793866543673,
-        "y": 7.625205316905046
+        "x": 2.4811110640739797,
+        "y": 7.650905111995409
       },
       "nextControl": {
-        "x": 4.913779386654367,
-        "y": 7.625205316905046
+        "x": 5.2891852828270185,
+        "y": 7.6051078392534786
       },
       "isLocked": false,
       "linkedName": null
@@ -77,9 +77,9 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "New Ferry",
+  "folder": "Top Ferry",
   "previewStartingState": {
-    "rotation": 50.90406611076947,
+    "rotation": 47.48005904226506,
     "velocity": 0
   },
   "useDefaultConstraints": true

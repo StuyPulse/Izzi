@@ -4,11 +4,10 @@
   "holonomicMode": true,
   "pathFolders": [
     "ABCDE",
-    "Ferry",
+    "Bottom Ferry",
     "HGF",
-    "New Ferry",
-    "Tests",
-    "Top Ferry"
+    "Top Ferry",
+    "Tests"
   ],
   "autoFolders": [],
   "defaultMaxVel": 4.5,
