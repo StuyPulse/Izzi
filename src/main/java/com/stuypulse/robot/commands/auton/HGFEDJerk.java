@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class HGFEDJerk extends SequentialCommandGroup {
     public HGFEDJerk(PathPlannerPath... paths) {
+        // !! DOES NOT WORK !!
         addCommands(
             //shooting preload
             new ParallelCommandGroup(

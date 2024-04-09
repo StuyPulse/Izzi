@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": -1.609743582633727,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Ferry",
   "previewStartingState": {
-    "rotation": -177.94181252406065,
+    "rotation": -0.23381757585103127,
     "velocity": 0
   },
   "useDefaultConstraints": true
