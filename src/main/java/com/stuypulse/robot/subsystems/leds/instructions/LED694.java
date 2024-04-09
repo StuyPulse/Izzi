@@ -8,8 +8,6 @@ package com.stuypulse.robot.subsystems.leds.instructions;
 
 import java.util.ArrayList;
 
-
-import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.util.SLColor;
 import com.stuypulse.stuylib.util.StopWatch;
 

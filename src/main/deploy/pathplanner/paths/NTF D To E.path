@@ -1,0 +1,86 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.2,
+        "y": 7.431149973519566
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.950220644035909,
+        "y": 7.454635318013179
+      },
+      "isLocked": false,
+      "linkedName": "D"
+    },
+    {
+      "anchor": {
+        "x": 5.704309839609262,
+        "y": 6.646215229821953
+      },
+      "prevControl": {
+        "x": 5.704309839609262,
+        "y": 7.396215229821953
+      },
+      "nextControl": {
+        "x": 5.704309839609262,
+        "y": 5.896215229821953
+      },
+      "isLocked": false,
+      "linkedName": "Top Ferry Shoot"
+    },
+    {
+      "anchor": {
+        "x": 8.17,
+        "y": 5.84
+      },
+      "prevControl": {
+        "x": 6.920699524719652,
+        "y": 5.881812946132679
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "E"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": -5.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Shoot Slow Down",
+      "minWaypointRelativePos": 0.5,
+      "maxWaypointRelativePos": 1.5,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Top Ferry",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

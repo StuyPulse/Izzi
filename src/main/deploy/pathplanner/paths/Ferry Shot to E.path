@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.135414608792181,
-        "y": 6.653128792368697
+        "x": 5.499492913428859,
+        "y": 6.563657142562062
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.815009430944788,
-        "y": 6.526818220303108
+        "x": 6.179087735581466,
+        "y": 6.437346570496473
       },
       "isLocked": false,
       "linkedName": "Ferry Shot"
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "ABCDE",
+  "folder": "Top Ferry",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

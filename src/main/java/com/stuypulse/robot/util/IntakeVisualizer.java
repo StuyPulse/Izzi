@@ -17,7 +17,6 @@ public class IntakeVisualizer {
     private double intakeAngle = 0.0;
     private double gandalfAngle = 0.0;
     private double shooterFeederAngle = 0.0;
-
     private final double WINDOW_WIDTH = 20;
     private final double WINDOW_HEIGHT = 20;
     private final int LINE_WIDTH = 10;

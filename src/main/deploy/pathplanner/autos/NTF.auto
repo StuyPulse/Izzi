@@ -1,6 +1,12 @@
 {
   "version": 1.0,
-  "startingPose": null,
+  "startingPose": {
+    "position": {
+      "x": 2.157525588199325,
+      "y": 7.431149973519566
+    },
+    "rotation": 40.419189934887385
+  },
   "command": {
     "type": "sequential",
     "data": {
@@ -8,31 +14,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Preload to A"
+            "pathName": "NTF Start To D"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "A to D"
+            "pathName": "NTF D To E"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "D to Ferry Shot"
+            "pathName": "NTF E To F"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Ferry Shot to E"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "E to Shoot"
+            "pathName": "NTF F To Shoot"
           }
         }
       ]

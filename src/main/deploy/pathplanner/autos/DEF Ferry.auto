@@ -8,7 +8,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Preload Shot to D"
+            "pathName": "NTF Start To D"
           }
         },
         {
@@ -26,7 +26,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "E to Shoot"
+            "pathName": "E to Ferry Shot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Ferry Shot to F"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F to Shoot (TopFerry)"
           }
         }
       ]

@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.8111365111619113,
-        "y": 3.6433503607747957
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 3.826477852385904,
-        "y": 1.6839582397113522
-      },
-      "isLocked": false,
-      "linkedName": "Alt Top Side Shoot"
-    },
-    {
-      "anchor": {
         "x": 8.153314996088682,
         "y": 3.8006001937929805
       },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.359904421451601,
+        "y": 3.8006001937929805
+      },
+      "isLocked": false,
+      "linkedName": "F"
+    },
+    {
+      "anchor": {
+        "x": 3.797990853156728,
+        "y": 5.5742556229307345
+      },
       "prevControl": {
-        "x": 5.819658184786454,
-        "y": 5.066378211460127
+        "x": 4.748197053902788,
+        "y": 4.396886976553901
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "F"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -38,12 +38,15 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0.0,
-    "rotation": 0.0,
+    "velocity": 0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "HGF",
-  "previewStartingState": null,
+  "folder": "Top Ferry",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
   "useDefaultConstraints": true
 }
