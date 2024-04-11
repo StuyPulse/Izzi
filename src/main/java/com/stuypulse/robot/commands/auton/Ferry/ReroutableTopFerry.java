@@ -6,6 +6,7 @@ import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
 import com.stuypulse.robot.commands.shooter.ShooterSetRPM;
+import com.stuypulse.robot.commands.swerve.SwerveDriveResetOdometry;
 import com.stuypulse.robot.commands.swerve.SwerveDriveStop;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToShoot;
@@ -14,6 +15,8 @@ import com.stuypulse.robot.constants.Settings.Auton;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -22,10 +25,17 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class ReroutableTopFerry extends SequentialCommandGroup {
 
+    private Pose2d getPathStartPose(PathPlannerPath path) {
+        return path.getPreviewStartingHolonomicPose();
+    }
+
     public ReroutableTopFerry(PathPlannerPath... paths) {
 
         PathPlannerPath D_TO_E = paths[6];
         PathPlannerPath E_TO_F = paths[7];
+        PathPlannerPath E_FERRY_REROUTE = paths[8];
+
+        Command INTAKE_E = new FollowPathAndIntake(paths[2]);
 
         addCommands (
             new ParallelCommandGroup(
@@ -51,7 +61,7 @@ public class ReroutableTopFerry extends SequentialCommandGroup {
                     SwerveDrive.getInstance().followPathCommand(paths[1]),
                     new SwerveDriveStop(),
                     new ConveyorShootRoutine(),
-                    new FollowPathAndIntake(paths[2]),
+                    INTAKE_E,
 
                     new ConditionalCommand(
                         // if we have a note, we can shoot E
@@ -63,6 +73,7 @@ public class ReroutableTopFerry extends SequentialCommandGroup {
                             new ConveyorShootRoutine(),
                             new ShooterPodiumShot(),
 
+                            new SwerveDriveResetOdometry(() -> getPathStartPose(paths[4])),
                             new FollowPathAndIntake(paths[4]),
 
                             new ConditionalCommand(
@@ -78,11 +89,12 @@ public class ReroutableTopFerry extends SequentialCommandGroup {
                             new ConditionalCommand(
                                 new SequentialCommandGroup(
                                     // shoot E, intake F
-                                    SwerveDrive.getInstance().followPathCommand(paths[3]),
+                                    SwerveDrive.getInstance().followPathCommand(E_FERRY_REROUTE),
                                     new SwerveDriveStop(),
                                     new ConveyorShootRoutine(),
                                     new ShooterPodiumShot(),
                                     
+                                    new SwerveDriveResetOdometry(() -> getPathStartPose(paths[4])),
                                     new FollowPathAndIntake(paths[4]),
                                     
                                     new ConditionalCommand(
@@ -111,11 +123,12 @@ public class ReroutableTopFerry extends SequentialCommandGroup {
                     new ConditionalCommand(
                         new SequentialCommandGroup(
                             // shoot E, intake F
-                            SwerveDrive.getInstance().followPathCommand(paths[3]),
+                            SwerveDrive.getInstance().followPathCommand(E_FERRY_REROUTE),
                             new SwerveDriveStop(),
                             new ConveyorShootRoutine(),
                             new ShooterPodiumShot(),
                             
+                            new SwerveDriveResetOdometry(() -> getPathStartPose(paths[4])),
                             new FollowPathAndIntake(paths[4]),
                             
                             new ConditionalCommand(

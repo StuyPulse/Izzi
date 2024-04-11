@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.7,
-        "y": 7.529999999999999
+        "x": 8.07,
+        "y": 5.84
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.782397412017047,
-        "y": 7.253301738161635
+        "x": 8.07,
+        "y": 5.34
       },
       "isLocked": false,
-      "linkedName": "D Top Ferry"
+      "linkedName": "E"
     },
     {
       "anchor": {
-        "x": 5.199999999999999,
-        "y": 6.563657142562062
+        "x": 8.153314996088682,
+        "y": 3.8006001937929805
       },
       "prevControl": {
-        "x": 5.63801917233464,
-        "y": 6.650774025129159
+        "x": 8.153314996088682,
+        "y": 4.300600193792981
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Ferry Shot"
+      "linkedName": "F"
     }
   ],
   "rotationTargets": [],
@@ -39,8 +39,8 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
-    "rotateFast": false
+    "rotation": -90.0,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "Top Ferry",
