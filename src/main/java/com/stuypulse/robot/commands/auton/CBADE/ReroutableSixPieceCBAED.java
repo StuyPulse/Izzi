@@ -19,7 +19,7 @@ public class ReroutableSixPieceCBAED extends SequentialCommandGroup {
     
     public ReroutableSixPieceCBAED(PathPlannerPath... paths) {
 
-        PathPlannerPath E_TO_F = paths[8];
+        PathPlannerPath E_TO_D = paths[7];
         
         addCommands(
             new ParallelCommandGroup(
@@ -30,36 +30,46 @@ public class ReroutableSixPieceCBAED extends SequentialCommandGroup {
                     .withTolerance(0.03, 0.03, 3)
             ),
 
+            // shoot preload
             new ConveyorShootRoutine(0.55),
 
+            // intake C, shoot C
             new FollowPathAndIntake(paths[0]),
             new SwerveDriveToShoot()
                 .withTolerance(0.03, 7),
             new ConveyorShootRoutine(),
 
+            // intake B, shoot B
             new FollowPathAndIntake(paths[1]),
             new SwerveDriveToShoot()
                 .withTolerance(0.05, 7),
             new ConveyorShootRoutine(),
 
+            // intake A, shoot A
             new FollowPathAndIntake(paths[2]),
             new SwerveDriveToShoot()
                 .withTolerance(0.05, 5),
             new ConveyorShootRoutine(0.6),
 
+            // intake E
             new FollowPathAndIntake(paths[3]),
-            new FollowPathAlignAndShoot(paths[4], new SwerveDriveToShoot()
-                .withTolerance(0.033, 7)),
-
-            new FollowPathAndIntake(paths[5]),
+            
             new ConditionalCommand(
-                new FollowPathAlignAndShoot(paths[6], new SwerveDriveToShoot()
-                .withTolerance(0.033, 7)), 
+                // shoot E, intake D, shoot D
                 new SequentialCommandGroup(
-                    new FollowPathAndIntake(E_TO_F),
-                    new FollowPathAlignAndShoot(paths[7], new SwerveDriveToShoot()
-                    .withTolerance(0.033, 7))
-                ), 
+                    new FollowPathAlignAndShoot(paths[4], new SwerveDriveToShoot()
+                        .withTolerance(0.033, 7)),
+
+                    new FollowPathAndIntake(paths[5]),
+                    new FollowPathAlignAndShoot(paths[6], new SwerveDriveToShoot()
+                        .withTolerance(0.033, 7))),
+
+                // intake D, shoot D
+                new SequentialCommandGroup(
+                    new FollowPathAndIntake(E_TO_D),
+                    new FollowPathAlignAndShoot(paths[4], new SwerveDriveToShoot()
+                        .withTolerance(0.033, 7))
+                ),
                 Intake.getInstance()::hasNote)
         );
     }
