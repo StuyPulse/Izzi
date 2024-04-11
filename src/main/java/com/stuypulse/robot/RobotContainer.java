@@ -307,10 +307,12 @@ public class RobotContainer {
         autonChooser.addOption("Do Nothing", new DoNothingAuton());
         autonChooser.addOption("Mobility", new Mobility());
 
-        AutonConfig ReroutableHGF = new AutonConfig("4 R HGF", ReroutableFourPieceHGF::new, 
+        AutonConfig ReroutableHGF = new AutonConfig("4 HGF", ReroutableFourPieceHGF::new, 
             "Start to H (HGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)", "F to Shoot (HGF)", "Rerouted H To G", "Rerouted G To F");
-        
-        AutonConfig HGF = new AutonConfig("4 HGF", FourPieceHGF::new,
+        AutonConfig ReroutableHGF_RED = new AutonConfig("4 HGF", ReroutableFourPieceHGF::new, 
+        "Start to H (HGF) Red", "H to HShoot (HGF) Red", "HShoot to G (HGF) Red", "G to Shoot (HGF) Red", "GShoot to F (HGF)", "F to Shoot (HGF)", "Rerouted H To G", "Rerouted G To F");
+
+            AutonConfig HGF = new AutonConfig("4 HGF", FourPieceHGF::new,
             "Start to H (HGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)", "F to Shoot (HGF)");
         AutonConfig HGF_RED = new AutonConfig("4 HGF", FourPieceHGF::new,
             "Start to H (HGF) Red", "H to HShoot (HGF) Red", "HShoot to G (HGF) Red", "G to Shoot (HGF) Red", "GShoot to F (HGF)", "F to Shoot (HGF)");
@@ -320,9 +322,9 @@ public class RobotContainer {
         AutonConfig CBAED_RED = new AutonConfig("5 CBAE", SixPieceCBAED::new,
             "Preload to C", "C to B Red", "B to A Red","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
 
-        AutonConfig ReroutableCBAED = new AutonConfig("5 R CBAE", ReroutableSixPieceCBAED::new,
+        AutonConfig ReroutableCBAED = new AutonConfig("5 CBAE", ReroutableSixPieceCBAED::new,
             "Preload to C", "C to B", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot", "F to Shoot (HGF)", "Rerouted E To F");
-        AutonConfig ReroutableCBAED_RED = new AutonConfig("5 R CBAE", ReroutableSixPieceCBAED::new,
+        AutonConfig ReroutableCBAED_RED = new AutonConfig("5 CBAE", ReroutableSixPieceCBAED::new,
             "Preload to C", "C to B Red", "B to A Red","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot", "F to Shoot (HGF)", "Rerouted E To F");
 
         AutonConfig CBA = new AutonConfig("4 CBA", FourPieceCBA::new,
@@ -330,11 +332,11 @@ public class RobotContainer {
         AutonConfig CBA_RED = new AutonConfig("4 CBA", FourPieceCBA::new,
             "Preload to C", "C to B Red", "B to A Red");
 
-        AutonConfig CHGF = new AutonConfig("4.5 Piece CHGF", FivePieceCHGF::new,
-            "Preload to C", "CShoot To H (CHGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)");
+        // AutonConfig CHGF = new AutonConfig("4.5 Piece CHGF", FivePieceCHGF::new,
+        //     "Preload to C", "CShoot To H (CHGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)");
 
-        AutonConfig TopFerryMovingShot = new AutonConfig("Top Ferry", TopFerryMovingShot::new,
-            "NTF Start To D", "NTF D To E", "NTF E To F", "NTF F To Shoot");
+        // AutonConfig TopFerryMovingShot = new AutonConfig("Top Ferry", TopFerryMovingShot::new,
+        //     "NTF Start To D", "NTF D To E", "NTF E To F", "NTF F To Shoot");
 
         AutonConfig TopFerry = new AutonConfig("Top Ferry", TopFerry::new,
             "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to F", "F to Shoot (TopFerry)");
@@ -344,15 +346,16 @@ public class RobotContainer {
             .registerBlue(autonChooser)
             .registerRed(autonChooser);
 
-        HGF.registerDefaultBlue(autonChooser);
-        HGF_RED.registerRed(autonChooser);
+        // HGF.registerDefaultBlue(autonChooser);
+        // HGF_RED.registerRed(autonChooser);
 
-        ReroutableHGF.registerBlue(autonChooser).registerRed(autonChooser);
+        ReroutableHGF.registerBlue(autonChooser);
+        ReroutableHGF_RED.registerRed(autonChooser);
         
-        CBAED.registerBlue(autonChooser);
-        CBAED_RED.registerRed(autonChooser);
+        // CBAED.registerBlue(autonChooser);
+        // CBAED_RED.registerRed(autonChooser);
 
-        ReroutableCBAED.registerBlue(autonChooser);
+        ReroutableCBAED.registerDefaultBlue(autonChooser);
         ReroutableCBAED_RED.registerRed(autonChooser);
 
         CBA.registerBlue(autonChooser);
