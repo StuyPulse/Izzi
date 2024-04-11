@@ -335,8 +335,15 @@ public class RobotContainer {
         AutonConfig TopFerry = new AutonConfig("Top Ferry", TopFerry::new,
             "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to F", "F to Shoot (TopFerry)");
 
+        AutonConfig ReroutableTopFerry = new AutonConfig("R Top Ferry", TopFerry::new,
+            "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to F", "F to Shoot (TopFerry)", "Rerouted D To E", "Rerouted E To F");
+
         // TODO: automatically choose red/blue
         TopFerry
+            .registerBlue(autonChooser)
+            .registerRed(autonChooser);
+
+        ReroutableTopFerry
             .registerBlue(autonChooser)
             .registerRed(autonChooser);
 
