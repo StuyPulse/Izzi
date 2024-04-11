@@ -2,6 +2,7 @@ package com.stuypulse.robot.commands.auton;
 
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.stuypulse.robot.commands.intake.IntakeAcquire;
+import com.stuypulse.robot.commands.swerve.SwerveDriveStop;
 import com.stuypulse.robot.constants.Settings.Auton;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 
@@ -25,7 +26,7 @@ public class FollowPathAndIntake extends SequentialCommandGroup {
                     .andThen(new WaitCommand(intakeTimeout))
             ),
 
-            new InstantCommand(() -> SwerveDrive.getInstance().stop(), SwerveDrive.getInstance())
+            new SwerveDriveStop()
         );
     }
 

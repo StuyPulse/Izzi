@@ -4,6 +4,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
 import com.stuypulse.robot.commands.intake.IntakeAcquire;
 import com.stuypulse.robot.commands.shooter.ShooterWaitForTarget;
+import com.stuypulse.robot.commands.swerve.SwerveDriveStop;
 import com.stuypulse.robot.constants.Settings.Auton;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
@@ -33,7 +34,7 @@ public class FollowPathWithShootAndIntake extends SequentialCommandGroup {
                 )
             ),
             
-            new InstantCommand(() -> SwerveDrive.getInstance().stop(), SwerveDrive.getInstance())
+            new SwerveDriveStop()
         );
     }
 
