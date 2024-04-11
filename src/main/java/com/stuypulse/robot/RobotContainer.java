@@ -113,16 +113,6 @@ public class RobotContainer {
     }
 
     private void configureDriverBindings() {
-        // intaking with swerve pointing at note
-        // driver.getRightTriggerButton()
-        //     .whileTrue(new WaitCommand(Settings.Intake.TELEOP_DRIVE_STARTUP_DELAY)
-        //         .andThen(new IntakeAcquire()
-        //             .deadlineWith(new LEDSet(LEDInstructions.DARK_BLUE)))
-        //         .andThen(new BuzzController(driver)
-        //             .alongWith(new LEDSet(LEDInstructions.PICKUP)
-        //                 .withTimeout(3.0))))
-        //     .whileTrue(new SwerveDriveToNote());
-        
         // intaking
         driver.getRightTriggerButton()
             .whileTrue(new IntakeAcquire()
