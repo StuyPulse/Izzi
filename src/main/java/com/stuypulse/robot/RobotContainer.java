@@ -50,6 +50,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -176,7 +177,10 @@ public class RobotContainer {
         // score trap
         driver.getLeftButton()
             .onTrue(new AmperScoreTrap())
-            .whileTrue(new WaitUntilCommand(() -> !Amper.getInstance().hasNote())
+            // when 0.5 seconds have passed AND amper has no note, stop rollers
+            .whileTrue(new ParallelCommandGroup(
+                    new WaitCommand(0.5),
+                    new WaitUntilCommand(() -> !Amper.getInstance().hasNote()))
                 .andThen(new AmperStop()))
             .onFalse(new AmperStop());
 
