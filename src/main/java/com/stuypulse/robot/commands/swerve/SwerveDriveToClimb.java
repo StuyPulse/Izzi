@@ -84,10 +84,10 @@ public class SwerveDriveToClimb extends Command {
             rotation = 0;
         
         Vector2D speed = new Vector2D(controller.getOutput().vxMetersPerSecond, controller.getOutput().vyMetersPerSecond)
-            .clamp(3.5);
+            .clamp(2.0);
         
-        // if (shouldSlow())
-        //     speed = speed.clamp(0.2);
+        if (shouldSlow())
+            speed = speed.clamp(0.3);
         
         SmartDashboard.putNumber("Alignment/Translation Target Speed", speed.distance());
         
