@@ -137,8 +137,13 @@ public class RobotContainer {
         // then shoot
         driver.getRightBumper()
             .onTrue(new ShooterPodiumShot())
-            .whileTrue(new SwerveDriveToShootWithoutStopping()
-                .deadlineWith(new LEDSet(LEDInstructions.SPEAKER_ALIGN)));
+            .whileTrue(new SwerveDriveToShoot()
+                .deadlineWith(new LEDSet(LEDInstructions.SPEAKER_ALIGN)
+                .andThen(new ShooterWaitForTarget()
+                    .withTimeout(0.5)))
+                .andThen(new ConveyorShoot()))
+            .onFalse(new ConveyorStop())
+            .onFalse(new IntakeStop());
 
         // note to amper and align then score
         driver.getLeftBumper()
@@ -335,13 +340,13 @@ public class RobotContainer {
         AutonConfig TopFerry = new AutonConfig("Top Ferry", TopFerry::new,
             "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to F", "F to Shoot (TopFerry)");
 
-        AutonConfig ReroutableTopFerry = new AutonConfig("R Top Ferry", TopFerry::new,
-            "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to F", "F to Shoot (TopFerry)", "Rerouted D To E", "Rerouted E To F");
+        AutonConfig ReroutableTopFerry = new AutonConfig("Top Ferry", ReroutableTopFerry::new,
+            "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to F", "F to Shoot (TopFerry)", "Rerouted D To E", "Rerouted E To F", "Rerouted E to Ferry Shot");
 
         // TODO: automatically choose red/blue
-        TopFerry
-            .registerBlue(autonChooser)
-            .registerRed(autonChooser);
+        // TopFerry
+        //     .registerBlue(autonChooser)
+        //     .registerRed(autonChooser);
 
         ReroutableTopFerry
             .registerBlue(autonChooser)
