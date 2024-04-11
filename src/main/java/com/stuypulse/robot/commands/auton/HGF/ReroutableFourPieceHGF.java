@@ -18,9 +18,10 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class ReroutableFourPieceHGF extends SequentialCommandGroup {
 
-
-
     public ReroutableFourPieceHGF(PathPlannerPath... paths) {
+        PathPlannerPath H_TO_G = paths[6];
+        PathPlannerPath G_TO_F = paths[7];
+
         addCommands(
             new ParallelCommandGroup(
                 new WaitCommand(0.25)
@@ -33,31 +34,44 @@ public class ReroutableFourPieceHGF extends SequentialCommandGroup {
             new ShooterWaitForTarget(),
             ConveyorShootRoutine.untilNoteShot(0.75),
 
+            // intake H
             new FollowPathAndIntake(paths[0]),
             new ConditionalCommand(
+                // has H
                 new SequentialCommandGroup(
+                    // shoot H, intake G
                     new FollowPathAlignAndShootFast(paths[1], new FastAlignShootSpeakerRelative(-45, 1.0)),
                     new FollowPathAndIntake(paths[2]),
                     new ConditionalCommand(
+                        // shoot G, intake F, shoot F
                         new SequentialCommandGroup(
                             new FollowPathAlignAndShootFast(paths[3], new FastAlignShootSpeakerRelative(-45)),
                             new FollowPathAndIntake(paths[4]),
                             new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45))),
+
+                        // intake F, shoot F
                         new SequentialCommandGroup(
-                            new FollowPathAndIntake(paths[7]),
+                            new FollowPathAndIntake(G_TO_F),
                             new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45))),
                         Intake.getInstance()::hasNote)),
+                // no H
                 new SequentialCommandGroup(
-                    new FollowPathAndIntake(paths[6]),
+                    // intake G
+                    new FollowPathAndIntake(H_TO_G),
                     new ConditionalCommand(
+                        // shoot G, intake F, shoot F
                         new SequentialCommandGroup(
                             new FollowPathAlignAndShootFast(paths[3], new FastAlignShootSpeakerRelative(-45)),
                             new FollowPathAndIntake(paths[4]),
                             new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45))),
+
+                        // intake F, shoot F
                         new SequentialCommandGroup(
-                            new FollowPathAndIntake(paths[7]),
+                            new FollowPathAndIntake(G_TO_F),
                             new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45))),
+
                         Intake.getInstance()::hasNote)),
+
                 Intake.getInstance()::hasNote)
         );
     }
