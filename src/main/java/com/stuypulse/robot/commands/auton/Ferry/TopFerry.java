@@ -6,12 +6,14 @@ import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
 import com.stuypulse.robot.commands.shooter.ShooterPodiumShot;
 import com.stuypulse.robot.commands.shooter.ShooterSetRPM;
+import com.stuypulse.robot.commands.swerve.SwerveDriveStop;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToShoot;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Auton;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -24,6 +26,7 @@ public class TopFerry extends SequentialCommandGroup {
                     .andThen(new ShooterPodiumShot()),
                 
                 SwerveDriveToPose.speakerRelative(45)
+                    .withTolerance(0.03, 0.03, 3)
             ),
 
             new ConveyorShootRoutine(),
@@ -35,11 +38,13 @@ public class TopFerry extends SequentialCommandGroup {
 
             // shoot D, intake E
             SwerveDrive.getInstance().followPathCommand(paths[1]),
+            new SwerveDriveStop(),
             new ConveyorShootRoutine(),
             new FollowPathAndIntake(paths[2]),
 
             // shoot E, intake F
             SwerveDrive.getInstance().followPathCommand(paths[3]),
+            new SwerveDriveStop(),
             new ConveyorShootRoutine(),
             new ShooterPodiumShot(),
 

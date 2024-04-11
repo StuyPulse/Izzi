@@ -47,10 +47,6 @@ public interface LEDInstructions {
     LEDInstruction WHITE = new LEDSingleColor(new SLColor(255, 255, 255));
     LEDInstruction YELLOW = new LEDSingleColor(new SLColor(255, 255, 0));
 
-    LEDInstruction BANGLADESH = new LEDSection(new SLColor[] {SLColor.RED, SLColor.BLACK, SLColor.DARK_GREEN}, false);
-
-    
-
     /******************/
     /*** NON-STATIC ***/
     /******************/
@@ -60,8 +56,6 @@ public interface LEDInstructions {
     LEDInstruction PULSE_RED = new LEDPulseColor(SLColor.RED);
     LEDInstruction PULSE_RED_BLUE = new LEDPulseColor(SLColor.RED, SLColor.BLUE);
     LEDInstruction RICHIE = new RichieMode(SLColor.RED);
-
-
 
     /********************************************/
     /*** LED CONSTANTS TO BE USED IN COMMANDS ***/
@@ -81,11 +75,11 @@ public interface LEDInstructions {
 
     LEDInstruction AUTO_SWERVE =  new LEDPulseColor(SLColor.GREEN);
 
-    LEDInstruction ATTENTION = new LED694(0.01);
+    LEDInstruction ATTENTION = new LED694(0.01, SLColor.BLUE);
 
-    LEDInstruction CLIMB_UP = new LEDSection(new SLColor[] {SLColor.PURPLE, SLColor.GREEN}, false);
+    LEDInstruction CLIMB_UP = new LEDSection(false, SLColor.PURPLE, SLColor.GREEN);
 
-    LEDInstruction TRAP_ALIGN = new LEDSection(new SLColor[] {SLColor.PURPLE, SLColor.GREEN}, true);
+    LEDInstruction TRAP_ALIGN = new LEDSection(true, SLColor.PURPLE, SLColor.GREEN);
 
     LEDInstruction FERRY = new LEDPulseColor(SLColor.ORANGE); // No Ferry command yet
 

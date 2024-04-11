@@ -2,6 +2,7 @@ package com.stuypulse.robot.commands.auton.HGF;
 
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.stuypulse.robot.commands.FastAlignShootSpeakerRelative;
+import com.stuypulse.robot.commands.auton.FollowPathAlignAndShoot;
 import com.stuypulse.robot.commands.auton.FollowPathAlignAndShootFast;
 import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
@@ -33,7 +34,7 @@ public class FourPieceHGF extends SequentialCommandGroup {
             new FollowPathAndIntake(paths[2]),
             new FollowPathAlignAndShootFast(paths[3], new FastAlignShootSpeakerRelative(-45)),
             new FollowPathAndIntake(paths[4]),
-            new FollowPathAlignAndShootFast(paths[5], SwerveDriveToPose.speakerRelative(-45))
+            new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45))
         );
     }
 

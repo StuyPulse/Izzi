@@ -101,7 +101,7 @@ public class TheiaCamera {
         areaSub = outputTable.getDoubleArrayTopic("areas").subscribe(new double[] {}, PubSubOption.periodic(0.02));
         pixelSub = outputTable.getDoubleArrayTopic("pixel_coords").subscribe(new double[] {}, PubSubOption.periodic(0.02));
 
-        posePub = NetworkTableInstance.getDefault().getStructTopic("Vision/" + getName() + "/Pose3d", Pose3d.struct).publish();
+        posePub = NetworkTableInstance.getDefault().getStructTopic("SmartDashboard/Vision/" + getName() + "/Pose3d", Pose3d.struct).publish();
 
         enabled = new SmartBoolean(name + "/Enabled", true);
         
