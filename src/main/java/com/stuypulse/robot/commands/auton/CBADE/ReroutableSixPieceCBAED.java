@@ -1,6 +1,7 @@
 package com.stuypulse.robot.commands.auton.CBADE;
 
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.stuypulse.robot.commands.DoNothingCommand;
 import com.stuypulse.robot.commands.auton.FollowPathAlignAndShoot;
 import com.stuypulse.robot.commands.auton.FollowPathAndIntake;
 import com.stuypulse.robot.commands.conveyor.ConveyorShootRoutine;
@@ -16,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class ReroutableSixPieceCBAED extends SequentialCommandGroup {
-    
+
     public ReroutableSixPieceCBAED(PathPlannerPath... paths) {
 
         PathPlannerPath E_TO_D = paths[7];
@@ -61,14 +62,22 @@ public class ReroutableSixPieceCBAED extends SequentialCommandGroup {
                         .withTolerance(0.033, 7)),
 
                     new FollowPathAndIntake(paths[5]),
-                    new FollowPathAlignAndShoot(paths[6], new SwerveDriveToShoot()
-                        .withTolerance(0.033, 7))),
+
+                    new ConditionalCommand(
+                        new FollowPathAlignAndShoot(paths[6], new SwerveDriveToShoot()
+                            .withTolerance(0.033, 7)),
+                        new DoNothingCommand(),
+                        Intake.getInstance()::hasNote)),
 
                 // intake D, shoot D
                 new SequentialCommandGroup(
                     new FollowPathAndIntake(E_TO_D),
-                    new FollowPathAlignAndShoot(paths[4], new SwerveDriveToShoot()
-                        .withTolerance(0.033, 7))
+
+                    new ConditionalCommand(
+                        new FollowPathAlignAndShoot(paths[4], new SwerveDriveToShoot()
+                            .withTolerance(0.033, 7)),
+                        new DoNothingCommand(),
+                        Intake.getInstance()::hasNote)
                 ),
                 Intake.getInstance()::hasNote)
         );
