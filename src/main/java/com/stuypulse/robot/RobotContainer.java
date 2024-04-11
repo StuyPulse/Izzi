@@ -320,6 +320,11 @@ public class RobotContainer {
         AutonConfig CBAED_RED = new AutonConfig("5 CBAE", SixPieceCBAED::new,
             "Preload to C", "C to B Red", "B to A Red","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
 
+        AutonConfig ReroutableCBAED = new AutonConfig("5 R CBAE", ReroutableSixPieceCBAED::new,
+            "Preload to C", "C to B", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot", "F to Shoot (HGF)", "Rerouted E To F");
+        AutonConfig ReroutableCBAED_RED = new AutonConfig("5 R CBAE", ReroutableSixPieceCBAED::new,
+            "Preload to C", "C to B Red", "B to A Red","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot", "F to Shoot (HGF)", "Rerouted E To F");
+
         AutonConfig CBA = new AutonConfig("4 CBA", FourPieceCBA::new,
             "Preload to C", "C to B", "B to A");
         AutonConfig CBA_RED = new AutonConfig("4 CBA", FourPieceCBA::new,
@@ -346,6 +351,9 @@ public class RobotContainer {
         
         CBAED.registerBlue(autonChooser);
         CBAED_RED.registerRed(autonChooser);
+
+        ReroutableCBAED.registerBlue(autonChooser);
+        ReroutableCBAED_RED.registerRed(autonChooser);
 
         CBA.registerBlue(autonChooser);
         CBA_RED.registerRed(autonChooser);
