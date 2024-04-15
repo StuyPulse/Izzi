@@ -113,16 +113,6 @@ public class RobotContainer {
     }
 
     private void configureDriverBindings() {
-        // intaking with swerve pointing at note
-        // driver.getRightTriggerButton()
-        //     .whileTrue(new WaitCommand(Settings.Intake.TELEOP_DRIVE_STARTUP_DELAY)
-        //         .andThen(new IntakeAcquire()
-        //             .deadlineWith(new LEDSet(LEDInstructions.DARK_BLUE)))
-        //         .andThen(new BuzzController(driver)
-        //             .alongWith(new LEDSet(LEDInstructions.PICKUP)
-        //                 .withTimeout(3.0))))
-        //     .whileTrue(new SwerveDriveToNote());
-        
         // intaking
         driver.getRightTriggerButton()
             .whileTrue(new IntakeAcquire()
@@ -147,8 +137,13 @@ public class RobotContainer {
         // then shoot
         driver.getRightBumper()
             .onTrue(new ShooterPodiumShot())
-            .whileTrue(new SwerveDriveToShootWithoutStopping()
-                .deadlineWith(new LEDSet(LEDInstructions.SPEAKER_ALIGN)));
+            .whileTrue(new SwerveDriveToShoot()
+                .deadlineWith(new LEDSet(LEDInstructions.SPEAKER_ALIGN)
+                .andThen(new ShooterWaitForTarget()
+                    .withTimeout(0.5)))
+                .andThen(new ConveyorShoot()))
+            .onFalse(new ConveyorStop())
+            .onFalse(new IntakeStop());
 
         // note to amper and align then score
         driver.getLeftBumper()
@@ -327,9 +322,9 @@ public class RobotContainer {
             "Preload to C", "C to B Red", "B to A Red","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
 
         AutonConfig ReroutableCBAED = new AutonConfig("5 CBAE", ReroutableSixPieceCBAED::new,
-            "Preload to C", "C to B", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot", "F to Shoot (HGF)", "Rerouted E To F");
+            "Preload to C", "C to B", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot", "Rerouted E To D");
         AutonConfig ReroutableCBAED_RED = new AutonConfig("5 CBAE", ReroutableSixPieceCBAED::new,
-            "Preload to C", "C to B Red", "B to A Red","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot", "F to Shoot (HGF)", "Rerouted E To F");
+            "Preload to C", "C to B Red", "B to A Red","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot", "Rerouted E To D");
 
         AutonConfig CBA = new AutonConfig("4 CBA", FourPieceCBA::new,
             "Preload to C", "C to B", "B to A");
@@ -345,8 +340,15 @@ public class RobotContainer {
         AutonConfig TopFerry = new AutonConfig("Top Ferry", TopFerry::new,
             "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to F", "F to Shoot (TopFerry)");
 
+        AutonConfig ReroutableTopFerry = new AutonConfig("Top Ferry", ReroutableTopFerry::new,
+            "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to F", "F to Shoot (TopFerry)", "Rerouted D To E", "Rerouted E To F", "Rerouted E to Ferry Shot");
+
         // TODO: automatically choose red/blue
-        TopFerry
+        // TopFerry
+        //     .registerBlue(autonChooser)
+        //     .registerRed(autonChooser);
+
+        ReroutableTopFerry
             .registerBlue(autonChooser)
             .registerRed(autonChooser);
 

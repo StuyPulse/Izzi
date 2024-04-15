@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.17,
+        "x": 8.07,
         "y": 5.84
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.17,
-        "y": 4.84
+        "x": 8.07,
+        "y": 5.34
       },
       "isLocked": false,
       "linkedName": "E"
@@ -21,7 +21,7 @@
       },
       "prevControl": {
         "x": 8.153314996088682,
-        "y": 4.800600193792981
+        "y": 4.300600193792981
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "ABCDE",
+  "folder": "Top Ferry",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

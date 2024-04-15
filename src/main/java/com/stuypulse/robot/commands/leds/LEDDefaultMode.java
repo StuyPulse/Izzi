@@ -61,10 +61,6 @@ public class LEDDefaultMode extends Command {
         if (intake.hasNote()) {
             return LEDInstructions.CONTAINS_NOTE;
         }
-
-        if (odometry.getPose().getX() > Field.LENGTH / 2.0) {
-            return LEDInstructions.ATTENTION;
-        }
         
         return LEDInstructions.DEFAULT;
     }

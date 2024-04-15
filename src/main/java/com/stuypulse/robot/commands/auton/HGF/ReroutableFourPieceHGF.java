@@ -1,6 +1,7 @@
 package com.stuypulse.robot.commands.auton.HGF;
 
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.stuypulse.robot.commands.DoNothingCommand;
 import com.stuypulse.robot.commands.FastAlignShootSpeakerRelative;
 import com.stuypulse.robot.commands.auton.FollowPathAlignAndShoot;
 import com.stuypulse.robot.commands.auton.FollowPathAlignAndShootFast;
@@ -40,19 +41,29 @@ public class ReroutableFourPieceHGF extends SequentialCommandGroup {
                 // has H
                 new SequentialCommandGroup(
                     // shoot H, intake G
-                    new FollowPathAlignAndShootFast(paths[1], new FastAlignShootSpeakerRelative(-45, 1.0)),
+                    // new FollowPathAlignAndShootFast(paths[1], new FastAlignShootSpeakerRelative(-45, 1.0)),
+                    new FollowPathAlignAndShoot(paths[1], SwerveDriveToPose.speakerRelative(-45)),
                     new FollowPathAndIntake(paths[2]),
                     new ConditionalCommand(
                         // shoot G, intake F, shoot F
                         new SequentialCommandGroup(
-                            new FollowPathAlignAndShootFast(paths[3], new FastAlignShootSpeakerRelative(-45)),
+                            // new FollowPathAlignAndShootFast(paths[3], new FastAlignShootSpeakerRelative(-45)),
+                            new FollowPathAlignAndShoot(paths[3], SwerveDriveToPose.speakerRelative(-45)),
                             new FollowPathAndIntake(paths[4]),
-                            new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45))),
+                            
+                            new ConditionalCommand(
+                                new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45)),
+                                new DoNothingCommand(),
+                                Intake.getInstance()::hasNote)),
 
                         // intake F, shoot F
                         new SequentialCommandGroup(
                             new FollowPathAndIntake(G_TO_F),
-                            new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45))),
+                            
+                            new ConditionalCommand(
+                                new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45)),
+                                new DoNothingCommand(),
+                                Intake.getInstance()::hasNote)),
                         Intake.getInstance()::hasNote)),
                 // no H
                 new SequentialCommandGroup(
@@ -61,14 +72,24 @@ public class ReroutableFourPieceHGF extends SequentialCommandGroup {
                     new ConditionalCommand(
                         // shoot G, intake F, shoot F
                         new SequentialCommandGroup(
-                            new FollowPathAlignAndShootFast(paths[3], new FastAlignShootSpeakerRelative(-45)),
+                            // new FollowPathAlignAndShootFast(paths[3], new FastAlignShootSpeakerRelative(-45)),
+                            new FollowPathAlignAndShoot(paths[3], SwerveDriveToPose.speakerRelative(-45)),
                             new FollowPathAndIntake(paths[4]),
-                            new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45))),
+
+                            new ConditionalCommand(
+                                new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45)),
+                                new DoNothingCommand(),
+                                Intake.getInstance()::hasNote)
+                        ),
 
                         // intake F, shoot F
                         new SequentialCommandGroup(
                             new FollowPathAndIntake(G_TO_F),
-                            new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45))),
+                            
+                            new ConditionalCommand(
+                                new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45)),
+                                new DoNothingCommand(),
+                                Intake.getInstance()::hasNote)),
 
                         Intake.getInstance()::hasNote)),
 
