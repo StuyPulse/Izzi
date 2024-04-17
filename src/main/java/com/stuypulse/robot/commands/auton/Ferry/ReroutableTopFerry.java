@@ -42,7 +42,7 @@ public class ReroutableTopFerry extends SequentialCommandGroup {
                 new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
                     .andThen(new ShooterPodiumShot()),
                 
-                SwerveDriveToPose.speakerRelative(45)
+                SwerveDriveToPose.speakerRelative(42.5)
                     .withTolerance(0.03, 0.03, 3)
             ),
 
