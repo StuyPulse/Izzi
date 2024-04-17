@@ -165,6 +165,19 @@
               "imageWidth": 0,
               "imageHeight": 0
             }
+          },
+          "6,3": {
+            "size": [
+              4,
+              1
+            ],
+            "content": {
+              "_type": "Toggle Button",
+              "_source0": "network_table:///SmartDashboard/Amper/Reset Minimum Lift Height",
+              "_title": "RESET SAFE HEIGHT",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
           }
         }
       }
@@ -174,6 +187,6 @@
     "x": -7.199999809265137,
     "y": -7.199999809265137,
     "width": 1550.4000244140625,
-    "height": 838.4000244140625
+    "height": 830.4000244140625
   }
 }
