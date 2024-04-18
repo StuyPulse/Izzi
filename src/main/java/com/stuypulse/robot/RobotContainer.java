@@ -116,10 +116,11 @@ public class RobotContainer {
         // intaking
         driver.getRightTriggerButton()
             .whileTrue(new IntakeAcquire()
+                .andThen(new BuzzController(driver)))
+            .whileTrue(new WaitUntilCommand(Intake.getInstance()::hasNote)
                     .deadlineWith(new LEDSet(LEDInstructions.INTAKE))
-                .andThen(new BuzzController(driver) 
-                    .alongWith(new LEDSet(LEDInstructions.PICKUP)
-                        .withTimeout(3.0))));
+                .andThen(new LEDSet(LEDInstructions.PICKUP)
+                    .withTimeout(3.0)));
         
         // intaking (also robot relative swerve)
         driver.getLeftTriggerButton()
