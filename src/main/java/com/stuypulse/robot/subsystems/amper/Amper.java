@@ -169,8 +169,10 @@ public abstract class Amper extends SubsystemBase {
         
         lift2d.setLength(Settings.Amper.Lift.VISUALIZATION_MIN_LENGTH + getLiftHeight());
 
-        if (SmartDashboard.getBoolean("Amper/Reset Minimum Lift Height", false))
+        if (SmartDashboard.getBoolean("Amper/Reset Minimum Lift Height", false)) {
             setMinHeight(Settings.Amper.Lift.MIN_HEIGHT);
+            setTargetHeight(minHeight);
+        }
 
         if (targetHeight.get() > Settings.Amper.Lift.MAX_HEIGHT)
             targetHeight.set(Settings.Amper.Lift.MAX_HEIGHT);
