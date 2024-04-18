@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.430631429227235,
-        "y": 6.476519652113379
+        "x": 7.01423541408095,
+        "y": 6.710375651573131
       },
       "isLocked": false,
       "linkedName": "Ferry Shot E"
@@ -20,8 +20,8 @@
         "y": 3.993395262111494
       },
       "prevControl": {
-        "x": 8.144797599224828,
-        "y": 3.9781928613363213
+        "x": 6.4641411145582985,
+        "y": 4.111981267476507
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,7 +39,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -47.12109639666155,
+    "rotation": -10.607457530402133,
     "rotateFast": false
   },
   "reversed": false,
