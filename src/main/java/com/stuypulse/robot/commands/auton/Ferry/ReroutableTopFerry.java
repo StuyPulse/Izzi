@@ -46,7 +46,7 @@ public class ReroutableTopFerry extends SequentialCommandGroup {
                     .withTolerance(0.03, 0.03, 3)
             ),
 
-            new ConveyorShootRoutine(0.55),
+            new ConveyorShootRoutine(0.65),
 
             new ShooterSetRPM(Settings.Shooter.WING_FERRY),
 
