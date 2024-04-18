@@ -274,7 +274,7 @@ public interface Field {
 
     double FERRY_SHOT_MAX_X = 9.0;
     double FERRY_SHOT_MIN_X = 6.0;
-    double FERRY_SHOT_MIN_FAR_X = 8.25;
+    double FERRY_SHOT_MIN_FAR_X = 8.5;
 
     /**** EMPTY FIELD POSES ****/
 
