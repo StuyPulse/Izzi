@@ -48,11 +48,13 @@ public class ReroutableFourPieceHGF extends SequentialCommandGroup {
                         // shoot G, intake F, shoot F
                         new SequentialCommandGroup(
                             // new FollowPathAlignAndShootFast(paths[3], new FastAlignShootSpeakerRelative(-45)),
-                            new FollowPathAlignAndShoot(paths[3], SwerveDriveToPose.speakerRelative(-45)),
+                            new FollowPathAlignAndShoot(paths[3], SwerveDriveToPose.speakerRelative(-45)
+                                .withTolerance(0.03, 0.03, 3)),
                             new FollowPathAndIntake(paths[4]),
                             
                             new ConditionalCommand(
-                                new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45)),
+                                new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45)
+                                    .withTolerance(0.03, 0.03, 3)),
                                 new DoNothingCommand(),
                                 Intake.getInstance()::hasNote)),
 
@@ -61,7 +63,8 @@ public class ReroutableFourPieceHGF extends SequentialCommandGroup {
                             new FollowPathAndIntake(G_TO_F),
                             
                             new ConditionalCommand(
-                                new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45)),
+                                new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45)
+                                    .withTolerance(0.03, 0.03, 3)),
                                 new DoNothingCommand(),
                                 Intake.getInstance()::hasNote)),
                         Intake.getInstance()::hasNote)),
@@ -73,11 +76,13 @@ public class ReroutableFourPieceHGF extends SequentialCommandGroup {
                         // shoot G, intake F, shoot F
                         new SequentialCommandGroup(
                             // new FollowPathAlignAndShootFast(paths[3], new FastAlignShootSpeakerRelative(-45)),
-                            new FollowPathAlignAndShoot(paths[3], SwerveDriveToPose.speakerRelative(-45)),
+                            new FollowPathAlignAndShoot(paths[3], SwerveDriveToPose.speakerRelative(-45)
+                                .withTolerance(0.03, 0.03, 3)),
                             new FollowPathAndIntake(paths[4]),
 
                             new ConditionalCommand(
-                                new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45)),
+                                new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45)
+                                    .withTolerance(0.03, 0.03, 3)),
                                 new DoNothingCommand(),
                                 Intake.getInstance()::hasNote)
                         ),
@@ -87,7 +92,8 @@ public class ReroutableFourPieceHGF extends SequentialCommandGroup {
                             new FollowPathAndIntake(G_TO_F),
                             
                             new ConditionalCommand(
-                                new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45)),
+                                new FollowPathAlignAndShoot(paths[5], SwerveDriveToPose.speakerRelative(-45)
+                                    .withTolerance(0.03, 0.03, 3)),
                                 new DoNothingCommand(),
                                 Intake.getInstance()::hasNote)),
 
