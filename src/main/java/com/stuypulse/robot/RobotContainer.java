@@ -118,7 +118,7 @@ public class RobotContainer {
             .whileTrue(new IntakeAcquire()
                 .andThen(new BuzzController(driver)))
             .whileTrue(new WaitUntilCommand(Intake.getInstance()::hasNote)
-                    .deadlineWith(new LEDSet(LEDInstructions.INTAKE))
+                .deadlineWith(new LEDSet(LEDInstructions.INTAKE))
                 .andThen(new LEDSet(LEDInstructions.PICKUP)
                     .withTimeout(3.0)));
         
@@ -332,6 +332,9 @@ public class RobotContainer {
         AutonConfig CBA_RED = new AutonConfig("4 CBA", FourPieceCBA::new,
             "Preload to C", "C to B Red", "B to A Red");
 
+        AutonConfig CBF = new AutonConfig("4 CBF", FourPieceCBF::new,
+            "Preload to C", "C to B", "B to F", "F to Shoot (TopFerry)");
+
         // AutonConfig CHGF = new AutonConfig("4.5 Piece CHGF", FivePieceCHGF::new,
         //     "Preload to C", "CShoot To H (CHGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)");
 
@@ -356,17 +359,20 @@ public class RobotContainer {
         // HGF.registerDefaultBlue(autonChooser);
         // HGF_RED.registerRed(autonChooser);
 
-        ReroutableHGF.registerBlue(autonChooser);
+        ReroutableHGF.registerDefaultBlue(autonChooser);
         ReroutableHGF_RED.registerRed(autonChooser);
         
         // CBAED.registerBlue(autonChooser);
         // CBAED_RED.registerRed(autonChooser);
 
-        ReroutableCBAED.registerDefaultBlue(autonChooser);
+        ReroutableCBAED.registerBlue(autonChooser);
         ReroutableCBAED_RED.registerRed(autonChooser);
 
         CBA.registerBlue(autonChooser);
         CBA_RED.registerRed(autonChooser);
+
+        CBF.registerBlue(autonChooser)
+            .registerRed(autonChooser);
         
         SmartDashboard.putData("Autonomous", autonChooser);
 
