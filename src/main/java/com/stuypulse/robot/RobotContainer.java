@@ -335,6 +335,9 @@ public class RobotContainer {
         AutonConfig CBF = new AutonConfig("4 CBF", FourPieceCBF::new,
             "Preload to C", "C to B", "B to F", "F to Shoot (TopFerry)");
 
+        AutonConfig ReroutableCBAEF = new AutonConfig("5 CBAE Reroute Right", ReroutableSixPieceCBAEF::new, 
+            "Preload to C", "C to B", "B to A","A to E", "E to Shoot", "Shoot to F (CBAEF)", "F to Shoot (TopFerry)", "Rerouted E To F");
+
         // AutonConfig CHGF = new AutonConfig("4.5 Piece CHGF", FivePieceCHGF::new,
         //     "Preload to C", "CShoot To H (CHGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)");
 
@@ -346,6 +349,9 @@ public class RobotContainer {
 
         AutonConfig ReroutableTopFerry = new AutonConfig("Top Ferry", ReroutableTopFerry::new,
             "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to F", "F to Shoot (TopFerry)", "Rerouted D To E", "Rerouted E To F", "Rerouted E to Ferry Shot");
+
+        AutonConfig M76 = new AutonConfig("M76", ReroutableTopFerryM76::new,
+            "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "M76 Midline", "F to Shoot (TopFerry)", "Rerouted D To E", "Rerouted E To F", "Rerouted E to Ferry Shot", "M76 E to Midline");
 
         // TODO: automatically choose red/blue
         // TopFerry
@@ -373,7 +379,13 @@ public class RobotContainer {
 
         CBF.registerBlue(autonChooser)
             .registerRed(autonChooser);
+
+        ReroutableCBAEF.registerBlue(autonChooser)
+            .registerRed(autonChooser);
         
+        M76.registerBlue(autonChooser)
+            .registerRed(autonChooser);
+
         SmartDashboard.putData("Autonomous", autonChooser);
 
     }

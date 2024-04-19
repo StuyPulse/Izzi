@@ -16,11 +16,11 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-public class ReroutableSixPieceCBAED extends SequentialCommandGroup {
+public class ReroutableSixPieceCBAEF extends SequentialCommandGroup {
 
-    public ReroutableSixPieceCBAED(PathPlannerPath... paths) {
+    public ReroutableSixPieceCBAEF(PathPlannerPath... paths) {
 
-        PathPlannerPath E_TO_D = paths[7];
+        PathPlannerPath E_TO_F = paths[7];
         
         addCommands(
             new ParallelCommandGroup(
@@ -56,7 +56,7 @@ public class ReroutableSixPieceCBAED extends SequentialCommandGroup {
             new FollowPathAndIntake(paths[3]),
             
             new ConditionalCommand(
-                // shoot E, intake D, shoot D
+                // shoot E, intake F, shoot F
                 new SequentialCommandGroup(
                     new FollowPathAlignAndShoot(paths[4], new SwerveDriveToShoot()
                         .withTolerance(0.033, 7)),
@@ -69,9 +69,9 @@ public class ReroutableSixPieceCBAED extends SequentialCommandGroup {
                         new DoNothingCommand(),
                         Intake.getInstance()::hasNote)),
 
-                // intake D, shoot D
+                // intake F, shoot F
                 new SequentialCommandGroup(
-                    new FollowPathAndIntake(E_TO_D),
+                    new FollowPathAndIntake(E_TO_F),
 
                     new ConditionalCommand(
                         new FollowPathAlignAndShoot(paths[6], new SwerveDriveToShoot()

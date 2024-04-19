@@ -1,0 +1,55 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.15,
+        "y": 6.563657142562062
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 8.621581636886527,
+        "y": 6.241875878901544
+      },
+      "isLocked": false,
+      "linkedName": "Ferry Shot E"
+    },
+    {
+      "anchor": {
+        "x": 8.281967377058862,
+        "y": 0.9837102698456457
+      },
+      "prevControl": {
+        "x": 8.258545703967298,
+        "y": 6.347273407813577
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": -90.42948668810303,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -88.0908475670037,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Top Ferry",
+  "previewStartingState": null,
+  "useDefaultConstraints": true
+}
