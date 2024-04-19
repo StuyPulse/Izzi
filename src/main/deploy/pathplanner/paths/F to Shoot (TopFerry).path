@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 8.16,
-        "y": 3.993395262111494
+        "y": 4.2
       },
       "prevControl": null,
       "nextControl": {
         "x": 5.1946410831710566,
-        "y": 3.433578730441394
+        "y": 3.6401834683299
       },
       "isLocked": false,
       "linkedName": "F Top Ferry"
