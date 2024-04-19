@@ -27,8 +27,10 @@ import java.util.Arrays;
 /** This interface stores information about the field elements. */
 public interface Field {
 
-    double WIDTH = Units.inchesToMeters(323.25);
-    double LENGTH = Units.inchesToMeters(651.25);
+    double WIDTH = Units.inchesToMeters(323.25);  //  8.21
+    double LENGTH = 16.54; //Units.inchesToMeters(651.25); // 16.54
+
+    double WING_TO_CENTERLINE = 2.45;
 
     double NOTE_LENGTH = Units.inchesToMeters(14.0);
 
@@ -272,7 +274,11 @@ public interface Field {
 
     /*** FERRYING ***/
 
-    double FERRY_SHOT_MAX_X = 9.0;
+    // MIDLINE: 8.27
+
+    // BEFORE: 9
+    // MIDLINE + 60% of WING_TO_CENTERLINE distance
+    double FERRY_SHOT_MAX_X = LENGTH / 2.0 + WING_TO_CENTERLINE * 0.60;
     double FERRY_SHOT_MIN_X = 6.0;
     double FERRY_SHOT_MIN_FAR_X = 8.5;
 
