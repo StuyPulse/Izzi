@@ -28,7 +28,7 @@ public class ReroutableSixPieceCBAEF extends SequentialCommandGroup {
                     .andThen(new ShooterPodiumShot()),
 
                 SwerveDriveToPose.speakerRelative(-15)
-                    .withTolerance(0.03, 0.03, 3)
+                    .withTolerance(0.06, 0.06, 3)
             ),
 
             // shoot preload
@@ -59,13 +59,13 @@ public class ReroutableSixPieceCBAEF extends SequentialCommandGroup {
                 // shoot E, intake F, shoot F
                 new SequentialCommandGroup(
                     new FollowPathAlignAndShoot(paths[4], new SwerveDriveToShoot()
-                        .withTolerance(0.033, 7)),
+                        .withTolerance(0.06, 7)),
 
                     new FollowPathAndIntake(paths[5]),
 
                     new ConditionalCommand(
                         new FollowPathAlignAndShoot(paths[6], new SwerveDriveToShoot()
-                            .withTolerance(0.033, 7)),
+                            .withTolerance(0.06, 7)),
                         new DoNothingCommand(),
                         Intake.getInstance()::hasNote)),
 
@@ -75,7 +75,7 @@ public class ReroutableSixPieceCBAEF extends SequentialCommandGroup {
 
                     new ConditionalCommand(
                         new FollowPathAlignAndShoot(paths[6], new SwerveDriveToShoot()
-                            .withTolerance(0.033, 7)),
+                            .withTolerance(0.06, 7)),
                         new DoNothingCommand(),
                         Intake.getInstance()::hasNote)
                 ),

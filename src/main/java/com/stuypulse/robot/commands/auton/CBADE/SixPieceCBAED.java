@@ -23,7 +23,7 @@ public class SixPieceCBAED extends SequentialCommandGroup {
                     .andThen(new ShooterPodiumShot()),
 
                 SwerveDriveToPose.speakerRelative(-15)
-                    .withTolerance(0.03, 0.03, 3)
+                    .withTolerance(0.06, 0.06, 3)
             ),
 
             new ConveyorShootRoutine(0.55),
@@ -45,11 +45,11 @@ public class SixPieceCBAED extends SequentialCommandGroup {
 
             new FollowPathAndIntake(paths[3]),
             new FollowPathAlignAndShoot(paths[4], new SwerveDriveToShoot()
-                .withTolerance(0.033, 7)),
+                .withTolerance(0.06, 7)),
 
             new FollowPathAndIntake(paths[5]),
             new FollowPathAlignAndShoot(paths[6], new SwerveDriveToShoot()
-                .withTolerance(0.033, 7))
+                .withTolerance(0.06, 7))
         );
     }
 
