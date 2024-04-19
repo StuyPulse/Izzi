@@ -21,7 +21,7 @@ public class ReroutableFourPieceHG extends SequentialCommandGroup {
 
     // takes same paths as hgf
     public ReroutableFourPieceHG(PathPlannerPath... paths) {
-        PathPlannerPath H_TO_G = paths[6];
+        PathPlannerPath H_TO_G = paths[4];
 
         addCommands(
             new ParallelCommandGroup(

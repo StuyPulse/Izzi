@@ -353,6 +353,9 @@ public class RobotContainer {
         AutonConfig M76 = new AutonConfig("M76", ReroutableTopFerryM76::new,
             "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "M76 Midline", "F to Shoot (TopFerry)", "Rerouted D To E", "Rerouted E To F", "Rerouted E to Ferry Shot", "M76 E to Midline");
 
+        AutonConfig M94 = new AutonConfig("M94", ReroutableFourPieceHG::new,
+            "Start to H (HGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "Rerouted H To G");
+
         // TODO: automatically choose red/blue
         // TopFerry
         //     .registerBlue(autonChooser)
@@ -384,6 +387,9 @@ public class RobotContainer {
             .registerRed(autonChooser);
         
         M76.registerBlue(autonChooser)
+            .registerRed(autonChooser);
+
+        M94.registerBlue(autonChooser)
             .registerRed(autonChooser);
 
         SmartDashboard.putData("Autonomous", autonChooser);
