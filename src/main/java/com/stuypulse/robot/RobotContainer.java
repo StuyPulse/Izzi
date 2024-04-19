@@ -358,6 +358,7 @@ public class RobotContainer {
 
         // TODO: automatically choose red/blue
         // TopFerry
+        
         //     .registerBlue(autonChooser)
         //     .registerRed(autonChooser);
 
@@ -386,11 +387,11 @@ public class RobotContainer {
         ReroutableCBAEF.registerBlue(autonChooser)
             .registerRed(autonChooser);
         
-        M76.registerBlue(autonChooser)
-            .registerRed(autonChooser);
+        // M76.registerBlue(autonChooser)
+        //     .registerRed(autonChooser);
 
-        M94.registerBlue(autonChooser)
-            .registerRed(autonChooser);
+        // M94.registerBlue(autonChooser)
+        //     .registerRed(autonChooser);
 
         SmartDashboard.putData("Autonomous", autonChooser);
 
