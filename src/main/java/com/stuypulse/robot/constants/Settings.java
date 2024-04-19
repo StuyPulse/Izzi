@@ -225,25 +225,25 @@ public interface Settings {
 
         public interface FrontRight {
             String ID = "Front Right";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(40.4);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-141.855469);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * +0.5, LENGTH * -0.5);
         }
 
         public interface FrontLeft {
             String ID = "Front Left";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-172.880859);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(6.591797);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * +0.5, LENGTH * +0.5);
         }
 
         public interface BackLeft {
             String ID = "Back Left";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(22.939453);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-155.390625);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * +0.5);
         }
 
         public interface BackRight {
             String ID = "Back Right";
-            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(40.253906);
+            Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-141.767578);
             Translation2d MODULE_OFFSET = new Translation2d(WIDTH * -0.5, LENGTH * -0.5);
         }
     }
