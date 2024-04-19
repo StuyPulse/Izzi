@@ -347,6 +347,9 @@ public class RobotContainer {
         AutonConfig TopFerry = new AutonConfig("Top Ferry", TopFerry::new,
             "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to F", "F to Shoot (TopFerry)");
 
+        AutonConfig TopFerryM120 = new AutonConfig("Top Ferry M120", TopFerryM120::new,
+            "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Shoot M120", "Rerouted D To E");
+
         AutonConfig ReroutableTopFerry = new AutonConfig("Top Ferry", ReroutableTopFerry::new,
             "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to F", "F to Shoot (TopFerry)", "Rerouted D To E", "Rerouted E To F", "Rerouted E to Ferry Shot");
 
@@ -386,12 +389,6 @@ public class RobotContainer {
 
         ReroutableCBAEF.registerBlue(autonChooser)
             .registerRed(autonChooser);
-        
-        // M76.registerBlue(autonChooser)
-        //     .registerRed(autonChooser);
-
-        // M94.registerBlue(autonChooser)
-        //     .registerRed(autonChooser);
 
         SmartDashboard.putData("Autonomous", autonChooser);
 
