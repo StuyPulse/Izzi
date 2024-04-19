@@ -82,41 +82,19 @@ public class ReroutableTopFerry extends SequentialCommandGroup {
                                 new InstantCommand(), 
                                 Intake.getInstance()::hasNote)
                         ), 
-                        // else intake E
+                        // else intake F
                         new SequentialCommandGroup(
-                            new FollowPathAndIntake(D_TO_E),
-
+                            new FollowPathAndIntake(E_TO_F),
+                            
                             new ConditionalCommand(
-                                new SequentialCommandGroup(
-                                    // shoot E, intake F
-                                    SwerveDrive.getInstance().followPathCommand(E_FERRY_REROUTE),
-                                    new SwerveDriveStop(),
-                                    new ConveyorShootRoutine(),
-                                    new ShooterPodiumShot(),
-                                    
-                                    new SwerveDriveResetOdometry(() -> getPathStartPose(paths[4])),
-                                    new FollowPathAndIntake(paths[4]),
-                                    
-                                    new ConditionalCommand(
-                                        // if we have a note, we can shoot F
-                                        new FollowPathAlignAndShoot(paths[5], new SwerveDriveToShoot()), 
-                                        new InstantCommand(), 
-                                        Intake.getInstance()::hasNote)
-                                ), 
-                                new SequentialCommandGroup(
-                                    new FollowPathAndIntake(E_TO_F),
-                                    
-                                    new ConditionalCommand(
-                                        // if we have a note, we can shoot F
-                                        new FollowPathAlignAndShoot(paths[5], new SwerveDriveToShoot()), 
-                                        new InstantCommand(), 
-                                        Intake.getInstance()::hasNote)
-                                ),
+                                // if we have a note, we can shoot F
+                                new FollowPathAlignAndShoot(paths[5], new SwerveDriveToShoot()), 
+                                new InstantCommand(), 
                                 Intake.getInstance()::hasNote)
                         ), 
                         Intake.getInstance()::hasNote)
                 ), 
-                // else intake E
+                // don't shoot D, intake E
                 new SequentialCommandGroup(
                     new FollowPathAndIntake(D_TO_E),
 

@@ -74,24 +74,8 @@ public class ReroutableTopFerryM76 extends SequentialCommandGroup {
                             new SwerveDriveResetOdometry(() -> getPathStartPose(MIDLINE_INTAKE_PATH)),
                             new FollowPathAndIntake(MIDLINE_INTAKE_PATH)
                         ), 
-                        // else intake E
-                        new SequentialCommandGroup(
-                            new FollowPathAndIntake(D_TO_E),
-
-                            new ConditionalCommand(
-                                new SequentialCommandGroup(
-                                    // shoot E, intake midline
-                                    SwerveDrive.getInstance().followPathCommand(E_FERRY_REROUTE),
-                                    new SwerveDriveStop(),
-                                    new ConveyorShootRoutine(),
-                                    new ShooterPodiumShot(),
-                                    
-                                    new SwerveDriveResetOdometry(() -> getPathStartPose(MIDLINE_INTAKE_PATH)),
-                                    new FollowPathAndIntake(MIDLINE_INTAKE_PATH)
-                                ), 
-                                new FollowPathAndIntake(E_TO_MIDLINE),
-                                Intake.getInstance()::hasNote)
-                        ), 
+                        // else midline intake
+                        new FollowPathAndIntake(E_TO_MIDLINE),
                         Intake.getInstance()::hasNote)
                 ), 
                 // else intake E
