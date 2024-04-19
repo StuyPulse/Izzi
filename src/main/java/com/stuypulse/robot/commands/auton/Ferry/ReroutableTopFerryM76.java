@@ -80,7 +80,7 @@ public class ReroutableTopFerryM76 extends SequentialCommandGroup {
 
                             new ConditionalCommand(
                                 new SequentialCommandGroup(
-                                    // shoot E, intake F
+                                    // shoot E, intake midline
                                     SwerveDrive.getInstance().followPathCommand(E_FERRY_REROUTE),
                                     new SwerveDriveStop(),
                                     new ConveyorShootRoutine(),
@@ -100,7 +100,7 @@ public class ReroutableTopFerryM76 extends SequentialCommandGroup {
 
                     new ConditionalCommand(
                         new SequentialCommandGroup(
-                            // shoot E, intake F
+                            // shoot E, intake midline
                             SwerveDrive.getInstance().followPathCommand(E_FERRY_REROUTE),
                             new SwerveDriveStop(),
                             new ConveyorShootRoutine(),
