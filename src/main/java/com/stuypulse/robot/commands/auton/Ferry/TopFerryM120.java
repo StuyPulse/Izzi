@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
+// top ferry until E pickup, then pause for 3 seconds, go back and shoot
 public class TopFerryM120 extends SequentialCommandGroup {
     public TopFerryM120(PathPlannerPath... paths) {
         addCommands (

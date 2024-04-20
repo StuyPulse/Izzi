@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
+// top ferry until F, then drive along midline until robot intakes a note and stop
 public class ReroutableTopFerryM76 extends SequentialCommandGroup {
 
     private Pose2d getPathStartPose(PathPlannerPath path) {
