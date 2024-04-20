@@ -22,15 +22,16 @@ public class ThreePieceGC extends SequentialCommandGroup {
                     .andThen(new ShooterPodiumShot()),
 
                 SwerveDriveToPose.speakerRelative(-55)
-                    .withTolerance(0.1, 0.1, 2)
+                    .withTolerance(0.05, 0.05, 2)
             ),
 
             new ShooterWaitForTarget()
                 .withTimeout(0.25),
-            ConveyorShootRoutine.untilNoteShot(0.75),
+            ConveyorShootRoutine.untilNoteShot(1.75),
 
             new FollowPathAndIntake(paths[0]),
-            new FollowPathAlignAndShoot(paths[1], SwerveDriveToPose.speakerRelative(-45)),
+            new FollowPathAlignAndShoot(paths[1], SwerveDriveToPose.speakerRelative(-45)
+                .withTolerance(0.05, 0.05, 5)),
             
             new FollowPathAndIntake(paths[2]),
             new SwerveDriveToShoot()

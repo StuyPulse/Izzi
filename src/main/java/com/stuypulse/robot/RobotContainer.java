@@ -387,7 +387,7 @@ public class RobotContainer {
         ReroutableCBAED.registerBlue(autonChooser);
         ReroutableCBAED_RED.registerRed(autonChooser);
 
-        CBA.registerBlue(autonChooser);
+        CBA.registerDefaultBlue(autonChooser);
         CBA_RED.registerRed(autonChooser);
 
         CBF.registerBlue(autonChooser)
@@ -396,7 +396,7 @@ public class RobotContainer {
         ReroutableCBAEF.registerBlue(autonChooser)
             .registerRed(autonChooser);
 
-        GC.registerDefaultBlue(autonChooser);
+        GC.registerBlue(autonChooser);
         GC_RED.registerRed(autonChooser);
             
         SmartDashboard.putData("Autonomous", autonChooser);
