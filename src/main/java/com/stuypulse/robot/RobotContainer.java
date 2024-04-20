@@ -359,6 +359,12 @@ public class RobotContainer {
         AutonConfig M94 = new AutonConfig("M94", ReroutableFourPieceHG::new,
             "Start to H (HGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "Rerouted H To G");
 
+        AutonConfig GC = new AutonConfig("3 GC", ThreePieceGC::new,
+            "HShoot to G (HGF)", "G to Shoot (HGF)", "Shoot to C");
+        AutonConfig GC_RED = new AutonConfig("3 GC", ThreePieceGC::new,
+            "HShoot to G (HGF) Red", "G to Shoot (HGF) Red", "Shoot to C");
+
+
         // TODO: automatically choose red/blue
         // TopFerry
         
@@ -372,7 +378,7 @@ public class RobotContainer {
         // HGF.registerDefaultBlue(autonChooser);
         // HGF_RED.registerRed(autonChooser);
 
-        ReroutableHGF.registerDefaultBlue(autonChooser);
+        ReroutableHGF.registerBlue(autonChooser);
         ReroutableHGF_RED.registerRed(autonChooser);
         
         // CBAED.registerBlue(autonChooser);
@@ -390,6 +396,9 @@ public class RobotContainer {
         ReroutableCBAEF.registerBlue(autonChooser)
             .registerRed(autonChooser);
 
+        GC.registerDefaultBlue(autonChooser);
+        GC_RED.registerRed(autonChooser);
+            
         SmartDashboard.putData("Autonomous", autonChooser);
 
     }

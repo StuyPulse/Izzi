@@ -1,0 +1,66 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.5050384003901907,
+        "y": 3.180810008343664
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.6536338921465275,
+        "y": 3.1385041942694443
+      },
+      "isLocked": false,
+      "linkedName": "HShoot"
+    },
+    {
+      "anchor": {
+        "x": 2.55,
+        "y": 4.163118981508619
+      },
+      "prevControl": {
+        "x": 1.3842846515935527,
+        "y": 4.356431195030721
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.6,
+      "rotationDegrees": -12.222196131805264,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "IntakeToShooter",
+      "waypointRelativePos": 0.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0.0,
+    "rotation": -14.987676790851811,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "ABCDE",
+  "previewStartingState": null,
+  "useDefaultConstraints": false
+}
