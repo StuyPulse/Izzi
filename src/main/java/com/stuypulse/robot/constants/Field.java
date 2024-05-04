@@ -28,7 +28,7 @@ import java.util.Arrays;
 public interface Field {
 
     double WIDTH = Units.inchesToMeters(323.25);  //  8.21
-    double LENGTH = 16.54; //Units.inchesToMeters(651.25); // 16.54
+    double LENGTH = Units.inchesToMeters(651.25); // 16.54
 
     double WING_TO_CENTERLINE = 2.45;
 
