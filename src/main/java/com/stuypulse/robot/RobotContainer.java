@@ -116,10 +116,11 @@ public class RobotContainer {
         // intaking
         driver.getRightTriggerButton()
             .whileTrue(new IntakeAcquire()
-                    .deadlineWith(new LEDSet(LEDInstructions.INTAKE))
-                .andThen(new BuzzController(driver) 
-                    .alongWith(new LEDSet(LEDInstructions.PICKUP)
-                        .withTimeout(3.0))));
+                .andThen(new BuzzController(driver)))
+            .whileTrue(new WaitUntilCommand(Intake.getInstance()::hasNote)
+                .deadlineWith(new LEDSet(LEDInstructions.INTAKE))
+                .andThen(new LEDSet(LEDInstructions.PICKUP)
+                    .withTimeout(3.0)));
         
         // intaking (also robot relative swerve)
         driver.getLeftTriggerButton()
@@ -331,6 +332,12 @@ public class RobotContainer {
         AutonConfig CBA_RED = new AutonConfig("4 CBA", FourPieceCBA::new,
             "Preload to C", "C to B Red", "B to A Red");
 
+        AutonConfig CBF = new AutonConfig("4 CBF", FourPieceCBF::new,
+            "Preload to C", "C to B", "B to F", "F to Shoot (TopFerry)");
+
+        AutonConfig ReroutableCBAEF = new AutonConfig("5 CBAE Reroute Right", ReroutableSixPieceCBAEF::new, 
+            "Preload to C", "C to B", "B to A","A to E", "E to Shoot", "Shoot to F (CBAEF)", "F to Shoot (TopFerry)", "Rerouted E To F");
+
         // AutonConfig CHGF = new AutonConfig("4.5 Piece CHGF", FivePieceCHGF::new,
         //     "Preload to C", "CShoot To H (CHGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)");
 
@@ -340,11 +347,27 @@ public class RobotContainer {
         AutonConfig TopFerry = new AutonConfig("Top Ferry", TopFerry::new,
             "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to F", "F to Shoot (TopFerry)");
 
+        AutonConfig TopFerryM120 = new AutonConfig("Top Ferry M120", TopFerryM120::new,
+            "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Shoot M120", "Rerouted D To E");
+
         AutonConfig ReroutableTopFerry = new AutonConfig("Top Ferry", ReroutableTopFerry::new,
             "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to F", "F to Shoot (TopFerry)", "Rerouted D To E", "Rerouted E To F", "Rerouted E to Ferry Shot");
 
+        AutonConfig M76 = new AutonConfig("M76", ReroutableTopFerryM76::new,
+            "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "M76 Midline", "F to Shoot (TopFerry)", "Rerouted D To E", "Rerouted E To F", "Rerouted E to Ferry Shot", "M76 E to Midline");
+
+        AutonConfig M94 = new AutonConfig("M94", ReroutableFourPieceHG::new,
+            "Start to H (HGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "Rerouted H To G");
+
+        AutonConfig GC = new AutonConfig("3 GC", ThreePieceGC::new,
+            "HShoot to G (HGF)", "G to Shoot (HGF)", "Shoot to C");
+        AutonConfig GC_RED = new AutonConfig("3 GC", ThreePieceGC::new,
+            "HShoot to G (HGF) Red", "G to Shoot (HGF) Red", "Shoot to C");
+
+
         // TODO: automatically choose red/blue
         // TopFerry
+        
         //     .registerBlue(autonChooser)
         //     .registerRed(autonChooser);
 
@@ -361,12 +384,21 @@ public class RobotContainer {
         // CBAED.registerBlue(autonChooser);
         // CBAED_RED.registerRed(autonChooser);
 
-        ReroutableCBAED.registerDefaultBlue(autonChooser);
+        ReroutableCBAED.registerBlue(autonChooser);
         ReroutableCBAED_RED.registerRed(autonChooser);
 
-        CBA.registerBlue(autonChooser);
+        CBA.registerDefaultBlue(autonChooser);
         CBA_RED.registerRed(autonChooser);
-        
+
+        CBF.registerBlue(autonChooser)
+            .registerRed(autonChooser);
+
+        ReroutableCBAEF.registerBlue(autonChooser)
+            .registerRed(autonChooser);
+
+        GC.registerBlue(autonChooser);
+        GC_RED.registerRed(autonChooser);
+            
         SmartDashboard.putData("Autonomous", autonChooser);
 
     }

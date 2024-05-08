@@ -62,6 +62,8 @@ public abstract class Amper extends SubsystemBase {
     public Amper() {
         targetHeight = new SmartNumber("Amper/Target Height", 0); // TODO: determine the default value
         minHeight = Settings.Amper.Lift.MIN_HEIGHT;
+
+        SmartDashboard.putBoolean("Amper/Reset Minimum Lift Height", false);
         
         mechanism2d = new Mechanism2d(3, 3);
         mechanism2d.getRoot("Base Origin", 1, 1).append(new MechanismLigament2d(
@@ -160,9 +162,17 @@ public abstract class Amper extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Amper/Amp Distance", Units.metersToInches(Field.WIDTH - Odometry.getInstance().getPose().getY()));
+        SmartDashboard.putNumber("Amper/Amp Distance", 
+            Units.metersToInches(Math.min(
+                Field.WIDTH - Odometry.getInstance().getPose().getY(),
+                Odometry.getInstance().getPose().getY())));
         
         lift2d.setLength(Settings.Amper.Lift.VISUALIZATION_MIN_LENGTH + getLiftHeight());
+
+        if (SmartDashboard.getBoolean("Amper/Reset Minimum Lift Height", false)) {
+            setMinHeight(Settings.Amper.Lift.MIN_HEIGHT);
+            setTargetHeight(minHeight);
+        }
 
         if (targetHeight.get() > Settings.Amper.Lift.MAX_HEIGHT)
             targetHeight.set(Settings.Amper.Lift.MAX_HEIGHT);

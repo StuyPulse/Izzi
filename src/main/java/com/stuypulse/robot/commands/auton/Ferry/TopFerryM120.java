@@ -11,15 +11,18 @@ import com.stuypulse.robot.commands.swerve.SwerveDriveToPose;
 import com.stuypulse.robot.commands.swerve.SwerveDriveToShoot;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Auton;
+import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-public class TopFerry extends SequentialCommandGroup {
-    public TopFerry(PathPlannerPath... paths) {
+// top ferry until E pickup, then pause for 3 seconds, go back and shoot
+public class TopFerryM120 extends SequentialCommandGroup {
+    public TopFerryM120(PathPlannerPath... paths) {
         addCommands (
             new ParallelCommandGroup(
                 new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
@@ -36,22 +39,27 @@ public class TopFerry extends SequentialCommandGroup {
             // intake D
             new FollowPathAndIntake(paths[0]),
 
-            // shoot D, intake E
-            SwerveDrive.getInstance().followPathCommand(paths[1]),
-            new SwerveDriveStop(),
-            new ConveyorShootRoutine(),
-            new FollowPathAndIntake(paths[2]),
-
-            // shoot E, intake F
-            SwerveDrive.getInstance().followPathCommand(paths[3]),
-            new SwerveDriveStop(),
-            new ConveyorShootRoutine(),
+            new ConditionalCommand(
+                // if we have a note, we can shoot D
+                new SequentialCommandGroup(
+                    // shoot D, intake E
+                    SwerveDrive.getInstance().followPathCommand(paths[1]),
+                    new SwerveDriveStop(),
+                    new ConveyorShootRoutine(),
+                    new FollowPathAndIntake(paths[2])
+                ),
+                // no note, reroute
+                new FollowPathAndIntake(paths[4]),
+                Intake.getInstance()::hasNote
+            ),
+            
+            // wait 3 seconds
             new ShooterPodiumShot(),
+            new WaitCommand(3.0),
 
-            new FollowPathAndIntake(paths[4]),
-
-            // shoot F
-            new FollowPathAlignAndShoot(paths[5], new SwerveDriveToShoot())
+            // shoot E
+            new FollowPathAlignAndShoot(paths[3], new SwerveDriveToShoot()
+                .withTolerance(0.06, 7))
         );
     }
 }
