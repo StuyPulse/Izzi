@@ -13,7 +13,6 @@ import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 import com.stuypulse.stuylib.streams.numbers.IStream;
-import com.stuypulse.stuylib.streams.numbers.filters.Derivative;
 import com.stuypulse.stuylib.streams.numbers.filters.LowPassFilter;
 import com.pathplanner.lib.util.PIDConstants;
 import com.stuypulse.robot.constants.Field;

@@ -400,6 +400,7 @@ public interface Settings {
         SmartNumber Y_TOLERANCE = new SmartNumber("Alignment/Y Tolerance", 0.1);
         SmartNumber ANGLE_TOLERANCE = new SmartNumber("Alignment/Angle Tolerance", 5);
 
+        SmartNumber FERRY_SHOT_DISTANCE = new SmartNumber("Shooter/Ferry Shot Distance", 7.0);
         SmartNumber PODIUM_SHOT_DISTANCE = new SmartNumber("Shooter/Podium Distance", 2.85); // 2.75 in lab
         double PODIUM_SHOT_MAX_ANGLE = 80;
 

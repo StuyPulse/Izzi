@@ -211,7 +211,15 @@ public class RobotContainer {
         //             .deadlineWith(new LEDSet(LEDInstructions.AUTO_SWERVE))));
 
         driver.getTopButton()
-            .whileTrue(new SwerveDriveAutoFerry(driver));
+            .onTrue(new ShooterSetRPM(Settings.Shooter.FERRY))
+            .whileTrue(new SwerveDriveToFerry()
+                .deadlineWith(new LEDSet(LEDInstructions.SPEAKER_ALIGN)
+                .andThen(new ShooterWaitForTarget()
+                    .withTimeout(0.5)))
+                .andThen(new ConveyorShoot()))
+            .onFalse(new ConveyorStop())
+            .onFalse(new IntakeStop());
+            // .whileTrue(new SwerveDriveAutoFerry(driver));
 
         // climb
         driver.getRightButton()
