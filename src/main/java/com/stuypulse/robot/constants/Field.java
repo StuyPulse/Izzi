@@ -282,6 +282,8 @@ public interface Field {
     double FERRY_SHOT_MIN_X = 6.0;
     double FERRY_SHOT_MIN_FAR_X = 8.5;
 
+    double CONST_FERRY_X = (FERRY_SHOT_MAX_X + FERRY_SHOT_MIN_FAR_X) / 2.0;
+
     /**** EMPTY FIELD POSES ****/
 
     Pose2d EMPTY_FIELD_POSE2D = new Pose2d(new Translation2d(-1, -1), new Rotation2d());
