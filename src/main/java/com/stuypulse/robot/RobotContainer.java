@@ -50,6 +50,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
@@ -148,8 +149,9 @@ public class RobotContainer {
 
         // note to amper and align then score
         driver.getLeftBumper()
-            .whileTrue(new AmpScoreRoutine())
-            .onFalse(new AmperStop())
+            .onTrue(new ConveyorToAmpUnsafe()) // requirements: conveyor, intake
+            .whileTrue(new AmpScoreRoutine())  // requirements: swerve, amper
+            .onFalse(new ConditionalCommand(new AmperStop(), new InstantCommand(), () -> !Amper.getInstance().hasNote()))
             .onFalse(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT));
 
         // score speaker no align

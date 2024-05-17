@@ -20,6 +20,7 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.constants.Settings.Amper.Lift;
 import com.stuypulse.robot.constants.Settings.Amper.Score;
+import com.stuypulse.robot.subsystems.amper.Amper;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.vision.AprilTagVision;
 import com.stuypulse.stuylib.math.Vector2D;
@@ -31,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 public class AmpScoreRoutine extends SequentialCommandGroup {
 
@@ -57,7 +59,7 @@ public class AmpScoreRoutine extends SequentialCommandGroup {
     public AmpScoreRoutine() {
         addCommands(
             new ParallelCommandGroup(
-                new ConveyorToAmp(),
+                new WaitUntilCommand(() -> Amper.getInstance().hasNote()),
                 new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get()))
                     .withTolerance(AMP_WALL_SETUP_X_TOLERANCE, AMP_WALL_SETUP_Y_TOLERANCE, AMP_WALL_SETUP_ANGLE_TOLERANCE)
                     .deadlineWith(new LEDSet(LEDInstructions.AMP_ALIGN))
