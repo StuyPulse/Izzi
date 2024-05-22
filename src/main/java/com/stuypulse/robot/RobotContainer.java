@@ -151,7 +151,7 @@ public class RobotContainer {
         driver.getLeftBumper()
             .onTrue(new ConveyorToAmpUnsafe()) // requirements: conveyor, intake
             .whileTrue(new AmpScoreRoutine())  // requirements: swerve, amper
-            .onFalse(new ConditionalCommand(new AmperStop(), new InstantCommand(), () -> !Amper.getInstance().hasNote()))
+            // .onFalse(new ConditionalCommand(new AmperStop(), new InstantCommand(), () -> !Amper.getInstance().hasNote()))
             .onFalse(new AmperToHeight(Settings.Amper.Lift.MIN_HEIGHT));
 
         // score speaker no align

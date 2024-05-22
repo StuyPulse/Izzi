@@ -8,6 +8,7 @@ package com.stuypulse.robot.commands;
 
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.commands.amper.AmperScore;
+import com.stuypulse.robot.commands.amper.AmperScoreThenStop;
 import com.stuypulse.robot.commands.amper.AmperToHeight;
 import com.stuypulse.robot.commands.conveyor.ConveyorToAmp;
 import com.stuypulse.robot.commands.leds.LEDSet;
@@ -77,7 +78,8 @@ public class AmpScoreRoutine extends SequentialCommandGroup {
                     .deadlineWith(new LEDSet(LEDInstructions.AMP_SCORE))
             ),
             
-            AmperScore.untilDone(),
+            // AmperScore.untilDone(),
+            AmperScoreThenStop.scoreThenStop(),
 
             new WaitCommand(0.25),
 
