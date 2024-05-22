@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 2.86,
+      "y": 4.84
+    },
+    "rotation": -2.2362727164313716
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5 CBAE Podium Choreo.1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5 CBAE Podium Choreo.2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5 CBAE Podium Choreo.3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5 CBAE Podium Choreo.4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5 CBAE Podium Choreo.5"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": true
+}
