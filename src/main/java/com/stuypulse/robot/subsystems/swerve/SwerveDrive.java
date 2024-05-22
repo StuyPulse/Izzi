@@ -7,6 +7,10 @@
 package com.stuypulse.robot.subsystems.swerve;
 
 import com.stuypulse.stuylib.math.Vector2D;
+import com.stuypulse.stuylib.streams.booleans.BStream;
+import com.stuypulse.stuylib.streams.numbers.IStream;
+import com.stuypulse.stuylib.streams.numbers.filters.Derivative;
+import com.stuypulse.stuylib.streams.numbers.filters.IFilter;
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
@@ -168,6 +172,7 @@ public class SwerveDrive extends SubsystemBase {
     private final SwerveDriveKinematics kinematics;
     private final AHRS gyro;
     private final FieldObject2d[] modules2D;
+    private final IStream jerk;
 
     private final StructArrayPublisher<SwerveModuleState> statesPub;
 
@@ -181,6 +186,7 @@ public class SwerveDrive extends SubsystemBase {
         kinematics = new SwerveDriveKinematics(getModuleOffsets());
         gyro = new AHRS(SPI.Port.kMXP);
         modules2D = new FieldObject2d[modules.length];
+        jerk = IStream.create(this::getAccelerationMagnitude).filtered(new Derivative());
 
         statesPub = NetworkTableInstance.getDefault()
             .getStructArrayTopic("SmartDashboard/Swerve/States", SwerveModuleState.struct).publish();
@@ -324,6 +330,15 @@ public class SwerveDrive extends SubsystemBase {
     public double getForwardAccelerationGs() {
         return gyro.getWorldLinearAccelY();
     }
+
+    private double getAccelerationMagnitude() {
+        Vector2D acceleration =  new Vector2D(gyro.getWorldLinearAccelX(), gyro.getWorldLinearAccelY());
+        return acceleration.magnitude();
+    }
+
+    public boolean isColliding() {
+        return jerk.get() > Settings.Swerve.COLLISION_JERK_THRESHOLD;
+    }
     
     @Override
     public void periodic() {
@@ -352,6 +367,8 @@ public class SwerveDrive extends SubsystemBase {
         SmartDashboard.putNumber("Swerve/Chassis X Speed", getChassisSpeeds().vxMetersPerSecond);
         SmartDashboard.putNumber("Swerve/Chassis Y Speed", getChassisSpeeds().vyMetersPerSecond);
         SmartDashboard.putNumber("Swerve/Chassis Rotation", getChassisSpeeds().omegaRadiansPerSecond);
+
+        SmartDashboard.putBoolean("Swerve/Is Colliding", isColliding());
     }
 
     @Override

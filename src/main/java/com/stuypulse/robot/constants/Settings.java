@@ -153,6 +153,8 @@ public interface Settings {
 
         double MODULE_VELOCITY_DEADBAND = 0.05;
 
+        double COLLISION_JERK_THRESHOLD = 1;
+
         SmartNumber ALIGN_OMEGA_DEADBAND = new SmartNumber("Swerve/Align Omega Deadband", 0.05); // TODO: make 0.25 and test
 
         public interface Assist {
