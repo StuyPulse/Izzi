@@ -172,7 +172,7 @@ public class SwerveDrive extends SubsystemBase {
     private final SwerveDriveKinematics kinematics;
     private final AHRS gyro;
     private final FieldObject2d[] modules2D;
-    private final IStream jerk;
+    private final IStream jerkMagnitude;
 
     private final StructArrayPublisher<SwerveModuleState> statesPub;
 
@@ -186,7 +186,14 @@ public class SwerveDrive extends SubsystemBase {
         kinematics = new SwerveDriveKinematics(getModuleOffsets());
         gyro = new AHRS(SPI.Port.kMXP);
         modules2D = new FieldObject2d[modules.length];
-        jerk = IStream.create(this::getAccelerationMagnitude).filtered(new Derivative());
+        
+        IStream jerkX = IStream.create(gyro::getWorldLinearAccelX).filtered(new Derivative());
+        IStream jerkY = IStream.create(gyro::getWorldLinearAccelX).filtered(new Derivative());
+
+        jerkMagnitude = IStream.create(() -> {
+            Vector2D jerk = new Vector2D(jerkX.get(), jerkY.get());
+            return jerk.magnitude();
+        });
 
         statesPub = NetworkTableInstance.getDefault()
             .getStructArrayTopic("SmartDashboard/Swerve/States", SwerveModuleState.struct).publish();
@@ -331,13 +338,8 @@ public class SwerveDrive extends SubsystemBase {
         return gyro.getWorldLinearAccelY();
     }
 
-    private double getAccelerationMagnitude() {
-        Vector2D acceleration =  new Vector2D(gyro.getWorldLinearAccelX(), gyro.getWorldLinearAccelY());
-        return acceleration.magnitude();
-    }
-
     public boolean isColliding() {
-        return jerk.get() > Settings.Swerve.COLLISION_JERK_THRESHOLD;
+        return jerkMagnitude.get() > Settings.Swerve.COLLISION_JERK_THRESHOLD;
     }
     
     @Override
