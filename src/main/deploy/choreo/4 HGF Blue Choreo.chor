@@ -1457,7 +1457,7 @@
                     }
                 }
             ],
-            "isTrajectoryStale": true
+            "isTrajectoryStale": false
         },
         "4 HGF Red Choreo": {
             "waypoints": [
@@ -3771,18 +3771,6 @@
             "constraints": [
                 {
                     "scope": [
-                        "first"
-                    ],
-                    "type": "StopPoint"
-                },
-                {
-                    "scope": [
-                        "last"
-                    ],
-                    "type": "StopPoint"
-                },
-                {
-                    "scope": [
                         0,
                         "last"
                     ],
@@ -3796,6 +3784,18 @@
                     ],
                     "type": "MaxVelocity",
                     "velocity": 4.5
+                },
+                {
+                    "scope": [
+                        0
+                    ],
+                    "type": "StopPoint"
+                },
+                {
+                    "scope": [
+                        2
+                    ],
+                    "type": "StopPoint"
                 }
             ],
             "usesControlIntervalGuessing": true,
@@ -3803,7 +3803,7 @@
             "usesDefaultFieldObstacles": true,
             "circleObstacles": [],
             "eventMarkers": [],
-            "isTrajectoryStale": false
+            "isTrajectoryStale": true
         },
         "4 HGF Blue Choreo": {
             "waypoints": [
