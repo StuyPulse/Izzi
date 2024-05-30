@@ -91,6 +91,10 @@ public class PathUtil {
     public static PathPlannerPath load(String name) {
         return PathPlannerPath.fromPathFile(name);
     }
+
+    public static PathPlannerPath loadChoreo(String name) {
+        return PathPlannerPath.fromChoreoTrajectory(name);
+    }
     
     public static PathPlannerPath loadRed(String name) {
         return flipPath(PathPlannerPath.fromPathFile(name));

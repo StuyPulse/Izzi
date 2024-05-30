@@ -321,8 +321,10 @@ public class RobotContainer {
             "Preload to C", "C to B", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
         AutonConfig CBAED_RED = new AutonConfig("5 CBAE", SixPieceCBAED::new,
             "Preload to C", "C to B Red", "B to A Red","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot");
-        AutonCOnfig FivePieceChoreoCBAE = new AutonConfig("Choreo 5 CBAE",FivePieceChoreoCBAE::new,
-            "5 CBAE Podium Choreo.1.traj","5 CBAE Podium Choreo.2.traj","5 CBAE Podium Choreo.3.traj","5 CBAE Podium Choreo.4.traj","5 CBAE Podium Choreo.5.traj");
+        // AutonConfig FivePieceChoreoCBAE = new AutonConfig("Choreo 5 CBAE",FivePieceChoreoCBAE::new,
+        //     "5 CBAE Podium Choreo.1.traj","5 CBAE Podium Choreo.2.traj","5 CBAE Podium Choreo.3.traj","5 CBAE Podium Choreo.4.traj","5 CBAE Podium Choreo.5.traj");
+        AutonConfig CBAE_Choreo = new AutonConfig("5 CBAE Choreo", FivePieceChoreoCBAE::new, 
+        "5 CBAE Podium Choreo.1","5 CBAE Podium Choreo.2","5 CBAE Podium Choreo.3","5 CBAE Podium Choreo.4","5 CBAE Podium Choreo.5");
 
         AutonConfig ReroutableCBAED = new AutonConfig("5 CBAE", ReroutableSixPieceCBAED::new,
             "Preload to C", "C to B", "B to A","A to E", "E to Shoot", "Shoot to D (CBAED)", "D to Shoot", "Rerouted E To D");
@@ -400,6 +402,9 @@ public class RobotContainer {
 
         GC.registerBlue(autonChooser);
         GC_RED.registerRed(autonChooser);
+
+        autonChooser.addOption("Choreo", new FivePieceChoreoCBAE(
+            "5 CBAE Podium Choreo.1","5 CBAE Podium Choreo.2","5 CBAE Podium Choreo.3","5 CBAE Podium Choreo.4","5 CBAE Podium Choreo.5"));
             
         SmartDashboard.putData("Autonomous", autonChooser);
 
