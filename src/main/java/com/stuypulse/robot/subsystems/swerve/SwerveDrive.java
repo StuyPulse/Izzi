@@ -172,7 +172,9 @@ public class SwerveDrive extends SubsystemBase {
     private final SwerveDriveKinematics kinematics;
     private final AHRS gyro;
     private final FieldObject2d[] modules2D;
-    private final IStream jerkMagnitude;
+    private final IStream jerk;
+    // gyro cant do too many readings in one tick
+    private double currentJerk;
 
     private final StructArrayPublisher<SwerveModuleState> statesPub;
 
@@ -187,13 +189,16 @@ public class SwerveDrive extends SubsystemBase {
         gyro = new AHRS(SPI.Port.kMXP);
         modules2D = new FieldObject2d[modules.length];
         
-        IStream jerkX = IStream.create(gyro::getWorldLinearAccelX).filtered(new Derivative());
-        IStream jerkY = IStream.create(gyro::getWorldLinearAccelX).filtered(new Derivative());
-
-        jerkMagnitude = IStream.create(() -> {
+        IStream jerkX = IStream.create(() -> 9.81 * gyro.getWorldLinearAccelX()).filtered(new Derivative());
+        IStream jerkY = IStream.create(() -> 9.81 * gyro.getWorldLinearAccelY()).filtered(new Derivative());
+        
+        jerk = IStream.create(() -> {
             Vector2D jerk = new Vector2D(jerkX.get(), jerkY.get());
-            return jerk.magnitude();
+            currentJerk = jerk.magnitude();
+            return currentJerk;
         });
+
+        currentJerk = 0;
 
         statesPub = NetworkTableInstance.getDefault()
             .getStructArrayTopic("SmartDashboard/Swerve/States", SwerveModuleState.struct).publish();
@@ -339,7 +344,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public boolean isColliding() {
-        return jerkMagnitude.get() > Settings.Swerve.COLLISION_JERK_THRESHOLD;
+        return currentJerk > Settings.Swerve.COLLISION_JERK_THRESHOLD;
     }
     
     @Override
@@ -370,6 +375,7 @@ public class SwerveDrive extends SubsystemBase {
         SmartDashboard.putNumber("Swerve/Chassis Y Speed", getChassisSpeeds().vyMetersPerSecond);
         SmartDashboard.putNumber("Swerve/Chassis Rotation", getChassisSpeeds().omegaRadiansPerSecond);
 
+        SmartDashboard.putNumber("Swerve/Jerk", jerk.get());
         SmartDashboard.putBoolean("Swerve/Is Colliding", isColliding());
     }
 
