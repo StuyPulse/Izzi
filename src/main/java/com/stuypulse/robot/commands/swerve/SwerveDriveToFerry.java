@@ -33,7 +33,7 @@ public class SwerveDriveToFerry extends SwerveDriveToPose {
 
             return new Pose2d(
                 Field.CONST_FERRY_X,
-                robot.getY(),
+                Robot.isBlue() ? Math.max(robot.getY(), Field.FERRY_CUTOFF) : Math.min(robot.getY(), Field.WIDTH - Field.FERRY_CUTOFF),
                 targetAngle
             );
         });

@@ -222,7 +222,6 @@ public class RobotContainer {
             .onFalse(new ConveyorStop())
             .onFalse(new IntakeStop())
             .onFalse(new ShooterSetRPM(Settings.Shooter.PODIUM_SHOT));
-            // .whileTrue(new SwerveDriveAutoFerry(driver));
 
         // climb
         driver.getRightButton()

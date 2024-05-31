@@ -283,6 +283,7 @@ public interface Field {
     double FERRY_SHOT_MIN_FAR_X = 8.5;
 
     double CONST_FERRY_X = (FERRY_SHOT_MAX_X + FERRY_SHOT_MIN_FAR_X) / 2.0;
+    double FERRY_CUTOFF = 1.8;
 
     /**** EMPTY FIELD POSES ****/
 

@@ -78,7 +78,6 @@ public class AmpScoreRoutine extends SequentialCommandGroup {
                     .deadlineWith(new LEDSet(LEDInstructions.AMP_SCORE))
             ),
             
-            // AmperScore.untilDone(),
             AmperScoreThenStop.scoreThenStop(),
 
             new WaitCommand(0.25),
