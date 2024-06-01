@@ -322,8 +322,8 @@ public class RobotContainer {
         AutonConfig ReroutableHGF_RED = new AutonConfig("4 HGF", ReroutableFourPieceHGF::new, 
         "Start to H (HGF) Red", "H to HShoot (HGF) Red", "HShoot to G (HGF) Red", "G to Shoot (HGF) Red", "GShoot to F (HGF)", "F to Shoot (HGF)", "Rerouted H To G", "Rerouted G To F");
 
-            AutonConfig HGF = new AutonConfig("4 HGF", FourPieceHGF::new,
-            "Start to H (HGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)", "F to Shoot (HGF)");
+        AutonConfig HGF = new AutonConfig("4 HGF", FourPieceHGF::new,
+        "Start to H (HGF)", "H to HShoot (HGF)", "HShoot to G (HGF)", "G to Shoot (HGF)", "GShoot to F (HGF)", "F to Shoot (HGF)");
         AutonConfig HGF_RED = new AutonConfig("4 HGF", FourPieceHGF::new,
             "Start to H (HGF) Red", "H to HShoot (HGF) Red", "HShoot to G (HGF) Red", "G to Shoot (HGF) Red", "GShoot to F (HGF)", "F to Shoot (HGF)");
         
@@ -403,8 +403,8 @@ public class RobotContainer {
         CBF.registerBlue(autonChooser)
             .registerRed(autonChooser);
 
-        ReroutableCBAEF.registerBlue(autonChooser)
-            .registerRed(autonChooser);
+        // ReroutableCBAEF.registerBlue(autonChooser)
+        //     .registerRed(autonChooser);
 
         GC.registerBlue(autonChooser);
         GC_RED.registerRed(autonChooser);
