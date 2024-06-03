@@ -20,9 +20,9 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -48,10 +48,12 @@ public class Odometry extends SubsystemBase {
     private final SwerveDriveOdometry odometry;
     private final SwerveDrivePoseEstimator estimator;
     private final SmartBoolean VISION_ACTIVE;
+    private final SwerveModuleOdometry[] moduleOdometries;
 
     private final Field2d field;
     private final FieldObject2d odometryPose2D;
     private final FieldObject2d estimatorPose2D;
+    private final FieldObject2d[] moduleOdometriesPose2d;
 
     private final LinearRegression xyRegression;
     private final LinearRegression thetaRegression;
@@ -84,10 +86,23 @@ public class Odometry extends SubsystemBase {
 
         VISION_ACTIVE = new SmartBoolean("Odometry/VISION ACTIVE", true);
 
+        String[] moduleIds = swerve.getModuleIds();
+        SwerveModulePosition[] modulePositions = swerve.getModulePositions();
+        Translation2d[] offsets = swerve.getModuleOffsets();
+        moduleOdometries = new SwerveModuleOdometry[moduleIds.length];
+        for (int i = 0; i < moduleIds.length; i++) {
+            moduleOdometries[i] = new SwerveModuleOdometry(modulePositions[i], offsets[i], moduleIds[i]);
+        }
+
         field = new Field2d();
         swerve.initFieldObject(field);
         odometryPose2D = field.getObject("Odometry Pose");
         estimatorPose2D = field.getObject("Estimator Pose");
+
+        moduleOdometriesPose2d = new FieldObject2d[moduleOdometries.length];
+        for (int i = 0; i < moduleOdometries.length; i++) {
+            moduleOdometriesPose2d[i] = field.getObject(moduleIds[i] + " Module Odometry");
+        }
 
         xyRegression = new LinearRegression(Cameras.xyStdDevs);
         thetaRegression = new LinearRegression(Cameras.thetaStdDevs);
@@ -133,6 +148,11 @@ public class Odometry extends SubsystemBase {
         SwerveDrive swerve = SwerveDrive.getInstance();
         odometry.update(swerve.getGyroAngle(), swerve.getModulePositions());
         estimator.update(swerve.getGyroAngle(), swerve.getModulePositions());
+
+        SwerveModulePosition[] newModulePositions = swerve.getModulePositions();
+        for (int i = 0; i < moduleOdometries.length; i++) {
+            moduleOdometries[i].update(newModulePositions[i]);
+        }
     }
 
     private Vector<N3> getStandardDeviation(VisionData data) {
@@ -224,5 +244,9 @@ public class Odometry extends SubsystemBase {
 
         odometryPose2D.setPose(odometry.getPoseMeters());
         estimatorPose2D.setPose(estimator.getEstimatedPosition());
+        
+        for (int i = 0; i < moduleOdometriesPose2d.length; i++) {
+            moduleOdometriesPose2d[i].setPose(moduleOdometries[i].getPose());
+        }
     }
 }

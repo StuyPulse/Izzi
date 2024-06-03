@@ -6,11 +6,12 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 public class SwerveModuleOdometry{
-  private SwerveModulePosition previousModulePosition;
-  private Translation2d offset;
   private Pose2d pose;
+  private SwerveModulePosition previousModulePosition;
 
-  public SwerveModuleOdometry(SwerveModulePosition modulePosition, Translation2d offset) {
+  private Translation2d offset;
+
+  public SwerveModuleOdometry(SwerveModulePosition modulePosition, Translation2d offset, String moduleId) {
     this.previousModulePosition = modulePosition;
     this.offset = offset;
 
@@ -21,7 +22,7 @@ public class SwerveModuleOdometry{
   }
 
   /**
-   * Resets the modules's position to where it should be relative to the robot's odometry. 
+   * Resets the modules's position to where it "should" be relative to the robot's odometry. 
    */
   public void resetPositionToRobot() {
     this.pose = new Pose2d(

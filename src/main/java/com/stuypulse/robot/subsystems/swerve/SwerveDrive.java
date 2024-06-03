@@ -7,10 +7,8 @@
 package com.stuypulse.robot.subsystems.swerve;
 
 import com.stuypulse.stuylib.math.Vector2D;
-import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.numbers.IStream;
 import com.stuypulse.stuylib.streams.numbers.filters.Derivative;
-import com.stuypulse.stuylib.streams.numbers.filters.IFilter;
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
@@ -22,11 +20,10 @@ import com.stuypulse.robot.constants.Settings.Swerve.FrontLeft;
 import com.stuypulse.robot.constants.Settings.Swerve.FrontRight;
 import com.stuypulse.robot.constants.Settings.Swerve.Motion;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
+import com.stuypulse.robot.subsystems.odometry.SwerveModuleOdometry;
 import com.stuypulse.robot.subsystems.swerve.modules.KrakenSwerveModule;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModule;
-import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleImpl;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleSim;
-import com.stuypulse.robot.subsystems.swerve.modules.TumblerSwerveModule;
 import com.stuypulse.robot.util.FollowPathPointSpeakerCommand;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -39,8 +36,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
@@ -234,6 +229,14 @@ public class SwerveDrive extends SubsystemBase {
     /** Getters **/
     public SwerveDriveKinematics getKinematics() {
         return kinematics;
+    }
+
+    public String[] getModuleIds() {
+        String[] ids = new String[modules.length];
+        for (int i = 0; i < modules.length; i++) {
+            ids[i] = modules[i].getId();
+        }
+        return ids;
     }
 
     public SwerveModuleState[] getModuleStates() {
