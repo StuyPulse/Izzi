@@ -54,11 +54,11 @@
   "constraintZones": [
     {
       "name": "Speed Up",
-      "minWaypointRelativePos": 1.0,
+      "minWaypointRelativePos": 1.75,
       "maxWaypointRelativePos": 2.0,
       "constraints": {
         "maxVelocity": 4.5,
-        "maxAcceleration": 9.0,
+        "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0
       }
