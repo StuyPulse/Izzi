@@ -72,6 +72,7 @@ public class SwerveDriveToPose extends Command {
     private double yTolerance;
     private double thetaTolerance;
     private double velocityTolerance;
+    private double maxSpeed;
 
     private Pose2d targetPose;
 
@@ -86,6 +87,7 @@ public class SwerveDriveToPose extends Command {
         this.poseSupplier = poseSupplier;
 
         targetPose2d = odometry.getField().getObject("Target Pose");
+        maxSpeed = Swerve.MAX_MODULE_SPEED;
 
         controller = new HolonomicController(
             new PIDController(Translation.kP, Translation.kI, Translation.kD),
@@ -138,6 +140,11 @@ public class SwerveDriveToPose extends Command {
         return this;
     }
 
+    public SwerveDriveToPose withMaxSpeed(double speed) {
+        maxSpeed = speed;
+        return this;
+    }
+
     @Override
     public void initialize() {
         targetPose = poseSupplier.get();
@@ -155,7 +162,7 @@ public class SwerveDriveToPose extends Command {
         controller.update(targetPose, odometry.getPose());
 
         Vector2D speed = new Vector2D(controller.getOutput().vxMetersPerSecond, controller.getOutput().vyMetersPerSecond)
-            .clamp(Swerve.MAX_MODULE_SPEED);
+            .clamp(maxSpeed);
         double rotation = SLMath.clamp(controller.getOutput().omegaRadiansPerSecond, Motion.MAX_ANGULAR_VELOCITY.get());
         
         SmartDashboard.putNumber("Alignment/Translation Target Speed", speed.distance());
