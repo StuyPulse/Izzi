@@ -30,12 +30,46 @@ public class FivePieceChoreoCBAE extends SequentialCommandGroup {
 
         
         addCommands(
+            new ParallelCommandGroup(
+                new WaitCommand(Auton.SHOOTER_STARTUP_DELAY)
+                    .andThen(new ShooterPodiumShot()),
+
+                SwerveDriveToPose.speakerRelative(-15)
+                    .withTolerance(0.06, 0.06, 3)
+            ),
+
+            new ConveyorShootRoutine(0.55),
+            new FollowPathAndIntake(path1),
+            new SwerveDriveToShoot()
+                .withTolerance(0.03,7),
+            new ConveyorShootRoutine(),
+
+            new FollowPathAndIntake(path2),
+            new SwerveDriveToShoot()
+                .withTolerance(0.05, 7),
+            new ConveyorShootRoutine(),
+
+            // intake A, shoot A
+            new FollowPathAndIntake(path3),
+            new SwerveDriveToShoot()
+                .withTolerance(0.05, 5),
+            new ConveyorShootRoutine(0.6),
+
+            // intake E
+            new FollowPathAndIntake(path4));
+
+            
+            
+
+
+            /*
             SwerveDrive.getInstance().followPathCommand(path1),
             SwerveDrive.getInstance().followPathCommand(path2),
             SwerveDrive.getInstance().followPathCommand(path3),
             SwerveDrive.getInstance().followPathCommand(path4),
             SwerveDrive.getInstance().followPathCommand(path5))
-            ;
+            */
+            
 
             
     }

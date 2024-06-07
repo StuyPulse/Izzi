@@ -47,6 +47,8 @@ public class PathUtil {
                 }
             }
         }
+
+        
         
         public AutonConfig registerBlue(SendableChooser<Command> chooser) {
             chooser.addOption("Blue " + name, auton.apply(loadPaths(paths)));
