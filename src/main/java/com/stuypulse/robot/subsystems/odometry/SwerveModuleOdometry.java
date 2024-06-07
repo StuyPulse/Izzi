@@ -11,14 +11,14 @@ public class SwerveModuleOdometry{
 
   private Translation2d offset;
 
-  public SwerveModuleOdometry(SwerveModulePosition modulePosition, Translation2d offset, String moduleId) {
+  public SwerveModuleOdometry(Pose2d initialRobotPose, SwerveModulePosition modulePosition, Translation2d offset, String moduleId) {
     this.previousModulePosition = modulePosition;
     this.offset = offset;
 
     Odometry robotOdometry = Odometry.getInstance();
     this.pose = new Pose2d(
-      robotOdometry.getPose().getTranslation().plus(offset.rotateBy(robotOdometry.getPose().getRotation())),
-      modulePosition.angle.plus(robotOdometry.getPose().getRotation())
+      initialRobotPose.getTranslation().plus(offset.rotateBy(initialRobotPose.getRotation())),
+      modulePosition.angle.plus(initialRobotPose.getRotation())
     );
   }
 
@@ -45,13 +45,16 @@ public class SwerveModuleOdometry{
    * @return The new pose of the module.
    */
   public Pose2d update(SwerveModulePosition newPosition) {
-    Rotation2d angle = newPosition.angle;
+    Rotation2d robotAngle = Odometry.getInstance().getPose().getRotation();
 
-    double dx = angle.getCos() * (newPosition.distanceMeters - previousModulePosition.distanceMeters);
-    double dy = angle.getSin() * (newPosition.distanceMeters - previousModulePosition.distanceMeters);
+    Rotation2d moduleAngle = newPosition.angle.plus(robotAngle);
+
+    double dx = moduleAngle.getCos() * (newPosition.distanceMeters - previousModulePosition.distanceMeters);
+    double dy = moduleAngle.getSin() * (newPosition.distanceMeters - previousModulePosition.distanceMeters);
 
     previousModulePosition = newPosition.copy();
-    pose = new Pose2d(pose.getX() + dx, pose.getY() + dy, angle);
+    pose = new Pose2d(pose.getX() + dx, pose.getY() + dy, moduleAngle);
+    // pose = new Pose2d(newPosition.distanceMeters * angle.getCos(), newPosition.distanceMeters * angle.getSin(), angle);
 
     return pose;
   }

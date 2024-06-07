@@ -356,12 +356,12 @@ public class SwerveDrive extends SubsystemBase {
         Pose2d pose = odometry.getPose();
         Rotation2d angle = pose.getRotation();
 
-        for (int i = 0; i < modules.length; i++) {
-            modules2D[i].setPose(new Pose2d(
-                pose.getTranslation().plus(modules[i].getModuleOffset().rotateBy(angle)),
-                modules[i].getAngle().plus(angle)
-            ));
-        }
+        // for (int i = 0; i < modules.length; i++) {
+        //     modules2D[i].setPose(new Pose2d(
+        //         pose.getTranslation().plus(modules[i].getModuleOffset().rotateBy(angle)),
+        //         modules[i].getAngle().plus(angle)
+        //     ));
+        // }
 
         statesPub.set(getModuleStates());
 

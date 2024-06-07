@@ -90,8 +90,15 @@ public class Odometry extends SubsystemBase {
         SwerveModulePosition[] modulePositions = swerve.getModulePositions();
         Translation2d[] offsets = swerve.getModuleOffsets();
         moduleOdometries = new SwerveModuleOdometry[moduleIds.length];
+
+        Pose2d initialPose = estimator.getEstimatedPosition();
         for (int i = 0; i < moduleIds.length; i++) {
-            moduleOdometries[i] = new SwerveModuleOdometry(modulePositions[i], offsets[i], moduleIds[i]);
+            moduleOdometries[i] = new SwerveModuleOdometry(
+                initialPose,
+                modulePositions[i],
+                offsets[i],
+                moduleIds[i]
+            );
         }
 
         field = new Field2d();
