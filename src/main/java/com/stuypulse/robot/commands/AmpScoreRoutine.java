@@ -37,7 +37,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 public class AmpScoreRoutine extends SequentialCommandGroup {
 
-    private static final double SCORE_ALIGN_TIMEOUT = 1.25;
+    private static final double SCORE_ALIGN_TIMEOUT = 1.75; // 1.25
 
     private static final double AMP_WALL_SETUP_X_TOLERANCE = Units.inchesToMeters(1.0);
     private static final double AMP_WALL_SETUP_Y_TOLERANCE = Units.inchesToMeters(4.0);
@@ -62,6 +62,7 @@ public class AmpScoreRoutine extends SequentialCommandGroup {
             new ParallelCommandGroup(
                 new WaitUntilCommand(() -> Amper.getInstance().hasNote()),
                 new SwerveDriveToPose(() -> getTargetPose(Alignment.AMP_WALL_SETUP_DISTANCE.get()))
+                    .withMaxSpeed(3.0)
                     .withTolerance(AMP_WALL_SETUP_X_TOLERANCE, AMP_WALL_SETUP_Y_TOLERANCE, AMP_WALL_SETUP_ANGLE_TOLERANCE)
                     .deadlineWith(new LEDSet(LEDInstructions.AMP_ALIGN))
             ),
