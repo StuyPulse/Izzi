@@ -140,6 +140,10 @@ public class Odometry extends SubsystemBase {
             .getDistance(tag.getLocation().getTranslation().toTranslation2d());
     }
 
+    public SwerveModuleOdometry[] getModuleOdometries() {
+        return moduleOdometries;
+    }
+
     /**
      * Reset the pose of the odometry to the given pose.
      *
