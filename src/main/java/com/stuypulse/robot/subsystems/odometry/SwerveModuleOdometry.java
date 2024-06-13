@@ -26,9 +26,10 @@ public class SwerveModuleOdometry {
      * odometry.
      */
     public void resetPositionToRobot() {
+        Rotation2d robotAngle = Odometry.getInstance().getPose().getRotation();
         this.pose = new Pose2d(
-                pose.getTranslation().plus(offset.rotateBy(Odometry.getInstance().getPose().getRotation())),
-                previousModulePosition.angle.plus(Odometry.getInstance().getPose().getRotation()));
+                pose.getTranslation().plus(offset.rotateBy(robotAngle)),
+                previousModulePosition.angle.plus(robotAngle));
     }
 
     /**
