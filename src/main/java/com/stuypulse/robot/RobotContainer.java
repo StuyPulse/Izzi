@@ -409,6 +409,11 @@ public class RobotContainer {
             "Straight"));
         autonChooser.addOption("ChoreoCurve", new ChoreoCurve(
         "Curve"));
+        autonChooser.addOption("ChoreoSquareSplit", new ChoreoSquareSplit(
+        "Square.1","Square.2","Square.3","Square.4"));
+        autonChooser.addOption("ChoreoSquare", new ChoreoSquare(
+            "Square"));
+
             
         SmartDashboard.putData("Autonomous", autonChooser);
 
