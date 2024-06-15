@@ -190,8 +190,7 @@ public class SwerveDrive extends SubsystemBase {
         IStream jerkX = IStream.create(() -> 9.81 * gyro.getWorldLinearAccelX()).filtered(new Derivative());
         IStream jerkY = IStream.create(() -> 9.81 * gyro.getWorldLinearAccelY()).filtered(new Derivative());
         jerk = IStream.create(() -> {
-            Vector2D jerk = new Vector2D(jerkX.get(), jerkY.get());
-            currentJerk = jerk.magnitude();
+            currentJerk = Math.hypot(jerkX.get(), jerkY.get());
             return currentJerk;
         });
         currentJerk = jerk.get();
@@ -351,12 +350,47 @@ public class SwerveDrive extends SubsystemBase {
     public boolean isColliding() {
         return colliding.get(jerk.get() > Settings.Swerve.COLLISION_JERK_THRESHOLD);
     }
+
+    /**
+     * Check whether a skid has ocurred.
+     * 
+     * @implNote Checks for deformity in the rectangle formed by the swerve
+     * drive. If the dot product between pairs of any two vectors formed by
+     * adjacent swerve modules is non-zero, then we have a deformed rectangle
+     * (the vectors are not orthogonol).
+     * 
+     * @return true if skid detected, false otherwise.
+     */
+    public boolean skidDetected() {
+        SwerveModuleOdometry[] moduleOdometries = Odometry.getInstance().getModuleOdometries();
+        int n = moduleOdometries.length;
+        Vector2D[] adjacentVectors = new Vector2D[n];
+
+        for (int i = 0; i < n; i++) {
+            Vector2D vector1 = new Vector2D(moduleOdometries[i].getPose().getTranslation());
+            Vector2D vector2 = new Vector2D(moduleOdometries[(i + 1) % n].getPose().getTranslation());
+            if (vector1.equals(vector2)) {
+                return true;
+            }
+            adjacentVectors[i] = vector2.sub(vector1);
+        }
+
+        for (int i = 0; i < n; i++) {
+            for(int j = i + 1; j < n; j++) {
+                if (adjacentVectors[i].dot(adjacentVectors[j]) > Settings.Swerve.SKID_DOT_PRODUCT_THRESHOLD) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
     
     @Override
     public void periodic() {
-        Odometry odometry = Odometry.getInstance();
-        Pose2d pose = odometry.getPose();
-        Rotation2d angle = pose.getRotation();
+        // Odometry odometry = Odometry.getInstance();
+        // Pose2d pose = odometry.getPose();
+        // Rotation2d angle = pose.getRotation();
 
         // for (int i = 0; i < modules.length; i++) {
         //     modules2D[i].setPose(new Pose2d(
@@ -382,6 +416,7 @@ public class SwerveDrive extends SubsystemBase {
 
         SmartDashboard.putNumber("Swerve/Jerk", jerk.get());
         SmartDashboard.putBoolean("Swerve/Is Colliding", isColliding());
+        SmartDashboard.putBoolean("Swerve/Skid Detected", skidDetected());
     }
 
     @Override
