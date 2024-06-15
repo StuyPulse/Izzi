@@ -7,6 +7,8 @@
 package com.stuypulse.robot.subsystems.swerve;
 
 import com.stuypulse.stuylib.math.Vector2D;
+import com.stuypulse.stuylib.streams.booleans.filters.BDebounce;
+import com.stuypulse.stuylib.streams.booleans.filters.BFilter;
 import com.stuypulse.stuylib.streams.numbers.IStream;
 import com.stuypulse.stuylib.streams.numbers.filters.Derivative;
 import com.stuypulse.robot.Robot;
@@ -170,6 +172,7 @@ public class SwerveDrive extends SubsystemBase {
     private final IStream jerk;
     // gyro cant do too many readings in one tick
     private double currentJerk;
+    private final BFilter colliding;
 
     private final StructArrayPublisher<SwerveModuleState> statesPub;
 
@@ -186,14 +189,13 @@ public class SwerveDrive extends SubsystemBase {
         
         IStream jerkX = IStream.create(() -> 9.81 * gyro.getWorldLinearAccelX()).filtered(new Derivative());
         IStream jerkY = IStream.create(() -> 9.81 * gyro.getWorldLinearAccelY()).filtered(new Derivative());
-        
         jerk = IStream.create(() -> {
             Vector2D jerk = new Vector2D(jerkX.get(), jerkY.get());
             currentJerk = jerk.magnitude();
             return currentJerk;
         });
-
-        currentJerk = 0;
+        currentJerk = jerk.get();
+        colliding = new BDebounce.Both(Settings.Swerve.COLLISION_TIME_THRESHOLD);
 
         statesPub = NetworkTableInstance.getDefault()
             .getStructArrayTopic("SmartDashboard/Swerve/States", SwerveModuleState.struct).publish();
@@ -347,7 +349,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public boolean isColliding() {
-        return currentJerk > Settings.Swerve.COLLISION_JERK_THRESHOLD;
+        return colliding.get(jerk.get() > Settings.Swerve.COLLISION_JERK_THRESHOLD);
     }
     
     @Override
