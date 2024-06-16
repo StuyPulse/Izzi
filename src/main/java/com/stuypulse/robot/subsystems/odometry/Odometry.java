@@ -89,15 +89,14 @@ public class Odometry extends SubsystemBase {
         String[] moduleIds = swerve.getModuleIds();
         SwerveModulePosition[] modulePositions = swerve.getModulePositions();
         Translation2d[] offsets = swerve.getModuleOffsets();
+    
         moduleOdometries = new SwerveModuleOdometry[moduleIds.length];
-
         Pose2d initialPose = estimator.getEstimatedPosition();
         for (int i = 0; i < moduleIds.length; i++) {
             moduleOdometries[i] = new SwerveModuleOdometry(
                 initialPose,
                 modulePositions[i],
-                offsets[i],
-                moduleIds[i]
+                offsets[i]
             );
         }
 
@@ -157,13 +156,12 @@ public class Odometry extends SubsystemBase {
 
     private void updateOdometry() {
         SwerveDrive swerve = SwerveDrive.getInstance();
-        odometry.update(swerve.getGyroAngle(), swerve.getModulePositions());
-        estimator.update(swerve.getGyroAngle(), swerve.getModulePositions());
-
-        SwerveModulePosition[] newModulePositions = swerve.getModulePositions();
+        SwerveModulePosition[] modulePositions = swerve.getModulePositions();
         for (int i = 0; i < moduleOdometries.length; i++) {
-            moduleOdometries[i].update(newModulePositions[i]);
+            moduleOdometries[i].update(modulePositions[i]);
         }
+        odometry.update(swerve.getGyroAngle(), modulePositions);
+        estimator.update(swerve.getGyroAngle(), modulePositions);
     }
 
     private Vector<N3> getStandardDeviation(VisionData data) {

@@ -156,6 +156,10 @@ public interface Settings {
         double COLLISION_JERK_THRESHOLD = 1000;
         double COLLISION_TIME_THRESHOLD = .25;
         double SKID_DOT_PRODUCT_THRESHOLD = 0.73;
+        // starting value is 0.277782
+        double SKID_RESIDUAL_SQUARES_MAX_THRESHOLD = .4;
+        double SKID_RESIDUAL_SQUARES_MIN_THRESHOLD = .2;
+        double SKID_TIME_BETWEEN_RESETS = 1;
 
         SmartNumber ALIGN_OMEGA_DEADBAND = new SmartNumber("Swerve/Align Omega Deadband", 0.05); // TODO: make 0.25 and test
 

@@ -69,4 +69,12 @@ public class LinearRegression {
     public double calculatePoint(double x) {
         return getSlope() * x + getYIntercept();
     }
+
+    public double[] getResiduals() {
+        double[] residuals = new double[points.length];
+        for (int i = 0; i < points.length; i++) {
+            residuals[i] = points[i].getY() - calculatePoint(points[i].getX());
+        }
+        return residuals;
+    }
 }

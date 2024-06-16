@@ -27,6 +27,7 @@ import com.stuypulse.robot.subsystems.swerve.modules.KrakenSwerveModule;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModule;
 import com.stuypulse.robot.subsystems.swerve.modules.SwerveModuleSim;
 import com.stuypulse.robot.util.FollowPathPointSpeakerCommand;
+import com.stuypulse.robot.util.LinearRegression;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -44,6 +45,8 @@ import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import java.util.stream.Stream;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -385,20 +388,26 @@ public class SwerveDrive extends SubsystemBase {
 
         return false;
     }
+
+    public boolean skidDetectedLinearRegression() {
+        Translation2d[] moduleTranslations = Stream.of(Odometry.getInstance().getModuleOdometries())
+            .map(moduleOdometry -> new Translation2d(moduleOdometry.getPose().getX(), moduleOdometry.getPose().getY()))
+            .toArray(Translation2d[]::new);
+
+        LinearRegression linearRegression = new LinearRegression(moduleTranslations);
+        double[] residuals = linearRegression.getResiduals();
+
+        double totalResidualSquares = 0;
+        for (double residual : residuals) {
+            totalResidualSquares += Math.pow(residual, 2);
+        }
+
+        SmartDashboard.putNumber("Swerve/residuals", totalResidualSquares);
+        return totalResidualSquares > Settings.Swerve.SKID_RESIDUAL_SQUARES_MAX_THRESHOLD || totalResidualSquares < Settings.Swerve.SKID_RESIDUAL_SQUARES_MIN_THRESHOLD;
+    }
     
     @Override
     public void periodic() {
-        // Odometry odometry = Odometry.getInstance();
-        // Pose2d pose = odometry.getPose();
-        // Rotation2d angle = pose.getRotation();
-
-        // for (int i = 0; i < modules.length; i++) {
-        //     modules2D[i].setPose(new Pose2d(
-        //         pose.getTranslation().plus(modules[i].getModuleOffset().rotateBy(angle)),
-        //         modules[i].getAngle().plus(angle)
-        //     ));
-        // }
-
         statesPub.set(getModuleStates());
 
         SmartDashboard.putNumber("Swerve/Gyro/Angle (deg)", getGyroAngle().getDegrees());
@@ -416,7 +425,8 @@ public class SwerveDrive extends SubsystemBase {
 
         SmartDashboard.putNumber("Swerve/Jerk", jerk.get());
         SmartDashboard.putBoolean("Swerve/Is Colliding", isColliding());
-        SmartDashboard.putBoolean("Swerve/Skid Detected", skidDetected());
+        // SmartDashboard.putBoolean("Swerve/Skid Detected", skidDetected());
+        SmartDashboard.putBoolean("Swerve/Skid Detected", skidDetectedLinearRegression());
     }
 
     @Override
