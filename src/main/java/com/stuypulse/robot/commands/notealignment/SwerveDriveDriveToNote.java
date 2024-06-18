@@ -45,8 +45,6 @@ public class SwerveDriveDriveToNote extends Command {
     private final HolonomicController controller;
     private final BStream aligned;
 
-    private Translation2d robotToNotePose;
-
     public SwerveDriveDriveToNote(Gamepad driver) {
         this.swerve = SwerveDrive.getInstance();
         this.odometry = Odometry.getInstance();
@@ -70,8 +68,6 @@ public class SwerveDriveDriveToNote extends Command {
 
         aligned = BStream.create(this::isAligned).filtered(new BDebounceRC.Rising(DEBOUNCE_TIME));
 
-        robotToNotePose = vision.getRobotRelativeNotePose();
-
         addRequirements(swerve);
     }
 
@@ -86,12 +82,12 @@ public class SwerveDriveDriveToNote extends Command {
         //         new Translation2d(Swerve.CENTER_TO_INTAKE_FRONT, 0)
         //             .rotateBy(odometry.getPose().getRotation()));
 
-        Translation2d targetTranslation = robotToNotePose.times(1.2);
-        Rotation2d targetRotation = robotToNotePose.getAngle();
-
-        Pose2d targetPose = new Pose2d(odometry.getPose().getTranslation().plus(targetTranslation), targetRotation);
-
         if (vision.hasNoteData()) {
+            Translation2d targetTranslation = vision.getRobotRelativeNotePose().times(1.2);
+            Rotation2d targetRotation = vision.getRobotRelativeNotePose().getAngle();
+
+            Pose2d targetPose = new Pose2d(odometry.getPose().getTranslation().plus(targetTranslation), targetRotation);
+
             ChassisSpeeds speeds = controller.update(targetPose, odometry.getPose());
 
             if (vision.withinIntakePath())

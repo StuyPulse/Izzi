@@ -58,9 +58,7 @@ public class SwerveDriveToNote extends Command {
             return;
         }
 
-        Translation2d notePose = noteVision.getEstimatedNotePose();
-
-        Translation2d toNote = notePose.minus(odometry.getPose().getTranslation());
+        Translation2d toNote = noteVision.getRobotRelativeNotePose();
         
         double speed = -distanceController.update(0, toNote.getNorm());
         double rotation = angleController.update(

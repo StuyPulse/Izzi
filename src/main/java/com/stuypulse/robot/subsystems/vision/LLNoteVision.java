@@ -82,16 +82,6 @@ public class LLNoteVision extends NoteVision {
         return false;
     }
 
-    /**
-     * Get the estimated pose of the note.
-     *
-     * @return the estimated pose of the note
-     */
-    @Override
-    public Translation2d getEstimatedNotePose() {
-        return notePose.get().getTranslation2d();
-    }
-
     @Override
     public Translation2d getRobotRelativeNotePose() {
         Translation2d sum = new Translation2d();
@@ -139,7 +129,7 @@ public class LLNoteVision extends NoteVision {
             limelights[i].updateData();
         }
 
-        note.setPose(new Pose2d(getEstimatedNotePose(), new Rotation2d()));
+        note.setPose(new Pose2d(Odometry.getInstance().getPose().getTranslation().plus(getRobotRelativeNotePose()), new Rotation2d()));
 
         if (hasNoteDataRaw()) updateNotePose();
         updateTelemetry();
@@ -150,8 +140,6 @@ public class LLNoteVision extends NoteVision {
             SmartDashboard.putNumber("Note Detection/X Angle", limelights[0].getXAngle());
             SmartDashboard.putNumber("Note Detection/Y Angle", limelights[0].getYAngle());
             SmartDashboard.putNumber("Note Detection/Distance", limelights[0].getDistanceToNote());
-            SmartDashboard.putNumber("Note Detection/Estimated X", getEstimatedNotePose().getX());
-            SmartDashboard.putNumber("Note Detection/Estimated Y", getEstimatedNotePose().getY());
         } else {
             SmartDashboard.putNumber("Note Detection/X Angle", 0);
             SmartDashboard.putNumber("Note Detection/Y Angle", 0);
