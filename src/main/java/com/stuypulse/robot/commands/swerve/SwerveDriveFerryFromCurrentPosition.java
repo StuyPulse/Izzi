@@ -11,6 +11,8 @@ import com.stuypulse.stuylib.control.angle.AngleController;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Vector2D;
+import com.stuypulse.stuylib.streams.booleans.BStream;
+import com.stuypulse.stuylib.streams.booleans.filters.BDebounce;
 import com.stuypulse.stuylib.streams.numbers.IStream;
 import com.stuypulse.stuylib.streams.numbers.filters.LowPassFilter;
 import com.stuypulse.stuylib.util.AngleVelocity;
@@ -33,6 +35,8 @@ public class SwerveDriveFerryFromCurrentPosition extends Command {
 
     private final AngleController controller;
     private final IStream angleVelocity;
+    
+    private final BStream shoot;
 
     public SwerveDriveFerryFromCurrentPosition() {
         swerve = SwerveDrive.getInstance();
@@ -52,6 +56,9 @@ public class SwerveDriveFerryFromCurrentPosition extends Command {
             // so that angular velocity doesn't oscillate
             .filtered(x -> x * Math.min(1, getDistanceToTarget() / Assist.REDUCED_FF_DIST))
             .filtered(x -> -x);
+
+        shoot = BStream.create(() -> Math.abs(controller.getError().toDegrees()) < getAngleTolerance())
+            .filtered(new BDebounce.Falling(0.4));
 
         addRequirements(swerve, shooter, odometry, conveyor, intake);
     }
@@ -100,10 +107,15 @@ public class SwerveDriveFerryFromCurrentPosition extends Command {
 
         SmartDashboard.putNumber("Ferry/Angle Tolerance", getAngleTolerance());
 
-        intake.acquire();
-        conveyor.toShooter();
-
         swerve.drive(new Vector2D(new Translation2d(0, 0)), omega);
+        
+        if (shoot.get()) {
+            intake.acquire();
+            conveyor.toShooter();
+        } else {
+            intake.stop();
+            conveyor.stop();
+        }
     }
 
     @Override
