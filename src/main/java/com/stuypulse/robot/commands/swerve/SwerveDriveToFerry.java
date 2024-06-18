@@ -10,6 +10,7 @@ package com.stuypulse.robot.commands.swerve;
 import com.stuypulse.robot.Robot;
 import com.stuypulse.robot.constants.Field;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
+import com.stuypulse.stuylib.math.SLMath;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -32,7 +33,7 @@ public class SwerveDriveToFerry extends SwerveDriveToPose {
             // use robot's y, put in x and rotation
 
             return new Pose2d(
-                Field.CONST_FERRY_X,
+                SLMath.clamp(robot.getX(), Field.FERRY_SHOT_MIN_X, Field.FERRY_SHOT_MAX_X),
                 Robot.isBlue() ? Math.max(robot.getY(), Field.FERRY_CUTOFF) : Math.min(robot.getY(), Field.WIDTH - Field.FERRY_CUTOFF),
                 targetAngle
             );
