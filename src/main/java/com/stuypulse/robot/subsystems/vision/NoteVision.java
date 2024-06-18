@@ -37,8 +37,6 @@ public abstract class NoteVision extends SubsystemBase {
 
     public abstract boolean hasNoteData();
 
-    public abstract Translation2d getEstimatedNotePose();
-
     public abstract Translation2d getRobotRelativeNotePose();
 
     public final Rotation2d getRotationToNote() {

@@ -63,7 +63,7 @@ public class Limelight {
 
         xAngle = IStream.create(() -> txData).filtered(new LowPassFilter(NoteDetection.X_ANGLE_RC));
         noteData = BStream.create(() -> tvEntry.get() == 1)
-            .filtered(new BDebounceRC.Both(Alignment.DEBOUNCE_TIME));
+            .filtered(new BDebounceRC.Falling(.05));
     }
 
     /**

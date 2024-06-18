@@ -63,7 +63,7 @@ public class SwerveDriveAutomatic extends SwerveDriveDriveAligned {
         }
         
         if (llNoteVision.hasNoteData()) {
-            return llNoteVision.getEstimatedNotePose().minus(robotPose).getAngle();
+            return llNoteVision.getRobotRelativeNotePose().getAngle();
         }
 
         return odometry.getPose().getRotation();
@@ -85,7 +85,7 @@ public class SwerveDriveAutomatic extends SwerveDriveDriveAligned {
         }
         
         if (llNoteVision.hasNoteData()) {
-            return llNoteVision.getEstimatedNotePose().getDistance(robotPose);
+            return llNoteVision.getRobotRelativeNotePose().getDistance(new Translation2d());
         }
 
         return 0;

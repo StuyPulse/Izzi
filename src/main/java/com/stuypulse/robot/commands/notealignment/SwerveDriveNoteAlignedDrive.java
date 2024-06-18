@@ -67,7 +67,7 @@ public class SwerveDriveNoteAlignedDrive extends Command {
             .filtered(new LowPassFilter(Assist.ANGLE_DERIV_RC))
             // make angleVelocity contribute less once distance is less than REDUCED_FF_DIST
             // so that angular velocity doesn't oscillate
-            .filtered(x -> x * Math.min(1, noteVision.getEstimatedNotePose().getDistance(getRobotTranslation()) / Assist.REDUCED_FF_DIST))
+            .filtered(x -> x * Math.min(1, noteVision.getRobotRelativeNotePose().getDistance(new Translation2d()) / Assist.REDUCED_FF_DIST))
             .filtered(x -> -x);
         
         targetAngle = AStream.create(() -> Angle.fromRotation2d(getTargetAngle()))
@@ -76,12 +76,8 @@ public class SwerveDriveNoteAlignedDrive extends Command {
         addRequirements(swerve);
     }
 
-    private Translation2d getRobotTranslation() {
-        return odometry.getPose().getTranslation();
-    }
-
     private Rotation2d getTargetAngle() {
-        return noteVision.getEstimatedNotePose().minus(getRobotTranslation()).getAngle();
+        return noteVision.getRobotRelativeNotePose().getAngle();
     }
 
     @Override

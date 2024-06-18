@@ -21,6 +21,7 @@ import com.stuypulse.stuylib.streams.vectors.filters.VDeadZone;
 import com.stuypulse.stuylib.streams.vectors.filters.VLowPassFilter;
 import com.stuypulse.stuylib.streams.vectors.filters.VRateLimit;
 import com.stuypulse.robot.constants.Settings.Swerve;
+import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
@@ -43,6 +44,8 @@ public class SwerveDriveDriveToNote extends Command {
 
     private final HolonomicController controller;
     private final BStream aligned;
+
+    private Translation2d robotToNotePose;
 
     public SwerveDriveDriveToNote(Gamepad driver) {
         this.swerve = SwerveDrive.getInstance();
@@ -67,6 +70,8 @@ public class SwerveDriveDriveToNote extends Command {
 
         aligned = BStream.create(this::isAligned).filtered(new BDebounceRC.Rising(DEBOUNCE_TIME));
 
+        robotToNotePose = vision.getRobotRelativeNotePose();
+
         addRequirements(swerve);
     }
 
@@ -76,14 +81,15 @@ public class SwerveDriveDriveToNote extends Command {
 
     @Override
     public void execute() {
-        Translation2d targetTranslation = odometry.getPose()
-            .getTranslation().plus(
-                new Translation2d(Swerve.CENTER_TO_INTAKE_FRONT, 0)
-                    .rotateBy(odometry.getPose().getRotation()));
+        // Translation2d targetTranslation = odometry.getPose()
+        //     .getTranslation().plus(
+        //         new Translation2d(Swerve.CENTER_TO_INTAKE_FRONT, 0)
+        //             .rotateBy(odometry.getPose().getRotation()));
 
-        Rotation2d targetRotation = vision.getEstimatedNotePose().minus(targetTranslation).getAngle();
+        Translation2d targetTranslation = robotToNotePose.times(1.2);
+        Rotation2d targetRotation = robotToNotePose.getAngle();
 
-        Pose2d targetPose = new Pose2d(targetTranslation, targetRotation);
+        Pose2d targetPose = new Pose2d(odometry.getPose().getTranslation().plus(targetTranslation), targetRotation);
 
         if (vision.hasNoteData()) {
             ChassisSpeeds speeds = controller.update(targetPose, odometry.getPose());
@@ -102,6 +108,6 @@ public class SwerveDriveDriveToNote extends Command {
 
     @Override
     public boolean isFinished() {
-        return aligned.get();
+        return aligned.get() || Intake.getInstance().hasNote();
     }
 }

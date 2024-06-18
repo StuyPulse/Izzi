@@ -191,7 +191,7 @@ public interface Settings {
             public interface Drive {
                 double WHEEL_DIAMETER = Units.inchesToMeters(4);
                 double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
-                double GEAR_RATIO = 1.0 / 6.12;
+                double GEAR_RATIO = 1.0 / 6.12; // 5.36
 
                 double POSITION_CONVERSION = WHEEL_CIRCUMFERENCE * GEAR_RATIO;
                 double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
@@ -257,14 +257,14 @@ public interface Settings {
         SmartNumber THRESHOLD_Y = new SmartNumber("Note Detection/Y Threshold", Units.inchesToMeters(2));
         SmartNumber THRESHOLD_ANGLE = new SmartNumber("Note Detection/Angle Threshold", 1);
 
-        SmartNumber DRIVE_SPEED = new SmartNumber("Note Detection/Drive Speed", 0.5);
+        SmartNumber DRIVE_SPEED = new SmartNumber("Note Detection/Drive Speed", 1);
 
         SmartNumber INTAKE_THRESHOLD_DISTANCE = new SmartNumber("Note Detection/In Intake Path Distance", 0.9);
 
         double MAX_FULLY_IN_VIEW_ANGLE = 20;
         
         public interface Translation {
-            SmartNumber kP = new SmartNumber("Note Detection/Translation/kP", 4.0);
+            SmartNumber kP = new SmartNumber("Note Detection/Translation/kP", 8.0);
             SmartNumber kI = new SmartNumber("Note Detection/Translation/kI", 0.0);
             SmartNumber kD = new SmartNumber("Note Detection/Translation/kD", 0.0);
         }
