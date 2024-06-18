@@ -33,7 +33,7 @@ public class SwerveDriveToFerry extends SwerveDriveToPose {
             // use robot's y, put in x and rotation
 
             return new Pose2d(
-                SLMath.clamp(robot.getX(), Field.FERRY_SHOT_MIN_X, Field.FERRY_SHOT_MAX_X),
+                Field.CONST_FERRY_X,
                 Robot.isBlue() ? Math.max(robot.getY(), Field.FERRY_CUTOFF) : Math.min(robot.getY(), Field.WIDTH - Field.FERRY_CUTOFF),
                 targetAngle
             );

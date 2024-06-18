@@ -212,16 +212,19 @@ public class RobotContainer {
         //         .andThen(new BuzzController(driver, Assist.BUZZ_INTENSITY)
         //             .deadlineWith(new LEDSet(LEDInstructions.AUTO_SWERVE))));
 
+        // driver.getTopButton()
+        //     .onTrue(new ShooterSetRPM(Settings.Shooter.FERRY))
+        //     .whileTrue(new SwerveDriveToFerry()
+        //         .deadlineWith(new LEDSet(LEDInstructions.SPEAKER_ALIGN)
+        //         .andThen(new ShooterWaitForTarget()
+        //             .withTimeout(0.5)))
+        //         .andThen(new ConveyorShoot()))
+        //     .onFalse(new ConveyorStop())
+        //     .onFalse(new IntakeStop())
+        //     .onFalse(new ShooterSetRPM(Settings.Shooter.PODIUM_SHOT));
+        
         driver.getTopButton()
-            .onTrue(new ShooterSetRPM(Settings.Shooter.FERRY))
-            .whileTrue(new SwerveDriveToFerry()
-                .deadlineWith(new LEDSet(LEDInstructions.SPEAKER_ALIGN)
-                .andThen(new ShooterWaitForTarget()
-                    .withTimeout(0.5)))
-                .andThen(new ConveyorShoot()))
-            .onFalse(new ConveyorStop())
-            .onFalse(new IntakeStop())
-            .onFalse(new ShooterSetRPM(Settings.Shooter.PODIUM_SHOT));
+            .whileTrue(new SwerveDriveFerryFromCurrentPosition());
 
         // climb
         driver.getRightButton()
