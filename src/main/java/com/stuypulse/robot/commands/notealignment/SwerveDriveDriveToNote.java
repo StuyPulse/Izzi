@@ -20,9 +20,7 @@ import com.stuypulse.stuylib.streams.vectors.VStream;
 import com.stuypulse.stuylib.streams.vectors.filters.VDeadZone;
 import com.stuypulse.stuylib.streams.vectors.filters.VLowPassFilter;
 import com.stuypulse.stuylib.streams.vectors.filters.VRateLimit;
-import com.stuypulse.robot.constants.Settings.Swerve;
 import com.stuypulse.robot.subsystems.intake.Intake;
-import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
 import com.stuypulse.robot.util.HolonomicController;
@@ -37,7 +35,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class SwerveDriveDriveToNote extends Command {
 
     private final SwerveDrive swerve;
-    private final Odometry odometry;
     private final NoteVision vision;
 
     private final VStream drive;
@@ -47,7 +44,6 @@ public class SwerveDriveDriveToNote extends Command {
 
     public SwerveDriveDriveToNote(Gamepad driver) {
         this.swerve = SwerveDrive.getInstance();
-        this.odometry = Odometry.getInstance();
         this.vision = NoteVision.getInstance();
 
         drive = VStream.create(driver::getLeftStick)
@@ -77,18 +73,11 @@ public class SwerveDriveDriveToNote extends Command {
 
     @Override
     public void execute() {
-        // Translation2d targetTranslation = odometry.getPose()
-        //     .getTranslation().plus(
-        //         new Translation2d(Swerve.CENTER_TO_INTAKE_FRONT, 0)
-        //             .rotateBy(odometry.getPose().getRotation()));
-
         if (vision.hasNoteData()) {
             Translation2d targetTranslation = vision.getRobotRelativeNotePose().times(1.2);
             Rotation2d targetRotation = vision.getRobotRelativeNotePose().getAngle();
 
-            Pose2d targetPose = new Pose2d(odometry.getPose().getTranslation().plus(targetTranslation), targetRotation);
-
-            ChassisSpeeds speeds = controller.update(targetPose, odometry.getPose());
+            ChassisSpeeds speeds = controller.update(new Pose2d(targetTranslation, targetRotation), new Pose2d());
 
             if (vision.withinIntakePath())
                 speeds.omegaRadiansPerSecond = Math.signum(speeds.omegaRadiansPerSecond) * Math.toRadians(5.0);
