@@ -21,6 +21,7 @@ import com.stuypulse.stuylib.streams.vectors.filters.VDeadZone;
 import com.stuypulse.stuylib.streams.vectors.filters.VLowPassFilter;
 import com.stuypulse.stuylib.streams.vectors.filters.VRateLimit;
 import com.stuypulse.robot.constants.Settings.Swerve;
+import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
 import com.stuypulse.robot.subsystems.vision.NoteVision;
@@ -38,6 +39,7 @@ public class SwerveDriveDriveToNote extends Command {
     private final SwerveDrive swerve;
     private final Odometry odometry;
     private final NoteVision vision;
+    private final Intake intake;
 
     private final VStream drive;
 
@@ -48,6 +50,7 @@ public class SwerveDriveDriveToNote extends Command {
         this.swerve = SwerveDrive.getInstance();
         this.odometry = Odometry.getInstance();
         this.vision = NoteVision.getInstance();
+        this.intake = Intake.getInstance();
 
         drive = VStream.create(driver::getLeftStick)
             .filtered(
@@ -102,6 +105,6 @@ public class SwerveDriveDriveToNote extends Command {
 
     @Override
     public boolean isFinished() {
-        return aligned.get();
+        return aligned.get() || intake.hasNote();
     }
 }

@@ -35,6 +35,7 @@ import com.stuypulse.robot.subsystems.climber.*;
 import com.stuypulse.robot.subsystems.conveyor.Conveyor;
 import com.stuypulse.robot.subsystems.intake.Intake;
 import com.stuypulse.robot.subsystems.leds.LEDController;
+import com.stuypulse.robot.subsystems.leds.instructions.LEDInstruction;
 import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.shooter.Shooter;
 import com.stuypulse.robot.subsystems.swerve.SwerveDrive;
@@ -116,12 +117,14 @@ public class RobotContainer {
     private void configureDriverBindings() {
         // intaking
         driver.getRightTriggerButton()
+            .whileTrue(new SwerveDriveDriveToNote(driver))
             .whileTrue(new IntakeAcquire()
-                .andThen(new BuzzController(driver)))
-            .whileTrue(new WaitUntilCommand(Intake.getInstance()::hasNote)
-                .deadlineWith(new LEDSet(LEDInstructions.INTAKE))
-                .andThen(new LEDSet(LEDInstructions.PICKUP)
-                    .withTimeout(3.0)));
+                    .deadlineWith(new LEDSet(LEDInstructions.INTAKE))
+                    .andThen(new BuzzController(driver)));
+            // .whileTrue(new WaitUntilCommand(Intake.getInstance()::hasNote)
+            //     .deadlineWith(new LEDSet(LEDInstructions.INTAKE))
+            //     .andThen(new LEDSet(LEDInstructions.PICKUP)
+            //         .withTimeout(3.0)));
         
         // intaking (also robot relative swerve)
         driver.getLeftTriggerButton()
