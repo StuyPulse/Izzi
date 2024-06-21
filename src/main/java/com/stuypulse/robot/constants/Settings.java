@@ -191,7 +191,7 @@ public interface Settings {
             public interface Drive {
                 double WHEEL_DIAMETER = Units.inchesToMeters(4);
                 double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
-                double GEAR_RATIO = 1.0 / 6.12;
+                double GEAR_RATIO = 1.0 / 5.36;
 
                 double POSITION_CONVERSION = WHEEL_CIRCUMFERENCE * GEAR_RATIO;
                 double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
@@ -218,9 +218,9 @@ public interface Settings {
             double kI = 0.0;
             double kD = 0.0;
 
-            double kS = 0.27354;
-            SmartNumber kV = new SmartNumber("Swerve/Drive/FF/kV", 2.1022);
-            SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.41251);
+            double kS = 0.15618;
+            SmartNumber kV = new SmartNumber("Swerve/Drive/FF/kV", 0.00012288);
+            SmartNumber kA = new SmartNumber("Swerve/Drive/FF/kA", 0.0000259);
         }
 
         public interface FrontRight {
