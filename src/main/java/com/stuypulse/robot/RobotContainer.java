@@ -117,12 +117,12 @@ public class RobotContainer {
     private void configureDriverBindings() {
         // intaking
         driver.getRightTriggerButton()
-            // .whileTrue(new SwerveDriveDriveToNote(driver))
             .whileTrue(new IntakeAcquire()
-                    .deadlineWith(new LEDSet(LEDInstructions.INTAKE))
-                .andThen(new BuzzController(driver) 
-                    .alongWith(new LEDSet(LEDInstructions.PICKUP)
-                        .withTimeout(3.0))));
+                .andThen(new BuzzController(driver)))
+            .whileTrue(new WaitUntilCommand(Intake.getInstance()::hasNote)
+                .deadlineWith(new LEDSet(LEDInstructions.INTAKE))
+                .andThen(new LEDSet(LEDInstructions.PICKUP)
+                    .withTimeout(3.0)));
 
         // intaking (also robot relative swerve)
         driver.getLeftTriggerButton()
@@ -366,7 +366,7 @@ public class RobotContainer {
 
         AutonConfig ReroutableTopFerry = new AutonConfig("Top Ferry", ReroutableTopFerry::new,
             "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "Ferry Shot to F", "F to Shoot (TopFerry)", "Rerouted D To E", "Rerouted E To F", "Rerouted E to Ferry Shot");
-
+        
         AutonConfig M76 = new AutonConfig("M76", ReroutableTopFerryM76::new,
             "NTF Start To D", "D to Ferry Shot", "Ferry Shot to E", "E to Ferry Shot", "M76 Midline", "F to Shoot (TopFerry)", "Rerouted D To E", "Rerouted E To F", "Rerouted E to Ferry Shot", "M76 E to Midline");
 
@@ -387,7 +387,7 @@ public class RobotContainer {
 
         ReroutableTopFerry
             .registerBlue(autonChooser)
-            .registerRed(autonChooser);
+            .registerDefaultRed(autonChooser);
 
         // HGF.registerDefaultBlue(autonChooser);
         // HGF_RED.registerRed(autonChooser);
@@ -401,7 +401,7 @@ public class RobotContainer {
         ReroutableCBAED.registerBlue(autonChooser);
         ReroutableCBAED_RED.registerRed(autonChooser);
 
-        CBA.registerDefaultBlue(autonChooser);
+        CBA.registerBlue(autonChooser);
         CBA_RED.registerRed(autonChooser);
 
         CBF.registerBlue(autonChooser)
