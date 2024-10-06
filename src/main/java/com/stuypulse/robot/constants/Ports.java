@@ -45,8 +45,8 @@ public interface Ports {
         }
 
         public interface BackLeft {
-            int DRIVE = 15;
-            int TURN = 14;
+            int DRIVE = 14;
+            int TURN = 15;
             int ENCODER = 3;
         }
 
