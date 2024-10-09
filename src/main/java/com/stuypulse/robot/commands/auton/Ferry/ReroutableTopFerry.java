@@ -60,7 +60,7 @@ public class ReroutableTopFerry extends SequentialCommandGroup {
                     // shoot D, intake E
                     SwerveDrive.getInstance().followPathCommand(paths[1]),
                     new SwerveDriveStop(),
-                    new ConveyorShootRoutine(),
+                    new ConveyorShootRoutine(.75),
                     INTAKE_E,
 
                     new ConditionalCommand(
@@ -70,7 +70,7 @@ public class ReroutableTopFerry extends SequentialCommandGroup {
                             // shoot E, intake F
                             SwerveDrive.getInstance().followPathCommand(paths[3]),
                             new SwerveDriveStop(),
-                            new ConveyorShootRoutine(),
+                            new ConveyorShootRoutine(.75),
                             new ShooterPodiumShot(),
 
                             new SwerveDriveResetOdometry(() -> getPathStartPose(paths[4])),
@@ -103,7 +103,7 @@ public class ReroutableTopFerry extends SequentialCommandGroup {
                             // shoot E, intake F
                             SwerveDrive.getInstance().followPathCommand(E_FERRY_REROUTE),
                             new SwerveDriveStop(),
-                            new ConveyorShootRoutine(),
+                            new ConveyorShootRoutine(.75),
                             new ShooterPodiumShot(),
                             
                             new SwerveDriveResetOdometry(() -> getPathStartPose(paths[4])),
