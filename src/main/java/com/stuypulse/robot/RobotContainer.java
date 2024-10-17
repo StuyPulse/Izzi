@@ -149,7 +149,7 @@ public class RobotContainer {
             .onFalse(new IntakeStop());
 
         // note to amper and align then score
-        driver.getLeftBumper()
+        driver.getLeftMenuButton()
             .onTrue(new ConveyorToAmpUnsafe()) // requirements: conveyor, intake
             .whileTrue(new AmpScoreRoutine())  // requirements: swerve, amper
             // .onFalse(new ConditionalCommand(new AmperStop(), new InstantCommand(), () -> !Amper.getInstance().hasNote()))
@@ -165,7 +165,7 @@ public class RobotContainer {
             .onFalse(new IntakeStop());
 
         // score amp no align
-        driver.getLeftMenuButton()
+        driver.getLeftBumper()
             .whileTrue(ConveyorToAmp.withCheckLift()
                 .andThen(AmperToHeight.untilDone(Lift.AMP_SCORE_HEIGHT))
                 .andThen(new AmperScore()
